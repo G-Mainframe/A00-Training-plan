@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>智跃人才-日本语学习</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <style type="text/css">
+            div{
+                text-align:center;
+            }
+        </style>
+    </head>
+<body>
+    <div>
+        <div>
+            <h1>将自动跳转至位于GitHub的日本语资源站</h1>
+        </div>
+        <div>
+            <p><span id="second">1</span>秒后自动回到主页</p>
+        </div>
+        <div>
+            <a href="javascript:back();">返回</a>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        //获取显示秒数的元素，通过定时器来更改秒数
+        var num=document.getElementById("second").innerHTML;
+
+        function count(){
+            num--;
+            document.getElementById("second").innerHTML=num;
+            //通过window的location和history对象来控制网页的跳转
+            if(num==0){
+                window.location.assign("https://sb-talents.github.io/The-Practice-of-Japanese/");
+            }
+        }
+        window.setInterval("count()",1000);
+
+        function back(){
+            window.history.back();
+        }
+
+    </script>
+</body>
+</html>
