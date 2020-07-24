@@ -1,0 +1,16 @@
+- name: 智跃人才
+  url: https://SB-Talents.github.io
+  src: JOB
+
+- name: 智跃词典
+  url: https://SB-Talents.github.io/SBT-Dict
+  src: Learbubg
+
+- name: 智跃英语
+  url: https://SB-Talents.github.io/SBT-English
+  src: Learbubg
+
+- name: 智跃日语
+  url: https://SB-Talents.github.io/SBT-Japanese
+  src: Learbubg
+
