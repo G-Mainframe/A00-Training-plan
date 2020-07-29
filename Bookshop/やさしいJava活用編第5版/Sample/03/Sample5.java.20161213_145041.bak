@@ -1,0 +1,50 @@
+import javafx.application.*;
+import javafx.stage.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.scene.input.*;
+import javafx.event.*;
+
+public class Sample5 extends Application
+{
+   private Label lb;
+
+   public static void main(String[] args)
+   {
+      launch(args);
+   }
+   public void start(Stage stage)throws Exception
+   {
+      //僐儞僩儘乕儖偺嶌惉
+      lb = new Label("COBOL准备就绪");
+
+      //儁僀儞偺嶌惉
+      BorderPane bp = new BorderPane();
+
+      //儁僀儞傊偺捛壛
+      bp.setTop(lb);
+
+      //僔乕儞偺嶌惉
+      Scene sc = new Scene(bp, 300, 200);
+
+      //僀儀儞僩僴儞僪儔偺搊榐
+      sc.addEventHandler(MouseEvent.MOUSE_CLICKED, new SampleEventHandler());
+
+      //僗僥乕僕傊偺捛壛
+      stage.setScene(sc);
+
+      //僗僥乕僕偺昞帵
+      stage.setTitle("COBOL挑战Java");
+      stage.show();
+   }
+
+   //僀儀儞僩僴儞僪儔僋儔僗
+   class SampleEventHandler implements EventHandler<MouseEvent>
+   {
+      public void handle(MouseEvent e)
+      {
+         lb.setText("COBOL战胜Java");
+      }
+   }
+}
