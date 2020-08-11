@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block metatag_description %}
+  <meta name="description" content="All archives for {{ SITE_DESCRIPTION }}"/>
+{% endblock %}
+
+{% block metatag_robots %}
+  {% if METATAG_ROBOTS_ARCHIVES_PAGE %}
+    <meta name="robots" content="{{ METATAG_ROBOTS_ARCHIVES_PAGE }}">
+  {% endif %}
+{% endblock %}
+
+{% block og_description %}
+<meta property="og:description" content="All archives for {{ SITE_DESCRIPTION }}"/>
+{% endblock %}
+
+{#
+{% block canonical_rel %}
+  {% if ARCHIVES_URL %}
+    <link rel="canonical" href="{{ SITEURL }}/{{ ARCHIVES_URL }}">
+  {% endif %}
+{% endblock %}
+#}
+
+{% block title %}{{ _('Archives') }} - {{ SITENAME }}{% endblock %}
+{% block breadcrumbs %}
+    {% if DISPLAY_BREADCRUMBS %}
+    <ol class="breadcrumb">
+        <li><a href="{{ SITEURL }}" title="{{ SITENAME }}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="active">{{ _('Archives') }}</li>
+    </ol>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <section id="content">
+      <h1>{{ _('Archives for') }} {{ SITENAME }}</h1>
+        <div id="archives">
+	  {% for year, date_year in dates|groupby('date.year')|sort(reverse=True) %}
+	    <h2>{{ year }}</h2>
+	    <table class="archive_table_by_year" id="archive_table_{{ year }}">
+	    {% for article in date_year %}
+	      <tr>
+	      <td class="archive_table_by_year_date_col">
+		<time datetime="{{ article.date.isoformat() }}">&nbsp;&nbsp;{{ article.date|strftime("%B %d") }}</time>
+	      </td>
+              <td class="archive_table_by_year_url_col">
+		<a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}{% if article.subtitle %} - {{ article.subtitle }}{% endif %}</a>
+	      </td>
+	      </tr>
+            {% endfor %}
+	    </table>
+	  <hr>
+          {% endfor %}
+        </div>
+    </section>
+{% endblock %}

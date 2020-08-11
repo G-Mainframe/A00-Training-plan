@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    {% if 'tipue_search' in PLUGINS %}
+    <link href="{{ SITEURL}}/{{ THEME_STATIC_DIR }}/tipuesearch/tipuesearch.css" rel="stylesheet">
+    {% endif %}
+{% endblock %}
+
+{% block metatag_description %}
+  <meta name="description" content="Tipue Search for {{ SITE_DESCRIPTION }}"/>
+{% endblock %}
+
+{% block metatag_robots %}
+  {% if METATAG_ROBOTS_SEARCH %}
+    <meta name="robots" content="{{ METATAG_ROBOTS_SEARCH }}">
+  {% endif %}
+{% endblock %}
+
+{% block title %}
+{{ _('Tipue Search') }} - {{ super() }}
+{% endblock %}
+
+{% block scripts %}
+    {% if 'assets' in PLUGINS %}
+    {% include 'includes/minify_tipuesearch.html' with context %}
+    {% else %}
+    <script src="{{ SITEURL }}/tipuesearch_content.js"></script>
+	{% if TIPUESEARCH_KMP %}
+          <script type="text/javascript" src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/tipuesearch/tipuesearch_lite.js"></script>
+	{% else %}
+    	  <script type="text/javascript" src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/tipuesearch/tipuesearch_set.js"></script>
+    	  <script type="text/javascript" src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/tipuesearch/tipuesearch.min.js"></script>
+	{% endif %}
+    {% endif %}
+	{% if not TIPUESEARCH_KMP %}
+    <script>
+      $('#tipue_search_input').tipuesearch({
+	'wholeWords': false,
+        'show': 10,
+        'newWindow': false
+      });
+    </script>
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if 'tipue_search' in PLUGINS %}
+
+<div class="column wrapper flex-lg-nowrap">
+<div class="mt-4 mb-4 " id="tipue_search_button">
+  <h1>Tipue Search</h1>
+  <form class="navbar-search" action="{{ SEARCH_URL | default('/tipuesearch.html') }}">
+    <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" aria-label="tipue_Search" required>
+  </form>
+</div>
+</div>
+{% endif %}
+<div id="tipue_search_content"><div id="tipue_search_loading"></div></div>
+{% endblock %}

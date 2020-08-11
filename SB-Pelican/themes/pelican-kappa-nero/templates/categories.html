@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block metatag_description %}
+  <meta name="description" content="All categories for {{ SITE_DESCRIPTION }}"/>
+{% endblock %}
+
+{% block metatag_robots %}
+  {% if METATAG_ROBOTS_CATGORIES_PAGE %}
+    <meta name="robots" content="{{ METATAG_ROBOTS_CATGORIES_PAGE }}">
+  {% endif %}
+{% endblock %}
+
+{% block og_description %}
+<meta property="og:description" content="All categories for {{ SITE_DESCRIPTION }}"/>
+{% endblock %}
+
+{#
+{% block canonical_rel %}
+  {% if CATEGORIES_URL %}
+    <link rel="canonical" href="{{ SITEURL }}/{{ CATEGORIES_URL }}">
+  {% endif %}
+{% endblock %}
+#}
+
+{% block title %}{{ _('Categories') }} - {{ SITENAME }}{% endblock %}
+
+{% block breadcrumbs %}
+    {% if DISPLAY_BREADCRUMBS %}
+    <ol class="breadcrumb">
+        <li><a href="{{ SITEURL }}" title="{{ SITENAME }}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="active">{{ _('Categories') }}</li>
+    </ol>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <section id="categories">
+      <h1>{{ _('All Categories for')  }} {{ SITENAME }}</h1>
+
+{# use of category.slug in below, id, href, aria-contorls
+ Assuming categories do not have spaces! If there are spaces, the generated HTML would have problem
+ Make use of replace(" ", "-") for this problem
+#} 
+
+	<ul class="nav nav-tabs mb-4" role="tablist">
+	  {% for category, articles in categories %}
+	      <li class="nav-item">
+		<a class="nav-link {% if loop.index == 1 %}active{% endif %}" data-toggle="tab" href="#collapse-{{ category.slug|replace(" ", "-") }}" role="tab" id="collapse-{{ category.slug|replace(" ", "-") }}-tab"
+		  aria-controls="collapse-{{ category.slug|replace(" ", "-") }}">
+		{{ category }} ({{ articles|count }}) </a>
+	      </li>
+	  {% endfor %}
+	</ul>
+
+	<div class="tab-content">
+	  {% for category, articles in categories %}
+	    <div class="tab-pane container fade {% if loop.index == 1 %}show active{% endif %}"
+		id="collapse-{{ category.slug|replace(" ", "-") }}" role="tabpanel" aria-labelledby="collapse-{{ category.slug|replace(" ", "-") }}-tab">
+	        {% for article in articles %}
+		  <div>
+	          <span class="categories-timestamp">
+		    <time datetime="{{ article.date.isoformat() }}">{{ article.date|strftime("%Y-%m-%d") }}</time>
+		  </span>
+	          <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+		  </div>
+                {% endfor %}
+	    </div>
+	  {% endfor %}
+	</div>
+
+    </section>
+{% endblock %}

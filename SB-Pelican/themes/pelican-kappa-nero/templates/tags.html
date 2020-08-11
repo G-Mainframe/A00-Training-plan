@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block metatag_description %}
+  <meta name="description" content="Tags for {{ SITE_DESCRIPTION }}"/>
+{% endblock %}
+
+{% block metatag_robots %}
+  {% if METATAG_ROBOTS_TAG %}
+    <meta name="robots" content="{{ METATAG_ROBOTS_TAG }}">
+  {% endif %}
+{% endblock %}
+
+{% block og_description %}
+<meta property="og:description" content="Tags for {{ SITE_DESCRIPTION }}"/>
+{% endblock %}
+
+{#
+{% block canonical_rel %}
+  {% if TAGS_URL %}
+    <link rel="canonical" href="{{ SITEURL }}/{{ TAGS_URL }}">
+  {% endif %}
+{% endblock %}
+#}
+
+{% block title %}Tags - {{ SITENAME }}{% endblock %}
+
+{% block breadcrumbs %}
+    {% if DISPLAY_BREADCRUMBS %}
+    <ol class="breadcrumb">
+        <li><a href="{{ SITEURL }}" title="{{ SITENAME }}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="active">Tags</li>
+    </ol>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <section id="tags">
+        <h1>{{ _('Tags for') }} {{ SITENAME }}</h1>
+
+        <ul class="nav nav-tabs mb-4" role="tablist">
+        {%- for tag, articles in tags|sort %}
+	  <li class="nav-item">
+	    <a class="nav-link {% if loop.index == 1 %}active{% endif %}"
+	      data-toggle="tab" href="#collapse-{{ tag|replace(" ", "-") }}" role="tab"
+	      id="collapse-{{ tag|replace(" ", "-") }}-tab" aria-controls="collapse-{{ tag|replace(" ", "-") }}">
+                {{ tag }} ({{ articles|count }}) </a>
+	  </li>
+	{% endfor %}
+	</ul>
+
+        <div class="tab-content">
+        {%- for tag, articles in tags|sort %}
+          <div class="tab-pane container fade {% if loop.index == 1 %}show active{% endif %}"
+            id="collapse-{{ tag|replace(" ", "-") }}" role="tabpanel" aria-labelledby="collapse-{{ tag|replace(" ", "-") }}-tab">
+            {% for article in articles %}
+              <div>
+                <span class="categories-timestamp">
+                <time datetime="{{ article.date.isoformat() }}">{{ article.date|strftime("%Y-%m-%d") }}</time>
+                </span>
+                <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+        </div>
+
+    </section>
+{% endblock %}

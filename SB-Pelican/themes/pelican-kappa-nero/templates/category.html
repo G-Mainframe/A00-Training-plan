@@ -1,0 +1,27 @@
+{% extends "article_list.html" %}
+{% block title %}Category - {{ category }} - {{ SITENAME }}{% endblock %}
+{% block meta %}
+    <meta name="author" content="{{ AUTHOR }}" />
+    <meta name="keywords" content="{{ category }}" />
+    <meta name="description" content="Articles with category {{ category }} for {{ SITE_DESCRIPTION }}"/>
+  {% if METATAG_ROBOTS_CATGORY %}
+    <meta name="robots" content="{{ METATAG_ROBOTS_CATGORY }}">
+  {% endif %}
+{% endblock %}
+
+{% block og_description %}
+<meta property="og:description" content="Articles with category {{ category }} for {{ SITE_DESCRIPTION }}"/>
+{% endblock %}
+
+{# This template may have pagination #}
+{#<link rel="canonical" href="{{ SITEURL }}/{{ category.url }}">#}
+
+{% block breadcrumbs %}
+    {% if DISPLAY_BREADCRUMBS %}
+    <ol class="breadcrumb">
+        <li><a href="{{ SITEURL }}" title="{{ SITENAME }}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li><a href="{{ SITEURL}}/{{ CATEGORIES_URL }}" title="{{ SITENAME }} {{ _('Categories') }}">{{ _('Categories') }}</a></li>
+        <li class="active">{{ category }}</li>
+    </ol>
+    {% endif %}
+{% endblock %}
