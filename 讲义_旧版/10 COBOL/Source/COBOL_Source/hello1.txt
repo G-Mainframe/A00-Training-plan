@@ -1,0 +1,22 @@
+000100 IDENTIFICATION DIVISION.                                         00010002
+000200*                                                                 00020002
+000300 PROGRAM-ID. HELLO01.                                             00030002
+000400*                                                                 00040002
+000500 ENVIRONMENT DIVISION.                                            00050002
+000600*                                                                 00060002
+000700 INPUT-OUTPUT SECTION.                                            00070002
+000800*                                                                 00080002
+000900 FILE-CONTROL.                                                    00090002
+001000*                                                                 00100002
+001100 DATA DIVISION.                                                   00110002
+001200*                                                                 00120002
+001300 FILE SECTION.                                                    00130002
+001400*                                                                 00140002
+001500 WORKING-STORAGE SECTION.                                         00150002
+001600*                                                                 00160002
+001700 PROCEDURE DIVISION.                                              00170002
+001800*                                                                 00180002
+001900     DISPLAY 'PROGRAM START'.                                     00190002
+002000     DISPLAY 'HELLO WORLD'.                                       00200002
+002100     STOP RUN.                                                    00210002
+

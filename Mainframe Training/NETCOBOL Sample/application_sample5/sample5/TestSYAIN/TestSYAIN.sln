@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{F0299A24-A380-4170-8505-5A3489A962CC}") = "TestSYAIN", "TestSYAIN.cobproj", "{F2BF5260-FB44-4B9D-8D07-D3BEE3E5FBFC}"
+EndProject
+Project("{F0299A24-A380-4170-8505-5A3489A962CC}") = "StockLibrary", "..\StockLibrary\StockLibrary.cobproj", "{BA7E67F5-023F-43BB-BD1A-DD052D66F43A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F2BF5260-FB44-4B9D-8D07-D3BEE3E5FBFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2BF5260-FB44-4B9D-8D07-D3BEE3E5FBFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2BF5260-FB44-4B9D-8D07-D3BEE3E5FBFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2BF5260-FB44-4B9D-8D07-D3BEE3E5FBFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA7E67F5-023F-43BB-BD1A-DD052D66F43A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA7E67F5-023F-43BB-BD1A-DD052D66F43A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA7E67F5-023F-43BB-BD1A-DD052D66F43A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA7E67F5-023F-43BB-BD1A-DD052D66F43A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

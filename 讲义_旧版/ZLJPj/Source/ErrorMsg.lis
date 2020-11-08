@@ -1,0 +1,236 @@
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:24:00 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+打开文件：ErrorMsg.PCO
+     1  000010 IDENTIFICATION                               DIVISION.
+     2  000020 PROGRAM-ID.  ERRORMSG.
+     3        *****************************************************************
+     4        *程序ID         ：ERRORMSG
+     5        *程序名         ：学生学籍信息录入
+     6        *处理概要       ：新生入学时将学生信息录入到系统中
+     7        *
+     8        *
+     9        *变量           IO       变量名
+    10        *
+    11        *
+    12        *
+    13        *日期           作成者             概要
+    14        *2007/04/11     张丽娟             作成
+    15        *
+    16        *****************************************************************
+    17        *
+    18        *****************************************************************
+    19        * 环境部
+    20        *****************************************************************
+    21  000030 ENVIRONMENT                                  DIVISION.
+    22        *
+    23  000040 DATA                                         DIVISION.
+    24  000050 WORKING-STORAGE                              SECTION.
+    25  000051     EXEC  SQL  BEGIN    DECLARE      SECTION  END-EXEC.
+    26  000052     EXEC  SQL  INCLUDE  SQLCOM.CBL            END-EXEC.
+打开文件：D:\ZLJPj\Source\COPYLIB_DB\SQLCOM.CBL
+     1  000010*  
+     2  000030   01  SQLSTATE                      PIC  X(005).
+     3  000040   01  DB-STRING                     PIC  X(020).
+     4  000050   01  USERNAME                      PIC  X(010).
+     5  000060   01  PASSWD                        PIC  X(010).
+     6  000070*
+关闭文件：D:\ZLJPj\Source\COPYLIB_DB\SQLCOM.CBL
+    27  000055     EXEC  SQL  INCLUDE  SQLCA.CBL             END-EXEC.
+打开文件：D:\ZLJPj\Source\COPYLIB_DB\SQLCA.CBL
+     1        ***************************************************************** 
+     2        *                                                               * 
+     3        *               S  Q  L  C  A                                   * 
+     4        *  (This file in ANSI format.  Do NOT bse it).                  * 
+     5        *                                                               * 
+     6        * MODIFIED                                                      * 
+     7        *   Clare      12/06/84 - Ch SQLCA to not be an EXTERNAL.       * 
+     8        ***************************************************************** 
+     9         01  SQLCA.                                                       
+    10             05  SQLCAID               PIC X(8).                          
+    11             05  SQLCABC               PIC S9(9) COMPUTATIONAL.           
+    12             05  SQLCODE               PIC S9(9) COMPUTATIONAL.           
+    13             05  SQLERRM.                                                 
+    14                 49 SQLERRML           PIC S9(4) COMPUTATIONAL.           
+    15                 49 SQLERRMC           PIC X(70).                         
+    16             05  SQLERRP               PIC X(8).                          
+    17             05  SQLERRD OCCURS 6 TIMES                                   
+    18                                       PIC S9(9) COMPUTATIONAL.           
+    19             05  SQLWARN.                                                 
+    20                 10 SQLWARN0           PIC X(1).                          
+    21                 10 SQLWARN1           PIC X(1).                          
+    22                 10 SQLWARN2           PIC X(1).                          
+    23                 10 SQLWARN3           PIC X(1).                          
+    24                 10 SQLWARN4           PIC X(1).                          
+    25                 10 SQLWARN5           PIC X(1).                          
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:24:00 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    26                 10 SQLWARN6           PIC X(1).                          
+    27                 10 SQLWARN7           PIC X(1).                          
+    28             05  SQLEXT                PIC X(8).                          
+关闭文件：D:\ZLJPj\Source\COPYLIB_DB\SQLCA.CBL
+    28  000055     EXEC  SQL  INCLUDE  ERRMSG.CBL            END-EXEC.
+    29  
+打开文件：D:\ZLJPj\Source\COPYLIB_DB\ERRMSG.CBL
+     1  000010*****************************************************************
+     2  000020* 错误信息
+     3  000030*****************************************************************
+     4  000040 01 ERRORMSG.
+     5             03 ERRMSGPOINT               PIC  999.
+     6  000050     03 ERRMSGSQLCD               PIC S9(9).
+     7             03 ERRMSG                    PIC X(50).
+     8  
+     9  
+关闭文件：D:\ZLJPj\Source\COPYLIB_DB\ERRMSG.CBL
+    30  000056     EXEC  SQL  END      DECLARE      SECTION  END-EXEC.
+    31        * 
+    32         01 RKEY                          PIC X.
+    33        *
+    34  000080 LINKAGE                                      SECTION.
+    35  000090 COPY ERRORKEY.
+    36        *
+    37  000100 SCREEN                                       SECTION.
+    38  000110 01 ERRORMSGPAGE.
+    39  000120     03 BLANK SCREEN.
+    40             03 LINE  5 COLUMN 30 VALUE "系统错误信息提示".
+    41             03 LINE  8 COLUMN  5 VALUE "错误代码：".
+    42  000130     03         COLUMN 17 PIC 9(6)     FROM ERRMSGPOINT .
+    43  000130     03 LINE  9 COLUMN  5 VALUE "SQL CODE:".
+    44  000130     03         COLUMN 17 PIC Z(4)9(6) FROM ERRMSGSQLCD.
+    45  000140     03 LINE 13 COLUMN  5 VALUE "错误提示：".
+    46  000140     03 LINE 14 COLUMN  5 PIC X(50)    FROM ERRMSG .
+    47  000150     03 LINE 15 COLUMN  5 VALUE "按任意键退出".
+    48  000150     03         COLUMN 15 PIC X TO RKEY AUTO.
+    49        *
+    50  000160 PROCEDURE DIVISION USING ERRORKEY.
+    51  000170 MAIN-PROCESS                                 SECTION.
+    52             DISPLAY "ERRORKEY=", ERRORKEY.
+    53             
+    54             MOVE ERRPOINT  TO ERRMSGPOINT.
+    55             MOVE EMSGSQLCD TO ERRMSGSQLCD.
+    56  
+    57  000180*    ERROR MSG DB SELECT
+    58  000190     EXEC SQL
+    59  000200        SELECT MSG
+    60  000210        INTO  :ERRMSG
+    61  000220        FROM   STUDENTERROR
+    62  000230        WHERE POINT = :ERRMSGPOINT
+    63        *          AND SQLCODE = :ERRSQLCD
+    64  000240     END-EXEC.
+    65        *    数据库返回码判断
+    66             EVALUATE SQLCODE
+    67             WHEN 0
+    68        *        返回码为“0”查询正常
+    69                 DISPLAY  "错误信息提示sqlok=", SQLCODE
+    70  000260         DISPLAY ERRORMSGPAGE
+    71  000270         ACCEPT  ERRORMSGPAGE
+    72             WHEN OTHER
+    73        *        数据库返回码非“0”，信息查询失败
+    74                 DISPLAY  "错误信息查询失败,SQLCODE", SQLCODE
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:24:00 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    75             END-EVALUATE.
+    76  
+    77             DISPLAY "错误查询程序正常结束".
+    78  000280 END-PROCESS.
+    79  000290     EXIT PROGRAM .
+    80  000300
+关闭文件：ErrorMsg.PCO
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:24:00 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+宿主变量
+--------------
+
+03  ERRMSG OF ERRORMSG                                  Charf(50)
+  D:\ZLJPj\Source\COPYLIB_DB\ERRMSG.CBL      7
+  ErrorMsg.PCO     60
+
+03  ERRMSGPOINT OF ERRORMSG                             Unsigned Display(3,0)
+  D:\ZLJPj\Source\COPYLIB_DB\ERRMSG.CBL      5
+  ErrorMsg.PCO     62
+
+01  SQLSTATE                                            Charf(5)
+  D:\ZLJPj\Source\COPYLIB_DB\SQLCOM.CBL      2
+  ErrorMsg.PCO     58
+
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:24:00 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+
+                              预编译器选项
+-------------------------------------------------------------------------------
+选项名称       当前值               设置地点
+-------------------------------------------------------------------------------
+asacc             否                默认                                        
+assume_sqlcode    否                默认                                        
+auto_connect      否                默认                                        
+close_on_commit   是                mode                                        
+comp5             是                d:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+config            default config    默认                                        
+date_format       local             默认                                        
+dbms              native            默认                                        
+declare_section   是                mode                                        
+define            *none*            默认                                        
+dynamic           ansi              mode                                        
+end_of_fetch      100               mode                                        
+eol_padding       是                默认                                        
+errors            是                默认                                        
+fips              否                默认                                        
+format            ansi              默认                                        
+hold_cursor       否                默认                                        
+host              cobol             默认                                        
+iname             ErrorMsg.PCO      命令行                                      
+include           D:\ZLJPj\Source\COd:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+ireclen           132               d:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+litdelim          quote             默认                                        
+lname             *none*            默认                                        
+lreclen           132               默认                                        
+ltype             long              默认                                        
+maxliteral        160               d:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+maxopencursors    10                默认                                        
+mode              ANSI              d:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+nested            是                默认                                        
+nls_local         是                d:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+oname             ErrorMsg.Cbl      命令行                                      
+oraca             否                默认                                        
+oreclen           80                默认                                        
+pagelen           66                默认                                        
+picx              charf             默认                                        
+prefetch          1                 默认                                        
+release_cursor    否                默认                                        
+select_error      是                默认                                        
+sqlcheck          FULL              d:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+threads           否                默认                                        
+type_code         ansi              mode                                        
+unsafe_null       否                默认                                        
+userid            student/zaq12wsx@cd:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+varchar           否                默认                                        
+xref              是                默认                                        
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:24:00 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+统计信息
+----------
+
+返回代码: 0
+严重级 I 的消息数量: 0
+严重级 W 的消息数量: 0
+严重级 E 的消息数量: 0
+严重级 F 的消息数量: 0
+输入行数: 95
+说明的宿主变量个数: 8
+游标名数量: 0
+语句名数量: 0
+可使用的最大内存 (字节): 83744

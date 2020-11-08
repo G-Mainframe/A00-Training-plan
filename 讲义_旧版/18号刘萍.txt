@@ -1,0 +1,150 @@
+       IDENTIFICATION              DIVISION.
+       PROGRAM-ID.                 DB2LINK.
+      *
+       ENVIRONMENT                 DIVISION.
+      *
+       DATA                        DIVISION.
+      *
+       WORKING-STORAGE             SECTION.
+       EXEC SQL INCLUDE SQLCA END-EXEC.
+       EXEC SQL BEGIN DECLARE SECTION END-EXEC.
+          EXEC SQL INCLUDE CUSTOMER END-EXEC.
+       EXEC SQL END   DECLARE SECTION END-EXEC.
+       01 WK-AREA.
+          03 WK-CNT.
+             05 WK-SQL-CNT       PIC 9(03).
+          03 WK-FLAG.
+             05 WK-ENDFLAG       PIC X(03).
+       PROCEDURE                   DIVISION.
+       MAIN-PROCESS                SECTION.
+       MAIN-START.
+           MOVE SPACE TO DCLCUSTOMER.
+           INITIALIZE DCLCUSTOMER.
+           EXEC SQL CONNECT TO  ETPCS   END-EXEC.
+      *
+           PERFORM DROP-TABLE.
+      *
+           PERFORM CREATE-TABLE.
+      *
+      *     PERFORM INSERT-TABLE.
+      *
+           display sqlcode.
+           stop 1.
+           IF SQLCODE = 0
+              EXEC SQL COMMIT END-EXEC
+           ELSE
+              EXEC SQL ROLLBACK END-EXEC
+           END-IF.
+           EXEC SQL DISCONNECT  ETPCS   END-EXEC.
+       MAIN-EXIT.
+           STOP RUN.
+      **************************************
+      *    DROP TABLE
+      **************************************
+       DROP-TABLE                SECTION.
+       DROP-TABLE-START.
+           EXEC  SQL
+              DROP TABLE TBLCUSTOMER
+           END-EXEC
+           EVALUATE SQLCODE
+           WHEN ZERO
+               DISPLAY 'DB2 TBLCUSTOMER DROP OK'
+               EXEC SQL COMMIT END-EXEC
+               CONTINUE
+           WHEN  OTHER
+               DISPLAY "********  DB2 DROP ERROR  ******"
+               DISPLAY "CPAZ  DROP ERROR SQLCODE:", SQLCODE
+               DISPLAY "********  DB2 DROP ERROR  ******"
+           END-EVALUATE.
+       DROP-TABLE-END.
+           EXIT.
+      **************************************
+      *    CREATE TABLE
+      **************************************
+       CREATE-TABLE                SECTION.
+       CREATE-TABLE-START.
+           EXEC  SQL
+             CREATE TABLE ETPUSER.TBLCUSTOMER (
+                CUSTOMERNO CHARACTER (4)  NOT NULL ,
+                CUSTOMERNAME VARCHAR (10)    ,
+                CUSTOMERADDRESS VARCHAR (20)    ,
+                CUSTOMERCITY VARCHAR (20)    ,
+                CUSTOMERSTATE VARCHAR (20)    ,
+                CUSTOMERZIP VARCHAR (6)    ,
+                CUSTOMERREFERRED CHARACTER (4)     ,
+                PRIMARY KEY ( CUSTOMERNO)  )
+           END-EXEC
+           EVALUATE SQLCODE
+           WHEN ZERO
+      *        DISPLAY 'DB2 TBLCUSTOMER INSTART OK'
+               EXEC SQL COMMIT END-EXEC
+               CONTINUE
+           WHEN  OTHER
+               DISPLAY "********  DB2 CREATE ERROR  ******"
+               DISPLAY "CPAZ  CREATE ERROR SQLCODE:", SQLCODE
+               DISPLAY "********  DB2 CREATE ERROR  ******"
+           END-EVALUATE.
+       CREATE-TABLE-END.
+           EXIT.
+      **************************************
+      *    INSTART TABLE
+      **************************************
+       INSERT-TABLE                SECTION.
+       INSERT-TABLE-START.
+           MOVE '1002'
+                            TO CUSTOMERNO OF DCLCUSTOMER.
+           MOVE 'lisi'
+                            TO CUSTOMERNAME OF DCLCUSTOMER.
+           MOVE '百下区'
+                            TO CUSTOMERADDRESS OF DCLCUSTOMER.
+           MOVE '南京'
+                            TO CUSTOMERCITY OF DCLCUSTOMER.
+           MOVE '江苏'
+                            TO CUSTOMERSTATE OF DCLCUSTOMER.
+           MOVE '210000'
+                            TO CUSTOMERZIP OF DCLCUSTOMER.
+           MOVE ' '
+                            TO CUSTOMERREFERRED OF DCLCUSTOMER.
+           EXEC  SQL
+               INSERT  INTO  ETPUSER.TBLCUSTOMER
+               (
+                 CUSTOMERNO
+                 , CUSTOMERNAME
+                 , CUSTOMERADDRESS
+                 , CUSTOMERCITY
+                 , CUSTOMERSTATE
+                 , CUSTOMERZIP
+                 , CUSTOMERREFERRED
+               )
+               VALUES (
+                   :DCLCUSTOMER.CUSTOMERNO
+                 , :DCLCUSTOMER.CUSTOMERNAME
+                 , :DCLCUSTOMER.CUSTOMERADDRESS
+                 , :DCLCUSTOMER.CUSTOMERCITY
+                 , :DCLCUSTOMER.CUSTOMERSTATE
+                 , :DCLCUSTOMER.CUSTOMERZIP
+                 , :DCLCUSTOMER.CUSTOMERREFERRED
+               )
+           END-EXEC
+           PERFORM SQL-ERROR.
+
+       INSERT-TABLE-END.
+           EXIT.
+      **************************************
+      *    SQL ERROR
+      **************************************
+       SQL-ERROR                SECTION.
+       SQL-ERROR-START.
+            EVALUATE SQLCODE
+            WHEN ZERO
+               ADD 1 TO WK-SQL-CNT
+            WHEN OTHER
+               DISPLAY '********  DB2 INSERT ERROR  ******'
+               DISPLAY 'CQAZ INSERT ERROR'
+      *         DISPLAY 'RECORDNO:' , RECORDNO
+               DISPLAY 'RCZQ060  SQLCODE:' ,  SQLCODE
+               STOP    '********  DB2 INSERT ERROR  ******'
+               GO TO MAIN-EXIT
+           END-EVALUATE.
+       SQL-ERROR-END.
+           EXIT. 

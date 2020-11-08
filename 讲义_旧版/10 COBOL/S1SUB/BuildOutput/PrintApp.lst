@@ -1,0 +1,104 @@
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2                Date 11/15/2010  Time 10:03:40   Page     1                
+0Invocation parameters:
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0Options in effect:
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      PRINTAPP  Date 11/15/2010  Time 10:03:40   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0/* PRINTAPP                                                                                                                         
+   000001                Identification Division.                                                                                    
+   000002                Program-ID.  PRINTAPP.                                                                                      
+   000003                                                                                                                            
+   000004                Data Division.                                                                                              
+   000005                Working-Storage Section.                                                                                    
+   000006                01 Work-Parms.                                                                                              
+   000007                   05 In-Len               PIC S9(4) BINARY.                                                                
+   000008                   05 Char-count           Pic 99 Value ZEROS.                             IMP                              
+   000009                   05 Out-Name             PIC X(100).                                                                      
+   000010                                                                                                                            
+   000011                   Linkage Section.                                                                                         
+   000012                01 Recvd-Parms.                                                                                             
+   000013                   05 In-name         Pic x(30).                                                                            
+   000014                                                                                                                            
+   000015                                                                                                                            
+   000016                Procedure Division using Recvd-Parms.                                      12                               
+   000017                      Move spaces to Out-Name.                                             IMP 9                            
+   000018                                                                                                                            
+   000019                      Move 0 to Char-count                                                 8                                
+   000020                      Inspect Function Reverse(In-Name)                                    IFN 13                           
+   000021                         Tallying Char-count For Leading Spaces                            8 IMP                            
+   000022                      Compute In-Len = 30 - Char-count                                     7 8                              
+   000023                                                                                                                            
+   000024                      Move "Thanks to " to Out-Name (1:10).                                9                                
+   000025                      Move In-name(1:In-Len) to Out-Name(11:In-Len)                        13 7 9 7                         
+   000026                      Move " for succeeding!" to Out-Name ((11 + In-Len):16).              9 7                              
+   000027                      Display Out-name.                                                    9                                
+   000028                      Goback.                                                                                               
+ */ PRINTAPP                                                                                                                         
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      PRINTAPP  Date 11/15/2010  Time 10:03:40   Page     3                
+0An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+        8   CHAR-COUNT . . . . . . . . . .  M19 M21 22                                                                                                                       
+        7   IN-LEN . . . . . . . . . . . .  M22 25 25 26                                                                                                                     
+       13   IN-NAME. . . . . . . . . . . .  20 25                                                                                                                            
+        9   OUT-NAME . . . . . . . . . . .  M17 M24 M25 M26 27                                                                                                               
+       12   RECVD-PARMS. . . . . . . . . .  16                                                                                                                               
+        6   WORK-PARMS                                                                                                                                                       
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      PRINTAPP  Date 11/15/2010  Time 10:03:40   Page     4                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   PRINTAPP                                                                                                                                                         
+-* Statistics for COBOL program PRINTAPP:
+ *    Source records = 28
+ *    Data Division statements = 6
+ *    Procedure Division statements = 9
+0Locale = en_US.IBM-1252
+0End of compilation 1,  program PRINTAPP,  no statements flagged.
+0Return code 0

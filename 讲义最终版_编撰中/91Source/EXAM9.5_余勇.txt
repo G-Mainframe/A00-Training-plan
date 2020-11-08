@@ -1,0 +1,30 @@
+       IDENTIFICATION           DIVISION.                               00010000
+       PROGRAM-ID.  EXP95.                                              00020000
+       ENVIRONMENT              DIVISION.                               00030000
+       DATA                     DIVISION.                               00040000
+       WORKING-STORAGE          SECTION.                                00050000
+       77  SCHOOL-IX   PIC  9(2).                                       00060000
+       77  CLASS-IX    PIC  9(2).                                       00070000
+       77  STUDENT-IX  PIC  9(2).                                       00080000
+       01  TABLE.                                                       00090000
+           02  SCHOOL  OCCURS 10.                                       00100000
+             03 CLASS  OCCURS 5.                                        00110000
+               04 STUDENT OCCURS 40.                                    00120000
+                 05 NAME PIC X(20).                                     00130000
+                 05 NUM  PIC 9(5).                                      00140000
+                 05 ADDR PIC X(20).                                     00150000
+                 05 AGE  PIC 9(3).                                      00160000
+       PROCEDURE             DIVISION.                                  00170000
+       PERFORM SELECTION THRU SELECTION-END                             00180000
+           VARYING SCHOOL-IX FROM 1 BY 1                                00190000
+                  UNTIL SCHOOL-IX > 10                                  00200000
+              AFTER CLASS-IX FROM 1 BY 1                                00210000
+                  UNTIL CLASS-IX > 5                                    00220000
+              AFTER STUDENT-IX FROM 1 BY 1                              00230000
+                  UNTIL STUDENT-IX > 40.                                00240000
+       SELECTION.                                                       00250000
+           IF NAME (SCHOOL-IX, CLASS-IX, STUDENT-IX) = 'ZHANG SHENG'    00260000
+              AND AGE (SCHOOL-IX, CLASS-IX, STUDENT-IX) > 20            00270000
+              DISPLAY STUDENT (SCHOOL-IX, CLASS-IX, STUDENT-IX).        00280000
+       SELECTION-END. EXIT.                                             00290000
+

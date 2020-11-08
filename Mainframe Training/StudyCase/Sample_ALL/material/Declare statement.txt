@@ -1,0 +1,34 @@
+Declare statement
+
+‡@
+DCL                                 
+      FINP1    FILE RECORD INPUT     
+      FINP2    FILE RECORD INPUT     
+      FOUT1    FILE RECORD OUTPUT    
+      FOUT2    FILE RECORD OUTPUT    
+      FASCA    FILE RECORD OUTPUT    
+      SYSPRINT FILE OUTPUT PRINT     
+‡A
+DCL                                                 /* DCL OUT RECORD*/
+     1 OUT_FOUT2        STATIC                     , /* DCL OUT_FOUT2 */
+       2  SORT_K1   CHAR       (015)               , /* SEQNO         */
+       2  SORT_K2   CHAR       (004)               , /* MACHINE TYPE  */
+       2  SORT_K3   CHAR       (003)               , /* MODEL CODE    */
+       2  OK_NG_F   CHAR       (001)               , /* FLAG          */
+       2  FIL_01    CHAR       (001) INIT ('''')   , /* FILLER_01     */
+       2  TRXCD     CHAR       (001)               , /* TRANS CODE    */
+       2  FIL_02    CHAR       (003) INIT (''','''), /* FILLER        */
+
+‡B
+DCL WK_PARM            CHAR(8)                    , /* DCL YMD       */
+    WK_PARM_TY         CHAR(1)  DEF WK_PARM POS(1), /* DCL YAER      */
+    WK_PARM_TM         CHAR(2)  DEF WK_PARM POS(2), /* DCL MONTH     */
+    WK_PARM_TD         CHAR(2)  DEF WK_PARM POS(4), /* DCL DAY       */
+    WK_PARM_DAYS       PIC'999' DEF WK_PARM POS(6); /* DCL DAYS9     */
+‡C
+ DCL                                                 /* DCL FILE_EOF  */01360000
+      1 SWITCH          STATIC                     , /* DCL SWITCH    */01370000
+        2 (                                          /*               */01380000
+           FINP1_EOF                               , /* DCL FINP1_EOF */01390000
+           FINP2_EOF                                 /* DCL FINP2_EOF */01400000
+           )            BIT(1)    INIT('0'B)       ; /* INIT          */01410000

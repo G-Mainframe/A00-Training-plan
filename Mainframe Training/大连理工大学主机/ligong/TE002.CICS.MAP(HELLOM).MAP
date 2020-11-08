@@ -1,0 +1,37 @@
+HELLOM  DFHMSD TYPE=&SYSPARM,LANG=COBOL,TIOAPFX=YES,MODE=INOUT,        X00020000
+               CTRL=(FREEKB,FRSET),TERM=3270,DATA=FIELD                 00030000
+HELLOM  DFHMDI SIZE=(24,80),SOSI=YES,MAPATTS=(HILIGHT)                  00040000
+CICSNAM DFHMDF POS=(01,01),LENGTH=08,ATTRB=(FSET,PROT)                  00050000
+TERMID  DFHMDF POS=(02,01),LENGTH=04,ATTRB=(FSET,PROT)                  00060000
+TITLEM  DFHMDF POS=(01,20),LENGTH=40,ATTRB=(PROT,FSET)                  00070000
+TITLED  DFHMDF POS=(02,20),LENGTH=40,ATTRB=(PROT,FSET)                  00080000
+        DFHMDF POS=(01,60),LENGTH=07,ATTRB=(ASKIP,BRT),                X00090006
+               INITIAL='NIHAO '                                       00100006
+SYSDATE DFHMDF POS=(01,70),LENGTH=08,ATTRB=(ASKIP)                      00110006
+        DFHMDF POS=(02,60),LENGTH=07,ATTRB=(ASKIP,BRT),                X00120006
+               INITIAL='NIHAO '                                         00130006
+SYSTIME DFHMDF POS=(02,70),LENGTH=08,ATTRB=(ASKIP)                      00140006
+HELLOWD DFHMDF POS=(12,28),LENGTH=20,ATTRB=(ASKIP,BRT),                X00150000
+               INITIAL='HELLO,WORLD!'                                   00160000
+MESSAGE DFHMDF POS=(14,28),LENGTH=30,ATTRB=(ASKIP,BRT)                  00170000
+LOCATTR DFHMDF POS=(21,70),LENGTH=08,ATTRB=(ASKIP,FSET)                 00180000
+        DFHMDF POS=(22,01),LENGTH=09,ATTRB=(ASKIP,BRT),                X00190000
+               INITIAL='  F1='                                          00200000
+        DFHMDF POS=(22,13),LENGTH=09,ATTRB=(ASKIP,BRT),                X00210000
+               INITIAL='HELLO GUYS'                                     00220005
+        DFHMDF POS=(22,25),LENGTH=09,ATTRB=(ASKIP,BRT),                X00230000
+               INITIAL='  F3='                                          00240000
+        DFHMDF POS=(22,37),LENGTH=09,ATTRB=(ASKIP,BRT),                X00250000
+               INITIAL='  F4=    '                                      00260006
+        DFHMDF POS=(22,49),LENGTH=09,ATTRB=(ASKIP,BRT),                X00270000
+               INITIAL='  F5= '                                         00280000
+        DFHMDF POS=(22,61),LENGTH=09,ATTRB=(ASKIP,BRT),                X00290000
+               INITIAL='  F6='                                          00300000
+        DFHMDF POS=(23,01),LENGTH=09,ATTRB=(ASKIP,BRT),                X00310000
+               INITIAL='  F7='                                          00320000
+        DFHMDF POS=(23,13),LENGTH=09,ATTRB=(ASKIP,BRT),                X00330000
+               INITIAL='  F8='                                          00340000
+COPRIGT DFHMDF POS=(24,01),LENGTH=70,ATTRB=(ASKIP,FSET)                 00350000
+        DFHMSD TYPE=FINAL                                               00360000
+        END                                                             00370000
+

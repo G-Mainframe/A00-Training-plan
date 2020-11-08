@@ -1,0 +1,173 @@
+ /*********************************************************************/
+ /****  %INCLUDE                                        '94/7/06  *****/
+ /****       DCL NAME     :  CD02BASE                             *****/
+ /****       APPLICATION  :  CD02 (RCMS-CALLBASE)                 *****/
+ /****       DESCRIPTION  :  RCMS  CALLBASE                       *****/
+ /****       LENGTH       :  2100 BYTE                            *****/
+ /****       CREATE BY    :  A.S.T(YAMADA)                        *****/
+ /*********************************************************************/
+  2  RKEY     ,                     /*    1. RECORD KEY               */
+    3  RSTA         CHAR(1),        /*    1. RECORD STATUS            */
+    3  REID         CHAR(3),        /*    2. RECORD ID                */
+    3  CRDT         CHAR(6),        /*    5. RECORD CREATE DATE       */
+    3  FILL_1       CHAR(6),        /*   11. ALIGNMENT FILLER         */
+    3  TYPR         CHAR(5),        /*   17. TYPE OF PROCESS          */
+    3  FILL_2       CHAR(2),        /*   22. ALIGNMENT FILLER         */
+    3  PRKY         CHAR(11),       /*   24. PRIMARY KEY              */
+    3  RRCD         CHAR(6),        /*   35. RCMS RECORD CREATE DATE  */
+    3  RRCT         CHAR(4),        /*   41. RCMS RECORD CREATE TIME  */
+    3  IEXT         CHAR(3),        /*   45. INCIDENT RECORD EXT.     */
+    3  FILL_3       CHAR(3),        /*   48. ALIGNMENT FILLER         */
+  2  EDQCL0S  ,                     /*     . CALL HW RECORD           */
+    3  SEDQRST      CHAR(1),        /*   51. RCMS RECORD STATUS       */
+    3  SEDQRID      CHAR(3),        /*   52. RCMS RECORD ID           */
+    3  DDBSLUP      CHAR(6),        /*   55. DATE OF LAST UPDATE      */
+    3  DDBSTLU      CHAR(6),        /*   61. TIME OF LAST UPDATE      */
+    3  IUSRUUL      CHAR(7),        /*   67. LAST UPDATE USER ID      */
+    3  SEDQK52  ,                   /*     . PRIMARY KEY              */
+      5  SEDQKPR    CHAR(4),        /*   74. VSAM KEY PREFIX          */
+      5  IFLTRCM    CHAR(7),        /*   78. INCIDENT NUMBER RCMS     */
+    3  SEDQPMH      CHAR(1),        /*   85. PMH INCIDENT CODE        */
+    3  SEDQK12  ,                   /*     . SECONDARY KEY            */
+      5  IFLTPMH    CHAR(5),        /*   86. INCIDENT NUMBER(PMH)     */
+      5  SEDQBOR    CHAR(3),        /*   91. CE BO (RETAIN)           */
+      5  SEDQRGR    CHAR(2),        /*   94. CE REGION (RETAIN)       */
+      5  SEDQTER    CHAR(3),        /*   96. CE TERRITORY(RETAIN)     */
+    3  SEDQPMS      CHAR(1),        /*   99. PMS INCIDENT CODE        */
+    3  SEDQK1A   ,                  /*     . SECONDARY KEY            */
+      5  ISWFNBR    CHAR(5),        /*  100. INCIDENT NUMBER          */
+      5  SEDQBOR    CHAR(3),        /*  105. CE BO (RETAIN)           */
+      5  SEDQRGR    CHAR(2),        /*  108. CE REGION (RETAIN)       */
+      5  SEDQTER    CHAR(3),        /*  110. CE TERRITORY(RETAIN)     */
+    3  CFLTHSI      CHAR(1),        /*  113. INCIDENT CLASS CODE      */
+    3  FILL_G42     CHAR(9),        /*  114. FILLER                   */
+    3  SEDQRQ1      CHAR(4),        /*  123. REQUEST TO CALL MANG     */
+    3  SEDQRQ2      CHAR(2),        /*  127. REQUEST TO CALL MANG     */
+    3  SEDQSTA      CHAR(4),        /*  129. ACTION FLAGS ARRAY       */
+    3  SEDQIFL      CHAR(2),        /*  133. INCIDENT FLAGS ARRAY     */
+    3  SEDQODI  ,                   /*     . OWNER DEST  INFO         */
+      5  IFLTDEX    CHAR(6),        /*  135. INCIDENT REC DEST        */
+      5  SEDQDET    CHAR(2),        /*  141. DESTINATION TYPE         */
+      5  IFLTADX    CHAR(6),        /*  143. INCIDNT REC ACT DEST     */
+    3  SEDQDEX(8),                  /*     . DIST INF ARRAY           */
+      5  IFLTDEX    CHAR(6),        /*  149. INCIDENT REC DEST        */
+      5  SEDQDET    CHAR(2),        /*  155. DESTINATION TYPE         */
+      5  IFLTADX    CHAR(6),        /*  157. INCDNT REC ACT DEST      */
+    3  SEDQRSY(20),                 /*     . SYSTEM ID ARRAY          */
+      5  IDEXSSY    CHAR(2),        /*  261. SHORT SYSTEM ID RCMS     */
+    3  SEDQSSY      CHAR(2),        /*  301. NEW OWNER SYSTEM ID      */
+    3  SEDQADC      CHAR(2),        /*  303. DISTRIB LIST CODE        */
+    3  SEDQISV      CHAR(1),        /*  305. INIT SEVERITY OF INC     */
+    3  CFLTSEV      CHAR(1),        /*  306. SEVERITY OF INCIDENT     */
+    3  SEDQPVC  ,                   /*     . PREV CON OF INCIDENT     */
+      5  CFLTTYP    CHAR(3),        /*  307. INC REC REASON CODE      */
+      5  CFLTSTS    CHAR(3),        /*  310. STATUS OF INC RECORD     */
+    3  CFLTTYP      CHAR(3),        /*  313. INC REC REASON CODE      */
+    3  CFLTSTS      CHAR(3),        /*  316. STATUS OF INC RECORD     */
+    3  SEDQICI  ,                   /*     . INC CREATION INFO        */
+      5  IUSRIDY    CHAR(7),        /*  319. USER IDENTITY            */
+      5  DFLTCRT    CHAR(10),       /*  326. INC CREATE DATE TIME     */
+    3  DFLTUPD      CHAR(10),       /*  336. INC REC LST CHG DATE     */
+    3  DFLTTST      CHAR(10),       /*  346. INC REC REASON/STATS     */
+    3  DFLTDLY      CHAR(10),       /*  356. INC REC ACTIVE DELAY     */
+    3  SEDQEAT      CHAR(10),       /*  366. EXPECTD ARRIVAL TIME     */
+    3  RFLTDTM(8),                  /*     . INC EVENTS TIMES         */
+      5  DFLTDTM    CHAR(10),       /*  376. INC EVENTS TIME          */
+    3  SEDQQEX      FIXED DEC(3,0), /*  456. TOTAL NUMOF EXTTION      */
+    3  SEDQNLC      FIXED DEC(3,0), /*  458. NEXT ADD TEXT LINE       */
+    3  UDBSSPD      CHAR(230),      /*  460. SCRATCH PAD              */
+    3  SEDQIRL(7),                  /*     . ARR INC LINE OF TXT      */
+      5  SEDQILA    CHAR(1),        /*  690. INC LINE OF TXT ATTR     */
+      5  SEDQILN    CHAR(78),       /*  691. INC LINE OF TEXT         */
+    3  QFLTECO      PIC'99',        /* 1243. INCIDENT ECHO COUNT      */
+    3  SEDQALR      CHAR(2),        /* 1245. TIMEOUT ALERT FLAGS      */
+    3  SEDQRLC      FIXED DEC(5),   /* 1247. REQUEST LOOP COUNTER     */
+    3  SEDQCSY      CHAR(1),        /* 1250. RESERVED                 */
+    3  UDTECUF      CHAR(20),       /* 1251. COUNTRY USE              */
+    3  FILL_G43     CHAR(20),       /* 1271. FILLER                   */
+  2  EDQCH0S  ,                     /* 1291. CALL HW RECORD           */
+    3  SEDQRST      CHAR(1),        /* 1291. RCMS RECORD STATUS       */
+    3  SEDQRID      CHAR(3),        /* 1292. RCMS RECORD ID           */
+    3  DDBSLUP      CHAR(6),        /* 1295. DATE OF LAST UPDATE      */
+    3  DDBSTLU      CHAR(6),        /* 1301. TIME OF LAST UPDATE      */
+    3  IUSRUUL      CHAR(7),        /* 1307. LAST UPDATE USER ID      */
+    3  SEDQK52  ,                   /*     . PRIMARY KEY              */
+      5  SEDQKPR    CHAR(4),        /* 1314. VSAM KEY PREFIX          */
+      5  IFLTRCM    CHAR(7),        /* 1318. INCIDENT NUMBER RCMS     */
+    3  SEDQK02  ,                   /*     . SECONDARY KEY            */
+      5  SEDQMJB  ,                 /*     . MAJOR BU IN COUNTRY      */
+        7  CODPDIV  CHAR(1),        /* 1325. BU DIVISION              */
+        7  CODPBUC  CHAR(7),        /* 1326. CE BU                    */
+      5  IODPDBU  ,                 /*     . CE BU IN COUNTRY         */
+        7  CODPDIV  CHAR(1),        /* 1333. BU DIVISION              */
+        7  CODPBUC  CHAR(7),        /* 1334. CE BU                    */
+    3  SEDQK03  ,                   /*     . SECONDARY KEY            */
+      5  ICUSHWU    CHAR(8),        /* 1341. USER CUST ACC NO         */
+      5  SEDQCSX    CHAR(8),        /* 1349. CUSTOMER/BU SUFFIX       */
+      5  ICUSANO    CHAR(3),        /* 1357. ADDRESS NUMBER           */
+    3  NCUSABB      CHAR(22),       /* 1360. CUST ABBREV NAME         */
+    3  NCUSSTR      CHAR(30),       /* 1382. STREET NAME              */
+    3  ICUSCTY      CHAR(30),       /* 1412. CUSTOMER CITY            */
+    3  ICUSGZC      CHAR(8),        /* 1442. GEOGRAPH AREA CODE       */
+    3  NCUSCON      CHAR(24),       /* 1450. CUST CONTACT NAME        */
+    3  SEDQTEL      CHAR(30),       /* 1474. CUST TEL NO              */
+    3  QCESPCM      PIC'9999',      /* 1504. QTY OF CUST PER CALL     */
+    3  GPTDRCM  ,                   /*     . PART SHIPADDR CODES      */
+      5  CPTDSAD    CHAR(3),        /* 1508. PART SHIPADDR CODE       */
+      5  CPTDCAD    CHAR(3),        /* 1511. PART SHIPADDR CODE       */
+    3  SEDQCUX  ,                   /*     . CUST USER EXIT DATA      */
+      5  UDTEUEX    CHAR(8),        /* 1514. USER EXIT DATA           */
+    3  CCUACOD      CHAR(1),        /* 1522. CASH ON DEL CODE         */
+    3  FCUSCDC      CHAR(1),        /* 1523. CRITICAL CUST DATA       */
+    3  FCUSEMB      CHAR(1),        /* 1524. EMBARGO CODE             */
+    3  NEMPABB      CHAR(30),       /* 1525. IBM EMPL ABBR NAME       */
+    3  IEMPNBR      CHAR(7),        /* 1555. IBM EMPLOYEE NO          */
+    3  SEDQE43      CHAR(2),        /* 1562. ACTIVE MEDIA TYPE        */
+    3  IEMPRAD      CHAR(5),        /* 1564. EMPLOYEE RADIO NO        */
+    3  IEMPPAG      CHAR(12),       /* 1569. EMPLOYEE PAGER ID        */
+    3  IHSITOS  ,                   /*     . MACHINE TOS              */
+      5  CSLMTYP    CHAR(4),        /* 1581. MACHINE TYPE             */
+      5  IHSIMID  ,                 /*     . MACHINE SERIAL NO        */
+        7  IOLCPLM  CHAR(2),        /* 1585. PLANT OF MANUFACTURE     */
+        7  IHSINBR  CHAR(7),        /* 1587. MACHINE SEQUENCE NO      */
+    3  CSLMMOD      CHAR(3),        /* 1594. MACHINE MODEL            */
+    3  ISLMCPU      CHAR(4),        /* 1597. ASSOCIATED CPU TYPE      */
+    3  DAGREWP      CHAR(6),        /* 1601. WARRANTY EXPIRY DATE     */
+    3  CHSIISC      CHAR(1),        /* 1607. INVENT STATUS CODE       */
+    3  CAGRTYP      CHAR(1),        /* 1608. TYPE OF AGREEMT CODE     */
+    3  SEDQCMD  ,                   /*     . INVENTORY CURRENT        */
+      5  DDBSEFF    CHAR(6),        /* 1609. EFFECT DATE OF REC       */
+      5  DDBSMED    CHAR(6),        /* 1615. INFO EXPIRY DATE         */
+      5  ICUSHWU    CHAR(8),        /* 1621. USER CUST ACC NO         */
+      5  IODPDBU  ,                 /*     . CE BU IN COUNTRY         */
+        7  CODPDIV  CHAR(1),        /* 1629. BU DIVISION              */
+        7  CODPBUC  CHAR(7),        /* 1630. CE BU                    */
+      5  IAGRNBR    CHAR(15),       /* 1637. SERVICE CONTRACT NO      */
+      5  RAGRWCP(7),                /*     . MAINTENACE AGRREMENT     */
+        7  DAGRMFR  CHAR(3),        /* 1652. M/A FROM TIME            */
+        7  DAGRMTO  CHAR(3),        /* 1655. M A TO TIME              */
+      5  CHSISTM    CHAR(1),        /* 1694. TYPE OF MAINTENANCE      */
+      5  CCESTSV    CHAR(1),        /* 1695. CE/CS TYPE OF SERVCE     */
+      5  CAGRFOR    CHAR(2),        /* 1696. AGREEMENT TYPE CODE      */
+      5  CAGROPT    CHAR(1),        /* 1698. AGRMNT OPTION CODE       */
+      5  CAGRMSO    CHAR(2),        /* 1699. MAINT SPCIAL OPTION      */
+      5  CAGRIAH    CHAR(1),        /* 1701. AMEND COMBIN CODE        */
+      5  RHSIESA(5),                /*     . ESA SERV MODULES ARR     */
+        7  IHSIESA  CHAR(2),        /* 1702. ESA SERV MODULE ID       */
+      5  FILL_G2    CHAR(11),       /* 1712. FILLER                   */
+    3  SEDQINX  ,                   /*     . INVENT USR EXT DATA      */
+      5  UDTEUEX    CHAR(8),        /* 1723. USER EXIT DATA           */
+    3  SEDQPRX  ,                   /*     . PROD USER EXIT DATA      */
+      5  UDTEUEX    CHAR(8),        /* 1731. USER EXIT DATA           */
+    3  CSLMWCD      CHAR(1),        /* 1739. WARRANTY CATEGORY        */
+    3  CSLMGWC      CHAR(1),        /* 1740. WARRANTY CATEGORY        */
+    3  SEDQPCD      PIC'999',       /* 1741. PURGING INCDNT DELAY     */
+    3  CFLTSRC      CHAR(16),       /* 1744. SYMPTOM REF CODE         */
+    3  SEDQH36      CHAR(1),        /* 1760. PMR QUEUE LEVEL          */
+    3  SEDQH1B      CHAR(6),        /* 1761. PMR QUEUE NAME           */
+    3  SEDQH29      CHAR(3),        /* 1767. PMR SUPPORT CENTR ID     */
+    3  FILL_G3      CHAR(191),      /* 1770. FILLER                   */
+  2  FILL_4         CHAR(140) ;     /* 1961. ALIGNMENT FILLER         */
+                                    /* 2101                           */
+ /*********************************** %INCLUDE  END : CD02BASE  *******/
+

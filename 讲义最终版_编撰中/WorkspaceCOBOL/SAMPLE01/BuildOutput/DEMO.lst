@@ -1,0 +1,100 @@
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1                Date 03/28/2014  Time 17:42:23   Page     1                
+0调用参数：
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0生效的选项：
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+     NOCICS                                                                                                                          
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DEMO      Date 03/28/2014  Time 17:42:23   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0/* DEMO                                                                                                                             
+   000001         000010 IDENTIFICATION DIVISION.                                                                                    
+   000002         000020 PROGRAM-ID. DEMO.                                                                                           
+   000003         000030*                                                                                                            
+   000004         000040 ENVIRONMENT DIVISION.                                                                                       
+   000005         000050 INPUT-OUTPUT SECTION.                                                                                       
+   000006         000080*                                                                                                            
+   000007         000090 DATA DIVISION.                                                                                              
+   000008                                                                                                                            
+   000009         000191 WORKING-STORAGE SECTION.                                                                                    
+   000010         000200*                                                                                                            
+   000011         000210 PROCEDURE DIVISION.                                                                                         
+   000012         000250 MAIN-PROCESS.                                                                                               
+   000013                    DISPLAY "THIS IS A COBOL PROGRAM.".                                                                     
+   000014                    STOP 1.                                                                                                 
+   000015         000320     STOP RUN.                                                                                               
+ */ DEMO                                                                                                                             
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DEMO      Date 03/28/2014  Time 17:42:23   Page     3                
+0数据名引用前的“M”指示数据名由此引用修改。
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DEMO      Date 03/28/2014  Time 17:42:23   Page     4                
+0上下文用法由过程名引用前的字母指示。
+ 这些字母和它们的含义为：
+     A = ALTER（过程名）
+     D = GO TO（过程名）DEPENDING ON
+     E = 范围（PERFORM）到（过程名）的结束
+     G = GO TO（过程名）
+     P = PERFORM（过程名）
+     T = (ALTER) TO PROCEED TO（过程名）
+     U = USE FOR DEBUGGING（过程名）
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+       12   MAIN-PROCESS                                                                                                                                                     
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DEMO      Date 03/28/2014  Time 17:42:23   Page     5                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   DEMO                                                                                                                                                             
+-* COBOL 程序 DEMO 的统计信息：
+ *    源记录 = 15
+ *    数据部分语句 = 0
+ *    过程部分语句 = 3
+0语言环境 = zh_CN.IBM-1386
+0编译 1 结束，程序 DEMO，未标记任何语句。
+0返回码 0

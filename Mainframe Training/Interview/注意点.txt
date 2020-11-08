@@ -1,0 +1,55 @@
+1 注释要法
+//**************************************************************        01080027
+//*THIS STEP9                                                           01081033
+//*****************************************************************     01090027
+//STEP9  EXEC PGM=IEBCOPY                                               00960026
+//SYSPRINT DD SYSOUT=*                                                  00970026
+//SYSIN1   DD DSN=IBMUSER.TEST.GB11.JCL,DISP=SHR                        00980026
+//SYSIN2   DD DSN=IBMUSER.TEST.GB11.COBOL,DISP=SHR                      00990026
+//SYSOT1   DD DSN=IBMUSER.TEST.GB11.PDS,DISP=(OLD,KEEP)                 01010026
+//SYSIN    DD  *                                                        01020026
+COPYOPER COPY OUTDD=SYSOT1                                              01030026
+         INDD=((SYSIN1,R))                                              01040026
+         INDD=((SYSIN2,R))                                              01060026
+/*                                                                      01070026
+
+
+
+2  SET MAXCC=8用法
+
+//STEP1  EXEC PGM=IDCAMS                                     
+//SYSPRINT DD SYSOUT=A                                       
+//SYSIN DD *                                                 
+  SET MAXCC=0                                                
+/*
+
+
+3  //JOB  JOB SZC,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID
+
+
+4 提交上来的作业必须是最后执行正确最新的
+
+
+5 流内的SYSIN参数要在执行语句后追加
+//GENER    JOB  LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//MYPROC   PROC                                                      
+//STEP1    EXEC PGM=IEBGENER                                         
+//SYSPRINT DD SYSOUT=*                                               
+//SYSUT1   DD DSN=IBMUSER.TEST.LHF.PSDT02,DISP=OLD                   
+//SYSUT2   DD DSN=IBMUSER.TEST.LHF.PSDT83,DISP=OLD                   
+//*YSIN    DD DUMMY                                                  
+//MYPROC   PEND                                                      
+//CPYLOAD  EXEC MYPROC                                               
+//STEP1.SYSUT2 DD DSN=IBMUSER.TEST.LHF.PSDT85,                       
+//            DISP=(NEW,CATLG,DELETE),                               
+//            DCB=(LRECL=80,RECFM=FB,BLKSIZE=800,DSORG=PS),          
+//            SPACE=(TRK,(10,10))                                    
+//STEP1.SYSIN  DD *                                                  
+  GENERATE MAXFLDS=3                                                 
+  RECORD FIELD=(7,9,,1),FIELD=(4,23,,9),FIELD=(2,34,,14)             
+//
+
+6 IBMUSER.TEST.Gxxx.JCL里重要的JCL最好BACKUP一下，操作的时候千万不要把整个DEL掉。
+
+
+7 拷贝顺序数据集用？？？

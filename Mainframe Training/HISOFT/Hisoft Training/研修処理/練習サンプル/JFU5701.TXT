@@ -1,0 +1,9 @@
+\MAC ;                                                                    
+        \COMM ** Ž™“¶•}—{Žè“–ŒûÀˆË—Š‚l‚sì¬ **;                         
+                                                                          
+        \SENDO MSG='** Ž™“¶•}—{Žè“–ŒûÀˆË—Š‚l‚sì¬ **';                  
+                                                                          
+        \FILEMTN ACT=COPY,                                                
+            INFILE=(FILE=JFU5651,MEDIA=DK302,RSZ=120,BSZ=1800),           
+           OUTFILE=(EXTID=JFUIRA,DVC=MT,MTD=1600,LBL=NONE,                
+                    RSZ=120,BSZ=1800,TM=NO);                              

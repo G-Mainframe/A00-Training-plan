@@ -1,0 +1,71 @@
+       IDENTIFICATION DIVISION.
+      *
+       PROGRAM-ID. SEARCH1.
+      *
+       ENVIRONMENT DIVISION.
+      *
+       INPUT-OUTPUT SECTION.
+      *
+       FILE-CONTROL.
+      *
+           SELECT CUSTMAST ASSIGN TO UT-S-CUSTMAST.
+      *
+       DATA DIVISION.
+      *
+       FILE SECTION.
+      *
+       FD  CUSTMAST.
+      *
+           COPY CUST1.
+      *
+      *
+       WORKING-STORAGE SECTION.
+      *
+       77  WS-MAX-LOAD                 PIC 99 COMP VALUE 1.
+      *
+      *
+       01  WS-INPUT.
+           05  WS-CUST-IN              PIC X(5).
+           05  FILLER                  PIC X(75).
+      *
+       01  SWITCHES.
+           05  CUSTMAST-EOF-SWITCH     PIC X    VALUE "N".
+      *
+       01  WS-CUST-TABLE.
+           05  WS-CUST-ROWS OCCURS 10  INDEXED BY WS-INDX.
+               10  WS-CUST-NUMBER   PIC 9(5).
+               10  WS-CUST-NAME     PIC X(20).
+      *
+       PROCEDURE DIVISION.
+      *
+       000-PREPARE-SALES-REPORT.
+      *
+           OPEN INPUT  CUSTMAST.
+       000-LOAD.
+           READ CUSTMAST
+                AT END GO TO 000-START-SEARCH.
+           DISPLAY 'CUST NUM = ' CM-CUSTOMER-NUMBER
+           MOVE CM-CUSTOMER-NUMBER TO WS-CUST-NUMBER (WS-MAX-LOAD)
+           MOVE CM-CUSTOMER-NAME   TO WS-CUST-NAME (WS-MAX-LOAD)
+           ADD 1 TO WS-MAX-LOAD
+           IF WS-MAX-LOAD < 11
+              GO TO 000-LOAD.
+
+       000-START-SEARCH.
+           DISPLAY 'WS-MAX-LOAD = '  WS-MAX-LOAD
+           ACCEPT WS-INPUT.
+           SEARCH WS-CUST-ROWS
+              VARYING WS-INDX
+              AT END DISPLAY ' CAN NOT FIND THE CUST'
+              WHEN
+                 WS-CUST-IN =  WS-CUST-NUMBER (WS-INDX)
+                 DISPLAY ' CUST FOUND'
+                 DISPLAY ' CUST NAME = ' WS-CUST-NAME (WS-INDX)
+              WHEN WS-INDX > WS-MAX-LOAD
+                     DISPLAY ' CAN NOT FIND THE CUST'.
+
+       000-END.
+           CLOSE CUSTMAST
+           STOP RUN.
+      *
+

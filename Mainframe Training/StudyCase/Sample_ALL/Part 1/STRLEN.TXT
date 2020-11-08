@@ -1,0 +1,47 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200*                                                                 00020000
+000300 PROGRAM-ID.    STRLEN.                                           00030000
+000400*                                                                 00040000
+000500 ENVIRONMENT DIVISION.                                            00050000
+000600*                                                                 00060000
+000700 DATA DIVISION.                                                   00070000
+000800*                                                                 00080000
+000900 WORKING-STORAGE SECTION.                                         00090000
+001000*                                                                 00100000
+001100 01  SWITCH.                                                      00110000
+001200*                                                                 00120000
+001300     05  LENGTH-DETERMINED-SW     PIC X  VALUE 'N'.               00130000
+001400         88  LENGTH-DETERMINED           VALUE 'Y'.               00140000
+001500*                                                                 00150000
+001600 LINKAGE SECTION.                                                 00160000
+001700*                                                                 00170000
+001800 01  TEXT-LENGTH                  PIC S9(4) COMP.                 00180000
+001900*                                                                 00190000
+002000 01  WORK-TABLE.                                                  00200000
+002100*                                                                 00210000
+002200     05  WT-CHARACTER             OCCURS 1 TO 254 TIMES           00220000
+002300                                  DEPENDING ON TEXT-LENGTH        00230000
+002400                                  PIC X.                          00240000
+002500*                                                                 00250000
+002600 PROCEDURE DIVISION USING TEXT-LENGTH                             00260000
+002700                          WORK-TABLE.                             00270000
+002800*                                                                 00280000
+002900 000-DETERMINE-STRING-LENGTH.                                     00290000
+003000*                                                                 00300000
+003100     MOVE 'N' TO LENGTH-DETERMINED-SW.                            00310000
+003200     PERFORM 100-EXAMINE-LAST-CHARACTER                           00320000
+003300         UNTIL LENGTH-DETERMINED.                                 00330000
+003400*                                                                 00340000
+003500 000-EXIT.                                                        00350000
+003600*                                                                 00360000
+003700     EXIT PROGRAM.                                                00370000
+003800*                                                                 00380000
+003900 100-EXAMINE-LAST-CHARACTER.                                      00390000
+004000*                                                                 00400000
+004100     IF WT-CHARACTER(TEXT-LENGTH) = SPACE                         00410000
+004200         SUBTRACT 1 FROM TEXT-LENGTH                              00420000
+004300     ELSE                                                         00430000
+004400         MOVE 'Y' TO LENGTH-DETERMINED-SW.                        00440000
+004500     IF TEXT-LENGTH = 0                                           00450000
+004600         MOVE 'Y' TO LENGTH-DETERMINED-SW.                        00460000
+004700*                                                                 00470000

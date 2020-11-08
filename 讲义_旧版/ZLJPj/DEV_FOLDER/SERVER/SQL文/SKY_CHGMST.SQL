@@ -1,0 +1,46 @@
+CREATE TABLE SKY_CHGMST
+(
+    CNTNUM                         CHAR(9) NOT NULL,
+    OURDIV                         CHAR(4),
+    OURTEL                         VARCHAR2(15),
+    ISUTYP                         CHAR(1),
+    ISUNAM                         VARCHAR2(40),
+    CLTCOD                         CHAR(8) NOT NULL,
+    CLTNAM                         VARCHAR2(60) NOT NULL,
+    CLTDIV                         VARCHAR2(50),
+    ADRTYP                         CHAR(1),
+    ZIPCOD                         CHAR(7),
+    CLTADR                         VARCHAR2(50),
+    CLTAD2                         VARCHAR2(50),
+    TELNUM                         VARCHAR2(15),
+    PAYBGN                         CHAR(8),
+    PAYEND                         CHAR(8),
+    PAYDAY                         CHAR(8),
+    FIXDAY                         CHAR(2),
+    PAYCYC                         CHAR(2),
+    PAYTYP                         CHAR(1),
+    APPLIC                         VARCHAR2(20),
+    PRTTIM                         CHAR(1),
+    PRTPTN                         CHAR(2),
+    PRTMLT                         CHAR(1),
+    DAYSHW                         CHAR(1),
+    DEMTYP                         CHAR(1),
+    ITMNAM                         VARCHAR2(40),
+    REMARK                         VARCHAR2(80),
+    REMAR2                         VARCHAR2(80),
+    PAYCNT                         NUMBER(3,0),
+    TOTCNT                         NUMBER(3,0),
+    DEMCNT                         NUMBER(3,0),
+    TAXRAT                         NUMBER(4,2),
+    LEAAMT                         NUMBER(13,0),
+    LEAAM2                         NUMBER(13,0),
+    MNTCHG                         NUMBER(13,0),
+    LEATAX                         NUMBER(13,0),
+    LEATX2                         NUMBER(13,0),
+    MNTTAX                         NUMBER(13,0)
+)
+/
+CREATE UNIQUE INDEX SKY_CHGMST
+ON SKY_CHGMST
+(CNTNUM)
+/

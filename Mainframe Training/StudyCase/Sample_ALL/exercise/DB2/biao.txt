@@ -1,0 +1,31 @@
+張さん：
+
+下記のLayoutによって、テーブルを作成する。
+テーブルの名前はNE65TDKIT、キーが決まってない
+テーブルを今日中完了してお願いします。
+
+    メニュー    ユーティリティー    コンパイラー    ヘルプ                      
+ sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+  表示    SYS1.DCL(FW18TBL7) - 01.00                  行  00000000  桁  001 080 
+  コマンド  ===>                                          スクロール  ===> CSR  
+********************************* データの始め *********************************
+ /* **** NAME=FW18TBL7**** DSN=SYS1.DCL ** ASOF 98/04/10 * JMAS       */00010000
+ /* ** SERIAL RECORDING KITTING PARTS TABLE       TOTAL LENGTH=184 ** */00020000
+ /*                                                                   */00030000
+ /*                                                                   */00040000
+        2 DMY1    CHAR(2)  ,    /* 0001 DUMMY FIELD                   */00050000
+        2 TYPC    CHAR(2)  ,    /* 0003 TYPE OF CARD : 'L7'           */00060000
+        2 PART    CHAR(7)  ,    /* 0005 PART NO.                      */00070000 -->親 PARTS
+        2 DMY2    CHAR(1)  ,    /* 0012 DUMMY FIELD                   */00080000
+        2 TYMP    CHAR(1)  ,    /* 0013 TYPE OF MAINTENANCE           */00090000
+        2 SPINF(15)        ,    /* 0014 SERIAL PARTS INFO.            */00100000
+          3 SPTN  CHAR(07) ,    /* 0014 SERIAL PARTS NO.              */00110000 -->子PARTS（SERIALをとるPARTSNO）
+          3 SQTY  CHAR(03) ,    /* 0021 SERIAL QTY                    */00120000 -->QTY
+          3 DMY3  CHAR(01) ,    /* 0024 DUMMY FIELD                   */00130000
+        2 LSDT    CHAR(06) ;    /* 0179 LAST UPDATE DATE              */00140000
+ /*                                                                   */00150000
+ /*                                                                   */00160000
+ /* *********** END OF %INCLUDE MACRO ***** NAME=FW18TBL3************ */00170000
+********************************* データの終り *********************************
+                                                                                
+

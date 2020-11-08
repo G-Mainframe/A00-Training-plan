@@ -1,0 +1,41 @@
+       IDENTIFICATION  DIVISION.
+       PROGRAM-ID.  EXAM58.
+       ENVIRONMENT     DIVISION.
+       INPUT-OUTPUT  SECTION.
+       FILE-CONTROL.
+           SELECT STUDENT-FILE  ASSIGN TO STDT.
+       DATA   DIVISION.
+       FILE  SECTION.
+       FD STUDENT-FILE  LABEL RECORD IS STANDARD.
+       01 GZQD-R.
+          02  STUDENT-NUM  PIC  9(6).
+          02  STUDENT-NAME PIC  X(10).
+          02  SEX-CODE     PIC  X.
+          02  AGE          PIC  999.
+          02  CLASS1       PIC  9.
+       WORKING-STORAGE  SECTION.
+       77 FEMALE-COUNTER  PIC 999.
+       77 MALE-COUNTER    PIC 999.
+       PROCEDURE    DIVISION.
+       INITLALIZE.
+           OPEN INPUT STUDENT-FILE.
+           MOVE ZERO  TO FEMALE-COUNTER.
+           MOVE ZERO  TO MALE-COUNTER.
+       READ-FILE.
+           READ  STUDENT-FILE
+                  AT END GO TO DISPLAY-ANSWER.
+       COUNTING.
+           IF  SEX-CODE = 'F'
+               ADD  1 TO FEMALE-COUNTER
+               GO TO READ-FILE.
+           IF  SEX-CODE = 'M'
+               ADD  1 TO MALE-COUNTER
+               GO TO READ-FILE.
+           DISPLAY 'ERROR IN SEX CODE' SEX-CODE, '   ', STUDENT-NUM
+           GO TO READ-FILE.
+       DISPLAY-ANSWER.
+           DISPLAY 'FEMALE = ' FEMALE-COUNTER.
+           DISPLAY 'MALE = ' MALE-COUNTER.
+           CLOSE  STUDENT-FILE.
+           STOP RUN.
+

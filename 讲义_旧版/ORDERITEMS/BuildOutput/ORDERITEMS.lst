@@ -1,0 +1,647 @@
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2                Date 11/25/2010  Time 16:15:23   Page     1                
+0Invocation parameters:
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW)),SQL('DATABASE ETPCS USER etpuser USING zaq12wsx')
+0Options in effect:
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+       SQL('DATABASE ETPCS USER etpuser USING zaq12wsx')                                                                             
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      ORDERITE  Date 11/25/2010  Time 16:15:23   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0/* ORDERITEMS                                                                                                                       
+   000001                IDENTIFICATION              DIVISION.                                                                       
+   000002                PROGRAM-ID.                 ORDERITEMS.                                                                     
+   000003               *                                                                                                            
+   000004                ENVIRONMENT                 DIVISION.                                                                       
+   000005               *                                                                                                            
+   000006                DATA                        DIVISION.                                                                       
+   000007               *                                                                                                            
+   000008                WORKING-STORAGE             SECTION.                                                                        
+   000009               *                                                                                                            
+   000010                EXEC SQL INCLUDE SQLCA END-EXEC.                                                                            
+   000011C              **************************************************************************                                   
+   000012C              *                                                                                                            
+   000013C              *  Source File Name = SQLCA.CBL                                                                              
+   000014C              *                                                                                                            
+   000015C              *  (C) Copyright IBM Corp. 1987, 1997                                                                        
+   000016C              *  All Rights Reserved                                                                                       
+   000017C              *  Licensed Material - Program Property of IBM                                                               
+   000018C              *                                                                                                            
+   000019C              *  US Government Users Restricted Rights - Use, duplication or                                               
+   000020C              *  disclosure restricted by GSA ADP Schedule Contract with IBM Corp.                                         
+   000021C              *                                                                                                            
+   000022C              *  Function = Copy File defining:                                                                            
+   000023C              *               SQLCA                                                                                        
+   000024C              *                                                                                                            
+   000025C              **************************************************************************                                   
+   000026C                                                                                                                           
+   000027C              *   SQL Communication Area - SQLCA                                                                           
+   000028C                                                                                                                           
+   000029C               01 SQLCA SYNC.                                                                                              
+   000030C                  05 SQLCAID PIC X(8) VALUE "SQLCA   ".                                                                    
+   000031C              *                        Eyecatcher = 'SQLCA   '                                                             
+   000032C                  05 SQLCABC PIC S9(9) COMP-5 VALUE 136.                                                                   
+   000033C              *                        SQLCA size in bytes = 136                                                           
+   000034C                  05 SQLCODE PIC S9(9) COMP-5.                                                                             
+   000035C              *                        SQL return code                                                                     
+   000036C                  05 SQLERRM.                                                                                              
+   000037C              *                        SQL error message                                                                   
+   000038C                     49 SQLERRML PIC S9(4) COMP-5.                                                                         
+   000039C              *                        Length for SQLERRMC                                                                 
+   000040C                     49 SQLERRMC PIC X(70).                                                                                
+   000041C              *                        Error message tokens                                                                
+   000042C                  05 SQLERRP PIC X(8).                                                                                     
+   000043C              *                        Diagnostic information                                                              
+   000044C                  05 SQLERRD OCCURS 6 TIMES PIC S9(9) COMP-5.                                                              
+   000045C              *                        Diagnostic information                                                              
+   000046C                  05 SQLWARN.                                                                                              
+   000047C              *                        Warning flags                                                                       
+   000048C                     10 SQLWARN0 PIC X.                                                                                    
+   000049C                     10 SQLWARN1 PIC X.                                                                                    
+   000050C                     10 SQLWARN2 PIC X.                                                                                    
+   000051C                     10 SQLWARN3 PIC X.                                                                                    
+   000052C                     10 SQLWARN4 PIC X.                                                                                    
+   000053C                     10 SQLWARN5 PIC X.                                                                                    
+   000054C                     10 SQLWARN6 PIC X.                                                                                    
+   000055C                     10 SQLWARN7 PIC X.                                                                                    
+   000056C                     10 SQLWARN8 PIC X.                                                                                    
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      ORDERITE  Date 11/25/2010  Time 16:15:23   Page     3                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0  000057C                     10 SQLWARN9 PIC X.                                                                                    
+   000058C                     10 SQLWARNA PIC X.                                                                                    
+   000059C              *                        Warning flags                                                                       
+   000060C                  05 SQLSTATE PIC X(5).                                                                                    
+   000061C              *                        SQLSTATE                                                                            
+   000062C                                                                                                                           
+   000063C                                                                                                                           
+   000064                EXEC SQL BEGIN DECLARE SECTION END-EXEC.                                                                    
+   000065                01  CUSTOMER-TABLE-KEY.                                                                                     
+   000066                   EXEC SQL INCLUDE ORDERITEMSKEY END-EXEC.                                                                 
+   000067C                     07  ORDERITEM-KEY                PIC X(256).                                                          
+   000068C                     07  ORDERITEM-I000-KEY           REDEFINES ORDERITEM-KEY.            67                               
+                                                                                                  
+ ==000068==> IGYDS1159-E A "PICTURE" clause was not found for elementary item                     
+                         "ORDERITEM-I000-KEY".  "PICTURE X(1)" was assumed.                       
+                                                                                                  
+ ==000068==> IGYDS1073-I "ORDERITEM-I000-KEY" redefined a larger item.                            
+                                                                                                  
+   000069C                     07  ITEM-KEY                     PIC X(256).                                                          
+   000070C                     07  ITEM-I000-KEY                REDEFINES ITEM-KEY.                 69                               
+                                                                                                  
+ ==000070==> IGYDS1154-S "ITEM-I000-KEY" redefined a smaller item.  Storage allocation may be     
+                         incorrect.  The program was accepted as written.                         
+                                                                                                  
+   000071C                       09  ORDERITEM-I000.                                                                                 
+   000072C                         11  ORDERNO              PIC X(004).                                                              
+   000073C                       09  ITEM-I000.                                                                                      
+   000074C                         11  ITEMNO              PIC X(002).                                                               
+   000075C                       09  FILLER                    PIC X(252).                                                           
+   000076C                     07  ORDERITEM-S000-KEY           REDEFINES ORDERITEM-KEY.            UND                              
+                                                                                                  
+ ==000076==> IGYDS1066-S "REDEFINES" object "ORDERITEM-KEY" was not the immediately preceding     
+                         level-7 data item.  The "REDEFINES" clause was discarded.                
+                                                                                                  
+   000077C                       09  ORDERITEM-I000.                                                                                 
+   000078C                          11  ORDERNO              PIC X(004).                                                             
+   000079C                     07  ITEM-S000-KEY           REDEFINES ITEM-KEY.                      UND                              
+                                                                                                  
+ ==000079==> IGYDS1066-S "REDEFINES" object "ITEM-KEY" was not the immediately preceding level-7  
+                         data item.  The "REDEFINES" clause was discarded.                        
+                                                                                                  
+   000080C                       09  ORDERITEM-I000.                                                                                 
+   000081C                         11  ITEMNO              PIC X(002).                                                               
+   000082C                       09  FILLER                    PIC X(252).                                                           
+   000083                   EXEC SQL INCLUDE ORDERITEMS    END-EXEC.                                                                 
+   000084C              ******************************************************************                                           
+   000085C              * DCLGEN TABLE(CPAZ)                                             *                                           
+   000086C              *        LIBRARY(DMSTR1.KIBAN.DATA(CPAZ))                        *                                           
+   000087C              *        ACTION(REPLACE)                                         *                                           
+   000088C              *        LANGUAGE(COBOL)                                         *                                           
+   000089C              *        QUOTE                                                   *                                           
+   000090C              * ... IS THE DCLGEN COMMAND THAT MADE THE FOLLOWING STATEMENTS   *                                           
+   000091C              ******************************************************************                                           
+   000092C                   EXEC SQL DECLARE TBLORDERITEMS TABLE                                                                    
+   000093C                   ( ORDERNO                      CHAR(4) NOT NULL,                                                        
+   000094C                     ITEMNO                       CHAR(2) NOT NULL,                                                        
+   000095C                     BOOKNO                       VARCHAR (10),                                                            
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      ORDERITE  Date 11/25/2010  Time 16:15:23   Page     4                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0  000096C                     QUANTITY                     CHAR(3)                                                                  
+   000097C                   ) END-EXEC.                                                                                             
+   000098C              ******************************************************************                                           
+   000099C              * COBOL DECLARATION FOR TABLE CPAZ                               *                                           
+   000100C              ******************************************************************                                           
+   000101C               01  DCLORDERITEMS.                                                                                          
+   000102C                   10 ORDERNO                      PIC X(4).                                                               
+   000103C                   10 ITEMNO                       PIC X(2).                                                               
+   000104C                   10 BOOKNO                       PIC X(10).                                                              
+   000105C                   10 QUANTITY                     PIC X(3).                                                               
+   000106C              ******************************************************************                                           
+   000107C              * THE NUMBER OF COLUMNS DESCRIBED BY THIS DECLARATION IS 20      *                                           
+   000108C              ******************************************************************                                           
+   000109                EXEC SQL END   DECLARE SECTION END-EXEC.                                                                    
+   000110               *                                                                                                            
+   000111                01 ACCESS-PATTERN.                                                                                          
+   000112                   COPY PATTERN.                                                                                            
+   000113C                   09  CS-0            PIC X(001) VALUE '0'.                                                               
+   000114C                   09  CS-1            PIC X(001) VALUE '1'.                                                               
+   000115C                   09  CS-2            PIC X(001) VALUE '2'.                                                               
+   000116C                   09  CS-3            PIC X(001) VALUE '3'.                                                               
+   000117C                   09  CS-I000         PIC X(004) VALUE 'I000'.                                                            
+   000118C                   09  CS-I00Z         PIC X(004) VALUE 'I00Z'.                                                            
+   000119C                   09  CS-K00Z         PIC X(004) VALUE 'K00Z'.                                                            
+   000120C                   09  CS-K000         PIC X(004) VALUE 'K000'.                                                            
+   000121C                   09  CS-K001         PIC X(004) VALUE 'K001'.                                                            
+   000122C                   09  CS-K002         PIC X(004) VALUE 'K002'.                                                            
+   000123C                   09  CS-K003         PIC X(004) VALUE 'K003'.                                                            
+   000124C                   09  CS-K004         PIC X(004) VALUE 'K004'.                                                            
+   000125C                   09  CS-K005         PIC X(004) VALUE 'K005'.                                                            
+   000126C                   09  CS-K006         PIC X(004) VALUE 'K006'.                                                            
+   000127C                   09  CS-K007         PIC X(004) VALUE 'K007'.                                                            
+   000128C                   09  CS-K008         PIC X(004) VALUE 'K008'.                                                            
+   000129C                   09  CS-K009         PIC X(004) VALUE 'K009'.                                                            
+   000130C                   09  CS-S000         PIC X(004) VALUE 'S000'.                                                            
+   000131C                   09  CS-S001         PIC X(004) VALUE 'S001'.                                                            
+   000132C                   09  CS-S002         PIC X(004) VALUE 'S002'.                                                            
+   000133C                   09  CS-S003         PIC X(004) VALUE 'S003'.                                                            
+   000134C                   09  CS-S004         PIC X(004) VALUE 'S004'.                                                            
+   000135C                   09  CS-S005         PIC X(004) VALUE 'S005'.                                                            
+   000136C                   09  CS-S006         PIC X(004) VALUE 'S006'.                                                            
+   000137C                   09  CS-S007         PIC X(004) VALUE 'S007'.                                                            
+   000138C                   09  CS-S008         PIC X(004) VALUE 'S008'.                                                            
+   000139C                   09  CS-S009         PIC X(004) VALUE 'S009'.                                                            
+   000140C                   09  CS-Y00Z         PIC X(004) VALUE 'Y00Z'.                                                            
+   000141C                   09  CS-Y000         PIC X(004) VALUE 'Y000'.                                                            
+   000142C                   09  CS-Y001         PIC X(004) VALUE 'Y001'.                                                            
+   000143C                   09  CS-Y002         PIC X(004) VALUE 'Y002'.                                                            
+   000144C                   09  CS-Y003         PIC X(004) VALUE 'Y003'.                                                            
+   000145C                   09  CS-Y004         PIC X(004) VALUE 'Y004'.                                                            
+   000146C                   09  CS-Y005         PIC X(004) VALUE 'Y005'.                                                            
+   000147C                   09  CS-Y006         PIC X(004) VALUE 'Y006'.                                                            
+   000148C                   09  CS-Y007         PIC X(004) VALUE 'Y007'.                                                            
+   000149C                   09  CS-Y008         PIC X(004) VALUE 'Y008'.                                                            
+   000150C                   09  CS-Y009         PIC X(004) VALUE 'Y009'.                                                            
+   000151C                   09  CS-I01Z         PIC X(004) VALUE 'I01Z'.                                                            
+   000152C                   09  CS-K01Z         PIC X(004) VALUE 'K01Z'.                                                            
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      ORDERITE  Date 11/25/2010  Time 16:15:23   Page     5                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0  000153C                   09  CS-K010         PIC X(004) VALUE 'K010'.                                                            
+   000154C                   09  CS-K011         PIC X(004) VALUE 'K011'.                                                            
+   000155C                   09  CS-K012         PIC X(004) VALUE 'K012'.                                                            
+   000156C                   09  CS-K013         PIC X(004) VALUE 'K013'.                                                            
+   000157C                   09  CS-K014         PIC X(004) VALUE 'K014'.                                                            
+   000158C                   09  CS-K015         PIC X(004) VALUE 'K015'.                                                            
+   000159C                   09  CS-K016         PIC X(004) VALUE 'K016'.                                                            
+   000160C                   09  CS-K017         PIC X(004) VALUE 'K017'.                                                            
+   000161C                   09  CS-K018         PIC X(004) VALUE 'K018'.                                                            
+   000162C                   09  CS-K019         PIC X(004) VALUE 'K019'.                                                            
+   000163C                   09  CS-S010         PIC X(004) VALUE 'S010'.                                                            
+   000164C                   09  CS-S011         PIC X(004) VALUE 'S011'.                                                            
+   000165C                   09  CS-S012         PIC X(004) VALUE 'S012'.                                                            
+   000166C                   09  CS-S013         PIC X(004) VALUE 'S013'.                                                            
+   000167C                   09  CS-S014         PIC X(004) VALUE 'S014'.                                                            
+   000168C                   09  CS-S015         PIC X(004) VALUE 'S015'.                                                            
+   000169C                   09  CS-S016         PIC X(004) VALUE 'S016'.                                                            
+   000170C                   09  CS-S017         PIC X(004) VALUE 'S017'.                                                            
+   000171C                   09  CS-S018         PIC X(004) VALUE 'S018'.                                                            
+   000172C                   09  CS-S019         PIC X(004) VALUE 'S019'.                                                            
+   000173C                   09  CS-Y01Z         PIC X(004) VALUE 'Y01Z'.                                                            
+   000174C                   09  CS-Y010         PIC X(004) VALUE 'Y010'.                                                            
+   000175C                   09  CS-Y011         PIC X(004) VALUE 'Y011'.                                                            
+   000176C                   09  CS-Y012         PIC X(004) VALUE 'Y012'.                                                            
+   000177C                   09  CS-Y013         PIC X(004) VALUE 'Y013'.                                                            
+   000178C                   09  CS-Y014         PIC X(004) VALUE 'Y014'.                                                            
+   000179C                   09  CS-Y015         PIC X(004) VALUE 'Y015'.                                                            
+   000180C                   09  CS-Y016         PIC X(004) VALUE 'Y016'.                                                            
+   000181C                   09  CS-Y017         PIC X(004) VALUE 'Y017'.                                                            
+   000182C                   09  CS-Y018         PIC X(004) VALUE 'Y018'.                                                            
+   000183C                   09  CS-Y019         PIC X(004) VALUE 'Y019'.                                                            
+   000184C                   09  CS-INSERT       PIC X(006) VALUE 'INSERT'.                                                          
+   000185C                   09  CS-SELECT       PIC X(006) VALUE 'SELECT'.                                                          
+   000186C                   09  CS-OPEN         PIC X(006) VALUE 'OPEN  '.                                                          
+   000187C                   09  CS-FETCH        PIC X(006) VALUE 'FETCH '.                                                          
+   000188C                   09  CS-UPDATE       PIC X(006) VALUE 'UPDATE'.                                                          
+   000189C                   09  CS-DELETE       PIC X(006) VALUE 'DELETE'.                                                          
+   000190C                   09  CS-CLOSE        PIC X(006) VALUE 'CLOSE '.                                                          
+   000191               *                                                                                                            
+   000192                01 WK-AREA.                                                                                                 
+   000193                   03 WK-CNT.                                                                                               
+   000194                      05 WK-SQL-CNT       PIC 9(03).                                                                        
+   000195                   03 WK-FLAG.                                                                                              
+   000196                      05 WK-ENDFLAG       PIC X(03).                                                                        
+   000197                LINKAGE                     SECTION.                                                                        
+   000198                01 COMMAND-AREA.                                                                                            
+   000199                   COPY COMMAND.                                                                                            
+   000200C                   09  PATTERN                PIC  X(004).                                                                 
+   000201C                   09  OPTION                 PIC  X(006).                                                                 
+   000202C                   09  PATTERN-FLG            PIC  X(001).                                                                 
+   000203C                   09  SQLCODE-AREA           PIC S9(009)  COMP-4.                                                         
+   000204C                   09  KEY-LENGTH             PIC  9(003).                                                                 
+   000205C                   09  TABLE-LENGTH           PIC  9(005).                                                                 
+   000206C                   09  SQLCA-AREA             PIC  X(180).                                                                 
+   000207                01 KEY-AREA               PIC X(256).                                                                       
+   000208                01 IO-AREA                PIC X(32768).                                                                     
+   000209                PROCEDURE                   DIVISION USING COMMAND-AREA ,                  198                              
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      ORDERITE  Date 11/25/2010  Time 16:15:23   Page     6                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0  000210                                                           KEY-AREA ,                      207                              
+   000211                                                           IO-AREA.                        208                              
+   000212                MAIN-PROCESS                SECTION.                                                                        
+   000213                MAIN-START.                                                                                                 
+   000214                    MOVE  CS-0      TO  PATTERN-FLG       OF COMMAND-AREA.                 113 202 198                      
+   000215                    MOVE  ZERO      TO  SQLCODE-AREA      OF COMMAND-AREA.                 IMP 203 198                      
+   000216                    MOVE  SPACE     TO  SQLCA-AREA        OF COMMAND-AREA.                 IMP 206 198                      
+   000217                    MOVE  ZERO      TO  KEY-LENGTH        OF COMMAND-AREA.                 IMP 204 198                      
+   000218                    MOVE  ZERO      TO  TABLE-LENGTH      OF COMMAND-AREA.                 IMP 205 198                      
+   000219               *                                                                                                            
+   000220                    EVALUATE  PATTERN  OF  COMMAND-AREA                                    200 198                          
+   000221                      WHEN CS-I000                                                         117                              
+   000222      1                 PERFORM  I000-RTN                                                  244                              
+   000223                      WHEN CS-K000                                                         120                              
+   000224      1                 PERFORM  K000-RTN                                                  273                              
+   000225                       WHEN CS-S000                                                        130                              
+   000226      1                 PERFORM  S000-RTN                                                  321                              
+   000227                      WHEN  OTHER                                                                                           
+   000228      1                 MOVE  CS-2      TO  PATTERN-FLG   OF COMMAND-AREA                  115 202 198                      
+   000229                    END-EVALUATE.                                                                                           
+   000230               *                                                                                                            
+   000231                    IF  PATTERN-FLG   OF COMMAND-AREA   = CS-0                             202 198 113                      
+   000232      1               MOVE  SQLCODE     TO  SQLCODE-AREA  OF COMMAND-AREA                  34 203 198                       
+   000233      1               MOVE  SQLCA       TO  SQLCA-AREA    OF COMMAND-AREA                  29 206 198                       
+   000234      1               IF  SQLCODE NOT = ZERO                                               34 IMP                           
+   000235      2                 MOVE  CS-1      TO  PATTERN-FLG   OF COMMAND-AREA                  114 202 198                      
+   000236      1               END-IF                                                                                                
+   000237                    END-IF.                                                                                                 
+   000238                MAIN-EXIT.                                                                                                  
+   000239                    STOP "END".                                                                                             
+   000240                    EXIT PROGRAM.                                                                                           
+   000241               **************************************                                                                       
+   000242               * I000                                                                                                       
+   000243               **************************************                                                                       
+   000244                I000-RTN                SECTION.                                                                            
+   000245                I000-RTN-START.                                                                                             
+   000246                    IF  OPTION  OF COMMAND-AREA  = CS-INSERT                               201 198 184                      
+   000247      1                 MOVE  LENGTH OF DCLORDERITEMS                                      IMP 101                          
+   000248      1                   TO  TABLE-LENGTH OF COMMAND-AREA                                 205 198                          
+   000249      1                 MOVE  IO-AREA(1:LENGTH OF DCLORDERITEMS)                           208 IMP 101                      
+   000250      1                 TO DCLORDERITEMS                                                   101                              
+   000251      1               EXEC  SQL                                                                                             
+   000252      1                INSERT  INTO    ETPUSER.TBLORDERITEMS                                                                
+   000253      1                (    ORDERNO ,                                                                                       
+   000254      1                     ITEMNO ,                                                                                        
+   000255      1                     BOOKNO ,                                                                                        
+   000256      1                     QUANTITY                                                                                        
+   000257      1                )                                                                                                    
+   000258      1                VALUES (                                                                                             
+   000259      1                     :DCLORDERITEMS.ORDERNO                                         102 101                          
+   000260      1                   , :DCLORDERITEMS.ITEMNO                                          103 101                          
+   000261      1                   , :DCLORDERITEMS.BOOKNO                                          104 101                          
+   000262      1                   , :DCLORDERITEMS.QUANTITY                                        105 101                          
+   000263      1                )                                                                                                    
+   000264      1               END-EXEC                                                             * IMP 29 * * 102 101 * 103 101 * 
+                                                                                                    104 101 * 105 101 * *            
+   000265                    ELSE                                                                                                    
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      ORDERITE  Date 11/25/2010  Time 16:15:23   Page     7                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0  000266      1                 MOVE  CS-3      TO  PATTERN-FLG   OF COMMAND-AREA                  116 202 198                      
+   000267                    END-IF.                                                                                                 
+   000268                I000-RTN-END.                                                                                               
+   000269                    EXIT.                                                                                                   
+   000270               **************************************                                                                       
+   000271               *    K000                                                                                                    
+   000272               **************************************                                                                       
+   000273                K000-RTN                SECTION.                                                                            
+   000274                K000-RTN-START.                                                                                             
+   000275                    EXEC  SQL  DECLARE  K000_CUR  CURSOR                                                                    
+   000276                     WITH HOLD FOR SELECT                                                                                   
+   000277                        ORDERNO , ITEMNO , BOOKNO , QUANTITY                                                                
+   000278                      FROM  ETPUSER.TBLORDERITEMS                                                                           
+   000279                      FOR UPDATE OF                                                                                         
+   000280                        ORDERNO , ITEMNO ,                                                                                  
+   000281                        BOOKNO , QUANTITY                                                                                   
+   000282                    END-EXEC                                                                                                
+   000283                    EVALUATE  OPTION  OF  COMMAND-AREA                                     201 198                          
+   000284                      WHEN CS-OPEN                                                         186                              
+   000285      1                 EXEC  SQL  OPEN  K000_CUR  END-EXEC                                * IMP 29 * *                     
+   000286                      WHEN CS-FETCH                                                        187                              
+   000287      1                 EXEC  SQL  FETCH K000_CUR  INTO                                                                     
+   000288      1                    :DCLORDERITEMS.ORDERNO                                          102 101                          
+   000289      1                   , :DCLORDERITEMS.ITEMNO                                          103 101                          
+   000290      1                   , :DCLORDERITEMS.BOOKNO                                          104 101                          
+   000291      1                   , :DCLORDERITEMS.QUANTITY                                        105 101                          
+   000292      1                 END-EXEC                                                           * IMP 29 * * 102 101 * 103 101 * 
+                                                                                                    104 101 * 105 101 * *            
+   000293      1                 MOVE  LENGTH OF DCLORDERITEMS                                      IMP 101                          
+   000294      1                   TO  TABLE-LENGTH OF COMMAND-AREA                                 205 198                          
+   000295      1                 MOVE  DCLORDERITEMS                                                101                              
+   000296      1                   TO  IO-AREA(1:LENGTH OF DCLORDERITEMS)                           208 IMP 101                      
+   000297                      WHEN CS-UPDATE                                                       188                              
+   000298      1                 MOVE  LENGTH OF DCLORDERITEMS                                      IMP 101                          
+   000299      1                   TO  TABLE-LENGTH OF COMMAND-AREA                                 205 198                          
+   000300      1                 MOVE  IO-AREA(1:LENGTH OF DCLORDERITEMS)                           208 IMP 101                      
+   000301      1                   TO  DCLORDERITEMS                                                101                              
+   000302      1                 EXEC  SQL  UPDATE  ETPUSER.TBLORDERITEMS SET                                                        
+   000303      1                  ORDERNO = :DCLORDERITEMS.ORDERNO,                                 102 101                          
+   000304      1                  ITEMNO = :DCLORDERITEMS.ITEMNO,                                   103 101                          
+   000305      1                  BOOKNO = :DCLORDERITEMS.BOOKNO,                                   104 101                          
+   000306      1                  QUANTITY = :DCLORDERITEMS.QUANTITY                                105 101                          
+   000307      1                   WHERE CURRENT OF K000_CUR  END-EXEC                              * IMP 29 * * 102 101 * 103 101 * 
+                                                                                                    104 101 * 105 101 * *            
+   000308                      WHEN CS-DELETE                                                       189                              
+   000309      1                 EXEC  SQL  DELETE  FROM  ETPUSER.TBLORDERITEMS                                                      
+   000310      1                   WHERE CURRENT OF K000_CUR  END-EXEC                              * IMP 29 * *                     
+   000311                      WHEN CS-CLOSE                                                        190                              
+   000312      1                 EXEC  SQL  CLOSE K000_CUR  END-EXEC                                * IMP 29 * *                     
+   000313                      WHEN OTHER                                                                                            
+   000314      1                 MOVE  CS-3      TO  PATTERN-FLG   OF COMMAND-AREA                  116 202 198                      
+   000315                    END-EVALUATE.                                                                                           
+   000316                K000-RTN-END.                                                                                               
+   000317                    EXIT.                                                                                                   
+   000318               **************************************                                                                       
+   000319               *    S000                                                                                                    
+   000320               **************************************                                                                       
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      ORDERITE  Date 11/25/2010  Time 16:15:23   Page     8                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0  000321                S000-RTN                SECTION.                                                                            
+   000322                S000-RTN-START.                                                                                             
+   000323                    IF  OPTION  OF  COMMAND-AREA = CS-SELECT                               201 198 185                      
+   000324      1                 MOVE LENGTH OF ORDERITEM-KEY                                       IMP 67                           
+   000325      1                   TO KEY-LENGTH OF COMMAND-AREA                                    204 198                          
+   000326      1                 MOVE KEY-AREA(1:LENGTH OF ORDERITEM-KEY)                           207 IMP 67                       
+   000327      1                 TO   ORDERITEM-KEY                                                 67                               
+   000328      1                 MOVE LENGTH OF ITEM-KEY                                            IMP 69                           
+   000329      1                   TO KEY-LENGTH OF COMMAND-AREA                                    204 198                          
+   000330      1                 MOVE KEY-AREA(1:LENGTH OF ITEM-KEY)                                207 IMP 69                       
+   000331      1                 TO ITEM-KEY                                                        69                               
+   000332      1               EXEC  SQL                                                                                             
+   000333      1                SELECT                                                                                               
+   000334      1                   ORDERNO , ITEMNO ,                                                                                
+   000335      1                 BOOKNO , QUANTITY                                                                                   
+   000336      1               INTO :DCLORDERITEMS.ORDERNO                                          102 101                          
+   000337      1                   , :DCLORDERITEMS.ITEMNO                                          103 101                          
+   000338      1                   , :DCLORDERITEMS.BOOKNO                                          104 101                          
+   000339      1                   , :DCLORDERITEMS.QUANTITY                                        105 101                          
+   000340      1               FROM  TBLORDERITEMS                                                                                   
+   000341      1               WHERE ORDERNO    = :ORDERITEM-S000-KEY.ORDERNO                       78 76                            
+   000342      1               AND   ITEMNO     = :ITEM-S000-KEY.ITEMNO                             81 79                            
+   000343      1               END-EXEC                                                             * IMP 29 * * 78 77 76 65 * 81 80 
+                                                                                                    79 65 * * 102 101 * 103 101 * 104
+                                                                                                    101 * 105 101 * *                
+   000344      1                 MOVE  LENGTH OF DCLORDERITEMS                                      IMP 101                          
+   000345      1                   TO  TABLE-LENGTH OF COMMAND-AREA                                 205 198                          
+   000346      1                 MOVE  DCLORDERITEMS                                                101                              
+   000347      1                   TO  IO-AREA(1:LENGTH OF DCLORDERITEMS )                          208 IMP 101                      
+   000348                    ELSE                                                                                                    
+   000349      1                 MOVE  CS-3      TO  PATTERN-FLG   OF COMMAND-AREA                  116 202 198                      
+   000350                    END-IF.                                                                                                 
+   000351                 S000-RTN-END.                                                                                              
+   000352                    EXIT.                                                                                                   
+ */ ORDERITEMS                                                                                                                       
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      ORDERITE  Date 11/25/2010  Time 16:15:23   Page     9                
+0An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+      111   ACCESS-PATTERN                                                                                                                                                   
+      104   BOOKNO . . . . . . . . . . . .  261 264 290 292 305 307 338 343                                                                                                  
+      198   COMMAND-AREA . . . . . . . . .  209 214 215 216 217 218 220 228 231 232 233 235 246 248 266 283 294 299 314 323                                                  
+                                            325 329 345 349                                                                                                                  
+      113   CS-0 . . . . . . . . . . . . .  214 231                                                                                                                          
+      114   CS-1 . . . . . . . . . . . . .  235                                                                                                                              
+      115   CS-2 . . . . . . . . . . . . .  228                                                                                                                              
+      116   CS-3 . . . . . . . . . . . . .  266 314 349                                                                                                                      
+      190   CS-CLOSE . . . . . . . . . . .  311                                                                                                                              
+      189   CS-DELETE. . . . . . . . . . .  308                                                                                                                              
+      187   CS-FETCH . . . . . . . . . . .  286                                                                                                                              
+      117   CS-I000. . . . . . . . . . . .  221                                                                                                                              
+      118   CS-I00Z                                                                                                                                                          
+      151   CS-I01Z                                                                                                                                                          
+      184   CS-INSERT. . . . . . . . . . .  246                                                                                                                              
+      120   CS-K000. . . . . . . . . . . .  223                                                                                                                              
+      121   CS-K001                                                                                                                                                          
+      122   CS-K002                                                                                                                                                          
+      123   CS-K003                                                                                                                                                          
+      124   CS-K004                                                                                                                                                          
+      125   CS-K005                                                                                                                                                          
+      126   CS-K006                                                                                                                                                          
+      127   CS-K007                                                                                                                                                          
+      128   CS-K008                                                                                                                                                          
+      129   CS-K009                                                                                                                                                          
+      119   CS-K00Z                                                                                                                                                          
+      153   CS-K010                                                                                                                                                          
+      154   CS-K011                                                                                                                                                          
+      155   CS-K012                                                                                                                                                          
+      156   CS-K013                                                                                                                                                          
+      157   CS-K014                                                                                                                                                          
+      158   CS-K015                                                                                                                                                          
+      159   CS-K016                                                                                                                                                          
+      160   CS-K017                                                                                                                                                          
+      161   CS-K018                                                                                                                                                          
+      162   CS-K019                                                                                                                                                          
+      152   CS-K01Z                                                                                                                                                          
+      186   CS-OPEN. . . . . . . . . . . .  284                                                                                                                              
+      130   CS-S000. . . . . . . . . . . .  225                                                                                                                              
+      131   CS-S001                                                                                                                                                          
+      132   CS-S002                                                                                                                                                          
+      133   CS-S003                                                                                                                                                          
+      134   CS-S004                                                                                                                                                          
+      135   CS-S005                                                                                                                                                          
+      136   CS-S006                                                                                                                                                          
+      137   CS-S007                                                                                                                                                          
+      138   CS-S008                                                                                                                                                          
+      139   CS-S009                                                                                                                                                          
+      163   CS-S010                                                                                                                                                          
+      164   CS-S011                                                                                                                                                          
+      165   CS-S012                                                                                                                                                          
+      166   CS-S013                                                                                                                                                          
+      167   CS-S014                                                                                                                                                          
+      168   CS-S015                                                                                                                                                          
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      ORDERITE  Date 11/25/2010  Time 16:15:23   Page    10                
+0 Defined   Cross-reference of data names   References                                                                               
+  
+0     169   CS-S016                                                                                                                                                          
+      170   CS-S017                                                                                                                                                          
+      171   CS-S018                                                                                                                                                          
+      172   CS-S019                                                                                                                                                          
+      185   CS-SELECT. . . . . . . . . . .  323                                                                                                                              
+      188   CS-UPDATE. . . . . . . . . . .  297                                                                                                                              
+      141   CS-Y000                                                                                                                                                          
+      142   CS-Y001                                                                                                                                                          
+      143   CS-Y002                                                                                                                                                          
+      144   CS-Y003                                                                                                                                                          
+      145   CS-Y004                                                                                                                                                          
+      146   CS-Y005                                                                                                                                                          
+      147   CS-Y006                                                                                                                                                          
+      148   CS-Y007                                                                                                                                                          
+      149   CS-Y008                                                                                                                                                          
+      150   CS-Y009                                                                                                                                                          
+      140   CS-Y00Z                                                                                                                                                          
+      174   CS-Y010                                                                                                                                                          
+      175   CS-Y011                                                                                                                                                          
+      176   CS-Y012                                                                                                                                                          
+      177   CS-Y013                                                                                                                                                          
+      178   CS-Y014                                                                                                                                                          
+      179   CS-Y015                                                                                                                                                          
+      180   CS-Y016                                                                                                                                                          
+      181   CS-Y017                                                                                                                                                          
+      182   CS-Y018                                                                                                                                                          
+      183   CS-Y019                                                                                                                                                          
+      173   CS-Y01Z                                                                                                                                                          
+       65   CUSTOMER-TABLE-KEY . . . . . .  343 343                                                                                                                          
+      101   DCLORDERITEMS. . . . . . . . .  247 249 M250 259 260 261 262 264 264 264 264 288 289 290 291 292 292 292 292                                                     
+                                            293 295 296 298 300 M301 303 304 305 306 307 307 307 307 336 337 338 339 343                                                     
+                                            343 343 343 344 346 347                                                                                                          
+      208   IO-AREA. . . . . . . . . . . .  211 249 M296 300 M347                                                                                                            
+       73   ITEM-I000                                                                                                                                                        
+       70   ITEM-I000-KEY                                                                                                                                                    
+       69   ITEM-KEY . . . . . . . . . . .  70 328 330 M331                                                                                                                  
+       79   ITEM-S000-KEY. . . . . . . . .  342 343                                                                                                                          
+       74   ITEMNO                                                                                                                                                           
+       81   ITEMNO . . . . . . . . . . . .  342 343                                                                                                                          
+      103   ITEMNO . . . . . . . . . . . .  260 264 289 292 304 307 337 343                                                                                                  
+      207   KEY-AREA . . . . . . . . . . .  210 326 330                                                                                                                      
+      204   KEY-LENGTH . . . . . . . . . .  M217 M325 M329                                                                                                                   
+      201   OPTION . . . . . . . . . . . .  246 283 323                                                                                                                      
+       71   ORDERITEM-I000                                                                                                                                                   
+       77   ORDERITEM-I000 . . . . . . . .  343                                                                                                                              
+       80   ORDERITEM-I000 . . . . . . . .  343                                                                                                                              
+       68   ORDERITEM-I000-KEY                                                                                                                                               
+       67   ORDERITEM-KEY. . . . . . . . .  68 324 326 M327                                                                                                                  
+       76   ORDERITEM-S000-KEY . . . . . .  341 343                                                                                                                          
+       72   ORDERNO                                                                                                                                                          
+       78   ORDERNO. . . . . . . . . . . .  341 343                                                                                                                          
+      102   ORDERNO. . . . . . . . . . . .  259 264 288 292 303 307 336 343                                                                                                  
+      200   PATTERN. . . . . . . . . . . .  220                                                                                                                              
+      202   PATTERN-FLG. . . . . . . . . .  M214 M228 231 M235 M266 M314 M349                                                                                                
+      105   QUANTITY . . . . . . . . . . .  262 264 291 292 306 307 339 343                                                                                                  
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      ORDERITE  Date 11/25/2010  Time 16:15:23   Page    11                
+0 Defined   Cross-reference of data names   References                                                                               
+  
+0       0   SQLA-PROGRAM-ID. . . . . . . .  264 285 292 307 310 312 343                                                                                                      
+       29   SQLCA. . . . . . . . . . . . .  233 264 285 292 307 310 312 343                                                                                                  
+      206   SQLCA-AREA . . . . . . . . . .  M216 M233                                                                                                                        
+       32   SQLCABC                                                                                                                                                          
+       30   SQLCAID                                                                                                                                                          
+       34   SQLCODE. . . . . . . . . . . .  232 234                                                                                                                          
+      203   SQLCODE-AREA . . . . . . . . .  M215 M232                                                                                                                        
+       44   SQLERRD                                                                                                                                                          
+       36   SQLERRM                                                                                                                                                          
+       40   SQLERRMC                                                                                                                                                         
+       38   SQLERRML                                                                                                                                                         
+       42   SQLERRP                                                                                                                                                          
+       60   SQLSTATE                                                                                                                                                         
+       46   SQLWARN                                                                                                                                                          
+       48   SQLWARN0                                                                                                                                                         
+       49   SQLWARN1                                                                                                                                                         
+       50   SQLWARN2                                                                                                                                                         
+       51   SQLWARN3                                                                                                                                                         
+       52   SQLWARN4                                                                                                                                                         
+       53   SQLWARN5                                                                                                                                                         
+       54   SQLWARN6                                                                                                                                                         
+       55   SQLWARN7                                                                                                                                                         
+       56   SQLWARN8                                                                                                                                                         
+       57   SQLWARN9                                                                                                                                                         
+       58   SQLWARNA                                                                                                                                                         
+      205   TABLE-LENGTH . . . . . . . . .  M218 M248 M294 M299 M345                                                                                                         
+      192   WK-AREA                                                                                                                                                          
+      193   WK-CNT                                                                                                                                                           
+      196   WK-ENDFLAG                                                                                                                                                       
+      195   WK-FLAG                                                                                                                                                          
+      194   WK-SQL-CNT                                                                                                                                                       
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      ORDERITE  Date 11/25/2010  Time 16:15:23   Page    12                
+0Context usage is indicated by the letter preceding a procedure-name reference.
+ These letters and their meanings are:
+     A = ALTER (procedure-name)
+     D = GO TO (procedure-name) DEPENDING ON
+     E = End of range of (PERFORM) through (procedure-name)
+     G = GO TO (procedure-name)
+     P = PERFORM (procedure-name)
+     T = (ALTER) TO PROCEED TO (procedure-name)
+     U = USE FOR DEBUGGING (procedure-name)
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+      244   I000-RTN . . . . . . . . . . .  P222                                                                                                                             
+      268   I000-RTN-END                                                                                                                                                     
+      245   I000-RTN-START                                                                                                                                                   
+      273   K000-RTN . . . . . . . . . . .  P224                                                                                                                             
+      316   K000-RTN-END                                                                                                                                                     
+      274   K000-RTN-START                                                                                                                                                   
+      238   MAIN-EXIT                                                                                                                                                        
+      212   MAIN-PROCESS                                                                                                                                                     
+      213   MAIN-START                                                                                                                                                       
+      321   S000-RTN . . . . . . . . . . .  P226                                                                                                                             
+      351   S000-RTN-END                                                                                                                                                     
+      322   S000-RTN-START                                                                                                                                                   
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      ORDERITE  Date 11/25/2010  Time 16:15:23   Page    13                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   ORDERITEMS                                                                                                                                                       
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      ORDERITE  Date 11/25/2010  Time 16:15:23   Page    14                
+0LineID  Message code  Message text
+                                                                                                                                     
+         IGYSC0217-W   No Package was created.                                                                                       
+                                                                                                                                     
+     68  IGYDS1159-E   A "PICTURE" clause was not found for elementary item "ORDERITEM-I000-KEY".  "PICTURE X(1)" was assumed.       
+                                                                                                                                     
+     68  IGYDS1073-I   "ORDERITEM-I000-KEY" redefined a larger item.                                                                 
+                                                                                                                                     
+     70  IGYDS1154-S   "ITEM-I000-KEY" redefined a smaller item.  Storage allocation may be incorrect.  The program was accepted as  
+                       written.                                                                                                      
+                                                                                                                                     
+     76  IGYDS1066-S   "REDEFINES" object "ORDERITEM-KEY" was not the immediately preceding level-7 data item.  The "REDEFINES"      
+                       clause was discarded.                                                                                         
+                                                                                                                                     
+     79  IGYDS1066-S   "REDEFINES" object "ITEM-KEY" was not the immediately preceding level-7 data item.  The "REDEFINES" clause was
+                       discarded.                                                                                                    
+-Messages    Total    Informational    Warning    Error    Severe    Terminating
+0Printed:       6           1              1         1         3            
+-* Statistics for COBOL program ORDERITEMS:
+ *    Source records = 802
+ *    Data Division statements = 137
+ *    Procedure Division statements = 90
+0Locale = en_US.IBM-1252
+0End of compilation 1,  program ORDERITEMS,  highest severity: Severe.
+0Return code 12

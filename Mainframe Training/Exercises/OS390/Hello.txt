@@ -1,0 +1,30 @@
+
+****** ***************************** Top of Data ******************************
+000001        IDENTIFICATION DIVISION.                                         
+000002       *                                                                 
+000003        PROGRAM-ID.    HELLO.                                            
+000004       *                                                                 
+000005        ENVIRONMENT    DIVISION.                                         
+000006       *                                                                 
+000007        DATA           DIVISION.                                         
+000008       *                                                                 
+000009        PROCEDURE      DIVISION.                                         
+000010       *                                                                 
+000011        MAIN-RTN       SECTION.                                          
+000012       *                                                                 
+000013            DISPLAY "Hello Everybody".
+000014            DISPLAY "Glad to meet you.Welcome to IBM-ETP CLASS".         
+000015        MAIN-EXIT.                                                       
+000016            STOP RUN.                                                    
+****** **************************** Bottom of Data ****************************
+                       
+
+
+****** ***************************** Top of Data ******************************
+000001 //RUNJCL   JOB  NOTIFY=&SYSUID,MSGLEVEL=(2,1),MSGCLASS=A                
+000002 //RUNSTEP  EXEC PGM=HELLO                                               
+000003 //STEPLIB  DD   DSN=IBMUSER.TEST.LOAD,DISP=OLD                          
+000004 //SYSPRINT DD   SYSOUT=*                                                
+000005 //SYSOUT   DD   SYSOUT=*                                                
+000006                                                                         
+****** **************************** Bottom of Data ****************************

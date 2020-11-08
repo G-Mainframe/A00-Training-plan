@@ -1,0 +1,35 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200 PROGRAM-ID.  SEQFILE1.                                           00020000
+000210 ENVIRONMENT DIVISION.                                            00021000
+000220 INPUT-OUTPUT SECTION.                                            00022000
+000230 FILE-CONTROL.                                                    00023000
+000240       SELECT STUDENTFILE ASSIGN TO STUDENTS.                     00024000
+000300 DATA DIVISION.                                                   00030000
+000310 FILE SECTION.                                                    00031000
+000320 FD StudentFile.                                                  00032000
+000330 01 StudentDetails.                                               00033000
+000340    02  StudentId       PIC 9(7).                                 00034000
+000350    02  STUDENTNAME     PIC X(12).                                00035001
+000380    02  DateOfBirth.                                              00038000
+000390        03 YOBirth      PIC 9(2).                                 00039000
+000391        03 MOBirth      PIC 9(2).                                 00039100
+000392        03 DOBirth      PIC 9(2).                                 00039200
+000393    02  CourseCode      PIC X(4).                                 00039300
+000395    02  Gender          PIC X.                                    00039500
+000400 WORKING-STORAGE SECTION.                                         00040000
+000480 PROCEDURE DIVISION.                                              00048000
+000490 BEGIN.                                                           00049000
+000500     OPEN INPUT STUDENTFILE                                       00050000
+000600     READ STUDENTFILE                                             00060000
+000700           AT END MOVE HIGH-VALUES TO STUDENTDETAILS              00070000
+000800     END-READ                                                     00080000
+000900     PERFORM UNTIL STUDENTDETAILS = HIGH-VALUES                   00090000
+001000     DISPLAY STUDENTID  SPACE  STUDENTNAME SPACE COURSECODE       00100000
+001010     DISPLAY 'BIRTHDAY:' DATEOFBIRTH                              00101006
+001100     READ  STUDENTFILE                                            00110000
+001200         AT END MOVE HIGH-VALUES TO STUDENTDETAILS                00120000
+001300     END-READ                                                     00130000
+001400     END-PERFORM                                                  00140000
+001500     CLOSE STUDENTFILE                                            00150000
+001600     STOP RUN.                                                    00160000
+

@@ -1,0 +1,37 @@
+//MM01MAP1  JOB 99999,'C.GARVIN',MSGCLASS=X,CLASS=C,REGION=4M
+//**********************************************************************
+//*        BMS MAP
+//**********************************************************************
+//MAP   EXEC PGM=IEV90,PARM='SYSPARM(MAP)'
+//SYSLIB   DD DSN=SYS1.MACLIB,DCB=BLKSIZE=23440,DISP=SHR
+//         DD DSN=CICS410.SDFHMAC,DISP=SHR
+//SYSUT1   DD UNIT=SYSDA,SPACE=(CYL,(5,5))
+//SYSUT2   DD UNIT=SYSDA,SPACE=(CYL,(5,5))
+//SYSUT3   DD UNIT=SYSDA,SPACE=(CYL,(5,5))
+//SYSPUNCH DD DSN=&&TEMP,DISP=(,PASS),DCB=(RECFM=F,BLKSIZE=80),
+//         SPACE=(80,(100,100)),UNIT=SYSDA
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD DSN=MM01.DB2.MAPLIB(DINMAP1),DISP=SHR       <========
+//**********************************************************************
+//*        BMS MAP LINK   OUTPUT MAP - LOAD FORMAT
+//**********************************************************************
+//LINK1    EXEC PGM=IEWL,PARM='LET,LIST,XREF'
+//SYSUT1   DD UNIT=SYSDA,SPACE=(1024,(100,10))
+//SYSLMOD  DD DSN=MM.MM01CICS.CICS410.LOADLIB,DISP=SHR     <========
+//SYSPRINT DD SYSOUT=*
+//SYSLIN   DD DSN=&&TEMP,DISP=(OLD,DELETE)
+//         DD *
+ NAME DINSET1(R)                                           <========
+//**********************************************************************
+//*        BMS MAP DSECT
+//**********************************************************************
+//DSECT    EXEC PGM=IEV90,PARM='SYSPARM(DSECT)'
+//SYSLIB   DD DSN=SYS1.MACLIB,DCB=BLKSIZE=23440,DISP=SHR
+//         DD DSN=CICS410.SDFHMAC,DISP=SHR
+//SYSUT1   DD UNIT=SYSDA,SPACE=(CYL,(5,5))
+//SYSUT2   DD UNIT=SYSDA,SPACE=(CYL,(5,5))
+//SYSUT3   DD UNIT=SYSDA,SPACE=(CYL,(5,5))
+//SYSPUNCH DD DSN=MM01.DB2.COPYLIB(DINSET1),DISP=SHR         <========
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD DSN=MM01.DB2.MAPLIB(DINMAP1),DISP=(OLD,PASS)   <========
+//

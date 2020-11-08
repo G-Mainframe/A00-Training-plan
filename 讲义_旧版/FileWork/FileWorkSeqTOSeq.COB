@@ -1,0 +1,43 @@
+000010 IDENTIFICATION DIVISION.
+000020 PROGRAM-ID. FileWork.
+000030 ENVIRONMENT DIVISION.
+000040 CONFIGURATION                   SECTION.        
+000070 INPUT-OUTPUT SECTION.                           
+000090 FILE-CONTROL.                                   
+000100     SELECT  IN-FILE    ASSIGN TO  FSEQ01
+              FILE STATUS  SYS-FILE-STATUS.      
+000120     SELECT  OUT-FILE   ASSIGN TO  FSEQ02
+              FILE STATUS  SYS-FILE-STATUS.      
+000140 DATA DIVISION.                                  
+000150 FILE SECTION.                                   
+000160 FD  IN-FILE                                                   
+000170     LABEL RECORD IS STANDARD.
+000190 01 A.
+000200       COPY SEQ01.
+000240 FD  OUT-FILE                                                   
+000250     LABEL RECORD IS STANDARD.
+000270 01 B.
+000290       COPY SEQ02.
+000321 WORKING-STORAGE SECTION.
+000340 01 SYS-FILE-STATUS PIC X(2) VALUE "00".
+000341 01 STOP-FLAG PIC X(1) VALUE "0".
+000350 PROCEDURE DIVISION.
+000370 STAT.
+            OPEN INPUT  IN-FILE 
+000380          OUTPUT OUT-FILE.
+000360 MAIN.        
+000361      PERFORM MAIN1 THRU MAIN1-END  
+000362               UNTIL STOP-FLAG = "1".
+       END-EXIT.
+000522      CLOSE IN-FILE , OUT-FILE.
+            STOP 1.
+       MAIN1.             
+000381     READ IN-FILE AT END MOVE "1" TO STOP-FLAG 
+                     GO TO MAIN1-END.
+000382     DISPLAY "A = " , A .
+000383     MOVE A TO B.
+           DISPLAY "B = " , B.
+000520     WRITE B .
+       MAIN1-END.
+           EXIT.
+000523      

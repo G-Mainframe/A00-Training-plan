@@ -1,0 +1,171 @@
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1                Date 03/28/2014  Time 23:45:16   Page     1                
+0调用参数：
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0生效的选项：
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+     NOCICS                                                                                                                          
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      99MAIN    Date 03/28/2014  Time 23:45:16   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0/* 99MAIN                                                                                                                           
+   000001         000010 IDENTIFICATION                   DIVISION.                                                                  
+   000002         000020 PROGRAM-ID.                      99MAIN.                                                                    
+   000003         000030 ENVIRONMENT                      DIVISION.                                                                  
+   000004         000040 DATA                             DIVISION.                                                                  
+   000005         000050 WORKING-STORAGE                  SECTION.                                                                   
+   000006         000053 01 LIST-TAB.                                                                                                
+   000007         000054  02 LIST-TABLE OCCURS 3 TIMES PIC 9.                                                                        
+   000008         000090 01 DATA-SET.                                                                                                
+   000009         000100  02 MULTI-NUM          PIC       9.                                                                         
+   000010         000110  02 MULTI-MARK         PIC       X VALUE "*".                                                               
+   000011         000120  02 MULTIED-NUM        PIC       9.                                                                         
+   000012         000130  02 EQUAL-MARK         PIC       X VALUE "=".                                                               
+   000013         000140  02 RESULT             PIC       99.                                                                        
+   000014         000141  02 FILLER             PIC       X VALUE " ".                                                               
+   000015         000150 01 TABLE-99.                                                                                                
+   000016         000160  02 L OCCURS 9 TIMES.                                                                                       
+   000017         000170   03 R OCCURS 9 TIMES PIC 9(7) BLANK WHEN ZERO.                                                             
+   000018         000180 77 NUM                 PIC       X.                                                                         
+   000019         000181 77 LIST-NUM            PIC       X.                                                                         
+   000020         000182 PROCEDURE                        DIVISION.                                                                  
+   000021         000191 BEGIN.                                                                                                      
+   000022         000193     INITIALIZE LIST-TAB.                                                  6                                 
+   000023         000194      DISPLAY "PLEASE INPUT A NUMBER BETWEEN 1 TO 9".                                                        
+   000024         000195     ACCEPT NUM.                                                           18                                
+   000025         000196     IF NUM > 9 OR NUM < 1                                                 18 18                             
+   000026      1  000197       DISPLAY "WRONG OPREATION!"                                                                            
+   000027      1  000198       GO TO BEGIN.                                                        21                                
+   000028         000199                                                                                                             
+   000029         000200 S.                                                                                                          
+   000030         000201     DISPLAY "0  EXIT.".                                                                                     
+   000031         000202*    DISPLAY LIST-TABLE(2).                                                                                  
+   000032         000203     IF LIST-TABLE(2) = 0                                                  7                                 
+   000033      1  000204     DISPLAY "1  SUB1.".                                                                                     
+   000034         000205     IF LIST-TABLE(3) = 0                                                  7                                 
+   000035      1  000206     DISPLAY "2  SUB2.".                                                                                     
+   000036         000207     ACCEPT LIST-NUM.                                                      19                                
+   000037         000208     IF LIST-NUM > 2 OR LIST-NUM < 0                                       19 19                             
+   000038      1  000209       GO TO A.                                                            58                                
+   000039         000211                                                                                                             
+   000040         000212 PRG-BEGIN.                                                                                                  
+   000041         000213     INITIALIZE TABLE-99.                                                  15                                
+   000042         000214     DISPLAY "LIST-NUM IS " LIST-NUM.                                      19                                
+   000043         000215     IF LIST-NUM = 0                                                       19                                
+   000044      1  000216     GO TO PRG-END.                                                        54                                
+   000045         000217     IF LIST-NUM = 1                                                       19                                
+   000046      1  000218       IF LIST-TABLE(2) = 1                                                7                                 
+   000047      2  000219         GO TO A                                                           58                                
+   000048      1  000220       ELSE                                                                                                  
+   000049      2  000221         CALL "99SUB1" USING TABLE-99 NUM                                  EXT 15 18                         
+   000050      2  000222         MOVE 1 TO LIST-TABLE(2).                                          7                                 
+   000051         000223     IF LIST-NUM = 2 CALL "99SUB2" USING TABLE-99 NUM                      19 EXT 15 18                      
+   000052      1  000224     MOVE 1 TO LIST-TABLE(3).                                              7                                 
+   000053         000225     GO TO S.                                                              29                                
+   000054         000226 PRG-END.                                                                                                    
+   000055         000227     IF LIST-NUM = 0 GO TO BEGIN.                                          19 21                             
+   000056         000228     DISPLAY "OK!".                                                                                          
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      99MAIN    Date 03/28/2014  Time 23:45:16   Page     3                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0  000057         000229     STOP RUN.                                                                                               
+   000058         000230 A.                                                                                                          
+   000059         000231     DISPLAY "WRONG OPREATION!".                                                                             
+   000060         000232     GO TO S.                                                              29                                
+   000061         000233                                                                                                             
+   000062         000234                                                                                                             
+   000063         000235                                                                                                             
+   000064         000236                                                                                                             
+   000065         000237                                                                                                             
+ */ 99MAIN                                                                                                                           
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      99MAIN    Date 03/28/2014  Time 23:45:16   Page     4                
+0数据名引用前的“M”指示数据名由此引用修改。
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+        8   DATA-SET                                                                                                                                                         
+       12   EQUAL-MARK                                                                                                                                                       
+       16   L                                                                                                                                                                
+       19   LIST-NUM . . . . . . . . . . .  M36 37 37 42 43 45 51 55                                                                                                         
+        6   LIST-TAB . . . . . . . . . . .  M22                                                                                                                              
+        7   LIST-TABLE . . . . . . . . . .  32 34 46 M50 M52                                                                                                                 
+       10   MULTI-MARK                                                                                                                                                       
+        9   MULTI-NUM                                                                                                                                                        
+       11   MULTIED-NUM                                                                                                                                                      
+       18   NUM. . . . . . . . . . . . . .  M24 25 25 49 51                                                                                                                  
+       17   R                                                                                                                                                                
+       13   RESULT                                                                                                                                                           
+       15   TABLE-99 . . . . . . . . . . .  M41 49 51                                                                                                                        
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      99MAIN    Date 03/28/2014  Time 23:45:16   Page     5                
+0上下文用法由过程名引用前的字母指示。
+ 这些字母和它们的含义为：
+     A = ALTER（过程名）
+     D = GO TO（过程名）DEPENDING ON
+     E = 范围（PERFORM）到（过程名）的结束
+     G = GO TO（过程名）
+     P = PERFORM（过程名）
+     T = (ALTER) TO PROCEED TO（过程名）
+     U = USE FOR DEBUGGING（过程名）
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+       58   A. . . . . . . . . . . . . . .  G38 G47                                                                                                                          
+       21   BEGIN. . . . . . . . . . . . .  G27 G55                                                                                                                          
+       40   PRG-BEGIN                                                                                                                                                        
+       54   PRG-END. . . . . . . . . . . .  G44                                                                                                                              
+       29   S. . . . . . . . . . . . . . .  G53 G60                                                                                                                          
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      99MAIN    Date 03/28/2014  Time 23:45:16   Page     6                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   99MAIN                                                                                                                                                           
+ EXTERNAL   99SUB1 . . . . . . . . . . . .  49                                                                                                                               
+ EXTERNAL   99SUB2 . . . . . . . . . . . .  51                                                                                                                               
+-* COBOL 程序 99MAIN 的统计信息：
+ *    源记录 = 65
+ *    数据部分语句 = 13
+ *    过程部分语句 = 33
+0语言环境 = zh_CN.IBM-1386
+0编译 1 结束，程序 99MAIN，未标记任何语句。
+0返回码 0

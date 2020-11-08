@@ -1,0 +1,14 @@
+//DBO01R  JOB (ACCT#),'WYL',CLASS=A,NOTIFY=&SYSUID                
+//RUN    EXEC PGM=IKJEFT01,DYNAMNBR=20,COND=(4,LT)                
+//STEPLIB  DD DSN=DB2.V8R1.SDSNLOAD,DISP=SHR                      
+//SYSTSPRT DD SYSOUT=*                                            
+//SYSPRINT DD SYSOUT=*                                            
+//SYSUDUMP DD SYSOUT=*                                            
+//SYSOUT   DD SYSOUT=*                                            
+//SYSTSIN  DD *                                                   
+ DSN SYSTEM(DSNB)                                                 
+ RUN  PROGRAM(DBPRO01) PLAN(DBPRO01) -                            
+      LIB('GDC232.DB2.LOAD')                                      
+ END                                                              
+/*                                                                
+//                                                                

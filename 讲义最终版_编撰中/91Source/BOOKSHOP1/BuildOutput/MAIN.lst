@@ -1,0 +1,517 @@
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2                Date 11/24/2010  Time 15:54:40   Page     1                
+0Invocation parameters:
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW)),SQL('DATABASE ETPCS USER etpuser USING zaq12wsx')
+0Options in effect:
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+       SQL('DATABASE ETPCS USER etpuser USING zaq12wsx')                                                                             
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      CUSTOMER  Date 11/24/2010  Time 15:54:40   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0/* CUSTOMER                                                                                                                         
+   000001                IDENTIFICATION              DIVISION.                                                                       
+   000002                PROGRAM-ID.                 CUSTOMER.                                                                       
+   000003               *                                                                                                            
+   000004                ENVIRONMENT                 DIVISION.                                                                       
+   000005               *                                                                                                            
+   000006                DATA                        DIVISION.                                                                       
+   000007               *                                                                                                            
+   000008                WORKING-STORAGE             SECTION.                                                                        
+   000009               *                                                                                                            
+   000010                EXEC SQL INCLUDE SQLCA END-EXEC.                                                                            
+   000011C              **************************************************************************                                   
+   000012C              *                                                                                                            
+   000013C              *  Source File Name = SQLCA.CBL                                                                              
+   000014C              *                                                                                                            
+   000015C              *  (C) Copyright IBM Corp. 1987, 1997                                                                        
+   000016C              *  All Rights Reserved                                                                                       
+   000017C              *  Licensed Material - Program Property of IBM                                                               
+   000018C              *                                                                                                            
+   000019C              *  US Government Users Restricted Rights - Use, duplication or                                               
+   000020C              *  disclosure restricted by GSA ADP Schedule Contract with IBM Corp.                                         
+   000021C              *                                                                                                            
+   000022C              *  Function = Copy File defining:                                                                            
+   000023C              *               SQLCA                                                                                        
+   000024C              *                                                                                                            
+   000025C              **************************************************************************                                   
+   000026C                                                                                                                           
+   000027C              *   SQL Communication Area - SQLCA                                                                           
+   000028C                                                                                                                           
+   000029C               01 SQLCA SYNC.                                                                                              
+   000030C                  05 SQLCAID PIC X(8) VALUE "SQLCA   ".                                                                    
+   000031C              *                        Eyecatcher = 'SQLCA   '                                                             
+   000032C                  05 SQLCABC PIC S9(9) COMP-5 VALUE 136.                                                                   
+   000033C              *                        SQLCA size in bytes = 136                                                           
+   000034C                  05 SQLCODE PIC S9(9) COMP-5.                                                                             
+   000035C              *                        SQL return code                                                                     
+   000036C                  05 SQLERRM.                                                                                              
+   000037C              *                        SQL error message                                                                   
+   000038C                     49 SQLERRML PIC S9(4) COMP-5.                                                                         
+   000039C              *                        Length for SQLERRMC                                                                 
+   000040C                     49 SQLERRMC PIC X(70).                                                                                
+   000041C              *                        Error message tokens                                                                
+   000042C                  05 SQLERRP PIC X(8).                                                                                     
+   000043C              *                        Diagnostic information                                                              
+   000044C                  05 SQLERRD OCCURS 6 TIMES PIC S9(9) COMP-5.                                                              
+   000045C              *                        Diagnostic information                                                              
+   000046C                  05 SQLWARN.                                                                                              
+   000047C              *                        Warning flags                                                                       
+   000048C                     10 SQLWARN0 PIC X.                                                                                    
+   000049C                     10 SQLWARN1 PIC X.                                                                                    
+   000050C                     10 SQLWARN2 PIC X.                                                                                    
+   000051C                     10 SQLWARN3 PIC X.                                                                                    
+   000052C                     10 SQLWARN4 PIC X.                                                                                    
+   000053C                     10 SQLWARN5 PIC X.                                                                                    
+   000054C                     10 SQLWARN6 PIC X.                                                                                    
+   000055C                     10 SQLWARN7 PIC X.                                                                                    
+   000056C                     10 SQLWARN8 PIC X.                                                                                    
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      CUSTOMER  Date 11/24/2010  Time 15:54:40   Page     3                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0  000057C                     10 SQLWARN9 PIC X.                                                                                    
+   000058C                     10 SQLWARNA PIC X.                                                                                    
+   000059C              *                        Warning flags                                                                       
+   000060C                  05 SQLSTATE PIC X(5).                                                                                    
+   000061C              *                        SQLSTATE                                                                            
+   000062C                                                                                                                           
+   000063C                                                                                                                           
+   000064                EXEC SQL BEGIN DECLARE SECTION END-EXEC.                                                                    
+   000065                   EXEC SQL INCLUDE CUSTOMER    END-EXEC.                                                                   
+   000066C              ******************************************************************                                           
+   000067C              * DCLGEN TABLE(CPAZ)                                             *                                           
+   000068C              *        LIBRARY(DMSTR1.KIBAN.DATA(CPAZ))                        *                                           
+   000069C              *        ACTION(REPLACE)                                         *                                           
+   000070C              *        LANGUAGE(COBOL)                                         *                                           
+   000071C              *        QUOTE                                                   *                                           
+   000072C              * ... IS THE DCLGEN COMMAND THAT MADE THE FOLLOWING STATEMENTS   *                                           
+   000073C              ******************************************************************                                           
+   000074C                   EXEC SQL DECLARE TBLCUSTOMER TABLE                                                                      
+   000075C                   ( CUSTOMERNO                      CHAR(4) NOT NULL,                                                     
+   000076C                     CUSTOMERNAME                    VARCHAR(10),                                                          
+   000077C                     CUSTOMERADDRESS                 VARCHAR(20) ,                                                         
+   000078C                     CUSTOMERCITY                    VARCHAR(20) ,                                                         
+   000079C                     CUSTOMERSTATE                   VARCHAR(20) ,                                                         
+   000080C                     CUSTOMERZIP                     VARCHAR(6) ,                                                          
+   000081C                     CUSTOMERREFERRED                CHAR (4)                                                              
+   000082C                   ) END-EXEC.                                                                                             
+   000083C              ******************************************************************                                           
+   000084C              * COBOL DECLARATION FOR TABLE CPAZ                               *                                           
+   000085C              ******************************************************************                                           
+   000086C               01  DCLCUSTOMER.                                                                                            
+   000087C                   10 CUSTOMERNO                      PIC X(4).                                                            
+   000088C                   10 CUSTOMERNAME                    PIC X(10).                                                           
+   000089C                   10 CUSTOMERADDRESS                 PIC X(20).                                                           
+   000090C                   10 CUSTOMERCITY                    PIC X(20).                                                           
+   000091C                   10 CUSTOMERSTATE                   PIC X(20).                                                           
+   000092C                   10 CUSTOMERZIP                     PIC X(6).                                                            
+   000093C                   10 CUSTOMERREFERRED                PIC X(4).                                                            
+   000094C              ******************************************************************                                           
+   000095C              * THE NUMBER OF COLUMNS DESCRIBED BY THIS DECLARATION IS 20      *                                           
+   000096C              ******************************************************************                                           
+   000097                EXEC SQL END   DECLARE SECTION END-EXEC.                                                                    
+   000098               *                                                                                                            
+   000099                01 ACCESS-PATTERN.                                                                                          
+   000100                   COPY PATTERN.                                                                                            
+   000101C                   09  CS-0            PIC X(001) VALUE '0'.                                                               
+   000102C                   09  CS-1            PIC X(001) VALUE '1'.                                                               
+   000103C                   09  CS-2            PIC X(001) VALUE '2'.                                                               
+   000104C                   09  CS-3            PIC X(001) VALUE '3'.                                                               
+   000105C                   09  CS-I000         PIC X(004) VALUE 'I000'.                                                            
+   000106C                   09  CS-I00Z         PIC X(004) VALUE 'I00Z'.                                                            
+   000107C                   09  CS-K00Z         PIC X(004) VALUE 'K00Z'.                                                            
+   000108C                   09  CS-K000         PIC X(004) VALUE 'K000'.                                                            
+   000109C                   09  CS-K001         PIC X(004) VALUE 'K001'.                                                            
+   000110C                   09  CS-K002         PIC X(004) VALUE 'K002'.                                                            
+   000111C                   09  CS-K003         PIC X(004) VALUE 'K003'.                                                            
+   000112C                   09  CS-K004         PIC X(004) VALUE 'K004'.                                                            
+   000113C                   09  CS-K005         PIC X(004) VALUE 'K005'.                                                            
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      CUSTOMER  Date 11/24/2010  Time 15:54:40   Page     4                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0  000114C                   09  CS-K006         PIC X(004) VALUE 'K006'.                                                            
+   000115C                   09  CS-K007         PIC X(004) VALUE 'K007'.                                                            
+   000116C                   09  CS-K008         PIC X(004) VALUE 'K008'.                                                            
+   000117C                   09  CS-K009         PIC X(004) VALUE 'K009'.                                                            
+   000118C                   09  CS-S000         PIC X(004) VALUE 'S000'.                                                            
+   000119C                   09  CS-S001         PIC X(004) VALUE 'S001'.                                                            
+   000120C                   09  CS-S002         PIC X(004) VALUE 'S002'.                                                            
+   000121C                   09  CS-S003         PIC X(004) VALUE 'S003'.                                                            
+   000122C                   09  CS-S004         PIC X(004) VALUE 'S004'.                                                            
+   000123C                   09  CS-S005         PIC X(004) VALUE 'S005'.                                                            
+   000124C                   09  CS-S006         PIC X(004) VALUE 'S006'.                                                            
+   000125C                   09  CS-S007         PIC X(004) VALUE 'S007'.                                                            
+   000126C                   09  CS-S008         PIC X(004) VALUE 'S008'.                                                            
+   000127C                   09  CS-S009         PIC X(004) VALUE 'S009'.                                                            
+   000128C                   09  CS-Y00Z         PIC X(004) VALUE 'Y00Z'.                                                            
+   000129C                   09  CS-Y000         PIC X(004) VALUE 'Y000'.                                                            
+   000130C                   09  CS-Y001         PIC X(004) VALUE 'Y001'.                                                            
+   000131C                   09  CS-Y002         PIC X(004) VALUE 'Y002'.                                                            
+   000132C                   09  CS-Y003         PIC X(004) VALUE 'Y003'.                                                            
+   000133C                   09  CS-Y004         PIC X(004) VALUE 'Y004'.                                                            
+   000134C                   09  CS-Y005         PIC X(004) VALUE 'Y005'.                                                            
+   000135C                   09  CS-Y006         PIC X(004) VALUE 'Y006'.                                                            
+   000136C                   09  CS-Y007         PIC X(004) VALUE 'Y007'.                                                            
+   000137C                   09  CS-Y008         PIC X(004) VALUE 'Y008'.                                                            
+   000138C                   09  CS-Y009         PIC X(004) VALUE 'Y009'.                                                            
+   000139C                   09  CS-I01Z         PIC X(004) VALUE 'I01Z'.                                                            
+   000140C                   09  CS-K01Z         PIC X(004) VALUE 'K01Z'.                                                            
+   000141C                   09  CS-K010         PIC X(004) VALUE 'K010'.                                                            
+   000142C                   09  CS-K011         PIC X(004) VALUE 'K011'.                                                            
+   000143C                   09  CS-K012         PIC X(004) VALUE 'K012'.                                                            
+   000144C                   09  CS-K013         PIC X(004) VALUE 'K013'.                                                            
+   000145C                   09  CS-K014         PIC X(004) VALUE 'K014'.                                                            
+   000146C                   09  CS-K015         PIC X(004) VALUE 'K015'.                                                            
+   000147C                   09  CS-K016         PIC X(004) VALUE 'K016'.                                                            
+   000148C                   09  CS-K017         PIC X(004) VALUE 'K017'.                                                            
+   000149C                   09  CS-K018         PIC X(004) VALUE 'K018'.                                                            
+   000150C                   09  CS-K019         PIC X(004) VALUE 'K019'.                                                            
+   000151C                   09  CS-S010         PIC X(004) VALUE 'S010'.                                                            
+   000152C                   09  CS-S011         PIC X(004) VALUE 'S011'.                                                            
+   000153C                   09  CS-S012         PIC X(004) VALUE 'S012'.                                                            
+   000154C                   09  CS-S013         PIC X(004) VALUE 'S013'.                                                            
+   000155C                   09  CS-S014         PIC X(004) VALUE 'S014'.                                                            
+   000156C                   09  CS-S015         PIC X(004) VALUE 'S015'.                                                            
+   000157C                   09  CS-S016         PIC X(004) VALUE 'S016'.                                                            
+   000158C                   09  CS-S017         PIC X(004) VALUE 'S017'.                                                            
+   000159C                   09  CS-S018         PIC X(004) VALUE 'S018'.                                                            
+   000160C                   09  CS-S019         PIC X(004) VALUE 'S019'.                                                            
+   000161C                   09  CS-Y01Z         PIC X(004) VALUE 'Y01Z'.                                                            
+   000162C                   09  CS-Y010         PIC X(004) VALUE 'Y010'.                                                            
+   000163C                   09  CS-Y011         PIC X(004) VALUE 'Y011'.                                                            
+   000164C                   09  CS-Y012         PIC X(004) VALUE 'Y012'.                                                            
+   000165C                   09  CS-Y013         PIC X(004) VALUE 'Y013'.                                                            
+   000166C                   09  CS-Y014         PIC X(004) VALUE 'Y014'.                                                            
+   000167C                   09  CS-Y015         PIC X(004) VALUE 'Y015'.                                                            
+   000168C                   09  CS-Y016         PIC X(004) VALUE 'Y016'.                                                            
+   000169C                   09  CS-Y017         PIC X(004) VALUE 'Y017'.                                                            
+   000170C                   09  CS-Y018         PIC X(004) VALUE 'Y018'.                                                            
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      CUSTOMER  Date 11/24/2010  Time 15:54:40   Page     5                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0  000171C                   09  CS-Y019         PIC X(004) VALUE 'Y019'.                                                            
+   000172C                   09  CS-INSERT       PIC X(006) VALUE 'INSERT'.                                                          
+   000173C                   09  CS-SELECT       PIC X(006) VALUE 'SELECT'.                                                          
+   000174C                   09  CS-OPEN         PIC X(006) VALUE 'OPEN  '.                                                          
+   000175C                   09  CS-FETCH        PIC X(006) VALUE 'FETCH '.                                                          
+   000176C                   09  CS-UPDATE       PIC X(006) VALUE 'UPDATE'.                                                          
+   000177C                   09  CS-DELETE       PIC X(006) VALUE 'DELETE'.                                                          
+   000178C                   09  CS-CLOSE        PIC X(006) VALUE 'CLOSE '.                                                          
+   000179               *                                                                                                            
+   000180                01 WK-AREA.                                                                                                 
+   000181                   03 WK-CNT.                                                                                               
+   000182                      05 WK-SQL-CNT       PIC 9(03).                                                                        
+   000183                   03 WK-FLAG.                                                                                              
+   000184                      05 WK-ENDFLAG       PIC X(03).                                                                        
+   000185                01 COMMAND-AREA.                                                                                            
+   000186                   COPY COMMAND.                                                                                            
+   000187C                   09  PATTERN                PIC  X(004).                                                                 
+   000188C                   09  OPTION                 PIC  X(006).                                                                 
+   000189C                   09  PATTERN-FLG            PIC  X(001).                                                                 
+   000190C                   09  SQLCODE-AREA           PIC S9(009)  COMP-4.                                                         
+   000191C                   09  KEY-LENGTH             PIC  9(003).                                                                 
+   000192C                   09  TABLE-LENGTH           PIC  9(005).                                                                 
+   000193C                   09  SQLCA-AREA             PIC  X(180).                                                                 
+   000194                01 KEY-AREA               PIC X(256).                                                                       
+   000195                01 IO-AREA                PIC X(32768).                                                                     
+   000196                PROCEDURE                   DIVISION.                                                                       
+   000197                MAIN-PROCESS                SECTION.                                                                        
+   000198                MAIN-START.                                                                                                 
+   000199                    MOVE SPACE TO DCLCUSTOMER.                                             IMP 86                           
+   000200                    INITIALIZE DCLCUSTOMER.                                                86                               
+   000201                     EXEC SQL CONNECT TO  ETPCS   END-EXEC.                                EXT IMP 29 EXT EXT EXT EXT       
+   000202                    DISPLAY "OK".                                                                                           
+   000203               *                                                                                                            
+   000204                     PERFORM  IO-AREA-PROCESS.                                             217                              
+   000205               *                                                                                                            
+   000206                    IF SQLCODE = 0                                                         34                               
+   000207      1                EXEC SQL COMMIT END-EXEC                                            EXT IMP 29 EXT EXT               
+   000208                    ELSE                                                                                                    
+   000209      1                EXEC SQL ROLLBACK END-EXEC                                          EXT IMP 29 EXT EXT               
+   000210                    END-IF.                                                                                                 
+   000211                    EXEC SQL DISCONNECT  ETPCS   END-EXEC.                                 EXT IMP 29 EXT EXT EXT EXT       
+   000212                MAIN-EXIT.                                                                                                  
+   000213                    EXEC SQL COMMIT END-EXEC.                                              EXT IMP 29 EXT EXT               
+   000214                    EXEC SQL DISCONNECT   ETPCS   END-EXEC.                                EXT IMP 29 EXT EXT EXT EXT       
+   000215                    STOP 1.                                                                                                 
+   000216                    STOP RUN.                                                                                               
+   000217                IO-AREA-PROCESS              SECTION.                                                                       
+   000218                IO-AREA-START.                                                                                              
+   000219                    MOVE '1003'                                                                                             
+   000220                                     TO CUSTOMERNO OF DCLCUSTOMER.                         87 86                            
+   000221                    MOVE '张三'                                                                                             
+   000222                                     TO CUSTOMERNAME OF DCLCUSTOMER.                       88 86                            
+   000223                    MOVE '百下区'                                                                                           
+   000224                                     TO CUSTOMERADDRESS OF DCLCUSTOMER.                    89 86                            
+   000225                    MOVE '南京'                                                                                             
+   000226                                     TO CUSTOMERCITY OF DCLCUSTOMER.                       90 86                            
+   000227                    MOVE '江苏'                                                                                             
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      CUSTOMER  Date 11/24/2010  Time 15:54:40   Page     6                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0  000228                                     TO CUSTOMERSTATE OF DCLCUSTOMER.                      91 86                            
+   000229                    MOVE '210000'                                                                                           
+   000230                                     TO CUSTOMERZIP OF DCLCUSTOMER.                        92 86                            
+   000231                    MOVE ' '                                                                                                
+   000232                                     TO CUSTOMERREFERRED OF DCLCUSTOMER.                   93 86                            
+   000233                    MOVE DCLCUSTOMER TO IO-AREA.                                           86 195                           
+   000234                    DISPLAY "MOVE DCLCUSTOMER TO IO-AREA IS OK.".                                                           
+   000235               *                                                                                                            
+   000236                    MOVE CS-I000 TO PATTERN  OF  COMMAND-AREA.                             105 187 185                      
+   000237                    DISPLAY "MOVE CS-I000 TO PATTERN IS OK".                                                                
+   000238                    MOVE CS-INSERT TO OPTION OF COMMAND-AREA.                              172 188 185                      
+   000239                    DISPLAY "MOVE CS-INSERT TO OPTION IS OK".                                                               
+   000240                    CALL "CUSTOMER" USING COMMAND-AREA,                                    EXT 185                          
+   000241                                         KEY-AREA,                                         194                              
+   000242                                         IO-AREA.                                          195                              
+   000243               *                                                                                                            
+   000244                    MOVE CS-K000 TO PATTERN  OF  COMMAND-AREA.                             108 187 185                      
+   000245                    MOVE CS-OPEN TO OPTION OF COMMAND-AREA.                                174 188 185                      
+   000246                    MOVE ZERO TO KEY-AREA.                                                 IMP 194                          
+   000247                    DISPLAY "OK".                                                                                           
+   000248                    CALL "CUSTOMER" USING COMMAND-AREA,                                    EXT 185                          
+   000249                                         KEY-AREA,                                         194                              
+   000250                                         IO-AREA.                                          195                              
+   000251               *                                                                                                            
+   000252                    MOVE CS-K000 TO PATTERN  OF  COMMAND-AREA.                             108 187 185                      
+   000253                    MOVE CS-FETCH TO OPTION OF COMMAND-AREA.                               175 188 185                      
+   000254                    MOVE ZERO TO KEY-AREA.                                                 IMP 194                          
+   000255                    DISPLAY "OK".                                                                                           
+   000256                    CALL "CUSTOMER" USING COMMAND-AREA,                                    EXT 185                          
+   000257                                         KEY-AREA,                                         194                              
+   000258                                         IO-AREA.                                          195                              
+   000259               *                                                                                                            
+   000260                    MOVE CS-K000 TO PATTERN  OF  COMMAND-AREA.                             108 187 185                      
+   000261                    MOVE CS-UPDATE TO OPTION OF COMMAND-AREA.                              176 188 185                      
+   000262                    MOVE ZERO TO KEY-AREA.                                                 IMP 194                          
+   000263                    DISPLAY "OK".                                                                                           
+   000264                    CALL "CUSTOMER" USING COMMAND-AREA,                                    EXT 185                          
+   000265                                         KEY-AREA,                                         194                              
+   000266                                         IO-AREA.                                          195                              
+   000267               *                                                                                                            
+   000268                    MOVE CS-K000 TO PATTERN  OF  COMMAND-AREA.                             108 187 185                      
+   000269               *     MOVE CS-DELETE TO OPTION OF COMMAND-AREA.                                                              
+   000270               *     MOVE ZERO TO KEY-AREA.                                                                                 
+   000271               *     DISPLAY "OK".                                                                                          
+   000272               *     CALL "CUSTOMER" USING COMMAND-AREA,                                                                    
+   000273               *                          KEY-AREA,                                                                         
+   000274               *                          IO-AREA.                                                                          
+   000275               *                                                                                                            
+   000276                    MOVE CS-K000 TO PATTERN  OF  COMMAND-AREA.                             108 187 185                      
+   000277                    MOVE CS-CLOSE TO OPTION OF COMMAND-AREA.                               178 188 185                      
+   000278                    MOVE ZERO TO KEY-AREA.                                                 IMP 194                          
+   000279                    DISPLAY "OK".                                                                                           
+   000280                    CALL "CUSTOMER" USING COMMAND-AREA,                                    EXT 185                          
+   000281                                         KEY-AREA,                                         194                              
+   000282                                         IO-AREA.                                          195                              
+   000283                IO-AREA-EXIT.                                                                                               
+ */ CUSTOMER                                                                                                                         
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      CUSTOMER  Date 11/24/2010  Time 15:54:40   Page     7                
+0An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+       99   ACCESS-PATTERN                                                                                                                                                   
+      185   COMMAND-AREA . . . . . . . . .  236 238 240 244 245 248 252 253 256 260 261 264 268 276 277 280                                                                  
+      101   CS-0                                                                                                                                                             
+      102   CS-1                                                                                                                                                             
+      103   CS-2                                                                                                                                                             
+      104   CS-3                                                                                                                                                             
+      178   CS-CLOSE . . . . . . . . . . .  277                                                                                                                              
+      177   CS-DELETE                                                                                                                                                        
+      175   CS-FETCH . . . . . . . . . . .  253                                                                                                                              
+      105   CS-I000. . . . . . . . . . . .  236                                                                                                                              
+      106   CS-I00Z                                                                                                                                                          
+      139   CS-I01Z                                                                                                                                                          
+      172   CS-INSERT. . . . . . . . . . .  238                                                                                                                              
+      108   CS-K000. . . . . . . . . . . .  244 252 260 268 276                                                                                                              
+      109   CS-K001                                                                                                                                                          
+      110   CS-K002                                                                                                                                                          
+      111   CS-K003                                                                                                                                                          
+      112   CS-K004                                                                                                                                                          
+      113   CS-K005                                                                                                                                                          
+      114   CS-K006                                                                                                                                                          
+      115   CS-K007                                                                                                                                                          
+      116   CS-K008                                                                                                                                                          
+      117   CS-K009                                                                                                                                                          
+      107   CS-K00Z                                                                                                                                                          
+      141   CS-K010                                                                                                                                                          
+      142   CS-K011                                                                                                                                                          
+      143   CS-K012                                                                                                                                                          
+      144   CS-K013                                                                                                                                                          
+      145   CS-K014                                                                                                                                                          
+      146   CS-K015                                                                                                                                                          
+      147   CS-K016                                                                                                                                                          
+      148   CS-K017                                                                                                                                                          
+      149   CS-K018                                                                                                                                                          
+      150   CS-K019                                                                                                                                                          
+      140   CS-K01Z                                                                                                                                                          
+      174   CS-OPEN. . . . . . . . . . . .  245                                                                                                                              
+      118   CS-S000                                                                                                                                                          
+      119   CS-S001                                                                                                                                                          
+      120   CS-S002                                                                                                                                                          
+      121   CS-S003                                                                                                                                                          
+      122   CS-S004                                                                                                                                                          
+      123   CS-S005                                                                                                                                                          
+      124   CS-S006                                                                                                                                                          
+      125   CS-S007                                                                                                                                                          
+      126   CS-S008                                                                                                                                                          
+      127   CS-S009                                                                                                                                                          
+      151   CS-S010                                                                                                                                                          
+      152   CS-S011                                                                                                                                                          
+      153   CS-S012                                                                                                                                                          
+      154   CS-S013                                                                                                                                                          
+      155   CS-S014                                                                                                                                                          
+      156   CS-S015                                                                                                                                                          
+      157   CS-S016                                                                                                                                                          
+      158   CS-S017                                                                                                                                                          
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      CUSTOMER  Date 11/24/2010  Time 15:54:40   Page     8                
+0 Defined   Cross-reference of data names   References                                                                               
+  
+0     159   CS-S018                                                                                                                                                          
+      160   CS-S019                                                                                                                                                          
+      173   CS-SELECT                                                                                                                                                        
+      176   CS-UPDATE. . . . . . . . . . .  261                                                                                                                              
+      129   CS-Y000                                                                                                                                                          
+      130   CS-Y001                                                                                                                                                          
+      131   CS-Y002                                                                                                                                                          
+      132   CS-Y003                                                                                                                                                          
+      133   CS-Y004                                                                                                                                                          
+      134   CS-Y005                                                                                                                                                          
+      135   CS-Y006                                                                                                                                                          
+      136   CS-Y007                                                                                                                                                          
+      137   CS-Y008                                                                                                                                                          
+      138   CS-Y009                                                                                                                                                          
+      128   CS-Y00Z                                                                                                                                                          
+      162   CS-Y010                                                                                                                                                          
+      163   CS-Y011                                                                                                                                                          
+      164   CS-Y012                                                                                                                                                          
+      165   CS-Y013                                                                                                                                                          
+      166   CS-Y014                                                                                                                                                          
+      167   CS-Y015                                                                                                                                                          
+      168   CS-Y016                                                                                                                                                          
+      169   CS-Y017                                                                                                                                                          
+      170   CS-Y018                                                                                                                                                          
+      171   CS-Y019                                                                                                                                                          
+      161   CS-Y01Z                                                                                                                                                          
+       89   CUSTOMERADDRESS. . . . . . . .  M224                                                                                                                             
+       90   CUSTOMERCITY . . . . . . . . .  M226                                                                                                                             
+       88   CUSTOMERNAME . . . . . . . . .  M222                                                                                                                             
+       87   CUSTOMERNO . . . . . . . . . .  M220                                                                                                                             
+       93   CUSTOMERREFERRED . . . . . . .  M232                                                                                                                             
+       91   CUSTOMERSTATE. . . . . . . . .  M228                                                                                                                             
+       92   CUSTOMERZIP. . . . . . . . . .  M230                                                                                                                             
+       86   DCLCUSTOMER. . . . . . . . . .  M199 M200 220 222 224 226 228 230 232 233                                                                                        
+      195   IO-AREA. . . . . . . . . . . .  M233 242 250 258 266 282                                                                                                         
+      194   KEY-AREA . . . . . . . . . . .  241 M246 249 M254 257 M262 265 M278 281                                                                                          
+      191   KEY-LENGTH                                                                                                                                                       
+      188   OPTION . . . . . . . . . . . .  M238 M245 M253 M261 M277                                                                                                         
+      187   PATTERN. . . . . . . . . . . .  M236 M244 M252 M260 M268 M276                                                                                                    
+      189   PATTERN-FLG                                                                                                                                                      
+        0   SQLA-PROGRAM-ID. . . . . . . .  201 207 209 211 213 214                                                                                                          
+       29   SQLCA. . . . . . . . . . . . .  201 207 209 211 213 214                                                                                                          
+      193   SQLCA-AREA                                                                                                                                                       
+       32   SQLCABC                                                                                                                                                          
+       30   SQLCAID                                                                                                                                                          
+       34   SQLCODE. . . . . . . . . . . .  206                                                                                                                              
+      190   SQLCODE-AREA                                                                                                                                                     
+       44   SQLERRD                                                                                                                                                          
+       36   SQLERRM                                                                                                                                                          
+       40   SQLERRMC                                                                                                                                                         
+       38   SQLERRML                                                                                                                                                         
+       42   SQLERRP                                                                                                                                                          
+       60   SQLSTATE                                                                                                                                                         
+       46   SQLWARN                                                                                                                                                          
+       48   SQLWARN0                                                                                                                                                         
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      CUSTOMER  Date 11/24/2010  Time 15:54:40   Page     9                
+0 Defined   Cross-reference of data names   References                                                                               
+  
+0      49   SQLWARN1                                                                                                                                                         
+       50   SQLWARN2                                                                                                                                                         
+       51   SQLWARN3                                                                                                                                                         
+       52   SQLWARN4                                                                                                                                                         
+       53   SQLWARN5                                                                                                                                                         
+       54   SQLWARN6                                                                                                                                                         
+       55   SQLWARN7                                                                                                                                                         
+       56   SQLWARN8                                                                                                                                                         
+       57   SQLWARN9                                                                                                                                                         
+       58   SQLWARNA                                                                                                                                                         
+      192   TABLE-LENGTH                                                                                                                                                     
+      180   WK-AREA                                                                                                                                                          
+      181   WK-CNT                                                                                                                                                           
+      184   WK-ENDFLAG                                                                                                                                                       
+      183   WK-FLAG                                                                                                                                                          
+      182   WK-SQL-CNT                                                                                                                                                       
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      CUSTOMER  Date 11/24/2010  Time 15:54:40   Page    10                
+0Context usage is indicated by the letter preceding a procedure-name reference.
+ These letters and their meanings are:
+     A = ALTER (procedure-name)
+     D = GO TO (procedure-name) DEPENDING ON
+     E = End of range of (PERFORM) through (procedure-name)
+     G = GO TO (procedure-name)
+     P = PERFORM (procedure-name)
+     T = (ALTER) TO PROCEED TO (procedure-name)
+     U = USE FOR DEBUGGING (procedure-name)
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+      283   IO-AREA-EXIT                                                                                                                                                     
+      217   IO-AREA-PROCESS. . . . . . . .  P204                                                                                                                             
+      218   IO-AREA-START                                                                                                                                                    
+      212   MAIN-EXIT                                                                                                                                                        
+      197   MAIN-PROCESS                                                                                                                                                     
+      198   MAIN-START                                                                                                                                                       
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      CUSTOMER  Date 11/24/2010  Time 15:54:40   Page    11                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   CUSTOMER                                                                                                                                                         
+ EXTERNAL   CUSTOMER . . . . . . . . . . .  240 248 256 264 280                                                                                                              
+ EXTERNAL   SQLGALOC . . . . . . . . . . .  201 211 214                                                                                                                      
+ EXTERNAL   SQLGCALL . . . . . . . . . . .  201 207 209 211 213 214                                                                                                          
+ EXTERNAL   SQLGSTLV . . . . . . . . . . .  201 211 214                                                                                                                      
+ EXTERNAL   SQLGSTOP . . . . . . . . . . .  201 207 209 211 213 214                                                                                                          
+ EXTERNAL   SQLGSTRT . . . . . . . . . . .  201 207 209 211 213 214                                                                                                          
+-* Statistics for COBOL program CUSTOMER:
+ *    Source records = 467
+ *    Data Division statements = 125
+ *    Procedure Division statements = 72
+0Locale = en_US.IBM-1252
+0End of compilation 1,  program CUSTOMER,  no statements flagged.
+0Return code 0

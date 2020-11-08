@@ -1,0 +1,43 @@
+000100 IDENTIFICATION    DIVISION.                                      00010002
+000200 PROGRAM-ID.       EXAM1.                                         00020002
+000500 ENVIRONMENT       DIVISION.                                      00050002
+000600 DATA              DIVISION.                                      00060002
+000700 WORKING-STORAGE   SECTION.                                       00070002
+000800 77   MON-HOURS    PICTURE  IS  9(2).                             00080002
+000810 77   TUSE-HOURS   PICTURE  IS  9(2).                             00081000
+000820 77   WED-HOURS    PICTURE  IS  9(2).                             00082002
+000830 77   THUS-HOURS   PICTURE  IS  9(2).                             00083000
+000840 77   FRI-HOURS    PICTURE  IS  9(2).                             00084002
+000850 77   SAT-HOURS    PICTURE  IS  9(2).                             00085002
+000860 77   TOTAL-HOURS  PICTURE  IS  9(2) VALUE 00.                    00086002
+000870 77   OVERTIME-HOURS   PICTURE  IS  9(2) VALUE 00.                00087000
+000880 77   GROSS-PAY    PICTURE  IS  9(4)V9.                           00088002
+000890 77   WITHHOLDING  PICTURE  IS  9(4)V9.                           00089002
+000891 77   NET-PAY      PICTURE  IS  9(4)V9.                           00089102
+000892 77   OVERTIME-PAY PICTURE  IS  9(4)V9.                           00089202
+000900 77   RATE         PICTURE  IS 9V9  VALUE  0.3.                   00090002
+001000 77 PAY-RATE      PICTURE  IS 9(3) VALUE  011.                    00100002
+001100 77 OVERTIME-RATE PICTURE IS 99V9 VALE 0.0.                       00110000
+001200 PROCEDURE        DIVISION.                                       00120000
+001300 S.  ACCEPT  MON-HOURS.                                           00130000
+001400     ACCEPT  TUSE-HOURS.                                          00140000
+001500     ACCEPT  WED-HOURS.                                           00150000
+001600     ACCEPT  THUS-HOURS.                                          00160000
+001700     ACCEPT  FRI-HOURS.                                           00170000
+001800     ACCEPT  SAT-HOURS.                                           00180000
+001900     ADD  MON-HOURS,TUSE-HOURS,WED-HOURS,THUS-HOURS,FRI-HOURS     00190000
+002000      SAT=HOURS  GIVING TOTAL-HOURS.                              00200000
+002100     MULTIPLY  TOTAL-HOURS BY PAY-RATE GIVING  GROSS-PAY.         00210000
+002200     IF   TOTAL-HOURS > 48                                        00220000
+002300          MULTIPLY  0.5 BY PAY-RATE GIVING OVERTIME-RATE.         00230000
+002400          SUBTRACT  48  FROM TOTAL-HOURS GIVING OVERTIME=HOURS.   00240000
+002500          MULTIPLY  OVERTIMR-RATE BY OVERTIME-HOURS  GIVING       00250000
+002600           OVERTIME-PAY.                                          00260000
+002700         ADD   OVERTIME-PAY  TO  GROSS-PAY.                       00270000
+002800     MULTIPLY  GROSS-PAY BY RATE GIVING WITHHOLDING.              00280000
+002900     SUBTRACT  WITHHOLDING  FROM  GROSS-PAY GIVING NET-PAY.       00290000
+003000     DISPLAY GROSS-PAY.                                           00300000
+003100     DISPLAY WITHHOLDING.                                         00310000
+003200     DISPLAY NET-PAY.                                             00320000
+003300     STOP RUN.                                                    00330000
+

@@ -1,0 +1,22 @@
+[Profile]
+ID=WS
+Version=7
+[Telnet3270]
+HostName=127.0.0.1
+HostPortNumber=3270
+Security=N
+[Communication]
+Link=telnet3270
+[3270]
+ScreenSize=32x80
+QueryReplyMode=Auto
+HostCodePage=037-U
+[Keyboard]
+CuaKeyboard=1
+Language=Prc
+DefaultKeyboard=F:\PC390\PcomSetting\Keyboard.kmp
+IBMDefaultKeyboard=N
+[Window]
+ViewFlags=CF00
+RuleLinePos=0 5
+MFIcolor=Y

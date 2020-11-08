@@ -1,0 +1,77 @@
+﻿       IDENTIFICATION DIVISION.
+       *> このクラスの内部名はCLASS-THISでなければなりません。
+       CLASS-ID. CLASS-THIS AS "Ninsyou" PARTIAL
+           INHERITS CLASS-PAGE.
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+       REPOSITORY.
+           CLASS CLASS-EVENTARGS AS "System.EventArgs"
+           CLASS CLASS-OBJECT AS "System.Object"
+           CLASS CLASS-PAGE AS "System.Web.UI.Page"
+           
+           CLASS CLASS-SESSION AS 
+                     "System.Web.SessionState.HttpSessionState"
+           
+           PROPERTY PROP-TEXT AS "Text"
+           PROPERTY PROP-SERVER AS "Server"
+           PROPERTY PROP-SESSION AS "Session"
+           .
+       OBJECT.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+      
+       PROCEDURE DIVISION.
+      
+       METHOD-ID. PAGE-LOAD AS "Page_Load".
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 W-YYYYMMDD                  PIC X(08).
+       01 W-Date-R.
+          03 W-YYYY                    PIC ZZZ9.
+          03 FILLER                    PIC X(01)  VALUE ".".
+          03 W-MM                      PIC Z9.
+          03 FILLER                    PIC X(01)  VALUE ".".
+          03 W-DD                      PIC Z9.
+       01 W-YMD REDEFINES W-Date-R    PIC X(10).
+       LINKAGE SECTION.
+       01 sender OBJECT REFERENCE CLASS-OBJECT.
+       01 e OBJECT REFERENCE CLASS-EVENTARGS.
+       PROCEDURE DIVISION USING BY VALUE sender e.
+           MOVE FUNCTION  CURRENT-DATE  TO W-YYYYMMDD.
+           MOVE W-YYYYMMDD(1:4)         TO W-YYYY.
+           MOVE W-YYYYMMDD(5:2)         TO W-MM.
+           MOVE W-YYYYMMDD(7:2)         TO W-DD.
+           SET PROP-TEXT OF lblDate     TO W-YMD.
+       END METHOD PAGE-LOAD.
+       
+       METHOD-ID. btnStart_Click PROTECTED.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  WK-EmployeeCode           PIC X(06).
+       01  WK-Password               PIC X(06).
+       01  WK-Msg                    PIC N(20).
+       01  WK-ReturnCode             BINARY-LONG.
+       01  W-Websession OBJECT REFERENCE CLASS-SESSION.
+       LINKAGE SECTION.
+       01 sender OBJECT REFERENCE CLASS-OBJECT.
+       01 e OBJECT REFERENCE CLASS-EVENTARGS.
+       PROCEDURE DIVISION USING BY VALUE sender e.
+           SET WK-EmployeeCode TO PROP-TEXT OF txtEmployeeCode.
+           SET WK-Password TO PROP-TEXT OF txtPassword.
+      
+      *認証用のSYAINプログラム呼び出し
+           CALL "SYAIN" USING WK-EmployeeCode WK-Password WK-Msg
+               RETURNING WK-ReturnCode.
+           IF WK-ReturnCode = 0 THEN
+             SET W-Websession TO PROP-SESSION OF SELF
+      *ログインフラグ設定
+             INVOKE W-Websession "set_Item" USING BY VALUE N"Login" N"OK"
+      *紹介画面へ遷移
+             INVOKE PROP-SERVER OF SELF "Transfer" USING BY VALUE N"Syoukai.aspx"
+           ELSE
+             SET PROP-TEXT OF lblMsg TO WK-Msg
+           END-IF.
+       END METHOD btnStart_Click.
+      
+       END OBJECT.
+       END CLASS CLASS-THIS.

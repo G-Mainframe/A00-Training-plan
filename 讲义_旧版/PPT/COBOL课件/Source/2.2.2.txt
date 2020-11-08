@@ -1,0 +1,29 @@
+       IDENTIFICATION  DIVISION.
+       PROGRAM-ID.   EXAM3.
+
+       ENVIRONMENT  DIVISION.
+
+       DATA  DIVISION.
+       WORKING-STORAGE  SECTION.
+       77  A  PIC  IS  9(3).
+       77  B  PIC  IS  9(3).
+       77  C  PIC  IS  9(3).
+       77  X  PIC  IS  9(3).
+       01  T.
+         02  T1  PIC  IS  9(3).
+         02  T2  PIC  IS  9(3).
+         02  T3  PIC  IS  9(3).
+         02  T4  PIC  IS  9(3).
+
+       PROCEDURE  DIVISION.
+       S.  
+           ACCEPT  A
+           ACCEPT  B
+           ACCEPT  C
+           COMPUTE  X = ( A + B ) / C
+           MOVE  A  TO  T1.
+           MOVE  B  TO  T2.
+           MOVE  C  TO  T3.
+           MOVE  X  TO  T4.
+           DISPLAY T.
+           STOP RUN.

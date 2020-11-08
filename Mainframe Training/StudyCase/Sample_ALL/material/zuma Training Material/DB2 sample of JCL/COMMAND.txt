@@ -1,0 +1,20 @@
+//EV603UDB  JOB (F9500B,KQ40X,32,                                       00010007
+//        'DATE=XXXXXX'),EV603U,                                        00020007
+//       CLASS=A,MSGCLASS=R,NOTIFY=EV603U                               00030012
+//*====================================================================*00041007
+//JOBLIB   DD  DSN=DSN.DSNLOAD,DISP=SHR                                 00050006
+//CRTSPROC EXEC PGM=IKJEFT01,DYNAMNBR=20,COND=(0,LT)                    00060006
+//SYSTSPRT DD SYSOUT=*                                                  00070006
+//SYSPRINT DD SYSOUT=*                                                  00080006
+//SYSUDUMP DD SYSOUT=(S,,DUMP)                                          00090006
+//SYSTSIN  DD *                                                         00100006
+DSN  SYSTEM(DSN)                                                        00110006
+-DISPLAY DATABASE(KQ40*) LIMIT(9999) CLAIMERS                           00111010
+END                                                                     00130006
+//                                                                      00140006
+-START PROCEDURE(SPCFTS.*)                                              00141010
+-DISPLAY THREAD(SERVER)                                                 00150006
+-DISPLAY DATABASE(KQ40*) LIMIT(9999) CLAIMERS                           00160006
+-DISPLAY PROCEDURE(SPCFTS.*)                                            00170006
+-STOP PROCEDURE(SPCFTS.P510_CMRGETD)                                    00180006
+-DISPLAY PROCEDURE(SPCFTS.*)                                            00190006

@@ -1,0 +1,19 @@
+//EV6184J JOB (F9500B,FF67,31),EV6184J,
+//             CLASS=A,NOTIFY=EV6184,
+//             MSGCLASS=X,MSGLEVEL=(1,1),REGION=4096K
+//******************************************************************
+//*         DELETE                                                 *
+//******************************************************************
+//DEL01  EXEC PROGM1,UT=3380,VOL1=SMS001
+       SCRATCH DSN=EV6184.DS.SDTC.XONLY,VOL=&UT=&VOL1,PURGE
+//*---------------------------------------------------------*
+//ST010   EXEC PGM=EX10BV02
+//STEPLIB  DD  DSN=EX10I.DEVLIB1.LMOD,DISP=SHR
+//SYSPRINT DD  SYSOUT=*
+//PLIDUMP  DD  SYSOUT=*
+//SFFCTI   DD  DUMMY
+//SFFACO   DD  DSN=EV6184.DS.SDTC.XONLY,DISP=(,CATLG),
+//             DCB=(RECFM=FB,LRECL=383,BLKSIZE=3830),
+//             SPACE=(CYL,(500,500),RLSE)
+//
+

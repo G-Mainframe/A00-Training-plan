@@ -1,0 +1,18 @@
+/nologo
+/verbosity:minimal
+/logger:Fujitsu.COBOL.VisualStudio.BuildLogHelper,"C:\Program Files\Fujitsu NetCOBOL for .NET V3.0\VSPackages\DLLs\Fujitsu.COBOL.VisualStudio.dll"
+/noconsolelogger
+/Target:Build
+/Property:Configuration="Debug"
+/Property:Platform="AnyCPU"
+/Property:BuildingInsideVisualStudio=true
+/Property:DevEnvDir="C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\\"
+/Property:SolutionDir="C:\Sample\InterProgram\\"
+/Property:SolutionPath="C:\Sample\InterProgram\InterProgram.sln"
+/Property:SolutionName="InterProgram"
+/Property:SolutionFileName="InterProgram.sln"
+/Property:SolutionExt=".sln"
+/Property:COBOLInstallDir="C:\Program Files\Fujitsu NetCOBOL for .NET V3.0\COBOL\\"
+/Property:FrameworkDir="C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727"
+/Property:FrameworkVersion="v2.0.50727"
+"C:\Sample\InterProgram\InterProgram.cobproj"

@@ -1,0 +1,160 @@
+ EV6354D: /* TRAINING FOR B601                                        */00010076
+    PROC OPTIONS(MAIN);                                                 00020073
+ /* ----------------------------------------------------------------- */00030073
+ /* **    SECURITY CLASS      : IBM INTERNAL USE ONLY              ** */00040073
+ /* **    PROJECT NO.         : B601                               ** */00050073
+ /* **    PROJECT NAME        : B601 TRAINING                      ** */00060073
+ /* **    MODULE GROUP NAME   :                                    ** */00070073
+ /* **    PROGRAM NO.         : EV6354D                            ** */00080076
+ /* **    PROGRAM NAME        : EV6354D                            ** */00090076
+ /* **    PROGRAM DESCRIPTION : PLI CONNECTION WITH DB2            ** */00100077
+ /* **    PROGRAMMER          : LI JUAN ZHANG                      ** */00110076
+ /* **    CODED      DATE     : 2006/11/17                         ** */00120077
+ /* **    UPDATE     DATE     :                                    ** */00130073
+ /*----------------- FUNCTION NARRATIVE ------------------------------*/00140073
+ /*   NARRATIVE DESCRIPTION OF FUNCTION                               */00150073
+ /*                                                                   */00160073
+ /*----------------- INPUT FILE DESCRIPTION --------------------------*/00170073
+ /*   (DDNAME)    (PLINCLE)        (FILE DESCRIPTION)                 */00180073
+ /*    NONE                                                           */00190073
+ /*----------------- UPDATE FILE DESCRIPTION -------------------------*/00200073
+ /*   (DDNAME)    (PLINCLE)        (FILE DESCRIPTION)                 */00210073
+ /*    NONE                                                           */00220073
+ /*----------------- OUTPUT FILE DESCRIPTION -------------------------*/00230073
+ /*   (DDNAME)    (CRDNAME)        (FILE DESCRIPTION)                 */00240073
+ /*    FOUT1       B601TTXN         TXN  INFORMATION                  */00250073
+ /*    FOUT2       B601TMST         MST  INFORMATION                  */00260073
+ /*----------------- CALLING MODULE INFORMATION ----------------------*/00270073
+ /*   (MODULE)                     (MODULE DESCRIPTION)               */00280073
+ /*----------------- PARAMETER/COMMON AREA DCL -----------------------*/00290073
+ /*   (PTR/LABEL) (CRDNAME)        (DESCRIPTION)                      */00300073
+ /*    NONE                                                           */00310073
+ /*----------------- EXIT --------------------------------------------*/00320073
+ /*   EXIT NORMAL  :                                                  */00330073
+ /*   (NORMAL CONDITION)           (EXIT(LABEL))                      */00340073
+ /*   EXIT ERROR   :                                                  */00350073
+ /*   (ERROR CONDITION)(ERROR CODE)(EXIT(LABEL))                      */00360073
+ /*----------------- CHANGE ACTIVITY ---------------------------------*/00370073
+ /*   (SEARCH KEY) (PROGRAMMER)    (DATE)   (DESCRIPTION)             */00380073
+ /*-------------------------------------------------------------------*/00390073
+ /*********************************************************************/00420177
+ /*     INPUT/OUTPUT AREA                                             */00420277
+ /*********************************************************************/00420377
+ DCL  FOUT     FILE RECORD OUTPUT ,                                     00421076
+      SYSPRINT FILE OUTPUT PRINT ;                                      00423074
+ /*********************************************************************/00430074
+ /*     BUILTIN DECLARATION                                           */00440074
+ /*********************************************************************/00450074
+ DCL  DATETIME     BUILTIN ,                                            00451074
+      SUBSTR       BUILTIN ;                                            00452074
+ /*********************************************************************/00481074
+ /*     SWITH AND COUNT DECLARATION                                   */00482074
+ /*********************************************************************/00483074
+ DCL COUNT FIXED DEC(15,0) INIT(0);                                     00484074
+ DCL OUT_COUNT FIXED DEC(15,0) INIT(0);                                 00485074
+ /*********************************************************************/00490074
+ /* PLI DECLARATION FOR TABLE NE65U1.NE65TDMTS                        */00512074
+ /*********************************************************************/00513074
+ DCL 1 OUT_FOUT,                                                        00514076
+      5 CMAXA    CHAR(4)      INIT('') ,                                00515078
+      5 CMMXA    CHAR(3)      INIT('') ,                                00516078
+      5 RMAXA    CHAR(9)      INIT('') ,                                00517078
+      5 TPEOP    CHAR(1)      INIT('') ,                                00518078
+      5 MTSCM    CHAR(251)    INIT('') ,                                00519078
+      5 WSDTL    CHAR(10)     INIT('') ,                                00519178
+      5 WEDTL    CHAR(10)     INIT('') ,                                00519278
+      5 WTSDF    CHAR(3)      INIT('') ,                                00519378
+      5 SVPNO    CHAR(7)      INIT('') ,                                00519478
+      5 SSTDT    CHAR(10)     INIT('') ,                                00519578
+      5 SEDDT    CHAR(10)     INIT('') ,                                00519678
+      5 SWSDF    CHAR(3)      INIT('') ,                                00519778
+      5 SEQNO    CHAR(15)     INIT('') ,                                00519878
+      5 CREDT    CHAR(26)     INIT('') ,                                00519978
+      5 LTUDT    CHAR(26)     INIT('') ,                                00520078
+      5 CREID    CHAR(8)      INIT('') ,                                00520178
+      5 LTUID    CHAR(8)      INIT('') ,                                00520278
+      5 RPJBL    CHAR(5)      INIT('') ;                                00520378
+ /*********************************************************************/00521074
+ /*     SQL DECLARATION                                               */00530074
+ /*********************************************************************/00540074
+ EXEC SQL INCLUDE SQLCA;                                                00541074
+ SQLCA = '';                                                            00542074
+                                                     /*               */00542174
+ EXEC SQL DECLARE NE65U1.NE65TDMTS TABLE                                00543074
+           ( CMAXA                          CHAR(4) NOT NULL,           00544074
+             CMMXA                          CHAR(3) NOT NULL,           00545074
+             RMAXA                          CHAR(9) NOT NULL,           00546074
+             TPEOP                          CHAR(1) NOT NULL,           00547074
+             MTSCM                          CHAR(251) NOT NULL,         00548074
+             WSDTL                          DATE NOT NULL,              00549074
+             WEDTL                          DATE NOT NULL,              00549174
+             WTSDF                          CHAR(3) NOT NULL,           00549274
+             SVPNO                          CHAR(7) NOT NULL,           00549374
+             SSTDT                          DATE NOT NULL,              00549474
+             SEDDT                          DATE NOT NULL,              00549574
+             SWSDF                          CHAR(3) NOT NULL,           00549674
+             SEQNO                          CHAR(15) NOT NULL,          00549774
+             CREDT                          TIMESTAMP NOT NULL,         00549874
+             LTUDT                          TIMESTAMP NOT NULL,         00549974
+             CREID                          CHAR(8) NOT NULL,           00550074
+             LTUID                          CHAR(8) NOT NULL,           00550174
+             RPJBL                          CHAR(5) NOT NULL            00550274
+           ) ;                                                          00550374
+ EXEC SQL DECLARE  CUR CURSOR FOR                                       00550476
+          SELECT * FROM NE65U1.NE65TDMTS;                               00550574
+ /*********************************************************************/00610074
+ /*     MAIN PROCESS                                                  */00620074
+ /*********************************************************************/00630074
+    OPEN FILE (FOUT) RECORD OUTPUT;                  /*               */00630177
+    CALL FETCHF;                                                        00630377
+    CLOSE FILE(FOUT);                                                   00630476
+ /*********************************************************************/00631074
+ /*     FETCHF                                                        */00632076
+ /*********************************************************************/00633074
+ FETCHF: PROC ;                                                         00634076
+    EXEC SQL OPEN CUR;                                                  00635076
+    IF SQLCODE = 0 THEN                                                 00636074
+    ;                                                                   00637074
+    ELSE                                                                00638074
+    DO;                                                                 00638174
+       PUT EDIT('SQLCODE = ',SQLCODE )(A) SKIP;                         00638276
+    END;                                                                00638474
+    DO WHILE (SQLCODE=0);                                               00638574
+                                                                        00638678
+      EXEC SQL FETCH CUR                                                00638976
+      INTO :OUT_FOUT;                                                   00639276
+                                                                        00639374
+      SELECT(SQLCODE);                                                  00639474
+        WHEN(0)                                                         00639574
+        DO;                                                             00639674
+          COUNT = COUNT + 1;                                            00639774
+          WRITE FILE(FOUT) FROM(OUT_FOUT);                              00639876
+          OUT_COUNT = OUT_COUNT + 1 ;                                   00639974
+        END;                                                            00640074
+        WHEN(100)                                                       00640174
+          DO;                                                           00640274
+          END;                                                          00640374
+        OTHERWISE                                                       00640474
+          DO;                                                           00640574
+            PUT EDIT('SQLCODE = ',SQLCODE )(A) SKIP;                    00640676
+          END;                                                          00640774
+      END;                                                              00640874
+    END;                                                                00640974
+                                                                        00641074
+    EXEC SQL CLOSE CUR;                                                 00641176
+                                                                        00641274
+    PUT LIST('INPUT  COUNT = ',COUNT) SKIP;                             00641376
+    PUT LIST('OUTPUT COUNT = ',OUT_COUNT) SKIP;                         00641476
+                                                                        00641574
+ END FETCHF;                                                            00641676
+ /*********************************************************************/00642074
+ /*     PROGRAM END PROCESS                                           */00650074
+ /*********************************************************************/00660074
+                                                                        00680074
+ END EV6354D;    /* PROGRAM END */                                      03320077
+ /*-------------------------------------------------------------------*/03330073
+ /*         +==============+                                          */03340073
+ /*         | END EV6354D |                                           */03350077
+ /*         +==============+                                          */03360073
+ /*-------------------------------------------------------------------*/03370073
+

@@ -1,0 +1,350 @@
+ IDENTIFICATION DIVISION.                                                 
+*PATTERN-ID.     PT TO DISK WITH COLLATE "J".                             
+ PROGRAM-ID.     JFU290J.                                                 
+*    ì¬ŽÒ      ‘ºã                                                     
+*AUTHOR.                                                                  
+ DATE-WRITTEN.     -  -  .                                                
+*UPDATE-WRITTEN.   -  -   REV.                                            
+ DATE-COMPILED.                                                           
+************************************                                      
+*    \¿“Íoƒ}ƒXƒ^@’Šo                                                 
+************************************                                      
+ ENVIRONMENT DIVISION.                                                    
+ CONFIGURATION SECTION.                                                   
+ SOURCE-COMPUTER. ACOS-77.                                                
+ OBJECT-COMPUTER. ACOS-77.                                                
+*                                                                         
+ INPUT-OUTPUT SECTION.                                                    
+ FILE-CONTROL.                                                            
+*----Žó‹‹Ž‘Ši‚l{¿‹ŽÒ‚l{‘ÎÛŽ™“¶‚l{ƒŠƒ“ƒN‚e                           
+     SELECT INP1-FILE ASSIGN  IND1-DS.                                    
+*----\¿“Íoƒ}ƒXƒ^                                                       
+     SELECT INP2-FILE ASSIGN  IND2-RDB                                    
+                              IND2AP-RKEY                                 
+         ORGANIZATION INDEXED                                             
+         ACCESS DYNAMIC                                                   
+         RECORD INP2-ACP                                                  
+         STATUS S-INP2-STATUS.                                            
+*----\¿“Íoƒtƒ@ƒCƒ‹                                                     
+     SELECT OUT1-FILE ASSIGN  OTD1-DS.                                    
+     SELECT OUT2-FILE ASSIGN  PR01-USEROUT.                               
+*                                                                         
+ I-O-CONTROL.                                                             
+     APPLY SHIFT-CODE ON OUT2-FILE                                        
+                         WITH PPR-CONTROL-1.                              
+/                                                                         
+ DATA DIVISION.                                                           
+ FILE SECTION.                                                            
+*----Žó‹‹Ž‘Ši‚l{¿‹ŽÒ‚l{‘ÎÛŽ™“¶‚l{ƒŠƒ“ƒN‚e                           
+ FD  INP1-FILE                                                            
+         BLOCK     5  RECORDS                                             
+         RECORD 1150  CHARACTERS                                          
+         LABEL RECORD STANDARD.                                           
+******************************                                            
+* INP1-FILE, INP1-KEY RECORD *                                            
+******************************                                            
+ 01  INP1-REC.                                                            
+     03  FIL         PIC X(2).                                            
+     03  INP1-KEY01  PIC X(10).                                           
+     03  FIL         PIC X(1138).                                         
+**************************                                                
+* INP1-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  INP1-REC1.                                                           
+*----Žó‹‹Ž‘Ši‚l                                                           
+     02  INP1-JQSK.                                                       
+     COPY JFUJQSK.                                                        
+*----¿‹ŽÒ‚l                                                             
+     02  INP1-SEIQ.                                                       
+     COPY JFUSEIQ.                                                        
+*----‘ÎÛŽ™“¶‚l                                                           
+     02  INP1-TJDO.                                                       
+     COPY JFUTJDO.                                                        
+*----ƒŠƒ“ƒN‚e                                                             
+     02  INP1-YHLB15.                                                     
+     COPY YHLB15.                                                         
+*                                                                         
+*----\¿“Íoƒ}ƒXƒ^                                                       
+ FD  INP2-FILE                                                            
+         LABEL RECORD STANDARD.                                           
+******************************                                            
+* INP2-FILE, INP2-KEY RECORD *                                            
+******************************                                            
+ 01  INP2-ACP.                                                            
+     COPY JFUSNTA1.                                                       
+**************************                                                
+* INP2-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  INP2-REC1.                                                           
+     COPY JFUSNTD.                                                        
+*                                                                         
+*----\¿“Íoƒtƒ@ƒCƒ‹                                                     
+ FD  OUT1-FILE                                                            
+         BLOCK    10 RECORDS                                              
+         RECORD  100 CHARACTERS                                           
+         LABEL RECORD STANDARD.                                           
+**************************                                                
+* OUT1-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  OUT1-REC1.                                                           
+     COPY JFUSNTD REPLACING //JFT-// BY //OUT-//.                         
+*                                                                         
+ FD  OUT2-FILE                                                            
+         RECORD   132 CHARACTERS                                          
+         LABEL RECORD OMITTED                                             
+         LINAGE    62                                                     
+         TOP        2                                                     
+         BOTTOM     2.                                                    
+***************************                                               
+* OUT2-FILE, DATA RECORD  *                                               
+***************************                                               
+ 01  OUT2-REC1.                                                           
+     02  FIL          PIC X(132).                                         
+/                                                                         
+ WORKING-STORAGE SECTION.                                                 
+*****************************                                             
+* STANDARD CODING WORK AREA *                                             
+*****************************                                             
+ 77  C-DEC1          PIC 9(1)    VALUE 1.                                 
+ 77  C-ALN0          PIC X(2)    VALUE "00".                              
+*                                                                         
+ 77  I-FALSE         PIC 9(1)    VALUE 0.                                 
+ 77  I-TRUE          PIC 9(1)    VALUE 1.                                 
+ 77  I-SKIPLN        PIC 9(2)    VALUE 2.                                 
+*                                                                         
+ 77  S-INP1-STATUS   PIC X(2).                                            
+ 77  S-INP2-STATUS   PIC X(2).                                            
+ 77  S-INP1-DATAERR  PIC 9(1).                                            
+ 77  S-INP2-DATAERR  PIC 9(1).                                            
+ 77  S-INP1-READERR  PIC 9(1).                                            
+ 77  S-INP2-READERR  PIC 9(1).                                            
+ 77  S-INP2-KEYERR   PIC 9(1).                                            
+* INPUT-OUTPUT RECORD COUNT *                                             
+ 01  F-IOREC-CNT.                                                         
+     02  F-PROG-NAME     PIC X(8)    VALUE "JFU290J ".                    
+     02  FILLER          PIC X(10)   VALUE " INP1-REC=".                  
+     02  F-INP1-CNT      PIC 9(5).                                        
+     02  FILLER          PIC X(11)   VALUE ", OUT1-REC=".                 
+     02  F-OUT1-CNT      PIC 9(5).                                        
+     02  FILLER          PIC X(15)   VALUE ",     ERR1-REC=".             
+     02  F-ERR1-CNT      PIC 9(5).                                        
+*************                                                             
+* KEY-FIELD *                                                             
+*************                                                             
+* CURRENT KEY FIELD ON INP1-FILE *                                        
+ 01  INP1-KEY.                                                            
+     03  INP1-KEY01       PIC X(10).                                      
+/*************************                                                
+* USERS CODING WORK AREA *                                                
+**************************                                                
+*----Žó‹‹Ž‘Ši‚lƒL[                                                       
+ 01  W-PRIOR-KEY      PIC 9(10).                                          
+*----\¿“Ío‚lƒL[                                                       
+ 01  W-KEY.                                                               
+     03  W-1-KEY01        PIC 9(10).                                      
+     03  W-R-KEY01        PIC 9(03).                                      
+*----Šî€“ú                                                               
+ 01  W-KJN-YMD1           PIC 9(08).                                      
+ 01  W-KJN-YMDR REDEFINES W-KJN-YMD1.                                     
+     03  W-KJN-YM         PIC 9(06).                                      
+     03  W-KJN-YMR REDEFINES W-KJN-YM.                                    
+         05  W-KJN-YY     PIC 9(04).                                      
+         05  W-KJN-MM     PIC 9(02).                                      
+     03  W-KJN-DD         PIC 9(02).                                      
+/                                                                         
+ PROCEDURE DIVISION.                                                      
+***********      J1SU01--J1SU10, J1PS01, J1EU01--J1ES06                   
+* LEVEL 1 *                                                               
+***********                                                               
+ MAIN-PROCESS.                                                            
+     PERFORM MAIN-INIT-PROC.                                      J1SU01  
+     MOVE ZERO TO F-INP1-CNT.                                     J1SS02  
+     OPEN INPUT INP1-FILE.                                        J1SS03  
+     PERFORM INP1-READ-RTN THRU INP1-READ-EXT.                    J1SS04*1
+     OPEN INPUT INP2-FILE.                                        J1SS05  
+     MOVE ZERO TO F-OUT1-CNT.                                     J1SS06  
+     OPEN OUTPUT OUT1-FILE.                                       J1SS07  
+     MOVE ZERO TO F-ERR1-CNT.                                     J1SS08  
+*                                                                         
+     PERFORM MEDIA-TRAN                                           J1PS01  
+         UNTIL INP1-KEY = HIGH-VALUE.                                     
+*                                                                         
+     COMPUTE F-INP1-CNT = F-INP1-CNT - C-DEC1.                    J1ES06  
+     DISPLAY F-IOREC-CNT.                                         J1ES06  
+     PERFORM MAIN-FINISH-PROC.                                    J1EU01  
+     CLOSE INP1-FILE                                              J1ES02  
+           INP2-FILE                                              J1ES03  
+           OUT1-FILE.                                             J1ES04  
+     STOP RUN.                                                            
+/**********      J2SS01--J2SS06, J2PS01--J2PS03, J2ES01                   
+* LEVEL 2 *                                                               
+***********                                                               
+ MEDIA-TRAN.                                                      (J1PS01)
+     MOVE I-FALSE TO S-INP1-DATAERR                               J2SS01  
+                     S-INP2-DATAERR                                       
+                     S-INP1-READERR                                       
+                     S-INP2-READERR                                       
+                     S-INP2-KEYERR.                                       
+     PERFORM DATA-CHECK.                                          J2SS02  
+     IF   ((S-INP1-DATAERR = I-TRUE)                              J2SS03  
+       OR  (S-INP1-READERR = I-TRUE))                             J2SS03  
+        NEXT SENTENCE                                                     
+     ELSE PERFORM INP2-START-RTN THRU INP2-START-EXT              J2SS04*2
+          IF S-INP2-KEYERR = I-TRUE                               J2SS05  
+             NEXT SENTENCE                                                
+          ELSE PERFORM INP2-READ-RTN THRU INP2-READ-EXT           J2SS04  
+             IF S-INP2-READERR = I-TRUE                           J2SS05  
+                NEXT SENTENCE                                             
+             ELSE PERFORM DATA-CHECK2-PROC.                       J2SU06  
+*                                                                         
+     IF   ((S-INP1-DATAERR = I-TRUE)                              J2PS01  
+       OR  (S-INP2-DATAERR = I-TRUE)                                      
+       OR  (S-INP1-READERR = I-TRUE)                                      
+       OR  (S-INP2-READERR = I-TRUE)                                      
+       OR  (S-INP2-KEYERR  = I-TRUE))                                     
+             PERFORM ERR-DATA                                     J2PS02  
+        ELSE PERFORM COR-DATA.                                    J2PS03  
+*                                                                         
+     PERFORM INP1-READ-RTN THRU INP1-READ-EXT.                    J2ES01*1
+/**********      J3SS01--J3SS03, J3PS01--J3PS08                           
+* LEVEL 3 *                                                               
+***********                                                               
+ DATA-CHECK.                                                      (J2SS02)
+     IF S-INP1-STATUS = C-ALN0                                    J3SS01  
+             PERFORM DATA-CHECK1-PROC                             J3SU02  
+        ELSE MOVE I-TRUE TO S-INP1-READERR.                       J3SS03  
+*                                                                         
+ ERR-DATA.                                                        (J2PS02)
+     IF      S-INP1-READERR = I-TRUE                                      
+       DISPLAY " INP1-READERR   NO: " JFJ-SKJNO                   J1ES06  
+                                      UPON SYSOUT                         
+     ELSE IF S-INP2-READERR = I-TRUE                                      
+       DISPLAY " INP2-READERR   NO: " JFJ-SKJNO                   J1ES06  
+                                      UPON SYSOUT                         
+     ELSE IF S-INP1-DATAERR = I-TRUE                                      
+       DISPLAY " INP1-DATAERR   NO: " JFJ-SKJNO                   J1ES06  
+                                      UPON SYSOUT                         
+     ELSE IF S-INP2-DATAERR = I-TRUE                                      
+       DISPLAY " INP2-DATAERR   NO: " JFJ-SKJNO                   J1ES06  
+                                      UPON SYSOUT                         
+     ELSE IF S-INP2-KEYERR  = I-TRUE                                      
+       DISPLAY " INP2-STARTERR  NO: " JFJ-SKJNO                   J1ES06  
+                                      UPON SYSOUT.                        
+     COMPUTE F-ERR1-CNT = F-ERR1-CNT + C-DEC1.                            
+*                                                                         
+ COR-DATA.                                                        (J2PS03)
+     PERFORM EDIT-CORDATA-PROC.                                   J3PU04  
+     PERFORM OUT1-WRITE-RTN THRU OUT1-WRITE-EXT.                  J3PS05*3
+*                                                                         
+/**************  *1=J1SS04, J2ES01  *2=J2SS04  *3=J3PS05                  
+* SUBROUTINES *  *4=J3PS03, J3PS08  *5=J3PS01, J3PS06                     
+*  (STANDARD) *                                                           
+***************                                                           
+ INP1-READ-RTN.                                                   *1      
+     READ INP1-FILE                                                       
+         AT END  MOVE HIGH-VALUE TO INP1-KEY                              
+         MOVE CORR INP1-KEY  TO  INP1-REC.                                
+     MOVE CORR INP1-REC  TO  INP1-KEY.                                    
+     COMPUTE F-INP1-CNT = F-INP1-CNT + C-DEC1.                            
+ INP1-READ-EXT.                                                           
+     EXIT.                                                                
+*                                                                         
+ INP2-READ-RTN.                                                   *2      
+     READ INP2-FILE PRIOR                                                 
+         AT END  MOVE I-TRUE TO S-INP2-READERR.                           
+ INP2-READ-EXT.                                                           
+     EXIT.                                                                
+*                                                                         
+ INP2-START-RTN.                                                          
+*--------------------------------------------                             
+     MOVE INP1-KEY TO W-1-KEY01.                                          
+     MOVE 999      TO W-R-KEY01.                                          
+     MOVE W-KEY    TO INP2-ACP.                                           
+*--------------------------------------------                             
+     START INP2-FILE KEY > INP2-ACP                                       
+         INVALID KEY  MOVE I-TRUE TO S-INP2-KEYERR.                       
+*                                                                         
+     IF S-INP2-KEYERR = I-TRUE                                            
+         MOVE I-FALSE TO S-INP2-KEYERR                                    
+         START INP2-FILE LAST                                             
+           INVALID KEY  MOVE I-TRUE TO S-INP2-KEYERR                      
+     ELSE NEXT SENTENCE.                                                  
+ INP2-START-EXT.                                                          
+     EXIT.                                                                
+*                                                                         
+ OUT1-WRITE-RTN.                                                  *3      
+     WRITE OUT1-REC1.                                                     
+     COMPUTE F-OUT1-CNT = F-OUT1-CNT + C-DEC1.                            
+ OUT1-WRITE-EXT.                                                          
+     EXIT.                                                                
+*                                                                         
+/*************   J1SU01, J1SU10, J1EU01, J2SU06, J3SU02, J3PU02,          
+* USERS PROC *   J3PU04, J3PU07, HEAD-RTN                                 
+**************                                                            
+* (FROM J1SU01)                                                           
+ MAIN-INIT-PROC.                                                          
+     MOVE ZERO TO W-PRIOR-KEY.                                            
+     OPEN OUTPUT  OUT2-FILE.                                              
+* (FROM J1EU01)                                                           
+ MAIN-FINISH-PROC.                                                        
+     MOVE F-IOREC-CNT TO OUT2-REC1.                                       
+     WRITE OUT2-REC1 BEFORE 2.                                            
+     CLOSE OUT2-FILE.                                                     
+* (FROM J2SU06)                                                           
+ DATA-CHECK2-PROC.                                                        
+     IF   ((JFJ-DNTKB = JFT-DNTKB)                                        
+       AND (JFJ-SKJNO = JFT-SKJNO))                                       
+           NEXT SENTENCE                                                  
+     ELSE MOVE I-TRUE TO S-INP2-DATAERR.                                  
+*                                                                         
+* (FROM J3SU02)                                                           
+ DATA-CHECK1-PROC.                                                        
+     IF   (INP1-KEY = W-PRIOR-KEY)                                        
+       MOVE I-TRUE TO S-INP1-DATAERR                                      
+     ELSE MOVE INP1-KEY TO W-PRIOR-KEY.                                   
+                                                                          
+* (FROM J3PU04)                                                           
+ EDIT-CORDATA-PROC.                                                       
+     INITIALIZE OUT1-REC1.                                                
+*    Šî€“ú‚ÉA‘ÎÛŽ™“¶‚ÌŠY“–I—¹“ú‚ðƒZƒbƒg                               
+     MOVE JFD-GTSBI TO W-KJN-YMD1.                                        
+*--- ÃÞ°À ¦ ¿ÉÏÏ ²º³ ---------------------------                          
+*----Žè“–Ø‘”Ô†                                                         
+     MOVE JFT-SHBAN TO OUT-SHBAN.                                         
+*----‘ÎÛŽ™“¶”                                                           
+     MOVE JFJ-TJDSU TO OUT-TJDSU.                                         
+*----Žx‹‹—ÞŒ^‹æ•ª                                                         
+     MOVE JFJ-CQRKB TO OUT-CQRKB.                                         
+*----Žè“–ŒŽŠz                                                             
+     MOVE JFJ-TATGK TO OUT-TATGK.                                         
+*----‚j‚d‚x                                                               
+     MOVE JFT-KEY   TO OUT-KEY.                                           
+*--- ÍÝ¼Õ³ -------------------------------------                          
+*----\¿“Ío—š—ð‡‚                                                       
+     COMPUTE OUT-STRNO = OUT-STRNO + C-DEC1.                              
+*----\¿“Ío‹æ•ª{\¿“ÍoŽ–—R                                           
+*----Œˆ’è‹æ•ª{Œˆ’èŽ–—R                                                   
+     IF   (JFJ-TJDSU = ZERO)                                              
+       MOVE 14 TO OUT-STDKB                                               
+       MOVE  7 TO OUT-STDJU                                               
+       MOVE  1 TO OUT-KTEKB                                               
+       MOVE  7 TO OUT-KTEJU                                               
+     ELSE                                                                 
+       MOVE  5 TO OUT-STDKB                                               
+       MOVE  5 TO OUT-STDJU                                               
+       MOVE  1 TO OUT-KTEKB                                               
+       MOVE  5 TO OUT-KTEJU.                                              
+*                                                                         
+*----\¿“Ío“ú{Ž–—R”­¶“ú{Œˆ’è“ú                                       
+     MOVE W-KJN-YMD1 TO OUT-STDBI                                         
+                        OUT-JYHBI                                         
+                        OUT-KTEBI.                                        
+*----Žx‹‹ŠJŽn”NŒŽiŠî€“ú‚Ì—‚ŒŽj                                         
+     ADD  1         TO W-KJN-MM.                                          
+     IF   W-KJN-MM   > 12                                                 
+          MOVE   1  TO W-KJN-MM                                           
+          ADD    1  TO W-KJN-YY.                                          
+     MOVE W-KJN-YM  TO OUT-CQKYM.                                         
+*----Œˆ’è’Ê’m“ú                                                           
+     MOVE ZERO      TO OUT-KTTBI.                                         
+*                                                                         

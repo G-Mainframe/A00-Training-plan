@@ -1,0 +1,10 @@
+CREATE TABLE EXP_SIMCLT
+(
+    CLTCOD                         CHAR(8) NOT NULL,
+    FRMNAM                         VARCHAR2(50) NOT NULL
+)
+/
+CREATE UNIQUE INDEX EXP_SIMCLT
+ON EXP_SIMCLT
+(CLTCOD)
+/

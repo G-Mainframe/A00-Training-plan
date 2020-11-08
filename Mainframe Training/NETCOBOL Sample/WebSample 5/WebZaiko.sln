@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\WebZaiko\", "WebZaiko\", "{94272377-D8DF-4CAE-8DCA-FD1F081A4D1A}"
+	ProjectSection(WebsiteProperties) = preProject
+		ProjectReferences = "{C3B08841-BB4B-4928-8DE3-D2DD1C2EE54D}|ZaikoLibrary.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/WebZaiko"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\..\..\..\..\Sample\WebSample\WebZaiko\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\WebZaiko\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/WebZaiko"
+		Release.AspNetCompiler.PhysicalPath = "..\..\..\..\..\..\Sample\WebSample\WebZaiko\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\WebZaiko\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "1119"
+		DefaultWebSiteLanguage = "Fujitsu.COBOL"
+	EndProjectSection
+EndProject
+Project("{F0299A24-A380-4170-8505-5A3489A962CC}") = "ZaikoLibrary", "ZaikoLibrary\ZaikoLibrary.cobproj", "{C3B08841-BB4B-4928-8DE3-D2DD1C2EE54D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Release|.NET = Release|.NET
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94272377-D8DF-4CAE-8DCA-FD1F081A4D1A}.Debug|.NET.ActiveCfg = Debug|.NET
+		{94272377-D8DF-4CAE-8DCA-FD1F081A4D1A}.Debug|.NET.Build.0 = Debug|.NET
+		{94272377-D8DF-4CAE-8DCA-FD1F081A4D1A}.Debug|Any CPU.ActiveCfg = Debug|.NET
+		{94272377-D8DF-4CAE-8DCA-FD1F081A4D1A}.Debug|Mixed Platforms.ActiveCfg = Debug|.NET
+		{94272377-D8DF-4CAE-8DCA-FD1F081A4D1A}.Debug|Mixed Platforms.Build.0 = Debug|.NET
+		{94272377-D8DF-4CAE-8DCA-FD1F081A4D1A}.Release|.NET.ActiveCfg = Debug|.NET
+		{94272377-D8DF-4CAE-8DCA-FD1F081A4D1A}.Release|.NET.Build.0 = Debug|.NET
+		{94272377-D8DF-4CAE-8DCA-FD1F081A4D1A}.Release|Any CPU.ActiveCfg = Debug|.NET
+		{94272377-D8DF-4CAE-8DCA-FD1F081A4D1A}.Release|Mixed Platforms.ActiveCfg = Debug|.NET
+		{94272377-D8DF-4CAE-8DCA-FD1F081A4D1A}.Release|Mixed Platforms.Build.0 = Debug|.NET
+		{C3B08841-BB4B-4928-8DE3-D2DD1C2EE54D}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{C3B08841-BB4B-4928-8DE3-D2DD1C2EE54D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3B08841-BB4B-4928-8DE3-D2DD1C2EE54D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3B08841-BB4B-4928-8DE3-D2DD1C2EE54D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C3B08841-BB4B-4928-8DE3-D2DD1C2EE54D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C3B08841-BB4B-4928-8DE3-D2DD1C2EE54D}.Release|.NET.ActiveCfg = Release|Any CPU
+		{C3B08841-BB4B-4928-8DE3-D2DD1C2EE54D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3B08841-BB4B-4928-8DE3-D2DD1C2EE54D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3B08841-BB4B-4928-8DE3-D2DD1C2EE54D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C3B08841-BB4B-4928-8DE3-D2DD1C2EE54D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,31 @@
+//SID08783 JOB (),'SID0878',                                        
+//             NOTIFY=&SYSUID,                                      
+//             MSGLEVEL=(1,1)                                       
+//*                                                                 
+//PROC1   PROC                                                      
+//STEP    EXEC PGM=IEBGENER REGION=1K                               
+//SYSPRINT  DD SYSOUT=*                                             
+//SYSUT1    DD DSN=SID0878.JCLW3D1.PS31,DISP=SHR                    
+//SYSUT2    DD SYSOUT=*                                             
+//SYSIN     DD DUMMY                                                
+//        PEND                                                      
+//*                                                                 
+//STEP1   EXEC PGM=IEBGENER                                         
+//SYSPRINT  DD SYSOUT=*                                             
+//SYSUT1    DD *                                                    
+      DATA1                                                         
+//SYSUT2    DD DSN=SID0878.JCLW3D1.PS31,DISP=(NEW,CATLG,DELETE),    
+//             SPACE=(TRK,(2,1)),                                   
+//             DCB=(RECFM=FB,LRECL=80,BLKSIZE=240,DSORG=PS)         
+//SYSIN     DD DUMMY                                                
+//*                                                                 
+//STEP2   EXEC PROC=PROC1                                           
+//*                                                                 
+//STEP3   EXEC PGM=IEBGENER                                         
+//SYSPRINT  DD SYSOUT=*                                             
+//SYSUT1    DD *                                                    
+      DTAT2                                                         
+//SYSUT2    DD DSN=SID0878.JCLW3D1.PS31,DISP=SHR                    
+//SYSIN     DD DUMMY                                                
+//*                                                                 
+//STEP4   EXEC PROC=PROC1                                           

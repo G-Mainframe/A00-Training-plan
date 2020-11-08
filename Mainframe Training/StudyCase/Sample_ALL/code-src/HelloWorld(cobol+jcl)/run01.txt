@@ -1,0 +1,6 @@
+//RUN01    JOB (080912DL510),'SID0878',                   
+//             MSGCLASS=O,MSGLEVEL=(1,1),NOTIFY=&SYSUID   
+//RUNCOB  EXEC PGM=PGM001                                 
+//STEPLIB   DD DSN=SID0878.COB.LOAD,DISP=SHR              
+//SYSPRINT  DD SYSOUT=*                                   
+//                                                        

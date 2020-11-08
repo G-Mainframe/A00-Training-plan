@@ -1,0 +1,31 @@
+CREATE TABLE KOK_KOUSAKU
+(
+    顧客コード                     CHAR(6) NOT NULL,
+    面談日                         CHAR(8),
+    工作開始日                     CHAR(8),
+    工作開始事業所                 VARCHAR2(14),
+    工作開始担当者                 VARCHAR2(14),
+    先方担当者１                   VARCHAR2(14),
+    役職担当１                     VARCHAR2(14),
+    先方担当者２                   VARCHAR2(14),
+    役職担当２                     VARCHAR2(14),
+    当社面談者１                   VARCHAR2(14),
+    当社面談者２                   VARCHAR2(14),
+    開始経緯                       CHAR(1),
+    工作方針                       CHAR(1),
+    取引見込み                     CHAR(1),
+    リース利用                     CHAR(1),
+    支払リース料                   NUMBER(4,0),
+    利用物件                       VARCHAR2(60),
+    リース窓口                     VARCHAR2(60),
+    初回面談内容                   VARCHAR2(800),
+    訪問者名                       VARCHAR2(20),
+    登録日                         CHAR(8),
+    登録時刻                       CHAR(6),
+    登録担当者コード               CHAR(4),
+    更新日                         CHAR(8),
+    更新時刻                       CHAR(6),
+    更新担当者コード               CHAR(4),
+    CONSTRAINT SYS_C0025962 PRIMARY KEY (顧客コード) USING INDEX
+)
+/

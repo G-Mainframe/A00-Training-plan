@@ -1,0 +1,13 @@
+//ST002J07 JOB 'HONGYE',NOTIFY=ST002,CLASS=A                            
+//*-----------------------------*                                       
+//* CREATE 2 DATASETS IN A GDG.                                         
+//*-----------------------------*                                       
+//CDS1 EXEC PGM=IEBGENER                                                
+//SYSPRINT DD SYSOUT=*                                                  
+//SYSUT1 DD *                                                           
+THIS LINE IS WRITTEN INTO DATASET IN GDG.                               
+/*                                                                      
+//SYSUT2 DD DSN=ST002.TEST.GDG04(+1),DISP=(NEW,CATLG,DELETE),           
+//  SPACE=(TRK,(5,5)),DCB=ST002.TEST.GDG04MOL                           
+//SYSIN DD DUMMY                                                        
+//*                                                                     

@@ -1,0 +1,45 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200*                                                                 00020000
+000300 PROGRAM-ID. DRIVER3.                                             00030000
+000400*                                                                 00040000
+000500 ENVIRONMENT DIVISION.                                            00050000
+000600*                                                                 00060000
+000700 INPUT-OUTPUT SECTION.                                            00070000
+000800*                                                                 00080000
+000900 FILE-CONTROL.                                                    00090000
+001000*                                                                 00100000
+001100*                                                                 00110000
+001200 DATA DIVISION.                                                   00120000
+001300*                                                                 00130000
+001400 FILE SECTION.                                                    00140000
+001500*                                                                 00150000
+001600 WORKING-STORAGE SECTION.                                         00160000
+001610 77  NUMEDIT             PIC X(7)  VALUE 'NUMEDIT'.               00161000
+001700*                                                                 00170000
+001800 01  PARMS.                                                       00180000
+001900     05  AREA-1              PIC X(10).                           00190000
+002000     05  AREA-2              PIC 9(7)V99 VALUE 0.                 00200001
+002100     05  AREA-3              PIC X VALUE SPACE.                   00210001
+002300*                                                                 00230000
+002400 PROCEDURE DIVISION.                                              00240000
+002500*                                                                 00250000
+002600 000-CONTROL.                                                     00260000
+002700*                                                                 00270000
+002800     DISPLAY ' NOW START DRIVER PROGRAM '.                        00280000
+002900                                                                  00290000
+002910     ACCEPT AREA-1.                                               00291000
+002920     DISPLAY ' BEFORE CALL, AREA-1 = ' AREA-1.                    00292000
+002930                                                                  00293000
+003000     CALL NUMEDIT USING   AREA-1                                  00300000
+003100                          AREA-2                                  00310000
+003200                          AREA-3.                                 00320000
+003300     DISPLAY ' NOW RETURN FROM SUB PROGRAM '.                     00330000
+003400                                                                  00340000
+003500     DISPLAY ' IN DRIVER, AREA-1 = ' AREA-1.                      00350000
+003600     DISPLAY ' IN DRIVER, AREA-2 = ' AREA-2.                      00360000
+003700     DISPLAY ' IN DRIVER, AREA-3 = ' AREA-3.                      00370000
+003710 000-CONTROL-END.                                                 00371000
+003720                                                                  00372000
+003730                                                                  00373000
+003740     STOP RUN.                                                    00374000
+

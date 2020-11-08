@@ -1,0 +1,47 @@
+
+       IDENTIFICATION DIVISION.                                  
+       PROGRAM-ID.   DSCOPY.                                      
+       ENVIRONMENT DIVISION.                                     
+       INPUT-OUTPUT SECTION.                                     
+       FILE-CONTROL.                                             
+             SELECT IND1 ASSIGN TO DASD-IND1.                    
+             SELECT OUTD1 ASSIGN TO DASD-OUTD1.                  
+       DATA DIVISION.                                            
+       FILE SECTION.                                             
+       FD IND1 LABEL RECORD IS STANDARD.                         
+       01 IND1-DAT.                                              
+          02 FILLER PIC X(80).                                   
+       FD OUTD1 LABEL RECORD IS STANDARD.                        
+       01 OUTD1-DAT.                                             
+          02 FILLER PIC X(80).                                   
+       PROCEDURE DIVISION.                       
+       S1.                                       
+             OPEN INPUT IND1 OUTPUT OUTD1.       
+       S2.                                       
+             READ IND1 NEXT                      
+             AT END GO TO S99.                   
+             WRITE OUTD1-DAT FROM IND1-DAT.      
+             GO TO S2.                           
+       S99.                                      
+             CLOSE IND1 OUTD1.                   
+             STOP RUN.                           
+
+======================== compile & link 脚本 ==========================
+      
+000100 //ST077A    JOB  1,JHY,CLASS=A,MSGCLASS=X,MSGLEVEL=(1,1),      
+000200 //          NOTIFY=&SYSUID                                              
+000700 //STEP1  EXEC  IGYWCL
+000900 //COBOL.SYSIN   DD DSN=ST077.COBOL.SOURCE(COB1),DISP=SHR                          
+001000 //LKED.SYSLMOD  DD DSN=SP077.COBOL.LOAD(COB1),DISP=SHR                         
+
+======================== RUN 脚本 （用来对文件操作） 
+
+//ST077A    JOB  1,JHY,CLASS=A,MSGCLASS=X,MSGLEVEL=(1,1),
+//          NOTIFY=&SYSUID                               
+//STEP1  EXEC  PGM=COB1                                  
+//STEPLIB  DD  DSN=ST077.COBOL.LOAD,DISP=SHR             
+//SYSPRINT DD  SYSOUT=*                                  
+
+======注意IND1,OUTD1 必须跟源文件中数据部文件节的FD相同!
+//IND1     DD  DSN=ST077.INDATA,DISP=SHR                 
+//OUTD1    DD  DSN=ST077.OUTDATA,DISP=SHR

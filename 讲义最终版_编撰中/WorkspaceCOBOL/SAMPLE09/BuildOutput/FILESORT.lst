@@ -1,0 +1,156 @@
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1                Date 03/29/2014  Time 00:26:27   Page     1                
+0调用参数：
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0生效的选项：
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+     NOCICS                                                                                                                          
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      EXAMPLE7  Date 03/29/2014  Time 00:26:27   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0/* EXAMPLE71                                                                                                                        
+   000001                IDENTIFICATION DIVISION.                                                                                    
+   000002                PROGRAM-ID. EXAMPLE71.                                                                                      
+   000003                ENVIRONMENT DIVISION.                                                                                       
+   000004                INPUT-OUTPUT SECTION.                                                                                       
+   000005                FILE-CONTROL.                                                                                               
+   000006                    SELECT INPUT-FILE ASSIGN TO INPUT-MSD.                                11                                
+   000007                    SELECT SORT-FILE ASSIGN TO SORT-MSD.                                  18                                
+   000008                    SELECT OUTPUT-FILE ASSIGN TO OUTPUT-FILE.                             25                                
+   000009                DATA DIVISION.                                                                                              
+   000010                FILE SECTION.                                                                                               
+   000011                FD INPUT-FILE LABEL RECORD IS STANDARD.                                                                     
+                                                                                                  
+ ==000011==> IGYGR1216-I 对于文件“INPUT-FILE”，假定“RECORDING MODE”为“F”。
+                                                                                                  
+   000012                01 INPUT-REC.                                                                                               
+   000013                    COPY RECDEF.                                                                                            
+   000014C                  05  CUSTOMER      PIC  X(4).                                                                             
+   000015C                  05  CUSTOMER-NAME PIC  X(10).                                                                            
+   000016C                  05  CUSTOMER-ADDRESS       PIC  X(20).                                                                   
+   000017C                  05  CUSTOMER-CITY          PIC  X(20).                                                                   
+   000018                SD SORT-FILE.                                                                                               
+   000019                01 SORT-REC.                                                                                                
+   000020                    COPY RECDEF.                                                                                            
+   000021C                  05  CUSTOMER      PIC  X(4).                                                                             
+   000022C                  05  CUSTOMER-NAME PIC  X(10).                                                                            
+   000023C                  05  CUSTOMER-ADDRESS       PIC  X(20).                                                                   
+   000024C                  05  CUSTOMER-CITY          PIC  X(20).                                                                   
+   000025                FD OUTPUT-FILE LABEL RECORD IS STANDARD.                                                                    
+                                                                                                  
+ ==000025==> IGYGR1216-I 对于文件“OUTPUT-FILE”，假定“RECORDING MODE”为“F”。
+                                                                                                  
+   000026                01 OUTPUT-REC.                                                                                              
+   000027                    COPY RECDEF.                                                                                            
+   000028C                  05  CUSTOMER      PIC  X(4).                                                                             
+   000029C                  05  CUSTOMER-NAME PIC  X(10).                                                                            
+   000030C                  05  CUSTOMER-ADDRESS       PIC  X(20).                                                                   
+   000031C                  05  CUSTOMER-CITY          PIC  X(20).                                                                   
+   000032                PROCEDURE DIVISION.                                                                                         
+   000033                BEGIN.                                                                                                      
+   000034                      SORT SORT-FILE                                                      18                                
+   000035                          ON ASCENDING  KEY   CUSTOMER OF SORT-REC                        21 19                             
+   000036                          ON DESCENDING KEY   CUSTOMER-CITY OF SORT-REC                   24 19                             
+   000037                          USING INPUT-FILE                                                11                                
+   000038                          GIVING OUTPUT-FILE.                                             25                                
+   000039                     STOP RUN.                                                                                              
+ */ EXAMPLE71                                                                                                                        
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      EXAMPLE7  Date 03/29/2014  Time 00:26:27   Page     3                
+0数据名引用前的“M”指示数据名由此引用修改。
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+       14   CUSTOMER                                                                                                                                                         
+       21   CUSTOMER . . . . . . . . . . .  35                                                                                                                               
+       28   CUSTOMER                                                                                                                                                         
+       16   CUSTOMER-ADDRESS                                                                                                                                                 
+       23   CUSTOMER-ADDRESS                                                                                                                                                 
+       30   CUSTOMER-ADDRESS                                                                                                                                                 
+       17   CUSTOMER-CITY                                                                                                                                                    
+       24   CUSTOMER-CITY. . . . . . . . .  36                                                                                                                               
+       31   CUSTOMER-CITY                                                                                                                                                    
+       15   CUSTOMER-NAME                                                                                                                                                    
+       22   CUSTOMER-NAME                                                                                                                                                    
+       29   CUSTOMER-NAME                                                                                                                                                    
+       11   INPUT-FILE . . . . . . . . . .  6 37                                                                                                                             
+       12   INPUT-REC                                                                                                                                                        
+       25   OUTPUT-FILE. . . . . . . . . .  8 M38                                                                                                                            
+       26   OUTPUT-REC                                                                                                                                                       
+       18   SORT-FILE. . . . . . . . . . .  7 34                                                                                                                             
+       19   SORT-REC . . . . . . . . . . .  35 36                                                                                                                            
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      EXAMPLE7  Date 03/29/2014  Time 00:26:27   Page     4                
+0上下文用法由过程名引用前的字母指示。
+ 这些字母和它们的含义为：
+     A = ALTER（过程名）
+     D = GO TO（过程名）DEPENDING ON
+     E = 范围（PERFORM）到（过程名）的结束
+     G = GO TO（过程名）
+     P = PERFORM（过程名）
+     T = (ALTER) TO PROCEED TO（过程名）
+     U = USE FOR DEBUGGING（过程名）
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+       33   BEGIN                                                                                                                                                            
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      EXAMPLE7  Date 03/29/2014  Time 00:26:27   Page     5                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   EXAMPLE71                                                                                                                                                        
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      EXAMPLE7  Date 03/29/2014  Time 00:26:27   Page     6                
+0LineID  Message code  Message text
+                                                                                                                                     
+     11  IGYGR1216-I   对于文件“INPUT-FILE”，假定“RECORDING MODE”为“F”。
+                                                                                                                                     
+     25  IGYGR1216-I   对于文件“OUTPUT-FILE”，假定“RECORDING MODE”为“F”。
+-Messages    Total    Informational    Warning    Error    Severe    Terminating
+0Printed:       2           2                                               
+-* COBOL 程序 EXAMPLE71 的统计信息：
+ *    源记录 = 39
+ *    数据部分语句 = 15
+ *    过程部分语句 = 2
+0语言环境 = zh_CN.IBM-1386
+0编译 1 结束，程序 EXAMPLE71，最高级别严重性：参考。
+0返回码 0

@@ -1,0 +1,14 @@
+COBOL.V3R4.SIGYCOMP(IGYCRCTL)
+
+COBOL.V3R4.SIGYPROC(IGYWCL)
+
+
+cop01:第一种compile方法(使用proc)
+
+cop02:第二种compile方法
+
+run01:run jcl
+
+PGM001:  cobol代码
+
+                                                      

@@ -1,0 +1,96 @@
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2                Date 11/10/2010  Time 13:03:40   Page     1                
+0Invocation parameters:
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0Options in effect:
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      MAINPGM   Date 11/10/2010  Time 13:03:40   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0/* MAINPGM                                                                                                                          
+   000001                IDENTIFICATION DIVISION.                                                                                    
+   000002                PROGRAM-ID.   mainpgm.                                                                                      
+   000003                ENVIRONMENT DIVISION.                                                                                       
+   000004                DATA DIVISION.                                                                                              
+   000005                PROCEDURE DIVISION.                                                                                         
+   000006                L100.                                                                                                       
+   000007                    CALL "FILEM".                                                          EXT                              
+   000008                    CALL "FILER".                                                          EXT                              
+   000009                    STOP 1.                                                                                                 
+   000010                    STOP RUN.                                                                                               
+ */ MAINPGM                                                                                                                          
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      MAINPGM   Date 11/10/2010  Time 13:03:40   Page     3                
+0An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      MAINPGM   Date 11/10/2010  Time 13:03:40   Page     4                
+0Context usage is indicated by the letter preceding a procedure-name reference.
+ These letters and their meanings are:
+     A = ALTER (procedure-name)
+     D = GO TO (procedure-name) DEPENDING ON
+     E = End of range of (PERFORM) through (procedure-name)
+     G = GO TO (procedure-name)
+     P = PERFORM (procedure-name)
+     T = (ALTER) TO PROCEED TO (procedure-name)
+     U = USE FOR DEBUGGING (procedure-name)
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+        6   L100                                                                                                                                                             
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      MAINPGM   Date 11/10/2010  Time 13:03:40   Page     5                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+ EXTERNAL   FILEM. . . . . . . . . . . . .  7                                                                                                                                
+ EXTERNAL   FILER. . . . . . . . . . . . .  8                                                                                                                                
+        2   MAINPGM                                                                                                                                                          
+-* Statistics for COBOL program MAINPGM:
+ *    Source records = 10
+ *    Data Division statements = 0
+ *    Procedure Division statements = 4
+0Locale = en_US.IBM-1252
+0End of compilation 1,  program MAINPGM,  no statements flagged.
+0Return code 0

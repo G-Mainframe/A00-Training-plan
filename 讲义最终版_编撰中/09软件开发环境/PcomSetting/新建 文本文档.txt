@@ -1,0 +1,5 @@
+r 01,cold,noreq
+r 02,y
+r 03,y
+r 04,retry
+quiesce

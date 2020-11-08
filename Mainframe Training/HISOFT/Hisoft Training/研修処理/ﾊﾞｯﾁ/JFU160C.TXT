@@ -1,0 +1,256 @@
+ IDENTIFICATION DIVISION.                                                 
+*PATTERN-ID.     EXTRACT  "C".                                            
+ PROGRAM-ID.     JFU160C.                                                 
+*    çÏê¨é“      óõ.                                                      
+*AUTHOR.                                                                  
+ DATE-WRITTEN.     -  -  .                                                
+*UPDATE-WRITTEN.   -  -   REV.                                            
+ DATE-COMPILED.                                                           
+*                                                                         
+*    éôì∂ï}ó{éËìñ SYSTEM  éëäiëré∏é“íäèo                                  
+*                                                                         
+ ENVIRONMENT DIVISION.                                                    
+ CONFIGURATION SECTION.                                                   
+ SOURCE-COMPUTER.    ACOS-77.                                             
+ OBJECT-COMPUTER.    ACOS-77.                                             
+*                                                                         
+ SPECIAL-NAMES.                                                           
+     CHAR007  IS  UCDATE1                                                 
+     CHAR007  IS  UCDATE2.                                                
+*                                                                         
+ INPUT-OUTPUT  SECTION.                                                   
+ FILE-CONTROL.                                                            
+*    éôì∂ï}ó{éËìñê\êøìÕèoÉtÉ@ÉCÉã                                         
+     SELECT  INP1-FILE ASSIGN IND1-DS.                                    
+*    éôì∂ï}ó{éËìñê\êøìÕèoÉtÉ@ÉCÉãÅiíäèoå„Åj                               
+     SELECT  OUT1-FILE ASSIGN OTD1-DS.                                    
+     SELECT  OUT2-FILE ASSIGN PR01-USEROUT.                               
+*                                                                         
+ I-O-CONTROL.                                                             
+     APPLY SHIFT-CODE ON OUT2-FILE                                        
+                         WITH PPR-CONTROL-1.                              
+/                                                                         
+ DATA DIVISION.                                                           
+ FILE SECTION.                                                            
+*                                                                         
+*    éôì∂ï}ó{éËìñê\êøìÕèoÉtÉ@ÉCÉã                                         
+*                                                                         
+ FD  INP1-FILE                                                            
+         BLOCK     10 RECORDS                                             
+         RECORD   100 CHARACTERS                                          
+         LABEL RECORD STANDARD.                                           
+**************************                                                
+* INP1-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  INP1-REC1.                                                           
+     COPY JFUSNTD.                                                        
+/                                                                         
+*                                                                         
+*    éôì∂ï}ó{éËìñê\êøìÕèoÉtÉ@ÉCÉã                                         
+*                                                                         
+ FD  OUT1-FILE                                                            
+         BLOCK     10 RECORDS                                             
+         RECORD   100 CHARACTERS                                          
+         LABEL RECORD STANDARD.                                           
+**************************                                                
+* OUT1-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  OUT1-REC1.                                                           
+     COPY JFUSNTD REPLACING //JFT-// BY //JFO-//.                         
+*                                                                         
+ FD  OUT2-FILE                                                            
+         RECORD   132 CHARACTERS                                          
+         LABEL RECORD OMITTED                                             
+         LINAGE    62                                                     
+         TOP        2                                                     
+         BOTTOM     2.                                                    
+***************************                                               
+* OUT2-FILE, DATA RECORD  *                                               
+***************************                                               
+ 01  OUT2-REC1.                                                           
+     02  FIL          PIC X(132).                                         
+*                                                                         
+/                                                                         
+ WORKING-STORAGE SECTION.                                                 
+*****************************                                             
+* STANDARD CODING WORK AREA *                                             
+*****************************                                             
+ 77  C-DEC1          PIC 9(1) VALUE 1.                                    
+*                                                                         
+ 77  I-FALSE         PIC 9(1) VALUE 0.                                    
+ 77  I-TRUE          PIC 9(1) VALUE 1.                                    
+*                                                                         
+ 77  S-INP1-END      PIC 9(1).                                            
+ 77  S-EXTRACT       PIC 9(1).                                            
+*                                                                         
+/                                                                         
+     COPY CMLB002W.                                                       
+/                                                                         
+     COPY KAGREKIW.                                                       
+* INPUT-OUTPUT RECORD COUNT *                                             
+ 01  F-IOREC-CNT.                                                         
+     02  F-PROG-NAME     PIC X(10) VALUE " JFU160C  ".                    
+     02  FIL             PIC X(10) VALUE " INPI-REC=".                    
+     02  F-INP1-CNT      PIC 9(6).                                        
+     02  FIL             PIC X(11) VALUE ", OUT1-REC=".                   
+     02  F-OUT1-CNT      PIC 9(6).                                        
+/*************************                                                
+* USERS CODING WORK AREA *                                                
+**************************                                                
+*                                                                         
+*    É^ÉCÉvÉCÉìÉèÅ[ÉN                                                     
+*                                                                         
+ 01  WK-ACCEPT1.                                                          
+     02  WK-TAING1         PIC X(1).                                      
+     02  WK-TAIYMD1        PIC 9(6).                                      
+ 01  WK-ACCEPT2.                                                          
+     02  WK-TAING2         PIC X(1).                                      
+     02  WK-TAIYMD2        PIC 9(6).                                      
+ 01  WK-TAIBI1             PIC 9(8).                                      
+ 01  WK-TAIBI1R REDEFINES WK-TAIBI1.                                      
+     02  WK-TAIYY1         PIC 9(4).                                      
+     02  WK-TAIMM1         PIC 9(2).                                      
+     02  WK-TAIDD1         PIC 9(2).                                      
+ 01  WK-TAIBI2             PIC 9(8).                                      
+ 01  WK-TAIBI2R REDEFINES WK-TAIBI2.                                      
+     02  WK-TAIYY2         PIC 9(4).                                      
+     02  WK-TAIMM2         PIC 9(2).                                      
+     02  WK-TAIDD2         PIC 9(2).                                      
+*                                                                         
+ 01  WK-INP.                                                              
+     02  WK-INP-YMD1     PIC 9(8).                                        
+*                                                                         
+/                                                                         
+ PROCEDURE DIVISION.                                                      
+***********      C1SU01--C1SS07, C1PS01, C1EU01--C1ES04                   
+* LEVEL 1 *                                                               
+***********                                                               
+*                                                                         
+ MAIN-PROCESS.                                                            
+     PERFORM MAIN-INIT-PROC.                                      C1SU01  
+     MOVE I-FALSE TO S-INP1-END.                                  C1SS02  
+     MOVE ZERO TO F-INP1-CNT.                                     C1SS03  
+     OPEN INPUT INP1-FILE.                                        C1SS04  
+     PERFORM INP1-READ-RTN THRU INP1-READ-EXT.                    C1SS05*1
+     MOVE ZERO TO F-OUT1-CNT.                                     C1SS06  
+     OPEN OUTPUT OUT1-FILE.                                       C1SS07  
+     OPEN OUTPUT OUT2-FILE.                                       C1SS07  
+*                                                                         
+     PERFORM EXTRACT                                              C1PS01  
+                 UNTIL S-INP1-END = I-TRUE.                               
+*                                                                         
+     COMPUTE F-INP1-CNT = F-INP1-CNT - C-DEC1.                    C1ES04  
+     PERFORM MAIN-FINISH-PROC.                                    C1SU01  
+     CLOSE INP1-FILE.                                             C1ES02  
+     CLOSE OUT1-FILE.                                             C1ES03  
+     CLOSE OUT2-FILE.                                             C1ES03  
+     STOP RUN.                                                            
+/**********      C2SS01, C2SU02, C2PS01, C2PS02, C2ES01                   
+* LEVEL 2 *                                                               
+***********                                                               
+*                                                                         
+ EXTRACT.                                                         (C1PS01)
+     MOVE I-FALSE TO S-EXTRACT.                                   C2SS01  
+*                                                                         
+     PERFORM EXTRACT-COND-PROC.                                   C2SU02  
+*                                                                         
+     IF S-EXTRACT = I-TRUE                                        C2PS01  
+             PERFORM OUT1-WRITE                                   C2PS02  
+        ELSE                                                              
+             NEXT SENTENCE.                                               
+*                                                                         
+     PERFORM INP1-READ-RTN THRU INP1-READ-EXT.                    C2ES01*1
+/**********      C3PU01, C3PS02                                           
+* LEVEL 3 *                                                               
+***********                                                               
+*                                                                         
+ OUT1-WRITE.                                                      (C2PS01)
+     PERFORM EDIT-OUT1-PROC.                                      C3PU01  
+     PERFORM OUT1-WRITE-RTN THRU OUT1-WRITE-EXT.                  C3PS02*2
+/**************  *1=C1SS05, C2ES01  *2=C3PS02                             
+* SUBROUTINES *                                                           
+*  (STANDARD) *                                                           
+***************                                                           
+*                                                                         
+ INP1-READ-RTN.                                                   *1      
+     READ INP1-FILE  NEXT                                                 
+         AT END MOVE I-TRUE TO S-INP1-END.                                
+     COMPUTE F-INP1-CNT = F-INP1-CNT + C-DEC1.                            
+ INP1-READ-EXT.                                                           
+     EXIT.                                                                
+*                                                                         
+ OUT1-WRITE-RTN.                                                  *2      
+     WRITE OUT1-REC1.                                                     
+     COMPUTE F-OUT1-CNT = F-OUT1-CNT + C-DEC1.                            
+ OUT1-WRITE-EXT.                                                          
+     EXIT.                                                                
+/*************   C1SU01, C1EU01, C2SU02, C3PU01                           
+* USERS PROC *                                                            
+**************                                                            
+*                                                                         
+* (FROM C1SU01)                                                           
+ MAIN-INIT-PROC.                                                          
+     PERFORM ACCEPT-RTN THRU ACCEPT-EXIT.                                 
+*                                                                         
+* (FROM C1EU01)                                                           
+ MAIN-FINISH-PROC.                                                        
+     MOVE F-IOREC-CNT TO OUT2-REC1.                                       
+     WRITE OUT2-REC1 BEFORE 2.                                            
+*                                                                         
+*                                                                         
+*                                                                         
+* (FROM C2SU02)                                                           
+ EXTRACT-COND-PROC.                                                       
+*                                                                         
+     PERFORM HANTEI-RTN THRU HANTEI-EXIT.                                 
+*                                                                         
+* (FROM C3PU01)                                                           
+ EDIT-OUT1-PROC.                                                          
+     MOVE INP1-REC1 TO OUT1-REC1.                                         
+*                                                                         
+/                                                                         
+*--------------------------------*                                        
+*    º÷∑ æ¬√≤ (∫›ø-Ÿ ∂◊… ∆’≥ÿ÷∏)                                          
+*--------------------------------*                                        
+ ACCEPT-RTN.                                                              
+*    ëŒè€îNåéì˙ÅiäJénì˙Åj                                                 
+     DISPLAY NC"ëŒè€äJénîNåéì˙É^ÉCÉvÉCÉìÅ@ÇwÅiÇPÅjÇXÅiÇUÅj".              
+     DISPLAY NC"ó·ÅjïΩê¨ÇPÇTîNÅ@ÇVåéÅ@ÇPì˙Å®ÇgÇPÇTÇOÇVÇOÇP".              
+     ACCEPT  WK-ACCEPT1.                                                  
+     DISPLAY WK-ACCEPT1 UPON UCDATE1.                                     
+     TRANSFORM WK-TAING1   FROM " MTSH" TO "01234".                       
+     MOVE WK-ACCEPT1  TO WAREKI-YMD.                                      
+     PERFORM WAREKI-SEIREKI-RTN THRU WAREKI-SEIREKI-EXT.                  
+     MOVE SEIREKI-YMD TO WK-TAIBI1.                                       
+*    ëŒè€îNåéì˙ÅièIóπì˙Åj                                                 
+     DISPLAY NC"ëŒè€èIóπîNåéì˙É^ÉCÉvÉCÉìÅ@ÇwÅiÇPÅjÇXÅiÇUÅj".              
+     DISPLAY NC"ó·ÅjïΩê¨ÇPÇTîNÅ@ÇVåéÅ@ÇPì˙Å®ÇgÇPÇTÇOÇVÇOÇP".              
+     ACCEPT  WK-ACCEPT2.                                                  
+     DISPLAY WK-ACCEPT2 UPON UCDATE2.                                     
+     TRANSFORM WK-TAING2   FROM " MTSH" TO "01234".                       
+     MOVE WK-ACCEPT2  TO WAREKI-YMD.                                      
+     PERFORM WAREKI-SEIREKI-RTN THRU WAREKI-SEIREKI-EXT.                  
+     MOVE SEIREKI-YMD TO WK-TAIBI2.                                       
+ ACCEPT-EXIT.                                                             
+     EXIT.                                                                
+*                                                                         
+/                                                                         
+*------------------------------------*                                    
+*    ∆≠≥ÿÆ∏»›ƒﬁ ≤∫≥… √ﬁ∞¿ …–  ª≤÷≥                                        
+*------------------------------------*                                    
+ HANTEI-RTN.                                                              
+*                                                                         
+     MOVE JFT-STDBI   TO  WK-INP-YMD1.                                    
+*                                                                         
+     IF  ((WK-INP-YMD1 NOT < WK-TAIBI1) AND                               
+         (WK-INP-YMD1 NOT > WK-TAIBI2)) AND                               
+         ( JFT-STDKB = 14 OR 15 OR 16 )                                   
+         MOVE  I-TRUE     TO  S-EXTRACT                                   
+     ELSE                                                                 
+         NEXT  SENTENCE.                                                  
+*                                                                         
+ HANTEI-EXIT.                                                             
+     EXIT.                                                                
+*                                                                         
+/                                                                         
+     COPY KAGREKI.                                                        

@@ -1,0 +1,16 @@
+CREATE TABLE  CPDKYOTU  (
+       登録日＿世紀                       CHAR(1)           NOT NULL,
+       登録日＿年                         CHAR(2)           NOT NULL,
+       登録日＿月                         CHAR(2)           NOT NULL,
+       登録日＿日                         CHAR(2)           NOT NULL,
+       更新日付＿年                       CHAR(2)           NOT NULL,
+       更新日付＿月                       CHAR(2)           NOT NULL,
+       更新日付＿日                       CHAR(2)           NOT NULL,
+       更新時刻時分                       CHAR(4)           NOT NULL,
+       更新時刻秒                         CHAR(2)           NOT NULL,
+       担当者コード                       CHAR(4)           NOT NULL,
+       ＷＳ名                             CHAR(8)           NOT NULL,
+       更新回数                           NUMBER(2,0)       NOT NULL,
+       削除区分                           CHAR(1)           NOT NULL,
+       その他区分                         CHAR(1)           NOT NULL,
+CONSTRAINT  PK_CPDKYOTU  PRIMARY KEY (

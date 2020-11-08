@@ -1,0 +1,27 @@
+DROP   TABLE  D262MST_TBL   ;
+CREATE TABLE  D262MST_TBL  (
+       見積番号                           NUMBER(7,0)       NOT NULL,
+       見積番号枝番                       NUMBER(2,0)       NOT NULL,
+       契約種類                           CHAR(3)           NOT NULL,
+       支払種類                           CHAR(2)           NOT NULL,
+       取引先コード                       CHAR(9)           NOT NULL,
+       連番                               NUMBER(6,0)       NOT NULL,
+       支払年月日                         CHAR(8)           NOT NULL,
+       支払額                             NUMBER(13,0)      NOT NULL,
+       支払額消費税                       NUMBER(13,0)      NOT NULL,
+       受取手数料                         NUMBER(13,0)      NOT NULL,
+       受取手数料消費税                   NUMBER(13,0)      NOT NULL,
+       登録年月日                         CHAR(8)           NOT NULL,
+       登録時間                           CHAR(8)           NOT NULL,
+       登録担当者                         CHAR(8)           NOT NULL,
+       更新年月日                         CHAR(8)           NOT NULL,
+       更新時間                           CHAR(8)           NOT NULL,
+       更新者                             CHAR(8)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+CONSTRAINT  PK_D262MST_TBL  PRIMARY KEY (
+       見積番号,
+       見積番号枝番,
+       契約種類,
+       支払種類,
+       取引先コード,
+       連番));

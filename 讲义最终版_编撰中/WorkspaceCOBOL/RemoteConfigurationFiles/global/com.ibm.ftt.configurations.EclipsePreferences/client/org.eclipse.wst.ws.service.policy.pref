@@ -1,0 +1,6 @@
+# 
+#Sun Feb 16 01:53:25 CST 2014
+org.eclipse.wst.ws.service.policy.ui.servicepols.wsiprofilecomp.wsissbp.defaultProtocol=http\://schemas.xmlsoap.org/wsdl/soap/
+# 
+#Sun Feb 16 01:53:25 CST 2014
+org.eclipse.wst.ws.service.policy.ui.servicepols.wsiprofilecomp.wsiap.defaultProtocol=http\://schemas.xmlsoap.org/wsdl/soap/

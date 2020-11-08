@@ -1,0 +1,50 @@
+//MM01P   JOB  (99999),CURTIS.GARVIN,CLASS=C,MSGCLASS=X,
+//             REGION=4M,NOTIFY=&SYSUID
+//*-------------------------------------------------------------------*
+//* JCL TO PREPARE A STORED PROCEDURE WRITTEN IN COBOL FOR DB2 V4
+//*-------------------------------------------------------------------*
+//JOBLIB  DD  DSN=DSN410.SDSNEXIT,DISP=SHR
+//        DD  DSN=DSN410.SDSNLOAD,DISP=SHR
+//*-------------------------------------------------------------------*
+// EXEC DSNHCOB2,MEM=TEMPNAME,USER='MM01',
+//   PARM.PC='HOST(COB2),APOST,APOSTSQL,SOURCE,XREF',
+//   PARM.COB=('OBJECT,APOST,MAP,XREF,NONUM,OFF,FLAG(I,E),TRUNC(BIN)', X
+//             'LIB,RES,DYNAM'),
+//   PARM.LKED='LIST,XREF,LET,AMODE=24'
+//*-------------------------------------------------------------------*
+//PC.DBRMLIB DD DSN=MM01.DB2.DBRMLIB(GETCUST),DISP=SHR
+//PC.SYSLIB  DD DSN=MM01.DB2.DCLGENS,DISP=SHR
+//PC.SYSIN   DD DSN=MM01.DB2.STORED.PROCS(GETCUST),DISP=SHR
+//*-------------------------------------------------------------------*
+//COB.SYSLIB DD DSN=MM01.DB2.DCLGENS,DISP=SHR
+//           DD DSN=MM01.DB2.COPYLIB,DISP=SHR
+//*-------------------------------------------------------------------*
+//LKED.SYSLMOD DD DSN=MM01.DB2.LOADLIB(GETCUST),DISP=SHR
+//LKED.SYSLIB  DD DSN=CEE.V1R5M0.SCEELKED,DISP=SHR
+//             DD DSN=DSN410.SDSNLOAD,DISP=SHR
+//LKED.RUNLIB  DD DSN=MM01.DB2.LOADLIB(GETCUST),DISP=SHR
+//LKED.SYSIN   DD *
+ INCLUDE SYSLIB(DSNALI)
+ MODE AMODE(31) RMODE(ANY)
+//*-------------------------------------------------------------------*
+//BIND    EXEC PGM=IKJEFT01,DYNAMNBR=20,COND=(4,LT)
+//DBRMLIB   DD DSN=MM01.DB2.DBRMLIB,DISP=SHR
+//SYSTSPRT  DD SYSOUT=*
+//SYSPRINT  DD SYSOUT=*
+//SYSUDUMP  DD SYSOUT=*
+//SYSOUT    DD SYSOUT=*
+//REPORT    DD SYSOUT=*
+//SYSIN     DD *
+ DELETE FROM PLAN_TABLE WHERE PROGNAME = 'GETCUST';
+//SYSTSIN   DD *
+ DSN SYSTEM(DSN)
+ RUN  PROGRAM(DSNTEP2) PLAN(DSNTEP41) LIB('DSN410.RUNLIB.LOAD')
+ END
+ DSN SYSTEM(DSN)
+ BIND PACKAGE   (MMACOLL)   -
+   MEMBER       (GETCUST)   -
+   ISOLATION    (CS)        -
+   VALIDATE     (BIND)      -
+   LIBRARY      ('MM01.DB2.DBRMLIB')
+ END
+//

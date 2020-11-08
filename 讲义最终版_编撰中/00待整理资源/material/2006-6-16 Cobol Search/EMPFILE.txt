@@ -1,0 +1,11 @@
+chen                       01200
+zhan                       02300
+wang                       03400
+zhou                       04100
+ying                       01900
+wang                       09100
+zeng                       07958
+gang                       06215
+jing                       04213
+kong                       05874
+

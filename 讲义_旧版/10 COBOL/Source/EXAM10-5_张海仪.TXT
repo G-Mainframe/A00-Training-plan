@@ -1,0 +1,39 @@
+       IDENTIFICATION  DIVISION.
+       PROGRAM-ID.   EXAM10-5.
+       ENVIRONMENT     DIVISION.
+       INPUT-OUTPUT    SECTION.
+       FILE-CONTROL.
+              SELECT IN-FILE ASSIGN IN-FILE.
+              SELECT DA-FILE ASSIGN REL-FILE.
+              ORGANIZATION IS RELATIVE
+              ACCESS MODE IS RANDOM
+              RELATIVE KEY IS RE-KEY.
+       DATA  DIVISION.
+       FILE  SECTION.
+       FD IN-FILE LABEL RECORD IS STANDARD.
+       01 IN-REC.
+          02 STUDENT-NUM PIC 9(6).
+          02 STUDENT-NAME PIC X(20).
+          02 STUDENT-SCORE PIC 999.
+       FD DA-FILE LABEL RECORD IS STANDARD.
+       01  DA-REC.
+          02 STUDENT-NUM PIC 9(6).
+          02 STUDENT-NAME PIC X(20).
+          02 STUDENT-SCORE PIC 999.
+       WORKING-STORAGE SECTION.
+       77  RE-KEY PIC 99.
+       PROCEDURE  DIVISION.
+       STAR.
+                OPEN INPUT IN-FILE OUTPUT DA-FILE.
+       EXC.
+                 PERFORM RECORD-PROCESSING
+                 VARYING RE-KEY FROM 1 BY 2
+                 UNTIL RE-KEY > 99.
+       TERM.
+                  CLOSE IN-FILE, DA-FILE.
+       RECORD-PROCESSING.
+              READ IN-FILE AT END GO TO TERM.
+              MOVE CORR IN-REC TO DA-REC.
+              WRITE DA-REC
+              INVALID KEY DISPLAY 'ERROR', RE-KEY, DA-REC.
+

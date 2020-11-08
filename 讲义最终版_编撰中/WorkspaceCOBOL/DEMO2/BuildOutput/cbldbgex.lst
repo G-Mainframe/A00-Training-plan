@@ -1,0 +1,163 @@
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1                Date 03/28/2014  Time 23:02:14   Page     1                
+0调用参数：
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0生效的选项：
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+     NOCICS                                                                                                                          
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      CBLDBGEX  Date 03/28/2014  Time 23:02:14   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0/* CBLDBGEX                                                                                                                         
+   000001               ******************************************************************                                           
+   000002               *                                                                *                                           
+   000003               * MODULE NAME    CBLDBGEX.CBL                                    *                                           
+   000004               *                                                                *                                           
+   000005               * STATEMENT      IBM WebSphere Developer for System z            *                                           
+   000006               *                5724-L44                                        *                                           
+   000007               *                (c) Copyright IBM Corp. 2006                    *                                           
+   000008               *                                                                *                                           
+   000009               * DISCLAIMER OF WARRANTIES                                       *                                           
+   000010               * You may copy, modify, and distribute these samples, or their   *                                           
+   000011               * modifications, in any form, internally or as part of your      *                                           
+   000012               * application or related documentation. These samples have not   *                                           
+   000013               * been tested under all conditions and are provided to you by    *                                           
+   000014               * IBM without obligation of support of any kind. IBM PROVIDES    *                                           
+   000015               * THESE SAMPLES "AS IS" SUBJECT TO ANY STATUTORY WARRANTIES THAT *                                           
+   000016               * CANNOT BE EXCLUDED. IBM MAKES NO WARRANTIES OR CONDITIONS,     *                                           
+   000017               * EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO, THE   *                                           
+   000018               * IMPLIED WARRANTIES OR CONDITIONS OF MERCHANTABILITY, FITNESS   *                                           
+   000019               * FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT REGARDING THESE *                                           
+   000020               * SAMPLES OR TECHNICAL SUPPORT, IF ANY.                          *                                           
+   000021               * You will indemnify IBM or third parties that provide IBM       *                                           
+   000022               * products ("Third Parties") from and against any third party    *                                           
+   000023               * claim arising out of the use, modification or distribution of  *                                           
+   000024               * these samples with your application. You may not use the same  *                                           
+   000025               * path name as the original files/modules. You must not alter or *                                           
+   000026               * delete any copyright information in the Samples.               *                                           
+   000027               *                                                                *                                           
+   000028               ******************************************************************                                           
+   000029                                                                                                                            
+   000030                IDENTIFICATION DIVISION.                                                                                    
+   000031                PROGRAM-ID.    "CBLDBGEX".                                                                                  
+   000032                AUTHOR.        Programmer.                                                                                  
+   000033                ENVIRONMENT DIVISION.                                                                                       
+   000034                CONFIGURATION SECTION.                                                                                      
+   000035                DATA DIVISION.                                                                                              
+   000036                WORKING-STORAGE SECTION.                                                                                    
+   000037               *************************************************************                                                
+   000038                01 Program-Work-Fields.                                                                                     
+   000039                         05 Input-name         Pic x(30).                                                                   
+   000040                         05 Output-name        Pic x(37).                                                                   
+   000041                01 Program-flags.                                                                                           
+   000042                         05 Loop-flag          Pic 9(01).                                                                   
+   000043                            88 Loop-done       Value 1.                                                                     
+   000044                                                                                                                            
+   000045                01 BRANCHFLAG PIC 99.                                                                                       
+   000046                                                                                                                            
+   000047                LINKAGE SECTION.                                                                                            
+   000048                PROCEDURE DIVISION.                                                                                         
+   000049                       Initialize Program-work-fields                                     38                                
+   000050                                          BRANCHFLAG                                      45                                
+   000051                                          Program-flags.                                  41                                
+   000052                       Display "CBLDBGEX STARTING"                                                                          
+   000053                       MOVE 2 TO BRANCHFLAG.                                              45                                
+   000054                       IF BRANCHFLAG > 1                                                  45                                
+   000055      1                     DISPLAY "BRANCHFLAG GREATER THAN 1"                                                             
+   000056      1                     PERFORM SEEYA                                                 61                                
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      CBLDBGEX  Date 03/28/2014  Time 23:02:14   Page     3                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0  000057                       ELSE                                                                                                 
+   000058      1                     DISPLAY "BRANCHFLAG <= 1"                                                                       
+   000059      1                     PERFORM GOODBYE.                                              65                                
+   000060                       GOBACK.                                                                                              
+   000061                SEEYA.                                                                                                      
+   000062                                                                                                                            
+   000063                       DISPLAY "PROGRAM IS ENDING -- SEEYA".                                                                
+   000064                                                                                                                            
+   000065                GOODBYE.                                                                                                    
+   000066                                                                                                                            
+   000067                       DISPLAY "PROGRAM IS ENDING -- GOODBYE".                                                              
+   000068                End Program CBLDBGEX.                                                     31                                
+ */ CBLDBGEX                                                                                                                         
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      CBLDBGEX  Date 03/28/2014  Time 23:02:14   Page     4                
+0数据名引用前的“M”指示数据名由此引用修改。
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+       45   BRANCHFLAG . . . . . . . . . .  M50 M53 54                                                                                                                       
+       39   INPUT-NAME                                                                                                                                                       
+       43   LOOP-DONE                                                                                                                                                        
+       42   LOOP-FLAG                                                                                                                                                        
+       40   OUTPUT-NAME                                                                                                                                                      
+       41   PROGRAM-FLAGS. . . . . . . . .  M51                                                                                                                              
+       38   PROGRAM-WORK-FIELDS. . . . . .  M49                                                                                                                              
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      CBLDBGEX  Date 03/28/2014  Time 23:02:14   Page     5                
+0上下文用法由过程名引用前的字母指示。
+ 这些字母和它们的含义为：
+     A = ALTER（过程名）
+     D = GO TO（过程名）DEPENDING ON
+     E = 范围（PERFORM）到（过程名）的结束
+     G = GO TO（过程名）
+     P = PERFORM（过程名）
+     T = (ALTER) TO PROCEED TO（过程名）
+     U = USE FOR DEBUGGING（过程名）
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+       65   GOODBYE. . . . . . . . . . . .  P59                                                                                                                              
+       61   SEEYA. . . . . . . . . . . . .  P56                                                                                                                              
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      CBLDBGEX  Date 03/28/2014  Time 23:02:14   Page     6                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+       31   CBLDBGEX . . . . . . . . . . .  68                                                                                                                               
+-* COBOL 程序 CBLDBGEX 的统计信息：
+ *    源记录 = 68
+ *    数据部分语句 = 7
+ *    过程部分语句 = 11
+0语言环境 = zh_CN.IBM-1386
+0编译 1 结束，程序 CBLDBGEX，未标记任何语句。
+0返回码 0

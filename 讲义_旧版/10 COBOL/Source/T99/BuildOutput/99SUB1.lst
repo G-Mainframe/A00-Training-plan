@@ -1,0 +1,159 @@
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2                Date 10/23/2010  Time 21:52:39   Page     1                
+0Invocation parameters:
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0Options in effect:
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2                Date 10/23/2010  Time 21:52:39   Page     2                
+0LineID  Message code  Library phase message text
+                                                                                                                                     
+         IGYLI0090-W   1 sequence errors were found in this program.                                                                 
+-Messages    Total    Informational    Warning    Error    Severe    Terminating
+0Printed:       1                          1                                
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      99SUB1    Date 10/23/2010  Time 21:52:39   Page     3                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0/* 99SUB1                                                                                                                           
+   000001         000010 IDENTIFICATION                   DIVISION.                                                                  
+   000002         000020 PROGRAM-ID.                      99SUB1.                                                                    
+   000003         000030 ENVIRONMENT                      DIVISION.                                                                  
+   000004         000040 DATA                             DIVISION.                                                                  
+   000005         000050 WORKING-STORAGE                  SECTION.                                                                   
+   000006         000060 01 L-MARK                   PIC       9.                                                                    
+   000007         000070 01 R-MARK                   PIC       9.                                                                    
+   000008         000080 01 DATA-SET.                                                                                                
+   000009         000091  02 MULTI-NUM          PIC       9.                                                                         
+   000010         000092  02 MULTI-MARK         PIC       X VALUE "*".                                                               
+   000011         000093  02 MULTIED-NUM        PIC       9.                                                                         
+   000012         000094  02 EQUAL-MARK         PIC       X VALUE "=".                                                               
+   000013         000095  02 RESULT             PIC       99.                                                                        
+   000014         000096  02 FILLER             PIC       X VALUE " ".                                                               
+   000015         000098 LINKAGE                          SECTION.                                                                   
+   000016         000099 01 TABLE-99.                                                                                                
+   000017         000100   02 L OCCURS 9 TIMES.                                                                                      
+   000018         000101    03 R OCCURS 9 TIMES PIC 9(7).                                                                            
+   000019         000102 77 NUM                 PIC       X.                                                                         
+   000020         000103 PROCEDURE                        DIVISION USING TABLE-99 NUM.              16 19                            
+   000021         000110 PRG-BEGIN.                                                                                                  
+   000022         000120     PERFORM L-PART THRU L-END UNTIL L-MARK = NUM.                          25 35 6 19                       
+   000023         000130 PRG-END.                                                                                                    
+   000024         000133     EXIT PROGRAM.                                                                                           
+   000025         000140 L-PART.                                                                                                     
+   000026         000141     IF L-MARK NOT = NUM                                                    6 19                             
+   000027                    then                                                                                                    
+   000028      1  000142        INITIALIZE R-MARK                                                   7                                
+   000029      1  000143        ADD 1 TO L-MARK                                                     6                                
+   000030      1  000150        PERFORM R-PART THRU R-END UNTIL R-MARK = L-MARK                     38 45 7 6                        
+   000031      1  000151        DISPLAY L(L-MARK)                                                   17 6                             
+   000032                    else                                                                                                    
+   000033      1                Next SENTENCE                                                                                        
+   000034                    end-if.                                                                                                 
+   000035         000180 L-END.                                                                                                      
+   000036         000190     EXIT.                                                                                                   
+   000037**       *                                                                                                                  
+   000038         000200 R-PART.                                                                                                     
+   000039         000201     IF R-MARK NOT = L-MARK                                                 7 6                              
+   000040      1  000202     ADD 1 TO R-MARK                                                        7                                
+   000041      1  000203     MOVE L-MARK TO MULTI-NUM                                               6 9                              
+   000042      1  000204     MOVE R-MARK TO MULTIED-NUM                                             7 11                             
+   000043      1  000205     COMPUTE RESULT = MULTI-NUM * MULTIED-NUM                               13 9 11                          
+   000044      1  000206     MOVE DATA-SET TO R(L-MARK, R-MARK).                                    8 18 6 7                         
+   000045         000210 R-END.                                                                                                      
+   000046         000220     EXIT.                                                                                                   
+ */ 99SUB1                                                                                                                           
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      99SUB1    Date 10/23/2010  Time 21:52:39   Page     4                
+0An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+        8   DATA-SET . . . . . . . . . . .  44                                                                                                                               
+       12   EQUAL-MARK                                                                                                                                                       
+       17   L. . . . . . . . . . . . . . .  31                                                                                                                               
+        6   L-MARK . . . . . . . . . . . .  22 26 M29 30 31 39 41 44                                                                                                         
+       10   MULTI-MARK                                                                                                                                                       
+        9   MULTI-NUM. . . . . . . . . . .  M41 43                                                                                                                           
+       11   MULTIED-NUM. . . . . . . . . .  M42 43                                                                                                                           
+       19   NUM. . . . . . . . . . . . . .  20 22 26                                                                                                                         
+       18   R. . . . . . . . . . . . . . .  M44                                                                                                                              
+        7   R-MARK . . . . . . . . . . . .  M28 30 39 M40 42 44                                                                                                              
+       13   RESULT . . . . . . . . . . . .  M43                                                                                                                              
+       16   TABLE-99 . . . . . . . . . . .  20                                                                                                                               
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      99SUB1    Date 10/23/2010  Time 21:52:39   Page     5                
+0Context usage is indicated by the letter preceding a procedure-name reference.
+ These letters and their meanings are:
+     A = ALTER (procedure-name)
+     D = GO TO (procedure-name) DEPENDING ON
+     E = End of range of (PERFORM) through (procedure-name)
+     G = GO TO (procedure-name)
+     P = PERFORM (procedure-name)
+     T = (ALTER) TO PROCEED TO (procedure-name)
+     U = USE FOR DEBUGGING (procedure-name)
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+       35   L-END. . . . . . . . . . . . .  E22                                                                                                                              
+       25   L-PART . . . . . . . . . . . .  P22                                                                                                                              
+       21   PRG-BEGIN                                                                                                                                                        
+       23   PRG-END                                                                                                                                                          
+       45   R-END. . . . . . . . . . . . .  E30                                                                                                                              
+       38   R-PART . . . . . . . . . . . .  P30                                                                                                                              
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      99SUB1    Date 10/23/2010  Time 21:52:39   Page     6                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   99SUB1                                                                                                                                                           
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      99SUB1    Date 10/23/2010  Time 21:52:39   Page     7                
+0LineID  Message code  Message text
+                                                                                                                                     
+         IGYSC0185-I   Messages were issued during library phase processing.  Refer to the beginning of the listing.                 
+-Messages    Total    Informational    Warning    Error    Severe    Terminating
+0Printed:       1           1                                               
+-* Statistics for COBOL program 99SUB1:
+ *    Source records = 46
+ *    Data Division statements = 12
+ *    Procedure Division statements = 15
+0Locale = en_US.IBM-1252
+0End of compilation 1,  program 99SUB1,  highest severity: Informational.
+0Return code 4

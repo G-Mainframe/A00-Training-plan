@@ -1,0 +1,89 @@
+000100 IDENTIFICATION DIVISION.                                               01
+000200*                                                                       01
+000300 PROGRAM-ID.    CUSTINQ.                                                01
+000400*                                                                       01
+000500 ENVIRONMENT DIVISION.                                                  01
+000600*                                                                       01
+000700 INPUT-OUTPUT SECTION.                                                  01
+000800*                                                                       01
+000900 FILE-CONTROL.                                                          01
+001000*                                                                       01
+001100 DATA DIVISION.                                                         01
+001200*                                                                       01
+001300 FILE SECTION.                                                          01
+001400*                                                                       01
+001500 WORKING-STORAGE SECTION.                                               01
+001600*                                                                       01
+001700 01  SWITCHES.
+001800*
+001900     05  END-OF-INQUIRIES-SW     PIC X   VALUE 'N'.
+002000         88  END-OF-INQUIRIES            VALUE 'Y'.
+002100     05  CUSTOMER-FOUND-SW       PIC X.
+002200         88  CUSTOMER-FOUND              VALUE 'Y'.
+002300*
+002400     EXEC SQL
+002500         INCLUDE CUSTOMER
+002600     END-EXEC.
+002700*
+002800     EXEC SQL
+002900         INCLUDE SQLCA
+003000     END-EXEC.
+003100*
+003200 PROCEDURE DIVISION.
+003300*
+003400 000-DISPLAY-CUSTOMER-ROWS.
+003500*
+003600     PERFORM 100-DISPLAY-CUSTOMER-ROW
+003700         UNTIL END-OF-INQUIRIES.
+003800     STOP RUN.
+003900*
+004000 100-DISPLAY-CUSTOMER-ROW.
+004100*
+004200     PERFORM 110-ACCEPT-CUSTOMER-NUMBER.
+004300     IF NOT END-OF-INQUIRIES
+004400         MOVE 'Y' TO CUSTOMER-FOUND-SW
+004500         PERFORM 120-GET-CUSTOMER-ROW
+004600         IF CUSTOMER-FOUND
+004700             PERFORM 130-DISPLAY-CUSTOMER-LINES
+004800         ELSE
+004900             PERFORM 140-DISPLAY-ERROR-LINES.
+005000*
+005100 110-ACCEPT-CUSTOMER-NUMBER.
+005200*
+005300     DISPLAY '------------------------------------------------'.
+005400     DISPLAY 'KEY IN THE NEXT CUSTOMER NUMBER AND PRESS ENTER,'.
+005500     DISPLAY 'OR KEY IN 999999 AND PRESS ENTER TO QUIT.'.
+005600     ACCEPT CUSTNO.
+005700     IF CUSTNO = '999999'
+005800         MOVE 'Y' TO END-OF-INQUIRIES-SW.
+005900*
+006000 120-GET-CUSTOMER-ROW.
+006100*
+006200     EXEC SQL
+006300         SELECT CUSTNO,    FNAME,       LNAME,
+006400                ADDR,      CITY,        STATE,
+006500                ZIPCODE
+006600         INTO  :CUSTNO,       :FNAME,          :LNAME,
+006700               :ADDR,         :CITY,           :STATE,
+006800               :ZIPCODE
+006900         FROM   MM01.CUSTOMER
+007000             WHERE  CUSTNO = :CUSTNO
+007100     END-EXEC.
+007200*
+007300     IF SQLCODE NOT = 0
+007400         MOVE 'N' TO CUSTOMER-FOUND-SW.
+007500*
+007600 130-DISPLAY-CUSTOMER-LINES.
+007700*
+007800     DISPLAY '------------------------------------------------'.
+007900     DISPLAY '   CUSTOMER ' CUSTNO.
+008000     DISPLAY '   NAME     ' FNAME ' ' LNAME.
+008100     DISPLAY '   ADDRESS  ' ADDR.
+008200     DISPLAY '            ' CITY ' ' STATE ' '
+008210                            ZIPCODE.
+008300*
+008400 140-DISPLAY-ERROR-LINES.
+008500*
+008600     DISPLAY '------------------------------------------------'.
+008700     DISPLAY '   CUSTOMER NUMBER ' CUSTNO ' NOT FOUND.'.
+008800*

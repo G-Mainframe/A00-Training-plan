@@ -1,0 +1,16 @@
+\MAC ;                                                                    
+        \COMM ** Ž™“¶•}—{Žè“–”N—î“ž’BŽÒˆê—— **;                           
+                                                                          
+        \SENDO MSG='** Ž™“¶•}—{Žè“–”N—î“ž’BŽÒˆê—— **';                    
+        \PRIVLIB PWS@LM001,MEDIA=DK105;                                   
+        \STEP JFU255P;                                                    
+            \DBASSIGN  COMMIT=100;                                        
+            \ASSIGN IND1    ,JFU2501 ,MEDIA=DK302;                        
+            \DEFINE IND1    ,DVC=DS;                                      
+            \ASSIGN IND2    ,JFUJQSK ;                                    
+            \ASSIGN IND2AP  ,JFUJQSA1;                                    
+            \ASSIGN IND3    ,JFSCODE ;                                    
+            \ASSIGN IND3AP  ,JFSCODA1;                                    
+            \ASSIGN PR01   ,@OUT;                                         
+            \DEFINE PR01   ,FORMSET=FXJFU255;                             
+        \ENDSTEP ;                                                        

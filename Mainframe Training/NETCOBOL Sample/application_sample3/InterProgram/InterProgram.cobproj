@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>3.0.109.0</ProductVersion>
+    <SchemaVersion>3.0</SchemaVersion>
+    <ProjectGuid>{210C1235-44E7-4A44-A262-6570ABD24CEA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InterProgram</RootNamespace>
+    <AssemblyName>InterProgram</AssemblyName>
+    <MainEntryPoint>InterProgram.Form1,Main</MainEntryPoint>
+    <ReferencePath>$(MSBuildProjectDirectory)</ReferencePath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <AdditionalOptions>/wc:"CHECK(ALL)"</AdditionalOptions>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cob" />
+    <Compile Include="Form1.cob">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Program1.cob" />
+    <Compile Include="Properties\AssemblyInfo.cob" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cob</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Fujitsu\NetCOBOL for .NET\V3.0\Fujitsu.COBOL.targets" />
+  <!--
+	ビルド作業を変更するには、独自タスクを以下のターゲットに追加してください。
+	同様の拡張方法はほかにもあります。Fujitsu.COBOL.targetsを参照してください。
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>

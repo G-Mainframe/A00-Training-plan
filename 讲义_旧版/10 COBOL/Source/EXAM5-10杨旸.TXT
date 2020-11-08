@@ -1,0 +1,57 @@
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.   EXAM510.
+       ENVIRONMENT       DIVISION.
+       INPUT-OUTPUT  SECTION.
+       FILE-CONTROL.
+             SELECT INPUT-FILE   ASSIGN TO PER-DATA.
+             SELECT OUTPUT-FILE  ASSIGN TO P-FILE.
+       DATA              DIVISION.
+       FILE SECTION.
+       FD INPUT-FILE LABEL  RECORD IS STANDARD.
+       01 PERSONNEL-RECORD.
+           02 NAME    PIC X(10).
+           02 FILLER  PIC X(3).
+           02 PARTY   PIC 9.
+              88 CP VALUE 1.
+              88 CY VALUE 2.
+              88 MASS VALUE 3.
+           02 FILLER PIC X(3).
+           02 SEX PIC 9.
+              88 MALE VALUE 1.
+              88 FEMALE VALUE 2.
+           02 FILLER PIC X(3).
+           02 EDUCATION PIC 99.
+               88 LESS-THAN-H-S-GRAD VALUE 0  THRU 11.
+               88 H-S-GRAD           VALUE 12.
+               88 SOME-COLLEGE       VALUE 13 THRU 15.
+               88 COLLEGE-GRAD       VALUE 16.
+               88 MASTERS-GRAD       VALUE 18 THRU 20.
+           02 FILLER                PIC X(3).
+           02 YEAR-OF-EXPERIENCE    PIC 99.
+           02 FILLER                PIC X(3).
+           02 GEOGRAPHIC-PREFERENCE PIC 9.
+               88 NORTH-EAST   VALUE 1.
+               88 NORTH-WEST   VALUE 2.
+               88 SOUTH        VALUE 3.
+               88 SOUTH-WEST   VALUE 4.
+               88 OTHERS      VALUE 5.
+       FD OUTPUT-FILE LABEL RECORD IS STANDARD.
+       01 OUTPUT-RECORD.
+          02 FILLER  PIC X.
+          02 OUT-LINE PIC X(80).
+       PROCEDURE  DIVISION.
+       A.
+          OPEN INPUT  INPUT-FILE
+               OUTPUT OUTPUT-FILE.
+          MOVE SPACE TO OUT-LINE.
+       B.
+          READ INPUT-FILE
+                AT END CLOSE INPUT-FILE, OUTPUT-FILE
+                          STOP RUN.
+       C.
+           IF CP AND MALE AND YEAR-OF-EXPERIENCE = 02
+              AND COLLEGE-GRAD AND NORTH-WEST
+              MOVE PERSONNEL-RECORD TO OUT-LINE
+              WRITE OUTPUT-RECORD AFTER 2.
+              GO TO B.
+

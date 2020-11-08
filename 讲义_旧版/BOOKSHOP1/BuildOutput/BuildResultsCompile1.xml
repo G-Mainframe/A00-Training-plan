@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<buildresults name="">
+  <commandoutput>
+    <command id="id" name="java com.ibm.ftt.core.compilers.Compile " parms="COBOL &quot;E:\workspace\cobol\BOOKSHOP1\MAIN.CBL&quot; &quot;-qTEST,ADATA,EXIT(ADEXIT(FTTFDBKW)),SQL(&apos;DATABASE ETPCS USER etpuser USING zaq12wsx&apos;)&quot;" depends="" buildCondition="EQ" buildReturnCode="0" prefix="">
+    <env name="COBPATH" value="%COBPATH%;C:\RDSP\wdz\eclipse\plugins\com.ibm.ftt.ui.views.navigator_6.0.1.1\" />
+    <env name="SYSLIB" value="%SYSLIB%;C:\SQLLIB\include\cobol_a;E:\workspace\cobol\BOOKSHOP1;E:\workspace\cobol\BOOKSHOP1" />
+    <env name="COBCPYEXT" value="" />
+    <buildlocation name="E:/workspace/cobol/BOOKSHOP1/BuildOutput" clean="no" />
+    </command>
+    <generatedcommand><![CDATA[cmd /c  java com.ibm.ftt.core.compilers.Compile  COBOL "E:\workspace\cobol\BOOKSHOP1\MAIN.CBL" "-qTEST,ADATA,EXIT(ADEXIT(FTTFDBKW)),SQL('DATABASE ETPCS USER etpuser USING zaq12wsx')"]]></generatedcommand>
+    <stdout><![CDATA[Argument 1, Language == COBOL
+Argument 2, Filename == &quot;E:\workspace\cobol\BOOKSHOP1\MAIN.CBL&quot;
+Argument 3, Compile Parms == -qTEST,ADATA,EXIT(ADEXIT(FTTFDBKW)),SQL(&apos;DATABASE ETPCS USER etpuser USING zaq12wsx&apos;)
+Argument 4, Preprocessor Parms == 
+===**==COMPILE=======COMPILE===================COMPILE=========
+qParm == -qTEST,ADATA,EXIT(ADEXIT(FTTFDBKW)),SQL(&apos;DATABASE ETPCS USER etpuser USING zaq12wsx&apos;)
+fParm == &quot;E:\workspace\cobol\BOOKSHOP1\MAIN.CBL&quot;
+Compile Command == cob2.exe -c -q&quot;TEST,ADATA,EXIT(ADEXIT(FTTFDBKW)),SQL(&apos;DATABASE ETPCS USER etpuser USING zaq12wsx&apos;)&quot; &quot;E:\workspace\cobol\BOOKSHOP1\MAIN.CBL&quot;
+env is null!!
+Compile Output Msg == PP 5724-L44 IBM COBOL for Windows  6.0.2 in progress ...
+End of compilation 1,  program CUSTOMER,  no statements flagged.
+
+Compile Error Msg == 
+Compile Return Code == 0
+Result Array == Success
+======COMPILE=======COMPILE===================COMPILE=========
+Compile :: COMPILE Std Output == Success
+======COMPILE=======COMPILE===================COMPILE=========
+Compile -- highest return code == 0
+]]></stdout>
+    <stderr><![CDATA[]]></stderr>
+    <returncode>0</returncode>
+  </commandoutput>
+</buildresults>

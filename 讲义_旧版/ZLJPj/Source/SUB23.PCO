@@ -1,0 +1,468 @@
+000010 IDENTIFICATION                               DIVISION.
+000020 PROGRAM-ID.  SUB23.
+      *****************************************************************
+      *程序ID         ：SUB23
+      *程序名         ：生成学生成绩报表
+      *处理概要       ：根据输入的学号生成该学号的学生报表
+      *
+      *
+      *变量           IO       变量名
+      *
+      *
+      *
+      *日期           作成者             概要
+      *2007/04/03     张丽娟             作成
+      *
+      *****************************************************************
+      *
+      *****************************************************************
+      * 环境部
+      *****************************************************************
+000030 ENVIRONMENT                                  DIVISION.
+       INPUT-OUTPUT                                 SECTION.
+       FILE-CONTROL.
+      *    报表文件
+           SELECT     STR      ASSIGN    TO   R23
+               FILE STATUS IS STR-STATUS
+               ORGANIZATION         IS          LINE      SEQUENTIAL.
+
+      *****************************************************************
+      * 数据部
+      *****************************************************************
+000040 DATA                                         DIVISION.
+       FILE                                         SECTION.
+      *
+       FD  STR
+           LABEL     RECORD     IS          STANDARD
+           BLOCK     CONTAINS   0           RECORDS.
+       01  STR-RC.
+           03 STRNO                     PIC  9(06).
+           03 FILLER                    PIC  X(03).
+           03 STRCOURSE                 PIC  9(06).
+           03 FILLER                    PIC  X(03).
+000040     03 STRSCORE                  PIC  9(03).
+           03 FILLER                    PIC  x.
+      *
+000050 WORKING-STORAGE                              SECTION.
+      *----------------------------------------------------------------
+      *    数据库用数据定义
+      *----------------------------------------------------------------
+000051     EXEC  SQL  BEGIN  DECLARE        SECTION END-EXEC.
+      *    ORACLE 共通函数
+000052     EXEC  SQL  INCLUDE  SQLCOM.CBL           END-EXEC.
+      *    ORACLE SQL实行情报
+000055     EXEC  SQL  INCLUDE  SQLCA.CBL            END-EXEC.
+      *    学生信息表
+           EXEC  SQL  INCLUDE  STSCORE.CBL          END-EXEC.
+      *
+           EXEC  SQL  INCLUDE  SQLWK.CBL            END-EXEC.
+      *
+000056     EXEC  SQL  END    DECLARE        SECTION END-EXEC.
+      *----------------------------------------------------------------
+      *WORKAREA
+      *----------------------------------------------------------------
+      *屏幕线型定义
+       COPY WKSCRLINE.
+      *文件状态 
+       01 STR-STATUS                    PIC X(02).
+      * 
+      *----------------------------------------------------------------
+      *WORK变量
+      *----------------------------------------------------------------
+       COPY WKAREA.
+       01  STR-N-RC.
+           03 STRNNO                    PIC  X(06) VALUE " 学号 ".
+           03 FILLER                    PIC  X(03) VALUE "   ".
+           03 STRNCOURSE                PIC  X(06) VALUE " 科目 ".
+           03 FILLER                    PIC  X(03) VALUE "   ".
+000040     03 STRNSCORE                 PIC  X(04) VALUE "成绩".
+      *
+      *----------------------------------------------------------------
+      *    SUB
+      *----------------------------------------------------------------
+
+
+      *----------------------------------------------------------------
+      *
+      *----------------------------------------------------------------
+      *----------------------------------------------------------------
+000070 LINKAGE                                      SECTION.
+      *----------------------------------------------------------------
+      *
+      *----------------------------------------------------------------
+000080 SCREEN                                       SECTION.
+      *画面头
+000090 COPY SCRHEAD.
+      *接收报表生成条件
+000090 COPY SUB23SCR.
+      *画面底
+       COPY SCRFLOOR.
+      *数据库更新确认画面
+       COPY SCRPUB.
+      
+      *----------------------------------------------------------------
+      *
+      *----------------------------------------------------------------
+      * REPORT                                       SECTION.
+      *报表名
+      * RD STUDENTREPORT
+      *     PAGE LIMIT 60 LINES
+      *     HEADING 3
+      *     FIRST DETAIL 9
+      *     LAST DETAIL 52.
+      *     FOOTING 58.
+      *
+000180*-----------------------------------------------------------------
+000190*报表头
+000200*-----------------------------------------------------------------
+000210* 01 REPHEAD   TYPE IS REPORT HEADING.
+000210* 01 REPHEAD   TYPE IS RH GROUP NEXT PAGE.
+000230*     03 LINE 15 COLUMN 40 PIC X(50)
+000240*           VALUE is " 报表封皮".
+000250*     03 LINE 30 COLUMN 45 PIC X(8)
+000260*           VALUE is "2007".
+000270* 
+000280*-----------------------------------------------------------------
+000290*页眉
+000300*-----------------------------------------------------------------
+000310* 01 PAGEHEAD  TYPE is  PAGE HEADING.
+000310* 01 PAGEHEAD  TYPE is  PH.
+000320*     03 LINE 4 COLUMN 50 PIC X(30) 
+000330*           VALUE IS "STUDENT     " .
+000340*     03 LINE 5 COLUMN 45 PIC X(50)
+000350*           VALUE IS "THE ".
+000360*     03 LINE 6 COLUMN 60 PIC X(4)
+000370*           VALUE IS "PAGE".
+000380*    03        COLUMN 66 PIC ZZ9 SOURCE PAGE-COUNTER.
+000390*
+000400*-----------------------------------------------------------------
+000410*
+000420*-----------------------------------------------------------------
+000430* 01 DEPTRTHEAD TYPE IS CONTROL HEADING DEPT 
+000440*        NEXT GROUP PLUS 1.
+000450*     03 LINE PLUS 2
+000460*     03 PIC X(20) SOURCE IS DEPT-NAME(DEPT)  COLUMN 1.
+000470*
+000480*-----------------------------------------------------------------
+000490*表头
+000500*-----------------------------------------------------------------
+000510* 01 CLASSHEAD TYPE IS CONTROL HEADING SCOLLEGIAN
+000520*        NEXT GROUP PLUS 2.
+000530*     03 LINE PLUS 1 COLUMN 1 PIC X(80) 
+000540*           VALUE ALL "-".
+000550*     03 LINE PLUS 1.
+000560*        05 COLUMN  2  PIC X(6) VALUE "NO". 
+000570*        05 COLUMN 16  PIC X(5) VALUE "COLLEGIAN".
+000580*
+000590*-----------------------------------------------------------------
+000600*明细行
+000610*-----------------------------------------------------------------
+000620*01 DETAILLINE TYPE IS DETAIL.
+000620* 01 DETAILLINE TYPE IS DE.
+000630*     03 LINE PLUS 1.
+000640*        05 COLUMN  2  PIC X(6)  SOURCE REPNO.
+000650*        05 COLUMN 12  PIC X(6)  SOURCE REPCOLLEGIAN .
+000660*
+000670*-----------------------------------------------------------------
+000680*表尾
+000690*-----------------------------------------------------------------
+000700* 01  CLASSCOUNT TYPE IS PAGE FOOTING 
+000720*     03 LINE PLUS 2 COLUMN 1 PIC X(80) VALUE ALL "-".
+000730*     03 LINE PLUS 1.
+000740*        05 PIC X(30) VALUE "DEPARTMENT" COLUMN 10.
+000750*
+000760*-----------------------------------------------------------------
+000770*组小计
+000780*-----------------------------------------------------------------
+000790* 01  DEPARTCOUNT TYPE IS CONTROL FOOTING DEPART
+000800*        NEXT GROUP NEXT PAGE.
+000810*     03 LINE 53 COLUMN 2 PIC X(80) VALUE "-".
+000820*     03 LINE PLUS 2 COLUMN 10 PIC X(25) VALUE "THE".
+000830*     03 LINE PLUS 2.
+000840*        05 COLUMN 2 PIC X(6) VALUE "DEPT".
+000850*
+000860*-----------------------------------------------------------------
+000870*总计
+000880*-----------------------------------------------------------------
+000890* 01  allCOUNT TYPE IS CONTROL FOOTING final
+000900*        NEXT GROUP NEXT PAGE.
+000910*     03 LINE 53 COLUMN 2 PIC X(80) VALUE "-".
+000920*     03 LINE PLUS 2 COLUMN 10 PIC X(25) VALUE "THE".
+000930*     03 LINE PLUS 2.
+000940*        05 COLUMN 2 PIC X(6) VALUE "DEPT".
+000950*
+000960*
+000970*-----------------------------------------------------------------
+000980*封底
+000990*-----------------------------------------------------------------
+001000* 01 RDEND TYPE IS REPORT FOOTING.
+001010*     03 LINE 25 NEXT PAGE.
+      *        05 COLUMN 50 PIC X(14) VALUE "REPORT   END".
+001010*     03 LINE 35.
+      *        05 COLUMN 50 PIC X(10) VALUE "WRITTER".
+      *
+      *****************************************************************
+      *
+      *****************************************************************
+00012  PROCEDURE                                    DIVISION.
+      * DECLARATIVES.
+      * PAGE-HEAD-RTN SECTION.
+      *      USE BEFORE REPORTING PAGE-HEAD.
+      * TEST-CONT.
+      *      DISPLAY "TEST".
+      *
+      * END DECLARATIVES
+      *
+000130 MAINPROCESS                                  SECTION.
+      *初期处理
+           PERFORM STARTRTN.
+      *
+      *主处理
+           PERFORM REPORTCREATERTN.
+      *
+      *终了处理
+000180     PERFORM ENDRTN.
+      *
+000190 MAINPROCESSEXIT.
+           EXIT PROGRAM.
+      *
+      *****************************************************************
+      *初期处理
+      *
+      *****************************************************************
+       STARTRTN                                     SECTION.
+      *    初始化WORK变量
+           INITIALIZE STSCORE, WKAREA.
+      * 
+      *     INITIATE STUDENTREPORT.
+      *    打开文件
+           OPEN OUTPUT STR.
+           IF STR-STATUS = "00"
+           THEN
+              CONTINUE
+           ELSE                                                                 
+               DISPLAY "open STR-STATUS=", STR-STATUS
+               GO TO MAINPROCESSEXIT  
+           END-IF.
+            
+       STARTEXIT.
+           EXIT.
+      *****************************************************************
+      *主处理
+      *
+      *****************************************************************
+       REPORTCREATERTN                                SECTION.
+           
+      *    显示屏幕
+           DISPLAY SCRHEAD.
+           MOVE "请输入查询信息,然后输入R并按回车键确认" 
+              TO WKCLUE.
+           DISPLAY SUB23SCR.
+           MOVE "输入R并按回车键确认,输入其它字符返回主菜单" 
+              TO WKCLUE.
+           DISPLAY SCRFLOOR.
+      *    数据输入
+           ACCEPT  SUB23SCR.
+      * 
+           IF WKTURN = "R"
+           THEN
+      *       查询记录数量
+              EXEC  SQL                            
+                 SELECT  COUNT(*)              
+                 INTO :SQLCOUNT                 
+                 FROM  STUDENTSCORE             
+                 WHERE NO = :SNO
+              END-EXEC
+
+              EVALUATE   SQLCODE                       
+              WHEN  0                                  
+      *          查询记录条数正常                           
+                 DISPLAY  "查询记录条数正常sqlcode=", SQLCODE 
+                 CONTINUE
+              WHEN OTHER                               
+      *          查询记录条数失败                           
+                 DISPLAY  "查询记录条数失败sqlcode=", SQLCODE 
+                 MOVE SQLCODE TO EMSGSQLCD             
+      *          错误处理                               
+                 CALL "ERRORMSG" USING ERRORKEY        
+                 GO TO REPORTCREATEEXIT 
+              END-EVALUATE                            
+
+              IF SQLCOUNT = 0  
+              THEN            
+      *          数量为0退出操作
+                 DISPLAY "0 REC"
+                 GO TO REPORTCREATEEXIT
+              ELSE            
+                 CONTINUE             
+              END-IF          
+           ELSE
+              DISPLAY "no R"
+              GO TO REPORTCREATEEXIT
+           END-IF.
+           
+      * 
+           
+           IF (WKTURN = "R") and (SQLCOUNT NOT = 0)
+           THEN
+              MOVE STR-N-RC TO STR-RC 
+              WRITE STR-RC
+              IF STR-STATUS  = "00"
+              THEN
+                  DISPLAY "STR-N-RC ok"
+              ELSE
+                  DISPLAY "STR-N-RC error"
+              END-IF
+              
+      *       进行查询处理,生成游标
+              PERFORM SELECTRTN
+      *       进行游标遍历
+              PERFORM FETCHRTN  SQLCOUNT TIMES
+      *       关闭游标
+              PERFORM CURCLOSE
+           ELSE
+              GO TO MAINPROCESSEXIT
+           END-IF.   
+           
+           IF STR-STATUS = "00"
+           THEN
+      *        显示报表生成成功
+               DISPLAY SCRHEAD
+               MOVE "报表生成成功！" TO WKCLUE
+               MOVE SPACE TO WKTURN
+               DISPLAY SCRPUB
+               MOVE "报表生成成功！" TO WKCLUE
+               DISPLAY SCRFLOOR
+               ACCEPT SCRPUB
+           ELSE
+      *        显示输入的学号已经存在提示画面
+               DISPLAY SCRHEAD
+               MOVE "报表生成失败！" TO WKCLUE
+               MOVE SPACE TO WKTURN
+               DISPLAY SCRPUB
+               MOVE "报表生成失败！" TO WKCLUE
+               DISPLAY SCRFLOOR
+               ACCEPT SCRPUB
+           END-IF.
+      *
+      *     TERMINATE STUDENTREPORT.
+      
+       REPORTCREATEEXIT.
+           EXIT.
+      *----------------------------------------------------------------
+      *查询学生信息
+      *----------------------------------------------------------------
+       SELECTRTN                                    SECTION.
+      
+      *    定义游标                             
+           EXEC  SQL                            
+              DECLARE  CUR1  CURSOR  FOR        
+                 SELECT  NO                
+                        ,COURSE
+                        ,SCORE 
+                 FROM  STUDENTSCORE             
+                 WHERE NO = :SNO
+           END-EXEC.                           
+      *
+           EXEC  SQL       
+              OPEN  CUR1  
+           END-EXEC.      
+      *
+           EVALUATE   SQLCODE                          
+           WHEN  0                                     
+      *       游标打开正常                             
+              DISPLAY  "游标打开正常sqlok=", SQLCODE   
+           WHEN OTHER                                  
+      *       游标打开失败                             
+              DISPLAY  "游标打开失败sqlok=", SQLCODE   
+              MOVE SQLCODE TO EMSGSQLCD                
+      *       错误处理                                 
+              CALL "ERRORMSG" USING ERRORKEY           
+           END-EVALUATE.                               
+      *    
+
+      *
+       SELECTEXIT.
+           EXIT.
+      *----------------------------------------------------------------
+      *
+      *----------------------------------------------------------------
+       FETCHRTN                                     SECTION.
+      *    遍历游标,构造并生成报表文件
+           EXEC  SQL
+              FETCH  CUR1
+              INTO
+                 :SNO     
+                ,:SCOURSE 
+                ,:SSCORE  
+           END-EXEC.
+      *
+           EVALUATE SQLCODE
+           WHEN  0
+      *       游标读取正常
+              DISPLAY  "FETCH游标正常sqlCODE=", SQLCODE
+      *       将记录写入到报表文件中去
+              PERFORM REPORTWRITERTN
+           WHEN  100
+      *       游标读取结束
+              DISPLAY  "FETCH游标结束sqlCODE=", SQLCODE
+      *
+           WHEN OTHER
+      *       游标读取失败
+              DISPLAY  "FETCH游标失败sqlCODE=", SQLCODE
+      *        DISPLAY SNO            OF STINFO,
+      *                SCOLLEGIAN     OF STINFO
+      *       错误处理
+              MOVE 231 TO ERRPOINT
+              MOVE SQLCODE TO EMSGSQLCD
+              CALL "ERRORMSG" USING ERRORKEY
+              GO TO FETCHEXIT
+           END-EVALUATE.
+      *
+
+      *
+       FETCHEXIT.
+           EXIT.
+      *----------------------------------------------------------------
+      *报表生成
+      *----------------------------------------------------------------
+       REPORTWRITERTN                                  SECTION.
+      *     GENERATE STUDENTREPORT.
+           MOVE SPACE TO STR-RC
+           MOVE SNO                     TO STRNO.
+           MOVE SCOURSE                 TO STRCOURSE.
+           MOVE SSCORE                  TO STRSCORE.
+           DISPLAY STR-RC.
+           WRITE STR-RC.
+           DISPLAY "STR-STATUS=", STR-STATUS.
+      
+
+       REPORTWRITEEXIT.
+           EXIT.
+      *----------------------------------------------------------------
+      *关闭游标
+      *----------------------------------------------------------------
+       CURCLOSE                                     SECTION.
+      
+           EXEC SQL
+                 CLOSE CUR1
+           END-EXEC.
+      
+       CURCLOSEEXIT.
+           EXIT.
+      *
+      *****************************************************************
+      *终了处理
+      *
+      *****************************************************************
+       ENDRTN                                       SECTION.
+           CLOSE STR.
+      
+      *    调试信息
+           DISPLAY "SUB23 END-PROGRAM OK".
+      *
+       ENDEXIT.
+           EXIT.
+      *****************************************************************
+       END PROGRAM SUB23.
+      *****************************************************************

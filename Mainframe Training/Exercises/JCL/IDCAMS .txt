@@ -1,0 +1,62 @@
+************************************************************************
+SET MAXCC=8	COND=(7,LT,STEP1)结果：执行第一步，
+依据COND使用第二步不执行，不建立文件。最终MAXCC=8  
+
+//CONDT    JOB CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),               
+//       NOTIFY=IBMUSER                                         
+//*CREATE A PDS                                                 
+//STEP1  EXEC PGM=IDCAMS                                        
+//SYSPRINT DD SYSOUT=A                                          
+//SYSIN DD *                                                    
+  SET MAXCC=8                                                   
+/*                                                              
+//STEP2  EXEC PGM=IEFBR14,COND=(7,LT,STEP1)                     
+//FILE1 DD DSN=IBMUSER.TEST.LHF.PDSDT001,                       
+//         DISP=(NEW,CATLG),                                    
+//         STORCLAS=OSBASE,MGMTCLAS=OSMGMT,                     
+//         SPACE=(TRK,(5,1,4)),                                 
+//         DCB=(RECFM=FB,LRECL=80,BLKSIZE=3120,DSORG=PO)        
+//                                                              
+************************************************************************
+
+************************************************************************
+SET MAXX=0	COND=(7,LT,STEP1),让其执行STEP2,最终MAXCC=0
+
+//CONDT    JOB CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),            
+//       NOTIFY=IBMUSER                                      
+//*CREATE A PDS                                              
+//STEP1  EXEC PGM=IDCAMS                                     
+//SYSPRINT DD SYSOUT=A                                       
+//SYSIN DD *                                                 
+  SET MAXCC=0                                                
+/*                                                           
+//STEP2  EXEC PGM=IEFBR14,COND=(7,LT,STEP1)                  
+//FILE1 DD DSN=IBMUSER.TEST.LHF.PDSDT001,                    
+//         DISP=(NEW,CATLG),                                 
+//         STORCLAS=OSBASE,MGMTCLAS=OSMGMT,                  
+//         SPACE=(TRK,(5,1,4)),                              
+//         DCB=(RECFM=FB,LRECL=80,BLKSIZE=3120,DSORG=PO)     
+//                                                                                                                         
+************************************************************************
+
+************************************************************************
+SET MAXX=4	COND=(4,NE,STEP1)使得STEP2执行，MAXCC=4
+
+//CONDT    JOB CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),          
+//       NOTIFY=IBMUSER                                    
+//*CREATE A PDS                                            
+//STEP1  EXEC PGM=IDCAMS                                   
+//SYSPRINT DD SYSOUT=A                                     
+//SYSIN DD *                                               
+  SET MAXCC=4                                              
+/*                                                         
+//STEP2  EXEC PGM=IEFBR14,COND=(4,NE,STEP1)                
+//FILE1 DD DSN=IBMUSER.TEST.LHF.PDSDT001,                  
+//         DISP=(NEW,CATLG),                               
+//         STORCLAS=OSBASE,MGMTCLAS=OSMGMT,                
+//         SPACE=(TRK,(5,1,4)),                            
+//         DCB=(RECFM=FB,LRECL=80,BLKSIZE=3120,DSORG=PO)   
+//                                                  
+************************************************************************
+
+************************************************************************

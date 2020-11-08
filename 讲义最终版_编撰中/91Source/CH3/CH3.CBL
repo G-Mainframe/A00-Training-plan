@@ -1,0 +1,38 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.   FILEM.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+             SELECT IN-FILE ASSIGN TO DASDIND1
+             FILE STATUS  SYS-FILE-STATUS.
+       DATA DIVISION.
+       FILE SECTION.
+       FD IN-FILE LABEL RECORD IS STANDARD .
+       01 IN-RECORD.
+          02  IN-DATE.
+            03  IN-YEAR  PIC  9(4).
+            03  IN-MONTH  PIC  99.
+            03  IN-DAY   PIC  99.
+          02  PRODUCT-CODE  PIC  9(4).
+          02  QUANTITY      PIC  9(6).
+          02  UNIT-PRICE    PIC  9(6).
+000191 WORKING-STORAGE SECTION.
+000192 01 SYS-FILE-STATUS PIC X(2) VALUE "00".
+       PROCEDURE DIVISION.
+       L100.
+           OPEN OUTPUT IN-FILE.
+           DISPLAY "1" , SYS-FILE-STATUS.
+           STOP 1.
+       L200.
+           MOVE "100605101111000300000100" TO IN-RECORD.
+           WRITE  IN-RECORD.
+           DISPLAY IN-RECORD.
+           STOP 1.
+           MOVE "200605101111000300000100" TO IN-RECORD.
+           WRITE  IN-RECORD.
+           DISPLAY IN-RECORD.
+           STOP 1.
+      *     GO TO L200.
+       L999.
+           CLOSE IN-FILE.
+           EXIT PROGRAM.

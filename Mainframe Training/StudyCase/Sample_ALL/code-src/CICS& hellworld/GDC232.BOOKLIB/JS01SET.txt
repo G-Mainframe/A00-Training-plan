@@ -1,0 +1,28 @@
+       01   JS01MAPI.                         
+           02 FILLER    PIC X(12).            
+           02 ID-ML     COMP PIC S9(4).       
+           02 ID-MF     PIC X.                
+           02 ID-MI     PIC X(20).            
+           02 NAME-ML   COMP PIC S9(4).       
+           02 NAME-MF   PIC X.                
+           02 NAME-MI   PIC X(20).            
+           02 L-01-ML   COMP PIC S9(4).       
+           02 L-01-MF   PIC X.                
+           02 L-01-MI   PIC X(20).            
+           02 L-02-ML   COMP PIC S9(4).       
+           02 L-02-MF   PIC X.                
+           02 L-02-MI   PIC X(20).            
+       01   JS01MAPO REDEFINES JS01MAPI.      
+           02 FILLER    PIC X(12).            
+           02 FILLER    PIC X(2).             
+           02 ID-MA     PIC X.                
+           02 ID-MO     PIC X(20).            
+           02 FILLER    PIC X(2).             
+           02 NAME-MA   PIC X.                
+           02 NAME-MO   PIC X(20).            
+           02 FILLER    PIC X(2).             
+           02 L-01-MA   PIC X.                
+           02 L-01-MO   PIC X(20).            
+           02 FILLER    PIC X(2).             
+           02 L-02-MA   PIC X.                
+           02 L-02-MO   PIC X(20).            

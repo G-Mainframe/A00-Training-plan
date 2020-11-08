@@ -1,0 +1,10 @@
+CREATE TABLE TDB_RECSEC
+(
+    FRMCOD                         CHAR(9) NOT NULL,
+    GENFLD                         VARCHAR2(1191) NOT NULL
+)
+/
+CREATE UNIQUE INDEX TDB_RECSEC
+ON TDB_RECSEC
+(FRMCOD)
+/

@@ -1,0 +1,278 @@
+000010 IDENTIFICATION                               DIVISION.
+000020 PROGRAM-ID.  SUB11.
+      *****************************************************************
+      *程序ID         ：SUB11
+      *程序名         ：学生学籍信息录入
+      *处理概要       ：新生入学时将学生信息录入到系统中
+      *
+      *
+      *变量           IO       变量名
+      *
+      *
+      *
+      *日期           作成者             概要
+      *2007/03/18     张丽娟             作成
+      *
+      *****************************************************************
+      *
+      *****************************************************************
+      * 环境部
+      *****************************************************************
+000030 ENVIRONMENT                                  DIVISION.
+
+
+
+
+      *****************************************************************
+      * 数据部
+      *****************************************************************
+000040 DATA                                         DIVISION.
+       FILE                                         SECTION.
+
+
+000050 WORKING-STORAGE                              SECTION.
+      *----------------------------------------------------------------
+      *    数据库用数据定义
+      *----------------------------------------------------------------
+000051     EXEC  SQL  BEGIN  DECLARE        SECTION END-EXEC.
+      *    ORACLE 共通函数
+000052     EXEC  SQL  INCLUDE  SQLCOM.CBL           END-EXEC.
+      *    ORACLE SQL实行情报
+000055     EXEC  SQL  INCLUDE  SQLCA.CBL            END-EXEC.
+      *    学生信息表
+           EXEC  SQL  INCLUDE  STINFO.CBL           END-EXEC.
+      *
+           EXEC  SQL  INCLUDE  SQLWK.CBL            END-EXEC.
+      *
+000056     EXEC  SQL  END    DECLARE        SECTION END-EXEC.
+      *----------------------------------------------------------------
+      *WORKAREA
+      *----------------------------------------------------------------
+      *屏幕线型定义
+       COPY WKSCRLINE.
+      *
+       COPY WKAREA.
+      *
+      *----------------------------------------------------------------
+      *    SUB
+      *----------------------------------------------------------------
+
+      *
+      *----------------------------------------------------------------
+      *
+      *----------------------------------------------------------------
+000070 LINKAGE                                      SECTION.
+      *----------------------------------------------------------------
+      *
+      *----------------------------------------------------------------
+000080 SCREEN                                       SECTION.
+      *画面头
+000090 COPY SCRHEAD.
+      *学生基本信息画面
+000090 COPY SCRSINFO.
+      *画面底
+       COPY SCRFLOOR.
+      *公用提示画面
+       COPY SCRPUB.
+
+      *
+      *****************************************************************
+      *
+      *****************************************************************
+000120 PROCEDURE                                    DIVISION.
+000130 MAINPROCESS                                  SECTION.
+      *初期处理
+           PERFORM STARTRTN.
+      *
+      *主处理
+           PERFORM MAINRTN.
+      *
+      *终了处理
+000180     PERFORM ENDRTN.
+      *
+000190 MAINPROCESSEXIT.
+           EXIT PROGRAM.
+      *
+      *****************************************************************
+      *初期处理
+      *
+      *****************************************************************
+       STARTRTN                                     SECTION.
+      *    初始化WORK变量
+           INITIALIZE STINFO, WKAREA.
+
+      *
+       STARTEXIT.
+           EXIT.
+      *****************************************************************
+      *主处理
+      *
+      *****************************************************************
+       MAINRTN                                      SECTION.
+
+      *    显示屏幕
+           DISPLAY SCRHEAD.
+           MOVE "请输入新增学生信息,然后输入I并按回车键确认" TO WKCLUE.
+           DISPLAY SCRSINFO.
+           MOVE "输入I并按回车键确认,输入其它字符返回主菜单" TO WKCLUE.
+           DISPLAY SCRFLOOR.
+      *    数据输入
+           ACCEPT  SCRSINFO.
+      *
+           IF WKTURN = "I"
+           THEN
+      *        数据校验
+               PERFORM CHACKDATARTN
+      *
+               IF DATACHACKFLAG = 1
+               THEN
+      *            更新数据库
+                   PERFORM DBUPRTN
+               ELSE
+                   CONTINUE
+               END-IF
+           ELSE
+               GO TO MAINEXIT
+           END-IF.
+
+
+
+       MAINEXIT.
+           EXIT.
+      *
+      *----------------------------------------------------------------
+      *校验数据
+      *    数据不合格则该项目清空，并设置FLAG为0
+      *----------------------------------------------------------------
+       CHACKDATARTN                                 SECTION.
+      *    CHACKFLAG置1
+           MOVE 1                       TO  DATACHACKFLAG.
+
+      *    学号唯一性判断
+      *    查询记录数量
+           EXEC  SQL
+              SELECT  COUNT(*)
+              INTO :SQLCOUNT
+              FROM  STUDENTINFO
+              WHERE NO = :SNO
+           END-EXEC
+
+           EVALUATE   SQLCODE
+           WHEN  0
+      *       查询记录条数正常
+              DISPLAY  "查询记录条数正常sqlcode=", SQLCODE
+              CONTINUE
+           WHEN OTHER
+      *       查询记录条数失败
+              DISPLAY  "查询记录条数失败sqlcode=", SQLCODE
+              MOVE SQLCODE TO EMSGSQLCD
+      *       错误处理
+              CALL "ERRORMSG" USING ERRORKEY
+              GO TO MAINEXIT
+           END-EVALUATE
+
+           IF SQLCOUNT = 0
+           THEN
+      *       去除姓名前后空格
+              IF SNAME NOT = SPACE
+              THEN
+                  CONTINUE
+              ELSE
+                  MOVE 0                   TO  DATACHACKFLAG
+              END-IF
+      *
+      *       性别确认，男或者女
+      *        IF SSEX = "男" OR SSEX = "女"
+      *        THEN
+      *            DISPLAY  SSEX
+      *            CONTINUE
+      *        ELSE
+      *            MOVE 0                       TO  DATACHACKFLAG
+      *        END-IF
+      *
+      *       年龄确认，小于7或者大于25都非法
+      *        IF > 7 AND < 25
+      *        THEN
+      *            CONTINUE
+      *        ELSE
+      *            MOVE 0                       TO  DATACHACKFLAG
+      *            MOVE 0                      TO  年龄变量
+      *        END-IF
+           ELSE
+      *        显示输入的学号已经存在提示画面
+               DISPLAY SCRHEAD
+               MOVE "您输入的学号已存在！" TO WKCLUE
+               MOVE SPACE TO WKTURN
+               DISPLAY SCRPUB
+               MOVE "您输入的学号已存在！" TO WKCLUE
+               DISPLAY SCRFLOOR
+               ACCEPT SCRPUB
+      *
+               MOVE 0                   TO  DATACHACKFLAG
+           END-IF.
+
+       CHACKDATAEXIT.
+           EXIT.
+      *
+      *----------------------------------------------------------------
+      *插入新数据
+      *----------------------------------------------------------------
+       DBUPRTN                                      SECTION.
+      *
+      *    数据插入操作
+           EXEC SQL
+               INSERT INTO STUDENTINFO( NO
+                                       ,COLLEGIAN
+                                       ,NAME
+                                       ,SEX
+                                       ,AGE
+                                      )
+               VALUES ( :SNO
+                       ,:SCOLLEGIAN
+                       ,:SNAME
+                       ,:SSEX
+                       ,:SAGE
+                      )
+           END-EXEC.
+      *
+      *    数据库返回码判断
+           EVALUATE SQLCODE
+           WHEN 0
+      *        返回码为“0”数据插入正常
+      *        数据提交
+               DISPLAY  "新增学生sqlCODE=", SQLCODE
+               EXEC SQL
+                   COMMIT WORK RELEASE
+               END-EXEC
+      *        显示插入成功画面
+               DISPLAY SCRHEAD
+               MOVE "新增学生信息成功！" TO WKCLUE
+               MOVE SPACE TO WKTURN
+               DISPLAY SCRPUB
+               MOVE "新增学生信息成功！" TO WKCLUE
+               DISPLAY SCRFLOOR
+               ACCEPT SCRPUB
+           WHEN OTHER
+      *        数据库返回码非“0”，数据插入失败，设定错误码
+               MOVE 111 TO ERRPOINT
+               MOVE SQLCODE TO EMSGSQLCD
+      *        错误处理
+               CALL "ERRORMSG" USING ERRORKEY
+           END-EVALUATE.
+      *
+       DBUPEXIT.
+           EXIT.
+      *
+      *****************************************************************
+      *终了处理
+      *
+      *****************************************************************
+       ENDRTN                                       SECTION.
+      *    调试信息
+           DISPLAY "SUB11 END-PROGRAM OK".
+      *
+       ENDEXIT.
+           EXIT.
+      *****************************************************************
+       END PROGRAM SUB11.
+      *****************************************************************

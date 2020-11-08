@@ -1,0 +1,12 @@
+//C200300A     JOB    CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=C200300  00010001
+//**       TYPRUN=SCAN                                                  00011001
+//GO1   EXEC PGM=WRITE1                                                 00020001
+//STEPLIB DD DSN=C200300.TEST.LOADLIB,DISP=SHR                          00030000
+//CUSTMAST DD DSN=C200300.TEST.CUSTMAST,DISP=SHR                        00040000
+//MYOUT    DD DSN=C200300.TEST.OUT4,DISP=(NEW,CATLG,DELETE),            00051001
+//     SPACE=(TRK,(1,1)),DCB=(RECFM=FB,LRECL=25,BLKSIZE=500)            00052001
+//                                                                      00053000
+//MYOUT    DD DSN=C200300.TEST.OUT2,DISP=OLD                            00054001
+//                                                                      00055001
+//                                                                      00060001
+

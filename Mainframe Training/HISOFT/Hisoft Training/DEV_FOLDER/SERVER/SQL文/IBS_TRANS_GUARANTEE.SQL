@@ -1,0 +1,11 @@
+CREATE TABLE IBS_TRANS_GUARANTEE
+(
+    案件ＮＯ                         CHAR(12) DEFAULT ' ' NOT NULL,
+    被保証先コード                 CHAR(8) DEFAULT ' ' NOT NULL,
+    負担割合分子                   NUMBER(16,2) DEFAULT 0 NOT NULL,
+    負担割合分母                   NUMBER(16,2) DEFAULT 0 NOT NULL,
+    CONSTRAINT SYS_C0024081 PRIMARY KEY (案件ＮＯ, 被保証先コード) USING INDEX,
+    CONSTRAINT SYS_C0029047 FOREIGN KEY (案件ＮＯ) REFERENCES IBS_TRANS (案件ＮＯ) ON DELETE CASCADE,
+    CONSTRAINT SYS_C0029056 FOREIGN KEY (被保証先コード) REFERENCES IBS_CUSTOMER (取引先コード)
+)
+/

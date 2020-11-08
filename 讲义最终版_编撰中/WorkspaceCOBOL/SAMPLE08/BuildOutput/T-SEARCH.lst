@@ -1,0 +1,159 @@
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1                Date 03/29/2014  Time 00:04:18   Page     1                
+0调用参数：
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0生效的选项：
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+     NOCICS                                                                                                                          
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      TABLE-SE  Date 03/29/2014  Time 00:04:18   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0/* TABLE-SEARCH                                                                                                                     
+   000001         000010 IDENTIFICATION DIVISION.                                                                                    
+   000002         000020 PROGRAM-ID. TABLE-SEARCH.                                                                                   
+   000003         000030 ENVIRONMENT DIVISION.                                                                                       
+   000004         000070 DATA DIVISION.                                                                                              
+   000005         000110 WORKING-STORAGE SECTION.                                                                                    
+   000006         000120 77 NUMBERS      PIC 999.                                                                                    
+   000007         000130 77 T-F          PIC 9 VALUE 1.                                                                              
+   000008         000140 77 SEARCH-N     PIC 9.                                                                                      
+   000009         000220 01 STOCK-TABLE.                                                                                             
+   000010         000230   03 FILLER PIC X(9) VALUE "OO1000325".                                                                     
+   000011         000240   03 FILLER PIC X(9) VALUE "003000827".                                                                     
+   000012         000250   03 FILLER PIC X(9) VALUE "006000625".                                                                     
+   000013         000260   03 FILLER PIC X(9) VALUE "008001856".                                                                     
+   000014         000270   03 FILLER PIC X(9) VALUE "010004850".                                                                     
+   000015         000280   03 FILLER PIC X(9) VALUE "999080000".                                                                     
+   000016         000290 01 S-P-T REDEFINES STOCK-TABLE.                                           9                                 
+   000017         000300   02 S-P OCCURS 6                                                                                           
+   000018         000301        ASCENDING KEY N-T                                                  20                                
+   000019         000302        INDEXED I.                                                                                           
+   000020         000310     03 N-T PIC 9(3) .                                                                                       
+   000021         000320     03 P-T PIC 9(4)V99.                                                                                     
+   000022         000330 PROCEDURE DIVISION.                                                                                         
+   000023         000331*   L-1                                                                                                      
+   000024         000340 MAIN.                                                                                                       
+   000025         000371*                                                                                                            
+   000026         000380     PERFORM T-SEARCH UNTIL T-F = 0.                                       30 7                              
+   000027         000390*                                                                                                            
+   000028         000400     STOP RUN.                                                                                               
+   000029         000401*   L-2                                                                                                      
+   000030         000402 T-SEARCH.                                                                                                   
+   000031         000403     DISPLAY "0 ACCEPT NUMBERS"                                                                              
+   000032         000404     DISPLAY "1 SEARCH1".                                                                                    
+   000033         000405     DISPLAY "2 SEARCH2".                                                                                    
+   000034         000406     DISPLAY "ELSE EXIT."                                                                                    
+   000035         000407     DISPLAY "ACCEPT SEARCH-N = " WITH NO ADVANCING.                                                         
+   000036         000408     ACCEPT SEARCH-N.                                                      8                                 
+   000037         000409     EVALUATE SEARCH-N                                                     8                                 
+   000038      1  000410          WHEN 0    DISPLAY "INPUT NUMBERS PIC 999"                                                          
+   000039      1  000411                    ACCEPT NUMBERS                                         6                                 
+   000040      1  000412          WHEN 1 PERFORM T-SEARCH-1                                        46                                
+   000041      1  000413     WHEN 2 PERFORM T-SEARCH-2                                             54                                
+   000042      1             WHEN OTHER MOVE 0 TO T-F                                              7                                 
+   000043         000415     END-EVALUATE.                                                                                           
+   000044         000416                                                                                                             
+   000045         000417*  L-3                                                                                                       
+   000046         000418 T-SEARCH-1.                                                                                                 
+   000047         000420     DISPLAY "SEARCH 1 ".                                                                                    
+   000048         000430     SET I TO 1.                                                           19                                
+   000049         000441     SEARCH S-P VARYING I                                                  17 19                             
+   000050      1  000442          AT END  DISPLAY "1 NO OK!"                                                                         
+   000051         000443          WHEN NUMBERS = N-T(I)                                            6 20 19                           
+   000052      1  000445               DISPLAY "1 OK!".                                                                              
+   000053         000446*                                                                                                            
+   000054         000447  T-SEARCH-2.                                                                                                
+   000055         000448     DISPLAY "SEARCH 2 ".                                                                                    
+   000056         000449     SET I TO 1.                                                           19                                
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      TABLE-SE  Date 03/29/2014  Time 00:04:18   Page     3                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0  000057         000451     SEARCH ALL S-P                                                        17                                
+   000058      1  000452          AT END  DISPLAY "2 NO OK!"                                                                         
+   000059                         WHEN N-T(I) =   NUMBERS                                          20 19 6                           
+   000060      1  000455               DISPLAY "2 OK!".                                                                              
+ */ TABLE-SEARCH                                                                                                                     
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      TABLE-SE  Date 03/29/2014  Time 00:04:18   Page     4                
+0数据名引用前的“M”指示数据名由此引用修改。
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+       19   I. . . . . . . . . . . . . . .  M48 M49 51 M56 59                                                                                                                
+       20   N-T. . . . . . . . . . . . . .  18 51 59                                                                                                                         
+        6   NUMBERS. . . . . . . . . . . .  M39 51 59                                                                                                                        
+       21   P-T                                                                                                                                                              
+       17   S-P. . . . . . . . . . . . . .  49 57                                                                                                                            
+       16   S-P-T                                                                                                                                                            
+        8   SEARCH-N . . . . . . . . . . .  M36 37                                                                                                                           
+        9   STOCK-TABLE. . . . . . . . . .  16                                                                                                                               
+        7   T-F. . . . . . . . . . . . . .  26 M42                                                                                                                           
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      TABLE-SE  Date 03/29/2014  Time 00:04:18   Page     5                
+0上下文用法由过程名引用前的字母指示。
+ 这些字母和它们的含义为：
+     A = ALTER（过程名）
+     D = GO TO（过程名）DEPENDING ON
+     E = 范围（PERFORM）到（过程名）的结束
+     G = GO TO（过程名）
+     P = PERFORM（过程名）
+     T = (ALTER) TO PROCEED TO（过程名）
+     U = USE FOR DEBUGGING（过程名）
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+       24   MAIN                                                                                                                                                             
+       30   T-SEARCH . . . . . . . . . . .  P26                                                                                                                              
+       46   T-SEARCH-1 . . . . . . . . . .  P40                                                                                                                              
+       54   T-SEARCH-2 . . . . . . . . . .  P41                                                                                                                              
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      TABLE-SE  Date 03/29/2014  Time 00:04:18   Page     6                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   TABLE-SEARCH                                                                                                                                                     
+-* COBOL 程序 TABLE-SEARCH 的统计信息：
+ *    源记录 = 60
+ *    数据部分语句 = 8
+ *    过程部分语句 = 24
+0语言环境 = zh_CN.IBM-1386
+0编译 1 结束，程序 TABLE-SEARCH，未标记任何语句。
+0返回码 0

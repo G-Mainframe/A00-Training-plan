@@ -1,0 +1,46 @@
+***********************IEBCOMPR************************
+
+//COMPPS JOB ('2010/06/22'),LHF,                     
+// CLASS=A,MSGCLASS=A,MSGLEVEL=(2,1),                
+// REGION=20M,TIME=(1,10),                           
+// ADDRSPC=VIRT,NOTIFY=&SYSUID,                      
+// PRTY=10,                                          
+// BYTES=(500,DUMP)                                  
+//COMPPS   EXEC PGM=IEBCOMPR                         
+//SYSPRINT DD   SYSOUT=*                             
+//SYSUT1   DD   DSN=IBMUSER.TEST.LHF.DATA2,DISP=OLD  
+//SYSUT2   DD   DSN=IBMUSER.TEST.LHF.DATA3,DISP=OLD  
+//SYSIN    DD   *                                    
+  COMPARE TYPORG=PS                                  
+/*                          
+
+
+
+
+ 
+//IBMUSERA JOB CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),    
+//         NOTIFY=IBMUSER                            
+//*CREATE A SDS                                      
+//ALLOC    EXEC PGM=IEFBR14                          
+//CRSDS01  DD DSN=IBMUSER.TEST.DATA.SDS,             
+//            DISP=(NEW,CATLG,DELETE),               
+//            SPACE=(TRK,(10,10)),                   
+//            DCB=(RECFM=FB,LRECL=80,BLKSIZE=3120)   
+//                                                       
+
+
+//LIHF     JOB CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),             
+//       NOTIFY=IBMUSER                 HELLO                 
+//*CREATE A PDS                                               
+//DELETE EXEC PGM=IDCAMS                                      
+//SYSPRINT DD SYSOUT=A                                        
+//SYSIN DD *                                                  
+  DELETE IBMUSER.TEST.DATA.PDS                                
+/*                                                            
+//DEFINE EXEC PGM=IEFBR14                                     
+//FILE1 DD DSN=IBMUSER.TEST.DATA.PDS,                         
+//         DISP=(NEW,CATLG),                                  
+//         STORCLAS=OSBASE,MGMTCLAS=OSMGMT,                   
+//         SPACE=(TRK,(5,1,4)),                               
+//         DCB=(RECFM=FB,LRECL=80,BLKSIZE=3120,DSORG=PO)      
+//                                                                                

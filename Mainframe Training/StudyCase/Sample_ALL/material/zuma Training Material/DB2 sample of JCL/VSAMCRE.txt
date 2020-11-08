@@ -1,0 +1,28 @@
+//EV603UX1  JOB (F9500B,KQ40X,32,                                       00000110
+//      'TM=XX,TN=XX'),CFTS,                                            00000210
+//       NOTIFY=EV603U,REGION=4M,                                       00000310
+//       CLASS=M,MSGCLASS=R                                             00000417
+//*------------------------------------< JOB LIBRARY >----------------- 00001708
+//JOBLIB  DD DSN=IG43I.DEVLIB.LMOD,DISP=SHR                             00001817
+//*-------------------------------------------------------------------- 00002008
+//AMS     EXEC PGM=IDCAMS                                               00004023
+//SYSPRINT DD  SYSOUT=*                                                 00005024
+//SYSIN    DD  *                                                        00009023
+  DEL IG43IVT.IT.T520.LCMAT.QHBO.BK CL                                  00010025
+  DEF CL  (NAME(IG43IVT.IT.T520.LCMAT.QHBO.BK)  -                       00020025
+           RECORDS(50 10)                  -                            00040024
+           VOL(EBI007)                     -                            00041025
+           KEYS(10 0)                      -                            00050024
+           SHR(2 3)                        -                            00060024
+           RECORDSIZE(10 10)               -                            00070024
+           UNIQUE INDEXED                 )                             00080024
+/*                                                                      00090023
+//*------------------------------------------ COPY ------------------   00100023
+//ST250   EXEC PGM=IDCAMS                                               00110024
+//SYSPRINT DD  SYSOUT=*                                                 00111024
+//INFILE   DD  DISP=OLD,DSN=IG43I.IT.T520.LCMAT.QHBO                    00120025
+//OUTFILE  DD  DISP=OLD,DSN=IG43IVT.IT.T520.LCMAT.QHBO.BK               00130025
+//SYSIN    DD  *                                                        00140023
+  REPRO INFILE(INFILE) OUTFILE(OUTFILE)                                 00150024
+/*                                                                      00160023
+//*                                                                     00170023

@@ -1,0 +1,15 @@
+\MAC ;                                                                    
+        \COMM ** éôì∂ï}ó{éËìñ SYSTEM îFíËêøãÅé“íäèo **;                   
+                                                                          
+        \SENDO MSG='** éôì∂ï}ó{éËìñ SYSTEM îFíËêøãÅé“íäèo **';            
+        \PRIVLIB PWS@LM001,MEDIA=DK105;                                   
+        \STEP JFU100C;                                                    
+            \DBASSIGN COMMIT=100;                                         
+            \ASSIGN IND1  ,JFUSNTDS,MEDIA=DK302;                          
+            \DEFINE IND1  ,DVC=DS;                                        
+            \ASSIGN OTD1  ,JFU1001 ,MEDIA=DK302,AU=CYL,SZ=1,INCSZ=5,      
+                                                            RLS=UNUSE;    
+            \DEFINE OTD1  ,DVC=DS;                                        
+            \ASSIGN PR01  ,@OUT;                                          
+            \DEFINE PR01  ,FORMSET=FXSTD03;                               
+        \ENDSTEP ;                                                        

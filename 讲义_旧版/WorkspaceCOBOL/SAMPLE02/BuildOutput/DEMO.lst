@@ -1,0 +1,225 @@
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1                Date 03/21/2014  Time 00:42:35   Page     1                
+0调用参数：
+ adata,exit(adexit(fttfdbkw))
+0生效的选项：
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+     NOCICS                                                                                                                          
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+     NOTEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1                Date 03/21/2014  Time 00:42:35   Page     2                
+0LineID  Message code  Library phase message text
+                                                                                                                                     
+         IGYLI0090-W   在此程序中找到了 1 个顺序错误。
+-Messages    Total    Informational    Warning    Error    Severe    Terminating
+0Printed:       1                          1                                
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DEMO99    Date 03/21/2014  Time 00:42:35   Page     3                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0  000001         000020 IDENTIFICATION DIVISION.                                                                                    
+   000002         000030 PROGRAM-ID.   DEMO99.                                                                                       
+   000003         000040 ENVIRONMENT    DIVISION.                                                                                    
+   000004         000050 CONFIGURATION  SECTION.                                                                                     
+   000005         000060 DATA DIVISION.                                                                                              
+   000006         000070 WORKING-STORAGE SECTION.                                                                                    
+   000007         000080 77 PERFORM-N PIC 9 VALUE 9.                                                                                 
+   000008         000090*                                                                                                            
+   000009         000100 01 COM-99.                                                                                                  
+   000010         000110     03 M1 PIC 99.                                                                                           
+   000011         000111     03 FILLER PIC X VALUE "*".                                                                              
+   000012         000120     03 M2 PIC 99.                                                                                           
+   000013         000121     03 FILLER PIC X VALUE "=".                                                                              
+   000014         000130     03 MM  PIC 99.                                                                                          
+   000015         000140* 		                                                                                                         
+   000016         000150 01 SHOW-99.                                                                                                 
+   000017         000160       03 SHOW-M1 PIC 99.                                                                                    
+   000018         000170       03 FILLER PIC X .                                                                                     
+   000019         000180       03 SHOW-M2 PIC 99.                                                                                    
+   000020         000190       03 FILLER PIC X .                                                                                     
+   000021         000200       03 SHOW-MM  PIC 99.                                                                                   
+   000022         000240 PROCEDURE DIVISION.                                                                                         
+   000023         000250* L-1                                                                                                        
+   000024         000260 S-MAIN.                                                                                                     
+   000025         000270*                                                                                                            
+   000026         000280     DISPLAY "HELLO PERFORM".                                                                                
+   000027         000290*                                                                                                            
+   000028         000300     PERFORM S-PERFORM  THRU S-PERFORM-END                                 35 48                             
+   000029         000310          UNTIL PERFORM-N = 0.                                             7                                 
+   000030         000320*                                                                                                            
+   000031         000330     DISPLAY "99 SHOW END!".                                                                                 
+   000032         000331          STOP 1.                                                                                            
+   000033         000340     STOP RUN.                                                                                               
+   000034         000350* L-2                                                                                                        
+   000035         000360 S-PERFORM.                                                                                                  
+   000036         000370     PERFORM MENU-SHOW.                                                    51                                
+   000037         000380      DISPLAY "PERFORM-N=" WITH NO ADVANCING.                                                                
+   000038         000390      ACCEPT PERFORM-N.                                                    7                                 
+   000039         000391      DISPLAY " ".                                                                                           
+   000040         000400      INITIALIZE COM-99.                                                   9                                 
+   000041         000410      EVALUATE PERFORM-N                                                   7                                 
+   000042      1  000420          WHEN 1 PERFORM PERFORM-TIMES                                     57                                
+   000043      1  000430          WHEN 2 PERFORM PERFORM-UNTIL                                     61                                
+   000044      1  000440          WHEN 3 PERFORM PERFORM-VARYING                                   66                                
+   000045      1  000450          WHEN OTHER GO TO S-PERFORM-END                                   48                                
+   000046         000460      END-EVALUATE.                                                                                          
+   000047         000470                                                                                                             
+   000048         000480 S-PERFORM-END.                                                                                              
+   000049         000490     EXIT.                                                                                                   
+   000050         000500* L-3                                                                                                        
+   000051         000510 MENU-SHOW.                                                                                                  
+   000052         000520     DISPLAY "PERFORM-N=0 STOP RUN".                                                                         
+   000053         000530     DISPLAY "PERFORM-N=1 PERFORM TIMES".                                                                    
+   000054         000540     DISPLAY "PERFORM-N=2 PERFORM UNTIL" .                                                                   
+   000055         000550     DISPLAY "PERFORM-N=3 PERFORM VARYING".                                                                  
+   000056         000560*                                                                                                            
+   000057         000570 PERFORM-TIMES.                                                                                              
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DEMO99    Date 03/21/2014  Time 00:42:35   Page     4                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0  000058         000580     DISPLAY "PERFORM TIMES".                                                                                
+   000059         000590     PERFORM PERFORM-TIMES-SUB THRU PERFORM-TIMES-END 9 TIMES.             72 83                             
+   000060         000600*                                                                                                            
+   000061         000610 PERFORM-UNTIL.                                                                                              
+   000062         000620     DISPLAY "PERFORM UNTIL".                                                                                
+   000063         000630     PERFORM PERFORM-UNTIL-SUB THRU PERFORM-UNTIL-END                      86 97                             
+   000064**        		           UNTIL M1 > 8.                                                      10                                
+   000065         000650*                                                                                                            
+   000066         000660 PERFORM-VARYING.                                                                                            
+   000067         000670     DISPLAY "PERFORM VARYING".                                                                              
+   000068         000680     PERFORM PERFORM-VARYING-SUB THRU PERFORM-VARYING-END                  100 106                           
+   000069         000690         VARYING M1 FROM 1 BY 1 UNTIL M1 > 9                               10 10                             
+   000070         000700          AFTER  M2 FROM 1 BY 1 UNTIL M2 > M1.                             12 12 10                          
+   000071         000710* L-4                                                                                                        
+   000072         000720 PERFORM-TIMES-SUB.                                                                                          
+   000073         000730     ADD 1 TO M1.                                                          10                                
+   000074         000731     MOVE 1 TO M2.                                                         12                                
+   000075         000740     PERFORM M1 TIMES                                                      10                                
+   000076      1  000750         COMPUTE MM = M1 * M2                                              14 10 12                          
+   000077      1  000770         MOVE COM-99 TO SHOW-99                                            9 16                              
+   000078      1  000780         DISPLAY SHOW-99 WITH NO ADVANCING                                 16                                
+   000079      1  000781         DISPLAY "  " WITH NO ADVANCING                                                                      
+   000080      1  000782         ADD 1 TO M2                                                       12                                
+   000081         000791     END-PERFORM.                                                                                            
+   000082         000800     DISPLAY "  ".                                                                                           
+   000083         000810 PERFORM-TIMES-END.                                                                                          
+   000084         000820     EXIT.                                                                                                   
+   000085         000830*                                                                                                            
+   000086         000840 PERFORM-UNTIL-SUB.                                                                                          
+   000087         000850     ADD 1 TO M1.                                                          10                                
+   000088         000851     MOVE 1 TO M2.                                                         12                                
+   000089         000860     PERFORM UNTIL M2 > M1                                                 12 10                             
+   000090      1  000870     COMPUTE MM = M1 * M2                                                  14 10 12                          
+   000091      1  000890     MOVE COM-99 TO SHOW-99                                                9 16                              
+   000092      1  000900     DISPLAY SHOW-99 WITH NO ADVANCING                                     16                                
+   000093      1  000901     DISPLAY "  " WITH NO ADVANCING                                                                          
+   000094      1  000902     ADD 1 TO M2                                                           12                                
+   000095         000910     END-PERFORM.                                                                                            
+   000096         000920     DISPLAY "  ".                                                                                           
+   000097         000930 PERFORM-UNTIL-END.                                                                                          
+   000098         000940     EXIT.                                                                                                   
+   000099         000950*                                                                                                            
+   000100         000960 PERFORM-VARYING-SUB.                                                                                        
+   000101         000970     COMPUTE MM = M1 * M2.                                                 14 10 12                          
+   000102         000980     MOVE COM-99 TO SHOW-99.                                               9 16                              
+   000103         000990     DISPLAY SHOW-99 WITH NO ADVANCING.                                    16                                
+   000104         000991     DISPLAY "  " WITH NO ADVANCING.                                                                         
+   000105         001000     IF M1 = M2   DISPLAY "  ".                                            10 12                             
+   000106         001010 PERFORM-VARYING-END.                                                                                        
+   000107         001020 END PROGRAM DEMO99.                                                       2                                 
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DEMO99    Date 03/21/2014  Time 00:42:35   Page     5                
+0数据名引用前的“M”指示数据名由此引用修改。
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+        9   COM-99 . . . . . . . . . . . .  M40 77 91 102                                                                                                                    
+       10   M1 . . . . . . . . . . . . . .  64 M69 69 70 M73 75 76 M87 89 90 101 105                                                                                         
+       12   M2 . . . . . . . . . . . . . .  M70 70 M74 76 M80 M88 89 90 M94 101 105                                                                                          
+       14   MM . . . . . . . . . . . . . .  M76 M90 M101                                                                                                                     
+        7   PERFORM-N. . . . . . . . . . .  29 M38 41                                                                                                                        
+       16   SHOW-99. . . . . . . . . . . .  M77 78 M91 92 M102 103                                                                                                           
+       17   SHOW-M1                                                                                                                                                          
+       19   SHOW-M2                                                                                                                                                          
+       21   SHOW-MM                                                                                                                                                          
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DEMO99    Date 03/21/2014  Time 00:42:35   Page     6                
+0上下文用法由过程名引用前的字母指示。
+ 这些字母和它们的含义为：
+     A = ALTER（过程名）
+     D = GO TO（过程名）DEPENDING ON
+     E = 范围（PERFORM）到（过程名）的结束
+     G = GO TO（过程名）
+     P = PERFORM（过程名）
+     T = (ALTER) TO PROCEED TO（过程名）
+     U = USE FOR DEBUGGING（过程名）
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+       51   MENU-SHOW. . . . . . . . . . .  P36                                                                                                                              
+       57   PERFORM-TIMES. . . . . . . . .  P42                                                                                                                              
+       83   PERFORM-TIMES-END. . . . . . .  E59                                                                                                                              
+       72   PERFORM-TIMES-SUB. . . . . . .  P59                                                                                                                              
+       61   PERFORM-UNTIL. . . . . . . . .  P43                                                                                                                              
+       97   PERFORM-UNTIL-END. . . . . . .  E63                                                                                                                              
+       86   PERFORM-UNTIL-SUB. . . . . . .  P63                                                                                                                              
+       66   PERFORM-VARYING. . . . . . . .  P44                                                                                                                              
+      106   PERFORM-VARYING-END. . . . . .  E68                                                                                                                              
+      100   PERFORM-VARYING-SUB. . . . . .  P68                                                                                                                              
+       24   S-MAIN                                                                                                                                                           
+       35   S-PERFORM. . . . . . . . . . .  P28                                                                                                                              
+       48   S-PERFORM-END. . . . . . . . .  E28 G45                                                                                                                          
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DEMO99    Date 03/21/2014  Time 00:42:35   Page     7                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   DEMO99 . . . . . . . . . . . .  107                                                                                                                              
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DEMO99    Date 03/21/2014  Time 00:42:35   Page     8                
+0LineID  Message code  Message text
+                                                                                                                                     
+         IGYSC0205-W   库阶段处理期间发出了警告消息。请参阅列表起始处。
+-Messages    Total    Informational    Warning    Error    Severe    Terminating
+0Printed:       1                          1                                
+-* COBOL 程序 DEMO99 的统计信息：
+ *    源记录 = 107
+ *    数据部分语句 = 9
+ *    过程部分语句 = 52
+0语言环境 = zh_CN.IBM-1386
+0编译 1 结束，程序 DEMO99，最高级别严重性：警告。
+0返回码 4

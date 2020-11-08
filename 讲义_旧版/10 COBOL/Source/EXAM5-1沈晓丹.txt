@@ -1,0 +1,60 @@
+       IDENTIFICATION DIVISION.                  
+       PROGRAM-ID.    EXAM51.                    
+       ENVIRONMENT    DIVISION.                  
+       INPUT-OUTPUT   SECTION.                   
+       FILE-CONTROL.                             
+              SELECT INPUT-FILE ASSIGN TO SYS011.
+              SELECT PRINT-FILE ASSIGN TO SYS021.
+       DATA           DIVISION.                  
+       FILE           SECTION.                   
+       FD  INPUT-FILE LABEL RECORD IS STANDARD.  
+       01  GZQD-R.                               
+             02   BH       PIC  9(6).            
+             02   XM       PIC  X(10).           
+             02   JBGZ     PIC  9(3)V99.         
+             02   FJGZ     PIC  9V99.            
+             02   FSBZ     PIC  9V9.             
+             02   XLF      PIC  9V99.            
+             02   TEF      PIC  99V99.           
+             02   FZ       PIC  99V99.           
+             02   HZJ      PIC  99V99.             
+             02   BSJKC    PIC  99V99.             
+       FD  PRINT-FILE  LABEL  RECORD IS STANDARD.  
+       01  GZQD-P.                                 
+             02   FILLER   PIC  X.                 
+             02   BH       PIC  9(6).              
+             02   FILLER   PIC  X.                 
+             02   XM       PIC  X(10).             
+             02   FILLER   PIC  XX.                
+             02   JBGZ     PIC  9(3).99.           
+             02   FILLER   PIC  XX.                
+             02   FJGZ     PIC  9.99.              
+             02   FILLER   PIC  XX.                
+             02   FSBZ     PIC  9.9.               
+             02   FILLER   PIC  XX.                
+             02   XLF      PIC  9.99.              
+             02   FILLER   PIC  XX.                
+             02   TEF      PIC  99.99.             
+             02   FILLER   PIC  XX.                       
+             02   FZ       PIC  99.99.                    
+             02   FILLER   PIC  XX.                       
+             02   HZJ      PIC  99.99.                    
+             02   FILLER   PIC  XX.                       
+             02   HSJKC    PIC  99.99.                    
+             02   FILLER   PIC  XX.                       
+             02   SFGZ     PIC  9(4).99.                  
+        PROCEDURE      DIVISION.                          
+        K.  OPEN INPUT      INPUT-FILE                    
+                 OUTPUT     PRINT-FILE.                   
+        D.  MOVE  SPACE  TO  GZQD-P.                      
+            READ  INPUT-FILE                              
+              AT END CLOSE  INPUT-FILE, PRINT-FILE        
+                     STOP  RUN.                           
+        S.  MOVE  CORR  GZQD-R  TO  GZQD-P.               
+        SU. COMPUTE SFGZ = JBGZ OF GZQD-R + FJGZ OF GZQD-R
+                      + FSBZ OF GZQD-R +  XLF  OF  GZQD-R 
+                      - TEF OF GZQD-R - FZ OF GZQD-R      
+		      - HZJ OF GZQD-R - BSJKC OF GZQD-R.       
+       X.  WRITE  GZQD-P  AFTER  2.                         
+           GO  TO  D.                                        
+                                                                       

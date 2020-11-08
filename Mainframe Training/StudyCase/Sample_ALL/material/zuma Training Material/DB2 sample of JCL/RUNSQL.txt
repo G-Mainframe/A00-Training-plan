@@ -1,0 +1,19 @@
+//EV603UX4  JOB (F9500B,KQ40X,32,                                       00010006
+//      'TM=XX,TN=XX'),CFTS,                                            00020020
+//       NOTIFY=EV603U,REGION=4M,                                       00030006
+//       CLASS=M,MSGCLASS=R                                             00040020
+//*------------------------------------< JOB LIBRARY >----------------- 00050006
+//JOBLIB  DD DSN=DSN.DSNLOAD,DISP=SHR                                   00060006
+//        DD DSN=DSN.RUNLIB.LOAD,DISP=SHR                               00070006
+//*-------------------------------------------------------------------- 00080006
+//RUNSQL   EXEC PGM=IKJEFT01,DYNAMNBR=20                                00160020
+//SYSTSPRT DD SYSOUT=*                                                  00170006
+//SYSPRINT DD SYSOUT=*                                                  00180006
+//SYSUDUMP DD SYSOUT=*                                                  00190006
+//SYSTSIN DD  *                                                         00200006
+     DSN SYSTEM(DSN)                                                    00210006
+     RUN PROGRAM(DSNTEP2) PLAN(DSNTEP2)                                 00220006
+     END                                                                00230006
+//SYSIN   DD *                                                          00240006
+ SELECT COUNT(*) FROM SYSIBM.SYSDATABASE;                               00250020
+/*                                                                      00300006

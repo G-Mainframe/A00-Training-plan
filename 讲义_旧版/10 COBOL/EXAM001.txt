@@ -1,0 +1,70 @@
+       IDENTIFICATION  DIVISION.
+       PROGRAM-ID.  COBOL353.
+       AUTHOR.  LHF.
+      *
+       ENVIRONMENT  DIVISION.
+       INPUT-OUTPUT  SECTION.
+       FILE-CONTROL.
+           SELECT  CUSTOMER-FILE
+              ASSIGN  TO  SYS011.
+           SELECT  PRINT-FILE
+              ASSIGN  TO  SYS021.
+      *
+       DATA  DIVISION.
+       FILE  SECTION.
+       FD  CUSTOMER-FILE RECORDING MODE IS F.
+       01  CUSTOMER-RECORD.
+           05  CUST-NO        PIC 9(5).
+           05  CUST-NAME      PIC X(10).
+       FD  PRINT-FILE
+           RECORDING MODE IS F
+           LABEL RECORDS ARE OMITTED
+           RECORD CONTAINS 132 CHARACTERS
+           DATA RECORD IS PRINT-LINE.
+       01  PRINT-LINE         PIC X(132).
+       WORKING-STORAGE  SECTION.
+       01  EOF-FLAG           PIC X   VALUE  'N'.
+       01  HEADING-LINE.
+           05  FILLER         PIC  X(5)
+                              VALUE  SPACES.
+           05  FILLER         PIC  X(15)
+                              VALUE  'CUSTOMER  NO'.
+           05  FILLER         PIC  X(7)
+                              VALUE  SPACES.
+           05  FILLER         PIC X(15)
+                              VALUE  'CUSTOMER  NAME'.
+           05  FILLER         PIC X(90).
+       01  OUTPUT-LINE.
+           05  FILLER         PIC  X(10)
+                              VALUE  SPACES.
+           05  PRT-NO         PIC  X(5).
+           05  FILLER         PIC X(15)
+                              VALUE  SPACES.
+           05  PRT-NAME       PIC X(10).
+           05  FILLER         PIC X(92).
+      *
+       PROCEDURE   DIVISION.
+           OPEN     INPUT     CUSTOMER-FILE
+                    OUTPUT    PRINT-FILE.
+           READ  CUSTOMER-FILE
+                  AT  END MOVE 'Y' TO  EOF-FLAG
+           END-READ.
+           PERFORM  100-WRITE-HEADING.
+           PERFORM  200-PROCESS-RECORDS
+                 UNTIL  EOF-FLAG = 'Y'.
+           CLOSE   CUSTOMER-FILE
+                   PRINT-FILE.
+             STOP  RUN.
+       100-WRITE-HEADING.
+           MOVE   HEADING-LINE   TO  PRINT-LINE.
+           WRITE  PRINT-LINE.
+       200-PROCESS-RECORDS.
+           IF  CUST-NO > 100
+               MOVE   CUST-NO    TO  PRT-NO
+               MOVE   CUST-NAME  TO  PRT-NAME
+               WRITE  PRINT-LINE FROM  OUTPUT-LINE
+           END-IF.
+           READ  CUSTOMER-FILE
+                  AT  END MOVE 'Y' TO  EOF-FLAG
+           END-READ.
+

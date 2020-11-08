@@ -1,0 +1,37 @@
+//RUNJCL   JOB  NOTIFY=&SYSUID,MSGLEVEL=(2,1),MSGCLASS=A   
+//RUNSTEP  EXEC PGM=EXAM001                               
+//STEPLIB  DD   DSN=IBMUSER.TEST.LOAD,DISP=OLD             
+//SYSPRINT DD   SYSOUT=*                                   
+//SYS011   DD   DSN=IBMUSER.TEST.LHF.EXAM41.INDT,DISP=SHR  
+//SYS021   DD   DSN=IBMUSER.TEST.LHF.EXAM41.OUTDT,DISP=SHR 
+//                                       
+
+
+
+入力文件内容：
+Command - Enter "/" to select action                 Dsorg  Recfm  Lrecl  Blksz
+-------------------------------------------------------------------------------
+         IBMUSER.TEST.LHF.EXAM41.INDT                 PS    FB        15    150
+         IBMUSER.TEST.LHF.EXAM41.OUTDT                PS    FB       132  27984
+
+
+
+VIEW       IBMUSER.TEST.LHF.EXAM41.INDT                    Columns 00001 00015 
+Command ===>                                                  Scroll ===> CSR  
+****** ***************************** Top of Data ******************************
+000001 00001CXD                                                                
+000002 00101LHF                                                                
+000003 00201SL0                                                                
+****** **************************** Bottom of Data ****************************
+
+
+
+
+出力文件内容：
+VIEW       IBMUSER.TEST.LHF.EXAM41.OUTDT                   Columns 00001 00072 
+Command ===>                                                  Scroll ===> CSR  
+****** ***************************** Top of Data ******************************
+000001      CUSTOMER  NO          CUSTOMER  NAME                               
+000002           00101               LHF                                       
+000003           00201               SL0                                       
+****** **************************** Bottom of Data ****************************

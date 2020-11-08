@@ -1,0 +1,811 @@
+{\rtf1\ansi\ansicpg936\uc2\deff0\stshfdbch13\stshfloch0\stshfhich0\stshfbi0\deflang1033\deflangfe2052{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}
+{\f2\fmodern\fcharset0\fprq1{\*\panose 02070309020205020404}Courier New;}{\f12\froman\fcharset129\fprq2{\*\panose 02030600000101010101}Batang{\*\falt \'ce\'af?};}
+{\f13\fnil\fcharset134\fprq2{\*\panose 02010600030101010101}\'cb\'ce\'cc\'e5{\*\falt SimSun};}{\f36\fnil\fcharset134\fprq2{\*\panose 02010600030101010101}@\'cb\'ce\'cc\'e5;}{\f37\froman\fcharset129\fprq2{\*\panose 02030600000101010101}@Batang;}
+{\f38\fnil\fcharset134\fprq2{\*\panose 02010600040101010101}\'bb\'aa\'ce\'c4\'cb\'ce\'cc\'e5;}{\f39\fnil\fcharset134\fprq2{\*\panose 02010600040101010101}@\'bb\'aa\'ce\'c4\'cb\'ce\'cc\'e5;}{\f183\froman\fcharset238\fprq2 Times New Roman CE;}
+{\f184\froman\fcharset204\fprq2 Times New Roman Cyr;}{\f186\froman\fcharset161\fprq2 Times New Roman Greek;}{\f187\froman\fcharset162\fprq2 Times New Roman Tur;}{\f188\froman\fcharset177\fprq2 Times New Roman (Hebrew);}
+{\f189\froman\fcharset178\fprq2 Times New Roman (Arabic);}{\f190\froman\fcharset186\fprq2 Times New Roman Baltic;}{\f191\froman\fcharset163\fprq2 Times New Roman (Vietnamese);}{\f203\fmodern\fcharset238\fprq1 Courier New CE;}
+{\f204\fmodern\fcharset204\fprq1 Courier New Cyr;}{\f206\fmodern\fcharset161\fprq1 Courier New Greek;}{\f207\fmodern\fcharset162\fprq1 Courier New Tur;}{\f208\fmodern\fcharset177\fprq1 Courier New (Hebrew);}
+{\f209\fmodern\fcharset178\fprq1 Courier New (Arabic);}{\f210\fmodern\fcharset186\fprq1 Courier New Baltic;}{\f211\fmodern\fcharset163\fprq1 Courier New (Vietnamese);}{\f305\froman\fcharset0\fprq2 Batang Western{\*\falt \'ce\'af?};}
+{\f303\froman\fcharset238\fprq2 Batang CE{\*\falt \'ce\'af?};}{\f304\froman\fcharset204\fprq2 Batang Cyr{\*\falt \'ce\'af?};}{\f306\froman\fcharset161\fprq2 Batang Greek{\*\falt \'ce\'af?};}{\f307\froman\fcharset162\fprq2 Batang Tur{\*\falt \'ce\'af?};}
+{\f310\froman\fcharset186\fprq2 Batang Baltic{\*\falt \'ce\'af?};}{\f315\fnil\fcharset0\fprq2 SimSun Western{\*\falt SimSun};}{\f545\fnil\fcharset0\fprq2 @\'cb\'ce\'cc\'e5 Western;}{\f555\froman\fcharset0\fprq2 @Batang Western;}
+{\f553\froman\fcharset238\fprq2 @Batang CE;}{\f554\froman\fcharset204\fprq2 @Batang Cyr;}{\f556\froman\fcharset161\fprq2 @Batang Greek;}{\f557\froman\fcharset162\fprq2 @Batang Tur;}{\f560\froman\fcharset186\fprq2 @Batang Baltic;}
+{\f565\fnil\fcharset0\fprq2 STSong Western;}{\f563\fnil\fcharset238\fprq2 STSong CE;}{\f564\fnil\fcharset204\fprq2 STSong Cyr;}{\f566\fnil\fcharset161\fprq2 STSong Greek;}{\f567\fnil\fcharset162\fprq2 STSong Tur;}
+{\f570\fnil\fcharset186\fprq2 STSong Baltic;}{\f575\fnil\fcharset0\fprq2 @\'bb\'aa\'ce\'c4\'cb\'ce\'cc\'e5 Western;}{\f573\fnil\fcharset238\fprq2 @\'bb\'aa\'ce\'c4\'cb\'ce\'cc\'e5 CE;}{\f574\fnil\fcharset204\fprq2 @\'bb\'aa\'ce\'c4\'cb\'ce\'cc\'e5 Cyr;}
+{\f576\fnil\fcharset161\fprq2 @\'bb\'aa\'ce\'c4\'cb\'ce\'cc\'e5 Greek;}{\f577\fnil\fcharset162\fprq2 @\'bb\'aa\'ce\'c4\'cb\'ce\'cc\'e5 Tur;}{\f580\fnil\fcharset186\fprq2 @\'bb\'aa\'ce\'c4\'cb\'ce\'cc\'e5 Baltic;}}{\colortbl;\red0\green0\blue0;
+\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;\red128\green0\blue128;
+\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;\red192\green192\blue192;}{\stylesheet{\qj \li0\ri0\nowidctlpar\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 
+\fs21\lang1033\langfe2052\kerning2\loch\f0\hich\af0\dbch\af13\cgrid\langnp1033\langfenp2052 \snext0 Normal;}{\*\cs10 \additive \ssemihidden Default Paragraph Font;}{\*
+\ts11\tsrowd\trftsWidthB3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\trcbpat1\trcfpat1\tscellwidthfts0\tsvertalt\tsbrdrt\tsbrdrl\tsbrdrb\tsbrdrr\tsbrdrdgl\tsbrdrdgr\tsbrdrh\tsbrdrv 
+\ql \li0\ri0\widctlpar\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \fs20\lang1024\langfe1024\loch\f0\hich\af0\dbch\af13\cgrid\langnp1024\langfenp1024 \snext11 \ssemihidden Normal Table;}{
+\s15\qj \li0\ri0\nowidctlpar\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \fs21\lang1033\langfe2052\kerning2\loch\f13\hich\af2\dbch\af13\cgrid\langnp1033\langfenp2052 \sbasedon0 \snext15 \styrsid9975323 Plain Text;}{
+\s16\qj \li100\ri0\nowidctlpar\aspalpha\aspnum\faauto\adjustright\rin0\lin100\itap0\culi2500 \fs21\lang1033\langfe2052\kerning2\loch\f0\hich\af0\dbch\af13\cgrid\langnp1033\langfenp2052 \sbasedon0 \snext0 \styrsid12534548 Date;}}
+{\*\latentstyles\lsdstimax156\lsdlockeddef0}{\*\listtable{\list\listtemplateid-1130988348\listhybrid{\listlevel\levelnfc22\levelnfcn22\leveljc0\leveljcn0\levelfollow0\levelstartat700\levelspace0\levelindent0{\leveltext\leveltemplateid1211155382
+\'01\'00;}{\levelnumbers\'01;}\fbias0 \fi-1470\li1470\jclisttab\tx1470\lin1470 }{\listlevel\levelnfc4\levelnfcn4\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\leveltemplateid67698713\'02\'01);}{\levelnumbers\'01;}
+\fi-420\li840\jclisttab\tx840\lin840 }{\listlevel\levelnfc2\levelnfcn2\leveljc2\leveljcn2\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\leveltemplateid67698715\'02\'02.;}{\levelnumbers\'01;}\fi-420\li1260\jclisttab\tx1260\lin1260 }
+{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\leveltemplateid67698703\'02\'03.;}{\levelnumbers\'01;}\fi-420\li1680\jclisttab\tx1680\lin1680 }{\listlevel\levelnfc4\levelnfcn4\leveljc0
+\leveljcn0\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\leveltemplateid67698713\'02\'04);}{\levelnumbers\'01;}\fi-420\li2100\jclisttab\tx2100\lin2100 }{\listlevel\levelnfc2\levelnfcn2\leveljc2\leveljcn2\levelfollow0\levelstartat1
+\levelspace0\levelindent0{\leveltext\leveltemplateid67698715\'02\'05.;}{\levelnumbers\'01;}\fi-420\li2520\jclisttab\tx2520\lin2520 }{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext
+\leveltemplateid67698703\'02\'06.;}{\levelnumbers\'01;}\fi-420\li2940\jclisttab\tx2940\lin2940 }{\listlevel\levelnfc4\levelnfcn4\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\leveltemplateid67698713
+\'02\'07);}{\levelnumbers\'01;}\fi-420\li3360\jclisttab\tx3360\lin3360 }{\listlevel\levelnfc2\levelnfcn2\leveljc2\leveljcn2\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\leveltemplateid67698715\'02\'08.;}{\levelnumbers\'01;}\fi-420\li3780
+\jclisttab\tx3780\lin3780 }{\listname ;}\listid1792281789}}{\*\listoverridetable{\listoverride\listid1792281789\listoverridecount0\ls1}}{\*\rsidtbl \rsid1078835\rsid4938689\rsid9975323\rsid12534548\rsid12849730}{\*\generator Microsoft Word 11.0.6502;}
+{\info{\title 1}{\author User}{\operator User}{\creatim\yr2006\mo7\dy7\hr15\min32}{\revtim\yr2006\mo7\dy7\hr15\min36}{\version3}{\edmins3}{\nofpages14}{\nofwords3451}{\nofchars19676}{\*\company Microsoft}{\nofcharsws23081}{\vern24579}}
+\paperw11906\paperh16838\margl1753\margr1753\margt1440\margb1440\gutter0 \deftab420\ftnbj\aenddoc\hyphcaps0\formshade\horzdoc\dgmargin\dghspace180\dgvspace156\dghorigin1753\dgvorigin1440\dghshow0\dgvshow2\jcompress\lnongrid
+\viewkind1\viewscale100\splytwnine\ftnlytwnine\htmautsp\useltbaln\alntblind\lytcalctblwd\lyttblrtgr\lnbrkrule\nobrkwrptbl\snaptogridincell\allowfieldendsel\wrppunct\asianbrkrule\rsidroot9975323\newtblstyruls\nogrowautofit {\*\fchars 
+!),.:\'3b?]\'7d\'a1\'a7\'a1\'a4\'a1\'a6\'a1\'a5\'a8\'44\'a1\'ac\'a1\'af\'a1\'b1\'a1\'ad\'a1\'c3\'a1\'a2\'a1\'a3\'a1\'a8\'a1\'a9\'a1\'b5\'a1\'b7\'a1\'b9\'a1\'bb\'a1\'bf\'a1\'b3\'a1\'bd\'a3\'a1\'a3\'a2\'a3\'a7\'a3\'a9\'a3\'ac\'a3\'ae\'a3\'ba\'a3\'bb\'a3\'bf\'a3\'dd\'a3\'e0\'a3\'fc\'a3\'fd\'a1\'ab\'a1\'e9
+}{\*\lchars ([\'7b\'a1\'a4\'a1\'ae\'a1\'b0\'a1\'b4\'a1\'b6\'a1\'b8\'a1\'ba\'a1\'be\'a1\'b2\'a1\'bc\'a3\'a8\'a3\'ae\'a3\'db\'a3\'fb\'a1\'ea\'a3\'a4}\fet0\sectd 
+\linex0\headery851\footery992\colsx425\endnhere\sectlinegrid312\sectspecifyl\sectrsid9975323\sftnbj {\*\pnseclvl1\pnucrm\pnstart1\pnindent720\pnhang {\pntxta \dbch .}}{\*\pnseclvl2\pnucltr\pnstart1\pnindent720\pnhang {\pntxta \dbch .}}{\*\pnseclvl3
+\pndec\pnstart1\pnindent720\pnhang {\pntxta \dbch .}}{\*\pnseclvl4\pnlcltr\pnstart1\pnindent720\pnhang {\pntxta \dbch )}}{\*\pnseclvl5\pndec\pnstart1\pnindent720\pnhang {\pntxtb \dbch (}{\pntxta \dbch )}}{\*\pnseclvl6\pnlcltr\pnstart1\pnindent720\pnhang 
+{\pntxtb \dbch (}{\pntxta \dbch )}}{\*\pnseclvl7\pnlcrm\pnstart1\pnindent720\pnhang {\pntxtb \dbch (}{\pntxta \dbch )}}{\*\pnseclvl8\pnlcltr\pnstart1\pnindent720\pnhang {\pntxtb \dbch (}{\pntxta \dbch )}}{\*\pnseclvl9\pnlcrm\pnstart1\pnindent720\pnhang 
+{\pntxtb \dbch (}{\pntxta \dbch )}}\pard\plain \s15\qj \li0\ri0\sl0\slmult0\nowidctlpar\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0\pararsid1078835 \fs21\lang1033\langfe2052\kerning2\loch\af13\hich\af2\dbch\af13\cgrid\langnp1033\langfenp2052 {
+\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 3
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 =======  ST077.COBOL.COMLINK ========
+\par \hich\af13\dbch\af13\loch\f13 000100 //ST077A    JOB  1,JHY,CLASS=A,MSGCLASS=X,MSGLEVEL=(1,1),  
+\par \hich\af13\dbch\af13\loch\f13 000200 //          NOTIFY=&SYSUID                                 
+\par \hich\af13\dbch\af13\loch\f13 000300 //STEP1  EXEC  IGYWCL                                      
+\par \hich\af13\dbch\af13\loch\f13 000400 //COBOL.SYSIN      DD DSN=ST077.COBOL.SOURCE(COB1),DISP=SHR   
+\par \hich\af13\dbch\af13\loch\f13 000500 //LKED.SYSLMOD  DD DSN=ST077.COBOL.LOAD(COB1)\hich\af13\dbch\af13\loch\f13 ,DISP=SHR     
+\par \hich\af13\dbch\af13\loch\f13 =======  ST077.COBOL.RUN ========
+\par \hich\af13\dbch\af13\loch\f13 000100 //ST077A    JOB  1,JHY,CLASS=A,MSGCLASS=X,MSGLEVEL=(1,1),  
+\par \hich\af13\dbch\af13\loch\f13 000200 //          NOTIFY=&SYSUID                                 
+\par \hich\af13\dbch\af13\loch\f13 000300 //STEP1  EXEC  PGM=COB1                                    
+\par \hich\af13\dbch\af13\loch\f13 000400\hich\af13\dbch\af13\loch\f13  //STEPLIB    DD  DSN=ST077.COBOL.LOAD,DISP=SHR               
+\par \hich\af13\dbch\af13\loch\f13 000500 //SYSPRINT DD  SYSOUT=*                                    }{\hich\af13\insrsid9975323\charrsid1078835 
+\par }{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 4
+\par \hich\af13\dbch\af13\loch\f13 000100 IDENTIFICATION  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13 000200 PROGRAM-ID.  EXAM1.
+\par \hich\af13\dbch\af13\loch\f13 000300 ENVIRONMENT  DIVISION.    
+\par \hich\af13\dbch\af13\loch\f13 000400 DATA  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13 00050\hich\af13\dbch\af13\loch\f13 0 PROCEDURE  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13 000600 S.    DISPLAY 'THIS IS A COBOL PROGRAM'
+\par {\listtext\pard\plain\s15 \fs21\kerning2\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 700\tab}}\pard \s15\qj \fi-1470\li1470\ri0\sl0\slmult0\nowidctlpar
+\jclisttab\tx1470\aspalpha\aspnum\faauto\ls1\adjustright\rin0\lin1470\itap0\pararsid1078835 {\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 STOP RUN.
+\par }\pard \s15\qj \li0\ri0\sl0\slmult0\nowidctlpar\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0\pararsid1078835 {\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1}{\hich\af13\insrsid12534548\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 4}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12534548\charrsid1078835 
+\hich\af13\dbch\af13\loch\f13 2
+\par \hich\af13\dbch\af13\loch\f13           IDENTIFICATION  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13           PROGRAM-ID.   EXAM2.
+\par \hich\af13\dbch\af13\loch\f13           ENVIRONMENT  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13           DATA  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13           WORKING-STORAGE  SECTION.
+\par \hich\af13\dbch\af13\loch\f13     \hich\af13\dbch\af13\loch\f13       77  A  PICTURE  IS  9(3).
+\par \hich\af13\dbch\af13\loch\f13           77  B  PICTURE  IS  9(3).
+\par \hich\af13\dbch\af13\loch\f13           PROCEDURE  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13           S.    ACCEPT  A
+\par \hich\af13\dbch\af13\loch\f13                  ACCEPT  B
+\par \hich\af13\dbch\af13\loch\f13                  ADD A TO B
+\par \hich\af13\dbch\af13\loch\f13                  DISPLAY A, B.
+\par \hich\af13\dbch\af13\loch\f13                  STOP RUN.
+\par \hich\af13\dbch\af13\loch\f13 1}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 9
+\par \hich\af13\dbch\af13\loch\f13 DISPLAY   ZERO
+\par \tab \tab \tab \hich\af13\dbch\af13\loch\f13 A}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d4\'da}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c4\'da}{
+\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b4\'e6\'d6\'d0\'d7\'d6}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bd\'da\'ca\'fd}{\hich\af13\insrsid12534548\charrsid1078835 \tab \tab }{
+\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bd\'e1}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b9\'fb}{\hich\af13\insrsid12534548\charrsid1078835 
+\par }{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 MOVE  ZERO TO A\tab \tab \tab 4\tab \tab 0000  (}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c3\'bf}{\hich\af13\insrsid12534548\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'b8\'f6}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d7\'d6}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bd\'da}{\hich\af13\insrsid12534548\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'b6\'bc\'ca\'c7}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 0)
+\par \hich\af13\dbch\af13\loch\f13 MOVE ZEROS TO A\tab \tab \tab 1\tab \tab 0
+\par \hich\af13\dbch\af13\loch\f13 MOVE SPACE TO A\tab \tab \tab 4\tab \tab }{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'cb\'c4}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b8\'f6}{
+\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bf\'d5\'b8\'f1}{\hich\af13\insrsid12534548\charrsid1078835 
+\par }{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 MOVE SPACE TO A\tab \tab \tab 1\tab \tab }{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d2\'bb}{\hich\af13\insrsid12534548\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'b8\'f6}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bf\'d5\'b8\'f1}{\hich\af13\insrsid12534548\charrsid1078835 
+\par }{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 MOVE HIGH-VALUE TO A\tab \tab 4\tab \tab }{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c3\'bf\'b8\'f4\'d7\'d6}{
+\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bd\'da}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b6\'fe}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bd\'f8}{
+\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d6\'c6\'b6\'bc\'ca\'c7}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 11111111
+\par \hich\af13\dbch\af13\loch\f13 MOVE LOW-VALUE TO A\tab \tab 4\tab \tab }{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c3\'bf\'b8\'f4\'d7\'d6}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bd\'da}{
+\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b6\'fe}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bd\'f8}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d6\'c6\'b6\'bc
+\'ca\'c7}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 00000000
+\par \hich\af13\dbch\af13\loch\f13 MOVE QUOTE TO A\tab \tab \tab 4\tab \tab ''''  (}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'cb\'c4}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b8\'f6\'b5\'a5}{
+\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d2\'fd}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'ba\'c5}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 )
+\par \hich\af13\dbch\af13\loch\f13 MOVE ALL  '*'  TO  A\tab \tab 4\tab \tab ****
+\par \hich\af13\dbch\af13\loch\f13 MOVE ALL  'AB'  TO  A\tab \tab 4\tab \tab ABAB
+\par \hich\af13\dbch\af13\loch\f13 MOVE ALL  'ABC'  TO  A\tab \tab 5\tab \tab ABCAB
+\par \hich\af13\dbch\af13\loch\f13 2}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2}{\hich\af13\insrsid12534548\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2
+\par \hich\af13\dbch\af13\loch\f13        IDENTIFICATION  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13        PROGRAM-ID.   EXAM3.
+\par \hich\af13\dbch\af13\loch\f13        ENVIRONMENT  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13        DATA  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13        WORKING-STORAGE  SECTION.
+\par \hich\af13\dbch\af13\loch\f13        77\hich\af13\dbch\af13\loch\f13   A  PIC  IS  9(3).
+\par \hich\af13\dbch\af13\loch\f13        77  B  PIC  IS  9(3).
+\par \hich\af13\dbch\af13\loch\f13        77  C  PIC  IS  9(3).
+\par \hich\af13\dbch\af13\loch\f13        77  X  PIC  IS  9(3).
+\par \hich\af13\dbch\af13\loch\f13        01  T.
+\par \hich\af13\dbch\af13\loch\f13          02  T1  PIC  IS  9(3).
+\par \hich\af13\dbch\af13\loch\f13          02  T2  PIC  IS  9(3).
+\par \hich\af13\dbch\af13\loch\f13          02  T3  PIC  IS  9(3).
+\par \hich\af13\dbch\af13\loch\f13          02  T4  PIC  IS  9(3).
+\par \hich\af13\dbch\af13\loch\f13        PROCEDURE  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13        S.  
+\par \hich\af13\dbch\af13\loch\f13            ACCEPT  A
+\par \hich\af13\dbch\af13\loch\f13            ACCEPT  B
+\par \hich\af13\dbch\af13\loch\f13            ACCEPT  C
+\par \hich\af13\dbch\af13\loch\f13            COMPUTE  X = ( A + B ) / C
+\par \hich\af13\dbch\af13\loch\f13            MOVE  A  TO  T1.
+\par \hich\af13\dbch\af13\loch\f13            MOVE  B  TO  T2.
+\par \hich\af13\dbch\af13\loch\f13            MOVE  C  TO  T3.
+\par \hich\af13\dbch\af13\loch\f13            MOVE  X  TO  T4.
+\par \hich\af13\dbch\af13\loch\f13    \hich\af13\dbch\af13\loch\f13         DISPLAY T.
+\par \hich\af13\dbch\af13\loch\f13            STOP RUN.}{\hich\af13\insrsid12534548\charrsid1078835 
+\par }{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2}{
+\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 3
+\par \tab \hich\af13\dbch\af13\loch\f13 DATA  DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 FILE  SECTION.
+\par \tab \hich\af13\dbch\af13\loch\f13 FD  IN-FILE  LABEL  RECORD  IS  STANDARD.
+\par \tab \hich\af13\dbch\af13\loch\f13 01  IN-RECORD.
+\par \tab \hich\af13\dbch\af13\loch\f13   02  DATE.
+\par \tab \hich\af13\dbch\af13\loch\f13     03  YEAR  PIC  9(4).
+\par \tab \hich\af13\dbch\af13\loch\f13     03  MONTH  PIC  99.
+\par \tab \hich\af13\dbch\af13\loch\f13     03  DAY   PIC  99.
+\par \tab \hich\af13\dbch\af13\loch\f13   02  PRODUCT-CODE  PIC  9(4).
+\par \tab \hich\af13\dbch\af13\loch\f13   02  QUANTITY      PIC  9(6).
+\par \tab \hich\af13\dbch\af13\loch\f13   02  UNIT-PRICE    PIC  9(6).
+\par \hich\af13\dbch\af13\loch\f13 200605101111000300000100
+\par \hich\af13\dbch\af13\loch\f13        PROCEDURE DIVISION.
+\par \hich\af13\dbch\af13\loch\f13        L100.
+\par \hich\af13\dbch\af13\loch\f13            OPEN INPUT IN-FILE.
+\par \hich\af13\dbch\af13\loch\f13        L200.
+\par \hich\af13\dbch\af13\loch\f13            READ IN-FILE AT END GO TO L999.
+\par \tab \hich\af13\dbch\af13\loch\f13    DISPL\hich\af13\dbch\af13\loch\f13 AY IN-RECORD.
+\par \hich\af13\dbch\af13\loch\f13            GO TO L200.                                                  
+\par \hich\af13\dbch\af13\loch\f13        L999.
+\par \hich\af13\dbch\af13\loch\f13            CLOSE IN-FILE.
+\par \hich\af13\dbch\af13\loch\f13            STOP RUN.}{\hich\af13\insrsid12534548\charrsid1078835 
+\par }{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2}{
+\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 4
+\par \hich\af13\dbch\af13\loch\f13            DATA  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13            FILE  SECTION.
+\par \hich\af13\dbch\af13\loch\f13            FD  OUT-FILE  LABEL  RECORD  IS  STANDA\hich\af13\dbch\af13\loch\f13 RD.
+\par \hich\af13\dbch\af13\loch\f13            01  OUT-RECORD.
+\par \tab \hich\af13\dbch\af13\loch\f13   02  DATE.
+\par \tab \hich\af13\dbch\af13\loch\f13        03  YEAR               PIC  9(4).
+\par \tab \hich\af13\dbch\af13\loch\f13        03  MONTH           PIC  99.
+\par \tab \hich\af13\dbch\af13\loch\f13        03  DAY                 PIC  99.
+\par \tab \hich\af13\dbch\af13\loch\f13   02  PRODUCT-CODE  PIC  9(4).
+\par \tab \hich\af13\dbch\af13\loch\f13   02  QUANTITY            PIC  9(6).
+\par \tab \hich\af13\dbch\af13\loch\f13   02  UNIT-PRICE     \hich\af13\dbch\af13\loch\f13      PIC  9(6).
+\par \hich\af13\dbch\af13\loch\f13        PROCEDURE DIVISION.
+\par \hich\af13\dbch\af13\loch\f13        L100.
+\par \hich\af13\dbch\af13\loch\f13            OPEN OUTPUT OUT-FILE.
+\par \hich\af13\dbch\af13\loch\f13        L200.
+\par \hich\af13\dbch\af13\loch\f13            MOVE  2006  TO   YEAR.
+\par \hich\af13\dbch\af13\loch\f13            MOVE  5         TO   MONTH.
+\par \hich\af13\dbch\af13\loch\f13            MOVE  1         TO   DAY.  
+\par \hich\af13\dbch\af13\loch\f13            MOVE  1860  TO   PRODUCT-CODE.
+\par \hich\af13\dbch\af13\loch\f13            MOVE  1234  TO   QUANTITY.
+\par \hich\af13\dbch\af13\loch\f13            MOVE  100    TO    UNIT-PRICE. 
+\par \hich\af13\dbch\af13\loch\f13            WRITE OUT-RECORD.
+\par \hich\af13\dbch\af13\loch\f13        L300.
+\par \hich\af13\dbch\af13\loch\f13            CLOSE OUT-FILE.
+\par \hich\af13\dbch\af13\loch\f13            STOP RUN.
+\par \hich\af13\dbch\af13\loch\f13 ========= }{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b4\'f2\'d3\'a1\'d7\'df}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d6\'bd}{
+\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bf\'d8\'d6\'c6}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13  ==========
+\par \hich\af13\dbch\af13\loch\f13            MOVE  'HELLO'   TO   V1.
+\par \hich\af13\dbch\af13\loch\f13            WRITE OUT-\hich\af13\dbch\af13\loch\f13 RECORD.
+\par \hich\af13\dbch\af13\loch\f13            MOVE  'WORLD'   TO   V1.
+\par \hich\af13\dbch\af13\loch\f13            WRITE OUT-RECORD AFTER ADVANCEING 2 LINES.
+\par \tab \hich\af13\dbch\af13\loch\f13 MOVE 'A' TO OUT-R.
+\par \tab \hich\af13\dbch\af13\loch\f13 WRITE OUT-R.
+\par \tab \hich\af13\dbch\af13\loch\f13 MOVE 'B' TO OUT-R.
+\par \tab \hich\af13\dbch\af13\loch\f13 WRITE OUT-R. AFTER ADVANCING 3 LINES.
+\par \tab \hich\af13\dbch\af13\loch\f13 MOVE 'C' TO OUT-R.
+\par \tab \hich\af13\dbch\af13\loch\f13 WRITE OUT-R. AFTER ADVANCING 2 LINES.
+\par \tab \hich\af13\dbch\af13\loch\f13 MOVE \hich\af13\dbch\af13\loch\f13 'D' TO OUT-R.
+\par \tab \hich\af13\dbch\af13\loch\f13 WRITE OUT-R. BEFORE ADVANCING 1 LINES.
+\par \hich\af13\dbch\af13\loch\f13 2}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 3}{\hich\af13\insrsid12534548\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 5
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c1\'b7\'cf\'b0}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1}{\hich\af13\insrsid12534548\charrsid1078835 
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 ......
+\par }{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 PROCEDURE  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13 S1. \tab ACCEPT  N.
+\par \tab \hich\af13\dbch\af13\loch\f13 ADD  3  TO N.
+\par \tab \hich\af13\dbch\af13\loch\f13 DIVIDE  5  INTO  N.
+\par \tab \hich\af13\dbch\af13\loch\f13 SUBTRACT  2  FROM  N.
+\par \tab \hich\af13\dbch\af13\loch\f13 MULTIPLY  8  BY  N.
+\par \tab \hich\af13\dbch\af13\loch\f13 DISPLAY  N.
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 STOP RUN.}{\hich\af13\insrsid12534548\charrsid1078835 
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c1\'b7}{\hich\af13\insrsid12534548\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'cf\'b0}{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 ......
+\par }{\hich\af13\insrsid12534548\charrsid1078835 \hich\af13\dbch\af13\loch\f13 PROCEDURE  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13 S1.\tab ......
+\par \tab \hich\af13\dbch\af13\loch\f13 ADD  MON-HOURS,TUE-HOURS,WED-HOURS,THU-HOURS,FRI-HOURS  GIVING  TOTAL-HOURS.
+\par \tab \hich\af13\dbch\af13\loch\f13 MULTIPLY   TOTOL-HOURS  BY  PAY-PER-HOUR  GIVING  GROSS-PAY.
+\par \tab \hich\af13\dbch\af13\loch\f13 MULTIPLY   GROSS-PAY  BY  RATE  GIVING  WITHHOLD.
+\par \tab \hich\af13\dbch\af13\loch\f13 SUBTRACT  WITHHOLD  FROM GROSS-PAY  GIVING  REAL-PAY.
+\par \tab \hich\af13\dbch\af13\loch\f13 ......
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 4
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c1\'b7\'cf\'b0}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1
+\par \hich\af13\dbch\af13\loch\f13 ......
+\par \hich\af13\dbch\af13\loch\f13 DATA  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13 WORKING-STORAGE  SECTION.
+\par \hich\af13\dbch\af13\loch\f13 77   A   PIC   99V99.
+\par \hich\af13\dbch\af13\loch\f13 77   B   PIC   999V999.
+\par \hich\af13\dbch\af13\loch\f13 PROCEDURE  DIVISION. 
+\par \hich\af13\dbch\af13\loch\f13 S.\tab MOVE  123.456  TO   A.
+\par \tab \hich\af13\dbch\af13\loch\f13 MOVE  A   TO  B.
+\par \tab \hich\af13\dbch\af13\loch\f13 DISPLAY   A.\tab \tab //2345
+\par \tab \hich\af13\dbch\af13\loch\f13 DISPLAY   B.\tab \tab //023450
+\par \tab \hich\af13\dbch\af13\loch\f13 STOP  RUN.
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c1\'b7\'cf\'b0}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2
+\par \hich\af13\dbch\af13\loch\f13 ......
+\par \hich\af13\dbch\af13\loch\f13 DATA DIVISION.             
+\par \hich\af13\dbch\af13\loch\f13 WORKING-STORAGE SECTION.   
+\par \hich\af13\dbch\af13\loch\f13 77 A  PIC  X.
+\par \hich\af13\dbch\af13\loch\f13 77 B  PIC  XX.
+\par \hich\af13\dbch\af13\loch\f13 77 C  PIC  XXX.
+\par \hich\af13\dbch\af13\loch\f13 PROCEDURE DIVISION. 
+\par \hich\af13\dbch\af13\loch\f13 S1.
+\par \hich\af13\dbch\af13\loch\f13       MOVE 'XYZ' TO B.
+\par \hich\af13\dbch\af13\loch\f13       MOVE B TO A.
+\par \hich\af13\dbch\af13\loch\f13       MOVE B TO C.
+\par \hich\af13\dbch\af13\loch\f13       DISPLAY A.           \tab \tab //X
+\par \hich\af13\dbch\af13\loch\f13       DISPLAY B.           \tab \tab //XY
+\par \hich\af13\dbch\af13\loch\f13   \hich\af13\dbch\af13\loch\f13     DISPLAY C, 'HELLO'.  \tab \tab //XY  HELLO
+\par \hich\af13\dbch\af13\loch\f13       STOP RUN.
+\par \hich\af13\dbch\af13\loch\f13 2}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 5
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c1\'b7\'cf\'b0}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1
+\par \hich\af13\dbch\af13\loch\f13 ......
+\par \hich\af13\dbch\af13\loch\f13 PROCEDURE  DIVISION. 
+\par \hich\af13\dbch\af13\loch\f13 S1.\tab ACCEPT  A.
+\par \tab \hich\af13\dbch\af13\loch\f13 ACCEPT  B.
+\par \tab \hich\af13\dbch\af13\loch\f13 ADD  A  TO  B.}{\hich\af13\insrsid4938689\charrsid1078835 
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 S2.\tab DISPLAY   B.
+\par \tab \hich\af13\dbch\af13\loch\f13 GO  TO  S1.\tab //GO  TO
+\par \tab \hich\af13\dbch\af13\loch\f13 STOP  RUN.
+\par \hich\af13\dbch\af13\loch\f13 ......
+\par \hich\af13\dbch\af13\loch\f13 PROCEDURE DIVISION.        
+\par \hich\af13\dbch\af13\loch\f13 ......
+\par \tab \hich\af13\dbch\af13\loch\f13 GO  TO  S1, S2, S3, S4  DEPENDING  ON  V.}{\hich\af13\insrsid4938689\charrsid1078835 
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 S1.\tab MOVE   0.06   TO   RATE.
+\par \tab \hich\af13\dbch\af13\loch\f13 GO  TO  S99.}{\hich\af13\insrsid4938689\charrsid1078835 
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 S2.\tab MOVE   0.05   TO   RATE.
+\par \tab \hich\af13\dbch\af13\loch\f13 GO  TO  S99.}{\hich\af13\insrsid4938689\charrsid1078835 
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 S3.\tab MOVE   0.04   TO   RATE.
+\par \tab \hich\af13\dbch\af13\loch\f13 GO  TO  S99.}{\hich\af13\insrsid4938689\charrsid1078835 
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 S4.\tab MOVE   0.03   TO   RATE.}{\hich\af13\insrsid4938689\charrsid1078835 
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 S99.\tab COMPUTE  INTEREST  =  PRINCIPAL  *  RATE.
+\par \tab \hich\af13\dbch\af13\loch\f13 DISPLAY \hich\af13\dbch\af13\loch\f13  'INTEREST=', INTEREST.
+\par \tab \hich\af13\dbch\af13\loch\f13 STOP  RUN.
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c1\'b7\'cf\'b0}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 IDENTIFICATION  DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 PROGRAM-ID EXAM25.}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 ENVIRONMENT DIVISION.}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 DATA DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 WORKING-STORAGE  SECTION.
+\par \tab \hich\af13\dbch\af13\loch\f13 77  M  PIC  9999.
+\par \tab \hich\af13\dbch\af13\loch\f13 77  I  PIC 9.
+\par \tab \hich\af13\dbch\af13\loch\f13 77  AMOUNT  PIC  99999.}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 PROCEDURE  DIVISION.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 ACCEPT  M.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 DIVIDE \hich\af13\dbch\af13\loch\f13 50  INTO  M  GIVING  I.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 ADD  1  TO  I.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 GO  TO  A, B, C, D  DEPENDING ON I.}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 A.\tab COMPUTE  AMOUNT = 10 * M.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 GOTO  E.
+\par \tab \hich\af13\dbch\af13\loch\f13 B.\tab COMPUTE  AMOUNT = 9 * M.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 GOTO  E.
+\par \tab \hich\af13\dbch\af13\loch\f13 C.\tab COMPUTE  AMOUNT = 8 * M.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 GOTO  E.
+\par \tab \hich\af13\dbch\af13\loch\f13 D.\tab COMPUTE  AMOUNT = 7 * M.}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 E.\tab DISPLAY  AMOUNT.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 STOP RUN.
+\par \hich\af13\dbch\af13\loch\f13 2}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 6}{\hich\af13\insrsid4938689\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1
+\par \tab \hich\af13\dbch\af13\loch\f13 IF  A NOT GREATER THAN 0  DISPLAY  A.
+\par \tab \hich\af13\dbch\af13\loch\f13 IF  SEX IS EQUAL TO  'F'  DISPLAY NAME, SEX.
+\par \tab \hich\af13\dbch\af13\loch\f13 IF  X < 0  MOVE X TO Y.
+\par \hich\af13\dbch\af13\loch\f13 2}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 6}{\hich\af13\insrsid4938689\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 3
+\par \tab \hich\af13\dbch\af13\loch\f13 IF  QUANTITY  IS  NOT  LESS  THAN  1000
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 MULTIPLY  0.97  BY  PRICE
+\par \tab \hich\af13\dbch\af13\loch\f13 ELSE 
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 MULTIPLY  0.99  BY  PRICE.
+\par \tab \hich\af13\dbch\af13\loch\f13 MULTIPLY  QUANTITY\hich\af13\dbch\af13\loch\f13   BY  PRICE  GIVING  TOTAL.
+\par \hich\af13\dbch\af13\loch\f13 3}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 3}{\hich\af13\insrsid4938689\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2
+\par \tab \hich\af13\dbch\af13\loch\f13 IDENTIFICATION  DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 PROGRAM-ID.  EXAM332.
+\par \tab \hich\af13\dbch\af13\loch\f13 AUTHOR.  JIANGHY.
+\par \tab \hich\af13\dbch\af13\loch\f13 INSTALLATION.  IBMCENTER.
+\par \tab \hich\af13\dbch\af13\loch\f13 DATE-WRITTEN.  2006/5/1.
+\par \tab \hich\af13\dbch\af13\loch\f13 DATE-COMPILED.  2006/5/1.
+\par \tab \hich\af13\dbch\af13\loch\f13 SECURITY.   USER1 USER2 CAN USE THIS PROGRAM.
+\par \hich\af13\dbch\af13\loch\f13 3}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 6
+\par \hich\af13\dbch\af13\loch\f13        IDENTIFICATION DIVISION.                                  
+\par \hich\af13\dbch\af13\loch\f13        PROGRAM-ID.   DSCOPY.                                      
+\par \hich\af13\dbch\af13\loch\f13        ENVIRONMENT DIVISION.                                     
+\par \hich\af13\dbch\af13\loch\f13        INPUT-OUTPUT SECTION.                             \hich\af13\dbch\af13\loch\f13         
+\par \hich\af13\dbch\af13\loch\f13        FILE-CONTROL.                                             
+\par \hich\af13\dbch\af13\loch\f13              SELECT IND1 ASSIGN TO DASD-IND1.                    
+\par \hich\af13\dbch\af13\loch\f13              SELECT OUTD1 ASSIGN TO DASD-OUTD1.                  
+\par \hich\af13\dbch\af13\loch\f13        DATA DIVISION.                            \hich\af13\dbch\af13\loch\f13                 
+\par \hich\af13\dbch\af13\loch\f13        FILE SECTION.                                             
+\par \hich\af13\dbch\af13\loch\f13        FD IND1 LABEL RECORD IS STANDARD.                         
+\par \hich\af13\dbch\af13\loch\f13        01 IND1-DAT.                                              
+\par \hich\af13\dbch\af13\loch\f13           02 FILLER PIC X(80).           \hich\af13\dbch\af13\loch\f13                         
+\par \hich\af13\dbch\af13\loch\f13        FD OUTD1 LABEL RECORD IS STANDARD.                        
+\par \hich\af13\dbch\af13\loch\f13        01 OUTD1-DAT.                                             
+\par \hich\af13\dbch\af13\loch\f13           02 FILLER PIC X(80).                                   
+\par \hich\af13\dbch\af13\loch\f13        PROCEDURE DIVISION.       \hich\af13\dbch\af13\loch\f13                 
+\par \hich\af13\dbch\af13\loch\f13        S1.                                       
+\par \hich\af13\dbch\af13\loch\f13              OPEN INPUT IND1 OUTPUT OUTD1.       
+\par \hich\af13\dbch\af13\loch\f13        S2.                                       
+\par \hich\af13\dbch\af13\loch\f13              READ IND1 NEXT                      
+\par \hich\af13\dbch\af13\loch\f13              AT END GO TO S99.         \hich\af13\dbch\af13\loch\f13           
+\par \hich\af13\dbch\af13\loch\f13              WRITE OUTD1-DAT FROM IND1-DAT.      
+\par \hich\af13\dbch\af13\loch\f13              GO TO S2.                           
+\par \hich\af13\dbch\af13\loch\f13        S99.                                      
+\par \hich\af13\dbch\af13\loch\f13              CLOSE IND1 OUTD1.                   
+\par \hich\af13\dbch\af13\loch\f13              STOP RUN.                       \hich\af13\dbch\af13\loch\f13     
+\par \hich\af13\dbch\af13\loch\f13 ======================== compile & link }{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bd\'c5\'b1\'be}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 
+ ==========================
+\par \hich\af13\dbch\af13\loch\f13 000100 //ST077A    JOB  1,JHY,CLASS=A,MSGCLASS=X,MSGLEVEL=(1,1),      
+\par \hich\af13\dbch\af13\loch\f13 000200 //          NOTIFY=&SYSUID                                              
+\par \hich\af13\dbch\af13\loch\f13 000700 //STEP1  EXEC  IGYWCL
+\par \hich\af13\dbch\af13\loch\f13 000900 //COBOL.SYSIN   DD DSN=ST077.COBOL.SOURCE(COB1),DISP=SHR                          
+\par \hich\af13\dbch\af13\loch\f13 001000 //LKED.SYSLMOD  DD DSN=SP077.COBOL.LOAD(COB1),DISP=SHR                         
+\par \hich\af13\dbch\af13\loch\f13 ======================== RUN }{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bd\'c5\'b1\'be}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13  }{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'a8\'d3\'c3}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c0\'b4\'b6\'d4}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 
+\'ce\'c4\'bc\'fe\'b2\'d9\'d7\'f7\'a3\'a9}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13  
+\par \hich\af13\dbch\af13\loch\f13 //ST077A    JOB  1,JHY,CLASS=A,MSGCL\hich\af13\dbch\af13\loch\f13 ASS=X,MSGLEVEL=(1,1),
+\par \hich\af13\dbch\af13\loch\f13 //          NOTIFY=&SYSUID                               
+\par \hich\af13\dbch\af13\loch\f13 //STEP1  EXEC  PGM=COB1                                  
+\par \hich\af13\dbch\af13\loch\f13 //STEPLIB  DD  DSN=ST077.COBOL.LOAD,DISP=SHR             
+\par \hich\af13\dbch\af13\loch\f13 //SYSPRINT DD  SYSOUT=*                                  
+\par \hich\af13\dbch\af13\loch\f13 ==\hich\af13\dbch\af13\loch\f13 ====}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d7\'a2\'d2\'e2}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 IND1,OUTD1 }{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b1\'d8}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d0\'eb}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b8\'fa
+\loch\af13\hich\af13\dbch\f13 \'d4\'b4\'ce\'c4\'bc\'fe\'d6\'d0}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'ca\'fd}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'be\'dd\'b2\'bf\'ce\'c4\'bc\'fe}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bd\'da}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b5\'c4}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 FD}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'cf\'e0\'cd\'ac}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 !
+\par \hich\af13\dbch\af13\loch\f13 //IND1     DD  DSN=ST077.INDATA,DISP=SHR                 
+\par \hich\af13\dbch\af13\loch\f13 //OUTD1    DD  DSN=ST077.OUTDATA,DISP=SHR
+\par \hich\af13\dbch\af13\loch\f13 4}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1}{\hich\af13\insrsid4938689\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2
+\par \tab \hich\af13\dbch\af13\loch\f13 01  TIME-RECORD.
+\par \tab \hich\af13\dbch\af13\loch\f13   03  NAME  PIC  X(20).
+\par \tab \hich\af13\dbch\af13\loch\f13   03  WORKER-NUMBER  PIC  9(6).
+\par \tab \hich\af13\dbch\af13\loch\f13   03  WEEKS-END-DATE.
+\par \hich\af13\dbch\af13\loch\f13             05  MONTH  PIC 99.
+\par \tab \hich\af13\dbch\af13\loch\f13     05  DAY-NUMBER  PIC  99.
+\par \tab \hich\af13\dbch\af13\loch\f13     05  YEAR  PIC  99.
+\par \tab \hich\af13\dbch\af13\loch\f13   03  HOURS-WORKED.
+\par \tab \hich\af13\dbch\af13\loch\f13     06  REGULAR  PIC  99.
+\par \tab \hich\af13\dbch\af13\loch\f13     06  OVERTIME  PIC  99.
+\par \hich\af13\dbch\af13\loch\f13 4}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2}{\hich\af13\insrsid4938689\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1
+\par \tab \hich\af13\dbch\af13\loch\f13 DATA  DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 FILE SECTION.
+\par \tab \hich\af13\dbch\af13\loch\f13 FD  ACCOUNTS-FILE\tab \tab //}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c4\'da}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b2\'bf\'ce\'c4\'bc\'fe\'c3\'fb}{
+\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13   LABEL  RECOR\hich\af13\dbch\af13\loch\f13 D  IS STANDARD.
+\par \tab \hich\af13\dbch\af13\loch\f13   DATA  RECORD  IS  RECEIVABLE.
+\par \tab \hich\af13\dbch\af13\loch\f13 01  RECEIVABLE.\tab \tab \tab //}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bc\'c7\'c2\'bc}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c3\'fb}{
+\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13   02 ACCOUNT PIC  9(6).\tab \tab //}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d5\'ca\'ba\'c5}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13   02 FILLER  PIC  X(3).\tab \tab //}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'cc\'ee}{\hich\af13\insrsid4938689\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'b3\'e4}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13   02 AMOUNT  PIC  9(6).\tab \tab //}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bd\'f0}{\hich\af13\insrsid4938689\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'b6\'ee}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13   02 NAME  PIC  X(60).\tab \tab //}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c3\'fb\'d7\'d6}{\hich\af13\insrsid4938689\charrsid1078835 
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 4}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 3}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1
+\par \tab \hich\af13\dbch\af13\loch\f13 01  A.
+\par \tab \hich\af13\dbch\af13\loch\f13   02  A1  PIC  9999.
+\par \tab \hich\af13\dbch\af13\loch\f13   02  A2  PIC  AAAA.
+\par \tab \hich\af13\dbch\af13\loch\f13   02  A3  PIC  XXXX.
+\par \hich\af13\dbch\af13\loch\f13 4}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 3}{\hich\af13\insrsid4938689\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2
+\par \tab \hich\af13\dbch\af13\loch\f13 identification division.
+\par \tab \hich\af13\dbch\af13\loch\f13 program-id.  exam432.
+\par \tab \hich\af13\dbch\af13\loch\f13 environment division.
+\par \tab \hich\af13\dbch\af13\loch\f13 data division.
+\par \tab \hich\af13\dbch\af13\loch\f13 working-storage section.
+\par \tab \hich\af13\dbch\af13\loch\f13 77  x  pic s99.
+\par \tab \hich\af13\dbch\af13\loch\f13 procedure division.
+\par \tab \hich\af13\dbch\af13\loch\f13 s. 
+\par \tab \hich\af13\dbch\af13\loch\f13      move  -66  to x.
+\par \tab \hich\af13\dbch\af13\loch\f13      display  x.\tab \tab // }{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'ca\'e4}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b3\'f6}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bc\'c8}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b2\'bb\'ca\'c7}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 -66,}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d2\'b2\'b2\'bb\'ca\'c7}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 66
+\par \tab \hich\af13\dbch\af13\loch\f13      stop r\hich\af13\dbch\af13\loch\f13 un.
+\par \hich\af13\dbch\af13\loch\f13 4}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 3}{\hich\af13\insrsid4938689\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 5
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c1\'b7\'cf\'b0}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ba}{
+\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 MOVE  A  TO  B
+\par \tab \hich\af13\dbch\af13\loch\f13 A}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d6\'b5}{\hich\af13\insrsid4938689\charrsid1078835 \tab \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 B}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b5\'c4\'c3\'e8\'ca\'f6}{\hich\af13\insrsid4938689\charrsid1078835 \tab \tab \tab \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 B}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d6\'b5}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 12.34\tab \tab $$99.99\tab \tab \tab _$12.34
+\par \tab \hich\af13\dbch\af13\loch\f13 56.78\tab \tab $(3)9.99\tab \tab _$56.78
+\par \tab \hich\af13\dbch\af13\loch\f13 0.99\tab \tab $$$9.99\tab \tab \tab __$0.99\tab \tab 2}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b8\'f6}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bf\'d5
+\'b8\'f1}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 0.99\tab \tab $$$$.$$\tab \tab \tab ___$.99\tab \tab 3}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b8\'f6}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bf\'d5\'b8\'f1}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 0.0\tab \tab $$$$.$$\tab \tab \tab _______\tab \tab 7}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b8\'f6}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bf\'d5\'b8\'f1}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 0.05\tab \tab $$$$.$$\tab \tab \tab ___$.05\tab \tab 3}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b8\'f6}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bf\'d5\'b8\'f1}{\hich\af13\insrsid4938689\charrsid1078835 
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c1\'b7\'cf\'b0}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ba}{
+\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 MOVE  A  TO  B
+\par \tab \hich\af13\dbch\af13\loch\f13 A}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d6\'b5}{\hich\af13\insrsid4938689\charrsid1078835 \tab \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 B}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b5\'c4\'c3\'e8\'ca\'f6}{\hich\af13\insrsid4938689\charrsid1078835 \tab \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 B}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d6\'b5}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 12.3\tab \tab +999.9\tab \tab +012.3
+\par \tab \hich\af13\dbch\af13\loch\f13 -12.3\tab \tab +999.9\tab \tab -012.3
+\par \tab \hich\af13\dbch\af13\loch\f13 123.45\tab \tab -999.99\tab \tab _123.45\tab \tab 1}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b8\'f6}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bf\'d5
+\'b8\'f1}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 -7.7\tab \tab +++9.9\tab \tab \tab __-7.7\tab \tab 2}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b8\'f6}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bf\'d5\'b8\'f1}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 -0.09\tab \tab ++++.++\tab \tab \tab ___-.03\tab \tab 3}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b8\'f6}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bf\'d5\'b8\'f1}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 0.0\tab \tab ++++.++\tab \tab \tab _______\tab \tab 7}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b8\'f6}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bf\'d5\'b8\'f1}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 -34.56\tab \tab --99.99\tab \tab \tab _-34.56\tab \tab 1}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b8\'f6}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bf\'d5\'b8\'f1}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 10.10\tab \tab --99.99\tab \tab \tab \tab __10.10\tab \tab 2}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b8\'f6}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bf\'d5\'b8\'f1}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1234.56\tab \tab ++++.99\tab \tab \tab \tab \hich\af13\dbch\af13\loch\f13 +234.56\tab \tab }{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'ca\'d7
+\'ce\'bb\'b1\'bb\'bd\'d8\'c8\'a5}{\hich\af13\insrsid4938689\charrsid1078835 
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 4}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 4}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2
+\par \tab \hich\af13\dbch\af13\loch\f13 77  A  PIC  99  VALUE  IS  0.
+\par \tab \hich\af13\dbch\af13\loch\f13 77  B  PIC  XX  VALUE  IS  SPACE.
+\par \tab \hich\af13\dbch\af13\loch\f13 01  T.
+\par \tab \hich\af13\dbch\af13\loch\f13   02  T1  PIC  S99V99  VALUE  IS  1.2.
+\par \tab \hich\af13\dbch\af13\loch\f13   02  T2  PIC  X(13)  VALUE  'COBOL PROGRAM'.
+\par \tab \hich\af13\dbch\af13\loch\f13   02  T3  PIC  AAAAAX99  VALUE  'COBOL-85'.
+\par \tab \hich\af13\dbch\af13\loch\f13   02  T4  PIC  A9X9A  VALUE \hich\af13\dbch\af13\loch\f13 'G1.2T'.
+\par \hich\af13\dbch\af13\loch\f13 4}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 6}{\hich\af13\insrsid4938689\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1
+\par \hich\af13\dbch\af13\loch\f13 DATA  DIVISION.
+\par \hich\af13\dbch\af13\loch\f13 FILE SECTION.
+\par \hich\af13\dbch\af13\loch\f13 FD  IN-FILE  LABEL RECORD IS STANDARD
+\par \hich\af13\dbch\af13\loch\f13 01  IN-REC.
+\par \hich\af13\dbch\af13\loch\f13      03  DATE  PIC  9(8).
+\par \hich\af13\dbch\af13\loch\f13      03  NUM   PIC  9(4).
+\par \hich\af13\dbch\af13\loch\f13      03  AMOUNT  PIC  9(3).
+\par \hich\af13\dbch\af13\loch\f13      03  PIRCE  PIC  99.
+\par \hich\af13\dbch\af13\loch\f13 FD  OUT-FILE  LABEL  RECORD IS  STANDARD
+\par \hich\af13\dbch\af13\loch\f13 01  OUT-REC
+\par \hich\af13\dbch\af13\loch\f13      03  DATE  PIC  9(4)/9(2)/9(2)BB.
+\par \hich\af13\dbch\af13\loch\f13      03  NUM   PIC  9(4)BB
+\par \hich\af13\dbch\af13\loch\f13      03  AMOUNT  PIC  9(3)BB
+\par \hich\af13\dbch\af13\loch\f13      03  PIRCE  PIC  99.
+\par \hich\af13\dbch\af13\loch\f13 FD  OUT-FILE2  LABEL  RECORD IS  STANDARD
+\par \hich\af13\dbch\af13\loch\f13 01  OUT-REC2 X(23).
+\par \hich\af13\dbch\af13\loch\f13 WORKING-STORAGE SECTION.
+\par \hich\af13\dbch\af13\loch\f13 PROCEDURE DIVISION.
+\par \hich\af13\dbch\af13\loch\f13 INIT.\tab OPEN INPUT IN-FILE OUTPU\hich\af13\dbch\af13\loch\f13 T OUT-FILE.
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'ca\'e4}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b3\'f6}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b1\'ea
+\'cc\'e2}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 DIAPLAY 'DATE PD-NUM PD-AMOUNT PD-PRICE'.
+\par \tab \hich\af13\dbch\af13\loch\f13 DISPLAY '------------------------------'.
+\par \hich\af13\dbch\af13\loch\f13 S1.
+\par \tab \hich\af13\dbch\af13\loch\f13 READ IN-FILE  AT END GO TO S-END.
+\par \tab \hich\af13\dbch\af13\loch\f13 MOVE DATE OF IN-REC  TO  DATE OF OUT-REC.
+\par \tab \hich\af13\dbch\af13\loch\f13 MOVE NUM  OF IN-REC  TO  NUM  OF OUT-REC.
+\par \tab \hich\af13\dbch\af13\loch\f13 MOVE\hich\af13\dbch\af13\loch\f13  AMOUNT OF IN-REC  TO  AMOUNT OF OUT-REC.
+\par \tab \hich\af13\dbch\af13\loch\f13 MOVE PRICE OF IN-REC  TO  PRICE OF OUT-REC.
+\par \tab \hich\af13\dbch\af13\loch\f13 WRITE OUT-REC
+\par \tab \hich\af13\dbch\af13\loch\f13 GO TO  S1.
+\par \hich\af13\dbch\af13\loch\f13 S-END.\tab 
+\par \tab \hich\af13\dbch\af13\loch\f13 CLOSE IN-FILE OUT-FILE.
+\par \tab \hich\af13\dbch\af13\loch\f13  STOP RUN.
+\par \hich\af13\dbch\af13\loch\f13 5.1.1
+\par \tab \hich\af13\dbch\af13\loch\f13 MOVE  A  TO  B
+\par \tab \hich\af13\dbch\af13\loch\f13 A\tab \tab B\tab \tab A}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d6\'b5}{\hich\af13\insrsid4938689\charrsid1078835 \tab \tab }{\hich\af13\insrsid4938689\charrsid1078835 
+\hich\af13\dbch\af13\loch\f13 B(}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c4\'da}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b4\'e6}{\hich\af13\insrsid4938689\charrsid1078835 
+\hich\af13\dbch\af13\loch\f13 )
+\par \tab \hich\af13\dbch\af13\loch\f13 PIC  S9(5)\tab PIC +9(5)\tab \tab -87565\tab \tab -87565\tab \tab //}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b4\'f8}{\hich\af13\insrsid4938689\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'b7\'fb}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'ba\'c5\'b4\'ab}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'cb\'cd}{\hich\af13\insrsid4938689\charrsid1078835 
+
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 PIC  S9(3)\tab \hich\af13\dbch\af13\loch\f13 PIC 9(3)\tab \tab -865\tab \tab 865\tab \tab //}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b2\'bb}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b4\'ab}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'cb\'cd\'b7\'fb}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'ba\'c5}{
+\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 PIC  X(4)\tab \tab PIC 9(3)\tab \tab 6782\tab \tab 782\tab \tab //}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b0\'b4\'bd\'d3\'ca\'d5}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'cf\'ee\'ca\'fd}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'be\'dd}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'c0\'e0}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d0\'cd\'b5\'c4\'d4\'ad}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d4\'f2}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 
+\'bd\'d8}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b6\'cf}{\hich\af13\insrsid4938689\charrsid1078835 
+\par \tab }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 PIC  X(4)\tab \tab PIC 99V99 \tab 7513\tab \tab 1300\tab \tab //}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d0\'a1}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'ca\'fd}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b5\'e3}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b6\'d4\'c6\'eb}{
+\hich\af13\insrsid4938689\charrsid1078835 
+\par }{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 6}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 4}{
+\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1
+\par \tab \hich\af13\dbch\af13\loch\f13 A.\tab MOVE  0.04  TO  R.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 ADD  1  TO  R.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 MOVE  100  TO  P.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 PERFORM  B  5 TIMES.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 STOP  RUN.
+\par \tab \hich\af13\dbch\af13\loch\f13 B.\tab MULTIPLY  R  BY  P.
+\par \hich\af13\dbch\af13\loch\f13 6}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 4}{\hich\af13\insrsid4938689\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2
+\par \tab \hich\af13\dbch\af13\loch\f13 A\hich\af13\dbch\af13\loch\f13 .\tab MOVE  5  TO  N.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 MOVE  1  TO  M.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 PERFORM  B  N  TIMES.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 DISPLAY  M.
+\par \tab \hich\af13\dbch\af13\loch\f13 B.\tab MULTIPLY  N  BY  M.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 SUBTRACT  1  FROM  N.
+\par \hich\af13\dbch\af13\loch\f13 6}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 6}{\hich\af13\insrsid4938689\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1
+\par \tab \hich\af13\dbch\af13\loch\f13 identification division.
+\par \tab \hich\af13\dbch\af13\loch\f13 program-id.  exam1.
+\par \tab \hich\af13\dbch\af13\loch\f13 environment division.
+\par \tab \hich\af13\dbch\af13\loch\f13 data division.
+\par \tab \hich\af13\dbch\af13\loch\f13 WORKING-STORAGE SECTION.
+\par \tab \hich\af13\dbch\af13\loch\f13 77 i  pic  99.
+\par \tab \hich\af13\dbch\af13\loch\f13 77 j  pic  99.
+\par \tab \hich\af13\dbch\af13\loch\f13 77 s  pic  zz.
+\par \tab \hich\af13\dbch\af13\loch\f13 procedure division.
+\par \tab \hich\af13\dbch\af13\loch\f13 a. \tab 
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 perform b varying i from  1  by  1 until i > 9
+\par \tab \tab \tab \hich\af13\dbch\af13\loch\f13     after j from  1  by  1 until j > 9
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 stop run.
+\par \tab \hich\af13\dbch\af13\loch\f13 b.\tab compute  s = i * j.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 display i, '*', j, '=', s.
+\par \hich\af13\dbch\af13\loch\f13 7}{\hich\af13\insrsid4938689\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid4938689\charrsid1078835 \hich\af13\dbch\af13\loch\f13 9
+\par \tab \hich\af13\dbch\af13\loch\f13 ID DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 PROGRAM-ID.  exam1.
+\par \tab \hich\af13\dbch\af13\loch\f13 E\hich\af13\dbch\af13\loch\f13 NVIRONMENT DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 INPUT-OUTPUT SECTION.
+\par \tab \hich\af13\dbch\af13\loch\f13 FILE-CONTROL.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 SELECT IN-FILE  ASSIGN TO 'D:\\IN.TXT'.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 SELECT OUT-FILE ASSIGN TO 'D:\\OUT.TXT'.
+\par \tab \hich\af13\dbch\af13\loch\f13 DATA DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 FILE SECTION.
+\par \tab \hich\af13\dbch\af13\loch\f13 FD IN-FILE  LABEL RECORD IS STANDARD.
+\par \tab \hich\af13\dbch\af13\loch\f13 01 IN-REC1.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 02 FLAG1 PIC X.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 02 DATE-ARE\hich\af13\dbch\af13\loch\f13 A PIC X(4).
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 02 FILLER PIC X(6).
+\par \tab \hich\af13\dbch\af13\loch\f13 01 IN-REC2.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 02 FLAG2 PIC X.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 02 DEPT  PIC X(4).
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 02 NUM\tab  PIC X(6).
+\par \tab \hich\af13\dbch\af13\loch\f13 FD OUT-FILE LABEL RECORD IS STANDARD.
+\par \tab \hich\af13\dbch\af13\loch\f13 01 OUT-REC.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 02 OUT-DATA PIC X(6).
+\par \tab \hich\af13\dbch\af13\loch\f13 PROCEDURE DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 s1.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 OPEN  INPUT IN-FILE OUTPUT OUT-FILE.
+\par \tab \hich\af13\dbch\af13\loch\f13 S2.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 READ IN-FILE AT END GO TO S99.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 IF FLAG2 = 'C'
+\par \tab \tab \hich\af13\dbch\af13\loch\f13   MOVE NUM TO OUT-DATA
+\par \tab \tab \hich\af13\dbch\af13\loch\f13   WRITE OUT-REC.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 GO TO S2.
+\par \tab \hich\af13\dbch\af13\loch\f13 S99.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 CLOSE IN-FILE OUT-FILE.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 STOP RUN.
+\par }{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 8}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 6
+\par \tab \hich\af13\dbch\af13\loch\f13 IDENTIFICATION DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 PROGRAM-ID.\tab EXAM86.
+\par \tab \hich\af13\dbch\af13\loch\f13 ENVIRONMENT DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 INPUT-OUTPUT SECTION.
+\par \tab \hich\af13\dbch\af13\loch\f13 FILE-CONTR\hich\af13\dbch\af13\loch\f13 OL.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 SELECT OLD-SALES-FILE ASSIGN TO  DASD-INFILE.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 SELECT NEW-SALES-FILE ASSIGN TO  DASD-OUTFILE.
+\par \tab \hich\af13\dbch\af13\loch\f13 DATA DIVISON.
+\par \tab \hich\af13\dbch\af13\loch\f13 FILE SECTION.
+\par \tab \hich\af13\dbch\af13\loch\f13 FD OLD-SALES-FILE LABEL RECORD IS STANDARD.
+\par \tab \hich\af13\dbch\af13\loch\f13 01 OLD-SALES-REC.
+\par \tab \hich\af13\dbch\af13\loch\f13    02  PUR-DATE.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 03  YEAR  PIC  9(4).
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 03  MONTH PIC  99.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 03  DAY   PIC  99.
+\par \tab \hich\af13\dbch\af13\loch\f13    02  PRODUCT-CODE  PIC  9(4).
+\par \tab \hich\af13\dbch\af13\loch\f13    02  CUSTOMER-CODE PIC  9(4).
+\par \tab \hich\af13\dbch\af13\loch\f13    02  QTY           PIC  9(6).
+\par \tab \hich\af13\dbch\af13\loch\f13    02  FILLER        PIC X(58).
+\par \tab \hich\af13\dbch\af13\loch\f13 FD NEW-SALES-FILE LABEL RECORD IS STANDARD.
+\par \tab \hich\af13\dbch\af13\loch\f13 01 NEW-SALES-REC.
+\par \tab \hich\af13\dbch\af13\loch\f13    02  PUR-DATE.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 03  YEAR  PIC  9(4\hich\af13\dbch\af13\loch\f13 ).
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 03  MONTH PIC  99.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 03  DAY   PIC  99.
+\par \tab \hich\af13\dbch\af13\loch\f13    02  PRODUCT-CODE  PIC  9(4).
+\par \tab \hich\af13\dbch\af13\loch\f13    02  CUSTOMER-CODE PIC  9(4).
+\par \tab \hich\af13\dbch\af13\loch\f13    02  QTY  PIC      PIC  9(6).
+\par \tab \hich\af13\dbch\af13\loch\f13    02  UNIT-PRICE    PIC  9(4).
+\par \tab \hich\af13\dbch\af13\loch\f13    02  SALES-VALUE   PIC  9(8).
+\par \tab \hich\af13\dbch\af13\loch\f13    02  FILLER        PIC X(46).
+\par \tab \hich\af13\dbch\af13\loch\f13 WORKING-STOR\hich\af13\dbch\af13\loch\f13 AGE SECTION.
+\par \tab \hich\af13\dbch\af13\loch\f13 77  I  PIC 9.
+\par \tab \hich\af13\dbch\af13\loch\f13 01  UNIT-PRICE-TABLE.
+\par \tab \hich\af13\dbch\af13\loch\f13    02  FILLER  PIC  X(8)  VALUE '00100200'.
+\par \tab \hich\af13\dbch\af13\loch\f13    02  FILLER  PIC  X(8)  VALUE '00200400'.
+\par \tab \hich\af13\dbch\af13\loch\f13    02  FILLER  PIC  X(8)  VALUE '00300600'.
+\par \tab \hich\af13\dbch\af13\loch\f13    02  FILLER  PIC  X(8)  VALUE '00400800'.
+\par \tab \hich\af13\dbch\af13\loch\f13    02  FILLER  PIC  X(8)  VALUE '00501000'.
+\par \tab \hich\af13\dbch\af13\loch\f13 01  UNIT-PRICE-TABLE-REC  REDEFINES  UNIT-PRICE-TABLE.
+\par \tab \hich\af13\dbch\af13\loch\f13    02  TABLE  OCCURS  5 TIMES.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 03  PRODUCT-CODE-T  PIC  9(4).
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 03  UNIT-PRICE-T    PIC  9(4).
+\par \tab \hich\af13\dbch\af13\loch\f13 PROCEDURE DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 INIT.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 OPEN  INPUT  OLD-SALES-FILE.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 OPEN  OUTPUT NEW-SALES-FILE.
+\par \tab \tab 
+\par \tab \hich\af13\dbch\af13\loch\f13 READ-FILE.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 READ  OLD-SALES-FILE  AT END  GO TO P-END.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 MOVE  1  TO  I.
+\par \tab \hich\af13\dbch\af13\loch\f13 SEARCH-TABLE.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 IF  PRODUCT-CODE OF OLD-SALES-REC = PRODUCT-CODE-T (I)
+\par \tab \tab \tab \hich\af13\dbch\af13\loch\f13 GO TO COMPUTE-SALES-VALUE.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 ADD 1 TO I.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 IF I > 5
+\par \tab \tab \tab \hich\af13\dbch\af13\loch\f13 GO TO READ-FILE.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 GO TO SEARCH-TABLE.
+\par \tab \hich\af13\dbch\af13\loch\f13 COMPUTE-SALES-VALUE.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 MOVE  CORR  OLD-SALES-REC  TO  NEW-SALES-REC.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 MOVE  UNIT-PRICE-T (I) TO UNIT-PRICE.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 COMPUT  SALES-VALUE = UNIT-PRICE * QTY OF NEW-SALES-REC.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 WRITE  NEW-SALES-REC.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 GO  TO  READ-FILE.
+\par \tab \hich\af13\dbch\af13\loch\f13 P-END.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 CLOSE  OLD-SALES-FILE  NEW-SALES-FILE.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 STOP  RUN.}{\hich\af13\insrsid12849730\charrsid1078835 
+\par }{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 9}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2
+\par }{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d6\'f7\'b3\'cc\'d0\'f2}{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 : ST077.COBOL.SOURCE(C1)
+\par \hich\af13\dbch\af13\loch\f13 ***************************** Top of Data ******************************
+\par \hich\af13\dbch\af13\loch\f13        IDENTIFICATION  DIVISION.                                        
+\par \hich\af13\dbch\af13\loch\f13        PROGRAM-ID.  MAIN.                                               
+\par \hich\af13\dbch\af13\loch\f13        ENVIRONMENT  DIVISION.                                           
+\par \hich\af13\dbch\af13\loch\f13        DATA  DIVISION.                                                  
+\par \hich\af13\dbch\af13\loch\f13        PROCEDURE  DIVISION.          \hich\af13\dbch\af13\loch\f13                                    
+\par \hich\af13\dbch\af13\loch\f13            DISPLAY 'CALL SUBPROGRAM'.                                   
+\par \hich\af13\dbch\af13\loch\f13            CALL 'SUBPG'.                                                   
+\par \hich\af13\dbch\af13\loch\f13            DISPLAY 'CALL END'.                                         \hich\af13\dbch\af13\loch\f13  
+\par \hich\af13\dbch\af13\loch\f13            STOP RUN.                                                    
+\par \hich\af13\dbch\af13\loch\f13 **************************** Bottom of Data ****************************
+\par }{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d7\'d3\'b3\'cc\'d0\'f2}{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 : ST077.COBOL.SOURCE(C2)
+\par \hich\af13\dbch\af13\loch\f13 ***************************** Top of Data ******************************
+\par \hich\af13\dbch\af13\loch\f13        \hich\af13\dbch\af13\loch\f13 IDENTIFICATION  DIVISION.                                        
+\par \hich\af13\dbch\af13\loch\f13        PROGRAM-ID.   SUBPG.                                             
+\par \hich\af13\dbch\af13\loch\f13        ENVIRONMENT  DIVISION.                                           
+\par \hich\af13\dbch\af13\loch\f13        DATA  DIVISION.                      \hich\af13\dbch\af13\loch\f13                             
+\par \hich\af13\dbch\af13\loch\f13        PROCEDURE        DIVISION.                                       
+\par \hich\af13\dbch\af13\loch\f13            DISPLAY 'BEGIN CALL'.                                        
+\par \hich\af13\dbch\af13\loch\f13            DISPLAY 'THIS IS A SUBPROGRAM'.                              
+\par \hich\af13\dbch\af13\loch\f13         \hich\af13\dbch\af13\loch\f13    DISPLAY 'END CALL'.                                          
+\par \hich\af13\dbch\af13\loch\f13            EXIT PROGRAM.                                                
+\par \hich\af13\dbch\af13\loch\f13 **************************** Bottom of Data ****************************
+\par }{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b1\'e0\'d2\'eb}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d7\'d3\'b3\'cc\'d0\'f2\'b5\'c4}{\hich\af13\insrsid12849730\charrsid1078835 
+\hich\af13\dbch\af13\loch\f13 JCL: ST077.COBOL.COMLINK2
+\par \hich\af13\dbch\af13\loch\f13 ***************************** Top of Data ******************************
+\par \hich\af13\dbch\af13\loch\f13 //ST077A JOB 1,JHY,CLASS=A,MSGCLASS=X,MSGLEVEL=(1,1),                   
+\par \hich\af13\dbch\af13\loch\f13 //     NOTIFY=&SYSUID                                                   
+\par \hich\af13\dbch\af13\loch\f13 //COBOL EXEC IGYWCL                  \hich\af13\dbch\af13\loch\f13                                    
+\par \hich\af13\dbch\af13\loch\f13 //STEPLIB DD DSN=IGY330.SIGYCOMP,DISP=SHR                               
+\par \hich\af13\dbch\af13\loch\f13 //COBOL.SYSLIB DD DSN=ST077.COBOL.SOURCE,DISP=SHR                       
+\par \hich\af13\dbch\af13\loch\f13 //COBOL.SYSIN  DD DSN=ST077.COBOL.SOURCE(C2),DISP=SHR                   
+\par \hich\af13\dbch\af13\loch\f13 /\hich\af13\dbch\af13\loch\f13 /LKED.SYSLMOD DD DSN=ST077.COBOL.LOAD(SUBPG),DISP=SHR                  
+\par \hich\af13\dbch\af13\loch\f13 //SYSPRINT DD SYSOUT=*                                                  
+\par \hich\af13\dbch\af13\loch\f13 **************************** Bottom of Data ****************************
+\par }{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b1\'e0\'d2\'eb}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d6\'f7\'b3\'cc\'d0\'f2\'b5\'c4}{\hich\af13\insrsid12849730\charrsid1078835 
+\hich\af13\dbch\af13\loch\f13 JCL: ST077.COBOL.COMLINK
+\par \hich\af13\dbch\af13\loch\f13 *******\hich\af13\dbch\af13\loch\f13 ********************** Top of Data ******************************
+\par \hich\af13\dbch\af13\loch\f13 //ST077A JOB 1,JHY,CLASS=A,MSGCLASS=X,MSGLEVEL=(1,1),                   
+\par \hich\af13\dbch\af13\loch\f13 //     NOTIFY=&SYSUID                                                   
+\par \hich\af13\dbch\af13\loch\f13 //COBOL EXEC IGYWCL                         \hich\af13\dbch\af13\loch\f13                             
+\par \hich\af13\dbch\af13\loch\f13 //STEPLIB      DD DSN=IGY330.SIGYCOMP,DISP=SHR                          
+\par \hich\af13\dbch\af13\loch\f13 //LKED.SYSLIB  DD DSN=ST077.COBOL.LOAD,DISP=SHR                         
+\par \hich\af13\dbch\af13\loch\f13 //COBOL.SYSLIB DD DSN=ST077.COBOL.SOURCE,DISP=SHR                       
+\par \hich\af13\dbch\af13\loch\f13 //LKED.S\hich\af13\dbch\af13\loch\f13 YSLMOD DD DSN=ST077.COBOL.LOAD(MAIN),DISP=SHR                   
+\par \hich\af13\dbch\af13\loch\f13 //COBOL.SYSIN  DD DSN=ST077.COBOL.SOURCE(C1),DISP=SHR                   
+\par \hich\af13\dbch\af13\loch\f13 //SYSPRINT DD SYSOUT=*                                                  
+\par \hich\af13\dbch\af13\loch\f13 **************************** Bottom of Data *\hich\af13\dbch\af13\loch\f13 ***************************
+\par }{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d4\'cb}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d0\'d0\'d6\'f7\'b3\'cc\'d0\'f2\'b5\'c4}{\hich\af13\insrsid12849730\charrsid1078835 
+\hich\af13\dbch\af13\loch\f13 JCL: ST077.COBOL.RUN
+\par \hich\af13\dbch\af13\loch\f13 ***************************** Top of Data ******************************
+\par \hich\af13\dbch\af13\loch\f13 //ST077A    JOB  1,JHY,CLASS=A,MSGCLASS=X,MSGLEVEL=(1,1),               
+\par \hich\af13\dbch\af13\loch\f13 //          NOTIFY=&SYSUID                             \hich\af13\dbch\af13\loch\f13                  
+\par \hich\af13\dbch\af13\loch\f13 //STEP1  EXEC  PGM=MAIN                                                 
+\par \hich\af13\dbch\af13\loch\f13 //STEPLIB  DD  DSN=ST077.COBOL.LOAD,DISP=SHR                            
+\par \hich\af13\dbch\af13\loch\f13 //SYSPRINT DD  SYSOUT=*                                                 
+\par \hich\af13\dbch\af13\loch\f13 **************************** Bottom of Data ****************************
+\par }{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'ca\'e4}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b3\'f6}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'bd\'e1}{
+\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'b9\'fb}{\hich\af13\insrsid12849730\charrsid1078835 
+\par }{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 ********************************* TOP OF DATA **********************************
+\par \hich\af13\dbch\af13\loch\f13 CALL SUBPROGRAM                                                                 
+\par \hich\af13\dbch\af13\loch\f13 BEGIN CALL      \hich\af13\dbch\af13\loch\f13                                                                 
+\par \hich\af13\dbch\af13\loch\f13 THIS IS A SUBPROGRAM                                                            
+\par \hich\af13\dbch\af13\loch\f13 END CALL                                                                        
+\par \hich\af13\dbch\af13\loch\f13 CALL END                     \hich\af13\dbch\af13\loch\f13                                                    
+\par \hich\af13\dbch\af13\loch\f13 ******************************** BOTTOM OF DATA ********************************
+\par \hich\af13\dbch\af13\loch\f13 9}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 5
+\par }{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d6\'f7\'b3\'cc\'d0\'f2}{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 : ST077.COBOL.SOURCE(C1)
+\par \hich\af13\dbch\af13\loch\f13 ***************************** Top of Data ******************************
+\par \hich\af13\dbch\af13\loch\f13        IDENTIFICAT\hich\af13\dbch\af13\loch\f13 ION  DIVISION.                                        
+\par \hich\af13\dbch\af13\loch\f13        PROGRAM-ID.  MAIN.                                               
+\par \hich\af13\dbch\af13\loch\f13        ENVIRONMENT  DIVISION.                                           
+\par \hich\af13\dbch\af13\loch\f13        DATA  DIVISION.                                 \hich\af13\dbch\af13\loch\f13                  
+\par \hich\af13\dbch\af13\loch\f13        WORKING-STORAGE SECTION.                                         
+\par \hich\af13\dbch\af13\loch\f13        77  A  PIC  99  VALUE  10.                                       
+\par \hich\af13\dbch\af13\loch\f13        77  B  PIC  99  VALUE  20.                                       
+\par \hich\af13\dbch\af13\loch\f13        PROCEDURE  D\hich\af13\dbch\af13\loch\f13 IVISION.                                             
+\par \hich\af13\dbch\af13\loch\f13            CALL 'SUBPG' USING  A, BY CONTENT B.           //USING  BY CONTENT A, B            
+\par \hich\af13\dbch\af13\loch\f13            DISPLAY 'AFTER CALLING:'.                                    
+\par \hich\af13\dbch\af13\loch\f13            DISPLAY 'A=', A.       \hich\af13\dbch\af13\loch\f13                                       
+\par \hich\af13\dbch\af13\loch\f13            DISPLAY 'B=', B.                                             
+\par \hich\af13\dbch\af13\loch\f13            STOP RUN.                                                    
+\par \hich\af13\dbch\af13\loch\f13 **************************** Bottom of Data ***************************\hich\af13\dbch\af13\loch\f13 *
+\par }{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'d7\'d3\'b3\'cc\'d0\'f2}{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 : ST077.COBOL.SOURCE(C2)
+\par \hich\af13\dbch\af13\loch\f13 ***************************** Top of Data ******************************
+\par \hich\af13\dbch\af13\loch\f13        IDENTIFICATION  DIVISION.                                        
+\par \hich\af13\dbch\af13\loch\f13        PROGRAM-ID.   SUBPG.                                             
+\par \hich\af13\dbch\af13\loch\f13        ENVIRONMENT  DIVISION.                                           
+\par \hich\af13\dbch\af13\loch\f13        DATA  DIVISION.                                                  
+\par \hich\af13\dbch\af13\loch\f13        LINKAGE SECTION.                                                 
+\par \hich\af13\dbch\af13\loch\f13        77  A1  PIC  99.              \hich\af13\dbch\af13\loch\f13                                    
+\par \hich\af13\dbch\af13\loch\f13        77  B1  PIC  99.                                                 
+\par \hich\af13\dbch\af13\loch\f13        PROCEDURE   DIVISION  USING  A1 B1.                              
+\par \hich\af13\dbch\af13\loch\f13            ADD  1  TO  A1.                                              
+\par \hich\af13\dbch\af13\loch\f13  \hich\af13\dbch\af13\loch\f13           ADD  1  TO  B1.                                              
+\par \hich\af13\dbch\af13\loch\f13            DISPLAY 'CALL SUBPROGRAM:'.                                  
+\par \hich\af13\dbch\af13\loch\f13            DISPLAY 'A1=', A1.                                           
+\par \hich\af13\dbch\af13\loch\f13            DISPLAY 'B1=', B1.         \hich\af13\dbch\af13\loch\f13                                   
+\par \hich\af13\dbch\af13\loch\f13            EXIT PROGRAM.                                                
+\par \hich\af13\dbch\af13\loch\f13 **************************** Bottom of Data ****************************
+\par \hich\af13\dbch\af13\loch\f13 9}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 6}{\hich\af13\insrsid12849730\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 1
+\par \tab \hich\af13\dbch\af13\loch\f13 ID  DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 PROGRAM-ID.  MODULE1.
+\par \tab \hich\af13\dbch\af13\loch\f13 ENVIRONMENT  DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 DATA  \hich\af13\dbch\af13\loch\f13 DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 WORKING-STORAGE  SECTION.
+\par \tab \hich\af13\dbch\af13\loch\f13 01  SHARE-DATA  PIC  X(32)  GLOBAL.
+\par \tab \hich\af13\dbch\af13\loch\f13 PROCEDURE  DIVISION.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 MOVE  'beginning  contents'  TO  SHARE-DATA.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 CALL  'MODULE2'.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 DISPLAY  SHARE-DATA.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 STOP  RUN.
+\par \tab \hich\af13\dbch\af13\loch\f13 ID  DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 PROGRAM-ID.  MODULE2.
+\par \tab \hich\af13\dbch\af13\loch\f13 DATA  DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 WORKING-STORAGE  SECTION.
+\par \tab \hich\af13\dbch\af13\loch\f13 PROCEDURE  DIVISION.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 DISPLAY  'entering  module2'.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 DISPLAY  SHARE-DATA.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 MOVE  'ending  contents'  TO  SHARE-DATA.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 DISPLAY  'leaving  module2'.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 EXIT  PROGRAM.
+\par \tab \hich\af13\dbch\af13\loch\f13 END  PROGRAM  MODULE2.
+\par \tab \hich\af13\dbch\af13\loch\f13 END  PROGRAM  MODULE1.
+\par \hich\af13\dbch\af13\loch\f13 *************\hich\af13\dbch\af13\loch\f13 ********
+\par \hich\af13\dbch\af13\loch\f13 entering  module2
+\par \hich\af13\dbch\af13\loch\f13 begining  contents
+\par \hich\af13\dbch\af13\loch\f13 leaving  contents
+\par \hich\af13\dbch\af13\loch\f13 ending  contents
+\par \hich\af13\dbch\af13\loch\f13 *********************
+\par \hich\af13\dbch\af13\loch\f13 9}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 6}{\hich\af13\insrsid12849730\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'a3\'ae}{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 2
+\par \tab \hich\af13\dbch\af13\loch\f13 ID  DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 PROGRAM-ID.   MODULE1.
+\par \tab \hich\af13\dbch\af13\loch\f13 ENVIRONMENT  DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 DATA  DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 WORKING-STORAGE SECTION.
+\par \tab \hich\af13\dbch\af13\loch\f13 01  SHARE-DATA  PIC  X(30)  EXTERNAL.\tab \tab \tab \hich\af13\dbch\af13\loch\f13 //}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'cd\'e2\'b2\'bf}{\hich\af13\insrsid12849730\charrsid1078835 
+\loch\af13\hich\af13\dbch\f13 \'ca\'fd}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'be\'dd}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'cf\'ee}{\hich\af13\insrsid12849730\charrsid1078835 
+
+\par \tab }{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 PROCEDURE  DIVISION.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 MOVE  'begin  contents'  TO  SHARE-DATA.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 CALL  MODULE2.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 DISPLAY  SHARE-DATA.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 STOP  RUN.
+\par \hich\af13\dbch\af13\loch\f13 ============================================================
+\par \tab \hich\af13\dbch\af13\loch\f13 ID  DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 PROGRAM-ID.   MODULE2.
+\par \tab \hich\af13\dbch\af13\loch\f13 ENVIRONMENT  DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 DATA  DIVISION.
+\par \tab \hich\af13\dbch\af13\loch\f13 WORKING-STORAGE SECTION.
+\par \tab \hich\af13\dbch\af13\loch\f13 01  SHARE-DATA  PIC  X(30)  EXTERNAL.\tab \tab \tab //}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'cd\'e2\'b2\'bf}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 
+\'ca\'fd}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'be\'dd}{\hich\af13\insrsid12849730\charrsid1078835 \loch\af13\hich\af13\dbch\f13 \'cf\'ee}{\hich\af13\insrsid12849730\charrsid1078835 
+\par \tab }{\hich\af13\insrsid12849730\charrsid1078835 \hich\af13\dbch\af13\loch\f13 PROCEDURE  DIVISION.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 DISPLAY  'entering  module2'.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 DISPLAY  SHARE-DATA.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 MOVE  'ending  contents'  TO  SHARE-DATA.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 DISPLAY  'leaving  module2'.
+\par \tab \tab \hich\af13\dbch\af13\loch\f13 EXIT  PROGR\hich\af13\dbch\af13\loch\f13 AM.}{\hich\af13\insrsid12849730\charrsid1078835 
+\par }}

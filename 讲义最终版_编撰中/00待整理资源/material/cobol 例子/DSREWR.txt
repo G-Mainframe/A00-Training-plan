@@ -1,0 +1,54 @@
+       IDENTIFICATION DIVISION.                                         00010012
+       PROGRAM-ID. DSREWR.                                              00020012
+      *                                                                 00020108
+       ENVIRONMENT DIVISION.                                            00020205
+       INPUT-OUTPUT SECTION.                                            00020305
+       FILE-CONTROL.                                                    00020405
+            SELECT TESTPS ASSIGN TO TESTIN.                             00020506
+      *                                                                 00020608
+       DATA DIVISION.                                                   00021005
+       FILE SECTION.                                                    00022005
+       FD   TESTPS                                                      00023005
+            DATA RECORD IS TESTREC.                                     00025005
+       01   TESTREC.                                                    00026005
+            03   EMPID PIC 9(6).                                        00027005
+            03   EMPNAME PIC X(10).                                     00028005
+            03   EMPADDR PIC X(20).                                     00029005
+            03   EMPTEL  PIC X(15).                                     00029105
+            03   EMPGEND PIC X(1).                                      00029205
+            03   FILLER  PIC X(28).                                     00029307
+       WORKING-STORAGE SECTION.                                         00029408
+       77   EOF-FLAG  PIC X VALUE 'N'.                                  00029508
+       01   WELCOME.                                                    00029608
+            03   MALE PIC X(4) VALUE 'SIR '.                            00029713
+            03   FEMALE PIC X(5) VALUE 'MADAM'.                         00029810
+            03   MESS PIC X(12) VALUE 'HOW ARE YOU!'.                   00029910
+       PROCEDURE DIVISION.                                              00030012
+      *     DISPLAY 'HELLO WORLD!'.                                     00040014
+      ************** OPEN DATA SET  *****************************       00040115
+            OPEN INPUT TESTPS.                                          00040205
+      ************** PROCESS  ***********************************       00040315
+       READSEC.                                                         00040408
+            IF EOF-FLAG = 'N'                                           00040509
+               PERFORM REA THRU REA-EXIT                                00040611
+            ELSE                                                        00040709
+               CLOSE TESTPS                                             00040809
+               STOP RUN                                                 00040912
+            END-IF.                                                     00041009
+      ***********************************************************       00041115
+       REA.                                                             00041209
+            READ TESTPS AT END MOVE 'Y' TO EOF-FLAG.                    00041309
+            PERFORM DISPSEC THRU DISP-EXIT.                             00041409
+            GO TO READSEC.                                              00041509
+       REA-EXIT.                                                        00041611
+            EXIT.                                                       00041714
+       DISPSEC.                                                         00041808
+            DISPLAY TESTREC.                                            00041905
+            IF EMPGEND = 'M' THEN                                       00042009
+               DISPLAY MALE MESS                                        00042108
+            ELSE                                                        00042208
+               DISPLAY FEMALE MESS                                      00042308
+            END-IF.                                                     00042408
+       DISP-EXIT.                                                       00043008
+            EXIT.                                                       00044014
+

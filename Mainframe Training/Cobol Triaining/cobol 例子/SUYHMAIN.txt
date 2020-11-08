@@ -1,0 +1,438 @@
+       IDENTIFICATION                  DIVISION.                        00010012
+       PROGRAM-ID. MAINPG.                                              00020012
+       AUTHOR. SUYANGHUI.                                               00030012
+       DATE-WRITTEN. 2007-11-21.                                        00040012
+       ENVIRONMENT                     DIVISION.                        00050012
+       INPUT-OUTPUT                    SECTION.                         00060012
+       FILE-CONTROL.                                                    00070012
+           SELECT IN0010  ASSIGN TO IN0010                              00080012
+             ORGANIZATION IS INDEXED ACCESS MODE IS DYNAMIC             00090012
+             RECORD KEY IS EMPNO OF IN0010-RECORD                       00100026
+             FILE STATUS IS WS-IN0010-STATUS.                           00101026
+           SELECT IN0020  ASSIGN TO IN0020                              00110012
+             ORGANIZATION IS SEQUENTIAL ACCESS MODE IS SEQUENTIAL       00120026
+             FILE STATUS IS WS-IN0020-STATUS.                           00120126
+           SELECT IN0030  ASSIGN TO IN0030                              00121014
+             ORGANIZATION IS SEQUENTIAL ACCESS MODE IS SEQUENTIAL       00122026
+             FILE STATUS IS WS-IN0030-STATUS.                           00123026
+           SELECT OT0010  ASSIGN TO OT0010                              00130012
+             ORGANIZATION IS SEQUENTIAL ACCESS MODE IS SEQUENTIAL       00140026
+             FILE STATUS IS WS-OT0010-STATUS.                           00141026
+           SELECT OT0020  ASSIGN TO IN0020                              00150012
+             ORGANIZATION IS SEQUENTIAL ACCESS MODE IS SEQUENTIAL       00160026
+             FILE STATUS IS WS-OT0020-STATUS.                           00161026
+           SELECT OT0030  ASSIGN TO OT0030                              00170012
+             ORGANIZATION IS SEQUENTIAL ACCESS MODE IS SEQUENTIAL       00180026
+             FILE STATUS IS WS-OT0030-STATUS.                           00181026
+           SELECT OT0040  ASSIGN TO OT0040                              00190012
+             ORGANIZATION IS SEQUENTIAL ACCESS MODE IS SEQUENTIAL       00200026
+             FILE STATUS IS WS-OT0040-STATUS.                           00201026
+       DATA                           DIVISION.                         00210012
+       FILE                           SECTION.                          00220012
+       FD IN0010.                                                       00230012
+       01  IN0010-RECORD.                                               00240012
+         10 EMPNO                   PIC X(6).                           00250012
+         10 EMPNAME                 PIC X(20).                          00260012
+         10 EMP-AD                  PIC X(50).                          00270012
+         10 TEL-NO                  PIC X(9).                           00280012
+         10 SALARY-RATE             PIC 9(3)V99.                        00290012
+         10 AMOUNT-PAY              PIC 9(6)V99.                        00300012
+         10 LAST-WORK-DAY           PIC X(8).                           00310012
+         10 FILLER                  PIC X(14).                          00320012
+       FD IN0020 RECORDING MODE IS F.                                   00330028
+       01  IN0020-RECORD               PIC X(120).                      00340012
+       FD IN0030 RECORDING MODE IS F.                                   00350027
+       01  IN0030-RECORD               PIC X(8).                        00360012
+       FD OT0010 RECORDING MODE IS F.                                   00370027
+       01  OT0010-RECORD               PIC X(120).                      00380012
+       FD OT0020 RECORDING MODE IS F.                                   00390027
+       01  OT0020-RECORD               PIC X(120).                      00400012
+       FD OT0030 RECORDING MODE IS F.                                   00410027
+       01  OT0030-RECORD               PIC X(120).                      00420012
+       FD OT0040 RECORDING MODE IS F.                                   00430027
+       01  OT0040-RECORD               PIC X(120).                      00440012
+       WORKING-STORAGE  SECTION.                                        00450012
+       01  WS-AREA.                                                     00460012
+         05 WS-IN0010-STATUS           PIC X(02).                       00461026
+         05 WS-IN0020-STATUS           PIC X(02).                       00462026
+         05 WS-IN0030-STATUS           PIC X(02).                       00463026
+         05 WS-OT0010-STATUS           PIC X(02).                       00464026
+         05 WS-OT0020-STATUS           PIC X(02).                       00465026
+         05 WS-OT0030-STATUS           PIC X(02).                       00466026
+         05 WS-OT0040-STATUS           PIC X(02).                       00467026
+         05 WS-IN0010.                                                  00470012
+            10 EMPNO                   PIC X(6).                        00480012
+            10 EMPNAME                 PIC X(20).                       00490012
+            10 EMP-AD                  PIC X(50).                       00500012
+            10 TEL-NO                  PIC X(9).                        00510012
+            10 SALARY-RATE             PIC 9(3)V99.                     00520012
+            10 AMOUNT-PAY              PIC 9(6)V99.                     00530012
+            10 LAST-WORK-DAY           PIC X(8).                        00540012
+            10 FILLER                  PIC X(14).                       00550012
+         05 WS-IN0020.                                                  00560012
+            10 TC                      PIC X(1).                        00570012
+            10 EMPNO                   PIC X(6).                        00580012
+            10 EMPNAME                 PIC X(20).                       00590012
+            10 EMP-AD                  PIC X(50).                       00600012
+            10 TEL-NO                  PIC X(9).                        00610012
+            10 SALARY-RATE             PIC 9(3)V99.                     00620012
+            10 HRS-WORK                PIC 9(3)V9.                      00630012
+            10 LAST-WORK-DAY           PIC X(8).                        00640012
+            10 FILLER                  PIC X(18).                       00650012
+         05 WS-OT0010.                                                  00660012
+            10 EMPNO                   PIC X(6).                        00670012
+            10 EMPNAME                 PIC X(20).                       00680012
+            10 EMP-AD                  PIC X(50).                       00690012
+            10 TEL-NO                  PIC X(9).                        00700012
+            10 SALARY-RATE             PIC 9(3)V99.                     00710012
+            10 AMOUNT-PAY              PIC 9(6)V99.                     00720012
+            10 LAST-WORK-DAY           PIC X(8).                        00730012
+            10 FILLER                  PIC X(14).                       00740012
+         05 WS-OT0020                  PIC X(120).                      00750012
+         05 ERRLIB.                                                     00760012
+            10  NO-EMP-NO.                                              00770012
+                15 EMP-ID              PIC X(6).                        00771020
+                15 ERR-CODE            PIC X(04) VALUE  '0001'.         00780012
+                15 ERR-MSG             PIC X(35) VALUE  'THE EMP ID IS N00790021
+      -                 'OT EXIST IN MF FILE.'.                         00800022
+                15 FILLER              PIC X(75) VALUE SPACE.           00810021
+            10  WRONG-TC.                                               00820012
+                15 EMP-ID              PIC X(6).                        00821020
+                15 ERR-CODE            PIC X(04) VALUE  '0002'.         00830012
+                15 ERR-MSG             PIC X(15) VALUE  'THE TC IS WROG 00840012
+      -                 ''.                                             00850012
+                15 FILLER              PIC X(95) VALUE SPACE.           00860020
+            10  DUP-EMP-ID.                                             00870012
+                15 EMP-ID              PIC X(6).                        00871020
+                15 ERR-CODE            PIC X(04) VALUE  '0003'.         00880012
+                15 ERR-MSG             PIC X(23) VALUE  'THE EMP ID IS D00890012
+      -                 'ULICATE'.                                      00900012
+                15 FILLER              PIC X(87) VALUE  SPACE.          00910020
+            10  MF-NO-FILE.                                             00920012
+                15 EMP-ID              PIC X(6).                        00921020
+                15 ERR-CODE            PIC X(04) VALUE  '0004'.         00930020
+                15 ERR-MSG             PIC X(19) VALUE  'THE MF FILE IS 00940012
+      -                 'NONE'.                                         00950012
+                15 FILLER              PIC X(91) VALUE  SPACE.          00960020
+            10  TC-NO-FILE.                                             00970012
+                15 EMP-ID              PIC X(6).                        00971020
+                15 ERR-CODE            PIC X(04) VALUE  '0005'.         00980020
+                15 ERR-MSG             PIC X(19) VALUE  'THE TC FILE IS 00990012
+      -                 'NONE'.                                         01000012
+                15 FILLER              PIC X(91) VALUE  SPACE.          01010020
+            10  ERR-MF-EN.                                              01011020
+                15 EMP-ID              PIC X(6).                        01012020
+                15 ERR-CODE            PIC X(04) VALUE  '0006'.         01013020
+                15 ERR-MSG             PIC X(27) VALUE  'THE EMP NO. IN 01014020
+      -                 'MF IS ERROR.'.                                 01015021
+                15 FILLER              PIC X(83) VALUE  SPACE.          01016020
+            10  ERR-TC-EN.                                              01017020
+                15 EMP-ID              PIC X(6).                        01018020
+                15 ERR-CODE            PIC X(04) VALUE  '0007'.         01019020
+                15 ERR-MSG             PIC X(27) VALUE  'THE EMP NO. IN 01019120
+      -                 'TC IS ERROR.'.                                 01019221
+                15 FILLER              PIC X(83) VALUE  SPACE.          01019320
+            10  ERR-MF-EM.                                              01019420
+                15 EMP-ID              PIC X(6).                        01019520
+                15 ERR-CODE            PIC X(04) VALUE  '0008'.         01019620
+                15 ERR-MSG             PIC X(28) VALUE  'THE EMP NAME IN01019721
+      -                 ' MF IS ERROR.'.                                01019821
+                15 FILLER              PIC X(82) VALUE  SPACE.          01019921
+            10  ERR-TC-EM.                                              01020020
+                15 EMP-ID              PIC X(6).                        01020120
+                15 ERR-CODE            PIC X(04) VALUE  '0009'.         01020220
+                15 ERR-MSG             PIC X(28) VALUE  'THE EMP NAME IN01020321
+      -                 ' TC IS ERROR.'.                                01020421
+                15 FILLER              PIC X(82) VALUE  SPACE.          01020521
+            10  ERR-MF-TN.                                              01020620
+                15 EMP-ID              PIC X(6).                        01020720
+                15 ERR-CODE            PIC X(04) VALUE  '0010'.         01020820
+                15 ERR-MSG             PIC X(28) VALUE  'THE TEL  NO. IN01020921
+      -                 ' MF IS ERROR.'.                                01021021
+                15 FILLER              PIC X(82) VALUE  SPACE.          01021121
+            10  ERR-TC-TN.                                              01021224
+                15 EMP-ID              PIC X(6).                        01021320
+                15 ERR-CODE            PIC X(04) VALUE  '0011'.         01021420
+                15 ERR-MSG             PIC X(28) VALUE  'THE TEL  NO. IN01021521
+      -                 ' TC IS ERROR.'.                                01021621
+                15 FILLER              PIC X(82) VALUE  SPACE.          01021720
+            10  ERR-MF-LW.                                              01021820
+                15 EMP-ID              PIC X(6).                        01021920
+                15 ERR-CODE            PIC X(04) VALUE  '0012'.         01022020
+                15 ERR-MSG             PIC X(28) VALUE  'THE LAST DAY IN01022121
+      -                 ' MF IS ERROR.'.                                01022221
+                15 FILLER              PIC X(82) VALUE  SPACE.          01022320
+            10  ERR-TC-LW.                                              01022420
+                15 EMP-ID              PIC X(6).                        01022520
+                15 ERR-CODE            PIC X(04) VALUE  '0013'.         01022620
+                15 ERR-MSG             PIC X(28) VALUE  'THE LAST DAY IN01022721
+      -                 ' TC IS ERROR.'.                                01022821
+                15 FILLER              PIC X(82) VALUE  SPACE.          01022920
+            10  ERR-MF-AP.                                              01023020
+                15 EMP-ID              PIC X(6).                        01023120
+                15 ERR-CODE            PIC X(04) VALUE  '0014'.         01023220
+                15 ERR-MSG             PIC X(28) VALUE  'THE AMP PAY  IN01023321
+      -                 ' MF IS ERROR.'.                                01023421
+                15 FILLER              PIC X(82) VALUE  SPACE.          01023520
+            10  ERR-TC-HR.                                              01023620
+                15 EMP-ID              PIC X(6).                        01023720
+                15 ERR-CODE            PIC X(04) VALUE  '0015'.         01023820
+                15 ERR-MSG             PIC X(28) VALUE  'THE HRS WORK IN01023921
+      -                 ' TC IS ERROR.'.                                01024021
+                15 FILLER              PIC X(82) VALUE  SPACE.          01024120
+         05 WS-OT0030.                                                  01025020
+            10 EMPNO                   PIC X(6).                        01030012
+            10 EMPNAME                 PIC X(20).                       01040012
+            10 EMP-AD                  PIC X(50).                       01050012
+            10 TEL-NO                  PIC X(9).                        01060012
+            10 SALARY-RATE             PIC 9(3)V99.                     01070012
+            10 AMOUNT-PAY              PIC 9(6)V99.                     01080012
+            10 LAST-WORK-DAY           PIC X(8).                        01090012
+            10 FILLER                  PIC X(14).                       01100012
+         05 WS-OT0040.                                                  01110012
+            10 EMPNO                   PIC X(6).                        01120012
+            10 EMPNAME                 PIC X(20).                       01130012
+            10 EMP-AD                  PIC X(50).                       01140012
+            10 TEL-NO                  PIC X(9).                        01150012
+            10 SALARY-RATE             PIC 9(3)V99.                     01160012
+            10 AMOUNT-PAY              PIC 9(6)V99.                     01170012
+            10 LAST-WORK-DAY           PIC X(8).                        01180012
+            10 FILLER                  PIC X(14).                       01190012
+         05 COUNT-AREA.                                                 01200012
+            10 CT-MATCH                  PIC 9(6).                      01210012
+            10 CT-UNMATCH                PIC 9(6).                      01220012
+            10 CT-IN0010                 PIC 9(6).                      01230012
+            10 CT-IN0020                 PIC 9(6).                      01240012
+         05 FLAG-AREA.                                                  01250012
+            10 FLG-IN0010-EOF            PIC X(1).                      01260012
+            10 FLG-IN0020-EOF            PIC X(1).                      01270012
+            10 FLG-MATCH                 PIC X(1).                      01280012
+            10 FLG-UNMATCH               PIC X(1).                      01281014
+            10 FLG-ERR                   PIC X(1).                      01282023
+         05 SV-AREA.                                                    01290012
+            10 SV-IN0020-EMPID           PIC X(6).                      01300012
+         05 WS-PARM-DATE                 PIC X(8).                      01310012
+         05 WS-SYS-DATE                  PIC X(8).                      01320012
+         05 CN-REPORT                    PIC X(7) VALUE 'REPORT1'.      01321025
+       01 LINK-JUDGE-FLG                 PIC X(1).                      01330012
+       PROCEDURE  DIVISION.                                             01340012
+       MAIN                            SECTION.                         01350012
+TEST       DISPLAY "1".                                                 01351026
+           PERFORM M1000.                                               01360012
+TEST       DISPLAY "2".                                                 01361026
+           PERFORM M2000.                                               01370012
+TEST       DISPLAY "3".                                                 01371026
+           PERFORM M3000.                                               01380012
+           MOVE ZERO                   TO  RETURN-CODE.                 01390012
+           STOP RUN.                                                    01400012
+       MAIN-EXIT.                                                       01410012
+           EXIT.                                                        01420012
+       M1000                           SECTION.                         01430012
+           ACCEPT  WS-SYS-DATE     FROM DATE  YYYYMMDD.                 01440012
+           OPEN  I-O     IN0010                                         01450012
+           OPEN  INPUT   IN0020                                         01460012
+                         IN0030.                                        01470012
+           OPEN  OUTPUT  OT0010                                         01480012
+                         OT0020                                         01490012
+                         OT0030                                         01500012
+                         OT0040.                                        01510012
+           INITIALIZE    WS-AREA.                                       01520012
+           MOVE  ZERO                  TO  FLG-IN0010-EOF.              01530012
+           MOVE  ZERO                  TO  FLG-IN0020-EOF.              01540012
+           MOVE  ZERO                  TO  LINK-JUDGE-FLG.              01550012
+           MOVE  ZERO                  TO  FLG-MATCH.                   01560012
+           READ  IN0030                                                 01570018
+           IF WS-SYS-DATE = IN0030-RECORD THEN                          01580012
+              MOVE '1'  TO  LINK-JUDGE-FLG                              01590012
+           END-IF.                                                      01600012
+       M1000-EXIT.                                                      01630012
+           EXIT.                                                        01640012
+      *                                                                 01650012
+      *                                                                 01660012
+       M2000                            SECTION.                        01670012
+           PERFORM  UNTIL FLG-IN0020-EOF = 1                            01680017
+TEST         DISPLAY "21"                                               01681030
+               PERFORM S1000 THRU S1000-EXIT                            01690018
+               MOVE EMPNO OF WS-IN0010  TO  EMPNO OF IN0010-RECORD      01691017
+               MOVE ZERO             TO  FLG-MATCH                      01692017
+               READ IN0010 INTO WS-IN0010                               01701017
+                INVALID KEY                                             01702017
+                  MOVE NO-EMP-NO OF ERRLIB TO WS-OT0020                 01703017
+                  WRITE  OT0020-RECORD FROM WS-OT0020                   01704019
+                  END-WRITE                                             01704119
+                NOT INVALID KEY                                         01705018
+                  MOVE '1'              TO  FLG-MATCH                   01706017
+               END-READ                                                 01710017
+               IF FLG-MATCH = '1'  THEN                                 01720017
+                  DISPLAY "22"                                          01720130
+                  MOVE  IN0010-RECORD  TO  WS-IN0010                    01721017
+                  PERFORM M2100                                         01721120
+                  IF FLG-ERR NOT = ZERO THEN                            01722020
+                     WRITE OT0020-RECORD FROM WS-OT0020                 01723020
+                  ELSE                                                  01724020
+TEST                 DISPLAY "23"                                       01725030
+                     PERFORM M2200                                      01730020
+                     IF LINK-JUDGE-FLG = '1'  THEN                      01731020
+                        MOVE  WS-IN0010   TO WS-OT0040                  01731120
+                        WRITE  OT0040-RECORD FROM WS-OT0040             01731220
+                        MOVE ZERO TO AMOUNT-PAY OF WS-IN0010            01732020
+                        REWRITE IN0010-RECORD FROM WS-IN0010            01733020
+                     END-IF                                             01734020
+                  END-IF                                                01740020
+               END-IF                                                   01750020
+           END-PERFORM.                                                 01820012
+       M2000-EXIT.                                                      01840012
+           EXIT.                                                        01850012
+      *                                                                 01950012
+      *                                                                 01960012
+       M2100                   SECTION.                                 01961020
+            MOVE '0'     TO  FLG-ERR                                    01962020
+            IF EMPNO OF WS-IN0010 IS NOT NUMERIC                        01963023
+               MOVE EMPNO OF WS-IN0010 TO EMP-ID  OF ERR-MF-EN          01964023
+               MOVE ERR-MF-EN  TO WS-OT0020                             01965023
+               MOVE '1' TO FLG-ERR                                      01966023
+               GO TO M2100-EXIT                                         01967024
+            END-IF                                                      01968023
+            IF EMPNAME OF WS-IN0020 IS NOT NUMERIC                      01969023
+               MOVE EMPNO OF WS-IN0020 TO EMP-ID  OF ERR-TC-EN          01970023
+               MOVE ERR-TC-EN  TO WS-OT0020                             01980023
+               MOVE '1' TO FLG-ERR                                      01990023
+               GO TO M2100-EXIT                                         01991024
+            END-IF                                                      01992023
+            IF EMPNAME OF WS-IN0010 IS NOT ALPHABETIC                   01993023
+               MOVE EMPNO OF WS-IN0010 TO EMP-ID  OF ERR-MF-EN          01994023
+               MOVE ERR-MF-EM  TO WS-OT0020                             01994123
+               MOVE '1' TO FLG-ERR                                      01994223
+               GO TO M2100-EXIT                                         01994324
+            END-IF                                                      01994423
+            IF EMPNAME OF WS-IN0020 IS NOT ALPHABETIC                   01994523
+               MOVE EMPNO OF WS-IN0020 TO EMP-ID  OF ERR-TC-EN          01994623
+               MOVE ERR-TC-EM  TO WS-OT0020                             01994723
+               MOVE '1' TO FLG-ERR                                      01994823
+               GO TO M2100-EXIT                                         01994924
+            END-IF                                                      01995023
+            IF TEL-NO OF WS-IN0010 IS NOT NUMERIC                       01995123
+               MOVE EMPNO OF WS-IN0010 TO EMP-ID  OF ERR-MF-EN          01995223
+               MOVE ERR-MF-TN  TO WS-OT0020                             01995323
+               MOVE '1' TO FLG-ERR                                      01995423
+               GO TO M2100-EXIT                                         01995524
+            END-IF                                                      01995623
+            IF TEL-NO OF WS-IN0020 IS NOT NUMERIC                       01995723
+               MOVE EMPNO OF WS-IN0020 TO EMP-ID  OF ERR-TC-EN          01995823
+               MOVE ERR-TC-TN  TO WS-OT0020                             01995923
+               MOVE '1' TO FLG-ERR                                      01996023
+               GO TO M2100-EXIT                                         01996124
+            END-IF                                                      01996223
+            IF LAST-WORK-DAY OF WS-IN0010 IS NOT NUMERIC                01996323
+               MOVE EMPNO OF WS-IN0010 TO EMP-ID  OF ERR-MF-EN          01996423
+               MOVE ERR-MF-LW  TO WS-OT0020                             01996523
+               MOVE '1' TO FLG-ERR                                      01996623
+               GO TO M2100-EXIT                                         01996724
+            END-IF                                                      01996823
+            IF LAST-WORK-DAY OF WS-IN0020 IS NOT NUMERIC                01996923
+               MOVE EMPNO OF WS-IN0020 TO EMP-ID  OF ERR-TC-EN          01997023
+               MOVE ERR-TC-LW  TO WS-OT0020                             01997123
+               MOVE '1' TO FLG-ERR                                      01997223
+               GO TO M2100-EXIT                                         01997324
+            END-IF                                                      01997423
+            IF AMOUNT-PAY OF WS-IN0010 IS NOT NUMERIC                   01997523
+               MOVE EMPNO OF WS-IN0010 TO EMP-ID  OF ERR-MF-EN          01997623
+               MOVE ERR-MF-AP  TO WS-OT0020                             01997723
+               MOVE '1' TO FLG-ERR                                      01997823
+               GO TO M2100-EXIT                                         01997924
+            END-IF                                                      01998023
+            IF HRS-WORK OF WS-IN0020 IS NOT NUMERIC                     01998123
+               MOVE EMPNO OF WS-IN0020 TO EMP-ID  OF ERR-TC-EN          01998223
+               MOVE ERR-TC-HR  TO WS-OT0020                             01998323
+               MOVE '1' TO FLG-ERR                                      01998423
+               GO TO M2100-EXIT                                         01998524
+           END-IF.                                                      01998623
+       M2100-EXIT.                                                      01998720
+           EXIT.                                                        01998820
+      *                                                                 01998920
+      *                                                                 01999020
+       M2200                   SECTION.                                 01999120
+           EVALUATE  TC  OF  WS-IN0020                                  01999220
+             WHEN 'H'                                                   01999320
+               PERFORM  M2210                                           01999420
+             WHEN 'R'                                                   01999520
+               PERFORM  M2220                                           01999620
+             WHEN 'U'                                                   01999720
+               PERFORM  M2230                                           01999820
+             WHEN OTHER                                                 01999920
+               MOVE WRONG-TC OF ERRLIB                                  02000020
+                 TO WS-OT0020                                           02000120
+               WRITE OT0020-RECORD FROM WS-OT0020                       02000220
+           END-EVALUATE.                                                02000320
+       M2200-EXIT.                                                      02000420
+           EXIT.                                                        02000520
+      *                                                                 02000620
+      *                                                                 02000720
+       M2210                   SECTION.                                 02000820
+           COMPUTE AMOUNT-PAY OF  WS-IN0010 =                           02000920
+             SALARY-RATE OF WS-IN0010 * HRS-WORK OF WS-IN0020.          02001020
+           REWRITE  IN0010-RECORD FROM WS-IN0010.                       02001120
+       M2210-EXIT.                                                      02001220
+           EXIT.                                                        02001320
+      *                                                                 02001420
+      *                                                                 02001520
+       M2220                   SECTION.                                 02001620
+           IF  EMPNO OF WS-IN0020 = SV-IN0020-EMPID THEN                02001720
+             MOVE  DUP-EMP-ID  OF ERRLIB  TO  WS-OT0020                 02001820
+             WRITE OT0020-RECORD FROM WS-OT0020                         02001920
+           END-IF.                                                      02002020
+           MOVE  WS-IN0010     TO WS-OT0010.                            02002120
+           MOVE  LAST-WORK-DAY OF WS-IN0020                             02002220
+             TO  LAST-WORK-DAY OF WS-OT0010.                            02002320
+           MOVE WS-OT0010      TO WS-OT0030.                            02002420
+           WRITE OT0010-RECORD FROM WS-OT0010.                          02002520
+           WRITE OT0030-RECORD FROM WS-OT0030.                          02002620
+           DELETE IN0010.                                               02002720
+       M2220-EXIT.                                                      02002820
+           EXIT.                                                        02002920
+      *                                                                 02003020
+      *                                                                 02003120
+       M2230                   SECTION.                                 02003220
+           MOVE  EMPNO  OF WS-IN0020 TO EMPNO  OF WS-IN0010             02003320
+           MOVE  EMPNAME OF WS-IN0020 TO  EMPNAME OF WS-IN0010          02003420
+           MOVE  EMP-AD  OF WS-IN0020 TO  EMP-AD OF WS-IN0010           02003520
+           MOVE  TEL-NO  OF WS-IN0020 TO  TEL-NO OF WS-IN0010           02003620
+           MOVE  SALARY-RATE OF WS-IN0020 TO  SALARY-RATE OF WS-IN0010  02003720
+           REWRITE IN0010-RECORD FROM WS-IN0010.                        02003820
+       M2230-EXIT.                                                      02003920
+           EXIT.                                                        02004020
+      *                                                                 02004120
+      *                                                                 02004220
+       M3000                   SECTION.                                 02004320
+           CLOSE  IN0010                                                02004420
+                  IN0020                                                02004520
+                  IN0030                                                02004620
+                  OT0010                                                02004720
+                  OT0020                                                02004820
+                  OT0030                                                02004920
+                  OT0040.                                               02005020
+      *    CALL  CN-REPORT USING LINK-JUDGE-FLG.                        02005125
+       M3000-EXIT.                                                      02005220
+           EXIT.                                                        02005320
+      *                                                                 02860012
+      *                                                                 02870012
+       S1000                    SECTION.                                03050017
+ TEST      DISPLAY "S1"                                                 03051030
+           MOVE EMPNO  OF  WS-IN0020  TO  SV-IN0020-EMPID               03060012
+           READ IN0020 INTO WS-IN0020                                   03070012
+           AT END                                                       03080012
+ TEST        DISPLAY "S1END"                                            03081030
+             MOVE '1' TO FLG-IN0020-EOF                                 03090012
+             MOVE HIGH-VALUE  TO EMPNO OF WS-IN0020                     03100012
+           NOT AT END                                                   03110012
+ TEST        DISPLAY CT-INI0020                                         03111030
+             ADD 1   TO  CT-IN0020                                      03120012
+           END-READ                                                     03130012
+           IF CT-IN0020 = 0                                             03140014
+           AND FLG-IN0020-EOF = '1'  THEN                               03150012
+             MOVE TC-NO-FILE OF ERRLIB  TO WS-OT0020                    03160012
+             WRITE  OT0020-RECORD  FROM WS-OT0020                       03170012
+           END-IF.                                                      03180012
+       S1000-EXIT.                                                      03190017
+           EXIT.                                                        03200012
+

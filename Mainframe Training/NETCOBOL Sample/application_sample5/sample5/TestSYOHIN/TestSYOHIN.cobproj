@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="shift_jis"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <ProductVersion>3.0.109.0</ProductVersion>
+    <SchemaVersion>3.0</SchemaVersion>
+    <ProjectGuid>{828C29A5-82A9-402B-B419-2EF9E236F056}</ProjectGuid>
+    <AssemblyName>TestSYOHIN</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>TestSYOHIN</RootNamespace>
+    <MainEntryPoint>TestSYOHIN.Program1</MainEntryPoint>
+    <ReferencePath>$(MSBuildProjectDirectory)</ReferencePath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <AdditionalOptions>/WC:"CHECK(ALL),RCS(SJIS-UCS2)"</AdditionalOptions>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AdditionalOptions>/WC:"RCS(SJIS-UCS2)"</AdditionalOptions>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Fujitsu\NetCOBOL for .NET\V3.0\Fujitsu.COBOL.targets" />
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program1.cob" />
+    <Compile Include="Properties\AssemblyInfo.cob" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StockLibrary\StockLibrary.cobproj">
+      <Project>{BA7E67F5-023F-43BB-BD1A-DD052D66F43A}</Project>
+      <Name>StockLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+</Project>

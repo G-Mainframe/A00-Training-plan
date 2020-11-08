@@ -1,0 +1,339 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0086)http://www-306.ibm.com/software/data/db2/everyplace/doc/infocenters/chs/dbeapr0902.htm -->
+<HTML><HEAD><TITLE>SQL 报告的 SQLState 消息</TITLE><!-- Begin Header Records  ========================================== --><!-- C:\IDWBWIN\Temp\idwt1135\master_topics.scr converted by idb2h    --><!-- R4.4 (367) ID Workbench Version (WINNT-WIN95) on 10 Oct 2003 at  --><!-- 10:16:34                                                         -->
+<META content="SQLSTATE, DB2 CLI" name=KEYWORDS>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META http-equiv=updated content="Fri, 10 Oct 2003 10:16:24">
+<META http-equiv=review content="Sun, 10 Oct 2004 10:16:24">
+<META http-equiv=expires content="Mon, 10 Oct 2005 10:16:24">
+<META content="MSHTML 5.50.4937.800" name=GENERATOR></HEAD>
+<BODY><!-- End Header Records  ============================================ --><A 
+name=Top_Of_Page></A>
+<P>
+<H3><A name=HDRSQL11>SQL 报告的 SQLState 消息</A></H3>
+<P><A 
+href="http://www-306.ibm.com/software/data/db2/everyplace/doc/infocenters/chs/dbeapr0902.htm#TBLSQLSTATES">表 
+26</A> 列出了 DB2 Everyplace SQL 引擎报告的 SQL 语句的所有 SQLSTATE。 <A name=IDX2576></A>DB2 
+CLI 报告的 SQLSTATE 列示在<A 
+href="http://www-306.ibm.com/software/data/db2/everyplace/doc/infocenters/chs/dbeapr1001.htm#HDRDBEAPR1001">DB2 
+CLI 函数摘要</A>中的每个 DB2 CLI 函数描述下面。 <BR>
+<P><B><A name=TBLSQLSTATES>表 26. SQL 报告的 SQLSTATE 消息</A></B><BR>
+<TABLE width="100%" border=1>
+  <TBODY>
+  <TR>
+    <TH id=COL1 vAlign=bottom align=left width="13%">SQLSTATE </TH>
+    <TH id=COL2 vAlign=bottom align=left width="29%">描述 </TH>
+    <TH id=COL3 vAlign=bottom align=left width="58%">解释 </TH></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">01000 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">警告。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">参考消息。（函数返回 
+      SQL_SUCCESS_WITH_INFO。） </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">01004 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">值被截断。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">值被系统强制转换或调整函数截断。 
+  </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">01550 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">未创建索引。 </TD>
+    <TD vAlign=top align=left width="58%" 
+      HEADERS="COL3">因为已存在具有指定描述的索引，所以未创建索引。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">02000 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">找不到任何行。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">执行 FETCH、DELETE 或 
+      UPDATE 语句期间，找不到任何行。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">07001 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">参数数目不正确。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">参数标记尚未绑定。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">07005 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">参数无效。 </TD>
+    <TD vAlign=top align=left width="58%" 
+      HEADERS="COL3">游标的语句名所标识的已准备语句不能与游标相关联。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">07006 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">变量无效。 </TD>
+    <TD vAlign=top align=left width="58%" 
+      HEADERS="COL3">因为输入主变量的数据类型不正确，所以不能使用它。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">08002 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">连接已存在。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">连接已存在。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">22001 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">值需要截断。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">值需要被系统强制转换或调整函数截断。 
+  </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">22002 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">未提供空指示符。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">因为未提供存储器，所以不能赋予 NULL 
+      值。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">22003 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">数值超出范围。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">数值不在其目标列的范围之内。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">22007 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">日期时间格式无效。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">日期时间值的字符串表示法语法不正确。 
+  </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">22008 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">日期时间值超出范围。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">日期时间值的字符串表示法超出范围。 
+  </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">22012 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">除零。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">尝试了除零操作。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">22504 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">分段 MBCS 字符。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">数据包含格式不正确的多字节字符。 
+  </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">23502 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">不允许空值。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">不允许对 NOT NULL 列赋予 
+      NULL 值。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">23505 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">值不是唯一的。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">因为可能会生成重复键，所以操作无效。 
+  </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">23513 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">值无效。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">INSERT 或 UPDATE 
+      语句的结果行不符合检查约束定义。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">23515 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">指定了多个主键子句。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">指定了多个主键子句。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">24000 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">游标状态无效。 </TD>
+    <TD vAlign=top align=left width="58%" 
+      HEADERS="COL3"><VAR>StatementHandle</VAR> 处于已执行状态，但没有任何结果集与 
+      <VAR>StatementHandle</VAR> 相关联。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">24501 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">游标未打开。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">因为未生成结果集，所以 FETCH 无效。 
+    </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">24505 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">游标未定位。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">因为游标未定位在行上，所以 FETCH 
+      无效。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">34000 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">游标名无效。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">游标名无效。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42501* </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">不允许授权标识对标识的对象执行指定的操作 
+    </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">当前用户正尝试从不存在的用户除去特权。 
+    </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42502* </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">不允许授权标识执行指定的操作 </TD>
+    <TD vAlign=top align=left width="58%" 
+      HEADERS="COL3">当前用户不具有已认证的连接。当应用程序（它不具有加密库或 CryptoPlugin.dll）执行与加密相关的 SQL 
+      命令（GRANT、REVOKE 和 CREATE TABLE）时，将返回“42502”错误。这将避免应用程序崩溃。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42505* </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">发生了连接授权故障。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">已注册的用户试图连接，但无法认证。 
+  </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42506* </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">所有者授权故障。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">不能认证已连接的用户。（错误的密码。） 
+    </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42601 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">语法错误。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">在 SQL 语句中检测到语法错误。 
+  </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42603 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">字符串常量没有结束定界符。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">字符串常量或定界标识没有结束定界符。 
+  </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42610 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">参数标记的使用无效。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">语句包含无效的参数标记。请参阅<A 
+      href="http://www-306.ibm.com/software/data/db2/everyplace/doc/infocenters/chs/dbeapr0815.htm#TBLPARAMMKR">表 
+      19</A> 以了解参数标记的有效用法。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42611 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">长度规范无效。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">长度规范超过限制。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42614 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">重复的关键字无效。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">重复的关键字无效。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42621 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">检查约束无效。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">检查约束无效。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42622 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">名称太长。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">标识的名称太长。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42702 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">列名引用混乱。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">可能正在引用多个列。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42703 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">列名未定义。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">列名不在引用的表中。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42704 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">对象未定义。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">表不存在。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42710 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">命名的对象已存在。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">已存在同名的表。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42711 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">列名重复。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">多次指定相同的列名。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42802 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">值的数目与列的数目不匹配。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">指定的值的数目与指定或隐含的列数不同。 
+    </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42803 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">SELECT 列表中的列引用未在 
+      GROUP BY 子句中指定。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">选择列表中包含列名和聚集函数，但没有 
+      GROUP BY 子句。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42818 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">操作数的数据类型不兼容。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">操作的操作数数据类型不兼容。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42820 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">文字值超出范围。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">指定的数值不在可接受的范围之内。 
+  </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42821 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">数据类型不兼容。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">值与目标列的数据类型不兼容。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42822 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">ORDER BY 项无效。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">ORDER BY 项不在选择列表中。 
+  </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42824 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">LIKE 操作数无效。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">LIKE 
+      的操作数不是字符串，或第一个操作数不是列。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42829 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">FOR UPDATE OF 无效。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">因为不能修改游标所指示的结果表，所以 
+      FOR UPDATE OF 无效。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42830 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">外键不符合父键的描述。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">外键不符合父键的描述。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42831 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">主键中存在可空的列。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">主键子句中指定的列不能是可空的。 
+  </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42832* </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">越权访问系统对象。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">不允许对系统对象执行此操作。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42884 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">函数名未知。 </TD>
+    <TD vAlign=top align=left width="58%" 
+      HEADERS="COL3">找不到带有指定名称和兼容自变量的函数或过程。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42887 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">功能不受支持。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">该功能在当前发行版中不受支持。 
+</TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42894 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">DEFAULT 值无效。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">DEFAULT 值无效。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42902 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">对象表引用重复。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">FROM 子句中也标识了 INSERT 
+      语句的对象表。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42903 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">WHERE 子句或 SET 
+      子句包含无效的引用。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">WHERE 子句或 SET 
+      子句包含无效的引用，如列函数。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">42962 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">LOB 列不能用作键。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">LOB 列不能用作主键。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">54001 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">语句太长。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">查询语句太长。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">54008 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">键太长。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">主键、外键或索引中的列太多。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">54010 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">表记录长度太长。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">表的记录长度太长。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">55002 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">DB2ePLANTABLE 未正确定义。 
+    </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">DB2ePLANTABLE 
+      的声明不正确，不能执行 EXPLAIN。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">55009 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">文件是只读的。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">文件是只读的。在只读环境中，只能执行 
+      SELECT 查询。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">57001 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">表不可用。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">不能对处于事务作用域之下的表执行 
+      REORG。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">57011 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">内存不足。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">系统无法分配动态内存。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">57014 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">处理因中断而被取消。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">查询的执行因用户中断而被取消。 
+</TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">58004 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">内部系统错误（继续）。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">发生不严重的系统错误。 </TD></TR>
+  <TR>
+    <TD vAlign=top align=left width="13%" HEADERS="COL1">58005 </TD>
+    <TD vAlign=top align=left width="29%" HEADERS="COL2">内部系统错误（停止）。 </TD>
+    <TD vAlign=top align=left width="58%" HEADERS="COL3">发生严重的系统错误。 
+  </TD></TR></TBODY></TABLE>
+<P><B>END</B> 
+</BODY></HTML>

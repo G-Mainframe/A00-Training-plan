@@ -1,0 +1,41 @@
+//COP02   JOB (080912DL510),'SID0878',                                 
+//            MSGLEVEL=(1,1),NOTIFY=&SYSUID                            
+//*                                                                    
+//**************************************************************       
+//* THIS JCL USED TO COMPILE OUR COBOL PROGRAM.                        
+//* THERE ARE TWO DD WE NEED TO UPDATED:                               
+//* 1. //COBOL.SYSIN  DD  DISP=SHR,DSN=GDC233.TEST.COB(PGM001)         
+//*      THIS DD IS USED TO POINT OUT WHERE OUR PROGRAM IS             
+//*                                                                    
+//* 2. //LKED.SYSLMOD  DD  DSNAME=GDC233.COB.LOAD(PGM001)              
+//*      THIS DD IS USED TO WHERE OUR PROGRAM WAS LOADED.              
+//**************************************************************       
+//*                                                                    
+//COBOL  EXEC  PGM=IGYCRCTL,REGION=2048K                               
+//STEPLIB  DD  DSNAME=COBOL.V3R4.SIGYCOMP,DISP=SHR                     
+//SYSIN    DD  DISP=SHR,DSN=SID0878.TEST.COB(PGM001)                   
+//*        ABOVE IS THE RESOURCE PATH                                  
+//SYSPRINT DD  SYSOUT=*                                                
+//SYSLIN   DD  DSNAME=&&LOADSET,UNIT=SYSALLDA,                         
+//             DISP=(MOD,PASS),SPACE=(TRK,(3,3)),                      
+//             DCB=(BLKSIZE=3200)                                      
+//SYSUT1   DD  UNIT=SYSALLDA,SPACE=(CYL,(1,1))                         
+//SYSUT2   DD  UNIT=SYSALLDA,SPACE=(CYL,(1,1))                         
+//SYSUT3   DD  UNIT=SYSALLDA,SPACE=(CYL,(1,1))                         
+//SYSUT4   DD  UNIT=SYSALLDA,SPACE=(CYL,(1,1))                         
+//SYSUT5   DD  UNIT=SYSALLDA,SPACE=(CYL,(1,1))                         
+//SYSUT6   DD  UNIT=SYSALLDA,SPACE=(CYL,(1,1))                         
+//SYSUT7   DD  UNIT=SYSALLDA,SPACE=(CYL,(1,1))                         
+//*                                                                    
+//****************************************************                 
+//*                                                                    
+//LKED   EXEC  PGM=HEWL,COND=(8,LT,COBOL),REGION=1024K                 
+//SYSLIB   DD  DSNAME=CEE.SCEELKED,DISP=SHR                            
+//SYSPRINT DD  SYSOUT=*                                                
+//SYSLIN   DD  DSNAME=&&LOADSET,DISP=(OLD,DELETE)            
+//         DD  DDNAME=SYSIN                           
+//SYSLMOD  DD  DSNAME=SID0878.COB.LOAD(PGM001),       
+//             SPACE=(TRK,(10,10,1)),                 
+//             UNIT=SYSALLDA,DISP=(MOD,PASS)          
+//SYSUT1   DD  UNIT=SYSALLDA,SPACE=(TRK,(10,10))      
+//                                                              

@@ -1,0 +1,14 @@
+      *                                                                 00010000
+       IDENTIFICATION DIVISION.                                         00020000
+       PROGRAM-ID CALCU.                                                00030000
+       DATE-WRITTEN 2007-12-29.                                         00040001
+      *                                                                 00050001
+       ENVIRONMENT DIVISION.                                            00060001
+      *                                                                 00070001
+       DATA DIVISION.                                                   00080001
+       FILE SECTION.                                                    00081001
+       WORKING-STORAGE SECTION.                                         00082001
+      *                                                                 00090001
+       PROCEDURE DIVISION.                                              00100001
+           STOP RUN.                                                    00110001
+

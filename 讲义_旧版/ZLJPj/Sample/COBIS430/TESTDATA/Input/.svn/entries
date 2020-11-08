@@ -1,0 +1,30 @@
+8
+
+dir
+0
+file:///E:/svn_repo/ZLJPJ/Sample/COBIS430/TESTDATA/Input
+file:///E:/svn_repo
+add
+
+
+
+
+
+
+
+svn:special svn:externals svn:needs-lock
+
+COBIS430_IN.pde
+file
+
+
+
+add
+
+
+
+
+
+has-props
+has-prop-mods
+

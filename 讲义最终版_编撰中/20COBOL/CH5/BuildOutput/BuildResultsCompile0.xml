@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<buildresults name="">
+  <commandoutput>
+    <command id="id" name="java com.ibm.ftt.core.compilers.Compile " parms="COBOL &quot;e:\workspace\cobol\CH5\COBOL\CH5.CBL&quot; &quot;-qTEST,ADATA,EXIT(ADEXIT(FTTFDBKW))&quot;" depends="" buildCondition="EQ" buildReturnCode="0" prefix="">
+    <env name="COBPATH" value="%COBPATH%;C:\RDSP\wdz\eclipse\plugins\com.ibm.ftt.ui.views.navigator_6.0.1.1\" />
+    <env name="SYSLIB" value="%SYSLIB%;E:\workspace\cobol\CH5\CBLCOPY" />
+    <env name="COBCPYEXT" value="" />
+    <buildlocation name="e:/workspace/cobol/CH5/BuildOutput" clean="no" />
+    </command>
+    <generatedcommand><![CDATA[cmd /c  java com.ibm.ftt.core.compilers.Compile  COBOL "e:\workspace\cobol\CH5\COBOL\CH5.CBL" "-qTEST,ADATA,EXIT(ADEXIT(FTTFDBKW))"]]></generatedcommand>
+    <stdout><![CDATA[Argument 1, Language == COBOL
+Argument 2, Filename == &quot;e:\workspace\cobol\CH5\COBOL\CH5.CBL&quot;
+Argument 3, Compile Parms == -qTEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+Argument 4, Preprocessor Parms == 
+===**==COMPILE=======COMPILE===================COMPILE=========
+qParm == -qTEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+fParm == &quot;e:\workspace\cobol\CH5\COBOL\CH5.CBL&quot;
+Compile Command == cob2.exe -c -q&quot;TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))&quot; &quot;e:\workspace\cobol\CH5\COBOL\CH5.CBL&quot;
+env is null!!
+Compile Output Msg == PP 5724-L44 IBM COBOL for Windows  6.0.2 in progress ...
+LineID  Message code  Message text
+    10  IGYGR1216-I   A &quot;RECORDING MODE&quot; of &quot;F&quot; was assumed for file           
+                      &quot;TBL-CUSTOMER&quot;.                                          
+Messages    Total    Informational    Warning    Error    Severe    Terminating
+Printed:       1           1                                               
+End of compilation 1,  program FILECOPY,  highest severity: Informational.
+
+Compile Error Msg == 
+Compile Return Code == 0
+Result Array == Success
+======COMPILE=======COMPILE===================COMPILE=========
+Compile :: COMPILE Std Output == Success
+======COMPILE=======COMPILE===================COMPILE=========
+Compile -- highest return code == 0
+]]></stdout>
+    <stderr><![CDATA[]]></stderr>
+    <returncode>0</returncode>
+  </commandoutput>
+</buildresults>

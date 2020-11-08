@@ -1,0 +1,840 @@
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 05-4ÔÂ -2007 21:52:07
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 09-4ÔÂ -2007 20:24:45
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 09-4ÔÂ -2007 20:26:04
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 09-4ÔÂ -2007 21:23:54
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 11-4ÔÂ -2007 11:31:07
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 11-4ÔÂ -2007 11:37:40
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 11-4ÔÂ -2007 11:40:28
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 11-4ÔÂ -2007 11:40:40
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 11-4ÔÂ -2007 12:59:47
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 11-4ÔÂ -2007 14:47:40
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 11-4ÔÂ -2007 14:59:29
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 12-4ÔÂ -2007 11:24:45
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 12-4ÔÂ -2007 11:25:15
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 12-4ÔÂ -2007 13:22:15
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 12-4ÔÂ -2007 13:30:28
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 12-4ÔÂ -2007 15:58:30
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 12-4ÔÂ -2007 16:12:41
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 12-4ÔÂ -2007 17:58:36
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 12-4ÔÂ -2007 18:43:37
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 12-4ÔÂ -2007 18:50:02
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=E:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 13-4ÔÂ -2007 17:13:38
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 16-5ÔÂ -2007 17:05:59
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 16-5ÔÂ -2007 17:06:05
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 16-5ÔÂ -2007 17:45:24
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 16-5ÔÂ -2007 17:47:26
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 16-5ÔÂ -2007 17:47:31
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 17-5ÔÂ -2007 12:05:59
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 22-5ÔÂ -2007 18:57:10
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 23-5ÔÂ -2007 09:49:52
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 11-6ÔÂ -2007 16:21:30
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 22-6ÔÂ -2007 17:24:42
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 22-6ÔÂ -2007 17:24:53
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 22-6ÔÂ -2007 17:25:05
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 22-6ÔÂ -2007 18:48:25
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\Sc hool.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 22-6ÔÂ -2007 20:06:32
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\School.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 22-6ÔÂ -2007 21:01:51
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\School.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 23-6ÔÂ -2007 15:23:25
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\School.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 23-6ÔÂ -2007 15:24:37
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\School.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 23-6ÔÂ -2007 16:41:21
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\School.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 23-6ÔÂ -2007 16:51:14
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\School.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 23-6ÔÂ -2007 18:36:13
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=IBM-L3WKCTR)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cobol.domain)(CID=(PROGRAM=D:\ZLJPJ\SOURCE\School.EXE)(HOST=IBM-L3WKCTR)(USER=sunshubin))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 9.2.0.1.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 9.2.0.1.0 - Production
+  Time: 23-6ÔÂ -2007 18:38:57
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS£ºÎÞ¼àÌýÆ÷
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: ÎÞ¼àÌýÆ÷
+    nt secondary err code: 61
+    nt OS err code: 0

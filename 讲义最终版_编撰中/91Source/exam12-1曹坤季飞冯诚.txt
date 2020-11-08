@@ -1,0 +1,269 @@
+       IDENTIFICATION  DIVISION.
+       PROGRAM-ID. EXAM121.
+       ENVIRONMENT  DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+              SELECT DATA-FILE ASSIGN TO FILE1.
+              SELECT REPORT-FILE ASSIGN TO PRINTER.
+       DATA DIVISION.
+       FILE SECTION.
+       FD DATA-FILE LABEL RECORD IS STANDARD.
+       01  DATA-REC.
+         02 NUMB.
+          03 DEPART         PIC 99.
+          03 CLAS           PIC 99.
+          03 NUM            PIC 99.
+         02 NAME-OF-STUDENT PIC X(20).
+         02 SEX             PIC X.
+         02 AGE             PIC 99.
+         02 COURS OCCURS 5  PIC 999V9.
+      *
+       FD  REPORT-FILE
+           LABEL RECORD IS OMITTED
+              REPORT IS REP.
+       WORKING-STORAGE SECTION.
+       77  N          PIC  999 VALUE 1.
+       77  SUM1       PIC  999V9.
+       77  SUM2       PIC  999V9.
+       77  TOTAL      PIC  999V9.
+       77  AVER       PIC  999V9.
+       77  AVER-C     PIC  999V9.
+       77  AVER-D     PIC  999V9.
+       77  AGE-AVE-U  PIC  99V9.
+       77  SEX-W      PIC  9.
+       77  PASS       PIC  XX.
+       77  PASS-W     PIC  9.
+       77  AGE-AVE-C  PIC  99V9.
+       77  AGE-AVE-D  PIC  99V9.
+       77  AVER-U     PIC  9(3)V9.
+       01  AV.
+         02 AVE OCCURS 5 PIC 999V9.
+       REPORT SECTION.
+       RD  REP
+           CONTROLS ARE FINAL DEPART CLAS
+           PAGE LIMITS ARE 66 LINES
+           HEADING 3
+           FIRST DETAIL 9
+           LAST  DETAIL 52
+           FOOTING 61.
+       01  REP-HEAD TYPE IS REPORT HEADING
+               NEXT GROUP IS NEXT PAGE.
+         02 LINE 15 COLUMN 40 PIC X(50)
+               VALUE IS 'THE REPORT OF THE STUDENT EXAMINATIONS'.
+         02 LINE 50 COLUMN 45 PIC X(40)
+               VALUE IS 'QINGHUA UNIVERSITY 1993.1'.
+       01  PAGE-HEAD TYPE IS PAGE HEADING.
+         02 LINE 4 COLUMN 50 PIC X(30)
+               VALUE IS 'QINGHUA UNIVERSITY'.
+         02 LINE 6 COLUMN 45 PIC X(50)
+               VALUE IS 'THE REPORT OF THE STUDENT EXAMINATIONS'.
+         02 LINE 7.
+          03 COLUMN 110 PIC X(4) VALUE 'PAGE'.
+          03 COLUMN 115 PIC ZZ9 SOURCE PAGE-COUNTER.
+       01 DEPART-HEAD TYPE IS CONTROL HEADING DEPART
+          NEXT GROUP PLUS 2.
+        02 LINE PLUS 2.
+         03 COLUMN 55 PIC X(12) VALUE 'DEPARTMENT'.
+         03 COLUMN 70 PIC 99 SOURCE DEPART.
+      *
+       01 CLASS-HEAD TYPE IS CONTROL HEADING CLAS
+           NEXT GROUP PLUS 1.
+        02 LINE PLUS 1
+              COLUMN 1 PIC X(136) VALUE ALL '-'.
+        02 LINE PLUS 1.
+         03 COLUMN 2  PIC X(6) VALUE  'DEPART'.
+         03 COLUMN 12 PIC X(5) VALUE  'CLASS'.
+         03 COLUMN 20 PIC X(6) VALUE  'NUMBER'.
+         03 COLUMN 28 PIC X(3) VALUE  'SEX'.
+         03 COLUMN 33 PIC X(3) VALUE  'AGE'.
+         03 COLUMN 38 PIC X(6) VALUE  'COUR-1'.
+         03 COLUMN 48 PIC X(6) VALUE  'COUR-2'.
+         03 COLUMN 58 PIC X(6) VALUE  'COUR-3'.
+         03 COLUMN 68 PIC X(6) VALUE  'COUR-4'.
+         03 COLUMN 78 PIC X(6) VALUE  'COUR-5'.
+         03 COLUMN 90 PIC X(6) VALUE  'SUM-1'.
+         03 COLUMN 100 PIC X(6) VALUE 'SUM-2'.
+         03 COLUMN 110 PIC X(5) VALUE 'TOTAL'.
+         03 COLUMN 120 PIC X(4) VALUE 'AVER'.
+         03 COLUMN 130 PIC X(4) VALUE 'PASS'.
+       01 DETAIL-LINE TYPE IS DETAIL.
+         02 LINE PLUS 1.
+          03 COLUMN 4   PIC 99     GROUP SOURCE DEPART.
+          03 COLUMN 14  PIC 99     GROUP SOURCE CLAS.
+          03 COLUMN 20  PIC 9(6)         SOURCE NUMB.
+          03 COLUMN 29  PIC X      SOURCE SEX.
+          03 COLUMN 34  PIC 99     SOURCE AGE.
+          03 COLUMN 39  PIC ZZZ.9  SOURCE COURS (1).
+          03 COLUMN 49  PIC ZZZ.9  SOURCE COURS (2).
+          03 COLUMN 59  PIC ZZZ.9  SOURCE COURS (3).
+          03 COLUMN 69  PIC ZZZ.9  SOURCE COURS (4).
+          03 COLUMN 79  PIC ZZZ.9  SOURCE COURS (5).
+          03 COLUMN 90  PIC ZZZ.9  SOURCE SUM1.
+          03 COLUMN 100 PIC ZZZ.9  SOURCE SUM2.
+          03 COLUMN 110 PIC ZZZ.9  SOURCE TOTAL.
+          03 COLUMN 120 PIC ZZZ.9  SOURCE AVER.
+          03 COLUMN 131 PIC XX     SOURCE PASS.
+      *
+       01 CLASS-COUNT TYPE IS CONTROL FOOTING CLAS
+               NEXT  GROUP PLUS  3.
+         02  LINE PLUS 2
+             COLUMN 1 PIC X(136) VALUE ALL '-'.
+         02  LINE PLUS 1.
+          03  NUM-OF-CLASS COLUMN 22 PIC ZZ9 SUM N.
+          03  NUM-OF-FEM-C COLUMN 27 PIC ZZ9 SUM SEX-W.
+          03  AGE-TOTAL-C            PIC 999 SUM AGE.
+          03  COLUMN 34              PIC 99.9 SOURCE AGE-AVE-C.
+          03  TOTAL-1-C              PIC 9999V9 SUM COURS (1).
+          03  TOTAL-2-C              PIC 9999V9 SUM COURS (2).
+          03  TOTAL-3-C              PIC 9999V9 SUM COURS (3).
+          03  TOTAL-4-C              PIC 9999V9 SUM COURS (4).
+          03  TOTAL-5-C              PIC 9999V9 SUM COURS (5).
+          03  TOTAL-ALL-C            PIC 9(5)V9 SUM  TOTAL.
+          03  COLUMN  39             PIC    ZZZ.99   SOURCE  AVE (1).
+          03  COLUMN  49             PIC    ZZZ.99   SOURCE  AVE (2).
+          03  COLUMN  59             PIC    ZZZ.99   SOURCE  AVE (3).
+          03  COLUMN  69             PIC    ZZZ.99   SOURCE  AVE (4).
+          03  COLUMN  79             PIC    ZZZ.99   SOURCE  AVE (5).
+          03  COLUMN  120            PIC    ZZZ.99   SOURCE  AVER-C.
+          03  PASS-C COLUMN  131     PIC Z9 SUM PASS-W.
+       01 DEPART-COUNT TYPE IS CONTROL FOOTING DEPART
+           NEXT GROUP NEXT PAGE.
+         02  LINE 53 COLUMN 2 PIC X(134) VALUE ALL '-'.
+         02  LINE PLUS 2
+            COLUMN 10 PIC X(25) VLAUE 'THE DEPARTMENT COUNT:'.
+         02  LINE PLUS 2.
+           03 COLUMN 2   PIC X(6) VALUE 'DEPART'.
+           03 COLUMN 20  PIC X(6) VALUE 'NUMBER'.
+           03 COLUMN 28  PIC X(3) VALUE 'SEX'.
+           03 COLUMN 33  PIC X(3) VALUE 'AGE'.
+           03 COLUMN 38  PIC X(6) VALUE 'COUR-1'.
+           03 COLUMN 48  PIC X(6) VALUE 'COUR-2'.
+           03 COLUMN 58  PIC X(6) VALUE 'COUR-3'.
+           03 COLUMN 68  PIC X(6) VALUE 'COUR-4'.
+           03 COLUMN 78  PIC X(6) VALUE 'COUR-5'.
+           03 COLUMN 120 PIC X(4) VALUE 'AVER'.
+           03 COLUMN 130 PIC X(4) VALUE 'PASS'.
+         02  LINE PLUS 2.
+           03 COLUMN  4               PIC 99   SOURCE  DEPART.
+           03 NUM-OF-DEPART COLUMN 22 PIC ZZ9  SUM NUM-OF-CLASS.
+           03 NUM-OF-FEM-D  COLUMN 27 PIC ZZ9  SUM NUM-OF-FEM-C.
+           03 AGE-TOTAL-D             PIC 9999 SUM AGE-TOTAL-C.
+           03 COLUMN 34               PIC 99.9 SOURCE AGE-AVE-D.
+           03 TOTAL-1-D               PIC 9(4).9 SUM TOTAL-1-C.
+           03 TOTAL-2-D               PIC 9(4).9 SUM TOTAL-2-C.
+           03 TOTAL-3-D               PIC 9(4).9 SUM TOTAL-3-C.
+           03 TOTAL-4-D               PIC 9(4).9 SUM TOTAL-4-C.
+           03 TOTAL-5-D               PIC 9(4).9 SUM TOTAL-5-C.
+           03 COLUMN  39  PIC  ZZZ.99 SOURCE  AVE (1).
+           03 COLUMN  49  PIC  ZZZ.99 SOURCE  AVE (2).
+           03 COLUMN  59  PIC  ZZZ.99 SOURCE  AVE (3).
+           03 COLUMN  69  PIC  ZZZ.99 SOURCE  AVE (4).
+           03 COLUMN  79  PIC  ZZZ.99 SOURCE  AVE (5).
+           03 TOTAL-ALL-D PIC  9(4).9 SUM  TOTAL-ALL-C.
+           03 COLUMN  120 PIC  9(2).99 SOURCE AVER-D.
+           03 PASS-D
+              COLUMN  131 PIC  ZZ9 SUM PASS-C.
+         02   LINE PLUS 2 COLUMN 50 PIC X(30) VALUE  ALL '*'.
+       01 UNIV-COUNT TYPE IS CONTROL FOOTING FINAL.
+        02 LINE 20
+          COLUMN 50 PIC X(30) VALUE 'ALL DEPARTMENT WAS PROCESSED'.
+        02 LINE PLUS 3
+          COLUMN  2  PIC X(134) VALUE ALL '-'.
+        02 LINE PLUS 2.
+         03 COLUMN  2    PIC X(24) VALUE 'NUMBER OF ALL UNIVERSITY'.
+         03 COLUMN  28   PIC X(3)  VALUE 'SEX'.
+         03 COLUMN  33   PIC X(3)  VALUE 'AGE'.
+         03 COLUMN  38   PIC X(6)  VALUE 'COUR-1'.
+         03 COLUMN  48   PIC X(6)  VALUE 'COUR-2'.
+         03 COLUMN  58   PIC X(6)  VALUE 'COUR-3'.
+         03 COLUMN  68   PIC X(6)  VALUE 'COUR-4'.
+         03 COLUMN  78   PIC X(6)  VALUE 'COUR-5'.
+         03 COLUMN  120  PIC X(4)  VALUE 'AVER'.
+         03 COLUMN  130  PIC X(4)  VALUE 'PASS'.
+        02  LINE PLUS 2.
+         03 NUM-OF-UNIV  COLUMN 12 PIC  ZZZ9 SUM NUM-OF-DEPART.
+         03 NUM-OF-FEM-U COLUMN 27 PIC  ZZ9  SUM NUM-OF-FEM-D.
+         03 AGE-TOTAL-U            PIC  9(5) SUM   AGE-TOTAL-D.
+         03 COLUMN  34  PIC 99.9 SOURCE AGE-AVE-U.
+         03 TOTAL-1-U  PIC  9(4).9 SUM TOTAL-1-D.
+         03 TOTAL-2-U  PIC  9(4).9 SUM TOTAL-2-D.
+         03 TOTAL-3-U  PIC  9(4).9 SUM TOTAL-3-D.
+         03 TOTAL-4-U  PIC  9(4).9 SUM TOTAL-4-D.
+         03 TOTAL-5-U  PIC  9(4).9 SUM TOTAL-5-D.
+         03 COLUMN  39 PIC  ZZZ.9 SOURCE AVE(1).
+         03 COLUMN  49 PIC  ZZZ.9 SOURCE AVE(2).
+         03 COLUMN  59 PIC  ZZZ.9 SOURCE AVE(3).
+         03 COLUMN  69 PIC  ZZZ.9 SOURCE AVE(4).
+         03 COLUMN  79 PIC  ZZZ.9 SOURCE AVE(5).
+         03 TOTAL-ALL-U PIC  9(4).9 SUM TOTAL-ALL-D.
+         03 COLUMN  120 PIC  9(2).9 SOURCE AVER-U.
+         03 PASS-U COLUMN 131 PIC ZZ9 SUM PASS-D.
+        02  LINE PLUS 2
+            COLUMN 2 PIC X(134) VALUE ALL '-'.
+      *
+      *
+       01 REPORT-END  TYPE IS REPORT FOOTING.
+         02  LINE 25 NEXT PAGE.
+           03 COLUMN 50 PIC X(14) VALUE 'REPORT END'.
+         02  LINE 35.
+           03 COLUMN  50  PIC X(10) VALUE 'WRITTER  :'.
+           03 COLUMN  60  PIC X(10) VALUE 'LI-FUN'.
+      *
+      *
+       PROCEDURE   DIVISION.
+       DECLARATIVES.
+       D-1         SECTION.
+            USE  BEFORE  REPORTING  CLASS-COUNT.
+       P1.  DIVIDE  AGE-TOTAL-C  BY  NUM-OF-CLASS GIVING  AGE-AVE-C.
+            DIVIDE  TOTAL-1-C    BY  NUM-OF-CLASS GIVING  AVE (1).
+            DIVIDE  TOTAL-2-C    BY  NUM-OF-CLASS GIVING  AVE (2).
+            DIVIDE  TOTAL-3-C    BY  NUM-OF-CLASS GIVING  AVE (3).
+            DIVIDE  TOTAL-4-C    BY  NUM-OF-CLASS GIVING  AVE (4).
+            DIVIDE  TOTAL-5-C    BY  NUM-OF-CLASS GIVING  AVE (5).
+            COMPUTE  AVER-C = TOTAL-ALL-C / (5 * NUM-OF-CLASS).
+      *
+       D-2          SECTION.
+            USE  BEFORE  REPORTING DEPART-COUNT.
+       P2.  DIVIDE  AGE-TOTAL-D  BY  NUM-OF-DEPART GIVING  AGE-AVE-D.
+            DIVIDE  TOTAL-1-D    BY  NUM-OF-DEPART GIVING  AVE (1).
+            DIVIDE  TOTAL-2-D    BY  NUM-OF-DEPART GIVING  AVE (2).
+            DIVIDE  TOTAL-3-D    BY  NUM-OF-DEPART GIVING  AVE (3).
+            DIVIDE  TOTAL-4-D    BY  NUM-OF-DEPART GIVING  AVE (4).
+            DIVIDE  TOTAL-5-D    BY  NUM-OF-DEPART GIVING  AVE (5).
+            COMPUTE  AVER-D = TOTAL-ALL-D / (5 * NUM-OF-DEPART).
+       D-3          SECTION.
+            USE  BEFORE  REPORTING UNIV-COUNT.
+            DIVIDE  AGE-TOTAL-U  BY  NUM-OF-UNIV   GIVING  AGE-AVE-U.
+            DIVIDE  TOTAL-1-U    BY  NUM-OF-UNIV   GIVING  AVE (1).
+            DIVIDE  TOTAL-2-U    BY  NUM-OF-UNIV   GIVING  AVE (2).
+            DIVIDE  TOTAL-3-U    BY  NUM-OF-UNIV   GIVING  AVE (3).
+            DIVIDE  TOTAL-4-U    BY  NUM-OF-UNIV   GIVING  AVE (4).
+            DIVIDE  TOTAL-5-U    BY  NUM-OF-UNIV   GIVING  AVE (5).
+            COMPUTE  AVER-U = TOTAL-ALL-U / (5 * NUM-OF-UNIV).
+       END  DECLARATIVES.
+      *
+       S            SECTION.
+       STA.
+            OPEN INPUT DATA-FILE
+                 OUTPUT REPORT-FILE.
+            INITIATE  REP.
+       PROC.
+            READ DATA-FILE AT END GO TO FINISH.
+            ADD COURS (1) COURS (2) COURS (3) GIVING SUM1.
+            ADD COURS (4) COURS (5)           GIVING SUM2.
+            ADD SUM1 SUM2 GIVING TOTAL.
+            DIVIDE TOTAL BY 5 GIVING AVER ROUNDED.
+            IF  (COURS (1) < 60) OR (COURS (2) < 60)
+            OR(COURS(3) < 60) OR (COURS(4) < 60) OR (COURS(5) < 60)
+                 MOVE 'NO' TO PASS MOVE 1 TO PASS-W
+            ELSE MOVE ' ' TO PASS MOVE 0 TO PASS-W.
+            IF SEX = 'F' MOVE 1 TO SEX-W
+            ELSE       MOVE 0 TO SEX-W.
+           GENERATE DETAIL-LINE.
+           GO TO PROC.
+       FINISH.
+            TERMINATE  REP.
+            CLOSE DATA-FILE
+              REPORT-FILE.
+            STOP RUN.
+

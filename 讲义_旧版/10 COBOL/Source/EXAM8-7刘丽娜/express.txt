@@ -1,0 +1,22 @@
+       IDENTIFICATION DIVISION.
+      *
+       PROGRAM-ID. EXPRESS.
+      *
+       ENVIRONMENT DIVISION.
+      *
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       77 W           PIC 9(3).
+       LINKAGE SECTION.
+       77 DISTANCE    PIC 9(3).
+       77 EXPRESS-FEE PIC 9(4).
+       PROCEDURE DIVISION USING DISTANCE, EXPRESS-FEE.
+       START-EXPRESS.
+           IF DISTANCE < 101
+               MOVE 3 TO EXPRESS-FEE
+           ELSE
+               IF DISTANCE < 401
+                  MOVE 4 TO EXPRESS-FEE
+               ELSE MOVE 5 TO EXPRESS-FEE.
+       E.  EXIT PROGRAM.
+

@@ -1,0 +1,45 @@
+     EXEC SQL                                                     
+        DECLARE CUR1  CURSOR FOR                                  
+           SELECT  M40MAB_TBL.レコード区分                        
+                  ,M40MAB_TBL.経理用主契約区分                    
+                  ,M40MAB_TBL.顧客区分                            
+                  ,NVL(D01TRS_TBL.名寄せコード,' ')               
+                  ,M40MAB_TBL.請求先取引先コード                  
+                  ,M40MAB_TBL.請求先コード                        
+                  ,M40MAB_TBL.契約番号                            
+                  ,M40MAB_TBL.契約種類                            
+                  ,M40MAB_TBL.担当部課コード                      
+                  ,M40MAB_TBL.再リース回数                        
+                  ,M40MAB_TBL.充当開始年月                        
+                  ,M40MAB_TBL.充当月数                            
+                  ,M40MAB_TBL.前払回収方法                        
+                  ,M40MAB_TBL.入金日                              
+                  ,M40MAB_TBL.入金区分                            
+                  ,NVL(D01TRS_TBL.取引先名称,rpad(' ',80,' '))    
+                  ,NVL(D02SQS_TBL.請求先名称,rpad(' ',80,' '))    
+                  ,M40MAB_TBL.前月末残高                          
+                  ,M40MAB_TBL.当月回収額                          
+                  ,M40MAB_TBL.当月消化額                          
+                  ,M40MAB_TBL.当月末残高                          
+                  ,M40MAB_TBL.前月末残高他社                      
+                  ,M40MAB_TBL.当月回収額他社                      
+                  ,M40MAB_TBL.当月消化額他社                      
+                  ,M40MAB_TBL.当月他社解約分料金                  
+                  ,M40MAB_TBL.当月他社解約分消費税                
+                  ,M40MAB_TBL.当月末残高他社                      
+                  ,M40MAB_TBL.協調区分                            
+                  ,M40MAB_TBL.仮受金入金日                        
+                  ,M40MAB_TBL.仮受金ＳＥＱ＿ＮＯ                  
+             FROM  M40MAB_TBL                                     
+                  ,D01TRS_TBL                                     
+                  ,D02SQS_TBL                                     
+            WHERE  M40MAB_TBL.前受金受払残高表対象フラグ = '1'    
+              AND  M40MAB_TBL.請求先取引先コード =                
+                   D01TRS_TBL.取引先コード(+)                     
+              AND  M40MAB_TBL.請求先取引先コード =                
+                   D02SQS_TBL.取引先コード(+)                     
+              AND  M40MAB_TBL.請求先コード       =                
+                   D02SQS_TBL.請求先コード(+)                     
+         ORDER BY  M40MAB_TBL.レコード区分                        
+                  ,M40MAB_TBL.契約番号                            
+     END-EXEC.                                                    

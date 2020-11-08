@@ -1,0 +1,13 @@
+bin\Debug\TestSYOHIN.exe.config
+bin\Debug\TestSYOHIN.exe
+bin\Debug\TestSYOHIN.pdb
+bin\Debug\StockLibrary.dll
+bin\Debug\StockLibrary.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\TestSYOHIN.exe
+obj\Debug\TestSYOHIN.pdb
+bin\Release\TestSYOHIN.exe.config
+bin\Release\TestSYOHIN.exe
+bin\Release\StockLibrary.dll
+obj\Release\ResolveAssemblyReference.cache
+obj\Release\TestSYOHIN.exe

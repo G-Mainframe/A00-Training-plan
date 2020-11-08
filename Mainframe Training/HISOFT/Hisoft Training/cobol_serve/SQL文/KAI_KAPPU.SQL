@@ -1,0 +1,6 @@
+CREATE TABLE KAI_KAPPU
+(
+    Œ_–ñ”Ô†                       CHAR(9) NOT NULL,
+    CONSTRAINT PK_KAI_KAPPU PRIMARY KEY (Œ_–ñ”Ô†) USING INDEX
+)
+/

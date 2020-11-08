@@ -1,0 +1,25 @@
+ITES training.
+
+1. HELLO
+
+2. READ / WRITE
+
+3. COMP/COMP-3/SIGN/-500.
+
+4. ACCEPT1/Numeric in group-HELLO3 
+
+-----------------------------------------------
+
+5. ACCEPT1 + Test NUMeric. Non-numeric.
+
+6. PARM + Hign-values, Low-values.
+
+7. COPY.
+
+8. Date. 
+
+------------------------------------------------  
+
+9.SYNC.
+
+10. SUB PROGRAM.  dynamic and static.

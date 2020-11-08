@@ -1,0 +1,6 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <UserCopyBookPath>;..\StockLibrary</UserCopyBookPath>
+    <CopyBookPath>$(UserCopyBookPath);$(CommonCopyBookPath)</CopyBookPath>
+  </PropertyGroup>
+</Project>

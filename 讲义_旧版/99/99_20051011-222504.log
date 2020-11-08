@@ -1,0 +1,410 @@
+NetCOBOL 診断機能
+
+<<要約>>
+ ｱﾌﾟﾘｹｰｼｮﾝｴﾗｰが発生しました:
+  ｱﾌﾟﾘｹｰｼｮﾝ  : C:\DOCUMENTS AND SETTINGS\ADMINISTRATOR\デスクトップ\TEST2\99.EXE(PID=00000CF0)
+  例外種別   : EXCEPTION_ACCESS_VIOLATION(C0000005)
+  発生時間   : 2005/10/11(22:25:04)
+  発生ﾓｼﾞｭｰﾙ : C:\WINDOWS\system32\ntdll.dll
+  作成時間   : 2003/03/26(21:00:00)
+  ﾌｧｲﾙｻｲｽﾞ   : 846336bytes
+
+<<問題箇所>>
+  ｽﾚｯﾄﾞID  : 00000CF4
+  ﾚｼﾞｽﾀ    : EAX=4854454D  EBX=00140073  ECX=00000007  EDX=7FFFFFFF  ESI=00000002
+           : EDI=00000020  EIP=77F33BEF  ESP=0012EB10  EBP=0012EF6C  EFL=00000206
+           : CS=001B  SS=0023  DS=0023  ES=0023  FS=0038  GS=0000
+  ｽﾀｯｸｺﾐｯﾄ : 00005000 (ﾄｯﾌﾟ:00130000, ﾍﾞｰｽ:0012B000)
+  命令     :  ｱﾄﾞﾚｽ   +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +a +b +c +d +e +f
+             77F33BDF F2 83 65 F4 00 85 D2 8B 45 F0 0F 8E E2 FD FF FF
+     ﾌｫｰﾙﾄ ->77F33BEF 8A 08 84 C9 0F 84 D8 FD FF FF 8B 35 68 24 FA 77
+
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\WINDOWS\system32\ntdll.dll
+  ｾｸｼｮﾝ相対位置 : .text+00012BEF
+  EXPORT相対位置 : LdrUnloadDll+000009B7
+
+ <呼出経路>
+[  1]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\WINDOWS\system32\ntdll.dll
+  ｾｸｼｮﾝ相対位置 : .text+000130C2
+  EXPORT相対位置 : _snwprintf+0000002F
+[  2]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\WINDOWS\system32\ntdll.dll
+  ｾｸｼｮﾝ相対位置 : .text+0001AE45
+  EXPORT相対位置 : RtlFormatMessage+000001DA
+[  3]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\WINDOWS\system32\KERNEL32.dll
+  ｾｸｼｮﾝ相対位置 : .text+00013D29
+  EXPORT相対位置 : FreeVirtualBuffer+00000201
+[  4]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\WINDOWS\system32\KERNEL32.dll
+  ｾｸｼｮﾝ相対位置 : .text+00013FF8
+  EXPORT相対位置 : FormatMessageA+0000006E
+[  5]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : D:\Program Files\NetCOBOL\F3BIPRCT.dll
+  ｾｸｼｮﾝ相対位置 : .text+0000BC08
+  EXPORT相対位置 : JMP1MESS+00000808
+[  6]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : D:\Program Files\NetCOBOL\F3BIPRCT.dll
+  ｾｸｼｮﾝ相対位置 : .text+0002941C
+  EXPORT相対位置 : JMP1EXCP+0000077C
+[  7]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\DOCUMENTS AND SETTINGS\ADMINISTRATOR\デスクトップ\TEST2\99.EXE
+  ｾｸｼｮﾝ相対位置 : .text+00000AE6
+  EXPORT相対位置 : 99SUB1+00000AB2
+[  8]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\DOCUMENTS AND SETTINGS\ADMINISTRATOR\デスクトップ\TEST2\99.EXE
+  ｾｸｼｮﾝ相対位置 : .text+0000052A
+  EXPORT相対位置 : 99SUB1+000004F6
+[  9]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\DOCUMENTS AND SETTINGS\ADMINISTRATOR\デスクトップ\TEST2\99.EXE
+  ｾｸｼｮﾝ相対位置 : .text+00002995
+  EXPORT相対位置 : 99SUB2+00001DB1
+[ 10]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\WINDOWS\system32\KERNEL32.dll
+  ｾｸｼｮﾝ相対位置 : .text+0000E38C
+  EXPORT相対位置 : TerminateThread+00000113
+
+<<ｼｽﾃﾑ情報>>
+  ｺﾝﾋﾟｭｰﾀ名      : SUNSHUBIN
+  ﾕｰｻﾞｰ名        : Administrator
+  Windowsﾊﾞｰｼﾞｮﾝ : Microsoft Windows Server 2003
+  ﾊﾞｰｼﾞｮﾝﾅﾝﾊﾞｰ   : 5.2.3790
+
+<<ｺﾏﾝﾄﾞﾗｲﾝ>>
+  "99.EXE" 
+
+<<環境変数>>
+  ALLUSERSPROFILE=C:\Documents and Settings\All Users
+  APPDATA=C:\Documents and Settings\Administrator\Application Data
+  CLASSPATH=D:\Tomcat 5.0\webapps\web-inf\guestbook
+  ClusterLog=C:\WINDOWS\Cluster\cluster.log
+  CommonProgramFiles=C:\Program Files\Common Files
+  COMPUTERNAME=SUNSHUBIN
+  ComSpec=C:\WINDOWS\system32\cmd.exe
+  HOMEDRIVE=C:
+  HOMEPATH=\Documents and Settings\Administrator
+  JAVA_HOME=D:\j2sdk1.4.2_08
+  LIB=D:\Program Files\NetCOBOL\
+  LOGONSERVER=\\SUNSHUBIN
+  NUMBER_OF_PROCESSORS=1
+  OS=Windows_NT
+  Path=D:\Program Files\NetCOBOL\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;D:\j2sdk1.4.2_08\bin
+  PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH
+  PROCESSOR_ARCHITECTURE=x86
+  PROCESSOR_IDENTIFIER=x86 Family 15 Model 36 Stepping 2, AuthenticAMD
+  PROCESSOR_LEVEL=15
+  PROCESSOR_REVISION=2402
+  ProgramFiles=C:\Program Files
+  SESSIONNAME=Console
+  SystemDrive=C:
+  SystemRoot=C:\WINDOWS
+  TEMP=C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp
+  TMP=C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp
+  USERDOMAIN=SUNSHUBIN
+  USERNAME=Administrator
+  USERPROFILE=C:\Documents and Settings\Administrator
+  windir=C:\WINDOWS
+
+<<実行環境情報>>
+  ﾗﾝﾀｲﾑｼｽﾃﾑ  : 70.10.0.0
+  実行ﾓｰﾄﾞ   : ShiftJIS, ｼﾝｸﾞﾙｽﾚｯﾄﾞ
+  ﾌﾟﾛｸﾞﾗﾑ名  : なし
+  初期化ﾌｧｲﾙ : なし
+
+<<STACK/HEAP情報>>
+  ｽﾀｯｸ : 00100000
+  ﾋｰﾌﾟ : 00100000
+
+<<ﾀｽｸﾘｽﾄ>>
+         0 [System Process]
+         4 System
+       130 smss.exe
+       1D0 csrss.exe
+       1E8 winlogon.exe
+       214 services.exe
+       220 lsass.exe
+       2D4 svchost.exe
+       308 svchost.exe
+       380 svchost.exe
+       3A0 svchost.exe
+       3AC svchost.exe
+       478 spoolsv.exe
+       4AC msdtc.exe
+       500 appmgr.exe
+       510 COBATSVC.exe
+       528 dns.exe
+       550 elementmgr.exe
+       568 svchost.exe
+       5A0 inetinfo.exe
+       5D4 svchost.exe
+       5F4 tcpsvcs.exe
+       620 srvcsurg.exe
+       630 tomcat5.exe
+       674 VMwareService.exe
+       720 wins.exe
+       740 dfssvc.exe
+       774 svchost.exe
+       474 wmiprvse.exe
+       878 explorer.exe
+       8EC VMwareTray.exe
+       8F4 VMwareUser.exe
+       920 jusched.exe
+       940 ctfmon.exe
+       A30 F3BXVFRM.EXE
+       A48 F3BXMSRV.EXE
+       A68 F3BXTF00.EXE
+       B04 conime.exe
+       CF0 99.EXE
+       D08 F3BKDSNP.exe
+
+<<ﾓｼﾞｭｰﾙﾘｽﾄ>>
+  00400000 - 0040D000  C:\DOCUMENTS AND SETTINGS\ADMINISTRATOR\デスクトップ\TEST2\99.EXE
+                         2005/10/11(22:23:41)
+  77F20000 - 77FF4000  C:\WINDOWS\system32\ntdll.dll
+                         Microsoft Corporation, Microsoft(R) Windows(R) Operating System, 5.2.3790.0
+                         2003/03/26(21:00:00)
+  77DE0000 - 77F13000  C:\WINDOWS\system32\KERNEL32.dll
+                         Microsoft Corporation, Microsoft(R) Windows(R) Operating System, 5.2.3790.0
+                         2003/03/26(21:00:00)
+  1C000000 - 1C04C000  D:\Program Files\NetCOBOL\F3BIPRCT.dll
+                         FUJITSU LIMITED, NetCOBOL Runtime System for Windows, 70.10.0.0
+                         2002/06/11(14:13:24)
+  00370000 - 003AD000  D:\Program Files\NetCOBOL\F3BISCRN.dll
+                         FUJITSU LIMITED, NetCOBOL Runtime System for Windows, 70.10.0.0
+                         2002/04/23(11:55:24)
+  77CA0000 - 77D2E000  C:\WINDOWS\system32\USER32.dll
+                         Microsoft Corporation, Microsoft(R) Windows(R) Operating System, 5.2.3790.0
+                         2003/03/26(21:00:00)
+  77BA0000 - 77BE4000  C:\WINDOWS\system32\GDI32.dll
+                         Microsoft Corporation, MicrosoftR WindowsR Operating System, 5.2.3790.0
+                         2003/03/26(21:00:00)
+  10000000 - 10017000  D:\Program Files\NetCOBOL\F3BKATCH.dll
+                         FUJITSU LIMITED, NetCOBOL Runtime System for Windows, 70.10.0.0
+                         2002/05/24(19:53:00)
+  77D30000 - 77DCF000  C:\WINDOWS\system32\ADVAPI32.dll
+                         Microsoft Corporation, Microsoft(R) Windows(R) Operating System, 5.2.3790.0
+                         2003/03/26(21:00:00)
+  77BF0000 - 77C94000  C:\WINDOWS\system32\RPCRT4.dll
+                         Microsoft Corporation, MicrosoftR WindowsR Operating System, 5.2.3790.0
+                         2003/03/26(21:00:00)
+  76140000 - 76186000  C:\WINDOWS\system32\comdlg32.dll
+                         Microsoft Corporation, Microsoft(R) Windows(R) Operating System, 6.00.3790.0
+                         2003/03/26(21:00:00)
+  77240000 - 77289000  C:\WINDOWS\system32\SHLWAPI.dll
+                         Microsoft Corporation, Microsoft(R) Windows(R) Operating System, 6.00.3790.0
+                         2003/03/26(21:00:00)
+  77B40000 - 77B94000  C:\WINDOWS\system32\msvcrt.dll
+                         Microsoft Corporation, MicrosoftR WindowsR Operating System, 7.0.3790.0
+                         2003/03/26(21:00:00)
+  70BC0000 - 70CA6000  C:\WINDOWS\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_5.82.0.0_x-ww_8A69BA05\COMCTL32.dll
+                         Microsoft Corporation, MicrosoftR WindowsR Operating System, 6.00.3790.0
+                         2003/03/25(10:43:36)
+  77330000 - 77AF6000  C:\WINDOWS\system32\SHELL32.dll
+                         Microsoft Corporation, Microsoft(R) Windows(R) Operating System, 6.00.3790.0
+                         2003/03/26(21:00:00)
+  77B30000 - 77B38000  C:\WINDOWS\system32\VERSION.dll
+                         Microsoft Corporation, MicrosoftR WindowsR Operating System, 5.2.3790.0
+                         2003/03/26(21:00:00)
+  76120000 - 7613D000  C:\WINDOWS\system32\IMM32.DLL
+                         Microsoft Corporation, MicrosoftR WindowsR Operating System, 5.2.3790.0
+                         2003/03/26(21:00:00)
+  61770000 - 61779000  C:\WINDOWS\system32\LPK.DLL
+                         Microsoft Corporation, MicrosoftR WindowsR Operating System, 5.2.3790.0
+                         2003/03/26(21:00:00)
+  72E60000 - 72EBE000  C:\WINDOWS\system32\USP10.dll
+                         Microsoft Corporation, Microsoft(R) Uniscribe Unicode script processor, 1.0421.3790.0
+                         2003/03/26(21:00:00)
+  70AD0000 - 70AD0000  C:\WINDOWS\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.100.0_x-ww_8417450B\comctl32.dll
+                         Microsoft Corporation, MicrosoftR WindowsR Operating System, 6.00.3790.0
+                         2003/03/25(10:43:36)
+  00930000 - 00935000  D:\Program Files\NetCOBOL\F3BIPRSJ.DLL
+                         FUJITSU LIMITED, NetCOBOL Runtime System for Windows, 70.10.0.0
+                         2002/04/23(15:34:38)
+  00940000 - 00944000  D:\Program Files\NetCOBOL\F3BIODSJ.DLL
+                         FUJITSU LIMITED, NetCOBOL Runtime System for Windows, 70.10.0.0
+                         2002/04/22(12:24:02)
+  00950000 - 0095A000  D:\Program Files\NetCOBOL\F3BIMSGJ.DLL
+                         FUJITSU LIMITED, NetCOBOL Runtime System for Windows, 70.10.0.0
+                         2002/06/06(10:47:30)
+  009A0000 - 009AD000  D:\Program Files\NetCOBOL\F3BILANP.dll
+                         FUJITSU LIMITED, NetCOBOL Runtime System for Windows, 70.10.0.0
+                         2002/04/23(15:10:40)
+  743C0000 - 7440B000  C:\WINDOWS\system32\MSCTF.dll
+                         Microsoft Corporation, Microsoft(R) Windows(R) Operating System, 5.2.3790.0
+                         2003/03/26(21:00:00)
+  75D00000 - 75D22000  C:\WINDOWS\system32\apphelp.dll
+                         Microsoft Corporation, Microsoft(R) Windows(R) Operating System, 5.2.3790.0
+                         2003/03/26(21:00:00)
+  00BA0000 - 00BCB000  C:\WINDOWS\system32\msctfime.ime
+                         Microsoft Corporation, MicrosoftR WindowsR Operating System, 5.2.3790.0
+                         2003/03/26(21:00:00)
+  77110000 - 77234000  C:\WINDOWS\system32\ole32.dll
+                         Microsoft Corporation, Microsoft(R) Windows(R) Operating System, 5.2.3790.0
+                         2003/03/26(21:00:00)
+  3A600000 - 3A676000  C:\WINDOWS\system32\IMJP9.IME
+                         Microsoft Corporation, Microsoft IME 2003, 9.0.5516.0
+                         2003/07/23(22:40:04)
+  3A690000 - 3A760000  C:\WINDOWS\system32\imjp9k.dll
+                         Microsoft Corporation, Microsoft IME 2003, 9.0.5510.0
+                         2003/07/14(23:03:54)
+  77090000 - 7710D000  C:\WINDOWS\system32\OLEAUT32.dll
+                         2003/03/26(21:00:00)
+  71A10000 - 71A43000  C:\WINDOWS\system32\uxtheme.dll
+                         Microsoft Corporation, Microsoft(R) Windows(R) Operating System, 6.00.3790.0
+                         2003/03/26(21:00:00)
+  00D30000 - 00D3C000  C:\Program Files\VMware\VMware Tools\hook.dll
+                         2005/03/23(18:40:06)
+  3AE00000 - 3AE1B000  C:\Program Files\Common Files\Microsoft Shared\IME\IMJP9\DICTS\IMJPCD.DIC
+                         Microsoft Corporation, Microsoft IME 2003, 9.0.5510.0
+                         2003/07/14(22:57:40)
+  3AC70000 - 3AC7C000  C:\Program Files\Common Files\Microsoft Shared\IME\IMJP9\imjpsqm.dll
+                         Microsoft Corporation, Microsoft IME 2003, 9.0.5510.0
+                         2003/07/14(22:58:18)
+  010B0000 - 010C6000  D:\Program Files\NetCOBOL\F3BIDBG.dll
+                         FUJITSU LIMITED, NetCOBOL Runtime System for Windows, 70.10.0.0
+                         2002/05/22(19:33:14)
+
+<<ｽﾀｯｸｻﾏﾘ>>
+  FramePtr RetAddr  Param-01 Param-02 Param-03 Param-04 Param-05 Param-06 Param-07 Param-08 Module:Program
+  0012EF6C 77F340C2 0012EF84 0012F616 0012EFBC 035C0064 035C0064 0000FF9C 035C0064 00000042 ntdll.dll:LdrUnloadDll
+  0012EFA4 77F3BE45 035C0064 00007FCE 0012F610 4854454D 00000000 00000000 00002800 00000000 ntdll.dll:_snwprintf
+  0012F66C 77DF4D29 00149E4C 00000000 0012F700 00000001 77F25A01 0012FD88 035C0000 00010000 ntdll.dll:RtlFormatMessage
+  0012F708 77DF4FF8 00000001 00002800 00950000 E0000068 00000411 0015D238 000003FF 0012FD80 KERNEL32.dll:FreeVirtualBuffer
+  0012F750 1C00CC08 00000000 00950000 E0000068 00000411 0015C628 000003FF 0012FD80 004081D0 KERNEL32.dll:FormatMessageA
+  0012FE14 1C02A41C 0015D128 00000068 00000000 0015C628 4854454D 004081D0 00000000 7FFDF000 F3BIPRCT.dll:JMP1MESS
+  0012FE50 00401AE6 00408150 00000010 0012FE20 004081D0 00000008 000206AE 00960758 00000000 F3BIPRCT.dll:JMP1EXCP
+  0012FF28 0040152A 00000000 0012FFC0 00403995 00400000 00000000 00142399 0000000A 00000000 99.EXE:99SUB1
+  0012FF34 00403995 00400000 00000000 00142399 0000000A 00000000 00000000 7FFDF000 C0000005 99.EXE:99SUB1
+  0012FFC0 77DEF38C 00000000 00000000 7FFDF000 C0000005 0012FFC8 0012E738 FFFFFFFF 77E10ABC 99.EXE:99SUB2
+  0012FFF0 00000000 004038C7 00000000 78746341 00000020 00000001 0000301C 000000DC 00000000 KERNEL32.dll:TerminateThread
+
+<<ｽﾀｯｸﾀﾞﾝﾌﾟ>>
+  0012EB10  00 00 00 00 64 00 5C 03 - 73 00 14 00 00 00 00 00  ....d.\.s.......
+  0012EB20  9C 04 00 00 6C EB 12 00 - 9E DB F2 77 03 00 00 00  ....l......w....
+  0012EB30  00 00 00 00 20 14 13 00 - C8 EB 12 00 48 EB 12 00  .... .......H...
+  0012EB40  E8 23 FA 77 00 00 00 00 - 40 00 00 00 00 00 00 00  .#.w....@.......
+  0012EB50  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012EB60  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012EB70  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012EB80  00 00 00 00 00 00 00 00 - E0 EB 12 00 E4 ED 12 00  ................
+  0012EB90  34 5A F2 77 08 AF F6 77 - FF FF FF FF 00 00 02 00  4Z.w...w........
+  0012EBA0  BC EB 12 00 BC EB 12 00 - BC EB 12 00 02 00 00 00  ................
+  0012EBB0  02 00 00 00 00 00 00 00 - 81 C2 F2 77 F8 EB 12 00  ...........w....
+  0012EBC0  FC 00 13 00 08 00 00 00 - EC 00 13 00 00 00 13 00  ................
+  0012EBD0  10 EC 12 00 C8 C5 F2 77 - F8 EB 12 00 EC 00 13 00  .......w........
+  0012EBE0  01 00 00 00 10 00 00 00 - 00 00 00 00 94 EC 12 00  ................
+  0012EBF0  20 14 13 00 60 08 B0 0D - 48 EC 12 00 70 CB F2 77   ...`...H...p..w
+  0012EC00  48 ED 12 00 00 00 00 00 - 01 00 00 00 98 EC 12 00  H...............
+  0012EC10  20 14 13 00 08 00 15 C0 - 00 00 00 00 00 00 00 00   ...............
+  0012EC20  02 00 00 00 9C EC 12 00 - 08 00 15 C0 00 00 00 00  ................
+  0012EC30  00 F0 FD 7F 00 E0 FD 7F - 58 EC 12 00 3F CD F2 77  ........X...?..w
+  0012EC40  7C EC 12 00 B4 EC 12 00 - A0 EC 12 00 54 EC 12 00  |...........T...
+  0012EC50  20 14 13 00 00 00 00 00 - A4 EC 12 00 61 C8 F2 77   ...........a..w
+  0012EC60  7C EC 12 00 B4 EC 12 00 - A0 EC 12 00 9C EC 12 00  |...............
+  0012EC70  08 ED 12 00 18 EE 12 00 - 00 00 00 00 18 00 00 00  ................
+  0012EC80  03 00 00 00 00 00 00 00 - 02 00 00 00 03 00 00 00  ................
+  0012EC90  02 00 00 00 01 00 00 00 - 60 08 B0 0D 00 00 00 00  ........`.......
+  0012ECA0  9C 04 00 00 EC EC 12 00 - 9E DB F2 77 03 00 00 00  ...........w....
+  0012ECB0  00 00 00 00 20 14 13 00 - 48 ED 12 00 C8 EC 12 00  .... ...H.......
+  0012ECC0  E8 23 FA 77 00 00 00 00 - 40 00 00 00 00 00 00 00  .#.w....@.......
+  0012ECD0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012ECE0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012ECF0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012ED00  00 00 00 00 00 00 00 00 - 00 00 00 00 64 EF 12 00  ............d...
+  0012ED10  34 5A F2 77 08 AF F6 77 - FF FF FF FF 00 00 02 00  4Z.w...w........
+  0012ED20  3C ED 12 00 3C ED 12 00 - 3C ED 12 00 02 00 00 00  <...<...<.......
+  0012ED30  02 00 00 00 00 00 00 00 - 00 00 00 00 00 00 F2 77  ...............w
+  0012ED40  80 EE 12 00 00 00 00 00 - 14 00 0A 02 00 EC FD 7F  ................
+  0012ED50  00 00 00 00 54 EE 12 00 - 48 EE 12 00 70 D6 F2 77  ....T...H...p..w
+  0012ED60  4C EE 12 00 AC D6 F2 77 - 80 EE 12 00 50 38 24 00  L......w....P8$.
+  0012ED70  F8 EB FD 7F 00 00 00 00 - 43 00 3A 00 5C 00 44 00  ........C.:.\.D.
+  0012ED80  4F 00 43 00 55 00 4D 00 - 45 00 4E 00 54 00 53 00  O.C.U.M.E.N.T.S.
+  0012ED90  20 00 41 00 4E 00 44 00 - 00 00 00 00 E0 21 24 00   .A.N.D......!$.
+  0012EDA0  E0 21 24 00 E0 21 24 00 - E0 21 24 00 00 00 00 00  .!$..!$..!$.....
+  0012EDB0  F8 EB FD 7F E0 21 24 00 - AC EE 12 00 1C 22 24 00  .....!$......"$.
+  0012EDC0  C9 DF F2 77 E0 21 24 00 - DF DF F2 77 E7 DF F2 77  ...w.!$....w...w
+  0012EDD0  50 38 24 00 F8 EB FD 7F - 00 00 00 00 54 00 32 00  P8$.........T.2.
+  0012EDE0  5C 00 55 00 53 00 45 00 - 52 00 33 00 32 00 2E 00  \.U.S.E.R.3.2...
+  0012EDF0  64 00 6C 00 6C 00 00 00 - 00 00 F3 77 B4 EE 12 00  d.l.l......w....
+  0012EE00  B2 2B F3 77 28 2C F3 77 - 50 38 24 00 E0 21 24 00  .+.w(,.wP8$..!$.
+  0012EE10  00 00 00 00 24 00 00 00 - 01 00 00 00 00 00 00 00  ....$...........
+  0012EE20  00 00 00 00 70 00 00 00 - FF FF FF FF FF FF FF FF  ....p...........
+  0012EE30  03 2C F3 77 B2 2B F3 77 - 00 00 00 00 00 00 00 00  .,.w.+.w........
+  0012EE40  00 00 00 00 00 00 00 00 - 00 00 00 00 18 84 F2 77  ...............w
+  0012EE50  00 00 00 00 00 00 00 00 - 00 00 00 00 F8 EB FD 7F  ................
+  0012EE60  50 38 24 00 40 25 FA 77 - F8 ED 12 00 20 00 00 00  P8$.@%.w.... ...
+  0012EE70  20 00 00 00 34 5A F2 77 - C8 95 F6 77 00 00 50 00   ...4Z.w...w..P.
+  0012EE80  DC ED 12 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012EE90  00 00 00 01 D0 ED 12 00 - 00 EC FD 7F 08 EE 12 00  ................
+  0012EEA0  34 5A F2 77 64 EF 12 00 - 34 5A F2 77 00 C4 F6 77  4Z.wd...4Z.w...w
+  0012EEB0  FF FF FF FF 28 2C F3 77 - 31 2D F3 77 74 EF 12 00  ....(,.w1-.wt...
+  0012EEC0  B2 2B F3 77 28 2C F3 77 - CA F1 12 00 C8 F6 12 00  .+.w(,.w........
+  0012EED0  00 00 00 00 24 00 00 00 - 01 00 00 00 00 00 00 00  ....$...........
+  0012EEE0  00 00 00 00 70 00 00 00 - FF FF FF FF FF FF FF FF  ....p...........
+  0012EEF0  03 2C F3 77 B2 2B F3 77 - 44 00 0C 01 50 00 00 00  .,.w.+.wD...P...
+  0012EF00  BD 1A F3 77 82 EF 12 00 - F8 EB FD 7F 00 00 F2 77  ...w...........w
+  0012EF10  34 00 F6 77 1A 13 0C 01 - 80 EF 12 00 0A 00 0B 00  4..w............
+  0012EF20  1A 13 0C 01 00 95 F6 77 - 01 00 00 00 5D 00 0C 01  .......w....]...
+  0012EF30  00 00 00 00 07 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012EF40  10 85 F2 77 00 00 00 00 - E0 21 24 00 00 00 00 00  ...w.....!$.....
+  0012EF50  00 00 00 00 00 00 00 00 - 00 00 00 00 4D 45 54 48  ............METH
+  0012EF60  00 00 00 00 FF FF FF FF - 20 00 00 00 A4 EF 12 00  ........ .......
+  0012EF70  C2 40 F3 77 84 EF 12 00 - 16 F6 12 00 BC EF 12 00  .@.w............
+  0012EF80  64 00 5C 03 64 00 5C 03 - 9C FF 00 00 64 00 5C 03  d.\.d.\.....d.\.
+  0012EF90  42 00 00 00 44 00 4F 00 - 57 00 53 00 5C 00 57 00  B...D.O.W.S.\.W.
+  0012EFA0  69 00 6E 00 6C F6 12 00 - 45 BE F3 77 64 00 5C 03  i.n.l...E..wd.\.
+  0012EFB0  CE 7F 00 00 10 F6 12 00 - 4D 45 54 48 00 00 00 00  ........METH....
+  0012EFC0  00 00 00 00 00 28 00 00 - 00 00 00 00 00 08 00 00  .....(..........
+  0012EFD0  4D 45 54 48 00 00 00 00 - 1C FD 12 00 00 00 00 00  METH............
+  0012EFE0  6F 00 6E 00 2D 00 43 00 - 6F 00 6E 00 74 00 72 00  o.n.-.C.o.n.t.r.
+  0012EFF0  6F 00 6C 00 73 00 5F 00 - 36 00 35 00 39 00 35 00  o.l.s._.6.5.9.5.
+  0012F000  62 00 36 00 34 00 31 00 - 34 00 34 00 63 00 63 00  b.6.4.1.4.4.c.c.
+  0012F010  66 00 31 00 64 00 66 00 - 5F 00 35 00 2E 00 38 00  f.1.d.f._.5...8.
+  0012F020  32 00 2E 00 30 00 2E 00 - 30 00 5F 00 78 00 2D 00  2...0...0._.x.-.
+  0012F030  77 00 77 00 5F 00 38 00 - 41 00 36 00 39 00 42 00  w.w._.8.A.6.9.B.
+  0012F040  41 00 30 00 35 00 5C 00 - 43 00 4F 00 4D 00 43 00  A.0.5.\.C.O.M.C.
+  0012F050  54 00 4C 00 33 00 32 00 - 2E 00 64 00 6C 00 6C 00  T.L.3.2...d.l.l.
+  0012F060  00 00 F2 77 01 58 F3 77 - FF FF FF FF 00 00 0C 01  ...w.X.w........
+  0012F070  09 58 F3 77 88 11 0C 01 - 1A 13 0C 01 50 38 24 00  .X.w........P8$.
+  0012F080  8F 2C F2 77 00 00 00 00 - FF FF 00 00 00 10 00 00  .,.w............
+  0012F090  04 00 00 00 0C E4 CC 77 - 5B 4B 00 00 F8 11 0C 01  .......w[K......
+  0012F0A0  1A 13 0C 01 88 F1 12 00 - 4C 00 00 00 48 00 0C 01  ........L...H...
+  0012F0B0  83 44 F3 77 CA F1 12 00 - C8 F6 12 00 00 00 00 00  .D.w............
+  0012F0C0  88 F1 12 00 34 5A F2 77 - 40 DD F6 77 FF FF FF FF  ....4Z.w@..w....
+  0012F0D0  09 58 F3 77 4D 5C F3 77 - E0 21 24 00 50 38 24 00  .X.wM\.w.!$.P8$.
+  0012F0E0  88 11 0C 01 00 00 00 00 - 98 38 24 00 50 38 24 00  .........8$.P8$.
+  0012F0F0  01 00 00 00 E0 21 24 00 - 09 58 F3 01 10 F1 12 00  .....!$..X......
+  0012F100  B2 5C F3 77 F8 34 14 00 - 00 00 00 00 20 F1 12 00  .\.w.4...... ...
+  0012F110  98 F1 12 00 E4 53 F3 77 - 98 F1 12 00 36 52 F3 77  .....S.w....6R.w
+  0012F120  21 54 F3 77 CA F1 12 00 - C8 F6 12 00 00 00 00 00  !T.w............
+  0012F130  24 00 00 00 01 00 00 00 - 00 00 00 00 00 00 00 00  $...............
+  0012F140  70 00 00 00 FF FF FF FF - FF FF FF FF A4 53 F3 77  p............S.w
+  0012F150  36 52 F3 77 00 00 00 00 - 50 00 00 00 00 00 00 00  6R.w....P.......
+  0012F160  8A 00 00 C0 00 00 0B 01 - 00 00 0B 01 00 F0 FD 7F  ................
+  0012F170  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F180  24 F1 12 00 B4 F0 12 00 - 04 F4 12 00 04 F4 12 00  $...............
+  0012F190  34 5A F2 77 30 D4 F6 77 - FF FF FF FF 3C 29 F3 77  4Z.w0..w....<).w
+  0012F1A0  40 23 FA 77 25 27 F3 77 - 00 00 00 00 A0 EA 03 1C  @#.w%'.w........
+  0012F1B0  00 00 00 00 46 00 33 00 - 42 00 49 00 44 00 42 00  ....F.3.B.I.D.B.
+  0012F1C0  47 00 2E 00 64 00 6C 00 - 6C 00 00 00 E8 F1 12 00  G...d.l.l.......
+  0012F1D0  20 F2 12 00 0C F2 12 00 - 08 F2 12 00 74 F2 12 00   ...........t...
+  0012F1E0  84 F3 12 00 00 00 00 00 - 18 00 00 00 03 00 00 00  ................
+  0012F1F0  00 00 00 00 02 00 00 00 - 03 00 00 00 02 00 00 00  ................
+  0012F200  01 00 00 00 EB 08 28 3E - 00 00 00 00 9C 04 00 00  ......(>........
+  0012F210  58 F2 12 00 9E DB F2 77 - 03 00 00 00 00 00 00 00  X......w........
+  0012F220  20 14 13 00 B4 F2 12 00 - 34 F2 12 00 AC 25 FA 77   .......4....%.w
+  0012F230  00 00 00 00 40 00 00 00 - 00 00 00 00 00 00 00 00  ....@...........
+  0012F240  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F250  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F260  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F270  00 00 00 00 00 00 00 00 - 6C F6 12 00 34 5A F2 77  ........l...4Z.w
+  0012F280  58 94 F6 77 FF FF FF FF - 00 00 02 00 A8 F2 12 00  X..w............
+  0012F290  A8 F2 12 00 A8 F2 12 00 - 02 00 00 00 02 00 00 00  ................
+  0012F2A0  30 26 15 00 00 00 00 00 - 00 00 F2 77 EC F3 12 00  0&.........w....
+  0012F2B0  00 00 00 00 16 00 18 00 - 00 EC FD 7F 00 00 00 00  ................
+  0012F2C0  EC F3 12 00 B4 F3 12 00 - 70 D6 F2 77 B8 F3 12 00  ........p..w....
+  0012F2D0  AC D6 F2 77 EC F3 12 00 - 00 00 00 00 A0 EA 03 1C  ...w............
+  0012F2E0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F2F0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F300  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................

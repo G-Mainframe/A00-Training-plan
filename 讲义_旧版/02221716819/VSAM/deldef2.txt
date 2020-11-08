@@ -1,0 +1,25 @@
+//SP003A4   JOB ACCT#,SP003,NOTIFY=SP003,MSGLEVEL=(1,1)
+//DELDEF   EXEC PGM=IDCAMS
+//SYSPRINT DD   SYSOUT=H
+//SYSIN    DD   *
+  DELETE SP003.INVOICE.CLUSTER2
+  SET MAXCC=0
+  DEFINE CLUSTER (NAME(SP003.INVOICE.CLUSTER2) -
+                  VOL(ES0D94) -
+                  IXD KEYS(06 0) -
+                  RECSZ(275 275)  -
+                  SPEED IMBED REPLICATE -
+                  REUSE SHAREOPTIONS(3 3) ) -
+         DATA    (NAME(SP003.INVOICE.DATA2) -
+                  CONTROLINTERVALSIZE(32760) -
+                  CYL(01,01) ) -
+         INDEX   (NAME(SP003.INVOICE.INDEX2) -
+                  CONTROLINTERVALSIZE(512) -
+                  TRACKS(10,10) )
+/*
+//
+//
+
+
+  VERIFY DATASET(SP003.INVOICE.CLUSTER2)
+

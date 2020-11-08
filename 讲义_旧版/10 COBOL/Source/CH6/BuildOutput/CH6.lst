@@ -1,0 +1,180 @@
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2                Date 11/15/2010  Time 15:56:47   Page     1                
+0Invocation parameters:
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0Options in effect:
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      FILECOPY  Date 11/15/2010  Time 15:56:47   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0/* FILECOPY                                                                                                                         
+   000001                IDENTIFICATION DIVISION.                                                                                    
+   000002                PROGRAM-ID.   FILECOPY.                                                                                     
+   000003                ENVIRONMENT DIVISION.                                                                                       
+   000004                INPUT-OUTPUT SECTION.                                                                                       
+   000005                FILE-CONTROL.                                                                                               
+   000006                      SELECT TBL-CUSTOMER ASSIGN TO TBLCUSTOMER                            13                               
+   000007                      ORGANIZATION IS       INDEXED                                                                         
+   000008                      ACCESS MODE IS RANDOM                                                                                 
+   000009                      RECORD KEY CUSTOMER OF TBL-CUSTOMER-REC                              16 14                            
+   000010                         FILE STATUS  SYS-FILE-STATUS.                                     21                               
+   000011                DATA DIVISION.                                                                                              
+   000012                FILE SECTION.                                                                                               
+   000013                FD TBL-CUSTOMER LABEL RECORD IS STANDARD .                                                                  
+                                                                                                  
+ ==000013==> IGYGR1213-I The "LABEL" clause was processed as comments for this file definition.   
+                                                                                                  
+   000014                01 TBL-CUSTOMER-REC.                                                                                        
+   000015                   COPY TBLCUSTOMER.                                                                                        
+   000016C                  05  CUSTOMER      PIC  X(4).                                                                             
+   000017C                  05  CUSTOMER-NAME PIC  X(10).                                                                            
+   000018C                  05  CUSTOMER-ADDRESS       PIC  X(20).                                                                   
+   000019C                  05  CUSTOMER-CITY          PIC  X(20).                                                                   
+   000020         000191 WORKING-STORAGE SECTION.                                                                                    
+   000021         000192 01 SYS-FILE-STATUS   PIC  X(2)  VALUE "00".                                                                 
+   000022                01 TBL-CUSTOMER-DATA.                                                                                       
+   000023                   03 REC1.                                                                                                 
+   000024                      05  CUSTOMER      PIC  X(4)  VALUE "1001".                                                            
+   000025                      05  CUSTOMER-NAME PIC  X(10) VALUE "ZHANGSAN".                                                        
+   000026                      05  CUSTOMER-ADDRESS   PIC  X(20) VALUE "AAAAAA".                                                     
+   000027                      05  CITY          PIC  X(20) VALUE "NANJING".                                                         
+   000028                   03 REC2.                                                                                                 
+   000029                      05  CUSTOMER      PIC  X(4)  VALUE "1002".                                                            
+   000030                      05  CUSTOMER-NAME PIC  X(10) VALUE "ZHANGSAN".                                                        
+   000031                      05  CUSTOMER-ADDRESS       PIC  X(20) VALUE "AAAAAA".                                                 
+   000032                      05  CUSTOMER-CITY          PIC  X(20) VALUE "NANJING".                                                
+   000033                01 TBL-CUSTOMER-RE REDEFINES  TBL-CUSTOMER-DATA.                           22                               
+   000034                   03 RECTABLE OCCURS  2 TIMES.                                                                             
+   000035                      COPY TBLCUSTOMER.                                                                                     
+   000036C                  05  CUSTOMER      PIC  X(4).                                                                             
+   000037C                  05  CUSTOMER-NAME PIC  X(10).                                                                            
+   000038C                  05  CUSTOMER-ADDRESS       PIC  X(20).                                                                   
+   000039C                  05  CUSTOMER-CITY          PIC  X(20).                                                                   
+   000040                01 WK-CNT.                                                                                                  
+   000041                   03 REC-CNT  PIC 99 VALUE ZERO.                                          IMP                              
+   000042                PROCEDURE DIVISION.                                                                                         
+   000043                MAIN.                                                                                                       
+   000044                    OPEN OUTPUT TBL-CUSTOMER.                                              13                               
+   000045                    DISPLAY "1" , SYS-FILE-STATUS.                                         21                               
+   000046                    STOP 1.                                                                                                 
+   000047                    ADD 1 TO REC-CNT.                                                      41                               
+   000048               *                                                                                                            
+   000049                    PERFORM L100 2 TIMES.                                                  53                               
+   000050               *                                                                                                            
+   000051                    CLOSE TBL-CUSTOMER.                                                    13                               
+   000052                    STOP RUN.                                                                                               
+   000053                L100.                                                                                                       
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      FILECOPY  Date 11/15/2010  Time 15:56:47   Page     3                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0  000054                    MOVE RECTABLE(REC-CNT) TO TBL-CUSTOMER-REC.                            34 41 14                         
+   000055                    WRITE  TBL-CUSTOMER-REC.                                               14                               
+   000056                    DISPLAY TBL-CUSTOMER-REC.                                              14                               
+   000057                    ADD 1 TO REC-CNT.                                                      41                               
+   000058                    STOP 1.                                                                                                 
+ */ FILECOPY                                                                                                                         
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      FILECOPY  Date 11/15/2010  Time 15:56:47   Page     4                
+0An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+       27   CITY                                                                                                                                                             
+       16   CUSTOMER . . . . . . . . . . .  9                                                                                                                                
+       24   CUSTOMER                                                                                                                                                         
+       29   CUSTOMER                                                                                                                                                         
+       36   CUSTOMER                                                                                                                                                         
+       18   CUSTOMER-ADDRESS                                                                                                                                                 
+       26   CUSTOMER-ADDRESS                                                                                                                                                 
+       31   CUSTOMER-ADDRESS                                                                                                                                                 
+       38   CUSTOMER-ADDRESS                                                                                                                                                 
+       19   CUSTOMER-CITY                                                                                                                                                    
+       32   CUSTOMER-CITY                                                                                                                                                    
+       39   CUSTOMER-CITY                                                                                                                                                    
+       17   CUSTOMER-NAME                                                                                                                                                    
+       25   CUSTOMER-NAME                                                                                                                                                    
+       30   CUSTOMER-NAME                                                                                                                                                    
+       37   CUSTOMER-NAME                                                                                                                                                    
+       41   REC-CNT. . . . . . . . . . . .  M47 54 M57                                                                                                                       
+       23   REC1                                                                                                                                                             
+       28   REC2                                                                                                                                                             
+       34   RECTABLE . . . . . . . . . . .  54                                                                                                                               
+       21   SYS-FILE-STATUS. . . . . . . .  10 45                                                                                                                            
+       13   TBL-CUSTOMER . . . . . . . . .  6 44 51                                                                                                                          
+       22   TBL-CUSTOMER-DATA. . . . . . .  33                                                                                                                               
+       33   TBL-CUSTOMER-RE                                                                                                                                                  
+       14   TBL-CUSTOMER-REC . . . . . . .  9 M54 55 56                                                                                                                      
+       40   WK-CNT                                                                                                                                                           
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      FILECOPY  Date 11/15/2010  Time 15:56:47   Page     5                
+0Context usage is indicated by the letter preceding a procedure-name reference.
+ These letters and their meanings are:
+     A = ALTER (procedure-name)
+     D = GO TO (procedure-name) DEPENDING ON
+     E = End of range of (PERFORM) through (procedure-name)
+     G = GO TO (procedure-name)
+     P = PERFORM (procedure-name)
+     T = (ALTER) TO PROCEED TO (procedure-name)
+     U = USE FOR DEBUGGING (procedure-name)
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+       53   L100 . . . . . . . . . . . . .  P49                                                                                                                              
+       43   MAIN                                                                                                                                                             
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      FILECOPY  Date 11/15/2010  Time 15:56:47   Page     6                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   FILECOPY                                                                                                                                                         
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      FILECOPY  Date 11/15/2010  Time 15:56:47   Page     7                
+0LineID  Message code  Message text
+                                                                                                                                     
+     13  IGYGR1213-I   The "LABEL" clause was processed as comments for this file definition.                                        
+-Messages    Total    Informational    Warning    Error    Severe    Terminating
+0Printed:       1           1                                               
+-* Statistics for COBOL program FILECOPY:
+ *    Source records = 58
+ *    Data Division statements = 25
+ *    Procedure Division statements = 12
+0Locale = en_US.IBM-1252
+0End of compilation 1,  program FILECOPY,  highest severity: Informational.
+0Return code 0

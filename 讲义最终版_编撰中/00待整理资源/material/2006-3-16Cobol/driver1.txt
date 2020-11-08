@@ -1,0 +1,41 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200*                                                                 00020000
+000300 PROGRAM-ID. DRIVER1.                                             00030000
+000400*                                                                 00040000
+000500 ENVIRONMENT DIVISION.                                            00050000
+000600*                                                                 00060000
+000700 INPUT-OUTPUT SECTION.                                            00070000
+000800*                                                                 00080000
+000900 FILE-CONTROL.                                                    00090000
+001000*                                                                 00100000
+001200*                                                                 00120000
+001300 DATA DIVISION.                                                   00130000
+001400*                                                                 00140000
+001500 FILE SECTION.                                                    00150000
+002500*                                                                 00250000
+002600 WORKING-STORAGE SECTION.                                         00260000
+002700*                                                                 00270000
+002800 01  PARMS.                                                       00280000
+002900     05  PARM-1              PIC 99  VALUE 15.                    00290000
+002910     05  PARM-2              PIC 99  VALUE 16.                    00291000
+002920     05  PARM-3              PIC 9(4) VALUE 0.                    00292000
+003000*                                                                 00300000
+003100 PROCEDURE DIVISION.                                              00310000
+003200*                                                                 00320000
+003300 000-CONTROL.                                                     00330000
+003400*                                                                 00340000
+003500     DISPLAY ' NOW START DRIVER PROGRAM '.                        00350001
+003600                                                                  00360000
+003700     CALL 'MYSUB1' USING PARM-1                                   00370000
+003710                         PARM-2                                   00371000
+003711                         PARM-3.                                  00371100
+003712     DISPLAY ' NOW RETURN FROM SUB PROGRAM '.                     00371200
+003713                                                                  00371300
+003720     DISPLAY ' IN DRIVER, PARM-1 = ' PARM-1                       00372002
+003721     DISPLAY ' IN DRIVER, PARM-2 = ' PARM-2                       00372102
+003722     DISPLAY ' IN DRIVER, PARM-3 = ' PARM-3.                      00372202
+003740                                                                  00374000
+003750                                                                  00375000
+003760                                                                  00376000
+003800     STOP RUN.                                                    00380000
+

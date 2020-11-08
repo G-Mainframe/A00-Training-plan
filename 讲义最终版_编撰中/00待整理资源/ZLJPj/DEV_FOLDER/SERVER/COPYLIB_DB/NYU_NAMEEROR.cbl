@@ -1,0 +1,7 @@
+000010************************************************
+000020* (NYU_NAMEEROR)
+000030************************************************
+000040 01  NYU_NAMEEROR-BNKCOD PIC  X(004).
+000050 01  NYU_NAMEEROR-PAYNUM PIC  X(008).
+000060 01  NYU_NAMEEROR-CSTNAM PIC  X(030).
+000070 01  NYU_NAMEEROR-PAYDAY PIC  X(002).

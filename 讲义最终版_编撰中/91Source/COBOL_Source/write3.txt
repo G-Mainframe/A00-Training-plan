@@ -1,0 +1,80 @@
+000100 IDENTIFICATION DIVISION.                                        
+000200*                                                               
+000300 PROGRAM-ID. WRITE1.                                            
+000400*                                                                
+000500 ENVIRONMENT DIVISION.                                           
+000600*                                                                 
+000700 INPUT-OUTPUT SECTION.                                           
+000800*                                                                 
+000900 FILE-CONTROL.                                                    
+001000*                                                                 
+001100      SELECT CUSTMAST ASSIGN TO UT-S-CUSTMAST.                   
+001110      SELECT CUSTRPT  ASSIGN TO UT-S-CUSTRPT.                    
+001200*                                                                
+001300 DATA DIVISION.                                                  
+001400*                                                                
+001500 FILE SECTION.                                                   
+001600 FD  CUSTMAST.                                                   
+001700*                                                                
+001800 01  CUSTOMER-MASTER-RECORD.                                      
+001900     05  CM-BRANCH-NUMBER        PIC 9(2).                      
+002000     05  CM-SALESREP-NUMBER      PIC 9(2).                       
+002100     05  CM-CUSTOMER-NUMBER      PIC 9(5).                       
+002200     05  CM-CUSTOMER-NAME        PIC X(20).                     
+002300     05  CM-SALES-THIS-YTD       PIC S9(5)V9(2).                  
+002400     05  CM-SALES-LAST-YTD       PIC S9(5)V9(2).                 
+002500*                                                                 
+002510 FD  CUSTRPT.                                                    
+002520*                                                                
+002530 01  CUSTRPT-RECORD.                                              
+002540          05  CUST-INFO               PIC X(50).                  
+002541          05  TEST-AREA               PIC X(83).                  
+002542          05  FILLER REDEFINES TEST-AREA.                         
+002550          10  TEST-0                  PIC 9(5).                  
+002551          10  TEST-1                  PIC 9(5) COMP-3.           
+002560          10  TEST-2                  PIC 9(5) COMP.              
+002570          10  TEST-3                  PIC S9(5).                 
+002580          10  TEST-4                  PIC S9(5) COMP-3.          
+002590          10  TEST-5                  PIC S9(5) COMP.  
+                10  Label-1                 pic X(4).                   
+                10  TEST-6                  pic xx.
+                10  LABEL-2                 pic x(4).
+                10  TEST-7                  PIC XX.     
+002600 WORKING-STORAGE SECTION.                                        
+002700*                                                                
+002800 01  SWITCHES.                                                   
+002900     05  CUSTMAST-EOF-SWITCH     PIC X    VALUE "N".              
+003000*                                                                 
+003100 PROCEDURE DIVISION.                                             
+003200*                                                                
+003300 000-CONTROL.                                                     
+003400*                                                                 
+003500     OPEN INPUT  CUSTMAST                                         
+003510          OUTPUT CUSTRPT.                                         
+003600     PERFORM 100-READ                                            
+003700                UNTIL CUSTMAST-EOF-SWITCH = "Y".                 
+003710     CLOSE CUSTMAST CUSTRPT.                                      
+003720                                                                  
+003800     STOP RUN.                                                    
+003900 100-READ.                                                        
+004000     READ CUSTMAST                                               
+004100                AT END                                           
+004200                    MOVE "Y" TO CUSTMAST-EOF-SWITCH.              
+004300     IF CUSTMAST-EOF-SWITCH = "N"                                 
+004310        MOVE CUSTOMER-MASTER-RECORD TO CUST-INFO                 
+004311        MOVE -500 TO TEST-0                                       
+004312                     TEST-1                                       
+004313                     TEST-2                                       
+004314                     TEST-3                                       
+004315                     TEST-4                                      
+004316                     TEST-5 
+
+              MOVE 'HIGH'  TO  LABEL-1
+              MOVE 'LOW  ' TO  LABEL-2 
+              MOVE HIGH-VALUES To TEST-6
+              MOVE LOW-VALUEs  TO TEST-7                         
+004320        WRITE CUSTRPT-RECORD                                      
+004330                                                                 
+004400        DISPLAY ' RECORD : ' CUSTOMER-MASTER-RECORD.              
+004500                                                                
+

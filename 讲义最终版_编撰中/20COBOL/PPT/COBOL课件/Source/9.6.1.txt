@@ -1,0 +1,40 @@
+
+	ID  DIVISION.
+	PROGRAM-ID.  MODULE1.
+	ENVIRONMENT  DIVISION.
+
+	DATA  DIVISION.
+	WORKING-STORAGE  SECTION.
+	01  SHARE-DATA  PIC  X(32)  GLOBAL.
+
+	PROCEDURE  DIVISION.
+
+		MOVE  'beginning  contents'  TO  SHARE-DATA.
+		CALL  'MODULE2'.
+		DISPLAY  SHARE-DATA.
+		STOP  RUN.
+
+	ID  DIVISION.
+	PROGRAM-ID.  MODULE2.
+	DATA  DIVISION.
+	WORKING-STORAGE  SECTION.
+	PROCEDURE  DIVISION.
+		DISPLAY  'entering  module2'.
+		DISPLAY  SHARE-DATA.
+		MOVE  'ending  contents'  TO  SHARE-DATA.
+		DISPLAY  'leaving  module2'.
+		EXIT  PROGRAM.
+
+
+	END  PROGRAM  MODULE2.
+
+	END  PROGRAM  MODULE1.
+
+
+
+*********************
+entering  module2
+begining  contents
+leaving  contents
+ending  contents
+*********************

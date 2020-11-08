@@ -1,0 +1,29 @@
+//EV603UU1 JOB (F9500B,KQ40,32,                                         00010003
+//         'TM=XX,TN=XX'),                                              00020018
+//         09500,CLASS=M,MSGCLASS=R,NOTIFY=EV603U,REGION=6M             00030012
+//*---------------------------------------< JOB LIBRARY            >--- 01220000
+//JOBLIB   DD DSN=DSN.DSNLOAD,DISP=SHR                                  01230000
+//         DD DSN=DSN.RUNLIB.LOAD,DISP=SHR                              01240000
+//* --------------------------------------< SCRATCH                >--- 01250000
+//DELETE EXEC MSSSCR2                                                   01260007
+ DSN=EV603U.KQ40I.U226.UNLD.TINI0414.NEW                                02150019
+//*--------------------------------------< INSTREAM >-----------------  03760000
+//UNLDTINI  EXEC PGM=IKJEFT01,DYNAMNBR=20                               03770009
+//SYSTSPRT  DD SYSOUT=*                                                 03780007
+//SYSPRINT  DD SYSOUT=*                                                 03790007
+//SYSUDUMP  DD SYSOUT=*                                                 03800007
+//SYSPUNCH  DD SYSOUT=*                                                 03810019
+//SYSREC00  DD DSN=EV603U.KQ40I.U226.UNLD.TINI0414.NEW,                 03830019
+//             SPACE=(TRK,(10,10),RLSE),                                03840007
+//             DISP=(NEW,CATLG,DELETE)                                  03850007
+//SYSTSIN DD  *                                                         03860007
+    DSN SYSTEM(DSN)                                                     03870007
+    RUN  PROGRAM(DSNTIAUL) PLAN(DSNTIAUL) PARMS('SQL')                  03880019
+    END                                                                 03890007
+/*                                                                      03900007
+//SYSIN   DD *                                                          03910007
+  SELECT * FROM KQ40U1.KQ40TINI;                                        03920019
+/*                                                                      03930007
+//*----------------------------------------------< ABEND >------------  12660000
+//ABEND EXEC ABTRAP,RETCD=4                                             12670000
+//*                                                                     12680000

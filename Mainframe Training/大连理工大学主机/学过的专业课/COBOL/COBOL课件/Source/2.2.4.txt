@@ -1,0 +1,62 @@
+
+           DATA  DIVISION.
+           FILE  SECTION.
+           FD  OUT-FILE  LABEL  RECORD  IS  STANDARD.
+           01  OUT-RECORD.
+	  02  DATE.
+	       03  YEAR               PIC  9(4).
+	       03  MONTH           PIC  99.
+	       03  DAY                 PIC  99.
+	  02  PRODUCT-CODE  PIC  9(4).
+	  02  QUANTITY            PIC  9(6).
+	  02  UNIT-PRICE          PIC  9(6).
+
+
+       PROCEDURE DIVISION.
+       L100.
+           OPEN OUTPUT OUT-FILE.
+       L200.
+
+           MOVE  2006  TO   YEAR.
+           MOVE  5         TO   MONTH.
+           MOVE  1         TO   DAY.  
+           MOVE  1860  TO   PRODUCT-CODE.
+           MOVE  1234  TO   QUANTITY.
+           MOVE  100    TO    UNIT-PRICE. 
+
+           WRITE OUT-RECORD.
+       L300.
+           CLOSE OUT-FILE.
+           STOP RUN.
+
+
+========= ´òÓ¡×ßÖ½¿ØÖÆ ==========
+
+           MOVE  'HELLO'   TO   V1.
+           WRITE OUT-RECORD.
+
+           MOVE  'WORLD'   TO   V1.
+           WRITE OUT-RECORD AFTER ADVANCEING 2 LINES.
+
+
+
+	MOVE 'A' TO OUT-R.
+	WRITE OUT-R.
+	MOVE 'B' TO OUT-R.
+	WRITE OUT-R. AFTER ADVANCING 3 LINES.
+	
+	MOVE 'C' TO OUT-R.
+	WRITE OUT-R. AFTER ADVANCING 2 LINES.
+
+	MOVE 'D' TO OUT-R.
+	WRITE OUT-R. BEFORE ADVANCING 1 LINES.
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,30 @@
+000100  IDENTIFICATION DIVISION.                                        00010000
+000200  PROGRAM-ID. STRINGTE.                                           00020005
+000210  AUTHOR. EXT31.                                                  00021001
+000220  DATE-WRITTEN. 21/11/2007.                                       00022006
+000230  DATA DIVISION.                                                  00023001
+000240  WORKING-STORAGE SECTION.                                        00024001
+000250  77   PHONENUM PIC X(11) VALUE SPACES.                           00025001
+000260  77   NAME PIC X(6) VALUE 'ANYUE'.                               00026001
+000261  77   NP PIC X(17) VALUE SPACES.                                 00026101
+000270  77   NUMDATE  PIC X(8) VALUE '20071228'.                        00027007
+        77   STRDATE  PIC X(10) VALUE ALL '-'.                          00028007
+        77   NUM1 PIC 99 VALUE 20.                                      00029010
+        77   NUM2 PIC 999 VALUE 300.                                    00029110
+000300  PROCEDURE DIVISION.                                             00030000
+      ************** STRING TEST 01 **************************          00031007
+000400       MOVE '13761818254' TO PHONENUM.                            00040001
+000410       STRING NAME DELIMITED BY SIZE                              00041001
+000420       PHONENUM DELIMITED BY SIZE                                 00042001
+000430       INTO NP                                                    00043003
+000431       END-STRING.                                                00043103
+000440       DISPLAY NP.                                                00044001
+      ***************** STRING TEST 02 ****************************     00045007
+             MOVE NUMDATE TO STRDATE.                                   00046009
+             DISPLAY STRDATE.                                           00047007
+      ***************** NUM MOVE TEST  ***************************      00048010
+             MOVE NUM1 TO NUM2.                                         00049010
+             DISPLAY NUM1.                                              00049110
+             DISPLAY NUM2.                                              00049210
+000500       STOP RUN.                                                  00050000
+

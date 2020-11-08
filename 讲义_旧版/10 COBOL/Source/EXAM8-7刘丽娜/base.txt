@@ -1,0 +1,23 @@
+       IDENTIFICATION DIVISION.
+      *
+       PROGRAM-ID. BASE.
+      *
+       ENVIRONMENT DIVISION.
+      *
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       77 W          PIC 9(3).
+       LINKAGE SECTION.
+       77 DISTANCE   PIC 9(3).
+       77 BASE-FEE   PIC 9(4).
+       PROCEDURE DIVISION USING DISTANCE, BASE-FEE.
+       START-BASE.
+           IF DISTANCE < 51
+               MOVE 2 TO BASE-FEE
+           ELSE
+               IF DISTANCE < 201
+                   MOVE 4 TO BASE-FEE
+               ELSE   COMPUTE W = DISTANCE - 100
+                      COMPUTE BASE-FEE = 4 + (W / 50 + 1) * 1.
+       E.  EXIT PROGRAM.
+

@@ -1,0 +1,2050 @@
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+ファイル: COBIS420.PCOをオープン
+     1  000010******************************************************************
+     2  000020*         ＜海輝軟件(大連)＞                                     *
+     3  000030*      1. プログラム名  : 協調転物件代金売却テーブル             *
+     4  000040*                        （D346KTB_TBL)                          *
+     5  000050*      2. プログラムID  : COBIS420                               *
+     6  000060*      3. 処理概要      : ・債務DB.債務基本、債務DB.債務明細は   *
+     7  000070*                          、債権契約ＮＯ・再リースコード        *
+     8  000080*                            をKEYとし、JOINで指                 *
+     9  000090*                           請求DB.請求明細情報の検索条件は      *
+    10  000100*                           移行項目対比表の移行元説明欄を参照   *
+    11  000110*      4. 作成者        : 王宏傑                                 *
+    12  000120*      5. 作成日        : 2005.04.6                              *
+    13  000130******************************************************************
+    14  000140*                                                                 
+    15  000150******************************************************************
+    16  000160*    ＩＤＥＮＴＩＦＩＣＡＴＩＯＮ  ＤＩＶＩＳＩＯＮ              *
+    17  000170******************************************************************
+    18  000180 IDENTIFICATION                       DIVISION.                   
+    19  000190*                                                                 
+    20  000200 PROGRAM-ID.                          COBIS420.                   
+    21  000210******************************************************************
+    22  000220*    ＥＮＶＩＲＯＮＭＥＮＴ        ＤＩＶＩＳＩＯＮ              *
+    23  000230******************************************************************
+    24  000240 ENVIRONMENT                          DIVISION.                   
+    25  000250******************************************************************
+    26  000260*    ＩＮＰＵＴ－ＯＵＴＰＵＴ      ＳＥＣＴＩＯＮ                *
+    27  000270******************************************************************
+    28  000280 INPUT-OUTPUT                         SECTION.                    
+    29  000290 FILE-CONTROL.                                                    
+    30  000300     SELECT         入力ファイル      ASSIGN    TO      U01       
+    31  000310     FILE      STATUS     IS          Ｗ－状態                    
+    32  000320     ORGANIZATION         IS          LINE      SEQUENTIAL.       
+    33  000330*                                                                 
+    34  000340     SELECT         出力ファイル      ASSIGN    TO     U11        
+    35  000350     FILE      STATUS     IS          Ｗ－状態                    
+    36  000360     ORGANIZATION         IS          LINE      SEQUENTIAL.       
+    37  000370******************************************************************
+    38  000380*    ＤＡＴＡ                      ＤＩＶＩＳＩＯＮ              *
+    39  000390******************************************************************
+    40  000400 DATA                                 DIVISION.                   
+    41  000410******************************************************************
+    42  000420*    ＦＩＬＥ                      ＳＥＣＴＩＯＮ                *
+    43  000430******************************************************************
+    44  000440 FILE                                 SECTION.                    
+    45  000450*----------------------------------------------------------------*
+    46  000460*    入力ファイル 基準適用日ファイル                             *
+    47  000470*----------------------------------------------------------------*
+    48  000480 FD  入力ファイル                                                 
+    49  000490     LABEL  RECORD    IS              STANDARD                    
+    50  000500     BLOCK  CONTAINS  0               RECORDS.                    
+    51  000510*                                                                 
+    52  000520 01  入力－レコード.                                              
+    53  000530     COPY   CISPF001   REPLACING      ==()==  BY  ==入力－==.     
+    54  000540*----------------------------------------------------------------*
+    55  000550*    出力ファイル  協調転物件代金売却ファイル                     
+    56  000560*----------------------------------------------------------------*
+    57  000570 FD  出力ファイル                                                 
+    58  000580     LABEL     RECORD     IS          STANDARD                    
+    59  000590     BLOCK     CONTAINS   0           RECORDS.                    
+    60  000600*                                                                 
+    61  000610 01  出力－レコード.                                              
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    62  000620     COPY  CISUF421    REPLACING      ==()==  BY  ==出力－==.     
+    63  000630******************************************************************
+    64  000640*    ＷＯＲＫＩＮＧ－ＳＴＯＲＡＧＥ  ＳＥＣＴＩＯＮ              *
+    65  000650******************************************************************
+    66  000660 WORKING-STORAGE                      SECTION.                    
+    67  000670*----------------------------------------------------------------*
+    68  000680*    ホスト変数定義エリア                                        *
+    69  000690*----------------------------------------------------------------*
+    70  000700     EXEC  SQL  BEGIN  DECLARE        SECTION  END-EXEC.          
+    71  000710 01 ＷＳ－債務協調コード１            PIC  X(01) VALUE "1".       
+    72  000720 01 ＷＳ－債務協調コード２            PIC  X(02) VALUE "46".      
+    73  000730 01 ＷＳ－債務協調コード３            PIC  X(02) VALUE "56".      
+    74  000740 01 ＷＳ－債務契約ＮＯ                PIC  X(10).                 
+    75  000750 01 ＷＳ－連番                        PIC  9(03) VALUE 0.         
+    76  000760 01 ＷＳ－物件代金回収日－年          PIC  9(04).                 
+    77  000770 01 ＷＳ－物件代金回収日－月          PIC  9(02).                 
+    78  000780 01 ＷＳ－物件代金回収日－日          PIC  9(02).                 
+    79  000790 01 ＷＳ－物件代金回収日－年月        PIC  9(06).                 
+    80  000800 01 ＷＳ－物件代金回収日              PIC  9(08).                 
+    81  000810 01 ＷＳ－リース開始日－年            PIC  9(04).                 
+    82  000820 01 ＷＳ－リース開始日－月            PIC  9(02).                 
+    83  000830 01 ＷＳ－月数                        PIC  S9(02).                
+    84  000840 01 ＷＳ－基準日－年月                PIC  9(06).                 
+    85  000850*--< 回収方式コード >                                             
+    86  000860 01 ＷＳ－振込                        PIC  9(01) VALUE 0.         
+    87  000870 01 ＷＳ－回収方法振込                PIC  X(01) VALUE "1".       
+    88  000880 01 ＷＳ－手形                        PIC  9(01) VALUE 2.         
+    89  000890 01 ＷＳ－約束手形                    PIC  X(01) VALUE "5".       
+    90  000900 01 ＷＳ－自動引落                    PIC  9(01) VALUE 3.         
+    91  000910 01 ＷＳ－回収方法自動引落            PIC  X(01) VALUE "3".       
+    92  000920 01 ＷＳ－ＭＦＳ代理回収              PIC  9(01) VALUE 4.         
+    93  000930 01 ＷＳ－代理回収                    PIC  X(01) VALUE "4".       
+    94  000940*--< 契約種類(No.3)の上1桁  >                                     
+    95  000950 01 ＷＳ－契約種類                    PIC  X(01) VALUE "6".       
+    96  000960 01 ＷＳ－契約種類１桁                PIC  X(01).                 
+    97  000970*--< 請求書発行済フラグ >                                         
+    98  000980 01 ＷＳ－基準日                      PIC  9(8).                  
+    99  000990 01 ＷＳ－請求データ作成日－年月日    PIC  9(8).                  
+   100  001000*--< 元回収予定日１  >                                            
+   101  001010 01 ＷＳ－元回収予定日１世紀          PIC  X(02).                 
+   102  001020 01 ＷＳ－出力請求内訳コード          PIC  X(03).                 
+   103  001021*                                                                 
+   104  001030*--< ＯＲＡＣＬＥ共通変数 >                                       
+   105  001040     EXEC  SQL  INCLUDE  SQLCOM.CBL            END-EXEC.          
+   106  001050*                        M40MAB.CBL                               
+   107  001060*--< ＯＲＡＣＬＥ  ＳＱＬ実行情報 >                               
+ファイル: Z:\COB97\COPYLIB_DB\SQLCOM.CBLをオープン
+     1  000010*--＜ＳＱＬ共通変数＞
+     2  000030   01  SQLSTATE                      PIC  X(005).
+     3  000040   01  DB-STRING                     PIC  X(020).
+     4  000050   01  USERNAME                      PIC  X(010).
+     5  000060   01  PASSWD                        PIC  X(010).
+     6  000070*
+ファイル: Z:\COB97\COPYLIB_DB\SQLCOM.CBLをクローズ
+   108  001070     EXEC  SQL  INCLUDE  SQLCA.COB             END-EXEC.          
+   109  001080*                                                                 
+   110  001090*--< 債務基本 テーブル >                                          
+   111  001100     EXEC  SQL   INCLUDE  LTRSMK.CBL            END-EXEC.         
+   112  001110*                                                                 
+   113  001120*--< 債務明細 テーブル >                                          
+ファイル: Z:\COB97\COPYLIB_DB\LTRSMK.CBLをオープン
+     1  000010************************************************
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+     2  000020* 債務（債務基本）(LTRSMK)
+     3  000030************************************************
+     4  000040 01  ＬＴＲＳＭＫ－債務契約ＮＯ PIC  X(010).
+     5  000050 01  ＬＴＲＳＭＫ－再リースコード PIC S9(001) COMP-3.
+     6  000060 01  ＬＴＲＳＭＫ－事業所コード PIC S9(004) COMP-3.
+     7  000070 01  ＬＴＲＳＭＫ－担当者コード PIC S9(004) COMP-3.
+     8  000080 01  ＬＴＲＳＭＫ－契約情報－回収物件金額１ PIC S9(013) COMP-3.
+     9  000090 01  ＬＴＲＳＭＫ－契約情報－契約金額１ PIC S9(013) COMP-3.
+    10  000100 01  ＬＴＲＳＭＫ－契約情報－回収物件金額２ PIC S9(013) COMP-3.
+    11  000110 01  ＬＴＲＳＭＫ－契約情報－契約金額２ PIC S9(013) COMP-3.
+    12  000120 01  ＬＴＲＳＭＫ－契約情報－回収物件金額３ PIC S9(013) COMP-3.
+    13  000130 01  ＬＴＲＳＭＫ－契約情報－契約金額３ PIC S9(013) COMP-3.
+    14  000140 01  ＬＴＲＳＭＫ－契約情報－回収物件金額４ PIC S9(013) COMP-3.
+    15  000150 01  ＬＴＲＳＭＫ－契約情報－契約金額４ PIC S9(013) COMP-3.
+    16  000160 01  ＬＴＲＳＭＫ－契約情報－回収物件金額５ PIC S9(013) COMP-3.
+    17  000170 01  ＬＴＲＳＭＫ－契約情報－契約金額５ PIC S9(013) COMP-3.
+    18  000180 01  ＬＴＲＳＭＫ－契約情報－回収物件金額６ PIC S9(013) COMP-3.
+    19  000190 01  ＬＴＲＳＭＫ－契約情報－契約金額６ PIC S9(013) COMP-3.
+    20  000200 01  ＬＴＲＳＭＫ－契約情報－回収物件金額７ PIC S9(013) COMP-3.
+    21  000210 01  ＬＴＲＳＭＫ－契約情報－契約金額７ PIC S9(013) COMP-3.
+    22  000220 01  ＬＴＲＳＭＫ－契約情報－回収物件金額８ PIC S9(013) COMP-3.
+    23  000230 01  ＬＴＲＳＭＫ－契約情報－契約金額８ PIC S9(013) COMP-3.
+    24  000240 01  ＬＴＲＳＭＫ－契約情報－回収物件金額９ PIC S9(013) COMP-3.
+    25  000250 01  ＬＴＲＳＭＫ－契約情報－契約金額９ PIC S9(013) COMP-3.
+    26  000260 01  ＬＴＲＳＭＫ－契約情報－回収物件金額１０ PIC S9(013) COMP-3.
+    27  000270 01  ＬＴＲＳＭＫ－契約情報－契約金額１０ PIC S9(013) COMP-3.
+    28  000280 01  ＬＴＲＳＭＫ－債務勘定処理コード PIC S9(002) COMP-3.
+    29  000290 01  ＬＴＲＳＭＫ－全部解約日－世紀 PIC S9(001) COMP-3.
+    30  000300 01  ＬＴＲＳＭＫ－全部解約日－年月日 PIC  X(006).
+    31  000310 01  ＬＴＲＳＭＫ－全部解約年月－世紀 PIC S9(001) COMP-3.
+    32  000320 01  ＬＴＲＳＭＫ－全部解約年月－年月 PIC  X(004).
+    33  000330 01  ＬＴＲＳＭＫ－旧債務契約ＮＯ PIC  X(010).
+    34  000340 01  ＬＴＲＳＭＫ－新債務契約ＮＯ PIC  X(010).
+    35  000350 01  ＬＴＲＳＭＫ－レコードシーケンス１ PIC S9(001) COMP-3.
+    36  000360 01  ＬＴＲＳＭＫ－レコードシーケンス２ PIC S9(001) COMP-3.
+    37  000370 01  ＬＴＲＳＭＫ－レコードシーケンス３ PIC S9(001) COMP-3.
+    38  000380 01  ＬＴＲＳＭＫ－レコードシーケンス４ PIC S9(001) COMP-3.
+    39  000390 01  ＬＴＲＳＭＫ－レコードシーケンス５ PIC S9(001) COMP-3.
+    40  000400 01  ＬＴＲＳＭＫ－レコードシーケンス６ PIC S9(001) COMP-3.
+    41  000410 01  ＬＴＲＳＭＫ－レコードシーケンス７ PIC S9(001) COMP-3.
+    42  000420 01  ＬＴＲＳＭＫ－レコードシーケンス８ PIC S9(001) COMP-3.
+    43  000430 01  ＬＴＲＳＭＫ－レコードシーケンス９ PIC S9(001) COMP-3.
+    44  000440 01  ＬＴＲＳＭＫ－レコードシーケンス１０ PIC S9(001) COMP-3.
+    45  000450 01  ＬＴＲＳＭＫ－ダミー００１ PIC  X(022).
+    46  000460 01  ＬＴＲＳＭＫ－共通情報 PIC  X(035).
+ファイル: Z:\COB97\COPYLIB_DB\LTRSMK.CBLをクローズ
+   114  001130     EXEC  SQL  INCLUDE  LTRSMM.CBL            END-EXEC.          
+   115  001140*                                                                 
+   116  001150*--< 請求明細情報 テーブル >                                      
+ファイル: Z:\COB97\COPYLIB_DB\LTRSMM.CBLをオープン
+     1  000010************************************************
+     2  000020* 債務（債務明細）(LTRSMM)
+     3  000030************************************************
+     4  000040 01  ＬＴＲＳＭＭ－債務契約ＮＯ PIC  X(010).
+     5  000050 01  ＬＴＲＳＭＭ－再リースコード PIC S9(001) COMP-3.
+     6  000060 01  ＬＴＲＳＭＭ－契約明細ＮＯ PIC S9(002) COMP-3.
+     7  000070 01  ＬＴＲＳＭＭ－レコードシーケンス PIC S9(001) COMP-3.
+     8  000080 01  ＬＴＲＳＭＭ－債務取引コード PIC  X(008).
+     9  000090 01  ＬＴＲＳＭＭ－債務協調コード PIC  X(002).
+    10  000100 01  ＬＴＲＳＭＭ－ＲＥＦ番号 PIC  X(016).
+    11  000110 01  ＬＴＲＳＭＭ－契約日－世紀 PIC S9(001) COMP-3.
+    12  000120 01  ＬＴＲＳＭＭ－契約日－年月日 PIC  X(006).
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    13  000130 01  ＬＴＲＳＭＭ－検収日－世紀 PIC S9(001) COMP-3.
+    14  000140 01  ＬＴＲＳＭＭ－検収日－年月日 PIC  X(006).
+    15  000150 01  ＬＴＲＳＭＭ－部分解約日－世紀 PIC S9(001) COMP-3.
+    16  000160 01  ＬＴＲＳＭＭ－部分解約日－年月日 PIC  X(006).
+    17  000170 01  ＬＴＲＳＭＭ－内容変更日－世紀 PIC S9(001) COMP-3.
+    18  000180 01  ＬＴＲＳＭＭ－内容変更日－年月日 PIC  X(006).
+    19  000190 01  ＬＴＲＳＭＭ－部分解約年月度－世紀 PIC S9(001) COMP-3.
+    20  000200 01  ＬＴＲＳＭＭ－部分解約年月度－年月 PIC  X(004).
+    21  000210 01  ＬＴＲＳＭＭ－ダミー００１ PIC  X(010).
+    22  000220 01  ＬＴＲＳＭＭ－回収物件金額 PIC S9(013) COMP-3.
+    23  000230 01  ＬＴＲＳＭＭ－売上消費税 PIC S9(013) COMP-3.
+    24  000240 01  ＬＴＲＳＭＭ－物件代金回収日－世紀 PIC S9(001) COMP-3.
+    25  000250 01  ＬＴＲＳＭＭ－物件代金回収日－年月日 PIC  X(006).
+    26  000260 01  ＬＴＲＳＭＭ－回収方式コード PIC S9(001) COMP-3.
+    27  000270 01  ＬＴＲＳＭＭ－売上消費税相殺区分 PIC S9(001) COMP-3.
+    28  000280 01  ＬＴＲＳＭＭ－請求データ作成日－世紀 PIC S9(001) COMP-3.
+    29  000290 01  ＬＴＲＳＭＭ－請求データ作成日－年月日 PIC  X(006).
+    30  000300 01  ＬＴＲＳＭＭ－ダミー００２ PIC  X(010).
+    31  000310 01  ＬＴＲＳＭＭ－リース開始日－世紀 PIC S9(001) COMP-3.
+    32  000320 01  ＬＴＲＳＭＭ－リース開始日－年月日 PIC  X(006).
+    33  000330 01  ＬＴＲＳＭＭ－リース終了日－世紀 PIC S9(001) COMP-3.
+    34  000340 01  ＬＴＲＳＭＭ－リース終了日－年月日 PIC  X(006).
+    35  000350 01  ＬＴＲＳＭＭ－リース期間 PIC S9(003) COMP-3.
+    36  000360 01  ＬＴＲＳＭＭ－ファイナンス開始日－世紀 PIC S9(001) COMP-3.
+    37  000370 01  ＬＴＲＳＭＭ－ファイナンス開始日－年月日 PIC  X(006).
+    38  000380 01  ＬＴＲＳＭＭ－ファイナンス－世紀 PIC S9(001) COMP-3.
+    39  000390 01  ＬＴＲＳＭＭ－ファイナンス－年月日 PIC  X(006).
+    40  000400 01  ＬＴＲＳＭＭ－ファイナンス期間 PIC S9(003) COMP-3.
+    41  000410 01  ＬＴＲＳＭＭ－債務勘定処理コード PIC S9(002) COMP-3.
+    42  000420 01  ＬＴＲＳＭＭ－リース料 PIC S9(013) COMP-3.
+    43  000430 01  ＬＴＲＳＭＭ－支払サイクル PIC S9(002) COMP-3.
+    44  000440 01  ＬＴＲＳＭＭ－支払回数 PIC S9(003) COMP-3.
+    45  000450 01  ＬＴＲＳＭＭ－毎月支払日 PIC S9(002) COMP-3.
+    46  000460 01  ＬＴＲＳＭＭ－計算方式 PIC S9(001) COMP-3.
+    47  000470 01  ＬＴＲＳＭＭ－据置期間 PIC S9(003) COMP-3.
+    48  000480 01  ＬＴＲＳＭＭ－ＢＥＧＩＮ回数 PIC S9(001) COMP-3.
+    49  000490 01  ＬＴＲＳＭＭ－第１回リース料約定支払日世紀 
+    50  000491                                              PIC S9(001) COMP-3.
+    51  000500 01  ＬＴＲＳＭＭ－第１回リース料約定支払日年月日 PIC  X(006).
+    52  000510 01  ＬＴＲＳＭＭ－第１回リース料支払日－世紀 PIC S9(001) COMP-3.
+    53  000520 01  ＬＴＲＳＭＭ－第１回リース料支払日－年月日 PIC  X(006).
+    54  000530 01  ＬＴＲＳＭＭ－前払リース料支払日－世紀 PIC S9(001) COMP-3.
+    55  000540 01  ＬＴＲＳＭＭ－前払リース料支払日－年月日 PIC  X(006).
+    56  000550 01  ＬＴＲＳＭＭ－前払リース料 PIC S9(013) COMP-3.
+    57  000560 01  ＬＴＲＳＭＭ－前払リース料消費税 PIC S9(013) COMP-3.
+    58  000570 01  ＬＴＲＳＭＭ－前払リース料実支払額 PIC S9(013) COMP-3.
+    59  000580 01  ＬＴＲＳＭＭ－前払リース料諸費用 PIC S9(013) COMP-3.
+    60  000590 01  ＬＴＲＳＭＭ－前払リース料充当開始年月世紀 
+    61  000591                                              PIC S9(001) COMP-3.
+    62  000600 01  ＬＴＲＳＭＭ－前払リース料充当開始年月年月日 PIC  X(004).
+    63  000610 01  ＬＴＲＳＭＭ－前払リース料充当終了年月世紀  
+    64  000611                                              PIC S9(001) COMP-3.
+    65  000620 01  ＬＴＲＳＭＭ－前払リース料充当終了年月年月日 PIC  X(004).
+    66  000630 01  ＬＴＲＳＭＭ－前払充当月数 PIC S9(003) COMP-3.
+    67  000640 01  ＬＴＲＳＭＭ－利回り基本 PIC S9(002)V9(9) COMP-3.
+    68  000650 01  ＬＴＲＳＭＭ－利回り実質 PIC S9(002)V9(9) COMP-3.
+    69  000660 01  ＬＴＲＳＭＭ－総支払金額 PIC S9(013) COMP-3.
+    70  000670 01  ＬＴＲＳＭＭ－利息合計 PIC S9(013) COMP-3.
+    71  000680 01  ＬＴＲＳＭＭ－粗利益 PIC S9(013) COMP-3.
+    72  000690 01  ＬＴＲＳＭＭ－消費税総額 PIC S9(013) COMP-3.
+    73  000700 01  ＬＴＲＳＭＭ－消費税支払区分 PIC S9(001) COMP-3.
+    74  000710 01  ＬＴＲＳＭＭ－消費税税率 PIC S9(002)V9(1) COMP-3.
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    75  000720 01  ＬＴＲＳＭＭ－消費税コード PIC S9(002) COMP-3.
+    76  000730 01  ＬＴＲＳＭＭ－諸費用固定資産税 PIC S9(013) COMP-3.
+    77  000740 01  ＬＴＲＳＭＭ－諸費用保険料 PIC S9(013) COMP-3.
+    78  000750 01  ＬＴＲＳＭＭ－諸費用保守料 PIC S9(013) COMP-3.
+    79  000760 01  ＬＴＲＳＭＭ－諸費用そのた１ PIC S9(013) COMP-3.
+    80  000770 01  ＬＴＲＳＭＭ－諸費用そのた２ PIC S9(013) COMP-3.
+    81  000780 01  ＬＴＲＳＭＭ－諸費用区分 PIC S9(001) COMP-3.
+    82  000790 01  ＬＴＲＳＭＭ－支払先コード PIC  X(004).
+    83  000800 01  ＬＴＲＳＭＭ－銀行コード PIC  X(007).
+    84  000810 01  ＬＴＲＳＭＭ－口座番号 PIC  X(007).
+    85  000820 01  ＬＴＲＳＭＭ－預金種類 PIC  X(001).
+    86  000830 01  ＬＴＲＳＭＭ－支払確定日－世紀 PIC S9(001) COMP-3.
+    87  000840 01  ＬＴＲＳＭＭ－支払確定日－年月日 PIC  X(006).
+    88  000850 01  ＬＴＲＳＭＭ－支払確定年月度－世紀 PIC S9(001) COMP-3.
+    89  000860 01  ＬＴＲＳＭＭ－支払確定年月度－年月 PIC  X(004).
+    90  000870 01  ＬＴＲＳＭＭ－担当者コード PIC  X(004).
+    91  000880 01  ＬＴＲＳＭＭ－支払承認情報サブシステム区分 PIC  X(001).
+    92  000890 01  ＬＴＲＳＭＭ－支払承認情報シーケンス PIC S9(005) COMP-3.
+    93  000900 01  ＬＴＲＳＭＭ－支払承認情報支払承認日－世紀 
+    94  000901                                              PIC S9(001) COMP-3.
+    95  000910 01  ＬＴＲＳＭＭ－支払承認情報支払承認日－年月日 PIC  X(006).
+    96  000920 01  ＬＴＲＳＭＭ－支払承認情報担当者コード PIC S9(004) COMP-3.
+    97  000930 01  ＬＴＲＳＭＭ－残価支払承認サブシステム区分 PIC  X(001).
+    98  000940 01  ＬＴＲＳＭＭ－残価支払承認シーケンス PIC S9(005) COMP-3.
+    99  000950 01  ＬＴＲＳＭＭ－残価支払承認支払承認日－世紀 
+   100  000951                                              PIC S9(001) COMP-3.
+   101  000960 01  ＬＴＲＳＭＭ－残価支払承認支払承認日－年月日 PIC  X(006).
+   102  000970 01  ＬＴＲＳＭＭ－残価支払承認担当者コード PIC S9(004) COMP-3.
+   103  000980 01  ＬＴＲＳＭＭ－前月末債務残高 PIC S9(013) COMP-3.
+   104  000990 01  ＬＴＲＳＭＭ－前月末元本残高 PIC S9(013) COMP-3.
+   105  001000 01  ＬＴＲＳＭＭ－前期末消費税残高 PIC S9(013) COMP-3.
+   106  001010 01  ＬＴＲＳＭＭ－残価額 PIC S9(013) COMP-3.
+   107  001020 01  ＬＴＲＳＭＭ－残価支払日－世紀 PIC S9(001) COMP-3.
+   108  001030 01  ＬＴＲＳＭＭ－残価支払日－年月日 PIC  X(006).
+   109  001040 01  ＬＴＲＳＭＭ－ダミー００３ PIC  X(024).
+   110  001050 01  ＬＴＲＳＭＭ－初回情報実リース料 PIC S9(013) COMP-3.
+   111  001060 01  ＬＴＲＳＭＭ－初回情報ＮＥＴリース料 PIC S9(013) COMP-3.
+   112  001070 01  ＬＴＲＳＭＭ－初回情報利息 PIC S9(013) COMP-3.
+   113  001080 01  ＬＴＲＳＭＭ－初回情報元本支払額 PIC S9(013) COMP-3.
+   114  001090 01  ＬＴＲＳＭＭ－初回情報元本残高 PIC S9(013) COMP-3.
+   115  001100 01  ＬＴＲＳＭＭ－初回情報債務残高 PIC S9(013) COMP-3.
+   116  001110 01  ＬＴＲＳＭＭ－初回情報消費税額 PIC S9(013) COMP-3.
+   117  001120 01  ＬＴＲＳＭＭ－初回情報消費税残高 PIC S9(013) COMP-3.
+   118  001130 01  ＬＴＲＳＭＭ－初回情報諸費用 PIC S9(013) COMP-3.
+   119  001140 01  ＬＴＲＳＭＭ－初回情報実支払額 PIC S9(013) COMP-3.
+   120  001150 01  ＬＴＲＳＭＭ－初回情報消費税率 PIC S9(002)V9(1) COMP-3.
+   121  001160 01  ＬＴＲＳＭＭ－初回情報ダミー PIC  X(014).
+   122  001170 01  ＬＴＲＳＭＭ－支払データ作成日－世紀 PIC S9(001) COMP-3.
+   123  001180 01  ＬＴＲＳＭＭ－支払データ作成日－年月日 PIC  X(006).
+   124  001190 01  ＬＴＲＳＭＭ－請求データ作成日－世紀２ PIC S9(001) COMP-3.
+   125  001200 01  ＬＴＲＳＭＭ－請求データ作成日－年月日２ PIC  X(006).
+   126  001210 01  ＬＴＲＳＭＭ－仕訳データ作成日－世紀 PIC S9(001) COMP-3.
+   127  001220 01  ＬＴＲＳＭＭ－仕訳データ作成日－年月日 PIC  X(006).
+   128  001230 01  ＬＴＲＳＭＭ－ダミー００４ PIC  X(018).
+   129  001240 01  ＬＴＲＳＭＭ－共通情報 PIC  X(035).
+ファイル: Z:\COB97\COPYLIB_DB\LTRSMM.CBLをクローズ
+   117  001160     EXEC  SQL  INCLUDE  LTRSKM.CBL            END-EXEC.          
+   118  001170*                                                                 
+   119  001180*--< 変換テーブル >                                               
+ファイル: Z:\COB97\COPYLIB_DB\LTRSKM.CBLをオープン
+     1  000010************************************************
+     2  000020* 請求（請求明細情報）(LTRSKM)
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+     3  000030************************************************
+     4  000040 01  ＬＴＲＳＫＭ－ＫＥＹ項目請求先コード PIC  X(008).
+     5  000050 01  ＬＴＲＳＫＭ－契約番号 PIC  X(009).
+     6  000060 01  ＬＴＲＳＫＭ－再リースコード PIC S9(001) COMP-3.
+     7  000070 01  ＬＴＲＳＫＭ－入金予定日 PIC  X(007).
+     8  000080 01  ＬＴＲＳＫＭ－請求内訳コード PIC  X(003).
+     9  000090 01  ＬＴＲＳＫＭ－総支払回数 PIC S9(003) COMP-3.
+    10  000100 01  ＬＴＲＳＫＭ－充当回数 PIC S9(003) COMP-3.
+    11  000110 01  ＬＴＲＳＫＭ－回収方式 PIC S9(001) COMP-3.
+    12  000120 01  ＬＴＲＳＫＭ－長短区分 PIC S9(001) COMP-3.
+    13  000130 01  ＬＴＲＳＫＭ－事業所コード PIC S9(004) COMP-3.
+    14  000140 01  ＬＴＲＳＫＭ－請求発行日－世紀 PIC S9(001) COMP-3.
+    15  000150 01  ＬＴＲＳＫＭ－請求発行日－年月日 PIC  X(006).
+    16  000160 01  ＬＴＲＳＫＭ－勘定処理コード PIC S9(002) COMP-3.
+    17  000170 01  ＬＴＲＳＫＭ－消込通番 PIC S9(009) COMP-3.
+    18  000180 01  ＬＴＲＳＫＭ－消込日－世紀 PIC S9(001) COMP-3.
+    19  000190 01  ＬＴＲＳＫＭ－消込日－年月日 PIC  X(006).
+    20  000200 01  ＬＴＲＳＫＭ－消費税－徴収区分 PIC S9(001) COMP-3.
+    21  000210 01  ＬＴＲＳＫＭ－消費税－金額 PIC S9(013) COMP-3.
+    22  000220 01  ＬＴＲＳＫＭ－消費税－消費税コード PIC S9(002) COMP-3.
+    23  000230 01  ＬＴＲＳＫＭ－リース料等 PIC S9(013) COMP-3.
+    24  000240 01  ＬＴＲＳＫＭ－請求金額 PIC S9(013) COMP-3.
+    25  000250 01  ＬＴＲＳＫＭ－消込金額 PIC S9(013) COMP-3.
+    26  000260 01  ＬＴＲＳＫＭ－内部入金区分 PIC S9(001) COMP-3.
+    27  000270 01  ＬＴＲＳＫＭ－銀行ＣＤ PIC S9(007) COMP-3.
+    28  000280 01  ＬＴＲＳＫＭ－旧請求内訳コード PIC  X(003).
+    29  000290 01  ＬＴＲＳＫＭ－ユーザコード PIC  X(008).
+    30  000300 01  ＬＴＲＳＫＭ－債協コード PIC  X(002).
+    31  000310 01  ＬＴＲＳＫＭ－突合済フラグ PIC  X(001).
+    32  000320 01  ＬＴＲＳＫＭ－ダミー００１ PIC  X(005).
+    33  000330 01  ＬＴＲＳＫＭ－共通情報 PIC  X(035).
+ファイル: Z:\COB97\COPYLIB_DB\LTRSKM.CBLをクローズ
+   120  001190     EXEC  SQL  INCLUDE  IKOTBL001.CBL         END-EXEC.          
+   121  001200*                                                                 
+   122  001210*--< 契約種類等変換テーブル >                                     
+ファイル: Z:\COB97\COPYLIB_DB\IKOTBL001.CBLをオープン
+     1  000010************************************************
+     2  000020* 変換テーブル(IKOTBL001)
+     3  000030************************************************
+     4  000040 01  ＩＫＯ００１－取引先コード PIC  X(008).
+     5  000050 01  ＩＫＯ００１－目的ＣＤ PIC  X(001).
+     6  000060 01  ＩＫＯ００１－新取引先コード PIC  X(007).
+     7  000070 01  ＩＫＯ００１－枝番 PIC  X(003).
+     8  000080 01  ＩＫＯ００１－与信括りコード PIC  X(007).
+     9  000090 01  ＩＫＯ００１－名寄せコード PIC  X(008).
+    10  000100 01  ＩＫＯ００１－ユーザコード PIC  X(008).
+    11  000110 01  ＩＫＯ００１－識別ＣＤ PIC  X(001).
+ファイル: Z:\COB97\COPYLIB_DB\IKOTBL001.CBLをクローズ
+   123  001220     EXEC  SQL  INCLUDE  IKOTBL002.CBL         END-EXEC.          
+   124  001230*                                                                 
+   125  001240*--< 請求内訳コード変換テーブル >                                 
+ファイル: Z:\COB97\COPYLIB_DB\IKOTBL002.CBLをオープン
+     1  000010************************************************
+     2  000020* 契約種類等変換テーブル(IKOTBL002)
+     3  000030************************************************
+     4  000040 01  ＩＫＯ００２－契約ＮＯ PIC  X(009).
+     5  000050 01  ＩＫＯ００２－再リースコード PIC S9(001) COMP-3.
+     6  000060 01  ＩＫＯ００２－旧債権勘定処理コード PIC S9(002) COMP-3.
+     7  000070 01  ＩＫＯ００２－旧債務勘定処理コード PIC S9(002) COMP-3.
+     8  000080 01  ＩＫＯ００２－再リース回数 PIC S9(002) COMP-3.
+     9  000090 01  ＩＫＯ００２－債権勘定処理コード PIC S9(002) COMP-3.
+    10  000100 01  ＩＫＯ００２－債務勘定処理コード PIC S9(002) COMP-3.
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    11  000110 01  ＩＫＯ００２－契約種類 PIC  X(003).
+    12  000120 01  ＩＫＯ００２－主契約区分 PIC  X(001).
+    13  000130 01  ＩＫＯ００２－回収手順 PIC  X(001).
+ファイル: Z:\COB97\COPYLIB_DB\IKOTBL002.CBLをクローズ
+   126  001250     EXEC  SQL  INCLUDE  IKOTBL005.CBL         END-EXEC.          
+   127  001260*                                                                 
+ファイル: Z:\COB97\COPYLIB_DB\IKOTBL005.CBLをオープン
+     1  000010************************************************
+     2  000020* 請求内訳コード変換テーブル(IKOTBL005)
+     3  000030************************************************
+     4  000040 01  ＩＫＯ００５－現請求内訳コード PIC  X(003).
+     5  000050 01  ＩＫＯ００５－アクセス区分 PIC  X(001).
+     6  000060 01  ＩＫＯ００５－勘定処理コード PIC  X(002).
+     7  000070 01  ＩＫＯ００５－消費税コード PIC  X(002).
+     8  000080 01  ＩＫＯ００５－徴収長短区分 PIC S9(001) COMP-3.
+     9  000090 01  ＩＫＯ００５－手数料請求コード PIC  X(002).
+    10  000100 01  ＩＫＯ００５－再リースコード PIC S9(001) COMP-3.
+    11  000110 01  ＩＫＯ００５－計上区分 PIC S9(001) COMP-3.
+    12  000120 01  ＩＫＯ００５－区分１ PIC S9(001) COMP-3.
+    13  000130 01  ＩＫＯ００５－債協上１桁 PIC  X(001).
+    14  000140 01  ＩＫＯ００５－区分２ PIC  X(001).
+    15  000150 01  ＩＫＯ００５－契約種類上１桁 PIC S9(001) COMP-3.
+    16  000160 01  ＩＫＯ００５－新請求内訳コード PIC  X(003).
+    17  000170 01  ＩＫＯ００５－新請求内訳コード２ PIC  X(003).
+ファイル: Z:\COB97\COPYLIB_DB\IKOTBL005.CBLをクローズ
+   128  001270     EXEC  SQL  END  DECLARE          SECTION  END-EXEC.          
+   129  001280*                                                                 
+   130  001290*----------------------------------------------------------------*
+   131  001300*    ＷＯＲＫエリア                                              *
+   132  001310*----------------------------------------------------------------*
+   133  001320 01  ＷＯＲＫ－エリア.                                            
+   134  001330*--< エラー判定用 >                                               
+   135  001340     03  Ｗ－エラーコード             PIC S9(04).                 
+   136  001350*                                                                 
+   137  001360*--< フラグアリア >                                               
+   138  001370     03  フラグアリア.                                            
+   139  001380         05  Ｗ－終了－フラグ         PIC  X(01).                 
+   140  001390         05  Ｗ－異常終了－フラグ     PIC  X(01).                 
+   141  001400*--< ファイル状態 >                                               
+   142  001410     03  Ｗ－状態エリア.                                          
+   143  001420         05  Ｗ－状態                 PIC  X(02).                 
+   144  001430*                                                                 
+   145  001440*--< 件数エリア >                                                 
+   146  001450     03  件数エリア.                                              
+   147  001460         05  Ｗ－入力－件数           PIC  9(09).                 
+   148  001470         05  Ｗ－入力－件数２         PIC  9(09).                 
+   149  001480         05  Ｗ－入力－更新件数       PIC  9(09).                 
+   150  001490         05  Ｗ－出力－件数           PIC  9(09).                 
+   151  001500*--< キーエリア >                                                 
+   152  001510     03  ＫＥＹ－エリア.                                          
+   153  001520        05  ＮＥＷキー.                                           
+   154  001530            07 Ｎ－契約番号           PIC  X(10).                 
+   155  001540            07 Ｎ－再リース回数       PIC  9(02).                 
+   156  001550            07 Ｎ－契約種類           PIC  X(03).                 
+   157  001560        05  ＯＬＤキー.                                           
+   158  001570            07 Ｏ－契約番号           PIC  X(10).                 
+   159  001580            07 Ｏ－再リース回数       PIC  9(02).                 
+   160  001590            07 Ｏ－契約種類           PIC  X(03).                 
+   161  001600*----------------------------------------------------------------*
+   162  001610*    処理時間定義                                                *
+   163  001620*----------------------------------------------------------------*
+   164  001630*--< 共通情報 >                                                   
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   165  001640 01  Ｗ－共通情報.                                                
+   166  001650     03  Ｗ－システム日付.                                        
+   167  001660         05  Ｗ－世紀                 PIC  X(02) VALUE  "20".     
+   168  001670         05  Ｗ－年月日               PIC  X(06).                 
+   169  001680     03  Ｗ－システム時刻             PIC  X(08).                 
+   170  001690     03  Ｗ－担当者                   PIC  X(08) VALUE "IKOPG   ".
+   171  001700*----------------------------------------------------------------*
+   172  001710*    サブルーチン名                                              *
+   173  001720*----------------------------------------------------------------*
+   174  001730 01  CALL-AREA.                                                   
+   175  001740*--< 共通ログサブルーチン >                                       
+   176  001750     03  CLOCO001                     PIC  X(08) VALUE "CLOCO001".
+   177  001760     03  COBCO001                     PIC  X(08) VALUE "COBCO001".
+   178  001770*                                                                 
+   179  001780*----------------------------------------------------------------*
+   180  001790*    ＣＯＰＹ領域                                                *
+   181  001800*----------------------------------------------------------------*
+   182  001810*--< 共通ログ用パラメータ >                                       
+   183  001820 01  IF-CHOCO001.                                                 
+   184  001830     COPY  CHOCO001  REPLACING ==()== BY  ==共１－==.             
+   185  001840*                                                                 
+   186  001850*----------------------------------------------------------------*
+   187  001860*    ＩＮＩファイル読込サブルーチン用パラメタ領域                *
+   188  001870*----------------------------------------------------------------*
+   189  001880 01  PARA-AREA.                                                   
+   190  001890     COPY CPBCO001.                                               
+   191  001900******************************************************************
+   192  001910*    定数用データ定義エリア                                      *
+   193  001920******************************************************************
+   194  001930 CONSTANT                             SECTION.                    
+   195  001940 01  定数領域.                                                    
+   196  001950     03  定数－プログラムＩＤ         PIC  X(08) VALUE "COBIS420".
+   197  001960     03  定数－プログラム名           PIC  X(80)                  
+   198  001970                               VALUE "協調転物件代金売却移行処理".
+   199  001980     03  定数－ＳＱＬＯＫ             PIC S9(04)  VALUE  ZERO.    
+   200  001990     03  定数－ＳＱＬＥＮＤ           PIC S9(04)  VALUE  0100.    
+   201  002000     03  定数－正常状態               PIC S9(04)  VALUE  ZERO.    
+   202  002010     03  定数－異常状態               PIC S9(04)  VALUE  0009.    
+   203  002020******************************************************************
+   204  002030*    ＰＲＯＣＥＤＵＲＥ            ＤＩＶＩＳＩＯＮ              *
+   205  002040******************************************************************
+   206  002050 PROCEDURE                            DIVISION.                   
+   207  002060*                                                                 
+   208  002070     PERFORM  初期処理.                                           
+   209  002080*                                                                 
+   210  002090     PERFORM  主処理  UNTIL  Ｗ－終了－フラグ  =  "Y".            
+   211  002100*                                                                 
+   212  002110     PERFORM  終了処理.                                           
+   213  002120*                                                                 
+   214  002130     STOP     RUN.                                                
+   215  002140*                                                                 
+   216  002150******************************************************************
+   217  002160*    初期処理                                                    *
+   218  002170******************************************************************
+   219  002180 初期処理                             SECTION.                    
+   220  002190 初期処理－ＳＴＡＲＴ.                                            
+   221  002200*                                                                 
+   222  002210*----------------------------------------------------------------*
+   223  002220*    開始メッセージ出力処理                                      *
+   224  002230*----------------------------------------------------------------*
+   225  002240     INITIALIZE                       IF-CHOCO001.                
+   226  002250     MOVE  "3"                        TO  共１－イベント種別.     
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   227  002260     MOVE  定数－プログラムＩＤ       TO  共１－ソースＩＤ.       
+   228  002270     MOVE  "0"                        TO  共１－復帰コード.       
+   229  002280     MOVE  "START"                    TO  共１－処理識別.         
+   230  002290     MOVE  定数－プログラム名         TO  共１－その他メッセージ. 
+   231  002300     CALL  CLOCO001                USING  IF-CHOCO001.            
+   232  002310*                                                                 
+   233  002320*----------------------------------------------------------------*
+   234  002330*    作業領域の初期値処理                                        *
+   235  002340*----------------------------------------------------------------*
+   236  002350     MOVE  SPACE                      TO  ＷＯＲＫ－エリア.       
+   237  002360     INITIALIZE                           ＷＯＲＫ－エリア.       
+   238  002370*--< ＣＰＵ日付を取得 >                                           
+   239  002380     ACCEPT  Ｗ－年月日               FROM  DATE.                 
+   240  002390*                                                                 
+   241  002400*--< ＣＰＵ時刻を取得 >                                           
+   242  002410     ACCEPT  Ｗ－システム時刻         FROM  TIME.                 
+   243  002420*                                                                 
+   244  002430*--< ＯＲＡＣＬＥ接続 >                                           
+   245  002440     PERFORM   ＯＲＡＣＬＥ接続.                                  
+   246  002450*                                                                 
+   247  002460*--< 結合テーブルカーソル宣言 >                                   
+   248  002470     PERFORM  結合テーブルカーソル定義.                           
+   249  002480*                                                                 
+   250  002490*--< ファイルオープン >                                           
+   251  002500     PERFORM  ファイルオープン.                                   
+   252  002510*                                                                 
+   253  002520*--< 結合テーブルカーソル読込(１件目) >                           
+   254  002530     PERFORM  結合テーブルカーソル読込.                           
+   255  002540*                                                                 
+   256  002550*--< 基準適用日読込処理(１件目) >                                 
+   257  002560     PERFORM   基準適用日読込処理.                                
+   258  002570 初期処理－ＥＸＩＴ.                                              
+   259  002580     EXIT.                                                        
+   260  002590******************************************************************
+   261  002600*    ＯＲＡＣＬＥ接続                                            *
+   262  002610******************************************************************
+   263  002620 ＯＲＡＣＬＥ接続                     SECTION.                    
+   264  002630 ＯＲＡＣＬＥ接続－ＳＴＡＲＴ.                                    
+   265  002640*                                                                 
+   266  002650*--< ＤＢ接続用情報を取得処理 >                                   
+   267  002660     CALL  COBCO001                USING  PARA-AREA.              
+   268  002670*                                                                 
+   269  002680     MOVE  PARA-DBSTRING              TO  DB-STRING.              
+   270  002690     MOVE  PARA-USERNAME              TO  USERNAME.               
+   271  002700     MOVE  PARA-PASSWORD              TO  PASSWD.                 
+   272  002710*                                                                 
+   273  002720*----------------------------------------------------------------*
+   274  002730*    開始接続                                                    *
+   275  002740*----------------------------------------------------------------*
+   276  002750     IF    DB-STRING  =  SPACE                                    
+   277  002760        EXEC SQL                                                  
+   278  002770           CONNECT  :USERNAME IDENTIFIED BY :PASSWD               
+   279  002780        END-EXEC                                                  
+   280  002790     ELSE                                                         
+   281  002800        EXEC SQL                                                  
+   282  002810           CONNECT  :USERNAME IDENTIFIED BY :PASSWD               
+   283  002820             USING  :DB-STRING                                    
+   284  002830        END-EXEC                                                  
+   285  002840     END-IF.                                                      
+   286  002850*                                                                 
+   287  002860*----------------------------------------------------------------*
+   288  002870*    接続確認                                                    *
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   289  002880*----------------------------------------------------------------*
+   290  002890     EVALUATE  SQLCODE                                            
+   291  002900        WHEN   定数－ＳＱＬＯＫ                                   
+   292  002910           CONTINUE                                               
+   293  002920        WHEN   OTHER                                              
+   294  002930*--< 接続エラー >                                                 
+   295  002940           MOVE     -10               TO  Ｗ－エラーコード        
+   296  002950           PERFORM  エラー判定処理                                
+   297  002960     END-EVALUATE.                                                
+   298  002970*                                                                 
+   299  002980 ＯＲＡＣＬＥ接続－ＥＸＩＴ.                                      
+   300  002990     EXIT.                                                        
+   301  003000******************************************************************
+   302  003010 結合テーブルカーソル定義             SECTION.                    
+   303  003020 結合テーブルカーソル定義－ＳＴＡＲＴ.                            
+   304  003030*                                                                 
+   305  003040*----------------------------------------------------------------*
+   306  003050*    カーソル定義処理                                            *
+   307  003060*----------------------------------------------------------------*
+   308  003070     EXEC SQL                                                     
+   309  003080        DECLARE CUR1  CURSOR FOR                                  
+   310  003090           SELECT  LTRSMK.債務契約ＮＯ                            
+   311  003100                  ,LTRSMK.再リースコード                          
+   312  003110                  ,LTRSMK.債務勘定処理コード                      
+   313  003120                  ,LTRSMM.債務取引コード                          
+   314  003130                  ,LTRSMM.物件代金回収日＿世紀                    
+   315  003140                  ,LTRSMM.物件代金回収日＿年月日                  
+   316  003150                  ,LTRSMM.リース開始日＿世紀                      
+   317  003160                  ,LTRSMM.リース開始日＿年月日                    
+   318  003170                  ,LTRSMM.回収物件金額                            
+   319  003180                  ,LTRSMM.売上消費税                              
+   320  003190                  ,LTRSMM.債務契約ＮＯ                            
+   321  003200                  ,LTRSMM.請求データ作成日＿世紀                  
+   322  003210                  ,LTRSMM.請求データ作成日＿年月日                
+   323  003220                  ,LTRSMM.回収方式コード                          
+   324  003230                  ,LTRSMM.再リースコード                          
+   325  003240                  ,LTRSMM.債務勘定処理コード                      
+   326  003250                  ,LTRSMM.債務協調コード                          
+   327  003260                  ,LTRSMM.売上消費税                              
+   328  003270                  ,LTRSMM.契約明細ＮＯ                            
+   329  003280                  ,LTRSMM.レコードシーケンス                      
+   330  003290           FROM  LTRSMK                                           
+   331  003300                ,LTRSMM                                           
+   332  003310           WHERE LTRSMM.債務契約ＮＯ   = LTRSMK.債務契約ＮＯ      
+   333  003320           AND   LTRSMM.再リースコード = LTRSMK.再リースコード    
+   334  003330           AND   ( SUBSTR (LTRSMM.債務協調コード,1,1) =           
+   335  003340                                           :ＷＳ－債務協調コード１
+   336  003350                   OR LTRSMM.債務協調コード =                     
+   337  003360                                           :ＷＳ－債務協調コード２
+   338  003370                   OR LTRSMM.債務協調コード =                     
+   339  003380                                           :ＷＳ－債務協調コード３
+   340  003390                  )                                               
+   341  003400           AND   LTRSMM.回収物件金額 <> 0                         
+   342  003410     END-EXEC.                                                    
+   343  003420*----------------------------------------------------------------*
+   344  003430*    カーソルＯＰＥＮ処理                                        *
+   345  003440*----------------------------------------------------------------*
+   346  003450     EXEC  SQL                                                    
+   347  003460        OPEN  CUR1                                                
+   348  003470     END-EXEC.                                                    
+   349  003480*                                                                 
+   350  003490*----------------------------------------------------------------*
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   351  003500*    カーソルＯＰＥＮ確認                                        *
+   352  003510*----------------------------------------------------------------*
+   353  003520     EVALUATE  SQLCODE                                            
+   354  003530        WHEN  定数－ＳＱＬＯＫ                                    
+   355  003540*--< 正常 >                                                       
+   356  003550           CONTINUE                                               
+   357  003560        WHEN  OTHER                                               
+   358  003570*--< カーソルＯＰＥＮエラー >                                     
+   359  003580           MOVE -20                   TO  Ｗ－エラーコード        
+   360  003590           PERFORM  エラー判定処理                                
+   361  003600     END-EVALUATE.                                                
+   362  003610*                                                                 
+   363  003620 結合テーブルカーソル定義－ＥＸＩＴ.                              
+   364  003630     EXIT.                                                        
+   365  003640*                                                                 
+   366  003650******************************************************************
+   367  003660*    ファイルオープン                                            *
+   368  003670******************************************************************
+   369  003680 ファイルオープン                     SECTION.                    
+   370  003690 ファイルオープン－ＳＴＡＲＴ.                                    
+   371  003700*----------------------------------------------------------------*
+   372  003710*    ファイルオープン ＯＰＥＮ                                   *
+   373  003720*----------------------------------------------------------------*
+   374  003730*--<  入力ファイルオープン >                                       
+   375  003740     OPEN  INPUT  入力ファイル.                                   
+   376  003750*                                                                 
+   377  003760*----------------------------------------------------------------*
+   378  003770*    ファイルオープン状態判定                                    *
+   379  003780*----------------------------------------------------------------*
+   380  003790     EVALUATE  Ｗ－状態                                           
+   381  003800        WHEN  ZERO                                                
+   382  003810           CONTINUE                                               
+   383  003820        WHEN  OTHER                                               
+   384  003830*--< ファイルオープンエラー >                                     
+   385  003840           MOVE     -30               TO  Ｗ－エラーコード        
+   386  003850           PERFORM  エラー判定処理                                
+   387  003860     END-EVALUATE.                                                
+   388  003870*                                                                 
+   389  003880*--< 出力ファイルオープン >                                       
+   390  003890     OPEN  OUTPUT   出力ファイル.                                 
+   391  003900*----------------------------------------------------------------*
+   392  003910*    ファイルオープン状態判定                                    *
+   393  003920*----------------------------------------------------------------*
+   394  003930     EVALUATE  Ｗ－状態                                           
+   395  003940        WHEN  ZERO                                                
+   396  003950*--< ファイルオープン正常 >                                       
+   397  003960           CONTINUE                                               
+   398  003970        WHEN  OTHER                                               
+   399  003980*--< ファイルオープンエラー >                                     
+   400  003990           MOVE     -40               TO  Ｗ－エラーコード        
+   401  004000           PERFORM  エラー判定処理                                
+   402  004010     END-EVALUATE.                                                
+   403  004020*                                                                 
+   404  004030 ファイルオープン－ＥＸＩＴ.                                      
+   405  004040     EXIT.                                                        
+   406  004050*                                                                 
+   407  004060******************************************************************
+   408  004070*    結合テーブルカーソル読込                                    *
+   409  004080******************************************************************
+   410  004090 結合テーブルカーソル読込             SECTION.                    
+   411  004100 結合テーブルカーソル読込－ＳＴＡＲＴ.                            
+   412  004110*                                                                 
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   413  004120*--< 結合テーブルカーソル読込 >                                   
+   414  004130     EXEC SQL                                                     
+   415  004140         FETCH  CUR1                                              
+   416  004150          INTO  :ＬＴＲＳＭＫ－債務契約ＮＯ                       
+   417  004160               ,:ＬＴＲＳＭＫ－再リースコード                     
+   418  004170               ,:ＬＴＲＳＭＫ－債務勘定処理コード                 
+   419  004180               ,:ＬＴＲＳＭＭ－債務取引コード                     
+   420  004190               ,:ＬＴＲＳＭＭ－物件代金回収日－世紀               
+   421  004200               ,:ＬＴＲＳＭＭ－物件代金回収日－年月日             
+   422  004210               ,:ＬＴＲＳＭＭ－リース開始日－世紀                 
+   423  004220               ,:ＬＴＲＳＭＭ－リース開始日－年月日               
+   424  004230               ,:ＬＴＲＳＭＭ－回収物件金額                       
+   425  004240               ,:ＬＴＲＳＭＭ－売上消費税                         
+   426  004250               ,:ＬＴＲＳＭＭ－債務契約ＮＯ                       
+   427  004260               ,:ＬＴＲＳＭＭ－請求データ作成日－世紀             
+   428  004270               ,:ＬＴＲＳＭＭ－請求データ作成日－年月日           
+   429  004280               ,:ＬＴＲＳＭＭ－回収方式コード                     
+   430  004290               ,:ＬＴＲＳＭＭ－再リースコード                     
+   431  004300               ,:ＬＴＲＳＭＭ－債務勘定処理コード                 
+   432  004310               ,:ＬＴＲＳＭＭ－債務協調コード                     
+   433  004320               ,:ＬＴＲＳＭＭ－売上消費税                         
+   434  004330               ,:ＬＴＲＳＭＭ－契約明細ＮＯ                       
+   435  004340               ,:ＬＴＲＳＭＭ－レコードシーケンス                 
+   436  004350*                                                                 
+   437  004360     END-EXEC.                                                    
+   438  004370*                                                                 
+   439  004380*------------------------------------------------------------- --*
+   440  004390*    結合テーブルカーソル読込を確認                              *
+   441  004400*----------------------------------------------------------------*
+   442  004410     EVALUATE   SQLCODE                                           
+   443  004420        WHEN   定数－ＳＱＬＯＫ                                   
+   444  004430*--< 正常 >                                                       
+   445  004440         COMPUTE  Ｗ－入力－件数   =  Ｗ－入力－件数   +  1       
+   446  004450         COMPUTE  Ｗ－入力－件数２ =  Ｗ－入力－件数２ +  1       
+   447  004460        WHEN   定数－ＳＱＬＥＮＤ                                 
+   448  004470*--< 読込終了 >                                                   
+   449  004480           MOVE  "Y"                  TO  Ｗ－終了－フラグ        
+   450  004490        WHEN   OTHER                                              
+   451  004500*--< 読込エラー >                                                 
+   452  004510           MOVE     -50               TO  Ｗ－エラーコード        
+   453  004520           PERFORM  エラー判定処理                                
+   454  004530     END-EVALUATE.                                                
+   455  004540*                                                                 
+   456  004550 結合テーブルカーソル読込－ＥＸＩＴ.                              
+   457  004560     EXIT.                                                        
+   458  004570******************************************************************
+   459  004580*    基準適用日読込処理(１件目)                                  *
+   460  004590******************************************************************
+   461  004600 基準適用日読込処理                   SECTION.                    
+   462  004610 基準適用日読込処理－ＳＴＡＲＴ.                                  
+   463  004620*--< 基準適用日読込 >                                             
+   464  004630     READ  入力ファイル                                           
+   465  004640           AT  END                                                
+   466  004650*--< 読込終了 >                                                   
+   467  004660              GO  TO  基準適用日読込処理－ＥＸＩＴ                
+   468  004670     END-READ.                                                    
+   469  004680*                                                                 
+   470  004690*----------------------------------------------------------------*
+   471  004700*    ファイルオープン状態判定                                    *
+   472  004710*----------------------------------------------------------------*
+   473  004720     EVALUATE  Ｗ－状態                                           
+   474  004730        WHEN  ZERO                                                
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   475  004740           MOVE  入力－基準日(1:6)    TO  ＷＳ－基準日－年月      
+   476  004750        WHEN  OTHER                                               
+   477  004760*--< 読み込みエラー >                                             
+   478  004770           MOVE     -60               TO  Ｗ－エラーコード        
+   479  004780           PERFORM  エラー判定処理                                
+   480  004790     END-EVALUATE.                                                
+   481  004800*                                                                 
+   482  004810 基準適用日読込処理－ＥＸＩＴ.                                    
+   483  004820     EXIT.                                                        
+   484  004830******************************************************************
+   485  004840*    主処理                                                      *
+   486  004850******************************************************************
+   487  004860 主処理                               SECTION.                    
+   488  004870 主処理－ＳＴＡＲＴ.                                              
+   489  004880*--< 協調転物件代金売却ファイル >                                 
+   490  004890     PERFORM  協調転物件代金売却項目編集.                         
+   491  004900*                                                                 
+   492  004910*                                                                 
+   493  004920*--< 協調転物件代金売却ファイル出力処理 >                         
+   494  004930     PERFORM  協調転物件代金売却出力処理.                         
+   495  004940*                                                                 
+   496  004950*--< 結合テーブルカーソル読込（２件目以降） >                     
+   497  004960     PERFORM  結合テーブルカーソル読込.                           
+   498  004970*                                                                 
+   499  004980*                                                                 
+   500  004990 主処理－ＥＸＩＴ.                                                
+   501  005000     EXIT.                                                        
+   502  005010******************************************************************
+   503  005020*     協調転物件代金売却項目編集処理                             *
+   504  005030******************************************************************
+   505  005040 協調転物件代金売却項目編集           SECTION.                    
+   506  005050 協調転物件代金売項目編集－ＳＴＡＲＴ.                            
+   507  005060*                                                                 
+   508  005070*----------------------------------------------------------------*
+   509  005080*    協調転物件代金売却項目編集移行処理                          *
+   510  005090*----------------------------------------------------------------*
+   511  005100*--< No.01 契約番号 >                                             
+   512  005110     PERFORM  契約番号移行処理.                                   
+   513  005120*                                                                 
+   514  005130*--< No.02 再リース回数,No.03 契約種類 >                          
+   515  005140     PERFORM  再リース回数契約種類移行処理.                       
+   516  005150*                                                                 
+   517  005160*--< No.04 連番 >                                                 
+   518  005170     PERFORM  連番移行処理.                                       
+   519  005180*                                                                 
+   520  005190*--< No.05 取引先コード No.06 請求先コード >                      
+   521  005200     PERFORM  取引先コード請求先コード移行処理.                   
+   522  005210*--< No.07 回収サイト >                                           
+   523  005220     PERFORM  回収サイト移行処理.                                 
+   524  005230*                                                                 
+   525  005240*--< No.08 回収日 >                                               
+   526  005250     PERFORM  回収日移行処理.                                     
+   527  005260*                                                                 
+   528  005270*--< No.09 回収予定日 >                                           
+   529  005280     PERFORM  回収予定日移行処理.                                 
+   530  005290*                                                                 
+   531  005300*--< No.10 売却代金 >                                             
+   532  005310     MOVE  ＬＴＲＳＭＭ－回収物件金額 TO  出力－売却代金.         
+   533  005320*                                                                 
+   534  005330*--< No.11 売却代金消費税 >                                       
+   535  005340     MOVE  ＬＴＲＳＭＭ－売上消費税   TO  出力－売却代金消費税.   
+   536  005350*                                                                 
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   537  005360*--< No.12 売却代手数料 >                                         
+   538  005370     MOVE  ZERO                       TO  出力－売却代手数料.     
+   539  005380*                                                                 
+   540  005390*--< No.13 売却代総額 >                                           
+   541  005400     MOVE  出力－売却代金             TO  出力－売却代総額.       
+   542  005410*                                                                 
+   543  005420*--< No.14 売却代総額消費税 >                                     
+   544  005430     MOVE  出力－売却代金消費税       TO  出力－売却代総額消費税. 
+   545  005440*                                                                 
+   546  005450*--< No.32 請求内訳コード >                                       
+   547  005460     PERFORM  請求内訳コード移行処理.                             
+   548  005470*                                                                 
+   549  005480*--< No.15回収額,No.16回収額消費税,No.17回収年月日,               
+   550  005490*    No.33 消込通番, No.35 消込年月日   >                         
+   551  005500     PERFORM  請求明細共通移行処理.                               
+   552  005510*                                                                 
+   553  005520*--< No.18 未回収額 >                                             
+   554  005530     COMPUTE  出力－未回収額 =  出力－売却代総額       +          
+   555  005540                                出力－売却代総額消費税 -          
+   556  005550                                出力－回収額           -          
+   557  005560                                出力－回収額消費税.               
+   558  005570*                                                                 
+   559  005580*--< No.19 請求書発行済フラグ >                                   
+   560  005590     PERFORM  請求書発行済フラグ移行処理.                         
+   561  005600*                                                                 
+   562  005610*--< No.20 取消請求書発行済フラグ >                               
+   563  005620     MOVE   ZERO                      TO                          
+   564  005630                                     出力－取消請求書発行済フラグ.
+   565  005640*                                                                 
+   566  005650*--< No.21 請求書番号 >                                           
+   567  005660     MOVE   ZERO                      TO  出力－請求書番号.       
+   568  005670*                                                                 
+   569  005680*--< No.22 更新年月日 >                                           
+   570  005690     MOVE   Ｗ－世紀                  TO  出力－更新年月日(1:2).  
+   571  005700     MOVE   Ｗ－年月日                TO  出力－更新年月日(3:6).  
+   572  005710*                                                                 
+   573  005720*--< No.23 更新時間 >                                             
+   574  005730     MOVE   Ｗ－システム時刻          TO  出力－更新時間.         
+   575  005740*                                                                 
+   576  005750*--< No.24 更新者 >                                               
+   577  005760     MOVE   Ｗ－担当者                TO  出力－更新者.           
+   578  005770*                                                                 
+   579  005780*--< No.25 入力担当者コード >                                     
+   580  005790     MOVE   Ｗ－担当者                TO  出力－入力担当者コード. 
+   581  005800*                                                                 
+   582  005810*--< No.26 回収方法>                                              
+   583  005820     PERFORM  回収方法移行処理.                                   
+   584  005830*                                                                 
+   585  005840*--< No.27 ソフト売却代金>                                        
+   586  005850     PERFORM  ソフト売却代金移行処理.                             
+   587  005860*                                                                 
+   588  005870*--< No.28 ソフト売却代金消費税>                                  
+   589  005880     PERFORM  ソフト売却代金消費税移行処理.                       
+   590  005890*                                                                 
+   591  005900*--< No.29 登録年月日 >                                           
+   592  005910     MOVE   Ｗ－世紀                  TO  出力－登録年月日(1:2).  
+   593  005920     MOVE   Ｗ－年月日                TO  出力－登録年月日(3:6).  
+   594  005930*                                                                 
+   595  005940*--< No.30 登録時間 >                                             
+   596  005950     MOVE   Ｗ－システム時刻          TO  出力－登録時間.         
+   597  005960*                                                                 
+   598  005970*--< No.31 登録担当者 >                                           
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   599  005980     MOVE   Ｗ－担当者                TO  出力－登録担当者.       
+   600  005990*                                                                 
+   601  006000*--< No.34 初回入金日 >                                           
+   602  006010     MOVE   出力－回収年月日          TO  出力－初回入金日.       
+   603  006020*                                                                 
+   604  006030*--< No.36 消費税率 >                                             
+   605  006040     PERFORM  消費税率移行処理.                                   
+   606  006050*                                                                 
+   607  006060*--< No.37 消費税率区分 >                                         
+   608  006070     PERFORM  消費税率区分移行処理.                               
+   609  006080*                                                                 
+   610  006090*--< No.38 元再リースコード１ >                                   
+   611  006100     MOVE  ＬＴＲＳＭＭ－再リースコード                           
+   612  006110                                      TO                          
+   613  006120                                         出力－元再リースコード１.
+   614  006130*                                                                 
+   615  006140*--< No.39 元請求内訳コード１ >                                   
+   616  006150     PERFORM  元請求内訳コード１移行処理.                         
+   617  006160*                                                                 
+   618  006170*--< No.40 元回収予定日１ >                                       
+   619  006180     PERFORM  元回収予定日１移行処理.                             
+   620  006190*                                                                 
+   621  006200 協調転物件代金売項目編集－ＥＸＩＴ.                              
+   622  006210     EXIT.                                                        
+   623  006220******************************************************************
+   624  006230*    項目の移行 編集処理                                         *
+   625  006240*******************************************************************                                                   
+                      
+   626  006250*----------------------------------------------------------------*
+   627  006260*    No1  契約番号移行処理.                                      *
+   628  006270*----------------------------------------------------------------*
+   629  006280 契約番号移行処理                     SECTION.                    
+   630  006290 契約番号移行処理－ＳＴＡＲＴ.                                    
+   631  006300*                                                                 
+   632  006310     MOVE ＬＴＲＳＭＫ－債務契約ＮＯ(2:9)                         
+   633  006320                                      TO   出力－契約番号         
+   634  006330                                           ＷＳ－債務契約ＮＯ     
+   635  006340                                           Ｎ－契約番号.          
+   636  006350 契約番号移行処理－ＥＸＩＴ.                                      
+   637  006360     EXIT.                                                        
+   638  006370*                                                                 
+   639  006380*----------------------------------------------------------------*
+   640  006390*    NO2 再リース回数移行処理,No3 契約種類移行処理               *
+   641  006400*----------------------------------------------------------------*
+   642  006410 再リース回数契約種類移行処理         SECTION.                    
+   643  006420 再リース回数契約種類移行処理－ＳＴＡＲＴ.                        
+   644  006430*                                                                 
+   645  006440      EXEC SQL                                                    
+   646  006450           SELECT  再リース回数                                   
+   647  006460                   ,契約種類                                      
+   648  006470                   ,主契約区分                                    
+   649  006480             INTO  :ＩＫＯ００２－再リース回数                    
+   650  006490                   ,:ＩＫＯ００２－契約種類                       
+   651  006500                   ,:ＩＫＯ００２－主契約区分                     
+   652  006510             FROM  IKOTBL002                                      
+   653  006520            WHERE  契約ＮＯ        = :ＷＳ－債務契約ＮＯ          
+   654  006530              AND  再リースコード  = :ＬＴＲＳＭＫ－再リースコード
+   655  006540              AND  債務勘定処理コード =                           
+   656  006550                                 :ＬＴＲＳＭＫ－債務勘定処理コード
+   657  006560      END-EXEC.                                                   
+   658  006570*----------------------------------------------------------------*
+   659  006580*    再リース回数移行処理確認                                    *
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   660  006590*----------------------------------------------------------------*
+   661  006600      EVALUATE  SQLCODE                                           
+   662  006610        WHEN  定数－ＳＱＬＯＫ                                    
+   663  006620*--< 再リース回数移行処理 >                                       
+   664  006630        MOVE ＩＫＯ００２－再リース回数                           
+   665  006640                                      TO   出力－再リース回数     
+   666  006650                                              Ｎ－再リース回数    
+   667  006660*--< No3 契約種類移行処理 >                                       
+   668  006670        MOVE ＩＫＯ００２－契約種類   TO      出力－契約種類      
+   669  006680                                              Ｎ－契約種類        
+   670  006690*--< 取得エラー >                                                 
+   671  006700        WHEN  OTHER                                               
+   672  006710                                                                  
+   673  006720*--< 再リース回数移行処理 >                                       
+   674  006730           MOVE  ZERO                 TO      出力－再リース回数  
+   675  006740*--< No3 契約種類移行処理 >                                       
+   676  006750           MOVE  ZERO                 TO      出力－契約種類      
+   677  006760           MOVE -70                   TO      Ｗ－エラーコード    
+   678  006770           PERFORM  エラー判定処理                                
+   679  006780                                                                  
+   680  006790      END-EVALUATE.                                               
+   681  006800 再リース回数契約種類移行処理－ＥＸＩＴ.                          
+   682  006810     EXIT.                                                        
+   683  006820*                                                                 
+   684  006830*----------------------------------------------------------------*
+   685  006840*    NO4  連番移行処理.                                          *
+   686  006850*----------------------------------------------------------------*
+   687  006860 連番移行処理                         SECTION.                    
+   688  006870 連番移行処理－ＳＴＡＲＴ.                                        
+   689  006880*                                                                 
+   690  006890     IF ＮＥＷキー NOT   =  ＯＬＤキー                            
+   691  006900     MOVE    1                        TO   ＷＳ－連番             
+   692  006910     MOVE   ＮＥＷキー                TO   ＯＬＤキー             
+   693  006920     ELSE                                                         
+   694  006930     COMPUTE ＷＳ－連番  =  ＷＳ－連番 + 1                        
+   695  006940     END-IF.                                                      
+   696  006950     MOVE ＷＳ－連番                  TO  出力－連番.             
+   697  006960 連番移行処理－ＥＸＩＴ.                                          
+   698  006970     EXIT.                                                        
+   699  006980*                                                                 
+   700  006990*----------------------------------------------------------------*
+   701  007000*    NO5  取引先コード移行処理.NO6  請求先コード移行処理.        *
+   702  007010*----------------------------------------------------------------*
+   703  007020 取引先コード請求先コード移行処理     SECTION.                    
+   704  007030 取引先コード請求先コード移行処理－ＳＴＡＲＴ.                    
+   705  007040*                                                                 
+   706  007050      EXEC SQL                                                    
+   707  007060           SELECT  新取引先コード                                 
+   708  007070                  ,枝番                                           
+   709  007080             INTO  :ＩＫＯ００１－新取引先コード                  
+   710  007090                  ,:ＩＫＯ００１－枝番                            
+   711  007100             FROM  IKOTBL001                                      
+   712  007110            WHERE  取引先コード    = :ＬＴＲＳＭＭ－債務取引コード
+   713  007120      END-EXEC.                                                   
+   714  007130*----------------------------------------------------------------*
+   715  007140*    取引先コード請求先コード移行処理確認                        *
+   716  007150*----------------------------------------------------------------*
+   717  007160      EVALUATE  SQLCODE                                           
+   718  007170        WHEN  定数－ＳＱＬＯＫ                                    
+   719  007180*--< 取引先コード移行処理 >                                       
+   720  007190           MOVE ＩＫＯ００１－新取引先コード                      
+   721  007200                                      TO                          
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   722  007210                                          出力－取引先コード      
+   723  007220*--< 請求先コード移行処理 >                                       
+   724  007230           MOVE ＩＫＯ００１－枝番    TO  出力－請求先コード      
+   725  007240*--< 取得エラー >                                                 
+   726  007250        WHEN  OTHER                                               
+   727  007260*--< 取引先コード移行処理エラー >                                 
+   728  007270           MOVE  ZERO                 TO  出力－取引先コード      
+   729  007280*--< 請求先コード移行処理エラー >                                 
+   730  007290           MOVE  ZERO                 TO  出力－請求先コード      
+   731  007300           MOVE -80                   TO  Ｗ－エラーコード        
+   732  007310           PERFORM  エラー判定処理                                
+   733  007320      END-EVALUATE.                                               
+   734  007330 取引先コード請求先コード移行処理－ＥＸＩＴ.                      
+   735  007340     EXIT.                                                        
+   736  007350*                                                                 
+   737  007360*----------------------------------------------------------------*
+   738  007370*    NO7  回収サイト移行処理.                                    *
+   739  007380*----------------------------------------------------------------*
+   740  007390 回収サイト移行処理                   SECTION.                    
+   741  007400 回収サイト移行処理－ＳＴＡＲＴ.                                  
+   742  007410*--< 物件代金回収日－世紀処理 >                                   
+   743  007420     IF ＬＴＲＳＭＭ－物件代金回収日－世紀 = 1                    
+   744  007430        MOVE  "20"                    TO                          
+   745  007440                                     ＷＳ－物件代金回収日－年(1:2)
+   746  007450     ELSE                                                         
+   747  007460        MOVE  "19"                    TO                          
+   748  007470                                     ＷＳ－物件代金回収日－年(1:2)
+   749  007480     END-IF.                                                      
+   750  007490*--< 物件代金回収日－世紀処理 >                                   
+   751  007500     MOVE ＬＴＲＳＭＭ－物件代金回収日－年月日(1:2)               
+   752  007510                                      TO                          
+   753  007520                                    ＷＳ－物件代金回収日－年(3:2).
+   754  007530     MOVE ＬＴＲＳＭＭ－物件代金回収日－年月日(3:2)               
+   755  007540                                      TO                          
+   756  007550                                         ＷＳ－物件代金回収日－月.
+   757  007560*--< リース開始日＿世紀処理 >                                     
+   758  007570     IF ＬＴＲＳＭＭ－リース開始日－世紀 = 1                      
+   759  007580        MOVE  "20"                    TO                          
+   760  007590                                     ＷＳ－リース開始日－年(1:2)  
+   761  007600     ELSE                                                         
+   762  007610        MOVE  "19"                    TO                          
+   763  007620                                      ＷＳ－リース開始日－年(1:2) 
+   764  007630     END-IF.                                                      
+   765  007640*                                                                 
+   766  007650     MOVE ＬＴＲＳＭＭ－リース開始日－年月日(1:2)                 
+   767  007660                                      TO                          
+   768  007670                                      ＷＳ－リース開始日－年(3:2).
+   769  007680     MOVE ＬＴＲＳＭＭ－リース開始日－年月日(3:2)                 
+   770  007690                                      TO  ＷＳ－リース開始日－月. 
+   771  007700*--< 計算月数 >                                                 　
+   772  007710     COMPUTE ＷＳ－月数  = (ＷＳ－物件代金回収日－年     -        
+   773  007720                                     ＷＳ－リース開始日－年) * 12 
+   774  007730                            +  ＷＳ－物件代金回収日－月  -        
+   775  007740                               ＷＳ－リース開始日－月.            
+   776  007750     MOVE ＷＳ－月数                  TO  出力－回収サイト.       
+   777  007760 回収サイト移行処理－ＥＸＩＴ.                                    
+   778  007770     EXIT.                                                        
+   779  007780*                                                                 
+   780  007790*----------------------------------------------------------------*
+   781  007800*    NO8  回収日移行処理.                                        *
+   782  007810*----------------------------------------------------------------*
+   783  007820 回収日移行処理                       SECTION.                    
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   784  007830 回収日移行処理－ＳＴＡＲＴ.                                      
+   785  007840*--< 回収日移行処理 >                                             
+   786  007850      MOVE ＬＴＲＳＭＭ－物件代金回収日－年月日(5:2)              
+   787  007860                                      TO                          
+   788  007870                                     ＷＳ－物件代金回収日－日.    
+   789  007880      MOVE  ＷＳ－物件代金回収日－日  TO  出力－回収日.           
+   790  007890 回収日移行処理－ＥＸＩＴ.                                        
+   791  007900     EXIT.                                                        
+   792  007910*                                                                 
+   793  007920*----------------------------------------------------------------*
+   794  007930*    NO9  回収予定日移行処理.                                    *
+   795  007940*----------------------------------------------------------------*
+   796  007950 回収予定日移行処理                   SECTION.                    
+   797  007960 回収予定日移行処理－ＳＴＡＲＴ.                                  
+   798  007970*--< 回収予定日移行処理 >                                         
+   799  007980      MOVE ＷＳ－物件代金回収日－年   TO                          
+   800  007990                                        ＷＳ－物件代金回収日(1:4).
+   801  008000      MOVE ＷＳ－物件代金回収日－月   TO                          
+   802  008010                                        ＷＳ－物件代金回収日(5:2).
+   803  008020      MOVE ＷＳ－物件代金回収日－日   TO                          
+   804  008030                                        ＷＳ－物件代金回収日(7:2).
+   805  008040      MOVE ＷＳ－物件代金回収日       TO                          
+   806  008050                                        出力－回収予定日.         
+   807  008060 回収予定日移行処理－ＥＸＩＴ.                                    
+   808  008070     EXIT.                                                        
+   809  008080*                                                                 
+   810  008090*----------------------------------------------------------------*
+   811  008100*    N15回収額,N16回収額消費税,N17回収年月日 N033 N035 移行処理  *
+   812  008110*----------------------------------------------------------------*
+   813  008120 請求明細共通移行処理                 SECTION.                    
+   814  008130 請求明細共通移行処理－ＳＴＡＲＴ.                                
+   815  008140*                                                                 
+   816  008150     MOVE ＬＴＲＳＭＭ－債務契約ＮＯ(2:9)                         
+   817  008160                                      TO  ＷＳ－債務契約ＮＯ      
+   818  008170     EXEC SQL                                                     
+   819  008180           SELECT  消込金額                                       
+   820  008190                  ,消込日＿世紀                                   
+   821  008200                  ,消込日＿年月日                                 
+   822  008210                  ,消込通番                                       
+   823  008220             INTO  :ＬＴＲＳＫＭ－消込金額                        
+   824  008230                  ,:ＬＴＲＳＫＭ－消込日－世紀                    
+   825  008240                  ,:ＬＴＲＳＫＭ－消込日－年月日                  
+   826  008250                  ,:ＬＴＲＳＫＭ－消込通番                        
+   827  008260            FROM  LTRSKM                                          
+   828  008270            WHERE  契約番号 = :ＷＳ－債務契約ＮＯ                 
+   829  008280              AND  再リースコード  = :ＬＴＲＳＭＭ－再リースコード
+   830  008290              AND  請求内訳コード  = :ＷＳ－出力請求内訳コード    
+   831  008300              AND  突合済フラグ    = NULL                         
+   832  008310     END-EXEC.                                                    
+   833  008320*----------------------------------------------------------------*
+   834  008330*    請求明細共通移行処理確認                                    *
+   835  008340*----------------------------------------------------------------*
+   836  008350     EVALUATE  SQLCODE                                            
+   837  008360*--< 請求明細情報に該当データが存在する場合>                      
+   838  008370        WHEN  定数－ＳＱＬＯＫ                                    
+   839  008380*--< N033 消込通番移行処理 >                                      
+   840  008390          MOVE  ＬＴＲＳＫＭ－消込通番                            
+   841  008400                                      TO   出力－消込通番         
+   842  008410*--< N035 消込年月日移行処理 >                                    
+   843  008420          IF ＬＴＲＳＫＭ－消込日－世紀 = 1                       
+   844  008430            MOVE  "20"                TO  出力－消込年月日(1:2)   
+   845  008440          ELSE                                                    
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   846  008450            MOVE  "19"                TO  出力－消込年月日(1:2)   
+   847  008460          END-IF                                                  
+   848  008470          MOVE  ＬＴＲＳＫＭ－消込日－年月日                      
+   849  008480                                      TO                          
+   850  008490                                        出力－消込年月日(3:6)     
+   851  008500*                                                                 
+   852  008510          IF ＬＴＲＳＫＭ－消込金額   >  ZERO                     
+   853  008520*--< N015回収額移行処理 >                                         
+   854  008530            MOVE  出力－売却代金      TO   出力－回収額           
+   855  008540*--< N016回収額消費税移行処理 >                                   
+   856  008550            MOVE  出力－売却代金消費税                            
+   857  008560                                      TO  出力－回収額消費税      
+   858  008570*--< N017回収年月日移行処理 >                                     
+   859  008580*                                                                 
+   860  008590*--< 消込日－世紀処理 >                                           
+   861  008600          IF ＬＴＲＳＫＭ－消込日－世紀 = 1                       
+   862  008610            MOVE  "20"                TO   出力－回収年月日(1:2)  
+   863  008620            ELSE                                                  
+   864  008630            MOVE  "19"                TO   出力－回収年月日(1:2)  
+   865  008640            END-IF                                                
+   866  008650            MOVE  ＬＴＲＳＫＭ－消込日－年月日                    
+   867  008660                                      TO                          
+   868  008670                                           出力－回収年月日(3:6)  
+   869  008680           ELSE                                                   
+   870  008690            MOVE  ZERO                TO   出力－回収額           
+   871  008700            MOVE  ZERO                TO   出力－回収額消費税     
+   872  008710            MOVE  ZERO                TO   出力－回収年月日       
+   873  008720          END-IF                                                  
+   874  008730*                                                                 
+   875  008740*--< 請求明細情報に該当データが存在しない場合 >                   
+   876  008750        WHEN  OTHER                                               
+   877  008760*--< N033 消込通番移行処理 >                                      
+   878  008770          MOVE  ZERO                  TO   出力－消込通番         
+   879  008780*--< N035 消込年月日移行処理 >                                    
+   880  008790          MOVE  ZERO                  TO   出力－消込年月日       
+   881  008800*--< N015回収額移行処理 >                                         
+   882  008810          MOVE ＷＳ－物件代金回収日－年                           
+   883  008820                                      TO                          
+   884  008830                                   ＷＳ－物件代金回収日－年月(1:4)
+   885  008840          MOVE ＷＳ－物件代金回収日－月                           
+   886  008850                                      TO                          
+   887  008860                                   ＷＳ－物件代金回収日－年月(5:2)
+   888  008870*                                                                 
+   889  008880          IF ＷＳ－基準日－年月 > ＷＳ－物件代金回収日－年月      
+   890  008890            MOVE  出力－売却代金      TO   出力－回収額           
+   891  008900*--< N016回収額消費税移行処理 >                                   
+   892  008910            MOVE  出力－売却代金消費税                            
+   893  008920                                      TO   出力－回収額消費税     
+   894  008930*--< N017回収年月日移行処理 >                                     
+   895  008940            MOVE  出力－回収予定日    TO   出力－回収年月日       
+   896  008950          ELSE                                                    
+   897  008960            MOVE  ZERO                TO   出力－回収額           
+   898  008970            MOVE  ZERO                TO   出力－回収額消費税     
+   899  008980            MOVE  ZERO                TO   出力－回収年月日       
+   900  008990          END-IF                                                  
+   901  009000*--< 読み込みエラー >                                             
+   902  009010          MOVE -90                    TO  Ｗ－エラーコード        
+   903  009020          PERFORM  エラー判定処理                                 
+   904  009030     END-EVALUATE.                                                
+   905  009040 請求明細共通移行処理－ＥＸＩＴ.                                  
+   906  009050     EXIT.                                                        
+   907  009060*                                                                 
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   908  009070*----------------------------------------------------------------*
+   909  009080*    No19  請求書発行済フラグ移行処理.                           *
+   910  009090*----------------------------------------------------------------*
+   911  009100 請求書発行済フラグ移行処理           SECTION.                    
+   912  009110 請求書発行済フラグ移行処理－ＳＴＡＲＴ.                          
+   913  009120*                                                                 
+   914  009130     IF ＬＴＲＳＭＭ－請求データ作成日－世紀 = 1                  
+   915  009140        MOVE  "20"                    TO                          
+   916  009150                             ＷＳ－請求データ作成日－年月日(1:2)  
+   917  009160     ELSE                                                         
+   918  009170        MOVE  "19"                    TO                          
+   919  009180                             ＷＳ－請求データ作成日－年月日(1:2)  
+   920  009190            END-IF                                                
+   921  009200     MOVE  ＬＴＲＳＭＭ－請求データ作成日－年月日   TO            
+   922  009210                             ＷＳ－請求データ作成日－年月日(3:6). 
+   923  009220     MOVE  入力－基準日               TO  ＷＳ－基準日.           
+   924  009230     IF  ＷＳ－請求データ作成日－年月日  <  ＷＳ－基準日          
+   925  009240        MOVE   "1"                    TO  出力－請求書発行済フラグ
+   926  009250     ELSE                                                         
+   927  009260        MOVE   "0"                    TO  出力－請求書発行済フラグ
+   928  009270     END-IF.                                                      
+   929  009280 請求書発行済フラグ移行処理－ＥＸＩＴ.                            
+   930  009290     EXIT.                                                        
+   931  009300*                                                                 
+   932  009310*----------------------------------------------------------------*
+   933  009320*    N26  回収方法移行処.                                        *
+   934  009330*----------------------------------------------------------------*
+   935  009340 回収方法移行処理                     SECTION.                    
+   936  009350 回収方法移行処理－ＳＴＡＲＴ.                                    
+   937  009360*                                                                 
+   938  009370     EVALUATE  ＬＴＲＳＭＭ－回収方式コード                       
+   939  009380        WHEN  ＷＳ－振込                                          
+   940  009390           MOVE  ＷＳ－回収方法振込   TO   出力－回収方法         
+   941  009400        WHEN  ＷＳ－手形                                          
+   942  009410           MOVE  ＷＳ－約束手形       TO   出力－回収方法         
+   943  009420        WHEN  ＷＳ－自動引落                                      
+   944  009430           MOVE  ＷＳ－回収方法自動引落                           
+   945  009440                                      TO   出力－回収方法         
+   946  009450        WHEN  ＷＳ－ＭＦＳ代理回収                                
+   947  009460           MOVE  ＷＳ－代理回収       TO   出力－回収方法         
+   948  009470        WHEN OTHER                                                
+   949  009480           MOVE  "0"                  TO   出力－回収方法         
+   950  009490     END-EVALUATE.                                                
+   951  009500 取引先コード移行処理－ＥＸＩＴ.                                  
+   952  009510     EXIT.                                                        
+   953  009520*                                                                 
+   954  009530*----------------------------------------------------------------*
+   955  009540*    No27  ソフト売却代金移行処理.                               *
+   956  009550*----------------------------------------------------------------*
+   957  009560 ソフト売却代金移行処理               SECTION.                    
+   958  009570 ソフト売却代金移行処理－ＳＴＡＲＴ.                              
+   959  009580*                                                                 
+   960  009590     MOVE   出力－契約種類(1:1)       TO  ＷＳ－契約種類１桁      
+   961  009600     IF     ＷＳ－契約種類１桁  =   ＷＳ－契約種類                
+   962  009610         MOVE   出力－売却代金        TO  出力－ソフト売却代金    
+   963  009620     ELSE                                                         
+   964  009630         MOVE   ZERO                  TO  出力－ソフト売却代金    
+   965  009640     END-IF.                                                      
+   966  009650 ソフト売却代金移行処理－ＥＸＩＴ.                                
+   967  009660     EXIT.                                                        
+   968  009670*                                                                 
+   969  009680*----------------------------------------------------------------*
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   970  009690*    No28  ソフト売却代金消費税移行処理.                         *
+   971  009700*----------------------------------------------------------------*
+   972  009710 ソフト売却代金消費税移行処理         SECTION.                    
+   973  009720 ソフト売却代金消費税移行処理－ＳＴＡＲＴ.                        
+   974  009730*                                                                 
+   975  009740     MOVE   出力－契約種類(1:1)       TO  ＷＳ－契約種類１桁      
+   976  009750     IF     ＷＳ－契約種類１桁  =   ＷＳ－契約種類                
+   977  009760       MOVE   出力－売却代金消費税    TO                          
+   978  009770                                      出力－ソフト売却代金消費税  
+   979  009780     ELSE                                                         
+   980  009790       MOVE   ZERO                    TO                          
+   981  009800                                      出力－ソフト売却代金消費税  
+   982  009810     END-IF.                                                      
+   983  009820 ソフト売却代金消費税移行処理－ＥＸＩＴ.                          
+   984  009830     EXIT.                                                        
+   985  009840*----------------------------------------------------------------*
+   986  009850*    N32 請求内訳コード移行処理                                  *
+   987  009860*----------------------------------------------------------------*
+   988  009870 請求内訳コード移行処理               SECTION.                    
+   989  009880 請求内訳コード移行処理－ＳＴＡＲＴ.                              
+   990  009890*                                                                 
+   991  009900     IF  ＬＴＲＳＭＭ－債務勘定処理コード   = 89                  
+   992  009910       MOVE    "U00"                  TO  出力－請求内訳コード    
+   993  009920     ELSE IF (ＬＴＲＳＭＭ－債務勘定処理コード  = 52   OR         
+   994  009930              ＬＴＲＳＭＭ－債務勘定処理コード  = 62)  AND        
+   995  009940              ＬＴＲＳＭＭ－債務協調コード      = "56" AND        
+   996  009950              ＩＫＯ００２－主契約区分    =  "5"       AND        
+   997  009960              出力－契約種類(1:1)     NOT  =  "6"                 
+   998  009970       MOVE    "W01"                  TO  出力－請求内訳コード    
+   999  009980     ELSE IF (ＬＴＲＳＭＭ－債務勘定処理コード  = 52   OR         
+  1000  009990              ＬＴＲＳＭＭ－債務勘定処理コード  = 62)  AND        
+  1001  010000              ＬＴＲＳＭＭ－債務協調コード      = "56" AND        
+  1002  010010              ＩＫＯ００２－主契約区分    =  "5"       AND        
+  1003  010020              出力－契約種類(1:1)          =  "6"                 
+  1004  010030       MOVE    "W02"                  TO  出力－請求内訳コード    
+  1005  010040     ELSE IF (ＬＴＲＳＭＭ－債務勘定処理コード  = 52   OR         
+  1006  010050              ＬＴＲＳＭＭ－債務勘定処理コード  = 62)  AND        
+  1007  010060              ＬＴＲＳＭＭ－債務協調コード      = "56" AND        
+  1008  010070              ＩＫＯ００２－主契約区分    =  "0"                  
+  1009  010080       MOVE    "W51"                  TO  出力－請求内訳コード    
+  1010  010090     ELSE IF (ＬＴＲＳＭＭ－債務勘定処理コード  = 51   OR         
+  1011  010100              ＬＴＲＳＭＭ－債務勘定処理コード  = 61)  AND        
+  1012  010110              ＬＴＲＳＭＭ－債務協調コード      = "56" AND        
+  1013  010120              ＩＫＯ００２－主契約区分    =  "0"                  
+  1014  010130       MOVE    "W52"                  TO  出力－請求内訳コード    
+  1015  010140     ELSE IF  ＬＴＲＳＭＭ－債務勘定処理コード  = 39   AND        
+  1016  010150              ＬＴＲＳＭＭ－債務協調コード      = "46" AND        
+  1017  010160              ＩＫＯ００２－主契約区分    =  "5"       AND        
+  1018  010170              出力－契約種類(1:1)         NOT =  "6"              
+  1019  010180       MOVE    "V01"                  TO  出力－請求内訳コード    
+  1020  010190     ELSE IF  ＬＴＲＳＭＭ－債務勘定処理コード  = 39   AND        
+  1021  010200              ＬＴＲＳＭＭ－債務協調コード      = "46" AND        
+  1022  010210              ＩＫＯ００２－主契約区分    =  "5"       AND        
+  1023  010220              出力－契約種類(1:1)         =  "6"                  
+  1024  010230       MOVE    "V02"                  TO  出力－請求内訳コード    
+  1025  010240     ELSE                                                         
+  1026  010250       MOVE    ZERO                   TO  出力－請求内訳コード    
+  1027  010260     END-IF.                                                      
+  1028  010270     MOVE     出力－請求内訳コード    TO                          
+  1029  010280                                         ＷＳ－出力請求内訳コード.
+  1030  010290 請求内訳コード移行処理－ＥＸＩＴ.                                
+  1031  010300     EXIT.                                                        
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+  1032  010310*                                                                 
+  1033  010320*----------------------------------------------------------------*
+  1034  010330*    No36  消費税率移行処理.                                     *
+  1035  010340*----------------------------------------------------------------*
+  1036  010350 消費税率移行処理                     SECTION.                    
+  1037  010360 消費税率移行処理－ＳＴＡＲＴ.                                    
+  1038  010370*                                                                 
+  1039  010380     IF    ＬＴＲＳＭＭ－売上消費税 NOT =  ZERO                   
+  1040  010390       MOVE  0.05                     TO  出力－消費税率          
+  1041  010400     ELSE                                                         
+  1042  010410       MOVE  ZERO                     TO  出力－消費税率          
+  1043  010420     END-IF.                                                      
+  1044  010430 消費税率移行処理－ＥＸＩＴ.                                      
+  1045  010440     EXIT.                                                        
+  1046  010450*                                                                 
+  1047  010460*----------------------------------------------------------------*
+  1048  010470*    No37  消費税率区分移行処理.                                 *
+  1049  010480*----------------------------------------------------------------*
+  1050  010490 消費税率区分移行処理                 SECTION.                    
+  1051  010500 消費税率区分移行処理－ＳＴＡＲＴ.                                
+  1052  010510*                                                                 
+  1053  010520     IF    出力－消費税率  =  ZERO                                
+  1054  010530       MOVE  "00"                     TO  出力－消費税率区分      
+  1055  010540     ELSE                                                         
+  1056  010550       MOVE  "12"                     TO  出力－消費税率区分      
+  1057  010560     END-IF.                                                      
+  1058  010570 消費税率区分移行処理－ＥＸＩＴ.                                  
+  1059  010580     EXIT.                                                        
+  1060  010590*                                                                 
+  1061  010600*----------------------------------------------------------------*
+  1062  010610*    No39 元請求内訳コード１移行処理                             *
+  1063  010620*----------------------------------------------------------------*
+  1064  010630 元請求内訳コード１移行処理           SECTION.                    
+  1065  010640 元請求内訳コード１移行処理－ＳＴＡＲＴ.                          
+  1066  010650*                                                                 
+  1067  010660     EXEC SQL                                                     
+  1068  010670           SELECT  現請求内訳コード                               
+  1069  010680             INTO  :ＩＫＯ００５－現請求内訳コード                
+  1070  010690             FROM  IKOTBL005                                      
+  1071  010700            WHERE  新請求内訳コード  = :ＷＳ－出力請求内訳コード  
+  1072  010710     END-EXEC.                                                    
+  1073  010720*----------------------------------------------------------------*
+  1074  010730*    元請求内訳コード１移行処理 確認                             *
+  1075  010740*----------------------------------------------------------------*
+  1076  010750     EVALUATE  SQLCODE                                            
+  1077  010760        WHEN  定数－ＳＱＬＯＫ                                    
+  1078  010770*--< 正常 >                                                       
+  1079  010780           MOVE  ＩＫＯ００５－現請求内訳コード                   
+  1080  010790                                      TO  出力－元請求内訳コード１
+  1081  010800        WHEN  OTHER                                               
+  1082  010810*--< 取得エラー >                                                 
+  1083  010820           MOVE  ZERO                 TO  出力－元請求内訳コード１
+  1084  010830*--< 読み込みエラー >                                             
+  1085  010840          MOVE -100                   TO  Ｗ－エラーコード        
+  1086  010850          PERFORM  エラー判定処理                                 
+  1087  010860*                                                                 
+  1088  010870     END-EVALUATE.                                                
+  1089  010880 元請求内訳コード１移行処理－ＥＸＩＴ.                            
+  1090  010890     EXIT.                                                        
+  1091  010900*                                                                 
+  1092  010910*----------------------------------------------------------------*
+  1093  010920*    No40  元回収予定日１移行処理.                               *
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+  1094  010930*----------------------------------------------------------------*
+  1095  010940 元回収予定日１移行処理               SECTION.                    
+  1096  010950 元回収予定日１移行処理－ＳＴＡＲＴ.                              
+  1097  010960*                                                                 
+  1098  010970     MOVE  出力－回収予定日(1:2)      TO                          
+  1099  010980                                        ＷＳ－元回収予定日１世紀. 
+  1100  010990     IF  ＷＳ－元回収予定日１世紀  =  "20"                        
+  1101  011000       MOVE  "1"                      TO                          
+  1102  011001                                         出力－元回収予定日１(1:1)
+  1103  011010     ELSE                                                         
+  1104  011020       MOVE  "0"                      TO                          
+  1105  011021                                         出力－元回収予定日１(1:1)
+  1106  011030     END-IF.                                                      
+  1107  011040     MOVE  出力－回収予定日(3:6)      TO                          
+  1108  011050                                        出力－元回収予定日１(2:6).
+  1109  011060 元回収予定日１移行処理－ＥＸＩＴ.                                
+  1110  011070     EXIT.                                                        
+  1111  011080*                                                                 
+  1112  011090******************************************************************
+  1113  011100*    協調転物件代金売ファイル出力処理                            *
+  1114  011110******************************************************************
+  1115  011120 協調転物件代金売却出力処理           SECTION.                    
+  1116  011130 協調転物件代金売却出力処理－ＳＴＡＲＴ.                          
+  1117  011140*--< 協調転物件代金売ファイル出力 >                               
+  1118  011150     WRITE  出力－レコード.                                       
+  1119  011160*                                                                 
+  1120  011170*--< 協調転物件代金売出力の状態判定 >                             
+  1121  011180     EVALUATE  Ｗ－状態                                           
+  1122  011190        WHEN  ZERO                                                
+  1123  011200*--< 共通出力件数の加算 >                                         
+  1124  011210           COMPUTE  Ｗ－出力－件数 =  Ｗ－出力－件数 + 1          
+  1125  011220        WHEN  OTHER                                               
+  1126  011230*--< ファイル出力エラー >                                         
+  1127  011240           MOVE     -110               TO  Ｗ－エラーコード       
+  1128  011250           PERFORM  エラー判定処理                                
+  1129  011260     END-EVALUATE.                                                
+  1130  011270*                                                                 
+  1131  011280 協調転物件代金売却出力処理－ＥＸＩＴ.                            
+  1132  011290     EXIT.                                                        
+  1133  011300******************************************************************
+  1134  011310*    終了処理                                                    *
+  1135  011320******************************************************************
+  1136  011330 終了処理                             SECTION.                    
+  1137  011340 終了処理－ＳＴＡＲＴ.                                            
+  1138  011350*                                                                 
+  1139  011360     PERFORM  ＤＢクローズ処理.                                   
+  1140  011370*                                                                 
+  1141  011380     PERFORM  ファイルクローズ処理.                               
+  1142  011390*                                                                 
+  1143  011400     PERFORM  件数メッセージ出力.                                 
+  1144  011410*                                                                 
+  1145  011420     PERFORM  終了メッセージ出力.                                 
+  1146  011430*                                                                 
+  1147  011440*--< プログラム正常終了 >                                         
+  1148  011450     MOVE  定数－正常状態             TO  PROGRAM-STATUS.         
+  1149  011460*                                                                 
+  1150  011470 終了処理－ＥＸＩＴ.                                              
+  1151  011480     EXIT.                                                        
+  1152  011490******************************************************************
+  1153  011500*    ＤＢクローズ                                                *
+  1154  011510******************************************************************
+  1155  011520 ＤＢクローズ処理                     SECTION.                    
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+  1156  011530 ＤＢクローズ処理－ＳＴＡＲＴ.                                    
+  1157  011540*                                                                 
+  1158  011550*--< カーソル クローズ >                                          
+  1159  011560     EXEC SQL                                                     
+  1160  011570        CLOSE  CUR1                                               
+  1161  011580     END-EXEC.                                                    
+  1162  011590*                                                                 
+  1163  011600 ＤＢクローズ処理－ＥＸＩＴ.                                      
+  1164  011610     EXIT.                                                        
+  1165  011620******************************************************************
+  1166  011630*    ファイルクローズ                                            *
+  1167  011640******************************************************************
+  1168  011650 ファイルクローズ処理                 SECTION.                    
+  1169  011660 ファイルクローズ処理－ＳＴＡＲＴ.                                
+  1170  011670*                                                                 
+  1171  011680     CLOSE  入力ファイル.                                         
+  1172  011690     CLOSE  出力ファイル.                                         
+  1173  011700*                                                                 
+  1174  011710 ファイルクローズ処理－ＥＸＩＴ.                                  
+  1175  011720     EXIT.                                                        
+  1176  011730*                                                                 
+  1177  011740******************************************************************
+  1178  011750*    件数メッセージ出力処理                                      *
+  1179  011760******************************************************************
+  1180  011770 件数メッセージ出力                   SECTION.                    
+  1181  011780 件数メッセージ出力－ＳＴＡＲＴ.                                  
+  1182  011790*----------------------------------------------------------------*
+  1183  011800*    件数メッセージ出力処理                                      *
+  1184  011810*----------------------------------------------------------------*
+  1185  011820     INITIALIZE                       IF-CHOCO001.                
+  1186  011830     MOVE  "3"                        TO  共１－イベント種別.     
+  1187  011840     MOVE  定数－プログラムＩＤ       TO  共１－ソースＩＤ.       
+  1188  011850     MOVE  "0"                        TO  共１－復帰コード.       
+  1189  011860     MOVE  "LTRSMK"                   TO  共１－処理テーブルＩＤ. 
+  1190  011870     MOVE  "COUNT"                    TO  共１－処理識別.         
+  1191  011880     MOVE  Ｗ－入力－件数             TO  共１－データ内容.       
+  1192  011890     MOVE  " 債務基本読込件数"        TO  共１－その他メッセージ. 
+  1193  011900     CALL  CLOCO001                   USING  IF-CHOCO001.         
+  1194  011910*                                                                 
+  1195  011920     INITIALIZE                       IF-CHOCO001.                
+  1196  011930     MOVE  "3"                        TO  共１－イベント種別.     
+  1197  011940     MOVE  定数－プログラムＩＤ       TO  共１－ソースＩＤ.       
+  1198  011950     MOVE  "0"                        TO  共１－復帰コード.       
+  1199  011960     MOVE  "LTRSMM"                   TO  共１－処理テーブルＩＤ. 
+  1200  011970     MOVE  "COUNT"                    TO  共１－処理識別.         
+  1201  011980     MOVE  Ｗ－入力－件数２           TO  共１－データ内容.       
+  1202  011990     MOVE  "債務明細読込件数"         TO  共１－その他メッセージ. 
+  1203  012000     CALL  CLOCO001                   USING  IF-CHOCO001.         
+  1204  012010*                                                                 
+  1205  012020     INITIALIZE                       IF-CHOCO001.                
+  1206  012030     MOVE  "3"                        TO  共１－イベント種別.     
+  1207  012040     MOVE  定数－プログラムＩＤ       TO  共１－ソースＩＤ.       
+  1208  012050     MOVE  "0"                        TO  共１－復帰コード.       
+  1209  012060     MOVE  "FFUIS420.TMP"             TO  共１－処理テーブルＩＤ. 
+  1210  012070     MOVE  "COUNT"                    TO  共１－処理識別.         
+  1211  012080     MOVE  Ｗ－出力－件数             TO  共１－データ内容.       
+  1212  012090     MOVE  "協調転物件代金売却出力件数"                           
+  1213  012100                                      TO  共１－その他メッセージ. 
+  1214  012110     CALL  CLOCO001                   USING  IF-CHOCO001.         
+  1215  012120 件数メッセージ出力－ＥＸＩＴ.                                    
+  1216  012130     EXIT.                                                        
+  1217  012140*                                                                 
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+  1218  012150******************************************************************
+  1219  012160*    終了メッセージ出力                                          *
+  1220  012170******************************************************************
+  1221  012180 終了メッセージ出力                   SECTION.                    
+  1222  012190 終了メッセージ出力－ＳＴＡＲＴ.                                  
+  1223  012200*                                                                 
+  1224  012210*                                                                 
+  1225  012220*----------------------------------------------------------------*
+  1226  012230*    終了メッセージ出力                                          *
+  1227  012240*----------------------------------------------------------------*
+  1228  012250     INITIALIZE                       IF-CHOCO001.                
+  1229  012260     MOVE  "3"                        TO  共１－イベント種別.     
+  1230  012270     MOVE  定数－プログラムＩＤ       TO  共１－ソースＩＤ.       
+  1231  012280     MOVE  "0"                        TO  共１－復帰コード.       
+  1232  012290     MOVE  "END"                      TO  共１－処理識別.         
+  1233  012300     MOVE  定数－プログラム名         TO  共１－その他メッセージ. 
+  1234  012310     CALL  CLOCO001                   USING  IF-CHOCO001.         
+  1235  012320*                                                                 
+  1236  012330 終了メッセージ出力－ＥＸＩＴ.                                    
+  1237  012340     EXIT.                                                        
+  1238  012350******************************************************************
+  1239  012360*    エラー処理                                                  *
+  1240  012370******************************************************************
+  1241  012380 エラー判定処理                       SECTION.                    
+  1242  012390 エラー判定処理－ＳＴＡＲＴ.                                      
+  1243  012400*                                                                 
+  1244  012410     MOVE  "Y"                        TO  Ｗ－異常終了－フラグ.   
+  1245  012420     INITIALIZE                           IF-CHOCO001.            
+  1246  012430*                                                                 
+  1247  012440     EVALUATE  Ｗ－エラーコード                                   
+  1248  012450        WHEN  -10                                                 
+  1249  012460*--< ＯＲＡＣＬＥ接続失敗 >                                       
+  1250  012470           MOVE  "1"                  TO  共１－イベント種別      
+  1251  012480           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+  1252  012490           MOVE  "9"                  TO  共１－復帰コード        
+  1253  012500           MOVE  "CONNECT"            TO  共１－処理識別          
+  1254  012510           MOVE  SQLCODE              TO  共１－データ内容        
+  1255  012520           MOVE  SQLERRMC             TO  共１－その他メッセージ  
+  1256  012530           CALL  CLOCO001             USING  IF-CHOCO001          
+  1257  012540*                                                                 
+  1258  012550        WHEN  -20                                                 
+  1259  012560*--< 結合テーブルカーソル定義処理失敗 >                           
+  1260  012570           MOVE  "1"                  TO  共１－イベント種別      
+  1261  012580           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+  1262  012590           MOVE  "9"                  TO  共１－復帰コード        
+  1263  012600           MOVE  "LTRSMM"             TO  共１－処理テーブルＩＤ  
+  1264  012610           MOVE  "SELECT"             TO  共１－処理識別          
+  1265  012620           MOVE  SQLCODE              TO  共１－データ内容        
+  1266  012630           MOVE  SQLERRMC             TO  共１－その他メッセージ  
+  1267  012640           CALL  CLOCO001             USING  IF-CHOCO001          
+  1268  012650                                                                  
+  1269  012660         WHEN  -30                                                
+  1270  012670*--< ファイルオープン失敗 >                                       
+  1271  012680           MOVE  "1"                  TO  共１－イベント種別      
+  1272  012690           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+  1273  012700           MOVE  "9"                  TO  共１－復帰コード        
+  1274  012710           MOVE  "FFUISA01"           TO  共１－処理テーブルＩＤ  
+  1275  012720           MOVE  "OPEN"               TO  共１－処理識別          
+  1276  012730           MOVE  Ｗ－状態             TO  共１－データ内容        
+  1277  012740           CALL  CLOCO001             USING  IF-CHOCO001          
+  1278  012750*                                                                 
+  1279  012760        WHEN  -40                                                 
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+  1280  012770*--< ファイルオープン失敗 >                                       
+  1281  012780           MOVE  "1"                  TO  共１－イベント種別      
+  1282  012790           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+  1283  012800           MOVE  "9"                  TO  共１－復帰コード        
+  1284  012810           MOVE  "FFUIS420"           TO  共１－処理テーブルＩＤ  
+  1285  012820           MOVE  "OPEN"               TO  共１－処理識別          
+  1286  012830           MOVE  Ｗ－状態             TO  共１－データ内容        
+  1287  012840           CALL  CLOCO001             USING  IF-CHOCO001          
+  1288  012850*                                                                 
+  1289  012860           WHEN  -50                                              
+  1290  012870*--< 結合テーブルカーソル読込失敗 >                               
+  1291  012880           MOVE  "1"                  TO  共１－イベント種別      
+  1292  012890           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+  1293  012900           MOVE  "9"                  TO  共１－復帰コード        
+  1294  012910           MOVE  "LTRSMM"             TO  共１－処理テーブルＩＤ  
+  1295  012920           MOVE  "FETCH"              TO  共１－処理識別          
+  1296  012930           MOVE  SQLCODE              TO  共１－データ内容        
+  1297  012940           MOVE  SQLERRMC             TO  共１－その他メッセージ  
+  1298  012950           CALL  CLOCO001             USING  IF-CHOCO001          
+  1299  012960*                                                                 
+  1300  012970           WHEN  -60                                              
+  1301  012980*--< 基準適用日読込処理の抽出確認失敗>                            
+  1302  012990           MOVE  "1"                  TO  共１－イベント種別      
+  1303  013000           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+  1304  013010           MOVE  "9"                  TO  共１－復帰コード        
+  1305  013020           MOVE  "FFUISA01"           TO  共１－処理テーブルＩＤ  
+  1306  013030           MOVE  "READ"               TO  共１－処理識別          
+  1307  013040           MOVE  Ｗ－状態             TO  共１－データ内容        
+  1308  013050           CALL  CLOCO001             USING  IF-CHOCO001          
+  1309  013060*                                                                 
+  1310  013070           WHEN  -70                                              
+  1311  013080*--< 再リース回数契約種類移行処理の抽出失敗 >                     
+  1312  013090           MOVE  "2"                  TO  共１－イベント種別      
+  1313  013100           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+  1314  013110           MOVE  "9"                  TO  共１－復帰コード        
+  1315  013120           MOVE  "IKOTBL2"            TO  共１－処理テーブルＩＤ  
+  1316  013130           MOVE  "SELECT"             TO  共１－処理識別          
+  1317  013140           MOVE  SQLCODE              TO  共１－データ内容        
+  1318  013150           MOVE  SQLERRMC             TO  共１－その他メッセージ  
+  1319  013160           CALL  CLOCO001             USING  IF-CHOCO001          
+  1320  013170           MOVE  "N"                  TO Ｗ－異常終了－フラグ     
+  1321  013180           DISPLAY  "契約種類等変換テーブルが存在しない"          
+  1322  013190                    "債務明細.債務契約Ｎ ＝ "                     
+  1323  013200                                      ＬＴＲＳＭＭ－債務契約ＮＯ  
+  1324  013210                    "債務明細.再リースコード ＝ "                 
+  1325  013220                                      ＬＴＲＳＭＭ－再リースコード
+  1326  013230                    "債務明細.契約明細ＮＯ ＝ "                   
+  1327  013240                                      ＬＴＲＳＭＭ－契約明細ＮＯ  
+  1328  013250                    "債務明細.レコードシーケンス ＝ "             
+  1329  013260                                  ＬＴＲＳＭＭ－レコードシーケンス
+  1330  013270*                                                                 
+  1331  013280           WHEN  -80                                              
+  1332  013290*--< 取引先コード,請求先コード移行の抽出確認 失敗 >               
+  1333  013300           MOVE  "2"                  TO  共１－イベント種別      
+  1334  013310           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+  1335  013320           MOVE  "9"                  TO  共１－復帰コード        
+  1336  013330           MOVE  "IKOTBL1 "           TO  共１－処理テーブルＩＤ  
+  1337  013340           MOVE  "SELECT"             TO  共１－処理識別          
+  1338  013350           MOVE  SQLCODE              TO  共１－データ内容        
+  1339  013360           MOVE  SQLERRMC             TO  共１－その他メッセージ  
+  1340  013370           CALL  CLOCO001             USING  IF-CHOCO001          
+  1341  013380           MOVE  "N"                  TO Ｗ－異常終了－フラグ     
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+  1342  013390           DISPLAY  "変換テーブルが存在しない"                    
+  1343  013400                    "債務明細.債務契約Ｎ ＝ "                     
+  1344  013410                                      ＬＴＲＳＭＭ－債務契約ＮＯ  
+  1345  013420                    "債務明細.再リースコード ＝ "                 
+  1346  013430                                      ＬＴＲＳＭＭ－再リースコード
+  1347  013440                    "債務明細.契約明細ＮＯ ＝ "                   
+  1348  013450                                      ＬＴＲＳＭＭ－契約明細ＮＯ  
+  1349  013460                    "債務明細.レコードシーケンス ＝ "             
+  1350  013470                                  ＬＴＲＳＭＭ－レコードシーケンス
+  1351  013480*                                                                 
+  1352  013490           WHEN  -90                                              
+  1353  013500*--< 請求明細共通移行処理の抽出確認 失敗 >                        
+  1354  013510           MOVE  "2"                  TO  共１－イベント種別      
+  1355  013520           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+  1356  013530           MOVE  "9"                  TO  共１－復帰コード        
+  1357  013540           MOVE  "LTRSKM "            TO  共１－処理テーブルＩＤ  
+  1358  013550           MOVE  "SELECT"             TO  共１－処理識別          
+  1359  013560           MOVE  SQLCODE              TO  共１－データ内容        
+  1360  013570           MOVE  SQLERRMC             TO  共１－その他メッセージ  
+  1361  013580           CALL  CLOCO001             USING  IF-CHOCO001          
+  1362  013590           MOVE  "N"                  TO Ｗ－異常終了－フラグ     
+  1363  013600           DISPLAY  "請求明細情報が存在しない"                    
+  1364  013610                    "債務明細.債務契約Ｎ ＝ "                     
+  1365  013620                                      ＬＴＲＳＭＭ－債務契約ＮＯ  
+  1366  013630                    "債務明細.再リースコード ＝ "                 
+  1367  013640                                      ＬＴＲＳＭＭ－再リースコード
+  1368  013650                    "債務明細.契約明細ＮＯ ＝ "                   
+  1369  013660                                      ＬＴＲＳＭＭ－契約明細ＮＯ  
+  1370  013670                    "債務明細.レコードシーケンス ＝ "             
+  1371  013680                                  ＬＴＲＳＭＭ－レコードシーケンス
+  1372  013690*                                                                 
+  1373  013700           WHEN  -100                                             
+  1374  013710*--< 元請求内訳コード１移行の抽出確認 失敗 >                      
+  1375  013720           MOVE  "2"                  TO  共１－イベント種別      
+  1376  013730           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+  1377  013740           MOVE  "9"                  TO  共１－復帰コード        
+  1378  013750           MOVE  "IKOTBL5 "           TO  共１－処理テーブルＩＤ  
+  1379  013760           MOVE  "SELECT"             TO  共１－処理識別          
+  1380  013770           MOVE  SQLCODE              TO  共１－データ内容        
+  1381  013780           MOVE  SQLERRMC             TO  共１－その他メッセージ  
+  1382  013790           CALL  CLOCO001             USING  IF-CHOCO001          
+  1383  013800           MOVE  "N"                  TO Ｗ－異常終了－フラグ     
+  1384  013810*                                                                 
+  1385  013820           WHEN  -110                                             
+  1386  013830*--< 協調転物件代金売ファイル出力処理失敗 >                       
+  1387  013840           MOVE  "1"                  TO  共１－イベント種別      
+  1388  013850           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+  1389  013860           MOVE  "9"                  TO  共１－復帰コード        
+  1390  013870           MOVE  "FFUIS420"           TO  共１－処理テーブルＩＤ  
+  1391  013880           MOVE  "WRITE"              TO  共１－処理識別          
+  1392  013890           MOVE  SQLCODE              TO  共１－データ内容        
+  1393  013900           MOVE  SQLERRMC             TO  共１－その他メッセージ  
+  1394  013910           CALL  CLOCO001             USING  IF-CHOCO001          
+  1395  013920           WHEN  OTHER                                            
+  1396  013930*                                                                 
+  1397  013940           MOVE  "N"                  TO Ｗ－異常終了－フラグ     
+  1398  013950     END-EVALUATE.                                                
+  1399  013960*                                                                 
+  1400  013970     IF Ｗ－異常終了－フラグ  =  "Y"                              
+  1401  013980*                                                                 
+  1402  013990*--< 件数メッセージ出力処理 >                                     
+  1403  014000        PERFORM  件数メッセージ出力                               
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+  1404  014010*--< 終了メッセージ出力処理 >                                     
+  1405  014020        PERFORM  終了メッセージ出力                               
+  1406  014030*                                                                 
+  1407  014040*--< プログラム異常終了のリターンコード >                         
+  1408  014050        MOVE  定数－異常状態          TO  PROGRAM-STATUS          
+  1409  014060*                                                                 
+  1410  014070        EXIT  PROGRAM                                             
+  1411  014080     END-IF.                                                      
+  1412  014090*                                                                 
+  1413  014100 エラー処理－ＥＸＩＴ.                                            
+  1414  014110     EXIT.                                                        
+  1415  014120******************************************************************
+  1416  014130*                  END OF PROGRAM                                *
+  1417  014140******************************************************************
+ファイル: COBIS420.PCOをクローズ
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+ホスト変数
+--------------
+
+01  DB-STRING                                           Charf(20)
+  Z:\COB97\COPYLIB_DB\SQLCOM.CBL      3
+  COBIS420.PCO    283
+
+01  PASSWD                                              Charf(10)
+  Z:\COB97\COPYLIB_DB\SQLCOM.CBL      5
+  COBIS420.PCO    278    282
+
+01  SQLSTATE                                            Charf(5)
+  Z:\COB97\COPYLIB_DB\SQLCOM.CBL      2
+  COBIS420.PCO    277    281    346    414    645    706    818   1067   1159
+
+01  USERNAME                                            Charf(10)
+  Z:\COB97\COPYLIB_DB\SQLCOM.CBL      4
+  COBIS420.PCO    278    282
+
+01  ＩＫＯ００１－枝番                                  Charf(3)
+  Z:\COB97\COPYLIB_DB\IKOTBL001.CBL      7
+  COBIS420.PCO    710
+
+01  ＩＫＯ００１－新取引先コード                        Charf(7)
+  Z:\COB97\COPYLIB_DB\IKOTBL001.CBL      6
+  COBIS420.PCO    709
+
+01  ＩＫＯ００２－契約種類                              Charf(3)
+  Z:\COB97\COPYLIB_DB\IKOTBL002.CBL     11
+  COBIS420.PCO    650
+
+01  ＩＫＯ００２－再リース回数                          Decimal(2,0)
+  Z:\COB97\COPYLIB_DB\IKOTBL002.CBL      8
+  COBIS420.PCO    649
+
+01  ＩＫＯ００２－主契約区分                            Charf(1)
+  Z:\COB97\COPYLIB_DB\IKOTBL002.CBL     12
+  COBIS420.PCO    651
+
+01  ＩＫＯ００５－現請求内訳コード                      Charf(3)
+  Z:\COB97\COPYLIB_DB\IKOTBL005.CBL      4
+  COBIS420.PCO   1069
+
+01  ＬＴＲＳＫＭ－消込金額                              Decimal(13,0)
+  Z:\COB97\COPYLIB_DB\LTRSKM.CBL     25
+  COBIS420.PCO    823
+
+01  ＬＴＲＳＫＭ－消込通番                              Decimal(9,0)
+  Z:\COB97\COPYLIB_DB\LTRSKM.CBL     17
+  COBIS420.PCO    826
+
+01  ＬＴＲＳＫＭ－消込日－世紀                          Decimal(1,0)
+  Z:\COB97\COPYLIB_DB\LTRSKM.CBL     18
+  COBIS420.PCO    824
+
+01  ＬＴＲＳＫＭ－消込日－年月日                        Charf(6)
+  Z:\COB97\COPYLIB_DB\LTRSKM.CBL     19
+  COBIS420.PCO    825
+
+01  ＬＴＲＳＭＫ－債務勘定処理コード                    Decimal(2,0)
+  Z:\COB97\COPYLIB_DB\LTRSMK.CBL     28
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+  COBIS420.PCO    418    656
+
+01  ＬＴＲＳＭＫ－債務契約ＮＯ                          Charf(10)
+  Z:\COB97\COPYLIB_DB\LTRSMK.CBL      4
+  COBIS420.PCO    416
+
+01  ＬＴＲＳＭＫ－再リースコード                        Decimal(1,0)
+  Z:\COB97\COPYLIB_DB\LTRSMK.CBL      5
+  COBIS420.PCO    417    654
+
+01  ＬＴＲＳＭＭ－リース開始日－世紀                    Decimal(1,0)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL     31
+  COBIS420.PCO    422
+
+01  ＬＴＲＳＭＭ－リース開始日－年月日                  Charf(6)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL     32
+  COBIS420.PCO    423
+
+01  ＬＴＲＳＭＭ－レコードシーケンス                    Decimal(1,0)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL      7
+  COBIS420.PCO    435
+
+01  ＬＴＲＳＭＭ－回収物件金額                          Decimal(13,0)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL     22
+  COBIS420.PCO    424
+
+01  ＬＴＲＳＭＭ－回収方式コード                        Decimal(1,0)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL     26
+  COBIS420.PCO    429
+
+01  ＬＴＲＳＭＭ－契約明細ＮＯ                          Decimal(2,0)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL      6
+  COBIS420.PCO    434
+
+01  ＬＴＲＳＭＭ－債務勘定処理コード                    Decimal(2,0)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL     41
+  COBIS420.PCO    431
+
+01  ＬＴＲＳＭＭ－債務協調コード                        Charf(2)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL      9
+  COBIS420.PCO    432
+
+01  ＬＴＲＳＭＭ－債務契約ＮＯ                          Charf(10)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL      4
+  COBIS420.PCO    426
+
+01  ＬＴＲＳＭＭ－債務取引コード                        Charf(8)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL      8
+  COBIS420.PCO    419    712
+
+01  ＬＴＲＳＭＭ－再リースコード                        Decimal(1,0)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL      5
+  COBIS420.PCO    430    829
+
+01  ＬＴＲＳＭＭ－請求データ作成日－世紀                Decimal(1,0)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL     28
+  COBIS420.PCO    427
+
+01  ＬＴＲＳＭＭ－請求データ作成日－年月日              Charf(6)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL     29
+  COBIS420.PCO    428
+
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+01  ＬＴＲＳＭＭ－売上消費税                            Decimal(13,0)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL     23
+  COBIS420.PCO    425    433
+
+01  ＬＴＲＳＭＭ－物件代金回収日－世紀                  Decimal(1,0)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL     24
+  COBIS420.PCO    420
+
+01  ＬＴＲＳＭＭ－物件代金回収日－年月日                Charf(6)
+  Z:\COB97\COPYLIB_DB\LTRSMM.CBL     25
+  COBIS420.PCO    421
+
+01  ＷＳ－債務協調コード１                              Charf(1)
+  COBIS420.PCO     71    335    335
+
+01  ＷＳ－債務協調コード２                              Charf(2)
+  COBIS420.PCO     72    337    337
+
+01  ＷＳ－債務協調コード３                              Charf(2)
+  COBIS420.PCO     73    339    339
+
+01  ＷＳ－債務契約ＮＯ                                  Charf(10)
+  COBIS420.PCO     74    653    828
+
+01  ＷＳ－出力請求内訳コード                            Charf(3)
+  COBIS420.PCO    102    830   1071
+
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+SQL識別子
+---------------
+
+CUR1                  CURSOR                        
+  COBIS420.PCO    309    347    415   1160    309
+
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+
+                              プリコンパイラ・オプション
+-------------------------------------------------------------------------------
+オプション名   現在の設定値         設定先
+-------------------------------------------------------------------------------
+asacc             no                デフォルト                                  
+assume_sqlcode    no                デフォルト                                  
+auto_connect      no                デフォルト                                  
+close_on_commit   yes               mode                                        
+comp5             yes               D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+config            default config    デフォルト                                  
+date_format       local             デフォルト                                  
+dbms              native            デフォルト                                  
+declare_section   yes               mode                                        
+define            *なし*            デフォルト                                  
+dynamic           ansi              mode                                        
+end_of_fetch      100               mode                                        
+eol_padding       yes               デフォルト                                  
+errors            yes               デフォルト                                  
+fips              no                デフォルト                                  
+format            ansi              デフォルト                                  
+hold_cursor       no                デフォルト                                  
+host              cobol             デフォルト                                  
+iname             COBIS420.PCO      コマンドライン                              
+include           Z:\COB97\COPYLIB  D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+                  Z:\COB97\COPYLIB_DD:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+                  *なし*            D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+ireclen           132               D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+litdelim          quote             デフォルト                                  
+lname             *なし*            デフォルト                                  
+lreclen           132               デフォルト                                  
+ltype             long              デフォルト                                  
+maxliteral        160               D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+maxopencursors    10                デフォルト                                  
+mode              ANSI              D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+nested            yes               デフォルト                                  
+nls_local         yes               D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+oname             COBIS420.COB      コマンドライン                              
+oraca             no                デフォルト                                  
+oreclen           80                デフォルト                                  
+pagelen           66                デフォルト                                  
+picx              charf             デフォルト                                  
+prefetch          1                 デフォルト                                  
+release_cursor    no                デフォルト                                  
+select_error      yes               デフォルト                                  
+sqlcheck          FULL              D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+threads           no                デフォルト                                  
+type_code         ansi              mode                                        
+unsafe_null       no                デフォルト                                  
+userid            WANGHJ/WHJ@FIP    D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+varchar           no                デフォルト                                  
+xref              yes               デフォルト                                  
+Pro*COBOL: Release 9.2.0.1.0 - Production on 木 Apr 7 16:45:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+統計表示
+----------
+
+リターン・コード: 0
+重要性 Iでのメッセージ数: 0
+重要性 Wでのメッセージ数: 0
+重要性 Eでのメッセージ数: 0
+重要性 Fでのメッセージ数: 0
+入力ラインの数: 1672
+宣言されたホスト変数の数: 258
+カーソル名の数: 1
+文名の数: 0
+使用される最大メモリー(バイト): 360081

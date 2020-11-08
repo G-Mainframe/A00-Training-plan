@@ -1,0 +1,73 @@
+主程序: ST077.COBOL.SOURCE(C1)
+***************************** Top of Data ******************************
+       IDENTIFICATION  DIVISION.                                        
+       PROGRAM-ID.  MAIN.                                               
+       ENVIRONMENT  DIVISION.                                           
+       DATA  DIVISION.                                                  
+       PROCEDURE  DIVISION.                                             
+           DISPLAY 'CALL SUBPROGRAM'.                                   
+           CALL 'SUBPG'.                                                   
+           DISPLAY 'CALL END'.                                          
+           STOP RUN.                                                    
+**************************** Bottom of Data ****************************
+
+
+子程序: ST077.COBOL.SOURCE(C2)
+***************************** Top of Data ******************************
+       IDENTIFICATION  DIVISION.                                        
+       PROGRAM-ID.   SUBPG.                                             
+       ENVIRONMENT  DIVISION.                                           
+       DATA  DIVISION.                                                  
+       PROCEDURE        DIVISION.                                       
+           DISPLAY 'BEGIN CALL'.                                        
+           DISPLAY 'THIS IS A SUBPROGRAM'.                              
+           DISPLAY 'END CALL'.                                          
+           EXIT PROGRAM.                                                
+**************************** Bottom of Data ****************************
+
+
+编译子程序的JCL: ST077.COBOL.COMLINK2
+***************************** Top of Data ******************************
+//ST077A JOB 1,JHY,CLASS=A,MSGCLASS=X,MSGLEVEL=(1,1),                   
+//     NOTIFY=&SYSUID                                                   
+//COBOL EXEC IGYWCL                                                     
+//STEPLIB DD DSN=IGY330.SIGYCOMP,DISP=SHR                               
+//COBOL.SYSLIB DD DSN=ST077.COBOL.SOURCE,DISP=SHR                       
+//COBOL.SYSIN  DD DSN=ST077.COBOL.SOURCE(C2),DISP=SHR                   
+//LKED.SYSLMOD DD DSN=ST077.COBOL.LOAD(SUBPG),DISP=SHR                  
+//SYSPRINT DD SYSOUT=*                                                  
+**************************** Bottom of Data ****************************
+
+
+编译主程序的JCL: ST077.COBOL.COMLINK
+***************************** Top of Data ******************************
+//ST077A JOB 1,JHY,CLASS=A,MSGCLASS=X,MSGLEVEL=(1,1),                   
+//     NOTIFY=&SYSUID                                                   
+//COBOL EXEC IGYWCL                                                     
+//STEPLIB      DD DSN=IGY330.SIGYCOMP,DISP=SHR                          
+//LKED.SYSLIB  DD DSN=ST077.COBOL.LOAD,DISP=SHR                         
+//COBOL.SYSLIB DD DSN=ST077.COBOL.SOURCE,DISP=SHR                       
+//LKED.SYSLMOD DD DSN=ST077.COBOL.LOAD(MAIN),DISP=SHR                   
+//COBOL.SYSIN  DD DSN=ST077.COBOL.SOURCE(C1),DISP=SHR                   
+//SYSPRINT DD SYSOUT=*                                                  
+**************************** Bottom of Data ****************************
+
+
+运行主程序的JCL: ST077.COBOL.RUN
+***************************** Top of Data ******************************
+//ST077A    JOB  1,JHY,CLASS=A,MSGCLASS=X,MSGLEVEL=(1,1),               
+//          NOTIFY=&SYSUID                                              
+//STEP1  EXEC  PGM=MAIN                                                 
+//STEPLIB  DD  DSN=ST077.COBOL.LOAD,DISP=SHR                            
+//SYSPRINT DD  SYSOUT=*                                                 
+**************************** Bottom of Data ****************************
+
+
+输出结果
+********************************* TOP OF DATA **********************************
+CALL SUBPROGRAM                                                                 
+BEGIN CALL                                                                      
+THIS IS A SUBPROGRAM                                                            
+END CALL                                                                        
+CALL END                                                                        
+******************************** BOTTOM OF DATA ********************************

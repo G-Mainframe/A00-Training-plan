@@ -1,0 +1,31 @@
+CREATE TABLE KEI_WK_EDA_THUMON
+(
+    Œ_–ñ”Ô†                       CHAR(9) NOT NULL,
+    ƒfƒB[ƒ‰[ƒR[ƒh               CHAR(5) NOT NULL,
+    ’[––”Ô†                       VARCHAR2(16) NOT NULL,
+    Ž–‹ÆŠƒR[ƒh                   CHAR(4),
+    Žæˆøæ–¼                       VARCHAR2(60),
+    Œ_–ñ“ú                         CHAR(8),
+    ŒŸŽû—\’è“ú                     CHAR(8),
+    [“–_‘ŠŽE‹æ•ª                  CHAR(1),
+    ‘O“n‹à‹æ•ª                     CHAR(1),
+    w“üæ–¼                       VARCHAR2(60),
+    w“üæZŠ                     VARCHAR2(100),
+    w“ü‹àŠz‡Œv                   NUMBER(13,0),
+    Žd“üÁ”ïÅ“™Šz                 NUMBER(13,0),
+    Žx•¥ŒJ‰„‹àŠz1                  NUMBER(13,0),
+    Žx•¥ðŒ•¶Œ¾1                  VARCHAR2(40),
+    Žx•¥ŒJ‰„‹àŠz2                  NUMBER(13,0),
+    Žx•¥ðŒ•¶Œ¾2                  VARCHAR2(40),
+    Žx•¥ŒJ‰„‹àŠz3                  NUMBER(13,0),
+    Žx•¥ðŒ•¶Œ¾3                  VARCHAR2(40),
+    Žx•¥ŒJ‰„‹àŠz4                  NUMBER(13,0),
+    Žx•¥ðŒ•¶Œ¾4                  VARCHAR2(40),
+    Žx•¥ŒJ‰„‹àŠz5                  NUMBER(13,0),
+    Žx•¥ðŒ•¶Œ¾5                  VARCHAR2(40),
+    “s“¹•{Œ§                       VARCHAR2(10),
+    ZŠ‚P                         VARCHAR2(40),
+    ZŠ‚Q                         VARCHAR2(40),
+    CONSTRAINT SYS_C0025850 PRIMARY KEY (Œ_–ñ”Ô†, ƒfƒB[ƒ‰[ƒR[ƒh, ’[––”Ô†) USING INDEX
+)
+/

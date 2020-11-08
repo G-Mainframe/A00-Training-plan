@@ -1,0 +1,137 @@
+******************************************************************        
+*                                                                         
+*    ì˙ïtï“èWÉTÉuÉãÅ[É`Éì                                                 
+*                                                                         
+******************************************************************        
+     COPY CPPROGID REPLACING PNAME BY GPDTED.                             
+*                                                                         
+ DATA DIVISION.                                                           
+ WORKING-STORAGE SECTION.                                                 
+ 01  DATE-HEN                    PIC  Z9.                                 
+*    ÇVåÖï“èW                                                             
+ 01  DATE-WORK3.                                                          
+     02  DATE-W3-R               PIC  X(01).                              
+     02  DATE-W3-Y               PIC  X(02).                              
+     02  DATE-W3-M               PIC  X(02).                              
+     02  DATE-W3-D               PIC  X(02).                              
+*    ÇXåÖï“èW                                                             
+ 01  DATE-WORK1.                                                          
+     02  DATE-W1-R               PIC  X(01).                              
+     02  DATE-W1-Y               PIC  X(02).                              
+     02  FILLER                  PIC  X(01)  VALUE  ".".                  
+     02  DATE-W1-M               PIC  X(02).                              
+     02  FILLER                  PIC  X(01)  VALUE  ".".                  
+     02  DATE-W1-D               PIC  X(02).                              
+*    äøéöÇPÇPåÖï“èW                                                       
+ 01  DATE-WORK2.                                                          
+     02  DATE-W2-S               PIC  N(04).                              
+     02  DATE-W2-S-R  REDEFINES  DATE-W2-S.                               
+         03  DATE-W2-R           PIC  N(02).                              
+         03  DATE-W2-Y           PIC  N(02).                              
+     02  FILLER                  PIC  N(01)  VALUE  NC"îN".               
+     02  DATE-W2-M               PIC  N(02).                              
+     02  FILLER                  PIC  N(01)  VALUE  NC"åé".               
+     02  DATE-W2-D               PIC  N(02).                              
+     02  FILLER                  PIC  N(01)  VALUE  NC"ì˙".               
+*    å≥îN                                                                 
+ 01  GANNEN                      PIC  N(02)  VALUE  NC"Å@å≥".             
+     COPY GPDTCKLK.                                                       
+ LINKAGE SECTION.                                                         
+     COPY GPDTEDLK.                                                       
+/                                                                         
+ PROCEDURE DIVISION USING GPDTEDLK.                                       
+*                                                                         
+     COPY CPDATEXP.                                                       
+******************************************************************        
+*    éÂèàóù                                                               
+******************************************************************        
+ MAIN-RTN.                                                                
+     MOVE ZERO               TO DTEDRTN.                                  
+     INITIALIZE GPDTCKLK.                                                 
+     MOVE 1                  TO DTCKKBN.                                  
+     MOVE DTEDDATEX          TO DTCKDATEX.                                
+     CALL "GPDTCK"           USING GPDTCKLK.                              
+     IF  DTCKRTN  NOT =  ZERO                                             
+         MOVE 1                  TO DTEDRTN                               
+         GO TO  MAIN-EXT.                                                 
+*                                                                         
+     IF  DTEDDATEX  =  ALL "9"                                            
+         PERFORM FUSYO-RTN           THRU FUSYO-EXT                       
+         GO TO  MAIN-EXT.                                                 
+*                                                                         
+     PERFORM DATE-EDIT-RTN1  THRU DATE-EDIT-EXT1.                         
+     PERFORM DATE-EDIT-RTN2  THRU DATE-EDIT-EXT2.                         
+     PERFORM DATE-EDIT-RTN3  THRU DATE-EDIT-EXT3.                         
+     PERFORM DATE-EDIT-RTN4  THRU DATE-EDIT-EXT4.                         
+ MAIN-EXT.                                                                
+     EXIT PROGRAM.                                                        
+*                                                                         
+******************************************************************        
+*    ì˙ïtïsè⁄                                                             
+******************************************************************        
+ FUSYO-RTN.                                                               
+     MOVE SPACE              TO DTEDDATE-X7.                              
+     MOVE SPACE              TO DTEDDATE-X9.                              
+     MOVE NC"ïsè⁄"           TO DTEDDATE-N                                
+                                DTEDDATE-S.                               
+ FUSYO-EXT.                                                               
+     EXIT.                                                                
+*                                                                         
+******************************************************************        
+*    ì˙ïtï“èWÅ@ÅiÇqÇxÇxÅDÇlÇlÅDÇcÇcÅj                                     
+******************************************************************        
+ DATE-EDIT-RTN1.                                                          
+     MOVE DTCKREKI-X         TO DATE-W1-R.                                
+     MOVE DTED-Y             TO DATE-HEN.                                 
+     MOVE DATE-HEN           TO DATE-W1-Y.                                
+     MOVE DTED-M             TO DATE-HEN.                                 
+     MOVE DATE-HEN           TO DATE-W1-M.                                
+     MOVE DTED-D             TO DATE-HEN.                                 
+     MOVE DATE-HEN           TO DATE-W1-D.                                
+     MOVE DATE-WORK1         TO DTEDDATE-X9.                              
+ DATE-EDIT-EXT1.                                                          
+     EXIT.                                                                
+*                                                                         
+******************************************************************        
+*    ì˙ïtï“èWÅ@ÅiÇmÇmÇxÇxîNÇlÇlåéÇcÇcì˙Åj                                 
+******************************************************************        
+ DATE-EDIT-RTN2.                                                          
+     MOVE DTCKREKI-N2        TO DATE-W2-R.                                
+     IF  DTED-Y  =  1                                                     
+         MOVE GANNEN             TO DATE-W2-Y                             
+     ELSE                                                                 
+         MOVE DTED-Y             TO DATE-HEN                              
+         MOVE DATE-HEN           TO DATE-W2-Y.                            
+     MOVE DTED-M             TO DATE-HEN.                                 
+     MOVE DATE-HEN           TO DATE-W2-M.                                
+     MOVE DTED-D             TO DATE-HEN.                                 
+     MOVE DATE-HEN           TO DATE-W2-D.                                
+     MOVE DATE-WORK2         TO DTEDDATE-N.                               
+ DATE-EDIT-EXT2.                                                          
+     EXIT.                                                                
+*                                                                         
+******************************************************************        
+*    ì˙ïtï“èWÅ@ÅiÇrÇrÇrÇrîNÇlÇlåéÇcÇcì˙Åj                                 
+******************************************************************        
+ DATE-EDIT-RTN3.                                                          
+     MOVE DTCKSEIREKI        TO DATE-W2-S.                                
+     MOVE DTED-M             TO DATE-HEN.                                 
+     MOVE DATE-HEN           TO DATE-W2-M.                                
+     MOVE DTED-D             TO DATE-HEN.                                 
+     MOVE DATE-HEN           TO DATE-W2-D.                                
+     MOVE DATE-WORK2         TO DTEDDATE-S.                               
+ DATE-EDIT-EXT3.                                                          
+     EXIT.                                                                
+*                                                                         
+******************************************************************        
+*    ì˙ïtï“èWÅ@ÅiÇqÇxÇxÇlÇlÇcÇcÅj                                         
+******************************************************************        
+ DATE-EDIT-RTN4.                                                          
+     MOVE DTCKREKI-X         TO DATE-W3-R.                                
+     MOVE DTED-Y             TO DATE-W3-Y.                                
+     MOVE DTED-M             TO DATE-W3-M.                                
+     MOVE DTED-D             TO DATE-W3-D.                                
+     MOVE DATE-WORK3         TO DTEDDATE-X7.                              
+ DATE-EDIT-EXT4.                                                          
+     EXIT.                                                                
+*=======================  END  OF  GPDTED  =======================        

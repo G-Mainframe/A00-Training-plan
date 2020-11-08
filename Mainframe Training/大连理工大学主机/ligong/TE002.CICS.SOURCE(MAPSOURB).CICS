@@ -1,0 +1,22 @@
+000001 IDENTIFICATION DIVISION.                                         00010006
+       PROGRAM-ID MAPSOURB.                                             00020023
+       DATA DIVISION.                                                   00030006
+       WORKING-STORAGE SECTION.                                         00040006
+             COPY MAPSETA.                                              00050006
+       LINKAGE SECTION.                                                 00060006
+       01 DFHCOMMAREA.                                                  00070006
+          05 NAMES  PIC X(20).                                          00080019
+       PROCEDURE DIVISION.                                              00090006
+      *                                                                 00100006
+           MOVE ALL SPACES TO NAMEO.                                    00110013
+      *    STRING NAMES 'ABCDE' DELIMITED BY SIZE INTO NAMEO.           00120030
+           MOVE NAMES TO NAMEO.                                         00130029
+           MOVE  100000   TO STOCKO.                                    00140029
+           MOVE 'NO MESSAGES!' TO MSGO.                                 00150028
+           MOVE  123456789  TO QUANO.                                   00160029
+           EXEC CICS SEND MAP('ORDERM') MAPSET('MAPSETA') DATAONLY      00170029
+                END-EXEC.                                               00180006
+           EXEC CICS RETURN END-EXEC.                                   00190006
+           GOBACK.                                                      00200006
+              EXIT.                                                     00210006
+

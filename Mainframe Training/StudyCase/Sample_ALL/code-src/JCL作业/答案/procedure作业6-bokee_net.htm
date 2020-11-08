@@ -1,0 +1,940 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0070)http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=500167 -->
+<HTML 
+xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>procedure作业6-bokee.net</TITLE>
+<SCRIPT language=javascript 
+src="procedure作业6-bokee_net_files/count_webLogEntryHitCount.htm"></SCRIPT>
+
+<SCRIPT src="procedure作业6-bokee_net_files/AJAXDELETE.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="procedure作业6-bokee_net_files/AJAXManager.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="procedure作业6-bokee_net_files/engine.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="procedure作业6-bokee_net_files/util.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="procedure作业6-bokee_net_files/AJAXWebLog.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT type=text/javascript lauguage="javascript">
+ function removeComment(commentId,bokeeName,thisComment){
+      if(confirm("确定要删除该评论吗!")){
+      thisComment.innerHTML="<font color='red'>正在删除中....</font>";
+      AJAXDELETE.deleteComment(commentId,bokeeName,callbackDelete);
+    }
+    return false;
+  }
+
+function callbackDelete(delResult){
+if(delResult == 0){
+alert("抱歉!您还没登入!")
+}else if(delResult == -1){
+alert("抱歉!您没有权限删除")
+}else{
+$('comment'+delResult).style.display = "none";
+}
+}
+
+function  vote(id){
+	AJAXManager.updateWebLogEntryVoteCount(reply0,id);
+}
+reply0 = function(data){
+	if (data != null && typeof data == 'object'){
+  		alert(DWRUtil.toDescriptiveString(data, 2));
+    }else{
+		var tempvalue=DWRUtil.toDescriptiveString(data, 1);
+		if(tempvalue==-1){
+			alert("请勿重复投票");
+		}else{
+			alert("感谢你的投票");
+			document.getElementById('vote_500167').innerHTML=tempvalue;
+		 }
+	}
+	
+	
+}
+
+function deleteCommentForAdmin(id,name){
+		if(confirm("您确定要删除吗？")){
+			window.location="/bloggermodule/blogcomment_deleteCommentForAdmin.do?id="+id+"&bokeeName="+name;
+		}
+	}
+
+	function deleteWeblogForAdmin(id){
+		if(confirm("您确定要删除吗？")){
+			//alert("hehe="+id);
+			window.location="/bloggermodule/blogadmin_deleteEntryForAdmin.do?id="+id;
+			
+		}
+	}
+	
+function makeAsTopBlog(theTopEntryId,thisTopEntry){
+thisTopEntry.innerHTML="<font color='red'>正在处理,请稍等....</font>";
+AJAXWebLog.makeAsTopBlog(theTopEntryId,callbackMakeAsTopBlog);
+return false
+}
+function callbackMakeAsTopBlog(makeAsTopBlogResult){
+if(makeAsTopBlogResult == 0){
+alert("您没有登入,请登入!");
+}else if(makeAsTopBlogResult == -1){
+alert("您没有权限置顶!");
+}else{
+$("top_entry_"+makeAsTopBlogResult).innerHTML="<a href='' title='该文章已置顶，点击取消置顶'  onclick='return deleteTopEntry("+makeAsTopBlogResult+",this);'><font color='green'>取消置顶</font></a>";
+}
+}
+
+
+function deleteTopEntry(theTopEntryId,thisTopEntry){
+thisTopEntry.innerHTML="<font color='red'>正在处理,请稍等....</font>";
+AJAXWebLog.deleteTopEntry(theTopEntryId,callbackDeleteTopEntry);
+return false
+}
+function callbackDeleteTopEntry(deleteTopEntryResult){
+if(deleteTopEntryResult == 0){
+alert("您没有登入,请登入!");
+}else if(deleteTopEntryResult == -1){
+alert("您没有权限取消!");
+}else{
+$("top_entry_"+deleteTopEntryResult).innerHTML="<a href='' title='点击将该文章置顶' onclick='return makeAsTopBlog("+deleteTopEntryResult+",this);' ><font color='blue'>置顶</font></a>";
+}
+}
+</SCRIPT>
+
+<META http-equiv=Content-Type content=text/html;charset=UTF-8>
+<META http-equiv=Content-Language content=UTF-8>
+<META content=all name=robots>
+<META http-equiv=imagetoolbar content=false>
+<META content=true name=MSSmartTagsPreventParsing><LINK href="/favicon.ico" 
+type=image/x-icon rel="shortcut icon"><LINK 
+href="http://www.bokee.net/favicon.ico" type=image/x-icon rel="shortcut icon">
+<META content="Copyright (c) 2006 bokee.net" name=Copyright>
+<META 
+content=",多利,胡湘职业博客,软件工程师博客,职业人博客,商业博客,企业博客,企业博客网,博客圈,商人博客,律师博客,产品博客,博客,博采,博客托管,图片博客,移动博客,群体博客,blog,blogging,blogger,business blog,company blog" 
+name=keywords>
+<META 
+content="procedure作业6,6． 新建自己的PROCLIB，把练习5中的procedure变成cataloged procedure，然后修改练习5的作业，改为调用cataloged procedure，将输出数据集改为userid.JCLW3D1.PS61和userid.JCLW3D1.PS62，看看JOBLOG有什么不同。比较练习5和练习6的作业，体会两种procedure的特点。&#13;&#10;注：USER PROCLIB调用举例&#13;&#10;在WISCO15.EXERCISE（PROC1）中输入PROC1：&#13;&#10;000001 //PROC1 PROC UN=3390,U=TRK,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#13;&#10;000002 // SR=TSTWK1,S=10,P=20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#13;&#10;000003 //STEP1 EXEC PGM=IEBGENER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,胡湘的软件工程师职业博客(多利) - 企业博客网bokee.net" 
+name=description><LINK media=all href="procedure作业6-bokee_net_files/blog.css" 
+type=text/css rel=stylesheet><LINK media=all 
+href="procedure作业6-bokee_net_files/1.css" type=text/css rel=stylesheet>
+<SCRIPT language=javascript src="procedure作业6-bokee_net_files/common.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="procedure作业6-bokee_net_files/AJAXCJH.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="procedure作业6-bokee_net_files/engine.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="procedure作业6-bokee_net_files/util.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="procedure作业6-bokee_net_files/AJAXCSS.js" 
+type=text/javascript></SCRIPT>
+
+<META content="MSHTML 6.00.2900.3199" name=GENERATOR></HEAD>
+<BODY style="BACKGROUND-IMAGE: none">
+<P class=access>procedure作业6，6． 新建自己的PROCLIB，把练习5中的procedure变成cataloged 
+procedure，然后修改练习5的作业，改为调用cataloged 
+procedure，将输出数据集改为userid.JCLW3D1.PS61和userid.JCLW3D1.PS62，看看JOBLOG有什么不同。比较练习5和练习6的作业，体会两种procedure的特点。注：USER 
+PROCLIB调用举例在WISCO15.EXERCISE（PROC1）中输入PROC1： 000001 //PROC1 PROC 
+UN=3390,U=TRK,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+000002 // 
+SR=TSTWK1,S=10,P=20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+000003 //STEP1 EXEC 
+PGM=IEBGENER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;，胡湘的软件工程师职业博客(多利) 
+- 企业博客网</P>
+<DIV id=top>
+<H1><A href="http://www.bokee.net/" target=_blank>bokee.net</A></H1>
+<H2><A 
+href="http://www.bokee.net/mainmodule/TradeGroupCount_blogDetailCareer.do?tradeCode=00700010" 
+target=_blank>软件工程师博客</A></H2>
+<SCRIPT language=javascript src="procedure作业6-bokee_net_files/login_js.jsp" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT language=javascript type=text/javascript>login_01()</SCRIPT>
+
+<STYLE type=text/css>.backindex {
+	RIGHT: 193px; FLOAT: right; MARGIN: 0px 0px -24px; POSITION: relative; TOP: -23px
+}
+</STYLE>
+</DIV>
+<DIV id=main>
+<DIV id=head>
+<H1><A href="http://xianger.blog.bokee.net/">多利</A></H1>
+<H2>My motto of work --- "Do my best".</H2>
+<TABLE cellSpacing=0 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD><SPAN><A 
+      href="http://xianger.blog.bokee.net/">xianger.blog.bokee.net</A> <A 
+      title=复制网页地址 onclick="setCopy('http://xianger.blog.bokee.net');" 
+      href="javascript:;">复制网址</A> | <A 
+      href="http://www.bokee.net/bloggermodule/favor_addBlog.do?bokeeName=xianger">加入收藏</A> 
+      | <A 
+      onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://xianger.blog.bokee.net');" 
+      href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=500167#">设为主页</A> 
+      </SPAN></TD></TR></TBODY></TABLE></DIV>
+<DIV id=menu>
+<SCRIPT language=javascript src="procedure作业6-bokee_net_files/login_js.jsp" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT language=javascript type=text/javascript>login_02()</SCRIPT>
+
+<UL>
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/main.jsp?bokeeName=xianger"><SPAN>首页</SPAN></A> 
+  </LI>
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_list.do?bokeeName=xianger"><SPAN>文章</SPAN></A> 
+  </LI>
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/image_list.do?bokeeName=xianger"><SPAN>图片</SPAN></A> 
+  </LI>
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/friend_listFriends.do?bokeeName=xianger"><SPAN>好友更新</SPAN></A> 
+  </LI>
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/list/history.jsp?bokeeName=xianger"><SPAN>个人动态</SPAN></A> 
+  </LI>
+  <LI><A class=xugang 
+  href="http://xianger.blog.bokee.net/bloggermodule/favor_listAllFavor.do?bokeeName=xianger"><SPAN>我的收藏</SPAN></A> 
+  </LI>
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/bokeenote_list.do?bokeeName=xianger&amp;pagerow=20"><SPAN>留言</SPAN></A> 
+  </LI></UL></DIV>
+<DIV id=middle>
+<DIV class=mmleft>
+<DIV class=titleheader></DIV>
+<H2 class=title><SPAN class=content_card_right>&nbsp;</SPAN><A 
+href="http://www.bokee.net/bloggermodule/include/userInfo.jsp?bokeeName=xianger">个人名片</A></H2>
+<DIV class=content>
+<DIV class=userlogo>
+<DIV class=userlogo_img><A 
+href="http://www.bokee.net/bloggermodule/include/userInfo.jsp?bokeeName=xianger"><IMG 
+height=120 src="procedure作业6-bokee_net_files/xianger389482.BMP" border=0> 
+</A></DIV>
+<UL>
+  <LI><A onclick=needLogin(); 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=500167#">加我为好友</A> 
+  </LI>
+  <LI><A onclick=needLogin(); 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=500167#">给我发消息</A> 
+  </LI>
+  <LI><A 
+  href="http://www.bokee.net/bloggermodule/bokeenote_list.do?bokeeName=xianger&amp;pagerow=20#note">给我留言</A>
+  <SCRIPT language=JavaScript type=text/JavaScript>
+<!-- 
+function openWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+ }
+
+function needLogin() { //v2.0
+  alert("请先登录！");
+  window.location.href="http://www.bokee.net/usermodule/choosePath.do?action=login";
+}
+
+function errorWarning(errorMsg) {
+  alert(errorMsg);
+}
+--> 
+</SCRIPT>
+   </LI>
+  <LI><A onclick=needLogin(); 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=500167#">发Email</A> 
+  </LI></UL></DIV>
+<UL class=ul_brief>
+  <LI>姓名：<A title=详细介绍 
+  href="http://xianger.blog.bokee.net/bloggermodule/include/userInfo.jsp?bokeeName=xianger">胡湘</A> 
+
+  <LI>职业：<A 
+  href="http://www.bokee.net/mainmodule/TradeGroupCount_blogDetailCareer.do?tradeCode=00700010">软件工程师</A> 
+
+  <LI>地区：上海市 
+  <LI><STRONG>自我介绍：</STRONG>just keep a little faith! 
+  <LI>[<A 
+  href="http://xianger.blog.bokee.net/bloggermodule/include/userInfo.jsp?bokeeName=xianger">详细介绍</A>] 
+  </LI></UL></DIV>
+<H2 class=title><SPAN class=content_weblogdata_right>&nbsp;</SPAN>文章归档</H2>
+<DIV class="content t">
+<DIV style="MARGIN: 5px 0px 5px 18px">
+<H4 style="MARGIN: 5px 0px"><A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_listmon.do?bokeeName=xianger&amp;year=2007&amp;pagenum=1">&lt;&lt;</A>&nbsp; 
+2008年&nbsp; <A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_listmon.do?bokeeName=xianger&amp;year=2009&amp;pagenum=1">&gt;&gt;</A></H4>01月 
+02月 <A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_listmon.do?year=2008&amp;bokeeName=xianger&amp;month=03"><B>03月</B></A> 
+04月 <BR>05月 <A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_listmon.do?year=2008&amp;bokeeName=xianger&amp;month=06"><B>06月</B></A> 
+07月 <A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_listmon.do?year=2008&amp;bokeeName=xianger&amp;month=08"><B>08月</B></A> 
+<BR>09月 10月 11月 12月 </DIV></DIV>
+<H2 class=title><SPAN class=title_right>&nbsp;</SPAN><A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_list.do?bokeeName=xianger">最新文章</A></H2>
+<DIV class=content>
+<UL class=ul_comments>
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=2093946">It's 
+  not a good beginning!</A> 
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=2093792">历程</A> 
+
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=1940445">Persisting</A> 
+
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=1539030">Come 
+  back－回归自我</A> 
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=1168108">一切都是善变的--------</A> 
+
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=745486">May. 
+  week7</A> 
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=745484">Apr. 
+  week5</A> 
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=745479">Apr. 
+  week4</A> 
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=745470">Apr. 
+  week3</A> 
+  <LI><A 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=745462">Apr. 
+  week2</A> </LI></UL></DIV>
+<H2 class=title><SPAN class=title_right>&nbsp;</SPAN><A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_listCommentsByAuther.do?bokeeName=xianger">文章评论</A></H2>
+<DIV class=content>
+<UL class=ul_comments>
+  <LI><SPAN class=authorcolor><IMG 
+  onclick="return showBokeeDiv(event,0,'xianger',true);" alt=点击查看博客信息 
+  src="procedure作业6-bokee_net_files/friend.gif"><A 
+  href="http://xianger.blog.bokee.net/" target=_blank>xianger</A> </SPAN>:<SPAN 
+  class=authorcolor1><A title="Sofa to myself. Fighting!" 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=2093946#comment715756" 
+  target=_blank>Sofa to myself. Fighting!</A></SPAN> 
+  <LI><SPAN class=authorcolor>飘过 (游客) </SPAN>:<SPAN class=authorcolor1><A 
+  title="大姐，刚看了你好多文章。觉得你好有材的，想加你交个朋友和你学点东西可以吗？ 我们刚开始学JCL  后天就COBOL 了。。基本是3上就上完了 感觉在做火箭。请教·&#13;&#10;    QQ  157987183&#13;&#10;   油箱  qiujiaduanwei@163.com" 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=513258#comment648873" 
+  target=_blank>大姐，刚看了你好多文章。觉得你好有材的，想加你交个朋友和你学点东西可以吗？ 我们刚开始学JCL 后天就COBOL 
+  了。。基本是3上就上完了 感觉在做火箭。请教· QQ 157987183</A></SPAN> 
+  <LI><SPAN class=authorcolor>飘过 (游客) </SPAN>:<SPAN class=authorcolor1><A 
+  title="可以请问下大姐的专业是什么吗？现在从事什么工作哦。能呆花旗不错噢。。我们现在还在培训。MF ，也想期待一份好工作。有时间聊聊吗？&#13;&#10;   QQ  157987183  EMAL qiujiaduanwei@163.com" 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=1539030#comment648869" 
+  target=_blank>可以请问下大姐的专业是什么吗？现在从事什么工作哦。能呆花旗不错噢。。我们现在还在培训。MF ，也想期待一份好工作。有时间聊聊吗？ 
+  QQ 157987183 EMAL qiujiaduanw</A></SPAN> 
+  <LI><SPAN class=authorcolor>xu (游客) </SPAN>:<SPAN class=authorcolor1><A 
+  title="你好看了你的文章后 很想跟你认识 我是赴日 我的ＭＳＮ&#13;&#10;は　　　LOVEMEI99999@HOTMAIL.COM   希望能交流" 
+  href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=1168108#comment530151" 
+  target=_blank>http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=1168108#comment530151</A></SPAN> 
+  </LI></UL></DIV>
+<H2 class=title><SPAN class=title_right>&nbsp;</SPAN>最近访客</H2>
+<DIV class=content>
+<DIV class=hackbox></DIV>
+<DIV class=friends>
+<DIV class=friend_img><IMG 
+onclick="return showBokeeDiv(event,'20025903','ya114',false);" height=70 
+alt=点击查看好友信息 src="procedure作业6-bokee_net_files/ya1141304961.jpg"> 
+<!--</a>--></DIV><SPAN class=friend_name><A title=延安人手册 
+href="http://ya114.blog.bokee.net/" target=_blank>延安人手册 </A></SPAN></DIV>
+<DIV class=friends>
+<DIV class=friend_img><IMG 
+onclick="return showBokeeDiv(event,'20373891','cfzxw',false);" height=70 
+alt=点击查看好友信息 src="procedure作业6-bokee_net_files/cfzxw1034549.jpg"> 
+<!--</a>--></DIV><SPAN class=friend_name><A title=咨询顾问 
+href="http://cfzxw.blog.bokee.net/" target=_blank>咨询顾问 </A></SPAN></DIV>
+<DIV class=hackbox></DIV></DIV>
+<DIV class=titlebottom></DIV></DIV>
+<DIV class=mmright>
+<SCRIPT language=Javascript1.2> 
+function checkUrlValid(myForm)
+{       //检测URL输入格式是否正确  不正确设为空
+     alert("sssssss");
+    var str=document.WebLogForm_loginComment.elements['comment.homepage'];
+    alert(str);
+     if(str.value==""){
+      return validateWebLogForm_loginComment(myForm);
+     }
+       var  temp=str.value.substr(0,13);
+       var urlpatern1 =/^https?:\/\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i;
+			if(temp=="http://http//"||!urlpatern1.exec(str.value))
+		{
+			str.value="";
+			alert("网络格式不合法");
+			return false;
+		} else{
+		 return validateWebLogForm_loginComment(myForm);
+		}
+}
+
+function jumpTo(id){
+   if(id!=0){
+       window.location=('/bloggermodule/blog_viewblog.do?id='+id);
+   }
+}
+
+function deletec(id){
+					if(confirm("您确定要删除吗？")){
+						window.location="/bloggermodule/blogcomment_delComment.do?id="+id;
+					}
+				}
+</SCRIPT>
+
+<H2 class=title2><SPAN class=title_newentries_right1><A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_list.do?bokeeName=xianger">更多文章</A></SPAN><SPAN 
+class=title_small><A href="http://xianger.blog.bokee.net/">首页</A> &gt; <A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_list.do?bokeeName=xianger">文章</A> 
+&gt; <A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_listcolumn.do?columnName=%e5%ad%a6%e4%b9%a0%e6%9c%ad%e8%ae%b0&amp;bokeeName=xianger">学习札记</A></SPAN></H2>
+<DIV class=artlist><A href="http://love.bokee.net/" target=_blank>你写抗震救灾博文 
+我为灾区学校重建捐款</A> 
+<H2 class=title_entry>procedure作业6</H2>
+<P class=p_entry1><SPAN>字体大小：<A title="Font Size: Large" 
+href="javascript:setFontSize(16)">大</A> | <A title="Font Size: Medium" 
+href="javascript:setFontSize(14)">中</A> | <A title="Font Size: Small" 
+href="javascript:setFontSize(12)">小</A></SPAN> 2007-01-14 19:59 - 阅读：36 - <A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=500167#note">评论</A>：0 
+</P>
+<DIV class=p_entry2 id=textboxContent>
+<P class=MsoNormal 
+style="MARGIN: 0cm 0cm 0pt 18pt; TEXT-INDENT: -18pt; mso-list: l0 level1 lfo1; tab-stops: list 18.0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial; mso-fareast-font-family: Arial"><SPAN 
+style="mso-list: Ignore">6．<SPAN style="FONT: 7pt 'Times New Roman'"> 
+</SPAN></SPAN></SPAN></STRONG><STRONG style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">新建自己的</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">PROCLIB</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">，把练习</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">5</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">中的</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">procedure</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">变成</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">cataloged 
+procedure</SPAN></STRONG><STRONG style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">，然后修改练习</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">5</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">的作业，改为调用</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">cataloged 
+procedure</SPAN></STRONG><STRONG style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">，将输出数据集改为</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">userid.JCLW3D1.PS61</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">和</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">userid.JCLW3D1.PS62</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">，看看</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">JOBLOG</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">有什么不同。比较练习</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">5</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">和练习</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">6</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">的作业，体会两种</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">procedure</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">的特点。</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial"><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">注：</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">USER PROCLIB</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">调用举例</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial"><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">在</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">WISCO15</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial; mso-hansi-font-family: 'Times New Roman'">.</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">EXERCISE</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">（</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">PROC1</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">）中输入</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">PROC1</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">：</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial"><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000001 //PROC1 PROC 
+UN=3390,U=TRK,<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000002 // SR=TSTWK1,S=10,P=20<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000003 //STEP1 EXEC 
+PGM=IEBGENER<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000004 //SYSPRINT DD SYSOUT=*<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000005 //SYSUT2<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>DD DSN=&amp;D,UNIT=&amp;UN,<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000006 //<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>VOL=SER=&amp;SR,SPACE=(&amp;U,(&amp;S,&amp;P)),<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000007 //<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>DISP=(,CATLG),<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000008 //<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>DCB=(RECFM=FB,LRECL=80,DSORG=PS) <O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000009 //SYSIN<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>DD DUMMY<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000010 // PEND<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">在</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">WISCO15.EXERCISE</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">（</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">PROC2</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">）中输入</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">PROC2</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">：</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial"><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000001 //PROC2 PROC<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000002 //STEP EXEC PGM=IEBGENER<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000003 //SYSPRINT DD SYSOUT=*<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000004 //SYSUT1<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>DD DSN=&amp;D,DISP=OLD<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000005 //SYSUT2<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>DD SYSOUT=*<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000006 //SYSIN<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>DD DUMMY<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000007 // PEND<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">在</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">WISCO15.EXERCISE</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">（</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">CATALOG</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体; mso-ascii-font-family: Arial; mso-hansi-font-family: 'Times New Roman'; mso-bidi-font-family: Arial">）中输入作业六：</SPAN></STRONG><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial"><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000001 //SYMBOL JOB (),'DORIS',<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000002 //<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>MSGCLASS=X,<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000003 //<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>CLASS=A,<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000004 //<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>MSGLEVEL=(1,1),<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000005 //<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>NOTIFY=WISCO15<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000006 //MYLIB<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>JCLLIB ORDER=WISCO15.EXERCISE<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000007 //S1 EXEC 
+PROC1,D='WISCO15.JCLW3D1.PS61'<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000008 //SYSUT1 DD *<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000009 HELLO<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000010 //STEP2 EXEC 
+PROC2,D='WISCO15.JCLW3D1.PS61'<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000011 //STEP3 EXEC 
+PROC1,D='WISCO15.JCLW3D1.PS62',<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000012 // SR=TSTWK2,S=2,P=4<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000013 //SYSUT1 DD *<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000014 HELLO<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial">000015 //STEP4 EXEC 
+PROC2,D='WISCO15.JCLW3D1.PS62'<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><O:P></O:P></SPAN></STRONG></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><STRONG 
+style="mso-bidi-font-weight: normal"><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; FONT-FAMILY: Arial"><O:P></O:P></SPAN></STRONG></P></DIV>
+<DIV class=p_entry3>
+<DIV style="FONT-SIZE: 14px"></DIV><BR></DIV>
+<SCRIPT language=javascript>
+function editBlog(str){
+window.open(str);
+return false;
+}
+</SCRIPT>
+
+<P class=p_entry4>阅读：36 | 顶：<SPAN id=vote_500167>0</SPAN> <A 
+onclick=" vote(500167);return false;" 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=500167#">顶一下</A> 
+| <A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=500167#note">评论</A>：0 
+| <A 
+href="http://xianger.blog.bokee.net/bloggermodule/favor_add.do?articleid=500167&amp;type=entry">收藏</A>| 
+<A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_printEntry.do?id=500167">打印</A> 
+| </P>
+<P class=p_entry5><SPAN>下一篇：<A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=500176">procedure作业4，5</A> 
+&gt;&gt; </SPAN>&lt;&lt;上一篇：<A 
+href="http://xianger.blog.bokee.net/bloggermodule/blog_viewblog.do?id=500105">procedure作业3</A> 
+</P>
+<H2 class=title2><SPAN 
+class=title_newentries_right1><!--<a href="#note"></a>--></SPAN>文章评论 <SPAN 
+class=title_small>(共0条)</SPAN></H2>
+<DIV class=artlist></DIV><A name=note></A>
+<FORM name=WebLogForm_loginComment onsubmit="return checkForm(this);" 
+action=/bloggermodule/blogcomment_loginComment.do method=post><INPUT type=hidden 
+value=500167 name=id> <INPUT type=hidden value=xianger name=bokeeName> <INPUT 
+type=hidden value=false name=isCompanyEntry> 
+<TABLE class=note_post>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>
+      <H2>发表评论</H2></TD></TR>
+  <TR>
+    <TD></TD>
+    <TD><INPUT size=18 name=comment.author> 密码 <INPUT type=password size=18 
+      name=comment.password>(游客无须输入密码)</TD></TR>
+  <TR>
+    <TD>内容</TD>
+    <TD><TEXTAREA name=comment.content rows=5 cols=45></TEXTAREA></TD></TR><!-- <tr>
+								<td>信箱</td>
+								<td><input type="text" name="comment.email" size="20" value=""/> 网址 <input type="text" name="comment.homepage" size="20" value=""/></td>
+							</tr> -->
+  <TR>
+    <TD>验证码</TD>
+    <TD><INPUT name=check1>&nbsp;&nbsp; <IMG style="VERTICAL-ALIGN: middle" 
+      src="procedure作业6-bokee_net_files/image.jpg" border=0></TD></TR>
+  <TR>
+    <TD></TD>
+    <TD><INPUT class=butt1 type=submit value=" 提 交 "> <INPUT class=butt1 type=reset value=取消></TD></TR></TBODY></TABLE></FORM>
+<SCRIPT language=Javascript1.1 type=text/javascript> 
+
+<!-- Begin 
+
+    var bCancel = false; 
+
+    function validateWebLogForm_loginComment(form) { 
+        if (bCancel) { 
+            return true; 
+        } else { 
+            var formValidationResult; 
+            formValidationResult = validateRequired(form); 
+            return (formValidationResult == 1); 
+        } 
+    } 
+
+    function WebLogForm_loginComment_required () { 
+     this.a0 = new Array("comment.author", "发布人必须填写的！", new Function ("varName", " return this[varName];"));
+     this.a1 = new Array("comment.content", "评论内容必须填写的！", new Function ("varName", " return this[varName];"));
+    } 
+
+
+//End --> 
+</SCRIPT>
+
+<SCRIPT language=Javascript1.1 
+src="procedure作业6-bokee_net_files/staticJavascript.js"></SCRIPT>
+</DIV>
+<DIV class=hackbox></DIV></DIV></DIV>
+<SCRIPT type=text/javascript>
+function checkForm(frm){
+   if(frm['comment.content'].value.trim().length<1){
+      alert("评论的内容不能为空的!");
+      return false;
+    }
+	if(frm['comment.content'].value.length>2000){
+		alert("您输入的回复不能超过2000字符！");
+		return false;
+	}
+	return validateWebLogForm_loginComment(frm);
+}
+String.prototype.trim = function()
+{
+    return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+</SCRIPT>
+
+<DIV id=foot><A href="http://www.bokee.net/">bokee.net</A> 版权所有 2008 <A 
+href="http://www.bokee.net/info/brief.jsp">关于我们</A><!--  | <a href="http://www.bokee.net/mainmodule/notice/add.html">联系我们</a> --> 
+| <A href="http://www.bokee.net/info/guild.jsp">服务指南</A> | <A 
+href="http://www.bokee.net/info/law.jsp">法律声明</A> | <A 
+href="http://www.bokee.net/info/pact.jsp">用户条款</A> | <A 
+href="http://www.bokee.net/info/privacy.jsp">隐私声明</A> | <A 
+href="http://www.bokee.net/info/link.jsp">友情链接</A> </DIV>
+<STYLE type=text/css>.showDiv {
+	BORDER-RIGHT: #bcc7d4 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #bcc7d4 1px solid; PADDING-LEFT: 5px; FONT-SIZE: 12px; Z-INDEX: 1984; BACKGROUND: #fff; PADDING-BOTTOM: 5px; BORDER-LEFT: #bcc7d4 1px solid; WIDTH: 300px; LINE-HEIGHT: 140%; PADDING-TOP: 5px; BORDER-BOTTOM: #bcc7d4 1px solid; POSITION: absolute; HEIGHT: 140px; TEXT-ALIGN: left
+}
+.showDiv A {
+	COLOR: #039
+}
+.showDiv A:hover {
+	COLOR: #f50
+}
+.showDiv TD {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 4px; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; TEXT-ALIGN: left
+}
+.showDiv .imgdiv {
+	BORDER-RIGHT: #ddd 1px solid; PADDING-RIGHT: 1px; BORDER-TOP: #ddd 1px solid; PADDING-LEFT: 1px; BACKGROUND: #fff; PADDING-BOTTOM: 1px; MARGIN: 0px auto; BORDER-LEFT: #ddd 1px solid; WIDTH: 70px; PADDING-TOP: 1px; BORDER-BOTTOM: #ddd 1px solid; HEIGHT: 60px; TEXT-ALIGN: center
+}
+.showDiv .imgdiv1 {
+	BACKGROUND: #fff; MARGIN: 0px auto; OVERFLOW: hidden; WIDTH: 70px
+}
+.showDiv .imgdiv1 IMG {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; HEIGHT: 60px; BORDER-RIGHT-WIDTH: 0px
+}
+.showDiv BUTTON {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; RIGHT: 5px; BACKGROUND: url(/bloggermodule/admin/images3/icons.gif) no-repeat 0px -560px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: 16px; TEXT-INDENT: -9999px; POSITION: absolute; TOP: 5px; HEIGHT: 16px; BORDER-RIGHT-WIDTH: 0px
+}
+.showDiv A.butt08:link {
+	COLOR: #025; TEXT-DECORATION: none
+}
+.showDiv A.butt08:visited {
+	COLOR: #025; TEXT-DECORATION: none
+}
+.showDiv H2 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 6px; FONT-WEIGHT: normal; FONT-SIZE: 12px; PADDING-BOTTOM: 3px; MARGIN: 0px; COLOR: #999; PADDING-TOP: 3px
+}
+.showDiv UL {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+.showDiv UL LI {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 6px; PADDING-BOTTOM: 0px; OVERFLOW: hidden; WIDTH: 280px; PADDING-TOP: 0px; WHITE-SPACE: nowrap; HEIGHT: 22px
+}
+</STYLE>
+
+<DIV class=showDiv id=showCursor style="DISPLAY: none"></DIV>
+<SCRIPT language=javascript>
+
+function showBokeeDiv(evt,myFriendId,myFriendName,needImg)
+{
+ var toScrollTop = 0; 
+ var toScrollLeft = 0;
+ var divLeft = 0;
+ var divTop = 0;
+ var thisClientWidth = 0;
+ var thisClientHeight = 0 ;
+ var divWidth = 300;
+ var divHeight = 140;
+ if(document.documentElement && document.documentElement.scrollTop){
+     toScrollTop = document.documentElement.scrollTop;
+     toScrollLeft = document.documentElement.scrollLeft;
+	 thisClientWidth = document.documentElement.clientWidth;
+     thisClientHeight = document.documentElement.clientHeight;
+ }else if(document.body){
+     toScrollTop = document.body.scrollTop;
+     toScrollLeft = document.body.scrollLeft;
+	 thisClientWidth = document.body.clientWidth;
+     thisClientHeight = document.body.clientHeight;
+ }
+  var toLeft = evt.clientX;
+  var toTop = evt.clientY;
+  divLeft = toScrollLeft+toLeft;
+  divTop = toTop+toScrollTop;
+  if((toTop+divHeight)>thisClientHeight){
+   divTop = (thisClientHeight-divHeight)+toScrollTop-5;
+  }
+  if((toLeft+divWidth)>thisClientWidth){
+  divLeft = (thisClientWidth-divWidth)+toScrollLeft
+  }
+  $('showCursor').style.left = divLeft+"px";
+  $('showCursor').style.top =  divTop+"px";
+  $('showCursor').style.display = "";
+  $('showCursor').innerHTML = "用户数据加载中，请等待......<button onclick='closeThisDiv();'>关闭</button>";
+  AJAXCJH.getUserMessageWithImg(myFriendId,myFriendName,needImg,userMessage);
+  return false;
+}
+
+function userMessage(data)
+{
+if(data != null)
+{
+$('showCursor').innerHTML = data;
+}
+
+else
+{
+$('showCursor').innerHTML = "该用户已经不存在!<button onclick='closeThisDiv();'>关闭</button>";
+
+}
+
+}
+ function closeThisDiv()
+ {
+ $('showCursor').style.display = "none";
+ }
+function Iopen(thisHref)
+{
+window.open(thisHref.href);
+return false;
+}
+</SCRIPT>
+
+<SCRIPT language=javascript src="procedure作业6-bokee_net_files/blogdaily.js" 
+type=text/javascript></SCRIPT>
+</DIV>
+<DIV style="DISPLAY: none">
+<SCRIPT language=JavaScript src="procedure作业6-bokee_net_files/stat.htm" 
+charset=gb2312></SCRIPT>
+</DIV>
+<SCRIPT type=text/javascript>
+
+  function impeach(){ 
+  var pageUrl = window.location.href;
+  var pageTitle = document.title;
+  var impeachWindow =  window.open("/adminmodule/impeach.jsp?pageUrl=" + pageUrl+"&pageTitle="+encodeURIComponent(pageTitle),null,"height=300, width=460, top=200, left=300, toolbar=no,menubar=no,resizable=no, status=no,location=no"); 
+  }   
+</SCRIPT>
+</BODY></HTML>

@@ -1,0 +1,74 @@
+       IDENTIFICATION DIVISION.
+      *
+       PROGRAM-ID.    EXAM59.
+      *
+       ENVIRONMENT    DIVISION.
+      *
+       INPUT-OUTPUT   SECTION.
+      *
+       FILE-CONTROL.
+              SELECT INVENTORY-FILE ASSIGN TO INV-DATA.
+              SELECT REPORT-FILE ASSIGN TO P-FILE.
+      *
+       DATA           DIVISION.
+      *
+       FILE   SECTION.
+      *
+       FD  INVENTORY-FILE LABEL RECORD IS STANDARD.
+       01  PART-RECORD.
+           02 PART-NUMBER PIC 9(4).
+           02 QTY-ON-HAND PIC 9(4).
+           02 PRICE-EACH  PIC 99V99.
+       FD  REPORT-FILE LABEL RECORD IS STANDARD.
+       01  REP-LINE.
+           02 FILLER      PIC X.
+           02 REP-REC     PIC X(80).
+       WORKING-STORAGE SECTION.
+       01  PAGE-HEADING-LINE.
+           02 FILLER      PIC X(20) VALUE SPACE.
+           02 FILLER      PIC X(16) VALUE 'INVENTORY REPORT'.
+       01  COLUMN-HEADING-LINE.
+           02 FILLER       PIC X.
+           02 FILLER       PIC X(8) VALUE 'PART NUM'.
+           02 FILLER       PIC X(5) VALUE  SPACES.
+           02 FILLER       PIC X(16) VALUE 'QUANTITY ON HAND'.
+           02 FILLER       PIC X(5) VALUE SPACES.
+           02 FILLER       PIC X(10) VALUE 'PRICE EACH'.
+           02 FILLER       PIC X(5) VALUE SPACES.
+           02 FILLER       PIC X(6) VALUE 'AMOUNT'.
+       01  END-OF-JOB-LINE.
+           02 FILLER       PIC X(23) VALUE SPACES.
+           02 FILLER       PIC X(16) VALUE 'END OF REPORT'.
+       01  DETAIL-LINE.
+           02 FILLER       PIC X(3) VALUE SPACES.
+           02 PART-NUMBER  PIC 9(4).
+           02 FILLER       PIC X(13) VALUE SPACES.
+           02 QTY-ON-HAND  PIC Z(4).
+           02 FILLER       PIC X(13) VALUE SPACES.
+           02 PRICE-EACH   PIC $$$.99.
+           02 FILLER       PIC X(4) VALUE SPACES.
+           02 INVENTORY-VALUE PIC $(7).99.
+       PROCEDURE   DIVISION.
+       OPEN-LINE.
+           OPEN INPUT INVENTORY-FILE
+                OUTPUT REPORT-FILE.
+           MOVE SPACE TO REP-LINE.
+       O-HEADING-LINES.
+           WRITE REP-LINE FROM PAGE-HEADING-LINE AFTER 1.
+           WRITE REP-LINE FROM COLUMN-HEADING-LINE AFTER 2.
+           MOVE SPACES TO REP-LINE.
+           WRITE REP-LINE AFTER 1.
+       READ-RECORD.
+           READ INVENTORY-FILE
+                AT END GO TO JOB-END.
+           MULTIPLY QTY-ON-HAND OF PART-RECORD
+                    BY PRICE-EACH OF PART-RECORD
+                    GIVING INVENTORY-VALUE.
+           MOVE CORR PART-RECORD TO DETAIL-LINE.
+           WRITE REP-LINE FROM DETAIL-LINE AFTER 1.
+           GO TO READ-RECORD.
+       JOB-END.
+           WRITE REP-LINE FROM END-OF-JOB-LINE AFTER 2.
+           CLOSE INVENTORY-FILE REPORT-FILE.
+           STOP RUN.
+

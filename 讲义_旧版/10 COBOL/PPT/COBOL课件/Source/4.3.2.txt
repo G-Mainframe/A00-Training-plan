@@ -1,0 +1,15 @@
+
+	identification division.
+	program-id.  exam432.
+
+	environment division.
+
+	data division.
+	working-storage section.
+	77  x  pic s99.
+
+	procedure division.
+	s. 
+	     move  -66  to x.
+	     display  x.		// 输出既不是-66,也不是66
+	     stop run.

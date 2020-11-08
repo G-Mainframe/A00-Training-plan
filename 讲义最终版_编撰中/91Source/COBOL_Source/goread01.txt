@@ -1,0 +1,5 @@
+//CN0015A  JOB CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID
+//GOREAD   EXEC PGM=READ                                       
+//STEPLIB  DD DSN=CN0015.TEST.LOAD,DISP=SHR                    
+//CUSTMAST DD DSN=CN0015.CUSTMAST.TEXT,DISP=SHR                
+//                                                             

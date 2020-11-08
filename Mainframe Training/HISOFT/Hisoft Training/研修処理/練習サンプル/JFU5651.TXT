@@ -1,0 +1,14 @@
+\MAC ;                                                                    
+        \COMM ** éôì∂ï}ó{éËìñå˚ç¿àÀóäÇlÇsê∂ê¨ **';                        
+                                                                          
+        \SENDO MSG='** éôì∂ï}ó{éËìñå˚ç¿àÀóäÇlÇsê∂ê¨ **';                  
+        \PRIVLIB PWS@LM001,MEDIA=DK105;                                   
+        \STEP JFU565C;                                                    
+            \ASSIGN IND1,JFU5151 ,MEDIA=DK302;                            
+            \DEFINE IND1,DVC=DS;                                          
+            \ASSIGN OTD1,JFU5651 ,MEDIA=DK302,AU=CYL,SZ=1,INCSZ=5,        
+                                                          RLS=UNUSE;      
+            \DEFINE OTD1,DVC=DS;                                          
+            \ASSIGN PR01,@OUT;                                            
+            \DEFINE PR01,FORMSET=FXJFU56A;                                
+        \ENDSTEP ;                                                        

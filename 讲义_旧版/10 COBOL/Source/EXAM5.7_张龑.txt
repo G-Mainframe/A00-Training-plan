@@ -1,0 +1,48 @@
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID. EXAM57.
+      *
+       ENVIRONMENT       DIVISION.
+       INPUT-OUTPUT    SECTION.
+       FILE-CONTROL.
+            SELECT WORKER-FILE ASSIGN TO SYS011.
+      *
+       DATA              DIVISION.
+       FILE  SECTION.
+       FD WORKER-FILE LABEL RECORD IS STANDARD.
+       01 PERSONNEL-DATA.
+          02 MUMB PIC 9(6).
+          02 NAME PIC X(10).
+          02 ADDR PIC X(10).
+          02 EDUCATION PIC 99.
+             88 LESS-THAN-H-S-GRAD VALUE 0 THRU 11.
+             88 H-S-GRAD VALUE 12.
+             88 SOME-COLLEGE VALUE 13 THRU 15.
+             88 COLLEGE-GRAD VALUE 16.
+             88 POST-GRAD VALUE 17 THRU 20.
+       WORKING-STORAGE SECTION.
+       01 TOTAL.
+          02 FELLER PIC X(9) VALUE 'TOTAL-1='.
+          02 TOTAL-1 PIC 999 VALUE 0.
+          02 FELLER PIC X(9) VALUE 'TOTAL-2='.
+          02 TOTAL-2 PIC 999 VALUE 0.
+          02 FELLER PIC X(9) VALUE 'TOTAL-3='.
+          02 TOTAL-3 PIC 999 VALUE 0.
+          02 FELLER PIC X(9) VALUE 'TOTAL-4='.
+          02 TOTAL-4 PIC 999 VALUE 0.
+          02 FELLER PIC X(9) VALUE 'TOTAL-5='.
+          02 TOTAL-5 PIC 999 VALUE 0.
+      *
+       PROCEDURE      DIVISION.
+       ST.  OPEN INPUT  WORKER-FILE.
+       RE.  READ WORKER-FILE
+               AT END GO TO WR.
+       CA.  IF LESS-THAN-H-S-GRAD ADD 1 TO TOTAL-1.
+            IF H-S-GRAD  ADD 1 TO TOTAL-2.
+            IF SOME-COLLEGE  ADD 1 TO TOTAL-3.
+            IF COLLEGE-GRAD ADD 1 TO TOTAL-4.
+            IF POST-GRAD ADD 1 TO TOTAL-5.
+            GO TO RE.
+       WR.  DISPLAY TOTAL.
+            CLOSE WORKER-FILE.
+            STOP RUN.
+

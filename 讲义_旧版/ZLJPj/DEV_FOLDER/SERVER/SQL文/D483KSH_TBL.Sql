@@ -1,0 +1,28 @@
+DROP   TABLE  D483KSH_TBL   ;
+CREATE TABLE  D483KSH_TBL  (
+       契約番号                           CHAR(10)          NOT NULL,
+       申請連番                           NUMBER(2,0)       NOT NULL,
+       契約種類                           CHAR(3)           NOT NULL,
+       物件番号                           CHAR(3)           NOT NULL,
+       物件分割連番                       NUMBER(3,0)       NOT NULL,
+       費用種類                           NUMBER(3,0)       NOT NULL,
+       支払連番                           CHAR(8)           NOT NULL,
+       無効フラグ                         CHAR(1)           NOT NULL,
+       支払年月                           CHAR(6)           NOT NULL,
+       支払サイト                         NUMBER(3,0)       NOT NULL,
+       支払金額                           NUMBER(13,0)      NOT NULL,
+       登録年月日                         CHAR(8)           NOT NULL,
+       登録時間                           CHAR(8)           NOT NULL,
+       登録担当者                         CHAR(8)           NOT NULL,
+       更新年月日                         CHAR(8)           NOT NULL,
+       更新時間                           CHAR(8)           NOT NULL,
+       更新者                             CHAR(8)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+CONSTRAINT  PK_D483KSH_TBL  PRIMARY KEY (
+       契約番号,
+       申請連番,
+       契約種類,
+       物件番号,
+       物件分割連番,
+       費用種類,
+       支払連番));

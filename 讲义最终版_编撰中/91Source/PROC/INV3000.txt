@@ -1,0 +1,11 @@
+//INV3000  PROC                                                         
+//INV3010  EXEC PGM=INV3010                                             
+//SYSOUT   DD   SYSOUT=*                                                
+//INVMAST  DD   DSNAME=MMA2.INVENTRY.MASTER,DISP=SHR                    
+//INVSEL   DD   DSNAME=&&INVSEL,DISP=(NEW,PASS),                        
+//  UNIT=SYSDA,SPACE=(CYL,(20,10))                                      
+//SELCTL   DD   DUMMY                                                   
+//INV3020  EXEC PGM=INV3020                                             
+//SYSOUT   DD   SYSOUT=*                                                
+//INVMAST  DD   DSNAME=&&INVSEL,DISP=(OLD,DELETE)                       
+//INVSLST  DD   SYSOUT=*                                                

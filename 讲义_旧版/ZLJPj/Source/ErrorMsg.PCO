@@ -1,0 +1,81 @@
+000010 IDENTIFICATION                               DIVISION.
+000020 PROGRAM-ID.  ERRORMSG.
+      *****************************************************************
+      *程序ID         ：ERRORMSG
+      *程序名         ：学生学籍信息录入
+      *处理概要       ：新生入学时将学生信息录入到系统中
+      *
+      *
+      *变量           IO       变量名
+      *
+      *
+      *
+      *日期           作成者             概要
+      *2007/04/11     张丽娟             作成
+      *
+      *****************************************************************
+      *
+      *****************************************************************
+      * 环境部
+      *****************************************************************
+000030 ENVIRONMENT                                  DIVISION.
+      *
+000040 DATA                                         DIVISION.
+000050 WORKING-STORAGE                              SECTION.
+000051     EXEC  SQL  BEGIN    DECLARE      SECTION  END-EXEC.
+000052     EXEC  SQL  INCLUDE  SQLCOM.CBL            END-EXEC.
+000055     EXEC  SQL  INCLUDE  SQLCA.CBL             END-EXEC.
+000055     EXEC  SQL  INCLUDE  ERRMSG.CBL            END-EXEC.
+
+000056     EXEC  SQL  END      DECLARE      SECTION  END-EXEC.
+      * 
+       01 RKEY                          PIC X.
+      *
+000080 LINKAGE                                      SECTION.
+000090 COPY ERRORKEY.
+      *
+000100 SCREEN                                       SECTION.
+000110 01 ERRORMSGPAGE.
+000120     03 BLANK SCREEN.
+           03 LINE  5 COLUMN 30 VALUE "系统错误信息提示".
+           03 LINE  8 COLUMN  5 VALUE "错误代码：".
+000130     03         COLUMN 17 PIC 9(6)     FROM ERRMSGPOINT .
+000130     03 LINE  9 COLUMN  5 VALUE "SQL CODE:".
+000130     03         COLUMN 17 PIC Z(4)9(6) FROM ERRMSGSQLCD.
+000140     03 LINE 13 COLUMN  5 VALUE "错误提示：".
+000140     03 LINE 14 COLUMN  5 PIC X(50)    FROM ERRMSG .
+000150     03 LINE 15 COLUMN  5 VALUE "按任意键退出".
+000150     03         COLUMN 15 PIC X TO RKEY AUTO.
+      *
+000160 PROCEDURE DIVISION USING ERRORKEY.
+000170 MAIN-PROCESS                                 SECTION.
+           DISPLAY "ERRORKEY=", ERRORKEY.
+           
+           MOVE ERRPOINT  TO ERRMSGPOINT.
+           MOVE EMSGSQLCD TO ERRMSGSQLCD.
+
+000180*    ERROR MSG DB SELECT
+000190     EXEC SQL
+000200        SELECT MSG
+000210        INTO  :ERRMSG
+000220        FROM   STUDENTERROR
+000230        WHERE POINT = :ERRMSGPOINT
+      *          AND SQLCODE = :ERRSQLCD
+000240     END-EXEC.
+      *    数据库返回码判断
+           EVALUATE SQLCODE
+           WHEN 0
+      *        返回码为“0”查询正常
+               DISPLAY  "错误信息提示sqlok=", SQLCODE
+000260         DISPLAY ERRORMSGPAGE
+000270         ACCEPT  ERRORMSGPAGE
+           WHEN OTHER
+      *        数据库返回码非“0”，信息查询失败
+               DISPLAY  "错误信息查询失败,SQLCODE", SQLCODE
+           END-EVALUATE.
+
+           DISPLAY "错误查询程序正常结束".
+000280 END-PROCESS.
+000290     EXIT PROGRAM .
+000300
+

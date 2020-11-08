@@ -1,0 +1,290 @@
+ IDENTIFICATION DIVISION.                                                 
+*PATTERN-ID.    UPDATE   "L".                                             
+ PROGRAM-ID.    JFU280L.                                                  
+ AUTHOR.        â§.                                                       
+ DATE-WRITTEN.     -  -  .                                                
+*UPDATE-WRITTEN.   -  -   REV.                                            
+ DATE-COMPILED.                                                           
+*                                                                         
+*    éôì∂ï}ó{éËìñ SYSTEM  éÛããéëäiÉ}ÉXÉ^çXêVÅiè„èëÅj                      
+*                                                                         
+ ENVIRONMENT DIVISION.                                                    
+ CONFIGURATION SECTION.                                                   
+ SOURCE-COMPUTER.    ACOS-77.                                             
+ OBJECT-COMPUTER.    ACOS-77.                                             
+ INPUT-OUTPUT SECTION.                                                    
+ FILE-CONTROL.                                                            
+*    éôì∂ï}ó{éËìñéÛããéëäiFÅ{êøãÅé“FÅ{ëŒè€éôì∂FÅ{ÉäÉìÉNF                   
+     SELECT INP1-FILE   ASSIGN IND1-DS.                                   
+*    éôì∂ï}ó{éËìñéÛããéëäiÉ}ÉXÉ^                                           
+     SELECT INOUT1-FILE ASSIGN INOUT1-RDB INOUT1AP-RKEY                   
+         ORGANIZATION INDEXED                                             
+         ACCESS MODE  RANDOM                                              
+         RECORD KEY   INOUT1-ACP                                          
+         STATUS S-INOUT1-STATUS.                                          
+     SELECT OUT1-FILE   ASSIGN PR01-USEROUT.                              
+/                                                                         
+ DATA DIVISION.                                                           
+ FILE SECTION.                                                            
+*                                                                         
+*    éôì∂ï}ó{éËìñéÛããéëäiFÅ{êøãÅé“FÅ{ëŒè€éôì∂FÅ{ÉäÉìÉNF                   
+*                                                                         
+ FD  INP1-FILE                                                            
+         BLOCK      5 RECORDS                                             
+         RECORD  1150 CHARACTERS                                          
+         LABEL   RECORD STANDARD.                                         
+******************************                                            
+* INP1-FILE, INP1-KEY RECORD *                                            
+******************************                                            
+ 01  INP1-REC.                                                            
+     02  FIL          PIC X(2).                                           
+     02  INP1-KEY01   PIC X(10).                                          
+     02  FIL          PIC X(1138).                                        
+**************************                                                
+* INP1-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  INP1-REC1.                                                           
+     02  INP1-REC11   PIC X(150).                                         
+     02  INP1-REC12   PIC X(350).                                         
+     02  INP1-REC13   PIC X(100).                                         
+     02  INP1-REC14   PIC X(550).                                         
+*                                                                         
+*    éôì∂ï}ó{éËìñéÛããéëäiÉ}ÉXÉ^                                           
+*                                                                         
+ FD  INOUT1-FILE                                                          
+         LABEL RECORD STANDARD.                                           
+**********************************                                        
+* INOUT1-FILE, INOUT1-ACP RECORD *                                        
+**********************************                                        
+ 01  INOUT1-ACP.                                                          
+     02  INOUT1-ACP1  PIC X(10).                                          
+****************************                                              
+* INOUT1-FILE, DATA RECORD *                                              
+****************************                                              
+ 01  INOUT1-REC1.                                                         
+     02  FIL          PIC X(150).                                         
+*                                                                         
+ FD  OUT1-FILE                                                            
+         RECORD   132 CHARACTERS                                          
+         LABEL RECORD OMITTED                                             
+         LINAGE    62                                                     
+         TOP        2                                                     
+         BOTTOM     2.                                                    
+**************************                                                
+* OUT1-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  OUT1-REC1.                                                           
+     02  FIL          PIC X(132).                                         
+/                                                                         
+ WORKING-STORAGE SECTION.                                                 
+*****************************                                             
+* STANDARD CODING WORK AREA *                                             
+*****************************                                             
+ 77  C-DEC1          PIC 9(1)    VALUE 1.                                 
+*                                                                         
+ 77  I-FALSE         PIC 9(1)    VALUE 0.                                 
+ 77  I-TRUE          PIC 9(1)    VALUE 1.                                 
+ 77  I-SKIPLN        PIC 9(2)    VALUE 2.                                 
+ 77  I-UPDATE        PIC 9(1)    VALUE 0.                                 
+ 77  I-DELETE        PIC 9(1)    VALUE 1.                                 
+ 77  I-INSERT        PIC 9(1)    VALUE 2.                                 
+ 77  I-ERROR         PIC 9(1)    VALUE 3.                                 
+*                                                                         
+ 77  S-INOUT1-STATUS PIC X(2).                                            
+ 77  S-INOUT1-KEYERR PIC 9(1).                                            
+ 77  S-ACTION        PIC 9(1).                                            
+* INPUT-OUTPUT RECORD COUNT *                                             
+ 01  F-IOREC-CNT.                                                         
+     02  F-PROG-NAME     PIC X(8)    VALUE "JFU280L ".                    
+     02  FILLER          PIC X(10)   VALUE " INP1-REC=".                  
+     02  F-INP1-CNT      PIC 9(5).                                        
+     02  FILLER          PIC X(11)   VALUE ", OUT1-REC=".                 
+     02  F-OUT1-CNT      PIC 9(5).                                        
+     02  FILLER          PIC X(16)   VALUE ", INOUT1-REPREC=".            
+     02  F-INOUT1-REPCNT PIC 9(5).                                        
+     02  FILLER          PIC X(7)    VALUE SPACE.                         
+     02  FILLER          PIC X(15)   VALUE " INOUT1-DELREC=".             
+     02  F-INOUT1-DELCNT PIC 9(5).                                        
+     02  FILLER          PIC X(16)   VALUE ", INOUT1-INSREC=".            
+     02  F-INOUT1-INSCNT PIC 9(5).                                        
+     02  FILLER          PIC X(20)   VALUE ", INOUT1-INV-REPREC=".        
+     02  F-INOUT1-INV-REPCNT PIC 9(5).                                    
+     02  FILLER          PIC X(2)    VALUE SPACE.                         
+     02  FILLER          PIC X(19)   VALUE " INOUT1-INV-DELREC=".         
+     02  F-INOUT1-INV-DELCNT PIC 9(5).                                    
+     02  FILLER          PIC X(20)   VALUE ", INOUT1-INV-INSREC=".        
+     02  F-INOUT1-INV-INSCNT PIC 9(5).                                    
+ 01  F-IOREC-CNTR REDEFINES F-IOREC-CNT.                                  
+     02  F-IOREC-CNT1    PIC X(108).                                      
+     02  F-IOREC-CNT2    PIC X(76).                                       
+*************                                                             
+* KEY-FIELD *                                                             
+*************                                                             
+* KEY FIELD ON INP1-FILE *                                                
+ 01  INP1-KEY.                                                            
+     02  INP1-KEY01      PIC X(10).                                       
+/*************************                                                
+* USERS CODING WORK AREA *                                                
+**************************                                                
+/                                                                         
+ PROCEDURE DIVISION.                                                      
+***********      L1SU01--L1SU11, L1PS01, L1EU01--L1ES05                   
+* LEVEL 1 *                                                               
+***********                                                               
+ MAIN-PROCESS.                                                            
+     PERFORM MAIN-INIT-PROC.                                      L1SU01  
+     MOVE ZERO TO F-INP1-CNT.                                     L1SS02  
+     OPEN INPUT  INP1-FILE.                                       L1SS03  
+     PERFORM INP1-READ-RTN THRU INP1-READ-EXT.                    L1SS04*1
+     MOVE ZERO TO F-INOUT1-DELCNT F-INOUT1-INV-DELCNT.            L1SS05  
+     MOVE ZERO TO F-INOUT1-REPCNT F-INOUT1-INV-REPCNT.            L1SS06  
+     MOVE ZERO TO F-INOUT1-INSCNT F-INOUT1-INV-INSCNT.            L1SS07  
+     OPEN I-O  INOUT1-FILE.                                       L1SS08  
+     MOVE ZERO TO F-OUT1-CNT.                                     L1SS09  
+     OPEN OUTPUT OUT1-FILE.                                       L1SS10  
+     PERFORM PR-INIT-PROC.                                        L1SU11  
+*                                                                         
+     PERFORM UPDATE                                               L1PS01  
+         UNTIL  INP1-KEY = HIGH-VALUE.                                    
+*                                                                         
+     COMPUTE F-INP1-CNT = F-INP1-CNT - C-DEC1.                    L1ES05  
+     DISPLAY F-IOREC-CNT.                                         L1ES05  
+     PERFORM MAIN-FINISH-PROC.                                    L1EU01  
+     CLOSE INP1-FILE.                                             L1ES02  
+     CLOSE INOUT1-FILE.                                           L1ES03  
+     CLOSE OUT1-FILE.                                             L1ES04  
+     STOP RUN.                                                            
+/**********      L2SS01, L2SS02, L2PS01--L2PS03, L2ES01                   
+* LEVEL 2 *                                                               
+***********                                                               
+ UPDATE.                                                          (L1PS01)
+     MOVE I-FALSE TO S-INOUT1-KEYERR.                             L2SS01  
+     PERFORM INOUT1-READ-RTN THRU INOUT1-READ-EXT.                L2SS02*2
+*                                                                         
+     IF S-INOUT1-KEYERR = I-TRUE                                  L2PS01  
+               PERFORM UNMATCH                                    L2PS02  
+         ELSE  PERFORM MATCH.                                     L2PS03  
+*                                                                         
+     PERFORM INP1-READ-RTN THRU INP1-READ-EXT.                    L2ES01*1
+/**********      L3PU01--L3PS17                                           
+* LEVEL 3 *                                                               
+***********                                                               
+ UNMATCH.                                                         (L2PS02)
+     PERFORM ACTION1-PROC.                                        L3PU01  
+     IF S-ACTION = I-INSERT                                       L3PS02  
+             PERFORM HEAD-RTN THRU HEAD-EXT                       L3PS03*7
+             PERFORM INSERT-PROC                                  L3PU04  
+             PERFORM EDIT-INSDATA-PROC                            L3PU05  
+             PERFORM INOUT1-INS-RTN THRU INOUT1-INS-EXT           L3PS06*3
+        ELSE PERFORM HEAD-RTN THRU HEAD-EXT                       L3PS07*7
+             PERFORM EDIT-ERRDATA-PROC.                           L3PU08  
+*                                                                         
+ MATCH.                                                           (L2PS03)
+     PERFORM ACTION2-PROC.                                        L3PU10  
+     IF  S-ACTION = I-ERROR                                               
+         PERFORM EDIT-ERRDATA-PROC                                        
+     ELSE                                                                 
+     IF  S-ACTION = I-DELETE                                      L3PS11  
+                 PERFORM HEAD-RTN THRU HEAD-EXT                   L3PS12*7
+                 PERFORM EDIT-DELDATA-PROC                        L3PU13  
+                 PERFORM INOUT1-DEL-RTN THRU INOUT1-DEL-EXT       L3PS15*4
+         ELSE    PERFORM UPDATE-PROC                              L3PU16  
+                 PERFORM INOUT1-REP-RTN THRU INOUT1-REP-EXT.      L3PS17*5
+/**************  *1=L1SS04, L2ES01  *2=L2SS02  *3=L3PS06                  
+* SUBROUTINES *  *4=L3PS15  *5=L3PS17  *6=L3PS09, L3PS14                  
+*  (STANDARD) *  *7=L3PS03, L3PS07, L3PS12                                
+***************                                                           
+ INP1-READ-RTN.                                                   *1      
+     READ INP1-FILE                                                       
+         AT END  MOVE HIGH-VALUE TO INP1-KEY                              
+                 MOVE CORR INP1-KEY TO INP1-REC.                          
+     MOVE CORR INP1-REC TO INP1-KEY.                                      
+     COMPUTE F-INP1-CNT = F-INP1-CNT + C-DEC1.                            
+ INP1-READ-EXT.                                                           
+     EXIT.                                                                
+*                                                                         
+ INOUT1-READ-RTN.                                                 *2      
+     MOVE INP1-KEY TO INOUT1-ACP.                                         
+     READ INOUT1-FILE                                                     
+         INVALID KEY     MOVE I-TRUE TO S-INOUT1-KEYERR.                  
+ INOUT1-READ-EXT.                                                         
+     EXIT.                                                                
+*                                                                         
+ INOUT1-INS-RTN.                                                  *3      
+     WRITE INOUT1-REC1                                                    
+         INVALID KEY     COMPUTE F-INOUT1-INV-INSCNT =                    
+             F-INOUT1-INV-INSCNT + C-DEC1                                 
+             PERFORM INOUT1-INS-INV-PROC                                  
+             COMPUTE F-INOUT1-INSCNT = F-INOUT1-INSCNT - C-DEC1.          
+     COMPUTE F-INOUT1-INSCNT = F-INOUT1-INSCNT + C-DEC1.                  
+ INOUT1-INS-EXT.                                                          
+     EXIT.                                                                
+*                                                                         
+ INOUT1-DEL-RTN.                                                  *4      
+     DELETE CURRENT INOUT1-FILE                                           
+         INVALID KEY     COMPUTE F-INOUT1-INV-DELCNT =                    
+             F-INOUT1-INV-DELCNT + C-DEC1                                 
+             PERFORM INOUT1-DEL-INV-PROC                                  
+             COMPUTE F-INOUT1-DELCNT = F-INOUT1-DELCNT - C-DEC1.          
+     COMPUTE F-INOUT1-DELCNT = F-INOUT1-DELCNT + C-DEC1.                  
+ INOUT1-DEL-EXT.                                                          
+     EXIT.                                                                
+*                                                                         
+ INOUT1-REP-RTN.                                                  *5      
+     REWRITE CURRENT INOUT1-REC1                                          
+         INVALID KEY     COMPUTE F-INOUT1-INV-REPCNT =                    
+             F-INOUT1-INV-REPCNT + C-DEC1                                 
+             PERFORM INOUT1-REP-INV-PROC                                  
+             COMPUTE F-INOUT1-REPCNT = F-INOUT1-REPCNT - C-DEC1.          
+     COMPUTE F-INOUT1-REPCNT = F-INOUT1-REPCNT + C-DEC1.                  
+ INOUT1-REP-EXT.                                                          
+     EXIT.                                                                
+*                                                                         
+ OUT1-WRITE-RTN.                                                  *6      
+ OUT1-WRITE-EXT.                                                          
+     EXIT.                                                                
+*                                                                         
+ HEAD-RTN.                                                        *7      
+     IF LINAGE-COUNTER = C-DEC1                                           
+             PERFORM HEAD-PRINT-PROC                                      
+        ELSE NEXT SENTENCE.                                               
+ HEAD-EXT.                                                                
+     EXIT.                                                                
+/*************   L1SU01, L1SU11, L1EU01, L3PU01, L3PU04, L3PU05,          
+* USERS PROC *   L3PU08, L3PU10, L3PU13, L3PU16, INOUT1-INS-RTN,          
+**************   INOUT1-DEL-RTN, INOUT1-REP-RTN, HEAD-RTN                 
+* (FROM L1SU01)                                                           
+ MAIN-INIT-PROC.                                                          
+* (FROM L1SU11)                                                           
+ PR-INIT-PROC.                                                            
+* (FROM L1EU01)                                                           
+ MAIN-FINISH-PROC.                                                        
+     MOVE F-IOREC-CNT1 TO OUT1-REC1.                                      
+     WRITE OUT1-REC1 BEFORE 1.                                            
+     MOVE F-IOREC-CNT2 TO OUT1-REC1.                                      
+     WRITE OUT1-REC1 BEFORE 2.                                            
+* (FROM L3PU01)                                                           
+ ACTION1-PROC.                                                            
+     MOVE I-ERROR  TO S-ACTION.                                           
+* (FROM L3PU04)                                                           
+ INSERT-PROC.                                                             
+* (FROM L3PU05)                                                           
+ EDIT-INSDATA-PROC.                                                       
+* (FROM L3PU08)                                                           
+ EDIT-ERRDATA-PROC.                                                       
+* (FROM L3PU10)                                                           
+ ACTION2-PROC.                                                            
+     MOVE I-UPDATE TO S-ACTION.                                           
+* (FROM L3PU13)                                                           
+ EDIT-DELDATA-PROC.                                                       
+* (FROM L3PU16)                                                           
+ UPDATE-PROC.                                                             
+     MOVE INP1-REC11 TO INOUT1-REC1.                                      
+* (FROM INOUT1-INS-RTN)                                                   
+ INOUT1-INS-INV-PROC.                                                     
+* (FROM INOUT1-DEL-RTN)                                                   
+ INOUT1-DEL-INV-PROC.                                                     
+* (FROM INOUT1-REP-RTN)                                                   
+ INOUT1-REP-INV-PROC.                                                     
+* (FROM HEAD-RTN)                                                         
+ HEAD-PRINT-PROC.                                                         

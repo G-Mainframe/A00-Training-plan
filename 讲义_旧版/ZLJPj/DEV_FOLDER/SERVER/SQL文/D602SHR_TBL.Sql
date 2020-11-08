@@ -1,0 +1,25 @@
+DROP   TABLE  D602SHR_TBL   ;
+CREATE TABLE  D602SHR_TBL  (
+       取引先コード                       CHAR(9)           NOT NULL,
+       支払先コード                       CHAR(5)           NOT NULL,
+       契約番号                           CHAR(10)          NOT NULL,
+       再リース回数                       CHAR(2)           NOT NULL,
+       支払種類                           CHAR(2)           NOT NULL,
+       担当部店コード                     CHAR(4)           NOT NULL,
+       契約金額                           NUMBER(13,0)      NOT NULL,
+       前月末未払残高                     CHAR(13)          NOT NULL,
+       当月支払金額                       CHAR(13)          NOT NULL,
+       当月末未払金額                     CHAR(13)          NOT NULL,
+       登録年月日                         CHAR(8)           NOT NULL,
+       登録時間                           CHAR(8)           NOT NULL,
+       登録担当者                         CHAR(8)           NOT NULL,
+       更新年月日                         CHAR(8)           NOT NULL,
+       更新時間                           CHAR(8)           NOT NULL,
+       更新者                             CHAR(8)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+CONSTRAINT  PK_D602SHR_TBL  PRIMARY KEY (
+       取引先コード,
+       支払先コード,
+       契約番号,
+       再リース回数,
+       支払種類));

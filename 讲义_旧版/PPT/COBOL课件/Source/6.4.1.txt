@@ -1,0 +1,12 @@
+
+	A.	MOVE  0.04  TO  R.
+
+		ADD  1  TO  R.
+
+		MOVE  100  TO  P.
+
+		PERFORM  B  5 TIMES.
+
+		STOP  RUN.
+
+	B.	MULTIPLY  R  BY  P.

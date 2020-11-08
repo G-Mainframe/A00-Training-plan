@@ -1,0 +1,32 @@
+       IDENTIFICATION        DIVISION.
+       PROGRAM-ID            EX93.
+       ENVIRONMENT           DIVISION.
+       INPUT-OUTPUT          SECTION.
+       FILE-CONTROL.
+               SELECT INPUT-FILE  ASSIGN TO FILE1.
+       DATA                  DIVISION.
+       FILE                  SECTION.
+       FD INPUT-FILE LABEL RECORD IS STANDARD
+            RECORDING MODE IS F.
+       01 PRODUCT-TABLE.
+         02 SHOP-PRODUCTION OCCURS 10 INDEXED BY I.
+           04 NUM PIC 9(6).
+           04 QTY PIC 9(4).
+           04 GRADE PIC X.
+       PROCEDURE DIVISION.
+            OPEN INPUT INPUT-FILE.
+       RE.  READ INPUT-FILE AT END GO TO JOB-END.
+            SET I TO 1.
+       SEARCHING.
+            SEARCH SHOP-PRODUCTION
+            AT END GO TO RE
+                WHEN QTY (I) < 500
+                DISPLAY NUM (I), QTY (I)
+                WHEN GRADE (I) = 'D'
+                DISPLAY NUM (I), GRADE (I).
+                SET I UP BY 1.
+                GO TO SEARCHING.
+       JOB-END.
+            CLOSE INPUT-FILE.
+            STOP RUN.
+

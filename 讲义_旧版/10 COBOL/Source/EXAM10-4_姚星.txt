@@ -1,0 +1,134 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200 PROGRAM-ID.   EXAM104.                                           00020001
+000300 ENVIRONMENT  DIVISION.                                           00030000
+000400 INPUT-OUTPUT SECTION.                                            00040000
+000500 FILE-CONTROL.                                                    00050000
+000600      SELECT   MD-FILE  ASSIGN TO SYSUT1.                         00060002
+000700      SELECT   DA-FILE  ASSIGN TO SYSUT2                          00070002
+000800               ORGANIZATION    IS  INDEXED                        00080001
+000900               ACCESS  MODE IS RANDOM                             00090001
+001000               RECORD KEY IS DA-PRODUCT-CODE.                     00100001
+001100      SELECT   LP-FILE ASSIGN TO SYSUT3.                          00110002
+001200                                                                  00120001
+001300 DATA      DIVISION.                                              00130001
+001400 FILE      SECTION.                                               00140001
+001500 FD   MD-FILE  LABEL RECORD IS  STANDARD                          00150001
+001600      DATA RECORD IS MDREC.                                       00160001
+001700 01 MDREC.                                                        00170001
+001800    02  RECORD-TYPE       PIC X(2).                               00180001
+001900    02  MD-PRODUCT-CODE   PIC X(4).                               00190001
+002000    02  CONTENT1          PIC X(17).                              00200001
+002100    02  CONTENT2 REDEFINES   CONTENT1.                            00210001
+002200        03 MD-PRODUCT-NAME  PIC X(10).                            00220001
+002300        03 MD-UNIT-PRICE     PIC 9(7).                            00230001
+002400    02  CONTENT3 REDEFINES  CONTENT1.                             00240001
+002500         03 MD-UNIT-PRICE-R  PIC 9(7).                            00250001
+002600         03 FILLER           PIC X(10).                           00260001
+002700 FD  DA-FILE   LABEL RECORD IS STANDARD                           00270001
+002800     DATA  RECORD IS DAREC.                                       00280001
+002900 01 DAREC.                                                        00290001
+003000    02 DA-PRODUCT-CODE  PIC X(4).                                 00300001
+003100     02 DA-PRODUCT-NAME.                                          00310001
+003200        03 FIRST-BYTE    PIC X.                                   00320001
+003300        03 FILLER        PIC X(9).                                00330001
+003400     02 DA-UNIT-PRICE    PIC 9(7).                                00340001
+003500 FD LP-FILE LABEL RECORD IS STANDARD                              00350001
+003600       DATA RECORD IS LPREC.                                      00360001
+003700 01 LPREC.                                                        00370001
+003800          02 FILLER        PIC X(80).                             00380001
+003900 WORKING-STORAGE SECTION.                                         00390001
+004000 77 LINE-COUNT    PIC 99.                                         00400001
+004100 77 READ-ERROR    PIC X(3).                                       00410001
+004200 77 WRITE-ERROR   PIC X(3).                                       00420001
+004300 77 DATA-END      PIC X(3).                                       00430001
+004400 77 NOM-KEY       PIC X(4).                                       00440001
+004500 01 HEADER.                                                       00450001
+004600      02  FILLER  PIC X(11) VALUE  SPACE.                         00460001
+004700      02  FILLER  PIC X(14) VALUE  'RECORD CONTENT'.              00470001
+004800      02  FILLER  PIC X(26) VALUE  SPACE.                         00480001
+004900      02  FILLER  PIC X(16) VALUE  'ERROR/OK MESSAGE'.            00490001
+005000 01 DETAILS.                                                      00500001
+005100    02  FILLER  PIC   X(11) VALUE  SPACE.                         00510001
+005200    02  RECORD-AREA   PIC X(40).                                  00520001
+005300    02  MESSAGE-AREA  PIC X(20).                                  00530001
+005400                                                                  00540001
+005500 PROCEDURE      DIVISION.                                         00550001
+005600                                                                  00560001
+005700 MAIN.                                                            00570001
+005800      OPEN  INPUT  MD-FILE                                        00580001
+005900           I-O    DA-FILE                                         00590001
+006000           OUTPUT LP-FILE.                                        00600001
+006100      MOVE SPACE TO DATA-END.                                     00610001
+006200      MOVE 25 TO LINE-COUNT.                                      00620001
+006300      READ MD-FILE                                                00630001
+006400      AT END MOVE 'END'  TO DATA-END.                             00640001
+006500      PERFORM  RECORD-PROCESSING                                  00650001
+006600         UNTIL  DATA-END = 'END'.                                 00660001
+006700      CLOSE MD-FILE DA-FILE, LP-FILE.                             00670001
+006800      STOP  RUN.                                                  00680001
+006900 RECORD-PROCESSING.                                               00690001
+007000      MOVE  SPACE TO READ-ERROR.                                  00700001
+007100      MOVE  MD-PRODUCT-CODE  TO DA-PRODUCT-CODE.                  00710001
+007200      READ  DA-FILE                                               00720001
+007300        INVALID  KEY  MOVE 'ERR' TO  READ-ERROR.                  00730001
+007400      IF READ-ERROR = 'ERR'                                       00740001
+007500       IF  RECORD-TYPE = 'AD'                                     00750001
+007600          PERFORM  ADDITION-1                                     00760001
+007700       ELSE                                                       00770001
+007800          MOVE 'NG UPDATE'  TO  MESSAGE-AREA                      00780001
+007900      ELSE                                                        00790001
+008000         IF FIRST-BYTE = HIGH-VALUE                               00800001
+008100            IF  RECORD-TYPE = 'AD'                                00810001
+008200                PERFORM ADDITION-2                                00820001
+008300            ELSE                                                  00830001
+008400                MOVE 'NG  UPDATE'  TO  MESSAGE-AREA               00840001
+008500         ELSE                                                     00850001
+008600            IF  RECORD-TYPE = 'UP'                                00860001
+008700                PERFORM   REVISION                                00870001
+008800            ELSE                                                  00880001
+008900               IF  RECORD-TYPE = 'DL'                             00890001
+009000                   PERFORM  DELETION                              00900001
+009100               ELSE                                               00910001
+009200                   MOVE 'NG UPDATA'  TO MESSAGE-AREA.             00920001
+009300         PERFORM PRINT.                                           00930001
+009400         MOVE SPACE TO MDREC.                                     00940001
+009500         READ MD-FILE AT END  MOVE 'END'  TO DATA-END.            00950001
+009600 ADDITION-1.                                                      00960001
+009700         MOVE MD-PRODUCT-CODE TO DA-PRODUCT-CODE.                 00970001
+009800         MOVE MD-PRODUCT-NAME TO DA-PRODUCT-NAME.                 00980001
+009900         MOVE MD-UNIT-PRICE TO DA-UNIT-PRICE.                     00990001
+010000         MOVE SPACE TO WRITE-ERROR.                               01000001
+010100         WRITE  DAREC  INVALID KEY                                01010001
+010200               MOVE  'ERR' TO WRITE-ERROR.                        01020001
+010300         IF WRITE-ERROR = 'ERR'                                   01030001
+010400               MOVE  'NG  OVERFLOW'  TO  MESSAGE-AREA             01040001
+010500         ELSE                                                     01050001
+010600               MOVE  'OK STORED'  TO  MESSAGE-AREA.               01060001
+010700                                                                  01070001
+010800 ADDITION-2.                                                      01080001
+010900         MOVE MD-PRODUCT-NAME TO DA-PRODUCT-NAME.                 01090001
+011000         MOVE MD-UNIT-PRICE TO DA-UNIT-PRICE.                     01100001
+011100         REWRITE DAREC INVALID KEY DISPLAY 'REWRITE ERROR'.       01110001
+011200         MOVE 'OK STORED'  TO MESSAGE-AREA.                       01120001
+011300 REVISION.                                                        01130001
+011400         MOVE  MD-UNIT-PRICE-R  TO DA-UNIT-PRICE.                 01140001
+011500         REWRITE DAREC INVALID KEY DISPLAY 'REWRITE ERROR'.       01150001
+011600         MOVE  'OK MODIFIED'  TO MESSAGE-AREA.                    01160001
+011700 DELETION.                                                        01170001
+011800         MOVE HIGH-VALUE  TO FIRST-BYTE.                          01180001
+011900         DELETE DA-FILE INVALID KEY DISPLAY 'REWRITE ERROR'.      01190001
+012000         MOVE 'OK DELETED' TO MESSAGE-AREA.                       01200001
+012100 PRINT.                                                           01210001
+012200        IF  LINE-COUNT = 25                                       01220001
+012300            MOVE SPACE TO LPREC                                   01230001
+012400            WRITE LPREC AFTER PAGE                                01240001
+012500            WRITE LPREC FROM HEADER AFTER 2                       01250001
+012600            MOVE 0 TO LINE-COUNT                                  01260001
+012700        ELSE                                                      01270001
+012800             NEXT SENTENCE.                                       01280001
+012900        MOVE SPACE TO RECORD-AREA.                                01290001
+013000        MOVE MDREC TO RECORD-AREA.                                01300001
+013100        MOVE SPACE TO LPREC.                                      01310001
+013200        WRITE LPREC FROM DETAILS AFTER 2.                         01320001
+013300        ADD 1 TO LINE-COUNT.                                      01330001
+

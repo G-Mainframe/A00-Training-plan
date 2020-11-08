@@ -1,0 +1,45 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200*                                                                 00020000
+000300 PROGRAM-ID. HELLO.                                               00030000
+000400*                                                                 00040000
+000500 ENVIRONMENT DIVISION.                                            00050000
+000600*                                                                 00060000
+000700 INPUT-OUTPUT SECTION.                                            00070000
+000800*                                                                 00080000
+000900 DATA DIVISION.                                                   00090000
+001000*                                                                 00100000
+001060                                                                  00106000
+001100 FILE SECTION.                                                    00110000
+001200*                                                                 00120000
+001300 WORKING-STORAGE SECTION.                                         00130000
+001400*                                                                 00140000
+001410 77  WS-TOTAL                  PIC  9(10).                        00141001
+001420                                                                  00142001
+001430                                                                  00143001
+001440 01  WS-IN.                                                       00144001
+001450     05  WS-UNIT-PRICE-X  PIC X(7).                               00145001
+001460     05  WS-UNIT-PRICE REDEFINES WS-UNIT-PRICE-X   PIC 9(5)V99.   00146001
+001470     05  WS-QTY-X         PIC X(5).                               00147001
+001480     05  WS-QTY REDEFINES WS-QTY-X PIC 9(5).                      00148001
+001490     05  FILLER           PIC X(68).                              00149001
+001500*                                                                 00150000
+001600 PROCEDURE DIVISION.                                              00160000
+001700*                                                                 00170000
+001800 0000-ACCEPT.                                                     00180000
+002000      ACCEPT WS-IN.                                               00200000
+002010      IF WS-UNIT-PRICE-X = '9999999'                              00201000
+002020         GO TO 0000-END.                                          00202000
+002030                                                                  00203000
+002100      IF WS-UNIT-PRICE-X NUMERIC AND WS-QTY-X NUMERIC             00210000
+002200         DISPLAY 'WS-UNIT-PRICE = ' WS-UNIT-PRICE                 00220000
+002300         DISPLAY 'WS-QTY        = ' WS-QTY                        00230000
+002310         COMPUTE WS-TOTAL = WS-UNIT-PRICE  * WS-QTY               00231002
+002320         DISPLAY  'WS-TOTAL     = ' WS-TOTAL                      00232000
+002330      ELSE                                                        00233000
+002340         DISPLAY ' NON-NUMERIC INPUT DETECTED'.                   00234000
+002350      GO TO 0000-ACCEPT.                                          00235000
+002360                                                                  00236000
+002400 0000-END.                                                        00240000
+002410     STOP RUN.                                                    00241000
+002500                                                                  00250000
+

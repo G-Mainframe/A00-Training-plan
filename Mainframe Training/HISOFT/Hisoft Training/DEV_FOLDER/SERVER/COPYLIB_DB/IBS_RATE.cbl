@@ -1,0 +1,15 @@
+000010************************************************
+000020* (IBS_RATE)
+000030************************************************
+000040 01  ‚h‚a‚r|‚q‚`‚s‚d|”N PIC  X(004).
+000050 01  ‚h‚a‚r|‚q‚`‚s‚d|ŒŽ PIC  X(002).
+000060 01  ‚h‚a‚r|‚q‚`‚s‚d|•¼ŽíƒR[ƒh PIC  X(003).
+000070 01  ‚h‚a‚r|‚q‚`‚s‚d|‚s‚s‚r PIC S9(004)V9(2) COMP-3.
+000080 01  ‚h‚a‚r|‚q‚`‚s‚d|‚s‚s‚a PIC S9(004)V9(2) COMP-3.
+000090 01  ‚h‚a‚r|‚q‚`‚s‚d|‚s‚s‚l PIC S9(004)V9(2) COMP-3.
+000100 01  ‚h‚a‚r|‚q‚`‚s‚d|“o˜^“ú PIC  X(008).
+000110 01  ‚h‚a‚r|‚q‚`‚s‚d|“o˜^Žž PIC  X(006).
+000120 01  ‚h‚a‚r|‚q‚`‚s‚d|“o˜^’S“–ŽÒƒR[ƒh PIC  X(004).
+000130 01  ‚h‚a‚r|‚q‚`‚s‚d|XV“ú PIC  X(008).
+000140 01  ‚h‚a‚r|‚q‚`‚s‚d|XVŽž PIC  X(006).
+000150 01  ‚h‚a‚r|‚q‚`‚s‚d|XV’S“–ŽÒƒR[ƒh PIC  X(004).

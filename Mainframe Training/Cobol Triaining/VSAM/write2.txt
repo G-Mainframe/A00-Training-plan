@@ -1,0 +1,75 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200*                                                                 00020000
+000300 PROGRAM-ID. WRITE1.                                              00030000
+000400*                                                                 00040000
+000500 ENVIRONMENT DIVISION.                                            00050000
+000600*                                                                 00060000
+000700 INPUT-OUTPUT SECTION.                                            00070000
+000800*                                                                 00080000
+000900 FILE-CONTROL.                                                    00090000
+001000*                                                                 00100000
+001100      SELECT PRODUCT  ASSIGN TO PRODUCT ORGANIZATION INDEXED      00110000
+001110                            ACCESS IS DYNAMIC                     00111000
+001111                            RECORD KEY PRM-PRODUCT-CODE.          00111100
+001112*                                                                 00111200
+001113 DATA DIVISION.                                                   00111300
+001114*                                                                 00111400
+001115 FILE SECTION.                                                    00111500
+001116 FD  PRODUCT.                                                     00111600
+001117*                                                                 00111700
+001118 01  PRODUCT-MASTER-RECORD.                                       00111800
+001119     03  WS-TOTAL-LINE                   PIC X(47).               00111900
+001120     03  REDEF-TOTAL         REDEFINES WS-TOTAL-LINE.             00112000
+001130     05  PRM-PRODUCT-CODE                PIC X(10).               00113000
+001140     05  PRM-PRODUCT-DESCRIPTION         PIC X(20).               00114000
+001150*      05  FILLER            PIC X(4) VALUE LOW-VALUES.           00115000
+001160     05  PRM-UNIT-PRICE                  PIC S9(07)V99  COMP-3.   00116000
+001170*      05  FILLER            PIC X(4) VALUE LOW-VALUES.           00117000
+001180     05  PRM-QUANTITY-ON-HAND            PIC S9(07)     COMP-3.   00118000
+001190                                                                  00119000
+001200*                                                                 00120000
+001300 WORKING-STORAGE SECTION.                                         00130000
+001400*                                                                 00140000
+001500 01  SWITCHES.                                                    00150000
+001600     05  PRODMAST-EOF-SWITCH     PIC X    VALUE "N".              00160000
+001700                                                                  00170000
+001800 01  WS-INPUT.                                                    00180000
+001900     05  WS-IN-CODE        PIC X(10).                             00190000
+002000     05  WS-IN-DESC        PIC X(10).                             00200000
+002100     05  WS-IN-QTY         PIC 9(7)V99.                           00210000
+002200     05  WS-IN-ON-HAND     PIC 9(7).                              00220000
+002300*                                                                 00230000
+002400 PROCEDURE DIVISION.                                              00240000
+002500*                                                                 00250000
+002600 000-CONTROL.                                                     00260000
+002700*                                                                 00270000
+002800     OPEN                                                         00280000
+002900          OUTPUT PRODUCT.                                         00290000
+003000     PERFORM 100-READ                                             00300000
+003100                UNTIL PRODMAST-EOF-SWITCH = "Y".                  00310000
+003200     CLOSE PRODUCT.                                               00320000
+003300                                                                  00330000
+003400     STOP RUN.                                                    00340000
+003500 100-READ.                                                        00350000
+003600     ACCEPT WS-INPUT.                                             00360000
+003700                                                                  00370000
+003800     IF WS-IN-CODE NOT = '99999     '                             00380000
+003900                                                                  00390000
+004000        MOVE WS-IN-CODE TO   PRM-PRODUCT-CODE                     00400000
+004100                                                                  00410000
+004200        MOVE WS-IN-DESC TO   PRM-PRODUCT-DESCRIPTION              00420000
+004300                                                                  00430000
+004400        MOVE WS-IN-QTY   TO  PRM-UNIT-PRICE                       00440000
+004500                                                                  00450000
+004600        MOVE WS-IN-ON-HAND TO  PRM-QUANTITY-ON-HAND               00460000
+004700                                                                  00470000
+004800        DISPLAY ' WS-IN-QTY: '  PRM-UNIT-PRICE                    00480000
+004810                                                                  00481000
+004820        DISPLAY ' WS-ON-HAND: '  PRM-QUANTITY-ON-HAND             00482000
+004830                                                                  00483000
+004840        WRITE PRODUCT-MASTER-RECORD                               00484000
+004850                                                                  00485000
+004860      ELSE                                                        00486000
+004870                                                                  00487000
+004880        MOVE 'Y' TO PRODMAST-EOF-SWITCH.                          00488000
+

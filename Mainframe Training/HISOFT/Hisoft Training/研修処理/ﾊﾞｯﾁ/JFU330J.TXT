@@ -1,0 +1,1010 @@
+ IDENTIFICATION DIVISION.                                                 
+*PATTERN-ID.     PT TO DISK WITH COLLATE "J".                             
+ PROGRAM-ID.     JFU330J.                                                 
+**** 作成　　　　李                                                       
+ DATE-WRITTEN.     -  -  .                                                
+*UPDATE-WRITTEN.   -  -   REV.                                            
+ DATE-COMPILED.                                                           
+*                                                                         
+*    受給者住記異動チェック                                               
+*                                                                         
+ ENVIRONMENT DIVISION.                                                    
+ CONFIGURATION SECTION.                                                   
+ SOURCE-COMPUTER. ACOS-77.                                                
+ OBJECT-COMPUTER. ACOS-77.                                                
+ INPUT-OUTPUT SECTION.                                                    
+ FILE-CONTROL.                                                            
+*    受給資格ファイル                                                     
+     SELECT INP1-FILE ASSIGN  IND1-DS.                                    
+*    住記リンク一時ファイル                                               
+     SELECT INP2-FILE ASSIGN  IND2-DS                                     
+         ORGANIZATION INDEXED                                             
+         ACCESS RANDOM                                                    
+         RECORD INP2-KEY                                                  
+         STATUS S-INP2-STATUS.                                            
+*    チェックリスト                                                       
+     SELECT OUT1-FILE ASSIGN  PR01-USEROUT.                               
+*                                                                         
+ I-O-CONTROL.                                                             
+     APPLY SHIFT-CODE ON OUT1-FILE                                        
+                         WITH PPR-CONTROL-1.                              
+/                                                                         
+ DATA DIVISION.                                                           
+ FILE SECTION.                                                            
+*                                                                         
+*    受給資格ファイル（受給資格＋請求者）                                 
+*                                                                         
+ FD  INP1-FILE                                                            
+         BLOCK     10 RECORDS                                             
+         RECORD   500 CHARACTERS                                          
+         LABEL RECORD STANDARD.                                           
+******************************                                            
+* INP1-FILE, INP1-KEY RECORD *                                            
+******************************                                            
+ 01  INP1-REC.                                                            
+     03  FIL         PIC X(2).                                            
+     03  INP1-KEY01  PIC X(10).                                           
+     03  FIL         PIC X(488).                                          
+**************************                                                
+* INP1-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  INP1-REC1.                                                           
+     02  INP1-JFUJQSK.                                                    
+     COPY JFUJQSK.                                                        
+     02  INP1-JFUSEIQ.                                                    
+     COPY JFUSEIQ.                                                        
+/                                                                         
+*    住記リンク一時ファイル                                               
+ FD  INP2-FILE                                                            
+         BLOCK    14 RECORDS                                              
+         RECORD  550 CHARACTERS                                           
+         LABEL RECORD STANDARD.                                           
+******************************                                            
+* INP2-FILE, INP2-KEY RECORD *                                            
+******************************                                            
+ 01  INP2-REC.                                                            
+     03  FIL         PIC X(8).                                            
+     03  INP2-KEY    PIC X(7).                                            
+     03  FIL         PIC X(535).                                          
+**************************                                                
+* INP2-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  INP2-REC1.                                                           
+     COPY YHLB15.                                                         
+/                                                                         
+*    チェックリスト                                                       
+ FD  OUT1-FILE                                                            
+         RECORD    200    CHARACTERS                                      
+         LABEL RECORD OMITTED                                             
+         LINAGE     62                                                    
+         TOP         2                                                    
+         BOTTOM      2.                                                   
+**************************                                                
+* OUT1-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  OUT1-REC1.                                                           
+     03  FIL             PIC X(200).                                      
+/                                                                         
+ WORKING-STORAGE SECTION.                                                 
+*****************************                                             
+* STANDARD CODING WORK AREA *                                             
+*****************************                                             
+ 77  C-DEC1          PIC 9(1)    VALUE 1.                                 
+ 77  C-ALN0          PIC X(2)    VALUE "00".                              
+*                                                                         
+ 77  I-FALSE         PIC 9(1)    VALUE 0.                                 
+ 77  I-TRUE          PIC 9(1)    VALUE 1.                                 
+ 77  I-SKIPLN        PIC 9(2)    VALUE 2.                                 
+*                                                                         
+ 77  S-INP1-STATUS   PIC X(2).                                            
+ 77  S-INP2-STATUS   PIC X(2).                                            
+ 77  S-INP1-DATAERR  PIC 9(1).                                            
+ 77  S-INP2-DATAERR  PIC 9(1).                                            
+ 77  S-INP2-KEYERR   PIC 9(1).                                            
+* INPUT-OUTPUT RECORD COUNT *                                             
+ 01  F-IOREC-CNT.                                                         
+     02  F-PROG-NAME     PIC X(8)    VALUE "JFU330J ".                    
+     02  FILLER          PIC X(10)   VALUE " INP1-REC=".                  
+     02  F-INP1-CNT      PIC 9(5).                                        
+     02  FILLER          PIC X(10)   VALUE ",ｿｳｼﾂ REC=".                  
+     02  F-SOST-CNT      PIC 9(5).                                        
+     02  FILLER          PIC X(10)   VALUE ",ｴﾗｰ  REC=".                  
+     02  F-ERR-CNT       PIC 9(5).                                        
+     02  FILLER          PIC X(10)   VALUE ",OK   REC=".                  
+     02  F-COR-CNT       PIC 9(5).                                        
+*************                                                             
+* KEY-FIELD *                                                             
+*************                                                             
+* CURRENT KEY FIELD ON INP1-FILE *                                        
+ 01  INP1-KEY.                                                            
+     03  INP1-KEY01       PIC X(10).                                      
+/*************************                                                
+* USERS CODING WORK AREA *                                                
+**************************                                                
+*                                                                         
+*    システムデイトアクセプトワーク                                       
+*                                                                         
+     COPY CMLBDATE.                                                       
+/                                                                         
+ 01  WK-SYSYMD.                                                           
+     02  WK-SYSNG        PIC 9(1).                                        
+     02  WK-SYSYY        PIC 9(2).                                        
+     02  WK-SYSMM        PIC 9(2).                                        
+     02  WK-SYSDD        PIC 9(2).                                        
+*                                                                         
+*    年月日算出用ワーク                                                   
+*                                                                         
+ 01  WK-YMD.                                                              
+     02  WK-YY           PIC Z(2).                                        
+     02  WK-MM           PIC Z(2).                                        
+     02  WK-DD           PIC Z(2).                                        
+*                                                                         
+*    年月日編集用                                                         
+*                                                                         
+ 01  WK-UGPR-N.                                                           
+     02  WK-UGPRYM-N.                                                     
+         03  WK-JUGGN   PIC N(2).                                         
+         03  WK-JUGYN   PIC N(2).                                         
+         03  WK-NEN     PIC N(1)   VALUE  NC"年".                         
+         03  WK-JUGMN   PIC N(2).                                         
+         03  WK-GETU    PIC N(1)   VALUE  NC"月".                         
+     02  WK-JUGDN       PIC N(2).                                         
+     02  WK-NITI        PIC N(1)   VALUE  NC"日".                         
+*                                                                         
+*    頁カウントワーク                                                     
+*                                                                         
+ 01  PAGE-CNT    PIC 9(3).                                                
+*                                                                         
+*    行数カウント                                                         
+*                                                                         
+ 01  LINE-CNT         PIC 9(2).                                           
+*                                                                         
+*    エラーチェック用ワーク                                               
+*                                                                         
+*    住民となった日                                                       
+ 01  WK-GGP            PIC 9(8).                                          
+*    開始認定日                                                           
+ 01  WK-KNTBI          PIC 9(8).                                          
+*    公称町コード                                                         
+ 01  WK-GKCD           PIC X(4).                                          
+ 01  WK-GKCDR   REDEFINES WK-GKCD.                                        
+     02  WK-GKCD9      PIC 9(4).                                          
+*    通称町コード                                                         
+ 01  WK-GTCD           PIC X(4).                                          
+ 01  WK-GTCDR   REDEFINES WK-GTCD.                                        
+     02  WK-GTCD9      PIC 9(4).                                          
+*                                                                         
+*    番地編集ワーク                                                       
+*                                                                         
+ 01  WK-GBA.                                                              
+     02  WK-GBA1       PIC X(4).                                          
+     02  WK-GBAF       PIC X(1).                                          
+     02  WK-GBA2       PIC X(4).                                          
+ 01  WK-GJBA.                                                             
+     02  WK-GJBA1      PIC X(2).                                          
+     02  WK-GBAF1      PIC X(1).                                          
+     02  WK-GJBA2      PIC X(2).                                          
+     02  WK-GBAF2      PIC X(1).                                          
+     02  WK-GJBA3      PIC X(4).                                          
+*                                                                         
+*    番地判断用ワーク                                                     
+*                                                                         
+ 01  INPUT-BAN         PIC X(12).                                         
+ 01  INPUT-BANR REDEFINES INPUT-BAN.                                      
+     02  IN-BAN  OCCURS 12 TIMES   PIC X(1).                              
+*                                                                         
+ 01  INPUT-GEN-BAN     PIC X(12).                                         
+*                                                                         
+ 01  OUTPUT-BAN        PIC X(12).                                         
+ 01  OUTPUT-BANR REDEFINES OUTPUT-BAN.                                    
+     02  OUT-BAN OCCURS 12 TIMES   PIC X(1).                              
+*                                                                         
+ 01  INBAN          PIC 9(2).                                             
+ 01  OUTBAN         PIC 9(2).                                             
+*                                                                         
+ 01  WK-BAN         PIC X(12).                                            
+ 01  WK-BANTI       PIC X(12).                                            
+ 01  WK-BAN1.                                                             
+     03  WK-BAN11-Z     PIC Z9.                                           
+     03  WK-BAN12-Z     PIC Z9.                                           
+ 01  WK-BAN1-X.                                                           
+     03  WK-BAN11       PIC X(2).                                         
+     03  WK-BAN1F1      PIC X(1).                                         
+     03  WK-BAN12       PIC X(2).                                         
+     03  WK-BAN1F2      PIC X(1).                                         
+     03  WK-BAN13       PIC X(4).                                         
+ 01  WK-BAN2.                                                             
+     03  WK-BAN21-Z     PIC ZZZ9.                                         
+ 01  WK-BAN2-X.                                                           
+     03  WK-BAN21       PIC X(4).                                         
+     03  WK-BAN2F1      PIC X(1).                                         
+     03  WK-BAN22       PIC X(4).                                         
+/                                                                         
+     COPY KAGREKIW.                                                       
+*                                                                         
+     COPY CMLB002W.                                                       
+/                                                                         
+*                                                                         
+*    年齢計算用ワーク                                                     
+*                                                                         
+     COPY LIBS010W.                                                       
+/                                                                         
+*                                                                         
+*    チェックリスト見出し                                                 
+*                                                                         
+ 01  HEAD1.                                                               
+*    プログラムＩＤ                                                       
+     02  H1-PRG    PIC X(8) VALUE "JFU330J " COLUMN 3.                    
+ 01  HEAD2.                                                               
+*    現在日年号                                                           
+     02  H2-NG     PIC N(2)              COLUMN 109.                      
+*    現在日年                                                             
+     02  H2-YY     PIC N(2)              COLUMN 112.                      
+*    現在日月                                                             
+     02  H2-MM     PIC N(2)              COLUMN 116.                      
+*    現在日日                                                             
+     02  H2-DD     PIC N(2)              COLUMN 120.                      
+*    ページ                                                               
+     02  H2-PAGE   PIC Z(4)              COLUMN 131.                      
+*                                                                         
+*    チェックリスト                                                       
+*                                                                         
+ 01  LIST.                                                                
+*    チェックリスト（ライン１）                                           
+     03  LIST1.                                                           
+*        エラーメッセージ                                                 
+         05  L1-MSG    PIC N(15)  COLUMN  4  CHARACTER TYPE KM-7P.        
+*        住記個人番号                                                     
+         05  L1-KJNNO  PIC X(7)   COLUMN 25.                              
+*        生年月日                                                         
+         05  L1-UGP    PIC N(11)  COLUMN 39  CHARACTER TYPE KM-7P.        
+*        住民区分                                                         
+         05  L1-JKB    PIC X(1)   COLUMN 54.                              
+*        住民となった年月日                                               
+         05  L1-GGP    PIC N(11)  COLUMN 58  CHARACTER TYPE KM-7P.        
+*        住民で無くなった日（転出・死亡年月日）                           
+         05  L1-YGP    PIC N(11)  COLUMN 73  CHARACTER TYPE KM-7P.        
+*        住記住所                                                         
+         05  L1-GAZA   PIC N(30)  COLUMN 88  CHARACTER TYPE KM-7P.        
+*        住記番地                                                         
+         05  L1-GRBA   PIC X(12)  COLUMN 125.                             
+*    チェックリスト（ライン２）                                           
+     03  LIST2.                                                           
+*        エラーメッセージ                                                 
+         05  L2-MSG    PIC N(15)  COLUMN  4  CHARACTER TYPE KM-7P.        
+*        氏名                                                             
+         05  L2-NAMK   PIC N(10)  COLUMN 25  CHARACTER TYPE KM-7P.        
+*    チェックリスト（ライン３）                                           
+     03  LIST3.                                                           
+*        エラーメッセージ                                                 
+         05  L3-MSG    PIC N(15)  COLUMN  4  CHARACTER TYPE KM-7P.        
+*        証書番号                                                         
+         05  L3-SHBAN  PIC X(10)         COLUMN 25.                       
+*        年齢                                                             
+         05  L3-AGE.                                                      
+*            年                                                           
+             07  L3-TOSI   PIC Z(3)      COLUMN 39.                       
+*            才                                                           
+             07  L3-TF1  PIC N(1) COLUMN 42 CHARACTER TYPE KM-7P.         
+*        資格取得情報（取得事由・年月日）                                 
+         05  L3-SYJIU  PIC X(2)          COLUMN 58.                       
+         05  L3-SYKBI.                                                    
+             07  L3-SYNG   PIC X(1)      COLUMN 61.                       
+             07  L3-SYYY   PIC Z(2).                                      
+             07  L3-SYF1   PIC X(1).                                      
+             07  L3-SYMM   PIC Z(2).                                      
+             07  L3-SYF2   PIC X(1).                                      
+             07  L3-SYDD   PIC Z(2).                                      
+*        資格喪失情報（喪失事由・年月日）                                 
+         05  L3-SOJIU  PIC X(2)          COLUMN 73.                       
+         05  L3-SOSBI.                                                    
+             07  L3-SONG   PIC X(1)      COLUMN 76.                       
+             07  L3-SOYY   PIC Z(2).                                      
+             07  L3-SOF1   PIC X(1).                                      
+             07  L3-SOMM   PIC Z(2).                                      
+             07  L3-SOF2   PIC X(1).                                      
+             07  L3-SODD   PIC Z(2).                                      
+*        児扶住所                                                         
+         05  L3-ADRSN  PIC N(30)  COLUMN 88  CHARACTER TYPE KM-7P.        
+*        児扶番地                                                         
+         05  L3-BANTI  PIC X(12)  COLUMN 125.                             
+/                                                                         
+*                                                                         
+*    エラーメッセージ用ワーク                                             
+*                                                                         
+ 01  ERR-CONTROL-WK.                                                      
+*    エラーメッセージコードを３つまでストアするテーブル                   
+     03  ERR-CTL-WK OCCURS 3 TIMES.                                       
+         05  ERR-MSGCOD PIC 9(2).                                         
+*    コントロール用エラーコードストア                                     
+     03  ERR-COD-S  PIC 9(2).                                             
+*    コントロール添え字                                                   
+     03  ERR-I      PIC 9(1).                                             
+*                                                                         
+*    エラーメッセージテーブル                                             
+*                                                                         
+ 01  ERR-MSG-TBL.                                                         
+     03  ERR-MSG-WK.                                                      
+         05  MSG01.                                                       
+             07  FIL   PIC 9(2)  VALUE  01.                               
+             07  FIL   PIC N(15) VALUE                                    
+                       NC"Ｅ０１　該当住記無し　　　　　".                
+         05  MSG02.                                                       
+             07  FIL   PIC 9(2)  VALUE  02.                               
+             07  FIL   PIC N(15) VALUE                                    
+                       NC"Ｅ０２　住民になる前の認定です".                
+         05  MSG03.                                                       
+             07  FIL   PIC 9(2)  VALUE  03.                               
+             07  FIL   PIC N(15) VALUE                                    
+                       NC"Ｅ０３　既に転出しています　　".                
+         05  MSG04.                                                       
+             07  FIL   PIC 9(2)  VALUE  04.                               
+             07  FIL   PIC N(15) VALUE                                    
+                       NC"Ｅ０４　既に死亡しています　　".                
+         05  MSG05.                                                       
+             07  FIL   PIC 9(2)  VALUE  05.                               
+             07  FIL   PIC N(15) VALUE                                    
+                       NC"Ｅ０５　公称町コード矛盾有り　".                
+         05  MSG06.                                                       
+             07  FIL   PIC 9(2)  VALUE  06.                               
+             07  FIL   PIC N(15) VALUE                                    
+                       NC"Ｅ０６　通称町コード矛盾有り　".                
+         05  MSG07.                                                       
+             07  FIL   PIC 9(2)  VALUE  07.                               
+             07  FIL   PIC N(15) VALUE                                    
+                       NC"Ｅ０７　番地矛盾有り　　　　　".                
+         05  MSG99.                                                       
+             07  FIL   PIC 9(2)  VALUE  99.                               
+             07  FIL   PIC N(15) VALUE                                    
+                       NC"　　　　その他にもエラー有り　".                
+*                                                                         
+     03  ERR-MSG-WKR REDEFINES ERR-MSG-WK.                                
+         05  ERR-MSG-TBLR OCCURS 8 TIMES.                                 
+             07  ERR-COD   PIC 9(2).                                      
+             07  ERR-MSG   PIC N(15).                                     
+*    サーチすべきコードをセットするワーク                                 
+     03  SRC-COD PIC 9(2).                                                
+*    メッセージ文コントロール添え字                                       
+     03  MSG-I   PIC 9(2).                                                
+/                                                                         
+*                                                                         
+*    日付チェック用ワーク                                                 
+*                                                                         
+*    喪失日                                                               
+ 01  CMP-SOSBI         PIC 9(8).                                          
+/                                                                         
+ PROCEDURE DIVISION.                                                      
+***********      J1SU01--J1SU10, J1PS01, J1EU01--J1ES06                   
+* LEVEL 1 *                                                               
+***********                                                               
+ MAIN-PROCESS.                                                            
+     PERFORM MAIN-INIT-PROC.                                      J1SU01  
+     MOVE ZERO TO F-INP1-CNT F-SOST-CNT.                          J1SS02  
+     OPEN INPUT INP1-FILE.                                        J1SS03  
+     PERFORM INP1-READ-RTN THRU INP1-READ-EXT.                    J1SS04*1
+     OPEN INPUT INP2-FILE.                                        J1SS05  
+*****MOVE ZERO TO F-OUT1-CNT.                                     J1SS06  
+*****OPEN OUTPUT OUT1-FILE.                                       J1SS07  
+     MOVE ZERO TO F-ERR-CNT F-COR-CNT.                            J1SS08  
+     OPEN OUTPUT OUT1-FILE.                                       J1SS09  
+     PERFORM PR-INIT-PROC.                                        J1SU10  
+*                                                                         
+     PERFORM MEDIA-TRAN                                           J1PS01  
+         UNTIL INP1-KEY = HIGH-VALUE.                                     
+*                                                                         
+     COMPUTE F-INP1-CNT = F-INP1-CNT - C-DEC1.                    J1ES06  
+     DISPLAY F-IOREC-CNT.                                         J1ES06  
+     PERFORM MAIN-FINISH-PROC.                                    J1EU01  
+     CLOSE INP1-FILE.                                             J1ES02  
+     CLOSE INP2-FILE.                                             J1ES03  
+     CLOSE OUT1-FILE.                                             J1ES04  
+*****CLOSE OUT2-FILE.                                             J1ES05  
+     STOP RUN.                                                            
+/**********      J2SS01--J2SS06, J2PS01--J2PS03, J2ES01                   
+* LEVEL 2 *                                                               
+***********                                                               
+ MEDIA-TRAN.                                                      (J1PS01)
+*    各種エラーフラグクリア                                               
+     MOVE I-FALSE TO S-INP1-DATAERR S-INP2-DATAERR                J2SS01  
+                     S-INP2-KEYERR.                               J2SS01  
+     INITIALIZE ERR-CONTROL-WK.                                           
+*    受給資格の要チェック該当を抽出しエラーチェックする                   
+     PERFORM DATA-CHECK.                                          J2SS02  
+*    要データのみについて住記リードし項目チェックする                     
+     IF S-INP1-DATAERR = I-TRUE                                   J2SS03  
+             NEXT SENTENCE                                                
+        ELSE PERFORM INP2-READ-RTN THRU INP2-READ-EXT             J2SS04*2
+             IF S-INP2-KEYERR = I-TRUE                            J2SS05  
+****************NEXT SENTENCE                                             
+                INITIALIZE INP2-REC1                                      
+                MOVE 01 TO ERR-COD-S                                      
+                PERFORM ERR-MSG-RTN THRU ERR-MSG-EXT                      
+                ELSE                                              J2SU06  
+                     PERFORM DATA-CHECK2-PROC.                    J2SU06  
+*    エラーフラグチェックしリストプリント                                 
+     IF  S-INP1-DATAERR = I-TRUE                                          
+         NEXT SENTENCE                                                    
+     ELSE                                                                 
+     IF (S-INP2-DATAERR = I-TRUE) OR                              J2PS01  
+        (S-INP2-KEYERR  = I-TRUE)                                 J2PS01  
+             PERFORM ERR-DATA                                     J2PS02  
+        ELSE PERFORM COR-DATA.                                    J2PS03  
+*    次データを読む                                                       
+     PERFORM INP1-READ-RTN THRU INP1-READ-EXT.                    J2ES01*1
+/**********      J3SS01--J3SS03, J3PS01--J3PS08                           
+* LEVEL 3 *                                                               
+***********                                                               
+*                                                                         
+*    受給資格の要チェック該当を抽出                                       
+*                                                                         
+ DATA-CHECK.                                                      (J2SS02)
+     IF S-INP1-STATUS = C-ALN0                                    J3SS01  
+             PERFORM DATA-CHECK1-PROC                             J3SU02  
+        ELSE MOVE I-TRUE TO S-INP1-DATAERR.                       J3SS03  
+*                                                                         
+*    エラーリストプリント                                                 
+ ERR-DATA.                                                        (J2PS02)
+     PERFORM HEAD-RTN THRU HEAD-EXT.                              J3PS01*5
+     PERFORM EDIT-ERRDATA-PROC.                                   J3PU02  
+*    PERFORM OUT2-WRITE-RTN THRU OUT2-WRITE-EXT.                  J3PS03*4
+*                                                                         
+*    ＯＫデータカウント                                                   
+*                                                                         
+ COR-DATA.                                                        (J2PS03)
+     PERFORM EDIT-CORDATA-PROC.                                   J3PU04  
+*    PERFORM OUT1-WRITE-RTN THRU OUT1-WRITE-EXT.                  J3PS05*3
+*    PERFORM HEAD-RTN THRU HEAD-EXT.                              J3PS06*5
+*    PERFORM EDIT-CORPR-PROC.                                     J3PU07  
+*    PERFORM OUT2-WRITE-RTN THRU OUT2-WRITE-EXT.                  J3PS08*4
+/**************  *1=J1SS04, J2ES01  *2=J2SS04  *3=J3PS05                  
+* SUBROUTINES *  *4=J3PS03, J3PS08  *5=J3PS01, J3PS06                     
+*  (STANDARD) *                                                           
+***************                                                           
+*                                                                         
+*    受給資格ファイルリード                                               
+*                                                                         
+ INP1-READ-RTN.                                                   *1      
+     READ INP1-FILE                                                       
+         AT END  MOVE HIGH-VALUE TO INP1-KEY                              
+         MOVE CORR INP1-KEY  TO  INP1-REC.                                
+     MOVE CORR INP1-REC  TO  INP1-KEY.                                    
+     COMPUTE F-INP1-CNT = F-INP1-CNT + C-DEC1.                            
+ INP1-READ-EXT.                                                           
+     EXIT.                                                                
+*                                                                         
+*    住記リンク一時ファイルリード                                         
+*                                                                         
+ INP2-READ-RTN.                                                   *2      
+     MOVE JFJ-SKJNO TO INP2-KEY.                                          
+     READ INP2-FILE                                                       
+         INVALID KEY  MOVE I-TRUE TO S-INP2-KEYERR.                       
+ INP2-READ-EXT.                                                           
+     EXIT.                                                                
+********************************************************                  
+*OUT1-WRITE-RTN.                                       *          *3      
+*    WRITE OUT1-REC1.                                  *                  
+*    COMPUTE F-OUT1-CNT = F-OUT1-CNT + C-DEC1.         *                  
+*OUT1-WRITE-EXT.                                       *                  
+*    EXIT.                                             *                  
+********************************************************                  
+*    チェックリストプリント                                               
+ OUT1-WRITE-RTN.                                                  *4      
+     WRITE OUT1-REC1 BEFORE I-SKIPLN.                                     
+*    COMPUTE F-OUT1-CNT = F-OUT1-CNT + C-DEC1.                            
+     MOVE SPACE TO OUT1-REC1.                                             
+ OUT1-WRITE-EXT.                                                          
+     EXIT.                                                                
+*                                                                         
+ HEAD-RTN.                                                        *5      
+*                                                                         
+     IF  (LINE-CNT NOT < 18)                                              
+         MOVE ZERO TO LINE-CNT                                            
+         INITIALIZE OUT1-REC1                                             
+         WRITE OUT1-REC1 BEFORE PAGE                                      
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+*                                                                         
+     IF LINAGE-COUNTER = C-DEC1                                           
+             PERFORM HEAD-PRINT-PROC                                      
+        ELSE NEXT SENTENCE.                                               
+ HEAD-EXT.                                                                
+     EXIT.                                                                
+/*************   J1SU01, J1SU10, J1EU01, J2SU06, J3SU02, J3PU02,          
+* USERS PROC *   J3PU04, J3PU07, HEAD-RTN                                 
+**************                                                            
+* (FROM J1SU01)                                                           
+ MAIN-INIT-PROC.                                                          
+*    システム日付                                                         
+     CALL "CMPDATES"         USING CMLBDATE .                             
+     MOVE CM-WDATEX          TO    WK-SYSYMD.                             
+     INITIALIZE    LINE-CNT.                                              
+* (FROM J1SU10)                                                           
+ PR-INIT-PROC.                                                            
+* (FROM J1EU01)                                                           
+ MAIN-FINISH-PROC.                                                        
+     INITIALIZE OUT1-REC1.                                                
+     WRITE OUT1-REC1 FROM F-IOREC-CNT AFTER 5.                            
+* (FROM J2SU06)                                                           
+ DATA-CHECK2-PROC.                                                        
+*                                                                         
+*    資格異動内容矛盾チェックへ                                           
+*                                                                         
+     PERFORM IDOU-CHK-RTN THRU IDOU-CHK-EXT.                              
+*                                                                         
+* (FROM J3SU02)                                                           
+ DATA-CHECK1-PROC.                                                        
+*                                                                         
+*    受給資格チェック該当抽出チェックへ                                   
+*                                                                         
+     PERFORM INP1-CHK-RTN THRU INP1-CHK-EXT.                              
+*                                                                         
+* (FROM J3PU02)                                                           
+ EDIT-ERRDATA-PROC.                                                       
+*                                                                         
+*    エラーの有る受給資格についてリストプリント                           
+*                                                                         
+     ADD 1 TO F-ERR-CNT.                                                  
+*                                                                         
+     PERFORM ERR-PRI-RTN THRU ERR-PRI-EXT.                                
+*                                                                         
+     INITIALIZE OUT1-REC1.                                                
+     WRITE OUT1-REC1 FROM LIST1 BEFORE 1.                                 
+*                                                                         
+     INITIALIZE OUT1-REC1.                                                
+     WRITE OUT1-REC1 FROM LIST2 BEFORE 1.                                 
+*                                                                         
+     INITIALIZE OUT1-REC1.                                                
+     WRITE OUT1-REC1 FROM LIST3 BEFORE 1.                                 
+*                                                                         
+     ADD 1 TO LINE-CNT.                                                   
+*                                                                         
+*                                                                         
+* (FROM J3PU04)                                                           
+ EDIT-CORDATA-PROC.                                                       
+*                                                                         
+*    データカウント                                                       
+*                                                                         
+     ADD 1 TO F-COR-CNT.                                                  
+* (FROM J3PU07)                                                           
+ EDIT-CORPR-PROC.                                                         
+* (FROM HEAD-RTN)                                                         
+ HEAD-PRINT-PROC.                                                         
+*                                                                         
+     INITIALIZE OUT1-REC1.                                                
+     INITIALIZE WK-YMD.                                                   
+     IF  WK-SYSNG     = 1 OR "M"                                          
+         MOVE NC"明治"    TO H2-NG                                        
+     ELSE                                                                 
+     IF  WK-SYSNG     = 2 OR "T"                                          
+         MOVE NC"大正"    TO H2-NG                                        
+     ELSE                                                                 
+     IF  WK-SYSNG     = 3 OR "S"                                          
+         MOVE NC"昭和"    TO H2-NG                                        
+     ELSE                                                                 
+     IF  WK-SYSNG     = 4 OR "H"                                          
+         MOVE NC"平成"    TO H2-NG                                        
+     ELSE                                                                 
+         INITIALIZE          H2-NG.                                       
+     MOVE WK-SYSYY        TO WK-YY.                                       
+     MOVE WK-YY           TO H2-YY.                                       
+     MOVE WK-SYSMM        TO WK-MM.                                       
+     MOVE WK-MM           TO H2-MM.                                       
+     MOVE WK-SYSDD        TO WK-DD.                                       
+     MOVE WK-DD           TO H2-DD.                                       
+     ADD  1        TO PAGE-CNT.                                           
+     MOVE PAGE-CNT TO H2-PAGE.                                            
+     WRITE OUT1-REC1 FROM HEAD1 BEFORE 1.                                 
+     WRITE OUT1-REC1 FROM HEAD2 BEFORE 5.                                 
+/                                                                         
+*                                                                         
+*    受給資格チェック該当抽出チェック                                     
+*                                                                         
+ INP1-CHK-RTN.                                                            
+ INP1-CHK-EXT.                                                            
+     EXIT.                                                                
+/                                                                         
+*                                                                         
+*    受給資格異動内容と住記等の異動との矛盾をチェックする                 
+*                                                                         
+ IDOU-CHK-RTN.                                                            
+*                                                                         
+*    住記異動とのチェック                                                 
+     PERFORM JYUKI-CHK-RTN THRU JYUKI-CHK-EXT.                            
+*    エラー有無チェック                                                   
+     IF  ERR-I > ZEROS                                                    
+         MOVE I-TRUE TO S-INP2-DATAERR                                    
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+ IDOU-CHK-EXT.                                                            
+     EXIT.                                                                
+/                                                                         
+*                                                                         
+*    住記異動とのチェック                                                 
+*                                                                         
+ JYUKI-CHK-RTN.                                                           
+*Ｅ０２　住民になる前の認定                                               
+     MOVE B15-GGP        TO WAREKI-YMD.                                   
+     PERFORM WAREKI-SEIREKI-RTN THRU WAREKI-SEIREKI-EXT.                  
+*                                                                         
+     MOVE SEIREKI-YMD    TO WK-GGP.                                       
+     MOVE JFJ-KNTBI      TO WK-KNTBI.                                     
+*                                                                         
+     IF  WK-GGP  >  WK-KNTBI                                              
+         MOVE 02 TO ERR-COD-S                                             
+         PERFORM ERR-MSG-RTN THRU ERR-MSG-EXT                             
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+*                                                                         
+*    転出関連                                                             
+*                                                                         
+*Ｅ０３　転出資格喪失処理漏れ                                             
+     IF (B15-JKB = 2) OR                                                  
+       ((B15-JKB = 6) AND (B15-GSCD     > ZEROS)                          
+                      AND (B15-GSSI NOT > ZEROS))                         
+         MOVE 03 TO ERR-COD-S                                             
+         PERFORM ERR-MSG-RTN THRU ERR-MSG-EXT                             
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+*                                                                         
+*    死亡関連                                                             
+*                                                                         
+*Ｅ０４　死亡資格喪失処理漏れ                                             
+     IF (B15-JKB = 3) OR                                                  
+       ((B15-JKB = 6) AND (B15-GSCD NOT > ZEROS)                          
+                      AND (B15-GSSI NOT > ZEROS))                         
+         MOVE 04 TO ERR-COD-S                                             
+         PERFORM ERR-MSG-RTN THRU ERR-MSG-EXT                             
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+*Ｅ０５　公称町コード矛盾                                                 
+     MOVE B15-GKCD TO WK-GKCD.                                            
+     IF  WK-GKCD9  NOT =  JFS-KSYCD                                       
+         MOVE 05 TO ERR-COD-S                                             
+         PERFORM ERR-MSG-RTN THRU ERR-MSG-EXT                             
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+*Ｅ０６　通称町コード矛盾                                                 
+     MOVE B15-GTCD  TO WK-GTCD.                                           
+     IF  WK-GTCD9  NOT =  JFS-TSYCD                                       
+         MOVE 06 TO ERR-COD-S                                             
+         PERFORM ERR-MSG-RTN THRU ERR-MSG-EXT                             
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+*Ｅ０７　番地矛盾                                                         
+     INITIALIZE INPUT-BAN       INPUT-GEN-BAN                             
+                OUTPUT-BAN .                                              
+*    リンク用住民ファイル番地編集（９→Ｘ）                               
+     IF  B15-GJUK = "1"                                                   
+         PERFORM BAN-HEN1-RTN THRU BAN-HEN1-EXT                           
+     ELSE                                                                 
+         PERFORM BAN-HEN2-RTN THRU BAN-HEN2-EXT.                          
+     PERFORM BAN-HENSYU-RTN THRU BAN-HENSYU-EXT.                          
+     MOVE OUTPUT-BAN  TO  WK-BANTI.                                       
+*                                                                         
+     IF  WK-BANTI   NOT =  JFS-BANTI                                      
+         MOVE 07 TO ERR-COD-S                                             
+         PERFORM ERR-MSG-RTN THRU ERR-MSG-EXT.                            
+ JYUKI-CHK-EXT.                                                           
+     EXIT.                                                                
+/                                                                         
+*                                                                         
+*    番地編集１                                                           
+*                                                                         
+ BAN-HEN1-RTN.                                                            
+     INITIALIZE WK-BAN WK-BAN1 WK-BAN1-X.                                 
+     IF  B15-GBA2 NOT = SPACES AND ZEROS                                  
+         MOVE B15-GJBA1   TO WK-BAN11-Z                                   
+         MOVE B15-GJBA2   TO WK-BAN12-Z                                   
+         MOVE WK-BAN11-Z  TO WK-BAN11                                     
+         MOVE "-"         TO WK-BAN1F1                                    
+         MOVE WK-BAN12-Z  TO WK-BAN12                                     
+         MOVE "-"         TO WK-BAN1F2                                    
+         MOVE B15-GBA2    TO WK-BAN13                                     
+     ELSE                                                                 
+         IF  B15-GJBA2 NOT = ZEROS                                        
+             MOVE B15-GJBA1   TO WK-BAN11-Z                               
+             MOVE B15-GJBA2   TO WK-BAN12-Z                               
+             MOVE WK-BAN11-Z  TO WK-BAN11                                 
+             MOVE "-"         TO WK-BAN1F1                                
+             MOVE WK-BAN12-Z  TO WK-BAN12                                 
+         ELSE                                                             
+         IF  B15-GJBA1 NOT = ZEROS                                        
+             MOVE B15-GJBA1   TO WK-BAN11-Z                               
+             MOVE WK-BAN11-Z  TO WK-BAN11                                 
+         ELSE                                                             
+             INITIALIZE WK-BAN1-X.                                        
+     MOVE WK-BAN1-X   TO WK-BAN.                                          
+ BAN-HEN1-EXT.                                                            
+     EXIT.                                                                
+*                                                                         
+*    番地編集２                                                           
+*                                                                         
+ BAN-HEN2-RTN.                                                            
+     INITIALIZE WK-BAN WK-BAN2  WK-BAN2-X.                                
+     MOVE B15-GBA1    TO WK-BAN21-Z.                                      
+     MOVE WK-BAN21-Z  TO WK-BAN21.                                        
+     MOVE "-"         TO WK-BAN2F1.                                       
+     MOVE B15-GBA2    TO WK-BAN22.                                        
+     IF (B15-GBA1 NOT = ZEROS AND SPACES)                                 
+         IF  B15-GBA2 NOT = SPACES                                        
+             MOVE WK-BAN2-X   TO WK-BAN                                   
+         ELSE                                                             
+             MOVE WK-BAN21    TO WK-BAN                                   
+     ELSE                                                                 
+         INITIALIZE WK-BAN.                                               
+ BAN-HEN2-EXT.                                                            
+     EXIT.                                                                
+*                                                                         
+*    番地編集                                                             
+*                                                                         
+ BAN-HENSYU-RTN.                                                          
+     MOVE WK-BAN      TO INPUT-GEN-BAN.                                   
+     IF  INPUT-GEN-BAN NOT = SPACES                                       
+         MOVE INPUT-GEN-BAN    TO INPUT-BAN                               
+         MOVE 1                TO INBAN                                   
+         MOVE ZEROS            TO OUTBAN                                  
+         PERFORM BAN-STRING-RTN THRU BAN-STRING-EXT 12 TIMES              
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+ BAN-HENSYU-EXT.                                                          
+     EXIT.                                                                
+*                                                                         
+*    左詰め（番地）                                                       
+*                                                                         
+ BAN-STRING-RTN.                                                          
+     IF  IN-BAN (INBAN) NOT = SPACE                                       
+         ADD 1 TO OUTBAN                                                  
+         MOVE IN-BAN (INBAN) TO OUT-BAN (OUTBAN)                          
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+*                                                                         
+     ADD  1  TO  INBAN.                                                   
+ BAN-STRING-EXT.                                                          
+     EXIT.                                                                
+/                                                                         
+*                                                                         
+*    エラーメッセージコードストア                                         
+*                                                                         
+ ERR-MSG-RTN.                                                             
+     ADD 1 TO ERR-I.                                                      
+     IF  ERR-I > 3                                                        
+         MOVE 3         TO ERR-I                                          
+         MOVE 99        TO ERR-MSGCOD (ERR-I)                             
+     ELSE                                                                 
+         MOVE ERR-COD-S TO ERR-MSGCOD (ERR-I).                            
+ ERR-MSG-EXT.                                                             
+     EXIT.                                                                
+/                                                                         
+     COPY KAGREKI.                                                        
+/                                                                         
+*                                                                         
+*    エラーリストプリント                                                 
+*                                                                         
+ ERR-PRI-RTN.                                                             
+     INITIALIZE LIST.                                                     
+*    エラーメッセージ編集                                                 
+     MOVE ZERO  TO ERR-I.                                                 
+     PERFORM ERMSG-PRI-RTN THRU ERMSG-PRI-EXT 3 TIMES.                    
+*    ＬＩＳＴ１、２編集                                                   
+     IF  S-INP2-KEYERR NOT = I-TRUE                                       
+         PERFORM JYUKI-HENSYU-RTN THRU JYUKI-HENSYU-EXT                   
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+*    ＬＩＳＴ３編集                                                       
+*    （個人番号－ＬＩＳＴ１）                                             
+     MOVE JFJ-SKJNO TO L1-KJNNO.                                          
+*    証書番号                                                             
+     MOVE JFJ-SHBAN TO L3-SHBAN.                                          
+*    資格取得事由                                                         
+     MOVE JFJ-KTDKB TO L3-SYJIU.                                          
+*    資格取得日                                                           
+     MOVE JFJ-KNTBI TO SEIREKI-YMD.                                       
+     PERFORM SEIREKI-WAREKI-RTN THRU SEIREKI-WAREKI-EXT.                  
+     TRANSFORM WAREKI-NG FROM "01234" TO " MTSH".                         
+     MOVE WAREKI-NG TO L3-SYNG.                                           
+     MOVE WAREKI-YY TO L3-SYYY.                                           
+     MOVE WAREKI-MM TO L3-SYMM.                                           
+     MOVE WAREKI-DD TO L3-SYDD.                                           
+     MOVE ","       TO L3-SYF1 L3-SYF2.                                   
+*    喪失事由                                                             
+     IF  JFJ-SKSJU > ZEROS                                                
+         MOVE JFJ-SKSJU TO L3-SOJIU                                       
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+*    喪失年月日                                                           
+     IF  JFJ-SKSBI > ZEROS                                                
+         MOVE JFJ-SKSBI TO SEIREKI-YMD                                    
+         PERFORM SEIREKI-WAREKI-RTN THRU SEIREKI-WAREKI-EXT               
+         TRANSFORM WAREKI-NG FROM "01234" TO " MTSH"                      
+         MOVE WAREKI-NG TO L3-SONG                                        
+         MOVE WAREKI-YY TO L3-SOYY                                        
+         MOVE WAREKI-MM TO L3-SOMM                                        
+         MOVE WAREKI-DD TO L3-SODD                                        
+         MOVE ","       TO L3-SOF1 L3-SOF2                                
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+*    児扶住所                                                             
+     MOVE JFS-ADRSN TO L3-ADRSN.                                          
+*    児扶番地                                                             
+     MOVE JFS-BANTI TO L3-BANTI.                                          
+ ERR-PRI-EXT.                                                             
+     EXIT.                                                                
+/                                                                         
+*                                                                         
+*    住記編集プリント                                                     
+*                                                                         
+ JYUKI-HENSYU-RTN.                                                        
+*    生年月日                                                             
+     INITIALIZE WK-YMD.                                                   
+     IF  B15-UGG      = 1 OR "M"                                          
+         MOVE NC"明治"    TO WK-JUGGN                                     
+     ELSE                                                                 
+     IF  B15-UGG      = 2 OR "T"                                          
+         MOVE NC"大正"    TO WK-JUGGN                                     
+     ELSE                                                                 
+     IF  B15-UGG      = 3 OR "S"                                          
+         MOVE NC"昭和"    TO WK-JUGGN                                     
+     ELSE                                                                 
+     IF  B15-UGG      = 4 OR "H"                                          
+         MOVE NC"平成"    TO WK-JUGGN                                     
+     ELSE                                                                 
+         INITIALIZE          WK-JUGGN.                                    
+     MOVE B15-UYY         TO WK-YY.                                       
+     MOVE WK-YY           TO WK-JUGYN.                                    
+     MOVE B15-UMM         TO WK-MM.                                       
+     MOVE WK-MM           TO WK-JUGMN.                                    
+     MOVE B15-UDD         TO WK-DD.                                       
+     MOVE WK-DD           TO WK-JUGDN.                                    
+     MOVE WK-UGPR-N       TO L1-UGP.                                      
+*    住民区分                                                             
+     MOVE B15-JKB  TO L1-JKB.                                             
+*    住民となった日                                                       
+     INITIALIZE WK-YMD.                                                   
+     IF  B15-GGG      = 1 OR "M"                                          
+         MOVE NC"明治"    TO WK-JUGGN                                     
+     ELSE                                                                 
+     IF  B15-GGG      = 2 OR "T"                                          
+         MOVE NC"大正"    TO WK-JUGGN                                     
+     ELSE                                                                 
+     IF  B15-GGG      = 3 OR "S"                                          
+         MOVE NC"昭和"    TO WK-JUGGN                                     
+     ELSE                                                                 
+     IF  B15-GGG      = 4 OR "H"                                          
+         MOVE NC"平成"    TO WK-JUGGN                                     
+     ELSE                                                                 
+         INITIALIZE          WK-JUGGN.                                    
+     IF  B15-GGP > ZEROS                                                  
+         MOVE B15-GYY     TO WK-YY                                        
+         MOVE WK-YY       TO WK-JUGYN                                     
+         MOVE B15-GMM     TO WK-MM                                        
+         MOVE WK-MM       TO WK-JUGMN                                     
+         MOVE B15-GDD     TO WK-DD                                        
+         MOVE WK-DD       TO WK-JUGDN                                     
+         MOVE WK-UGPR-N   TO L1-GGP.                                      
+*    住民で無くなった日                                                   
+     INITIALIZE WK-YMD.                                                   
+     IF  B15-YGG      = 1 OR "M"                                          
+         MOVE NC"明治"    TO WK-JUGGN                                     
+     ELSE                                                                 
+     IF  B15-YGG      = 2 OR "T"                                          
+         MOVE NC"大正"    TO WK-JUGGN                                     
+     ELSE                                                                 
+     IF  B15-YGG      = 3 OR "S"                                          
+         MOVE NC"昭和"    TO WK-JUGGN                                     
+     ELSE                                                                 
+     IF  B15-YGG      = 4 OR "H"                                          
+         MOVE NC"平成"    TO WK-JUGGN                                     
+     ELSE                                                                 
+         INITIALIZE          WK-JUGGN.                                    
+     IF  B15-YGG NOT = ZERO AND SPACE                                     
+         MOVE B15-YYY     TO WK-YY                                        
+         MOVE WK-YY       TO WK-JUGYN                                     
+         MOVE B15-YMM     TO WK-MM                                        
+         MOVE WK-MM       TO WK-JUGMN                                     
+         MOVE B15-YDD     TO WK-DD                                        
+         MOVE WK-DD       TO WK-JUGDN                                     
+         MOVE WK-UGPR-N   TO L1-YGP.                                      
+*    氏名                                                                 
+     MOVE B15-NAMK TO L2-NAMK.                                            
+*    年齢                                                                 
+     MOVE B15-UGP   TO SS-SEINENBI.                                       
+     MOVE WK-SYSNG  TO SS-K-N.                                            
+     MOVE WK-SYSYY  TO SS-K-YY.                                           
+     MOVE WK-SYSMM  TO SS-K-MM.                                           
+     MOVE WK-SYSDD  TO SS-K-DD.                                           
+     PERFORM NENREI-RTN THRU NENREI-EXT.                                  
+     MOVE SS-TOSI   TO L3-TOSI.                                           
+     MOVE NC"歳"    TO L3-TF1.                                            
+*    住記住所                                                             
+     MOVE B15-GAZA  TO L1-GAZA.                                           
+*    住記番地                                                             
+     IF  B15-GJUK = "1"                                                   
+         PERFORM BAN-HENSYU1-RTN THRU BAN-HENSYU1-EXT                     
+     ELSE                                                                 
+         PERFORM BAN-HENSYU2-RTN THRU BAN-HENSYU2-EXT.                    
+ JYUKI-HENSYU-EXT.                                                        
+     EXIT.                                                                
+/                                                                         
+*                                                                         
+*    番地編集１                                                           
+*                                                                         
+ BAN-HENSYU1-RTN.                                                         
+     INITIALIZE WK-GJBA WK-BAN1.                                          
+     IF  B15-GBA2 NOT = SPACES AND ZEROS                                  
+         MOVE B15-GJBA1  TO WK-BAN11-Z                                    
+         MOVE WK-BAN11-Z TO WK-GJBA1                                      
+         MOVE "-"        TO WK-GBAF1                                      
+         MOVE B15-GJBA2  TO WK-BAN12-Z                                    
+         MOVE WK-BAN12-Z TO WK-GJBA2                                      
+         MOVE "-"        TO WK-GBAF2                                      
+         MOVE B15-GBA2   TO WK-GJBA3                                      
+     ELSE                                                                 
+         IF  B15-GJBA2 NOT = ZEROS                                        
+             MOVE B15-GJBA1  TO WK-BAN11-Z                                
+             MOVE WK-BAN11-Z TO WK-GJBA1                                  
+             MOVE "-"        TO WK-GBAF1                                  
+             MOVE B15-GJBA2  TO WK-GJBA2                                  
+         ELSE                                                             
+         IF  B15-GJBA1 NOT = ZEROS                                        
+             MOVE B15-GJBA1  TO WK-BAN11-Z                                
+             MOVE WK-BAN11-Z TO WK-GJBA1                                  
+         ELSE                                                             
+             INITIALIZE L1-GRBA.                                          
+     MOVE WK-GJBA   TO L1-GRBA.                                           
+ BAN-HENSYU1-EXT.                                                         
+     EXIT.                                                                
+*                                                                         
+*    番地編集２                                                           
+*                                                                         
+ BAN-HENSYU2-RTN.                                                         
+     INITIALIZE WK-GBA WK-BAN2.                                           
+     MOVE B15-GBA1   TO WK-BAN21-Z                                        
+     MOVE WK-BAN21-Z TO WK-GBA1.                                          
+     MOVE "-"        TO WK-GBAF.                                          
+     MOVE B15-GBA2   TO WK-GBA2.                                          
+     IF (B15-GBA1 NOT = ZEROS AND SPACES)                                 
+         IF  B15-GBA2 NOT = SPACES                                        
+             MOVE WK-GBA    TO L1-GRBA                                    
+         ELSE                                                             
+             MOVE WK-GBA1  TO L1-GRBA                                     
+     ELSE                                                                 
+         INITIALIZE L1-GRBA.                                              
+ BAN-HENSYU2-EXT.                                                         
+     EXIT.                                                                
+/                                                                         
+*                                                                         
+*    年齢計算（基準日はタイプイン）                                       
+*                                                                         
+     COPY LIBS010R.                                                       
+/                                                                         
+*                                                                         
+*    エラーメッセージ編集                                                 
+*                                                                         
+ ERMSG-PRI-RTN.                                                           
+     ADD 1 TO ERR-I.                                                      
+     IF  ERR-MSGCOD (ERR-I) > ZEROS                                       
+         MOVE 1     TO MSG-I                                              
+         MOVE ERR-MSGCOD (ERR-I) TO SRC-COD                               
+         PERFORM ERMSG-PIC-RTN THRU ERMSG-PIC-EXT 7 TIMES                 
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+ ERMSG-PRI-EXT.                                                           
+     EXIT.                                                                
+*                                                                         
+*    エラーメッセージ転記                                                 
+*                                                                         
+ ERMSG-PIC-RTN.                                                           
+     IF  SRC-COD = ERR-COD (MSG-I)                                        
+         IF  L1-MSG = SPACES                                              
+             MOVE ERR-MSG (MSG-I) TO L1-MSG                               
+         ELSE                                                             
+         IF  L2-MSG = SPACES                                              
+             MOVE ERR-MSG (MSG-I) TO L2-MSG                               
+         ELSE                                                             
+             MOVE ERR-MSG (MSG-I) TO L3-MSG                               
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+*                                                                         
+     ADD 1 TO MSG-I.                                                      
+ ERMSG-PIC-EXT.                                                           
+     EXIT.                                                                

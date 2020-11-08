@@ -1,0 +1,95 @@
+000010 IDENTIFICATION                               DIVISION.
+000020 PROGRAM-ID.  OracleLink.
+      *****************************************************************
+      *程序ID         ：OracleLink
+      *程序名         ：数据库连接
+      *处理概要       ：进行数据库连接，并作相应的错误处理
+      *
+      *
+      *变量           IO       变量名
+      *
+      *
+      *
+      *日期           作成者            概要
+      *2007/04/09     张丽娟            作成
+      *
+      *
+      *
+      *****************************************************************
+
+      *****************************************************************
+      *
+      *****************************************************************
+000030 ENVIRONMENT                                  DIVISION.
+
+
+
+
+      *****************************************************************
+      *
+      *****************************************************************
+000040 DATA                                         DIVISION.
+      *----------------------------------------------------------------
+      *
+      *----------------------------------------------------------------
+       FILE                                         SECTION.
+
+000050 WORKING-STORAGE                              SECTION.
+      *数据库连接定义
+000051     EXEC  SQL  BEGIN  DECLARE        SECTION  END-EXEC.
+      *    Oracle 共通函数
+000052     EXEC  SQL  INCLUDE  SQLCOM.CBL            END-EXEC.
+      *    Oracle SQL实行情报
+000055     EXEC  SQL  INCLUDE  SQLCA.CBL             END-EXEC.
+      *
+000056     EXEC  SQL  END    DECLARE        SECTION  END-EXEC.
+
+      *----------------------------------------------------------------
+      *WORK变量
+      *----------------------------------------------------------------
+       COPY WKAREA.
+000070 LINKAGE                                      SECTION.
+       01 LINKSQLCODE                   PIC S9(9).
+      *----------------------------------------------------------------
+      *
+      *----------------------------------------------------------------
+000080 SCREEN                                       SECTION.
+      *
+      *****************************************************************
+      *
+      *****************************************************************
+000120 PROCEDURE                                    DIVISION
+                   USING LINKSQLCODE.
+000130 MainProcess                                  SECTION.
+           MOVE 'cobol'       TO DB-STRING.
+           MOVE 'student'      TO USERNAME.
+           MOVE 'zaq12wsx'    TO PASSWD.
+           IF DB-STRING = SPACE
+               EXEC SQL
+                   CONNECT :USERNAME IDENTIFIED BY :PASSWD
+               END-EXEC
+           ELSE
+               EXEC SQL
+                   CONNECT :USERNAME IDENTIFIED BY :PASSWD
+                   USING :DB-STRING
+               END-EXEC
+           END-IF.
+
+
+           EVALUATE SQLCODE
+           WHEN 0
+      *        连接正常
+               CONTINUE
+           WHEN OTHER
+      *        连接错误,返回码非“0”，设定错误码
+               MOVE 01 TO ERRPOINT
+               MOVE SQLCODE TO EMSGSQLCD
+      *        错误处理
+               CALL "ERRORMSG" USING ERRORKEY
+           END-EVALUATE.
+           MOVE SQLCODE TO LINKSQLCODE.
+      *
+000190 MainProcessExit.
+           EXIT PROGRAM.
+      *
+       END PROGRAM OracleLink.

@@ -1,0 +1,479 @@
+ NE65EB1:/* MTM INFORMATION AUDIT PROCESS       *IBM INTERNAL USE ONLY*/00010000
+    PROC(PARM) OPTIONS(MAIN);                                           00020000
+ /* ----------------------------------------------------------------- */00030000
+ /* **    SECURITY CLASS      : IBM INTERNAL USE ONLY              ** */00040000
+ /* **    PROJECT NO.         : NE65                               ** */00050000
+ /* **    PROJECT NAME        : PCS CUBE                           ** */00060000
+ /* **    MODULE GROUP NAME   :                                    ** */00070000
+ /* **    PROGRAM NO.         : NE65EB1                            ** */00080000
+ /* **    PROGRAM NAME        : NE65EB1                            ** */00090000
+ /* **    PROGRAM DESCRIPTION : MTM INFORMATION AUDIT PROCESS      ** */00100000
+ /* **                        :                                    ** */00110000
+ /* **                        :                                    ** */00120000
+ /* **    PROGRAMMER          : HU ZHI PING                        ** */00130000
+ /* **    CODED      DATE     : 2005/12/05                         ** */00140000
+ /* **    UPDATE     DATE     :                                    ** */00150000
+ /* **    UPDATE     DATE     :                                    ** */00151000
+ /*----------------- FUNCTION NARRATIVE ------------------------------*/00152000
+ /*   NARRATIVE DESCRIPTION OF FUNCTION                               */00153000
+ /*                                                                   */00154000
+ /*----------------- INPUT FILE DESCRIPTION --------------------------*/00155000
+ /*   (DDNAME)    (PLINCLE)        (FILE DESCRIPTION)                 */00156000
+ /*    FINP1       NE65XMTM         MTM  INFROMATION TXN              */00157000
+ /*    FINP2       NE65TMTM         MTM  MASTER                       */00158000
+ /*----------------- UPDATE FILE DESCRIPTION -------------------------*/00159000
+ /*   (DDNAME)    (PLINCLE)        (FILE DESCRIPTION)                 */00160000
+ /*    NONE                                                           */00170000
+ /*----------------- OUTPUT FILE DESCRIPTION -------------------------*/00180000
+ /*   (DDNAME)    (CRDNAME)        (FILE DESCRIPTION)                 */00190000
+ /*    FOUT1       NE65XMTM         MTM  MASTER                       */00200000
+ /*    FOUT2                        MTM  INFORMATION SYORI KEKKA      */00210000
+ /*    FASCA       NE65TASC         ASCA FILE                         */00220000
+ /*----------------- CALLING MODULE INFORMATION ----------------------*/00230000
+ /*   (MODULE)                     (MODULE DESCRIPTION)               */00240000
+ /*----------------- PARAMETER/COMMON AREA DCL -----------------------*/00250000
+ /*   (PTR/LABEL) (CRDNAME)        (DESCRIPTION)                      */00260000
+ /*   PARM                     &TY&TM&TD(EXAMPLE '40201'=04/02/01)    */00270000
+ /*                                                                   */00280000
+ /*----------------- EXIT --------------------------------------------*/00290000
+ /*   EXIT NORMAL  :                                                  */00300000
+ /*   (NORMAL CONDITION)           (EXIT(LABEL))                      */00310000
+ /*   EXIT ERROR   :                                                  */00320000
+ /*   (ERROR CONDITION)(ERROR CODE)(EXIT(LABEL))                      */00330000
+ /*-------------------------------------------------------------------*/00340000
+                                                                        00350000
+1/* DCP DECLARE */                                   /* DCP DECLARE   */00360000
+      %INCLUDE DCPENV                              ; /* INCLUDE DCP   */00370000
+      DCPCXCB(FINP1C,FINP1)                        ; /* FINP1         */00380000
+      DCPCXCB(FINP2C,FINP2)                        ; /* FINP2         */00390000
+      DCPCXCB(FOUT1C,FOUT1)                        ; /* FOUT1         */00400000
+      DCPCXCB(FOUT2C,FOUT2)                        ; /* FOUT2         */00410000
+      DCPCXCB(FASCAC,FASCA)                        ; /* FASCA         */00420000
+                                                     /*               */00430000
+1DCL                                                 /* DCL FILE      */00440000
+      FINP1    FILE RECORD INPUT                   , /* FINP1         */00450000
+      FINP2    FILE RECORD INPUT                   , /* FINP2         */00460000
+      FOUT1    FILE RECORD OUTPUT                  , /* FOUT1         */00470000
+      FOUT2    FILE RECORD OUTPUT                  , /* FOUT2         */00480000
+      FASCA    FILE RECORD OUTPUT                  , /* FASCA         */00490000
+      SYSPRINT FILE OUTPUT PRINT                   ; /* SYSPRINT      */00500000
+ DCL /* DCL IN RECORD */                                                00510000
+     1 IN_FINP1         STATIC                     , /* DCL IN_FINP1  */00520000
+ %INCLUDE (NE65XMTM)                               ; /* INCLUDE       */00530000
+ DCL                                                 /* DCL IN RECORD */00540000
+     1 IN_FINP2         STATIC                     , /* DCL IN_FINP2  */00550000
+ %INCLUDE (NE65TMTM)                               ; /* INCLUDE       */00560000
+ DCL                                                 /* DCL OUT RECORD*/00570000
+     1 OUT_FOUT1        STATIC                     , /* DCL OUT_FOUT1 */00580000
+ %INCLUDE (NE65XMTM)                               ; /* INCLUDE       */00590000
+ DCL                                                 /* DCL OUT RECORD*/00600000
+     1 OUT_FOUT2        STATIC                     , /* DCL OUT_FOUT2 */00610000
+       2  SORT_K1   CHAR       (015)               , /* SEQNO         */00620000
+       2  SORT_K2   CHAR       (004)               , /* MACHINE TYPE  */00630000
+       2  SORT_K3   CHAR       (003)               , /* MODEL CODE    */00640000
+       2  OK_NG_F   CHAR       (001)               , /* FLAG          */00650000
+       2  FIL_01    CHAR       (001) INIT ('''')   , /* FILLER_01     */00660000
+       2  TRXCD     CHAR       (001)               , /* TRANS CODE    */00670000
+       2  FIL_02    CHAR       (003) INIT (''','''), /* FILLER        */00680000
+       2  CMAXA     CHAR       (004)               , /* MACHINE TYPE  */00690000
+       2  FIL_03    CHAR       (003) INIT (''','''), /* FILLER        */00700000
+       2  CMMXA     CHAR       (003)               , /* MODEL CODE    */00710000
+       2  FIL_04    CHAR       (003) INIT (''','''), /* FILLER        */00720000
+       2  TPEOP     CHAR       (001)               , /* OPTION        */00730000
+       2  FIL_05    CHAR       (003) INIT (''','''), /* FILLER        */00740000
+       2  TPEOM     CHAR       (002)               , /* OPTION MONTH  */00750000
+       2  FIL_06    CHAR       (003) INIT (''','''), /* FILLER        */00760000
+       2  UCPCD     CHAR       (251)               , /* PARTENER      */00770000
+       2  FIL_07    CHAR       (003) INIT (''','''), /* FILLER        */00780000
+       2  ASVCA     CHAR       (002)               , /* SERVICE A     */00790000
+       2  FIL_08    CHAR       (003) INIT (''','''), /* FILLER        */00800000
+       2  ASVCB     CHAR       (002)               , /* SERVICE B     */00810000
+       2  FIL_09    CHAR       (003) INIT (''','''), /* FILLER        */00820000
+       2  ASVCC     CHAR       (002)               , /* SERVICE C     */00830000
+       2  FIL_10    CHAR       (003) INIT (''','''), /* FILLER        */00840000
+       2  ASVCD     CHAR       (002)               , /* SERVICE D     */00850000
+       2  FIL_11    CHAR       (003) INIT (''','''), /* FILLER        */00860000
+       2  ASVCE     CHAR       (002)               , /* SERVICE E     */00870000
+       2  FIL_12    CHAR       (003) INIT (''','''), /* FILLER        */00880000
+       2  MTMCM     CHAR       (251)               , /* COMMENT       */00890000
+       2  FIL_13    CHAR       (003) INIT (''','''), /* FILLER        */00900000
+       2  SEQNO     CHAR       (015)               , /* SEQNO         */00910000
+       2  FIL_14    CHAR       (003) INIT (''','''), /* FILLER        */00911000
+       2  RCDNO     CHAR       (005)               , /* RECORD NO     */00912000
+       2  FIL_15    CHAR       (003) INIT (''','''), /* FILLER        */00913000
+       2  INFNM     CHAR       (101)               , /* INP FILE      */00914000
+       2  FIL_16    CHAR       (003) INIT (''','''), /* FILLER        */00915000
+       2  CREDT     CHAR       (026)               , /* CTEATE DATE   */00916000
+       2  FIL_17    CHAR       (003) INIT (''','''), /* FILLER        */00917000
+       2  LTUDT     CHAR       (026)               , /* LAST UPDATE   */00918000
+       2  FIL_18    CHAR       (003) INIT (''','''), /* FILLER        */00919000
+       2  CREID     CHAR       (008)               , /* USER ID       */00920000
+       2  FIL_19    CHAR       (003) INIT (''','''), /* FILLER        */00921000
+       2  LTUID     CHAR       (008)               , /* UPDATE ID     */00922000
+       2  FIL_20    CHAR       (003) INIT (''','''), /* FILLER        */00923000
+       2  RPJBL     CHAR       (005)               , /* DATA SOURCE   */00924000
+       2  FIL_21    CHAR       (001) INIT ('''')   , /* FILLER        */00925005
+       2  FIL_22    CHAR       (937) INIT ('')     ; /* FILLER        */00926005
+ DCL                                                 /* DCL OUT RECORD*/00927000
+     1 OUT_FASCA        STATIC                     , /* DCL OUT_FASCA */00928000
+ %INCLUDE (NE65TASC)                               ; /* INCLUDE       */00929000
+ /*----------------- KEY AREA ----------------------------------------*/00930000
+ DCL 1 KEY_FINP1        CHAR(07) INIT('')          ; /* DCL KEY_FINP1 */00940000
+ DCL 1 KEY_FINP2        CHAR(07) INIT('')          ; /* DCL KEY_FINP2 */00950000
+ DCL 1 NEW_KEY          CHAR(07) INIT('')          ; /* DCL NEW_KEY   */00960000
+ DCL 1 OLD_KEY          CHAR(07) INIT('')          ; /* DCL OLD_KEY   */00970000
+ /*----------------- WK  AREA ----------------------------------------*/00980000
+ DCL PARM           CHAR(80) VAR                   ; /* DCL PARM      */00990000
+ DCL WK_PARM            CHAR(8)                    , /* DCL YMD       */01000000
+     WK_PARM_TY         CHAR(1)  DEF WK_PARM POS(1), /* DCL YAER      */01010000
+     WK_PARM_TM         CHAR(2)  DEF WK_PARM POS(2), /* DCL MONTH     */01020000
+     WK_PARM_TD         CHAR(2)  DEF WK_PARM POS(4), /* DCL DAY       */01030000
+     WK_PARM_DAYS       PIC'999' DEF WK_PARM POS(6); /* DCL DAYS9     */01040000
+ DCL WK_PARM_DAYS_DEC   FIXED (5,0) INIT(0)        ; /* DCL DAYSDEC   */01050000
+ DCL WK_DATE_YYYY       CHAR(4)                    , /* DCL YYYY      */01060000
+     WK_DATE_TY         CHAR(1)   DEF WK_DATE_YYYY POS(4) ,             01070000
+     WK_DATE_TY2        CHAR(3)   DEF WK_DATE_YYYY POS(1) ,             01080000
+     WK_DATE_YYYY_9     PIC'9999' DEF WK_DATE_YYYY        ;             01090000
+ DCL WK_SYMBOLIC        CHAR(10)                   ; /* DCL SYMBOLIC  */01100000
+ DCL CHECK_FLG      CHAR(01) INIT('')              ; /* DCL FLAG      */01110000
+ /*----------------- BUILTIN FUNCTION & SUBROUTINE--------------------*/01120000
+ DCL                                                 /* DCL FUNC      */01130000
+      HIGH              BUILTIN                    , /* BUILTIN       */01140000
+      SUBSTR            BUILTIN                    , /* BUILTIN       */01150000
+      STRING            BUILTIN                    , /* BUILTIN       */01151002
+      DATETIME          BUILTIN                    , /* BUILTIN       */01160000
+      MOD               BUILTIN                    , /* BUILTIN       */01170000
+      DTECNV1           EXTERNAL ENTRY             , /* EXTERNAL ENTRY*/01180000
+      DTECNV2           EXTERNAL ENTRY             , /* EXTERNAL ENTRY*/01190000
+      DTECNV3           EXTERNAL ENTRY             , /* EXTERNAL ENTRY*/01200000
+      PLIDUMP           BUILTIN                    ; /* BUILTIN       */01210000
+1/*-------------------------------------------------------------------*/01220000
+ /*      DTECNV USE                                                   */01230000
+ /*-------------------------------------------------------------------*/01240000
+ DCL  JDATE_START    FIXED (5,0)                   ; /* START DATE    */01250000
+ DCL  JDATE_END      FIXED (5,0)                   ; /* END DATE      */01260000
+ DCL  NEXT           FIXED (5,0) INIT(+1)          ; /* DCL NEXT      */01270000
+ DCL  RETCDA         CHAR(1)                       ; /* DCL RETCDA    */01280000
+ DCL  RETCDB         CHAR(1)                       ; /* DCL RETCDB    */01290000
+ DCL  RETCDC         CHAR(1)                       ; /* DCL RETCDC    */01300000
+ DCL  1 WK_DRNEA                                   , /* DCL WK_DRNEA  */01310000
+        2 DAY        CHAR(2)                       , /* DCL DAY       */01320000
+        2 MONTH      CHAR(2)                       , /* DCL MONTH     */01330000
+        2 YEAR       CHAR(2)                       ; /* DCL YEAR      */01340000
+ /*----------------- SWITCH & COUNTER --------------------------------*/01350000
+ DCL                                                 /* DCL FILE_EOF  */01360000
+      1 SWITCH          STATIC                     , /* DCL SWITCH    */01370000
+        2 (                                          /*               */01380000
+           FINP1_EOF                               , /* DCL FINP1_EOF */01390000
+           FINP2_EOF                                 /* DCL FINP2_EOF */01400000
+           )            BIT(1)    INIT('0'B)       ; /* INIT          */01410000
+ DCL                                                 /* DCL COUNTER   */01420000
+      1 COUNT           STATIC                     , /* DCL COUNT     */01430000
+        2 (                                          /*               */01440000
+           COUNT_INPUT_FINP1                       , /* COUNT IN FINP1*/01450000
+           COUNT_INPUT_FINP2                       , /* COUNT IN FINP2*/01460000
+           COUNT_OUTPUT_FOUT1                      , /* COUNT FOUT1   */01470000
+           COUNT_OUTPUT_FOUT2                      , /* COUNT FOUT1   */01480000
+           COUNT_OUTPUT_ASCA                       , /* COUNT FASCA   */01490000
+           COUNT_MATCH                             , /* COUNT MATCH   */01500002
+           COUNT_TRAN_ONLY                         , /* COUNT TRAN    */01501002
+           COUNT_MAST_ONLY                         , /* COUNT MAST    */01510000
+           COUNT_CHECK_OK                          , /* COUNT CHK_OK  */01520000
+           COUNT_CHECK_NG                            /* COUNT CHK_NG  */01530000
+           )            FIXED BIN(31,0) INIT(0)    ; /* INIT          */01540000
+                                                     /*               */01550000
+ /*-------------------------------------------------------------------*/01560000
+ /* %INCLUDE SYSLIB2(SMONERR1) BLOCK                                  */01570000
+ /*-------------------------------------------------------------------*/01580000
+    %INCLUDE SYSLIB2(SMONERR1)                     ; /* INCLUDE ERR   */01590000
+ /*-------------------------------------------------------------------*/01600000
+ /* ON END CONDITION                                                  */01610000
+ /*-------------------------------------------------------------------*/01620000
+   ON ENDFILE(FINP1 )  BEGIN                       ; /* ON ENDFILE    */01630000
+      FINP1_EOF = '1'B                             ; /* SET EOF       */01640000
+      KEY_FINP1 = HIGH(07)                         ; /* SET KEY_FINP1 */01650000
+    END                                            ; /* END ENDFILE   */01660000
+    ON ENDFILE(FINP2 )  BEGIN                      ; /* ON ENDFILE    */01670000
+      FINP2_EOF = '1'B                             ; /* SET EOF       */01680000
+      KEY_FINP2 = HIGH(07)                         ; /* SET KEY_FINP2 */01690000
+    END                                            ; /* END ENDFILE   */01700000
+                                                     /*               */01710000
+1/*-------------------------------------------------------------------*/01720000
+ /*         MAIN                                                      */01730000
+ /*-------------------------------------------------------------------*/01740000
+    CALL INIT_RTN                                  ; /* INIT_RTN      */01750000
+    CALL READ_FINP1                                ; /* READ_FINP1    */01760000
+    CALL READ_FINP2                                ; /* READ_FINP2    */01770000
+                                                     /*               */01780000
+    DO WHILE(FINP1_EOF = '0'B | FINP2_EOF = '0'B)  ; /* DO WHILE      */01790000
+      OUT_FOUT1 = ''                               ; /* INIT          */01800000
+      CALL CLEAR_FOUT2                             ; /* CLEAR_FOUT2   */01810000
+      CHECK_FLG = 'Y'                              ; /* CHECK FLAG    */01820000
+      SELECT                                       ; /* SELECT        */01830000
+        WHEN(KEY_FINP1 > KEY_FINP2) DO             ; /* WHEN          */01840000
+          COUNT_TRAN_ONLY = COUNT_TRAN_ONLY + 1    ; /* COUNT TRAN    */01850000
+          CALL READ_FINP2                          ; /* READ_FINP2    */01860000
+        END                                        ; /* END WHEN      */01870000
+        WHEN(KEY_FINP1 = KEY_FINP2) DO             ; /* WHEN          */01880000
+          COUNT_MATCH = COUNT_MATCH + 1            ; /* COUNT MATCH   */01890000
+          IF IN_FINP1.TRXCD = 'U' |                  /* TRXCD=U       */01900000
+             IN_FINP1.TRXCD = 'D'                    /* TRXCD=D       */01910000
+          THEN DO                                  ; /* DO            */01920000
+             CALL CHK_RTN                          ; /* CHK_RTN       */01930000
+          END                                      ; /* END DO        */01940000
+          ELSE DO                                  ; /* ELSE DO       */01950000
+             CHECK_FLG  =  'N'                     ; /* SET CHK_FLG   */01960000
+          END                                      ; /* END ELSE      */01970000
+          IF CHECK_FLG = 'Y' THEN DO               ; /* DO            */01980000
+             OUT_FOUT1 = IN_FINP1 ,BY NAME         ; /* SET FOUT1     */01990000
+             CALL CWRITE(FOUT1C,OUT_FOUT1)         ; /* WRITE FOUT1   */02000000
+             COUNT_OUTPUT_FOUT1  =  COUNT_OUTPUT_FOUT1 + 1 ;            02010000
+          END                                      ; /* END DO        */02020000
+          CALL CLEAR_FOUT2                         ; /* CLEAR_FOUT2   */02030000
+          CALL SYORI_KEKKA_EDIT                    ; /* SYORI_EDIT*/    02040000
+          CALL CWRITE(FOUT2C,OUT_FOUT2)            ; /* WRITE FOUT2   */02050000
+          COUNT_OUTPUT_FOUT2  =  COUNT_OUTPUT_FOUT2 + 1 ;               02060000
+          OLD_KEY = NEW_KEY                        ; /* SET OLD_KEY   */02070000
+          DO WHILE(FINP1_EOF = '0'B & NEW_KEY = OLD_KEY) ;              02080000
+             CALL READ_FINP1                       ; /* READ_FINP1    */02090000
+             IF (FINP1_EOF = '0'B & NEW_KEY = OLD_KEY) THEN DO;         02100000
+                CHECK_FLG = 'N'                    ; /* SET CHK_FLG   */02110000
+                CALL CLEAR_FOUT2                   ; /* CLEAR_FOUT2   */02120000
+                CALL SYORI_KEKKA_EDIT              ; /* SYORI_EDIT    */02130000
+                CALL CWRITE(FOUT2C,OUT_FOUT2)      ; /* WRITE FOUT2   */02140000
+                COUNT_OUTPUT_FOUT2  =  COUNT_OUTPUT_FOUT2 + 1 ;         02150000
+             END                                   ; /* END DO        */02160000
+          END                                      ; /* DO WHILE END */ 02170000
+          CALL READ_FINP2                          ; /* READ_FINP2    */02180000
+        END                                        ; /* END WHEN      */02190000
+        WHEN(KEY_FINP1 < KEY_FINP2) DO             ; /* WHEN          */02200000
+          COUNT_MAST_ONLY = COUNT_MAST_ONLY + 1    ; /* COUT MAST     */02210000
+                                                     /*               */02220000
+          IF IN_FINP1.TRXCD = 'A'                    /* TRXCD=A       */02230000
+          THEN DO                                  ; /* DO            */02240000
+             CALL CHK_RTN                          ; /* CHK_RTN       */02250000
+          END                                      ; /* END DO        */02260000
+          ELSE DO                                  ; /* ELSE DO       */02270000
+             CHECK_FLG  =  'N'                     ; /* SET CHK_FLG   */02280000
+          END                                      ; /* END ELSE      */02290000
+          IF CHECK_FLG = 'Y' THEN DO               ; /* DO            */02300000
+             OUT_FOUT1 = IN_FINP1 ,BY NAME         ; /* SET FOUT1     */02310000
+             CALL CWRITE(FOUT1C,OUT_FOUT1)         ; /* WRITE FOUT1   */02320000
+             COUNT_OUTPUT_FOUT1  =  COUNT_OUTPUT_FOUT1 + 1 ;            02330000
+          END                                      ; /* END DO        */02340000
+          CALL CLEAR_FOUT2                         ; /* CLEAR_FOUT2   */02350000
+          CALL SYORI_KEKKA_EDIT                    ; /* SYORI_EDIT    */02360000
+          CALL CWRITE(FOUT2C,OUT_FOUT2)            ; /* WRITE FOUT2   */02370000
+          COUNT_OUTPUT_FOUT2  =  COUNT_OUTPUT_FOUT2 + 1 ;               02380000
+          OLD_KEY = NEW_KEY                        ; /* SET OLD_KEY   */02390000
+          DO WHILE(FINP1_EOF = '0'B & NEW_KEY = OLD_KEY) ;              02400000
+             CALL READ_FINP1                       ; /* READ_FINP1    */02410000
+             IF (FINP1_EOF = '0'B & NEW_KEY = OLD_KEY) THEN DO;         02420000
+                CHECK_FLG = 'N'                    ; /* SET CHK_FLG   */02430000
+                CALL CLEAR_FOUT2                   ; /* CLEAR_FOUT2   */02440000
+                CALL SYORI_KEKKA_EDIT              ; /* SYORI_EDIT    */02450000
+                CALL CWRITE(FOUT2C,OUT_FOUT2)      ; /* WRITE FOUT2   */02460000
+                COUNT_OUTPUT_FOUT2  =  COUNT_OUTPUT_FOUT2 + 1 ;         02470000
+             END                                   ; /* END DO        */02480000
+          END                                      ; /* DO WHILE END  */02490000
+        END                                        ; /* END WHEN      */02500000
+      END                                          ; /* SELECT END    */02510000
+    END                                            ; /* DO WHILE END  */02520000
+1/*-------------------------------------------------------------------*/02530000
+ /*         INIT ROUTINE                                              */02540000
+ /*-------------------------------------------------------------------*/02550000
+ INIT_RTN: PROC                                    ; /* INIT_RTN      */02560000
+    CALL OPENCX(FINP1C,'IN')                       ; /* OPEN FINP1    */02570000
+    CALL OPENCX(FINP2C,'IN')                       ; /* OPEN FINP2    */02580000
+    CALL OPENCX(FOUT1C,'OUT')                      ; /* OPEN FOUT1    */02590000
+    CALL OPENCX(FOUT2C,'OUT')                      ; /* OPEN FOUT2    */02600000
+    CALL OPENCX(FASCAC,'OUT')                      ; /* OPEN FASCA    */02610000
+                                                     /*               */02620000
+    WK_PARM      = STRING(PARM)                    ; /* SET WK_PARM   */02630000
+    WK_DATE_YYYY = SUBSTR(DATETIME,1,4)            ; /* SET WK_YYYY   */02640000
+                                                     /*               */02650000
+    IF WK_PARM_TY = WK_DATE_TY                       /* WK_PARM_TY    */02660000
+    THEN DO                                        ; /* DO            */02670000
+      SUBSTR(WK_SYMBOLIC,1,4) = WK_DATE_YYYY       ; /* WK_SYMBOLIC   */02680000
+      SUBSTR(WK_SYMBOLIC,5,1) = '-'                ; /* WK_SYMBOLIC   */02690000
+      SUBSTR(WK_SYMBOLIC,6,2) = WK_PARM_TM         ; /* WK_SYMBOLIC   */02700000
+      SUBSTR(WK_SYMBOLIC,8,1) = '-'                ; /* WK_SYMBOLIC   */02710000
+      SUBSTR(WK_SYMBOLIC,9,2) = WK_PARM_TD         ; /* WK_SYMBOLIC   */02720000
+    END                                            ; /* END DO        */02730000
+    ELSE DO                                        ; /* ELSE DO       */02740000
+      WK_DATE_YYYY_9 = WK_DATE_YYYY_9 - 1          ; /* WK_DATE_YYYY_9*/02750000
+      SUBSTR(WK_SYMBOLIC,1,4) = WK_DATE_TY2||WK_PARM_TY;                02760000
+      SUBSTR(WK_SYMBOLIC,5,1) = '-'                ; /* WK_SYMBOLIC   */02770000
+      SUBSTR(WK_SYMBOLIC,6,2) = WK_PARM_TM         ; /* WK_SYMBOLIC   */02780000
+      SUBSTR(WK_SYMBOLIC,8,1) = '-'                ; /* WK_SYMBOLIC   */02790000
+      SUBSTR(WK_SYMBOLIC,9,2) = WK_PARM_TD         ; /* WK_SYMBOLIC   */02800000
+    END                                            ; /* END ELSE      */02810000
+ END INIT_RTN                                      ; /* END INIT_RTN  */02820000
+                                                     /*               */02830000
+1/*-------------------------------------------------------------------*/02840000
+ /*         READ_FINP1 ROUTINE                                        */02850000
+ /*-------------------------------------------------------------------*/02860000
+ READ_FINP1:PROC                                   ; /* READ_FINP1    */02870000
+    CALL READX(FINP1C,IN_FINP1,RETCD1)             ; /* READ FINP1    */02880000
+    IF RETCD1='EOF'                                  /* FINP1 EOF     */02890000
+      THEN SIGNAL ENDFILE(FINP1)                   ; /* ENDFILE       */02900000
+    ELSE DO                                        ; /* ELSE          */02910000
+      KEY_FINP1 = IN_FINP1.CMAXA                     /* MACHINE TYPE  */02920000
+               || IN_FINP1.CMMXA                   ; /* MODEL CODE    */02930000
+      NEW_KEY   = KEY_FINP1                        ; /* SET NEW_KEY   */02940000
+      COUNT_INPUT_FINP1 = COUNT_INPUT_FINP1 + 1    ; /* COUNT IN FINP1*/02950000
+    END                                            ; /* END ELSE      */02960000
+ END READ_FINP1                                    ; /* END READ_FINP1*/02970000
+1/*-------------------------------------------------------------------*/02980000
+ /*         READ_FINP2 ROUTINE                                        */02990000
+ /*-------------------------------------------------------------------*/03000000
+ READ_FINP2:PROC                                   ; /* READ_FINP2    */03010000
+    CALL READX(FINP2C,IN_FINP2,RETCD2)             ; /* READ FINP2    */03020000
+    IF RETCD2='EOF'                                  /* FINP2 EOF     */03030000
+      THEN SIGNAL ENDFILE(FINP2)                   ; /* END FILE      */03040000
+    ELSE DO                                        ; /* ELSE DO       */03050000
+      KEY_FINP2 = IN_FINP2.CMAXA                     /* MACHINE TYPE  */03060000
+               || IN_FINP2.CMMXA                   ; /* MODEL CODE    */03070000
+      COUNT_INPUT_FINP2 = COUNT_INPUT_FINP2 + 1    ; /* COUNT IN FINP2*/03080000
+    END                                            ; /* END ELSE      */03090000
+ END READ_FINP2                                    ; /* END READ_FINP2*/03100000
+ /*-------------------------------------------------------------------*/03110000
+ /*  DATA CHECK                                                       */03120000
+ /*-------------------------------------------------------------------*/03130000
+  CHK_RTN : PROC                                   ; /* CHK_RTN       */03140000
+                                                     /*TRAN CODE CHECK*/03150000
+     IF IN_FINP1.TRXCD ý= 'A'                        /* TRXD ý= 'A'   */03160000
+      & IN_FINP1.TRXCD ý= 'U'                        /* TRXD ý= 'U'   */03170000
+      & IN_FINP1.TRXCD ý= 'D'                        /* TRXD ý= 'D'   */03180000
+       THEN DO                                     ; /* DO            */03190000
+         CHECK_FLG  =  'N'                         ; /* SET CHK_FLG   */03200000
+       END                                         ; /* END DO        */03210000
+     ELSE DO                                       ; /* ELSE          */03220000
+       IF SUBSTR(IN_FINP1.CMAXA,1,1) = '@'           /* CMAXA = '@'   */03230000
+        | SUBSTR(IN_FINP1.CMAXA,1,1) = '#'           /* CMAXA = '#'   */03240000
+        | IN_FINP1.CMAXA = ' '                       /* CMAXA = ' '   */03250000
+         THEN DO                                   ; /* DO            */03260000
+           CHECK_FLG  =  'N'                       ; /* SET NG        */03270000
+         END                                       ; /* END DO        */03280000
+       ELSE DO                                     ; /* ELSE          */03290000
+         IF SUBSTR(IN_FINP1.CMMXA,1,1) = '@'         /* CMMXA = '@'   */03300000
+          | SUBSTR(IN_FINP1.CMMXA,1,1) = '#'         /* CMMXA = '#'   */03310000
+          | IN_FINP1.CMMXA = ' '                     /* CMMXA = ' '   */03320000
+           THEN DO                                 ; /* DO            */03330000
+             CHECK_FLG  =  'N'                     ; /* SET NG        */03340000
+           END                                     ; /* END DO        */03350000
+       END                                         ; /* END ELSE      */03360000
+     END                                           ; /* END ELSE      */03370000
+  END CHK_RTN                                      ; /* END CHK_RTN   */03380000
+1/*-------------------------------------------------------------------*/03390000
+ /*         SYORI KEKKA  EDIT ROUTINE                                 */03400000
+ /*-------------------------------------------------------------------*/03410000
+ SYORI_KEKKA_EDIT : PROC;                            /* SYORI_EDIT    */03420000
+                                                     /* EDIT MASTER   */03430000
+    OUT_FOUT2         = IN_FINP1 ,BY NAME          ; /* SET FOUT2     */03440000
+    OUT_FOUT2.OK_NG_F = CHECK_FLG                  ; /* SET FLAG      */03450000
+    OUT_FOUT2.SORT_K1 = IN_FINP1.SEQNO             ; /* SORT_K1       */03460000
+    OUT_FOUT2.SORT_K2 = IN_FINP1.CMAXA             ; /* SORT_K2       */03470000
+    OUT_FOUT2.SORT_K3 = IN_FINP1.CMMXA             ; /* SORT_K3       */03480000
+                                                     /*               */03490000
+    IF CHECK_FLG = 'Y'  THEN DO                    ; /* DO            */03500000
+       COUNT_CHECK_OK  =  COUNT_CHECK_OK  +  1     ; /* COUNT OK      */03510000
+    END                                            ; /* END DO        */03520000
+    ELSE DO                                        ; /* ELSE DO       */03530000
+       COUNT_CHECK_NG  =  COUNT_CHECK_NG  +  1     ; /* COUNT NG      */03540000
+    END                                            ; /* END ELSE      */03550000
+ END SYORI_KEKKA_EDIT                              ; /* END EDIT      */03560000
+1/*-------------------------------------------------------------------*/03570000
+ /*         USED HISTORY EDIT ROUTINE                                 */03580000
+ /*-------------------------------------------------------------------*/03590000
+ CLEAR_FOUT2  : PROC                               ; /* CLEAR_FOUT2   */03600000
+                                                     /*               */03610000
+    OUT_FOUT2.SORT_K1 = ''                         ; /* SORT_K1       */03620000
+    OUT_FOUT2.SORT_K2 = ''                         ; /* SORT_K2       */03630000
+    OUT_FOUT2.SORT_K3 = ''                         ; /* SORT_K3       */03640000
+    OUT_FOUT2.OK_NG_F = ''                         ; /* FLAG          */03650000
+    OUT_FOUT2.TRXCD   = ''                         ; /* TRXCD         */03660000
+    OUT_FOUT2.CMAXA   = ''                         ; /* CMAXA         */03670000
+    OUT_FOUT2.CMMXA   = ''                         ; /* CMMXA         */03680000
+    OUT_FOUT2.TPEOP   = ''                         ; /* TPEOP         */03690000
+    OUT_FOUT2.TPEOM   = ''                         ; /* TPEOM         */03700000
+    OUT_FOUT2.UCPCD   = ''                         ; /* UCPCD         */03710000
+    OUT_FOUT2.ASVCA   = ''                         ; /* ASVCA         */03720000
+    OUT_FOUT2.ASVCB   = ''                         ; /* ASVCB         */03730000
+    OUT_FOUT2.ASVCC   = ''                         ; /* ASVCC         */03740000
+    OUT_FOUT2.ASVCD   = ''                         ; /* ASVCD         */03750000
+    OUT_FOUT2.ASVCE   = ''                         ; /* ASVCE         */03760000
+    OUT_FOUT2.MTMCM   = ''                         ; /* MTMCM         */03770000
+    OUT_FOUT2.SEQNO   = ''                         ; /* SEQNO         */03780000
+    OUT_FOUT2.RCDNO   = ''                         ; /* RCDNO         */03790000
+    OUT_FOUT2.INFNM   = ''                         ; /* INFNM         */03800000
+    OUT_FOUT2.CREDT   = ''                         ; /* CREDT         */03810000
+    OUT_FOUT2.LTUDT   = ''                         ; /* LTUDT         */03820000
+    OUT_FOUT2.CREID   = ''                         ; /* CREID         */03830000
+    OUT_FOUT2.LTUID   = ''                         ; /* LTUID         */03840000
+    OUT_FOUT2.RPJBL   = ''                         ; /* RPJBL         */03850000
+                                                     /*               */03860000
+ END CLEAR_FOUT2                                   ; /* END CLEAR     */03870000
+1/*-------------------------------------------------------------------*/03880000
+ /*         ASCA FILE EDIT & WRITE                                    */03890000
+ /*-------------------------------------------------------------------*/03900000
+ ASCA_WRITE : PROC                                 ; /* ASCA_WRITE    */03910000
+                                                     /*               */03920000
+    OUT_FASCA       = ''                           ; /* INIT          */03930000
+                                                     /*               */03940000
+    OUT_FASCA.CFLBL = 'PCS4'                       ; /* CFLBL         */03950003
+    OUT_FASCA.DRXAS = WK_SYMBOLIC                  ; /* DRXAS         */03960000
+    OUT_FASCA.TLCLS = 'MTM'                        ; /* TLCLS         */03970000
+    OUT_FASCA.USEQN = '5C'                         ; /* USEQN         */03980000
+    OUT_FASCA.IOCLS = ' '                          ; /* IOCLS         */03990000
+    OUT_FASCA.UPKBM = ' '                          ; /* UPKBM         */04000000
+    OUT_FASCA.TFLAD = '(M)   AUDIT NG '            ; /* TFLAD         */04010000
+    OUT_FASCA.QUBBM = COUNT_CHECK_NG               ; /* QUBBM         */04020000
+    CALL CWRITE(FASCAC,OUT_FASCA)                  ; /* WRITE FASCA   */04030000
+                                                     /*               */04040000
+    OUT_FASCA.USEQN = '5D'                         ; /* USEQN         */04050000
+    OUT_FASCA.IOCLS = ' '                          ; /* IOCLS         */04060000
+    OUT_FASCA.UPKBM = ' '                          ; /* UPKBM         */04070000
+    OUT_FASCA.TFLAD = '(N)   AUDIT OK '            ; /* TFLAD         */04080000
+    OUT_FASCA.QUBBM = COUNT_CHECK_OK               ; /* QUBBM         */04090000
+    CALL CWRITE(FASCAC,OUT_FASCA)                  ; /* WRITE FASCA   */04100000
+                                                     /*               */04110000
+    COUNT_OUTPUT_ASCA  =  COUNT_OUTPUT_ASCA + 1    ; /* COUNT FASCA   */04120000
+                                                     /*               */04130000
+ END ASCA_WRITE                                    ; /* END WRITE     */04140000
+1/*-------------------------------------------------------------------*/04150000
+ /*         ENDING                                                    */04160000
+ /*-------------------------------------------------------------------*/04170000
+                                                     /*               */04180000
+    CALL ASCA_WRITE                                ; /* ASCA_WRITE    */04190000
+                                                     /*               */04200000
+    CALL CLOSECX(FINP1C)                           ; /* CLOSE FINP1   */04210000
+    CALL CLOSECX(FINP2C)                           ; /* CLOSE FINP2   */04220000
+    CALL CLOSECX(FOUT1C)                           ; /* CLOSE FOUT1   */04230000
+    CALL CLOSECX(FOUT2C)                           ; /* CLOSE FOUT2   */04240000
+    CALL CLOSECX(FASCAC)                           ; /* CLOSE FASCA   */04250000
+                                                     /*               */04260000
+1/*-------------------------------------------------------------------*/04270000
+ /*         END OF JOB PROCESS                                        */04280000
+ /*-------------------------------------------------------------------*/04290000
+    %INCLUDE SYSLIB2(SMHEAD3);                                          04300000
+    PUT LIST('** PGM=NE65EB1  COUNT LIST *******************') SKIP(3); 04310000
+    PUT LIST('MTM TXT   INPUT  RECORD  =',COUNT_INPUT_FINP1 )  SKIP(1); 04320000
+    PUT LIST('MTM MSD   INPUT  RECORD  =',COUNT_INPUT_FINP2 )  SKIP(1); 04330000
+    PUT LIST('MTM TXT   OUTPUT RECORD  =',COUNT_OUTPUT_FOUT1)  SKIP(1); 04340000
+    PUT LIST('KEKKA     OUTPUT RECORD  =',COUNT_OUTPUT_FOUT2)  SKIP(1); 04350001
+    PUT LIST(' CHECK = OK      RECORD  =',COUNT_CHECK_OK    )  SKIP(1); 04360000
+    PUT LIST(' CHECK = NG      RECORD  =',COUNT_CHECK_NG    )  SKIP(1); 04370000
+    PUT LIST('ASCA      OUTPUT RECORD  =',COUNT_OUTPUT_ASCA )  SKIP(1); 04380000
+    %INCLUDE SYSLIB2(SMCTIME1)                     ; /* SMCTIME1      */04390000
+    %INCLUDE SYSLIB2(SMCHECK5)                     ; /* SMCHECK5      */04400000
+    %XTWOWAY=3                                     ; /* XTWOWAY       */04410000
+    SMEND7(END)                                    ; /* SMEND7        */04420000
+                                                                        04430000
+ END NE65EB1                                       ; /* PROGRAM END   */04440000
+ /*-------------------------------------------------------------------*/04450000
+ /*         +==============+                                          */04460000
+ /*         | END NE65EB1 |                                           */04470000
+ /*         +==============+                                          */04480000
+ /*-------------------------------------------------------------------*/04490000
+

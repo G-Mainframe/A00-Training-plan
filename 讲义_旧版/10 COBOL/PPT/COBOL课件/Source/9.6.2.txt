@@ -1,0 +1,51 @@
+
+	ID  DIVISION.
+
+	PROGRAM-ID.   MODULE1.
+
+	ENVIRONMENT  DIVISION.
+
+	DATA  DIVISION.
+
+	WORKING-STORAGE SECTION.
+
+	01  SHARE-DATA  PIC  X(30)  EXTERNAL.			//外部数据项
+
+	PROCEDURE  DIVISION.
+
+		MOVE  'begin  contents'  TO  SHARE-DATA.
+
+		CALL  MODULE2.
+
+		DISPLAY  SHARE-DATA.
+
+		STOP  RUN.
+
+
+
+============================================================
+
+	ID  DIVISION.
+
+	PROGRAM-ID.   MODULE2.
+
+	ENVIRONMENT  DIVISION.
+
+	DATA  DIVISION.
+
+	WORKING-STORAGE SECTION.
+
+	01  SHARE-DATA  PIC  X(30)  EXTERNAL.			//外部数据项
+
+	PROCEDURE  DIVISION.
+
+		DISPLAY  'entering  module2'.
+
+		DISPLAY  SHARE-DATA.
+
+		MOVE  'ending  contents'  TO  SHARE-DATA.
+
+		DISPLAY  'leaving  module2'.
+
+		EXIT  PROGRAM.
+

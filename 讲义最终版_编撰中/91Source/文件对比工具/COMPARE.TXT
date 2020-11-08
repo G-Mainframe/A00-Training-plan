@@ -1,0 +1,52 @@
+//E32831CM JOB (F9500B,OS05X,31,                                        00010099
+//             'TM=08,TN=1,MEMBER=OS05YC30'),                           00020099
+//             E32831F.MAIKUMA,                                         00030099
+//             MSGCLASS=R,NOTIFY=E32831,                                00040099
+//             CLASS=A,TIME=3                                           00052000
+//*XEQ  JKWIS04                                                         00052199
+//*XEQ  QHCXJES                                                         00052299
+//*ROUTE PRINT JKWIS01                                                  00052399
+/*JOBPARM S=ANY,L=60,R=3922                                             00052400
+//*==================================================================*  00052500
+//* COMPARE                                                          *  00052600
+//*==================================================================*  00052700
+//PZ80CJCL   PROC  SOUT='*',               SOUT CLASS                   00052800
+//             DELM='#',                   DELIMITER                    00052900
+//             PGM1=PZ80TT05,              COMPARE PGM                  00053000
+//             REG1=1500K,                 REGION                       00053100
+//             LMOD1='DMS001A.LMOD'        LMOD MODULE                  00054099
+//GO      EXEC PGM=&PGM1,REGION=&REG1,                                  00055000
+//             PARM='/&DELM.J,&TESTMBR,&PRODMBR,&TESTDSN,&PRODDSN,'     00056000
+//STEPLIB  DD  DSN=&LMOD1,DISP=SHR                                      00057000
+//         DD  DSN=SYS1.PLI.SIBMLINK,DISP=SHR        *OS PL/I           00057199
+//         DD  DSN=SYS1.SIBMBASE,DISP=SHR            *OS PL/I           00057299
+//         DD  DSN=SYS1.PLI.PLILINK,DISP=SHR         *OS PL/I           00057399
+//         DD  DSN=SYS1.PLI.PLICOMP,DISP=SHR         *OS PL/I           00057499
+//SYSPRINT DD  SYSOUT=&SOUT,DCB=(RECFM=FBA,LRECL=133,BLKSIZE=1330)      00058000
+//LOGFL    DD  DUMMY                                                    00059000
+//NEWFL    DD  DSN=&TESTDSN,DISP=SHR                                    00060000
+//OLDFL    DD  DSN=&PRODDSN,DISP=SHR                                    00070000
+//PRINTFL  DD  SYSOUT=&SOUT,                                            00080000
+//             DCB=(RECFM=FBA,LRECL=148,BLKSIZE=14800)                  00081099
+//         PEND                                                         00082000
+//*******************************************************               00083000
+//SCRATCH EXEC MSSSCR2,SYM='MEMBER=&MEMBER'                             00084099
+ DSN=OS05I.DS.COMPARE.&MEMBER..TXT                                      00085099
+/*                                                                      00086099
+//*------------------------------------------------------               00532191
+//ST010   EXEC PZ80CJCL,MEMBER=&MEMBER,                                 00533099
+//*     PRODDSN='OS05.RELLIB.PLI(&MEMBER)',    <-- OLD                  00534299
+//      PRODDSN='SP30.DS.JCLM(&MEMBER)',      <-- OLD                   00535199
+//*     TESTDSN='OS05I.DEVLIB1.PLI(&MEMBER)'   <-- NEW                  00535299
+//*     TESTDSN='TEST.JCLM(&MEMBER)'           <-- NEW                  00535399
+//      TESTDSN='OS05I.O078.ST.JCLM(&MEMBER)' <-- NEW                   00535499
+//GO.PRINTFL DD DSN=OS05I.DS.COMPARE.&MEMBER..TXT,DISP=(,CATLG),        00536099
+//             DCB=(RECFM=FBA,LRECL=148,BLKSIZE=14800),                 00536199
+//             SPACE=(TRK,(15,15))                                      00536299
+//                                                                      00537099
+//*------------------------------------------------------               00580097
+//*ST020   EXEC PZ80CJCL,                                               00590099
+//*     PRODDSN='SP30.DS.JCLM(FW00ED30)',                               00600099
+//*     TESTDSN='E27805.FW00ED30'                                       00610099
+//                                                                      00611099
+

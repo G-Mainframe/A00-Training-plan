@@ -1,0 +1,26 @@
+//SP003AAA     JOB    CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),                00010000
+//         NOTIFY=SP003
+//*-------------------------------------------------------------------*
+//*       DEFINE THE DATABASE VSAM CLUSTERS                           *
+//*-------------------------------------------------------------------*
+//DEFSCF   EXEC PGM=IDCAMS
+//SYSPRINT DD SYSOUT=*
+//****IN1      DD DSN=CICSTS23.CICS.FILEA,DISP=SHR
+//****IN1      DD DSN=INVCTL.DATBIN,DISP=SHR
+//****OUT1     DD DSN=SP003.PRODUCT.CLUSTER2,DISP=OLD
+//OUT1     DD DSN=CICSTS23.CICS.DFHCSD,DISP=SHR
+//OUT2     DD SYSOUT=*
+//SYSIN    DD *
+  PRINT INFILE(OUT1)  -
+        CHARACTER
+/*
+//
+//
+  VERIFY DATASET(SP003.INVCTL.CLUSTER2)
+  REPRO INFILE(IN1)  -
+        OUTFILE (OUT1)
+//
+  VERIFY OUTFILE (OUT2)
+//
+//
+

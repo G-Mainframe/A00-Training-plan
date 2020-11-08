@@ -1,0 +1,10 @@
+CREATE TABLE EXP_ACCMST
+(
+    ACCCOD                         CHAR(5) NOT NULL,
+    ACCNAM                         VARCHAR2(20) NOT NULL
+)
+/
+CREATE UNIQUE INDEX EXP_ACCMST
+ON EXP_ACCMST
+(ACCCOD)
+/

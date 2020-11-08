@@ -1,0 +1,41 @@
+//EV603UA   JOB (F9500B,IG80G10,,                                       00010056
+//      'LRUNNO=XXX,RUNNO=XXX'),CFTS,                                   00020064
+//       NOTIFY=EV603U,REGION=4M,CLASS=M,                               00030056
+//       MSGCLASS=R                                                     00040006
+//*------------------------------------< JOB LIBRARY >-----------------*00180000
+//JOBLIB  DD DSN=NE65I.DEVLIB.LMOD,DISP=SHR                             00190064
+//        DD DSN=DSN.DSNLOAD,DISP=SHR                                   00200000
+//        DD DSN=DSN.RUNLIB.LOAD,DISP=SHR                               00210000
+//*--------------------------------------------------------------------*00220004
+//*      SCRATCH                                                       *00230004
+//*--------------------------------------------------------------------*00240004
+//DELETE  EXEC MSSSCR2                                                  00250064
+   DSN=IG80I.V208.OUTPUT01.NO52                                         00260161
+   DSN=IG80I.V208.OUTPUT02.NO52                                         00260261
+/*                                                                      00274057
+//*--------------------------------------------------------------------*00275064
+//*      RUNG100                                                       *00276064
+//*--------------------------------------------------------------------*00277064
+//RUN      EXEC PGM=IKJEFT01                                            00440064
+//SYSOUT   DD SYSOUT=*                                                  00450000
+//SYSPRINT DD SYSOUT=*                                                  00460000
+//SYSTSPRT DD SYSOUT=*                                                  00470007
+//PLIDUMP  DD DUMMY                                                     00480000
+//SIGG10I1 DD DSN=IG80I.EV2473.GPE,DISP=SHR                             00490062
+//SIGG10I2 DD DSN=IG80I.DS.DM.SYMRUNNO,DISP=SHR                         00500007
+//SIGG10O1 DD DSN=IG80I.V208.OUTPUT01.NO52,DISP=(,CATLG),               00510064
+//         SPACE=(CYL,(20,20),RLSE),                                    00520010
+//         DCB=(RECFM=FB,LRECL=25003,BLKSIZE=25003)                     00530055
+//SIGG10O2 DD DSN=IG80I.V208.OUTPUT02.NO52,DISP=(,CATLG),               00540064
+//         SPACE=(TRK,(1,1),RLSE),                                      00550000
+//         DCB=(RECFM=FB,LRECL=80,BLKSIZE=0)                            00560000
+//SYSTSIN  DD *                                                         00570064
+  DSN SYSTEM(BDW)                                                       00580064
+  RUN PROGRAM(IG80G13) PLAN(IG80G13)                                    00590064
+/*                                                                      00600064
+//*--------------------------------------------------------------------*01110000
+//*  ABTRAP                                                            *01120000
+//*--------------------------------------------------------------------*01130000
+//ABEND   EXEC ABTRAP,RETCD=4                                           01140064
+//*                                                                     01150000
+

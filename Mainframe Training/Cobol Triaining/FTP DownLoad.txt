@@ -1,0 +1,25 @@
+FTP DownLoad
+
+EATSO FOR EXAMPLE:
+á@
+cmd->
+ftp adm.nankoh.japan.ibm.com
+áAenter userid and password
+áBget 'ne65i.b601dl.jclm(ev63260a)' d:\ev63260a.txt
+
+Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|Å|
+FTP FOR EXAMPLE:
+
+á@FTP ADM.NANKOH.JAPAN.IBM.COM
+áAID
+áBPS
+
+áCCD ' DS NAME'
+
+áDQUOTE TYPE B 1
+
+áELCD D:/TEST
+
+áFPROMPT
+
+áGMGET *

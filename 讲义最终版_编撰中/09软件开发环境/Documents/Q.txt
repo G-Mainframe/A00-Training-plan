@@ -1,0 +1,4 @@
+r 1,cold,noreq
+r 2,y
+r 3,y
+r 4,retry

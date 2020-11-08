@@ -1,0 +1,65 @@
+//JS01C    JOB  (ACC#),'WYL',CLASS=A,MSGCLASS=A,                        
+//    MSGLEVEL=(1,1),NOTIFY=&SYSUID                                     
+//*********************************************                         
+//* USED TO COMPILE COBOL + CICS PROGRAM                                
+//*********************************************                         
+//*--------------------------------------------                         
+//    SET MEMBER=JS01                                                   
+//    SET SRCLIB=GDC232.CICS.COB                @YOUR PROGRAM LIB       
+//    SET COPYLIB1='GDC232.BOOKLIB'             @MAP COBYBOOK LIB       
+//*--------------------------------------------                         
+//*   DO NOT CHANGE THE FOLLOW PARAMITERS                               
+//*--------------------------------------------                         
+//    SET LNGPRFX='COBOL.V3R4'                                          
+//    SET LIBPRFX='CEE'                                                 
+//    SET INDEX='CICSTS.V2R3.CICS'                                      
+//    SET DSCTLIB='CICSTS.V2R3.CICS.SDFHCOB'                            
+//    SET PROGLIB=USER.CICS.GDC.LOADLIB                                 
+//    SET OUTC=A                                                        
+//    SET REG=4M                      REGION SIZE FOR ALL STEPS         
+//    SET CBLPARM=('NODYNAM,LIB,RENT','CICS(''COBOL2'')')    @BA84313C  
+//    SET LNKPARM='LIST,XREF,RENT,MAP'  BINDER OPTIONS                  
+//    SET WORK=SYSDA                  UNIT FOR WORK DATASETS            
+//*-------------------------------------------------------------------  
+//COBOL  EXEC PGM=IGYCRCTL,REGION=&REG,                                 
+//       PARM=&CBLPARM                                                  
+//STEPLIB  DD DSN=&LNGPRFX..SIGYCOMP,DISP=SHR                           
+//         DD DSN=&INDEX..SDFHLOAD,DISP=SHR                             
+//SYSLIB   DD DSN=&DSCTLIB,DISP=SHR                                     
+//         DD DSN=&INDEX..SDFHCOB,DISP=SHR                              
+//         DD DSN=&INDEX..SDFHMAC,DISP=SHR                              
+//         DD DSN=&INDEX..SDFHSAMP,DISP=SHR                             
+//         DD DSN=&COPYLIB1,DISP=SHR                                    
+//SYSPRINT DD SYSOUT=&OUTC                                              
+//SYSLIN   DD DSN=&&LOADSET,DISP=(MOD,PASS),                            
+//            UNIT=&WORK,SPACE=(TRK,(3,3))                              
+//SYSUT1   DD UNIT=&WORK,SPACE=(CYL,(1,1))                              
+//SYSUT2   DD UNIT=&WORK,SPACE=(CYL,(1,1))                
+//SYSUT3   DD UNIT=&WORK,SPACE=(CYL,(1,1))                
+//SYSUT4   DD UNIT=&WORK,SPACE=(CYL,(1,1))                
+//SYSUT5   DD UNIT=&WORK,SPACE=(CYL,(1,1))                
+//SYSUT6   DD UNIT=&WORK,SPACE=(CYL,(1,1))                
+//SYSUT7   DD UNIT=&WORK,SPACE=(CYL,(1,1))                
+//SYSIN    DD DISP=SHR,DSN=&SRCLIB(&MEMBER)               
+//COPYLINK EXEC PGM=IEBGENER,COND=(7,LT,COBOL)            
+//SYSUT1   DD DSN=&INDEX..SDFHSAMP(DFHEILID),DISP=SHR     
+//SYSUT2   DD DSN=&&COPYLINK,DISP=(NEW,PASS),             
+//            DCB=(LRECL=80,BLKSIZE=400,RECFM=FB),        
+//            UNIT=&WORK,SPACE=(400,(20,20))              
+//SYSPRINT DD SYSOUT=&OUTC                                
+//SYSIN    DD DUMMY                                       
+//*                                                       
+//LKED   EXEC PGM=IEWL,REGION=&REG,                       
+//            PARM='&LNKPARM',COND=(7,LT,COBOL)           
+//SYSLIB   DD DSN=&INDEX..SDFHLOAD,DISP=SHR               
+//         DD DSN=&LIBPRFX..SCEELKED,DISP=SHR             
+//SYSLMOD  DD DSN=&PROGLIB,DISP=SHR                       
+//SYSUT1   DD UNIT=&WORK,DCB=BLKSIZE=1024,                
+//            SPACE=(1024,(200,20))                       
+//SYSPRINT DD SYSOUT=&OUTC                                
+//SYSLIN   DD DSN=&&COPYLINK,DISP=(OLD,DELETE)            
+//         DD DSN=&&LOADSET,DISP=(OLD,DELETE)             
+//         DD DDNAME=SYSIN                                
+//SYSIN    DD *                                           
+      NAME JS01(R)                                        
+/*                                                        

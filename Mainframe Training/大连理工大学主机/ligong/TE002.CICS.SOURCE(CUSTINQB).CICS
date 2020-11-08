@@ -1,0 +1,176 @@
+       IDENTIFICATION DIVISION.                                         00010011
+      *                                                                 00020011
+       PROGRAM-ID.  CUSTINQK.                                           00030014
+      *                                                                 00040011
+       ENVIRONMENT DIVISION.                                            00050011
+      *                                                                 00060011
+       DATA DIVISION.                                                   00070011
+      *                                                                 00080011
+       WORKING-STORAGE SECTION.                                         00090011
+      *                                                                 00100011
+       01  SWITCHES.                                                    00110011
+      *                                                                 00120011
+           05  VALID-DATA-SW               PIC X    VALUE 'Y'.          00130011
+               88 VALID-DATA                        VALUE 'Y'.          00140011
+      *                                                                 00150011
+       01  FLAGS.                                                       00160011
+      *                                                                 00170011
+           05  SEND-FLAG                   PIC X.                       00180011
+               88  SEND-ERASE                       VALUE '1'.          00190011
+               88  SEND-DATAONLY                    VALUE '2'.          00200011
+               88  SEND-DATAONLY-ALARM              VALUE '3'.          00210011
+      *                                                                 00220011
+       01  COMMUNICATION-AREA              PIC X.                       00230011
+      *                                                                 00240011
+       01  RESPONSE-CODE                   PIC S9(8)  COMP.             00250011
+      *                                                                 00260011
+       01  CUSTOMER-MASTER-RECORD.                                      00270011
+      *                                                                 00280011
+           05  CM-CUSTOMER-NUMBER            PIC X(6).                  00290011
+           05  CM-FIRST-NAME                 PIC X(20).                 00300011
+           05  CM-LAST-NAME                  PIC X(30).                 00310011
+           05  CM-ADDRESS                    PIC X(30).                 00320011
+           05  CM-CITY                       PIC X(20).                 00330011
+           05  CM-STATE                      PIC X(2).                  00340011
+           05  CM-ZIP-CODE                   PIC X(10).                 00350011
+      *                                                                 00360011
+       COPY INQSETK.                                                    00370011
+      *                                                                 00380011
+       COPY DFHAID.                                                     00390011
+      *                                                                 00400011
+       LINKAGE SECTION.                                                 00410011
+      *                                                                 00420011
+       01  DFHCOMMAREA                     PIC X.                       00430011
+      *                                                                 00440011
+       PROCEDURE DIVISION.                                              00450011
+      *                                                                 00460011
+       0000-PROCESS-CUSTOMER-INQUIRY.                                   00470011
+      *                                                                 00480011
+           EVALUATE TRUE                                                00490011
+      *                                                                 00500011
+               WHEN EIBCALEN = ZERO                                     00510011
+                   MOVE LOW-VALUE TO INQMAP1O                           00520011
+                   MOVE EIBTRNID  TO TRANIDO                            00530013
+                   SET SEND-ERASE TO TRUE                               00540011
+                   PERFORM 1400-SEND-CUSTOMER-MAP                       00550011
+      *                                                                 00560011
+               WHEN EIBAID = DFHCLEAR                                   00570011
+                   MOVE LOW-VALUE TO INQMAP1O                           00580011
+                   MOVE EIBTRNID  TO TRANIDO                            00590013
+                   SET SEND-ERASE TO TRUE                               00600011
+                   PERFORM 1400-SEND-CUSTOMER-MAP                       00610011
+      *                                                                 00620011
+               WHEN EIBAID = DFHPA1 OR DFHPA2 OR DFHPA3                 00630011
+                   CONTINUE                                             00640011
+      *                                                                 00650011
+               WHEN EIBAID = DFHPF3 OR DFHPF12                          00660011
+                   EXEC CICS                                            00670011
+                       XCTL PROGRAM('INVMENUK')                         00680014
+                   END-EXEC                                             00690011
+      *                                                                 00700011
+               WHEN EIBAID = DFHENTER                                   00710011
+                   PERFORM 1000-PROCESS-CUSTOMER-MAP                    00720011
+      *                                                                 00730011
+               WHEN OTHER                                               00740011
+                   MOVE LOW-VALUE TO INQMAP1O                           00750011
+                   MOVE 'Invalid key pressed.' TO MESSAGEO              00760011
+                   SET SEND-DATAONLY-ALARM TO TRUE                      00770011
+                   PERFORM 1400-SEND-CUSTOMER-MAP                       00780011
+      *                                                                 00790011
+           END-EVALUATE.                                                00800011
+      *                                                                 00810011
+           EXEC CICS                                                    00820011
+               RETURN TRANSID('INQK')                                   00830011
+                      COMMAREA(COMMUNICATION-AREA)                      00840011
+           END-EXEC.                                                    00850011
+      *                                                                 00860011
+       1000-PROCESS-CUSTOMER-MAP.                                       00870011
+      *                                                                 00880011
+           PERFORM 1100-RECEIVE-CUSTOMER-MAP.                           00890011
+           PERFORM 1200-EDIT-CUSTOMER-DATA.                             00900011
+           IF VALID-DATA                                                00910011
+               PERFORM 1300-GET-CUSTOMER-RECORD                         00920011
+           END-IF.                                                      00930011
+           IF VALID-DATA                                                00940011
+               SET SEND-DATAONLY TO TRUE                                00950011
+               PERFORM 1400-SEND-CUSTOMER-MAP                           00960011
+           ELSE                                                         00970011
+               SET SEND-DATAONLY-ALARM TO TRUE                          00980011
+               PERFORM 1400-SEND-CUSTOMER-MAP                           00990011
+           END-IF.                                                      01000011
+      *                                                                 01010011
+       1100-RECEIVE-CUSTOMER-MAP.                                       01020011
+      *                                                                 01030011
+           EXEC CICS                                                    01040011
+               RECEIVE MAP('INQMAP1')                                   01050011
+                       MAPSET('INQSETK')                                01060011
+                       INTO(INQMAP1I)                                   01070011
+           END-EXEC.                                                    01080011
+      *                                                                 01090011
+       1200-EDIT-CUSTOMER-DATA.                                         01100011
+      *                                                                 01110011
+           IF       CUSTNOL = ZERO                                      01120011
+                 OR CUSTNOI = SPACE                                     01130011
+               MOVE 'N' TO VALID-DATA-SW                                01140011
+               MOVE 'You must enter a customer number.' TO MESSAGEO     01150011
+           END-IF.                                                      01160011
+      *                                                                 01170011
+       1300-GET-CUSTOMER-RECORD.                                        01180011
+      *                                                                 01190011
+           EXEC CICS                                                    01200011
+               READ FILE('CUSTLUK')                                     01210011
+                    INTO(CUSTOMER-MASTER-RECORD)                        01220011
+                    RIDFLD(CUSTNOI)                                     01230011
+                    RESP(RESPONSE-CODE)                                 01240011
+           END-EXEC.                                                    01250011
+      *                                                                 01260011
+           IF RESPONSE-CODE = DFHRESP(NORMAL)                           01270011
+               MOVE SPACE         TO MESSAGEO                           01280011
+               MOVE CM-LAST-NAME  TO LNAMEO                             01290011
+               MOVE CM-FIRST-NAME TO FNAMEO                             01300011
+               MOVE CM-ADDRESS    TO ADDRO                              01310011
+               MOVE CM-CITY       TO CITYO                              01320011
+               MOVE CM-STATE      TO STATEO                             01330011
+               MOVE CM-ZIP-CODE   TO ZIPCODEO                           01340011
+           ELSE IF RESPONSE-CODE = DFHRESP(NOTFND)                      01350011
+               MOVE 'N' TO VALID-DATA-SW                                01360011
+               MOVE 'That customer does not exist.' TO MESSAGEO         01370011
+               MOVE SPACE TO LNAMEO                                     01380011
+                             FNAMEO                                     01390011
+                             ADDRO                                      01400011
+                             CITYO                                      01410011
+                             STATEO                                     01420011
+                             ZIPCODEO                                   01430011
+           ELSE                                                         01440011
+               EXEC CICS                                                01450011
+                   ABEND                                                01460011
+               END-EXEC                                                 01470011
+           END-IF.                                                      01480011
+      *                                                                 01490011
+       1400-SEND-CUSTOMER-MAP.                                          01500011
+      *                                                                 01510011
+           EVALUATE TRUE                                                01520011
+               WHEN SEND-ERASE                                          01530011
+                   EXEC CICS                                            01540011
+                       SEND MAP('INQMAP1')                              01550011
+                            MAPSET('INQSETK')                           01560011
+                            FROM(INQMAP1O)                              01570011
+                            ERASE                                       01580011
+                       END-EXEC                                         01590011
+               WHEN SEND-DATAONLY                                       01600011
+                   EXEC CICS                                            01610011
+                       SEND MAP('INQMAP1')                              01620011
+                            MAPSET('INQSETK')                           01630011
+                            FROM(INQMAP1O)                              01640011
+                            DATAONLY                                    01650011
+                       END-EXEC                                         01660011
+               WHEN SEND-DATAONLY-ALARM                                 01670011
+                   EXEC CICS                                            01680011
+                       SEND MAP('INQMAP1')                              01690011
+                            MAPSET('INQSETK')                           01700011
+                            FROM(INQMAP1O)                              01710011
+                            DATAONLY                                    01720011
+                            ALARM                                       01730011
+                       END-EXEC                                         01740011
+           END-EVALUATE.                                                01750011
+

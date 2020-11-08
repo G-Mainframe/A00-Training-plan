@@ -1,0 +1,35 @@
+主程序: ST077.COBOL.SOURCE(C1)
+***************************** Top of Data ******************************
+       IDENTIFICATION  DIVISION.                                        
+       PROGRAM-ID.  MAIN.                                               
+       ENVIRONMENT  DIVISION.                                           
+       DATA  DIVISION.                                                  
+       WORKING-STORAGE SECTION.                                         
+       77  A  PIC  99  VALUE  10.                                       
+       77  B  PIC  99  VALUE  20.                                       
+       PROCEDURE  DIVISION.                                             
+           CALL 'SUBPG' USING  A, BY CONTENT B.           //USING  BY CONTENT A, B            
+           DISPLAY 'AFTER CALLING:'.                                    
+           DISPLAY 'A=', A.                                             
+           DISPLAY 'B=', B.                                             
+           STOP RUN.                                                    
+**************************** Bottom of Data ****************************
+
+
+子程序: ST077.COBOL.SOURCE(C2)
+***************************** Top of Data ******************************
+       IDENTIFICATION  DIVISION.                                        
+       PROGRAM-ID.   SUBPG.                                             
+       ENVIRONMENT  DIVISION.                                           
+       DATA  DIVISION.                                                  
+       LINKAGE SECTION.                                                 
+       77  A1  PIC  99.                                                 
+       77  B1  PIC  99.                                                 
+       PROCEDURE   DIVISION  USING  A1 B1.                              
+           ADD  1  TO  A1.                                              
+           ADD  1  TO  B1.                                              
+           DISPLAY 'CALL SUBPROGRAM:'.                                  
+           DISPLAY 'A1=', A1.                                           
+           DISPLAY 'B1=', B1.                                           
+           EXIT PROGRAM.                                                
+**************************** Bottom of Data ****************************

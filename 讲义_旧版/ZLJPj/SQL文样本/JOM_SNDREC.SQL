@@ -1,0 +1,5 @@
+CREATE TABLE JOM_SNDREC
+(
+    SNDREC                         VARCHAR2(1024) NOT NULL
+)
+/

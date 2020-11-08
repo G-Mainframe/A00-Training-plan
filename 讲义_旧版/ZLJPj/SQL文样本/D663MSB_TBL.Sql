@@ -1,0 +1,28 @@
+DROP   TABLE  D663MSB_TBL   ;
+CREATE TABLE  D663MSB_TBL  (
+       契約番号                           CHAR(10)          NOT NULL,
+       物件番号                           NUMBER(4,0)       NOT NULL,
+       再リース回数                       NUMBER(2,0)       NOT NULL,
+       リファレンス番号１                 CHAR(10)          NOT NULL,
+       リファレンス番号２                 CHAR(10)          NOT NULL,
+       リファレンス番号３                 CHAR(10)          NOT NULL,
+       リファレンス番号４                 CHAR(10)          NOT NULL,
+       満了処理結果                       CHAR(1)           NOT NULL,
+       物件名                             VARCHAR2(60)      NOT NULL,
+       数量                               NUMBER(5,0)       NOT NULL,
+       単位                               CHAR(1)           NOT NULL,
+       購入金額                           NUMBER(13,0)      NOT NULL,
+       物件リース料                       NUMBER(13,0)      NOT NULL,
+       契約金額                           NUMBER(13,0)      NOT NULL,
+       再リース料                         NUMBER(13,0)      NOT NULL,
+       ＳＦＣ再リース料                   NUMBER(13,0)      NOT NULL,
+       新商品連番                         CHAR(3)           NOT NULL,
+       購入金額内訳＿再リース             NUMBER(13,0)      NOT NULL,
+       購入金額内訳＿売却                 NUMBER(13,0)      NOT NULL,
+       購入金額内訳＿廃棄                 NUMBER(13,0)      NOT NULL,
+       数量内訳＿再リース                 NUMBER(5,0)       NOT NULL,
+       数量内訳＿売却                     NUMBER(5,0)       NOT NULL,
+       数量内訳＿廃棄                     NUMBER(5,0)       NOT NULL,
+CONSTRAINT  PK_D663MSB_TBL  PRIMARY KEY (
+       契約番号,
+       物件番号));

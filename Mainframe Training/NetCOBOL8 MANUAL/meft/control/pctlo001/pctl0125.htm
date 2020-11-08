@@ -1,0 +1,83 @@
+<html>
+
+<head>
+<title>1.2 帳票印刷コントロールの使い方</title>
+</head>
+
+<body BGCOLOR="#FFFFFF">
+
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">
+  <tr>
+    <td ALIGN="LEFT"><strong>帳票印刷コントロール使用手引書</strong> 
+    </td>
+  </tr>
+  <tr>
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a href="pctl0120.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a HREF="pctl0130.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>       
+  </tr>       
+</table>       
+       
+<hr>       
+       
+<dl>       
+  <dl>       
+    <dt><a HREF="pctl0110.htm"><img SRC="../pctlosrc/up.gif" BORDER="0" ALT="上へ" WIDTH="16" HEIGHT="15">第1章        
+      帳票印刷コントロールを使用して印刷する</a> </dt>       
+  </dl>       
+</dl>       
+       
+<hr>       
+       
+<h2>1.2 帳票印刷コントロールの使い方</h2>       
+       
+<p>ここでは帳票印刷コントロールの使い方について説明します。</p>       
+       
+<h3><a name=".1">■ 帳票定義体とオーバレイ定義体の作成</a></h3>       
+       
+<p>PowerFORMを使って帳票定義体(必須)とオーバレイ定義体(任意)を作成します。        
+       
+<ul>       
+  <li>帳票印刷コントロールで使用できない種類の帳票定義体があるので注意してください。詳しくは、”<a HREF="../pctlo002/pctl0210.htm" TARGET="fmain">帳票定義体を作成する</a>”を参照してください。</li>       
+  <li>帳票印刷コントロールで使用する帳票定義体の設計でのポイントに関しては、”<a href="pctl0130.htm">帳票定義体設計でのポイント</a>”を参照してください。<!--これをもとに、帳票の設計を行ってください。--></li>       
+</ul>       
+       
+<p>帳票定義体の作成/編集に関するその他の事項については、”PowerFORMヘルプ”を参照してください。</p>     
+<!-- ****************************************************************** -->     
+     
+<h3><a name=".2">■ 帳票印刷処理を作成</a></h3>      
+      
+<p>帳票印刷コントロールが提供するプロパティ/メソッド/イベントを使ったプログラムを作成します。      
+     
+<ul>     
+  <li>帳票印刷コントロールを利用した処理の流れに関しては、”<a HREF="../pctlo003/pctl0310.htm" TARGET="fmain">帳票印刷コントロールの処理を記述する</a>”を参照してください。<!--これをもとに、帳票の設計を行ってください。--></li>     
+  <li>帳票印刷コントロールを利用した印刷処理の設計でのポイントに関しては、”<a href="pctl0140.htm">印刷処理設計でのポイント</a>”を参照してください。<!--これをもとに、帳票の設計を行ってください。--></li>    
+</ul>    
+<!--<P>帳票印刷クラスライブラリを使ったプログラミングは、ファイル節/OPEN文/WRITE文などを使った帳票印刷のアプリケーションの開発とは異なったアプローチで行うことになります。</P><P>具体的な処理の記述については“<A HREF="prt03000.htm">印刷処理</A>”を参照してください。</P><P>プログラムの作成ですべきことは、<A HREF="prt07000.htm#FJPRT-CONTROL">帳票印刷制御クラス(FJPRT-CONTROL)</A>を継承した子クラスの記述か、<A HREF="prt07000.htm#FJPRT-EVENT-HANDLER">帳票印刷イベント処理クラス(FJPRT-EVENT-HANDLER)</A>を継承した子クラスの記述のいずれか、または両方です。また、それらのクラスを利用するプログラムの記述も必要です。</P><P>子クラスの記述では主にイベント処理の内容を記述します。詳細については“<A HREF="prt04000.htm">イベント</A>”を参照してください。</P><P>また、これらのプログラムでは必要に応じて<A HREF="prt06000.htm#.1">例外エラー</A>に対する処理を行うために<A HREF="prt07000.htm#FJPRT-EXCEPTION">帳票印刷例外クラス(FJPRT-EXCEPTION)</A>を使います。</P><P>帳票印刷クラスライブラリが提供する各クラスについては、以下を参照してください。  <UL>    <LI><P><A HREF="prt07000.htm#FJPRT-CONTROL">7.1 FJPRT-CONTROL (帳票印刷制御クラス)</A></P>    <LI><P><A HREF="prt07000.htm#FJPRT-EVENT-HANDLER">7.2 FJPRT-EVENT-HANDLER (帳票印刷イベント処理クラス)</A></P>    <LI><P><A HREF="prt07000.htm#FJPRT-EXCEPTION">7.3 FJPRT-EXCEPTION (帳票印刷例外クラス)</A></P>  </UL></P>-->    
+    
+<p>帳票印刷コントロールが提供するプロパティ/メソッド/イベントの仕様に関しては、コントロールヘルプを参照してください。</p>   
+<!-- ****************************************************************** -->   
+   
+<hr>   
+   
+<dl>   
+  <dt><a href="pctl0130.htm"><img SRC="../pctlosrc/down.gif" BORDER="0" ALT="下へ" WIDTH="16" HEIGHT="15">1.2.1     
+    帳票定義体設計でのポイント</a><br>    
+  </dt>    
+  <dt><a href="pctl0140.htm"><img SRC="../pctlosrc/down.gif" BORDER="0" ALT="下へ" WIDTH="16" HEIGHT="15">1.2.2     
+    印刷処理設計でのポイント</a></dt>    
+  <dt>　</dt>    
+</dl>    
+    
+<hr>    
+    
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">    
+  <tr>    
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a href="pctl0120.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a HREF="pctl0130.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>    
+  </tr>    
+</table>    
+    
+<hr>    
+    
+<p align="right">All Rights Reserved, Copyright (C) 富士通株式会社 
+1998-2001</p>  
+</body>  
+</html>  

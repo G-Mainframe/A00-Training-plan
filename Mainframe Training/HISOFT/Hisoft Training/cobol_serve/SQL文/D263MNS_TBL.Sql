@@ -1,0 +1,28 @@
+DROP   TABLE  D263MNS_TBL   ;
+CREATE TABLE  D263MNS_TBL  (
+       見積番号＿連番                     NUMBER(7,0)       NOT NULL,
+       見積番号枝番                       NUMBER(2,0)       NOT NULL,
+       契約種類                           CHAR(3)           NOT NULL,
+       支払種類                           CHAR(2)           NOT NULL,
+       取引先コード                       CHAR(9)           NOT NULL,
+       開始回                             NUMBER(3,0)       NOT NULL,
+       開始年月                           CHAR(6)           NOT NULL,
+       終了回                             NUMBER(3,0)       NOT NULL,
+       終了年月                           CHAR(6)           NOT NULL,
+       金額                               NUMBER(13,0)      NOT NULL,
+       消費税                             NUMBER(13,0)      NOT NULL,
+       更新年月日                         CHAR(8)           NOT NULL,
+       更新時間                           CHAR(8)           NOT NULL,
+       更新者                             CHAR(8)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+       登録年月日                         CHAR(8)           NOT NULL,
+       登録時間                           CHAR(8)           NOT NULL,
+       登録担当者                         CHAR(8)           NOT NULL,
+       受取手数料                         NUMBER(13,0)      NOT NULL,
+CONSTRAINT  PK_D263MNS_TBL  PRIMARY KEY (
+       見積番号＿連番,
+       見積番号枝番,
+       契約種類,
+       支払種類,
+       取引先コード,
+       開始回));

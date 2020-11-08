@@ -1,0 +1,11 @@
+***************************** Top of Data ******************************
+//RUNJCL   JOB NOTIFY=&SYSUID,MSGLEVEL=(2,1),MSGCLASS=A                 
+//RUNSTEP  EXEC PGM=EXAM41                                              
+//STEPLIB  DD  DSN=IBMUSER.TEST.LOAD,DISP=OLD                           
+//SYSPRINT DD  SYSOUT=*                                                 
+//SYS011   DD  DSN=IBMUSER.TEST.LHF.DTPS1,DISP=SHR                      
+//SYS021   DD  DSN=IBMUSER.TEST.LHF.DTPSO2,DISP=(NEW,CATLG),            
+//             DCB=(RECFM=FB,LRECL=82,BLKSIZE=820),                     
+//             SPACE=(TRK,(10,10))                                      
+//                                                                      
+**************************** Bottom of Data ****************************

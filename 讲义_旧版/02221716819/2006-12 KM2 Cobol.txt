@@ -1,0 +1,37 @@
+1. 2006 - 12- 16.
+
+    Hello.
+
+    Input / output.
+
+    Comp. Comp-3. Redefine.
+
+2.  2006 - 12- 17.
+
+    Accept. Date / Time.
+
+    Initialize.
+
+    Copy. 
+
+    Parm.
+
+3.  2006-12-18.
+
+    Subprogram. Dynamic. Static. 
+
+    Character String manipulation.  
+
+    Table - subscript. index, search.
+
+4.   2006-12-19.
+
+    Internal sort.
+
+    DB2 create / SPUFI demo.
+
+    VSAM concept. 
+
+6.  VSAM create.
+
+  

@@ -1,0 +1,10 @@
+CREATE TABLE SKY_PRTTYP
+(
+    PRTPTN                         CHAR(2) NOT NULL,
+    PRTNAM                         VARCHAR2(100)
+)
+/
+CREATE UNIQUE INDEX SKY_PRTTYP
+ON SKY_PRTTYP
+(PRTPTN)
+/

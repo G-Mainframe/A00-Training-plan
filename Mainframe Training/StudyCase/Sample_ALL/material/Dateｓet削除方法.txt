@@ -1,0 +1,11 @@
+DateÇìetçÌèúï˚ñ@
+
+//*----------------------------------------
+//*       SCRATCH                          
+//*----------------------------------------
+//SCR1    EXEC MSSSCR2,SYM='TN=&TN'        
+ DSN=NE65.DS.DLMTM&TN                      
+ DSN=NE65.DS.RRMTM&TN                      
+ DSN=NE65.DS.MTMTM&TN                      
+ DSN=NE65.DS.TXMTMH&TN                     
+ DSN=NE65.DS.ASCA.EB0&TN 

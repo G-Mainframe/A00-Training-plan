@@ -1,0 +1,28 @@
+DROP   TABLE  HSNINK   ;
+CREATE TABLE  HSNINK  (
+       契約番号                           CHAR(9)           NOT NULL,
+       債権更新区分                       CHAR(1)           NOT NULL,
+       ユーザーコード                     CHAR(8)           NOT NULL,
+       計算方式                           CHAR(1)           NOT NULL,
+       サイクル                           CHAR(2)           NOT NULL,
+       ＢＥＧＩＮ回数                     CHAR(1)           NOT NULL,
+       据置                               CHAR(3)           NOT NULL,
+       検収日                             CHAR(8)           NOT NULL,
+       リース期間                         CHAR(3)           NOT NULL,
+       支払回数計                         CHAR(3)           NOT NULL,
+       リースＥＮＤ                       CHAR(8)           NOT NULL,
+       ファイナンスＥＮＤ                 CHAR(8)           NOT NULL,
+       契約金合計                         NUMBER(13,0)      NOT NULL,
+       購入合計                           NUMBER(13,0)      NOT NULL,
+       残価額                             NUMBER(13,0)      NOT NULL,
+       残価保証                           CHAR(1)           NOT NULL,
+       入金日                             CHAR(2)           NOT NULL,
+       消費税率                           NUMBER(4,1)       NOT NULL,
+       利息合計                           NUMBER(13,0)      NOT NULL,
+       費用合計                           NUMBER(13,0)      NOT NULL,
+       計上ＥＮＤ                         CHAR(6)           NOT NULL,
+       リースＳＴＡＲＴ                   CHAR(8)           NOT NULL,
+       ファイナンスＳＴＡＲＴ             CHAR(6)           NOT NULL,
+       入金１回目                         CHAR(8)           NOT NULL,
+CONSTRAINT  PK_HSNINK  PRIMARY KEY (
+       契約番号));

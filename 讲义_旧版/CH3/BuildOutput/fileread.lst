@@ -1,0 +1,136 @@
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2                Date 11/10/2010  Time 13:03:39   Page     1                
+0Invocation parameters:
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0Options in effect:
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      FILER     Date 11/10/2010  Time 13:03:39   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0/* FILER                                                                                                                            
+   000001                IDENTIFICATION DIVISION.                                                                                    
+   000002                PROGRAM-ID.  FILER.                                                                                         
+   000003                ENVIRONMENT DIVISION.                                                                                       
+   000004                INPUT-OUTPUT SECTION.                                                                                       
+   000005                FILE-CONTROL.                                                                                               
+   000006                      SELECT IN-FILE ASSIGN TO DASDIND1                                    10                               
+   000007                      FILE STATUS  SYS-FILE-STATUS.                                        20                               
+   000008                DATA DIVISION.                                                                                              
+   000009                FILE SECTION.                                                                                               
+   000010                FD IN-FILE LABEL RECORD IS STANDARD .                                                                       
+                                                                                                  
+ ==000010==> IGYGR1216-I A "RECORDING MODE" of "F" was assumed for file "IN-FILE".                
+                                                                                                  
+   000011                01 IN-RECORD.                                                                                               
+   000012                   02  IN-DATE.                                                                                             
+   000013                     03  IN-YEAR  PIC  9(4).                                                                                
+   000014                     03  IN-MONTH  PIC  99.                                                                                 
+   000015                     03  IN-DAY   PIC  99.                                                                                  
+   000016                   02  PRODUCT-CODE  PIC  9(4).                                                                             
+   000017                   02  QUANTITY      PIC  9(6).                                                                             
+   000018                   02  UNIT-PRICE    PIC  9(6).                                                                             
+   000019         000191 WORKING-STORAGE SECTION.                                                                                    
+   000020         000192 01 SYS-FILE-STATUS PIC X(2) VALUE "00".                                                                     
+   000021                 PROCEDURE DIVISION.                                                                                        
+   000022                 L100.                                                                                                      
+   000023                    OPEN INPUT IN-FILE.                                                    10                               
+   000024                               DISPLAY "21" , SYS-FILE-STATUS.                             20                               
+   000025                 L200.                                                                                                      
+   000026                    READ IN-FILE AT END GO TO L999.                                        10 29                            
+   000027                    DISPLAY IN-RECORD.                                                     11                               
+   000028                    GO TO L200.                                                            25                               
+   000029                 L999.                                                                                                      
+   000030                    CLOSE IN-FILE.                                                         10                               
+   000031                    EXIT PROGRAM.                                                                                           
+ */ FILER                                                                                                                            
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      FILER     Date 11/10/2010  Time 13:03:39   Page     3                
+0An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+       12   IN-DATE                                                                                                                                                          
+       15   IN-DAY                                                                                                                                                           
+       10   IN-FILE. . . . . . . . . . . .  6 23 26 30                                                                                                                       
+       14   IN-MONTH                                                                                                                                                         
+       11   IN-RECORD. . . . . . . . . . .  27                                                                                                                               
+       13   IN-YEAR                                                                                                                                                          
+       16   PRODUCT-CODE                                                                                                                                                     
+       17   QUANTITY                                                                                                                                                         
+       20   SYS-FILE-STATUS. . . . . . . .  7 24                                                                                                                             
+       18   UNIT-PRICE                                                                                                                                                       
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      FILER     Date 11/10/2010  Time 13:03:39   Page     4                
+0Context usage is indicated by the letter preceding a procedure-name reference.
+ These letters and their meanings are:
+     A = ALTER (procedure-name)
+     D = GO TO (procedure-name) DEPENDING ON
+     E = End of range of (PERFORM) through (procedure-name)
+     G = GO TO (procedure-name)
+     P = PERFORM (procedure-name)
+     T = (ALTER) TO PROCEED TO (procedure-name)
+     U = USE FOR DEBUGGING (procedure-name)
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+       22   L100                                                                                                                                                             
+       25   L200 . . . . . . . . . . . . .  G28                                                                                                                              
+       29   L999 . . . . . . . . . . . . .  G26                                                                                                                              
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      FILER     Date 11/10/2010  Time 13:03:39   Page     5                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   FILER                                                                                                                                                            
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      FILER     Date 11/10/2010  Time 13:03:39   Page     6                
+0LineID  Message code  Message text
+                                                                                                                                     
+     10  IGYGR1216-I   A "RECORDING MODE" of "F" was assumed for file "IN-FILE".                                                     
+-Messages    Total    Informational    Warning    Error    Severe    Terminating
+0Printed:       1           1                                               
+-* Statistics for COBOL program FILER:
+ *    Source records = 31
+ *    Data Division statements = 9
+ *    Procedure Division statements = 8
+0Locale = en_US.IBM-1252
+0End of compilation 1,  program FILER,  highest severity: Informational.
+0Return code 0

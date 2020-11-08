@@ -1,0 +1,99 @@
+<html>
+
+<head>
+<title>2.1.1 帳票レイアウトとオーバレイ定義体</title>
+</head>
+
+<body BGCOLOR="#FFFFFF">
+
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">
+  <tr>
+    <td ALIGN="LEFT"><strong>帳票印刷コントロール使用手引書</strong> 
+    </td>
+  </tr>
+  <tr>
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a HREF="pctl0220.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a HREF="pctl0240.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>     
+  </tr>     
+</table>     
+     
+<hr>     
+     
+<dl>     
+  <dl>     
+    <dt><a HREF="pctl0210.htm"><img SRC="../pctlosrc/up.gif" BORDER="0" ALT="上へ" WIDTH="16" HEIGHT="15">第2章      
+      帳票定義体を作成する</a> </dt>     
+    <dl>     
+      <dt><a HREF="pctl0220.htm"><img SRC="../pctlosrc/up.gif" BORDER="0" ALT="上へ" WIDTH="16" HEIGHT="15">2.1      
+        帳票定義体を編集する</a> </dt>     
+    </dl>     
+  </dl>     
+</dl>     
+     
+<hr>     
+     
+<h3>2.1.1 帳票レイアウトとオーバレイ定義体</h3>     
+     
+<p>帳票レイアウトは、帳票定義体を「帳票定義体」と「オーバレイ定義体」という2つのファイルに保存します。その他に編集時にだけ利用する「帳票定義補助ファイル」があります。「帳票定義体」は「帳票」と呼ばれ、「オーバレイ定義体」は「オーバレイ」や「オーバレイパターンテーブル」と呼ばれることもあります。</p>     
+     
+<p>これらの各ファイルには、以下の拡張子が付加されます。      
+     
+<ul>     
+  <li>帳票定義体ファイル(クラスインタフェース)：　「PXD」 </li>
+  <li>オーバレイ定義体ファイル：　「OVD」 </li>
+  <li>帳票定義補助ファイル：　「PSF」</li>
+</ul>
+
+<p><img SRC="../pctlosrc/boxchuui.gif" ALT="image" WIDTH="47" HEIGHT="31">　<b>ファイルインタフェースの帳票定義体の扱い</b></p>
+
+<blockquote>
+  <p>ファイルインタフェースの帳票定義体（拡張子が「PMD」）を扱うことはできません。</p>
+</blockquote>
+
+<h4>◆帳票定義体</h4>
+
+<p>帳票定義体には、帳票に関するすべての変数データ、固定リテラル、パーティション罫線、および、パーティション枠が含まれます。</p>
+
+<h4>◆オーバレイ定義体</h4>
+
+<p>オーバレイ定義体には、すべての図形（枠、罫線、網がけ、円・楕円など）やオーバレイ文字が含まれます。</p>
+
+<p>オーバレイ定義体には、次のような利点があります。 
+
+<ul>
+  <li>プレプリント用紙を作成する費用が節約できます。 </li>
+  <li>アプリケーション用のプレプリント用紙を装てんしたり揃えたりする作業が不要となります。 
+  </li>
+  <li>用紙を変更しないで複数のオーバレイ設計ができます。 </li>
+  <li>複雑な帳票を簡単に設計できるようになります。直線、網がけ、角の丸い矩形、円、楕円などを作成できます。 
+  </li>
+  <li>固定的な見出しをオーバレイ文字で定義します。</li>
+</ul>
+
+<p>また、オーバレイ定義体以外にも、Windowsメタファイル形式（拡張子WMF)、および、拡張Windowsメタファイル形式（拡張子EMF)をオーバレイとして利用できます。</p>
+
+<h4>◆帳票定義体とオーバレイ定義体との関係</h4>
+
+<p>PowerFORMでは、帳票を設計しながら、オーバレイ定義体も設計できます。</p>
+
+<p>オーバレイ定義体は、出力帳票をより見やすいものにするという特長があります。オーバレイ定義体は、帳票定義体の情報が印刷される際の背景のようなものです。実際に背景となるオーバレイと前面となる帳票定義体がどのように重畳印刷されるのか、以下の図で説明します。</p>
+
+<p><img SRC="../pctlosrc/boxchuui.gif" ALT="[注意]" WIDTH="47" HEIGHT="31">Windowsメタファイル形式（拡張子WMF)、および、拡張Windowsメタファイル形式（拡張子EMF)をオーバレイとして指定した場合は、帳票定義体と重畳して設計することはできません。</p>
+
+<h4>[帳票定義体とオーバレイ定義体の印刷]</h4>
+
+<p><img SRC="../pctlosrc/overlay.gif" ALT="image" WIDTH="602" HEIGHT="184"></p>
+
+<hr>
+
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">
+  <tr>
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a HREF="pctl0220.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a HREF="pctl0240.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>  
+  </tr>  
+</table>  
+  
+<hr>  
+  
+<p align="right">All Rights Reserved, Copyright (C) 富士通株式会社 
+1998-2001</p>
+</body>
+</html>

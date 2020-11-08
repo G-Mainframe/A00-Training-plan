@@ -1,0 +1,26 @@
+
+	DATA  DIVISION.
+	FILE  SECTION.
+	FD  IN-FILE  LABEL  RECORD  IS  STANDARD.
+	01  IN-RECORD.
+	  02  DATE.
+	    03  YEAR  PIC  9(4).
+	    03  MONTH  PIC  99.
+	    03  DAY   PIC  99.
+	  02  PRODUCT-CODE  PIC  9(4).
+	  02  QUANTITY      PIC  9(6).
+	  02  UNIT-PRICE    PIC  9(6).
+
+200605101111000300000100
+
+
+       PROCEDURE DIVISION.
+       L100.
+           OPEN INPUT IN-FILE.
+       L200.
+           READ IN-FILE AT END GO TO L999.
+	   DISPLAY IN-RECORD.
+           GO TO L200.                                                  
+       L999.
+           CLOSE IN-FILE.
+           STOP RUN.

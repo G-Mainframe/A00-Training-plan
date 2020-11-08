@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="shift_jis"?>
+<toc label="Editing a Source File">
+    <topic label="Using the features of COBOL Editor" href="opens01/opens040.html" />
+    <topic label="COBOL Editor" href="opens01/opens041.html">
+        <link toc="toc_1_5_2.xml" />
+    </topic>
+</toc>

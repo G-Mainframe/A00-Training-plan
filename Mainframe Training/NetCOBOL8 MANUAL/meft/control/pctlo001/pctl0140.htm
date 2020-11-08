@@ -1,0 +1,89 @@
+<html>
+
+<head>
+<title>1.2.2 帳票印刷設計でのポイント</title>
+</head>
+
+<body BGCOLOR="#FFFFFF">
+
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">
+  <tr>
+    <td ALIGN="LEFT"><strong>帳票印刷コントロール使用手引書</strong> 
+    </td>
+  </tr>
+  <tr>
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a HREF="pctl0130.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a href="../pctlo002/pctl0210.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>      
+  </tr>      
+</table>      
+      
+<hr>      
+      
+<dl>      
+  <dl>      
+    <dt><a HREF="pctl0110.htm"><img SRC="../pctlosrc/up.gif" BORDER="0" ALT="上へ" WIDTH="16" HEIGHT="15">第1章       
+      帳票印刷コントロールを使用して印刷する</a> </dt>      
+    <dl>      
+      <dt><a HREF="pctl0125.htm"><img SRC="../pctlosrc/up.gif" BORDER="0" ALT="上へ" WIDTH="16" HEIGHT="15">1.2       
+        帳票印刷コントロールの使い方</a> </dt>      
+    </dl>      
+  </dl>      
+</dl>      
+      
+<hr>      
+      
+<h3>1.2.2 帳票印刷設計でのポイント</h3>      
+      
+<p>ここでは、帳票印刷コントロールを利用した印刷処理の設計でのポイントについて説明します。<br>     
+なお、帳票印刷コントロールを利用した処理の流れに関しては、”<a HREF="../pctlo003/pctl0310.htm" TARGET="fmain">帳票印刷コントロールの処理を記述する</a>”を参照してください。<!--これをもとに、帳票の設計を行ってください。--></p>     
+     
+<p>設計した帳票定義体を利用して、どのような印刷処理を行うかを設計します。</p>     
+     
+<p>以下の設計は、帳票印刷コントロールを使った印刷処理の記述で行います。      
+     
+<ul>     
+  <li>印刷するデータはどこから得るのか(データの入力ソース)<p>ソース上に記述/データベース/オペレータによるキー入力など、データの入力ソースを決定します。</p>     
+  </li>     
+  <li>データの入力としては、どのような処理を行うのか<p>例えば、索引ファイルをデータの入力ソースとする場合、以下のようなことを決定します。<ul>     
+      <li>レコードは、順読込みで入力するのか </li>     
+      <li>レコードキーとして、どれを使うのか </li>     
+      <li>レコードの読込みの繰返しは、回数により制限を設けるのか、ファイル終了条件まで繰返し行うのか      
+      </li>     
+      <li>ファイル終了条件を検出した場合、印刷を終了するのか<br>   
+ </li>     
+    </ul>     
+  </li>     
+  <li>データの入力以外に、計算など、どのような処理を行うのか<p>例えば、入力したデータをもとに、以下のようなことを行います。<ul>    
+      <li>入力したデータをもとに、和や積を求めて印刷する </li>    
+      <li>入力したデータをもとに求めた和や積の合計を、ヘッダやフッタのパーティション(区画)に印刷する     
+      </li>    
+      <li>ある項目(ブレーク項目)が持つ値が変わった時に、ヘッダやフッタのパーティションを前後に囲んで印刷する    
+      </li>   
+      <li>ページ番号/ページ数を印刷する </li>   
+      <li>数ページ目から、印刷する帳票(印刷に利用する帳票定義体やオーバレイ定義体)を、別のものに切り替える    
+      </li>   
+      <li>ある条件の時に、文字の太さ、または、印刷される色などを変更する    
+      </li>   
+      <li>印刷エラーが発生した場合に、画面への表示を行いオペレータに通知する    
+      </li>   
+      <li>例外エラーが発生した場合に、画面に警告を表示して、印刷の続行/中断を行う    
+      </li>   
+      <li>オペレータにより印刷がキャンセルされた場合に、その旨を画面に表示する    
+      </li>   
+    </ul>   
+  </li>   
+</ul>   
+   
+<hr>   
+   
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">   
+  <tr>   
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a HREF="pctl0130.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a href="../pctlo002/pctl0210.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>   
+  </tr>   
+</table>   
+   
+<hr>   
+   
+<p align="right">All Rights Reserved, Copyright (C) 富士通株式会社 
+1998-2001</p> 
+</body> 
+</html> 

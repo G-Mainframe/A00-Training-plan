@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="shift_jis"?>
+<toc label="COBOL Compiler">
+    <topic label="Files Related to Compilation" href="opens01/opens076.html" />
+    <topic label="Setting the Main Program" href="opens01/opens077.html" />
+    <topic label="Compile Options" href="opens01/opens078.html">
+        <link toc="toc_1_6_3_3.xml" />
+    </topic>
+    <topic label="Library Name" href="opens01/opens082.html" />
+</toc>

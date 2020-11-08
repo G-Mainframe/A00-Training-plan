@@ -1,0 +1,67 @@
+       IDENTIFICATION DIVISION.
+      *
+       PROGRAM-ID. WRITE2.
+      *
+       ENVIRONMENT DIVISION.
+      *
+       INPUT-OUTPUT SECTION.
+      *
+       FILE-CONTROL.
+      *
+           SELECT CUSTMAST ASSIGN TO UT-S-CUSTMAST.
+           SELECT OUT1     ASSIGN TO UT-S-MYOUT.
+      *
+       DATA DIVISION.
+      *
+       FILE SECTION.
+      *
+       FD  CUSTMAST.
+      *
+       01  CUSTOMER-MASTER-RECORD.
+           05  CM-BRANCH-NUMBER        PIC 9(2).
+           05  CM-SALESREP-NUMBER      PIC 9(2).
+           05  CM-CUSTOMER-NUMBER      PIC 9(5).
+           05  CM-CUSTOMER-NAME        PIC X(20).
+           05  CM-SALES-THIS-YTD       PIC S9(5)V9(2).
+           05  CM-SALES-LAST-YTD       PIC S9(5)V9(2).
+      *
+       FD  OUT1.
+      *
+       01  OUT1-REC.
+           05 OUT1-CUSTOMER-NUMBER     PIC 9(5).
+           05 OUT1-CUSTOMER-NAME       PIC X(20).
+           05 FILLER   REDEFINES OUT1-CUSTOMER-NAME.
+             10   WS-NUM-1       PIC S9(5).
+             10   WS-NUM-2       PIC S9(5) COMP-3.
+             10   WS-NUM-3       PIC S9(5)  COMP.
+      *
+       WORKING-STORAGE SECTION.
+      *
+       01  SWITCHES.
+           05  CUSTMAST-EOF-SWITCH     PIC X    VALUE "N".
+      *
+      *
+       PROCEDURE DIVISION.
+      *
+       000-PREPARE-SALES-REPORT.
+      *
+           OPEN INPUT  CUSTMAST OUTPUT OUT1.
+       000-READ.
+           READ CUSTMAST
+                AT END GO TO 000-END.
+           DISPLAY 'CUST NUM = ' CM-CUSTOMER-NUMBER
+           MOVE CM-CUSTOMER-NUMBER TO OUT1-CUSTOMER-NUMBER
+      ***  MOVE CM-CUSTOMER-NAME   TO OUT1-CUSTOMER-NAME
+
+            MOVE -500 TO  WS-NUM-1
+                          WS-NUM-2
+                          WS-NUM-3.
+
+           DISPLAY ' OUT1-REC = ' OUT1-REC
+           WRITE OUT1-REC
+           GO TO 000-READ.
+       000-END.
+           CLOSE CUSTMAST OUT1.
+           STOP RUN.
+      *
+

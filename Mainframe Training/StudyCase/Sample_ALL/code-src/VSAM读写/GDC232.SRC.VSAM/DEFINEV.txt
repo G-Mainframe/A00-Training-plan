@@ -1,0 +1,14 @@
+//DEFINEV  JOB (),                               
+//             'GDC232',                         
+//             CLASS=A,                          
+//             MSGLEVEL=(1,1),                   
+//             MSGCLASS=X,                       
+//             NOTIFY=&SYSUID                    
+//*                                              
+//DEFVSAM EXEC PGM=IDCAMS                        
+//SYSPRINT  DD SYSOUT=*                          
+//SYSIN     DD *                                 
+  DEFINE CLUSTER(NAME(GDC232.VKTS02)        -    
+                   RECSZ(80 80) REC(20,20)  -    
+                   KEYS(4 0))                    
+//                                               

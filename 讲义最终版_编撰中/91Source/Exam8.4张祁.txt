@@ -1,0 +1,45 @@
+『例8.4』
+        主程序：
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID. EX84.
+       ENVIRONMENT       DIVISION.
+       DATA       DIVISION.
+       WORKING-STORAGE  SECTION.
+       77  A  PIC  99  VALUE  2.
+       77  B  PIC  99  VALUE  3.
+       77  C  PIC  99.
+       PROCEDURE     DIVISION.
+       S.   CALL  'SUB'  USING  A, B, C.
+            DISPLAY 'C=' ,   C.
+            STOP RUN.
+         子程序：
+       IDENTIFICATION     DIVISION.
+       PROGRAM-ID.    SUB.
+       ENVIRONMENT        DIVISION.
+       DATA        DIVISION.
+       WORKING-STORAGE SECTION.
+       77  N  PIC  99  VALUE  5.
+       LINKAGE  SECTION.
+       77  X  PIC  99.
+       77  Y  PIC  99.
+       77  Z  PIC  99.
+       PROCEDURE      DIVISION  USING X, Y, Z.
+       S.  COMPUTE Z = X + Y.
+            DIVIDE N INTO Z.
+   	    EXIT PROGRAM. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

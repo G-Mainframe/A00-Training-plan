@@ -1,0 +1,84 @@
+000010 IDENTIFICATION DIVISION.                                         00001000
+000020*                                                                 00002000
+000021 PROGRAM-ID. UPDATEDB                                             00002100
+000022*                                                                 00002200
+000023 ENVIRONMENT DIVISION.                                            00002300
+000024*                                                                 00002400
+000025 INPUT-OUTPUT SECTION.                                            00002500
+000026*                                                                 00002600
+000027 DATA DIVISION.                                                   00002700
+000028*                                                                 00002800
+000029 FILE SECTION.                                                    00002900
+000030*                                                                 00003000
+000040 WORKING-STORAGE SECTION.                                         00004000
+000050*                                                                 00005000
+000060 77  GU                          PIC X(4)      VALUE "GU  ".      00006000
+000061 77  GHU                         PIC X(4)      VALUE "GHU ".      00006101
+000062 77  REPL                        PIC X(4)      VALUE "REPL".      00006201
+000070 77  GN                          PIC X(4)      VALUE "GN  ".      00007000
+000080 77  IO-AREA                     PIC X(100).                      00008000
+000081 01  SSA-CUST.                                                    00008103
+000082     05  FILLER              PIC X(9) VALUE 'CUSTOMER('.          00008203
+000083     05  FILLER              PIC X(8) VALUE 'CUSTNO  '.           00008305
+000084     05  FILLER              PIC XX   VALUE '= '.                 00008404
+000085     05  SSA-CUST-KEY        PIC X(7).                            00008503
+000086     05  FILLER              PIC X    VALUE ')'.                  00008603
+000090*                                                                 00009000
+000100     COPY CUSTOMER.                                               00010000
+000200*                                                                 00020000
+000300 LINKAGE SECTION.                                                 00030000
+000400 01  LK-PCB-MASK-1.                                               00040000
+000500     05  FILLER                      PIC X(10).                   00050000
+000600     05  PCB-1-STATUS-CODE           PIC XX.                      00060000
+000700     05  FILLER                      PIC X(50).                   00070000
+000800                                                                  00080000
+000900 01  LK-PCB-MASK-2.                                               00090000
+001000     05  FILLER                      PIC X(10).                   00100000
+001100     05  PCB-2-STATUS-CODE           PIC XX.                      00110000
+001200     05  FILLER                      PIC X(50).                   00120000
+001300                                                                  00130000
+001400 01  LK-PCB-MASK-3.                                               00140000
+001410     05  FILLER                      PIC X(10).                   00141000
+001420     05  PCB-3-STATUS-CODE           PIC XX.                      00142000
+001430     05  FILLER                      PIC X(50).                   00143000
+001440                                                                  00144000
+001450 PROCEDURE DIVISION USING LK-PCB-MASK-1                           00145000
+001460                          LK-PCB-MASK-2                           00146000
+001470                          LK-PCB-MASK-3.                          00147000
+001480**    ENTRY "DLITCBL"                                             00148000
+001490                                                                  00149000
+001500      DISPLAY " PROGRAM READDB START ".                           00150000
+001600                                                                  00160000
+001610      MOVE '1104001' TO SSA-CUST-KEY.                             00161003
+001620                                                                  00162003
+001700      CALL 'CBLTDLI' USING GHU                                    00170000
+001800                           LK-PCB-MASK-2                          00180000
+001900                           CUSTOMER                               00190003
+001910                           SSA-CUST.                              00191003
+002000      IF PCB-2-STATUS-CODE = SPACES                               00200000
+002100         DISPLAY ' FIRST CALL SUCCESS '                           00210000
+002200                                                                  00220006
+002300         DISPLAY ' CUSTNO      = ' CUSTNO                         00230000
+002400         DISPLAY ' CUSTNAME    = ' CUSTNAME                       00240000
+002500      ELSE                                                        00250000
+002600         DISPLAY ' RETURN CODE PCB1 = ' PCB-1-STATUS-CODE         00260000
+002700         DISPLAY ' RETURN CODE PCB2 = ' PCB-2-STATUS-CODE.        00270000
+002800                                                                  00280000
+002801      MOVE 'ISSC DALIAN' TO CUSTNAME.                             00280103
+002802                                                                  00280203
+002810                                                                  00281006
+002820                                                                  00282000
+002821      CALL 'CBLTDLI' USING REPL                                   00282100
+002822                           LK-PCB-MASK-2                          00282200
+002823                           CUSTOMER                               00282300
+002824      IF PCB-2-STATUS-CODE = SPACES                               00282400
+002830         DISPLAY 'UPDATE SUCCESSFUL'                              00283000
+002840      ELSE                                                        00284000
+002850         DISPLAY ' UPDATE FAIL '.                                 00285000
+002860                                                                  00286000
+002900      STOP RUN.                                                   00290000
+002910                                                                  00291000
+002920                                                                  00292000
+002930                                                                  00293000
+003000                                                                  00300000
+

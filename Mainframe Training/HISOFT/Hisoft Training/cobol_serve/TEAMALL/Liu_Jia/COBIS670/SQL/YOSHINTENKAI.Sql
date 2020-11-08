@@ -1,0 +1,28 @@
+DROP   TABLE  YOSHINTENKAI   ;
+CREATE TABLE  YOSHINTENKAI  (
+       管理与信先コード                   CHAR(8)           NOT NULL,
+       管理与信区分                       CHAR(1)           NOT NULL,
+       自動与信区分                       CHAR(1)           NOT NULL,
+       事故日                             CHAR(8)           NOT NULL,
+       契約ＮＯ                           CHAR(9)           NOT NULL,
+       勘定コード                         CHAR(2)           NOT NULL,
+       展開年月                           CHAR(6)           NOT NULL,
+       展開日付                           CHAR(2)           NOT NULL,
+       入金フラグ                         CHAR(2)           NOT NULL,
+       展開支払回数                       CHAR(3)           NOT NULL,
+       実リース料                         NUMBER(13,0)      NOT NULL,
+       利息額                             NUMBER(13,0)      NOT NULL,
+       元本内入                           NUMBER(13,0)      NOT NULL,
+       元本残                             NUMBER(13,0)      NOT NULL,
+       債権残                             NUMBER(13,0)      NOT NULL,
+       諸費用                             NUMBER(13,0)      NOT NULL,
+       約定利率                           NUMBER(11,0)      NOT NULL,
+       事故後入金                         NUMBER(13,0)      NOT NULL,
+CONSTRAINT  PK_YOSHINTENKAI  PRIMARY KEY (
+       管理与信先コード,
+       管理与信区分,
+       自動与信区分,
+       事故日,
+       契約ＮＯ,
+       勘定コード,
+       展開年月));

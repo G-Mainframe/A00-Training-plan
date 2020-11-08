@@ -1,0 +1,7 @@
+//C200300A     JOB    CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=C200300  00010001
+//GO1   EXEC PGM=RPT1000                                                00020001
+//STEPLIB DD DSN=C200300.TEST.LOADLIB,DISP=SHR                          00030001
+//CUSTMAST DD DSN=C200300.TEST.CUSTMAST,DISP=SHR                        00040000
+//                                                                      00050000
+                                                                        00060000
+

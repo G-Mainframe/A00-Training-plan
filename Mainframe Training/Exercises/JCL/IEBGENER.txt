@@ -1,0 +1,100 @@
+************************************************************************
+拷贝顺序数据集:PS→PS
+
+//GENER    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID  
+//PSTOPS   EXEC  PGM=IEBGENER                                        
+//SYSPRINT DD  SYSOUT=*                                              
+//SYSUT1   DD  DSN=IBMUSER.TEST.LHF.PSDT02,DISP=OLD                  
+//SYSUT2   DD  DSN=IBMUSER.TEST.LHF.PSDT12,                          
+//             DISP=(NEW,CATLG,DELETE),                              
+//             DCB=(LRECL=80,RECFM=FB,BLKSIZE=800,DSORG=PS),         
+//             SPACE=(TRK,(10,10))                                   
+//SYSIN    DD  DUMMY
+//                                                                  
+************************************************************************
+
+************************************************************************
+从顺序数据集拷贝为分区数据集成员:PS→MB OF PDS
+
+//GENER    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID  
+//PSTOMB   EXEC  PGM=IEBGENER                                        
+//SYSPRINT DD  SYSOUT=*                                              
+//SYSUT1   DD  DSN=IBMUSER.TEST.LHF.PSDT02,DISP=OLD                  
+//SYSUT2   DD  DSN=IBMUSER.TEST.LHF.PDS(T01),DISP=OLD                
+//SYSIN    DD  DUMMY
+//                                                                  
+************************************************************************
+
+************************************************************************
+从分区数据集成员拷贝为顺序数据集:MB OF PDS→PS
+
+//GENER    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID  
+//MBTOPS   EXEC  PGM=IEBGENER                                        
+//SYSPRINT DD  SYSOUT=*                                              
+//SYSUT1   DD  DSN=IBMUSER.TEST.LHF.PDS(T03),DISP=OLD                
+//SYSUT2   DD  DSN=IBMUSER.TEST.LHF.PSDT12,                          
+//             DISP=(NEW,CATLG,DELETE),                              
+//             DCB=(LRECL=80,RECFM=FB,BLKSIZE=800,DSORG=PS),         
+//             SPACE=(TRK,(10,10))                                   
+//SYSIN    DD  DUMMY                                                 
+//
+************************************************************************
+
+************************************************************************
+从分区数据集成员对拷:MB OF PDS→MB OF PDS
+
+//GENER    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//MBTOMB   EXEC  PGM=IEBGENER                                       
+//SYSPRINT DD  SYSOUT=*                                             
+//SYSUT1   DD  DSN=IBMUSER.TEST.LHF.PDS(T03),DISP=OLD               
+//SYSUT2   DD  DSN=IBMUSER.TEST.LHF.PDSA(LIHF),
+//             DISP=(NEW,CATLG,DELETE),                      
+//             DCB=(LRECL=80,RECFM=FB,BLKSIZE=800,DSORG=PO), 
+//             SPACE=(TRK,(10,10,1))                         
+//SYSIN    DD  DUMMY                                               
+//                                                                  
+************************************************************************
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+************************************************************************
+拷贝输入流数据到顺序数据集中
+
+//GENER    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID  
+//STEP1    EXEC PGM=IEBGENER                                         
+//SYSPRINT DD   SYSOUT=*                                             
+//SYSUT1   DD   *                                                    
+   GOOD MORNING CLASS,THIS IS MR.LI SPERKING!                        
+   I'M SO GLAD THAT YOU ALL COME HERE TO JOIN MY HAPPY CLASS!        
+   HAVE FUN!                                                         
+//SYSUT2   DD   DSN=IBMUSER.TEST.LHF.PSDT02,DISP=OLD                 
+//SYSIN    DD   DUMMY                                                
+//
+************************************************************************
+
+************************************************************************
+Print a Sequential Data Set
+打印/显示顺序数据集
+
+//GENER    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID   
+//PRINT    EXEC  PGM=IEBGENER                                         
+//SYSPRINT DD  SYSOUT=*                                               
+//SYSUT1   DD  DSN=IBMUSER.TEST.LHF.PSDT03,DISP=SHR                   
+//SYSUT2   DD  SYSOUT=*                                               
+//SYSIN    DD  DUMMY                                                  
+//                                                                    
+************************************************************************
+
+************************************************************************
+Print a Sequential Data Set
+打印/显示顺序数据集中的一些列
+FIELD=(LENGTH OF FIELD,POSITION IN INPUT,CONVERSION,POSITION IN OUTPUT)
+
+//GENER    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//PRINT    EXEC  PGM=IEBGENER                                       
+//SYSPRINT DD  SYSOUT=*                                             
+//SYSUT1   DD  DSN=IBMUSER.TEST.LHF.PSDT02,DISP=SHR                 
+//SYSUT2   DD  SYSOUT=*                                             
+//SYSIN    DD  *                                                    
+  GENERATE MAXFLDS=3                                                
+  RECORD FIELD=(7,9,,1),FIELD=(4,23,,9),FIELD=(2,34,,14)            
+//
+************************************************************************

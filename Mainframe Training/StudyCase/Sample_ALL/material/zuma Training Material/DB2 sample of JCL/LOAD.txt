@@ -1,0 +1,80 @@
+//EV603UX1  JOB (F9500B,IG43X,32,                                       00000110
+//      'TM=01'),CFTS,                                                  00000226
+//       NOTIFY=EV603U,REGION=4M,                                       00000310
+//       CLASS=M,MSGCLASS=R                                             00000451
+//*---------------------------------------< JOB LIBRARY    >-----------*00002236
+//JOBLIB  DD DSN=DSN.DSNLOAD,DISP=SHR                                   00002335
+//        DD DSN=DSN.RUNLIB.LOAD,DISP=SHR                               00002436
+//*---------------------------------------< SCRATCH        >-----------*00002736
+//DELETE EXEC MSSSCR2,SYM='TM=&TM'                                      00003026
+/*                                                                      00009030
+//*--------------------------------------------------------------------*00048835
+//*  RESET UTILITY STATUS FOR LOAD STEP                                *00048945
+//*--------------------------------------------------------------------*00049135
+//RESETUTL EXEC PGM=IKJEFT01,DYNAMNBR=20                                00049536
+//SYSTSPRT DD  SYSOUT=*                                                 00049636
+//SYSPRINT DD  SYSOUT=*                                                 00049736
+//SYSUDUMP DD  SYSOUT=*                                                 00049836
+//OUTPUT   DD  SYSOUT=*,DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0)             00049936
+//SYSTSIN  DD *                                                         00050036
+  DSN SYSTEM(DSN)                                                       00050136
+  -TERM UTIL(IG43.LOADTACD)                                             00050249
+/*                                                                      00050336
+//*--------------------------------------------------------------------*00050436
+//*  LOAD PROFILE DATA TO DATABASE                                     *00050536
+//*--------------------------------------------------------------------*00050636
+//IG43LD  PROC                                                          00050836
+//LOAD    EXEC PGM=DSNUTILB,REGION=6M,PARM='DSN,&UID'                   00050936
+//STEPLIB  DD DSN=DSN.DSNLOAD,DISP=SHR                                  00051043
+//SYSPRINT DD  SYSOUT=*                                                 00051236
+//UTPRINT  DD  SYSOUT=*                                                 00051336
+//SORTWK01 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00051436
+//SORTWK02 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00051536
+//SORTWK03 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00051636
+//SORTWK04 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00051736
+//SORTWK05 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00051836
+//SORTWK06 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00051936
+//SORTOUT  DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00052036
+//SYSREC   DD  DISP=(,DELETE),UNIT=SYSDA,                               00052136
+//             SPACE=(CYL,(30,10),RLSE),                                00052240
+//             DCB=(RECFM=FB,LRECL=80,BLKSIZE=4000)                     00052336
+//SYSMAP   DD  UNIT=SYSDA,SPACE=(CYL,(10,10),RLSE)                      00052436
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(CYL,(10,10),RLSE)                      00052536
+//SORTOUT  DD  UNIT=SYSDA,SPACE=(CYL,(10,10),RLSE)                      00052636
+//SYSREC00 DD  DSN=IG43I.UT.E30103.TACD.DATA#&TM..BK,DISP=SHR           00052750
+//SYSIN    DD  DSN=IG43I.EV603U.PUNCH(&TBL),DISP=SHR                    00052836
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00052936
+//        PEND                                                          00053136
+//*-------------------------------------------------------------------* 00053236
+//LDACD   EXEC IG43LD,TBL=TACD,TM=&TM,UID='IG43.LOADTACD'               00053350
+//*                                                                     00053444
+//*--------------------------------------------------------------------*00053545
+//*  RESET UTILITY STATUS FOR REPAIR STEP                              *00053645
+//*--------------------------------------------------------------------*00053745
+//RESETUTL EXEC PGM=IKJEFT01,DYNAMNBR=20                                00053845
+//SYSTSPRT DD  SYSOUT=*                                                 00053945
+//SYSPRINT DD  SYSOUT=*                                                 00054045
+//SYSUDUMP DD  SYSOUT=*                                                 00054145
+//OUTPUT   DD  SYSOUT=*,DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0)             00054245
+//SYSTSIN  DD *                                                         00054345
+  DSN SYSTEM(DSN)                                                       00054445
+  -TERM UTIL(IG43.REPTACD)                                              00054549
+/*                                                                      00054645
+//*--------------------------------------------------------------------*00054743
+//*  REPAIR UTILITY                                                    *00054843
+//*--------------------------------------------------------------------*00054943
+//REPAIR  EXEC PGM=DSNUTILB,PARM='DSN,IG43.REPTACD'                     00055049
+//STEPLIB  DD DSN=DSN.DSNLOAD,DISP=SHR                                  00055143
+//SYSPRINT DD SYSOUT=*                                                  00055243
+//UTPRINT  DD SYSOUT=*                                                  00055343
+//SYSUDUMP DD SYSOUT=*                                                  00055443
+//SYSUT1   DD UNIT=(DISK2,3),SPACE=(TRK,(50,10))                        00055543
+//SYSIN    DD *                                                         00055651
+ REPAIR SET TABLESPACE IG43D001.IG43SACD   NOCOPYPEND                   00055751
+ REPAIR SET TABLESPACE IG43D001.IG43SACD   NOCHECKPEND                  00055851
+//*                                                                     00055944
+//*--------------------------------------------------------------------*00056035
+//*  ABTRAP                                                            *00056135
+//*--------------------------------------------------------------------*00056235
+//ABEND   EXEC ABTRAP,RETCD=8                                           00057046
+//*                                                                     00060037

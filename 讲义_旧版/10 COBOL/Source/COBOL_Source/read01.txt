@@ -1,0 +1,32 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200 PROGRAM-ID READ01.                                               00020000
+000300 ENVIRONMENT DIVISION.                                            00030000
+000400 INPUT-OUTPUT SECTION.                                            00040000
+000500 FILE-CONTROL.                                                    00050000
+000600      SELECT CUSTMAST ASSIGN TO UT-S-CUSTMAST.                    00060009
+000700 DATA DIVISION.                                                   00070000
+000800 FILE SECTION.                                                    00080000
+000900 FD  CUSTMAST1 LABEL RECORD IS STANDARD.                          00090010
+001000 01 CUSTOMER-MASTER-RECORD.                                       00100004
+001100    02 CM-BRANCH-NUMBER PIC 9(2).                                 00110001
+001200    02 CM-SALESREP-NUMBER PIC 9(2).                               00120003
+001300    02 CM-CUSTOMER-NUMBER PIC 9(5).                               00130003
+001400    02 CM-CUSTOMER-NAME PIC X(20).                                00140005
+001500    02 CM-SALES-THIS-YTD PIC S9(5)V9(2).                          00150001
+001600    02 CM-SALES-LAST-YTD PIC S9(5)V9(2).                          00160003
+001700 WORKING-STORAGE SECTION.                                         00170001
+001800 01 SWITCHES.                                                     00180001
+001900    02 CUSTMAST-EOF-SWITCH PIC X VALUE "N".                       00190004
+002000 PROCEDURE DIVISION.                                              00200001
+002100 000-CONTROL.                                                     00210001
+002200     OPEN INPUT CUSTMAST                                          00220002
+002300     PERFORM 100-READ                                             00230001
+002400                 UNTIL CUSTMAST-EOF-SWITCH = "Y".                 00240001
+002500     STOP RUN.                                                    00250001
+002600 100-READ.                                                        00260001
+002700     READ CUSTMAST                                                00270001
+002800                 AT END                                           00280001
+002900                      MOVE "Y" TO CUSTMAST-EOF-SWITCH.            00290001
+003000      IF CUSTMAST-EOF-SWITCH = "N"                                00300001
+003100         DISPLAY 'RECORD:' CUSTOMER-MASTER-RECORD.                00310001
+

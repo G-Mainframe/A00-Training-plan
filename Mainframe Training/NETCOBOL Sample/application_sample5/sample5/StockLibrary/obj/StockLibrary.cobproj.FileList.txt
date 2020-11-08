@@ -1,0 +1,8 @@
+bin\Debug\StockLibrary.dll
+bin\Debug\StockLibrary.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\StockLibrary.dll
+obj\Debug\StockLibrary.pdb
+bin\Release\StockLibrary.dll
+obj\Release\ResolveAssemblyReference.cache
+obj\Release\StockLibrary.dll

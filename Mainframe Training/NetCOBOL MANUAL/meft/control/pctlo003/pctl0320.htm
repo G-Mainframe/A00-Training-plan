@@ -1,0 +1,305 @@
+<html>
+
+<head>
+<title>3.1 帳票印刷コントロールのイベント一覧</title>
+</head>
+
+<body BGCOLOR="#FFFFFF">
+
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">
+  <tr>
+    <td ALIGN="LEFT"><strong>帳票印刷コントロール使用手引書</strong> 
+    </td>
+  </tr>
+  <tr>
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a HREF="pctl0310.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a HREF="pctl0330.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>            
+  </tr>            
+</table>            
+            
+<hr>            
+            
+<dl>            
+  <dl>            
+    <dt><a HREF="../pctlo002/pctl0210.htm"><img SRC="../pctlosrc/up.gif" BORDER="0" ALT="上へ" WIDTH="16" HEIGHT="15">第3章             
+      </a><a HREF="pctl0310.htm" TARGET="fmain">帳票印刷コントロールの処理を記述する</a>             
+    </dt>            
+  </dl>            
+</dl>            
+            
+<hr>            
+            
+<h2>3.1 帳票印刷コントロールのイベント一覧</h2>            
+            
+<p>帳票印刷コントロールで発生するイベントの一覧を以下に示します。</p>           
+           
+<p>イベントの処理の流れについては、関連項目の“帳票印刷コントロールのイベントの流れ”を参照してください。</p>           
+           
+<h4>[帳票印刷コントロールのイベントの一覧]</h4>           
+           
+<table BORDER="1" width="699">           
+  <tr>           
+    <td width="131"><pre><b>イベント名</b></pre>           
+    </td>           
+    <td width="333"><pre><b>イベントが発生するタイミング</b></pre>           
+    </td>           
+    <td width="213"><pre><b>そのイベントで記述する主な処理</b></pre>           
+    </td>           
+  </tr>           
+  <tr>           
+    <td width="131">帳票開設(OpenReport)</td>           
+    <td width="333">「帳票印刷(PrintControl)」メソッドを呼び出した直後</td>          
+    <td width="213">帳票印刷に対する初期化処理</td>          
+  </tr>          
+  <tr>          
+    <td width="131">レコード読込み(ReadRecord)</td>          
+    <td width="333">各明細の印刷の繰り返しごと</td>          
+    <td width="213">帳票定義体レコードの設定</td>          
+  </tr>          
+  <tr>          
+    <td width="131">エラーメッセージ(ErrorMessage)</td>          
+    <td width="333">印刷時のエラーの発生時</td>         
+    <td width="213">印刷エラーに対する処理</td>         
+  </tr>         
+  <tr>         
+    <td width="131">印刷キャンセル(CancelPrint)</td>         
+    <td width="333">オペレータの操作、または、「キャンセル要求(RequestCansel)」プロパティによる帳票印刷のキャンセル要求時</td>         
+    <td width="213">印刷をキャンセルした旨のメッセージの表示</td>         
+  </tr>         
+  <tr>         
+    <td width="131">帳票閉鎖(CloseReport)</td>         
+    <td width="333">「帳票印刷(PrintControl)」メソッドの終了直前</td>         
+    <td width="213">帳票開設に対応する終了処理</td>         
+  </tr>         
+  <tr>         
+    <td width="130">帳票フォーム開設(OpenForm)</td>         
+    <td width="333">帳票開設(OpenReport)イベント後、または、<br>      
+      帳票印刷途中で帳票定義体を切り替えた後(ページ脚書き(PageFoot)イベントとページ頭書き(PageHead)イベントの間)に帳票定義体を開設時</td>        
+    <td width="213">帳票定義体に対する初期化処理</td>        
+  </tr>        
+  <tr>        
+    <td width="131">帳票フォーム閉鎖(CloseForm)</td>        
+    <td width="333">帳票閉鎖(CloseReport)イベント前、または、<br>      
+      帳票印刷途中で帳票定義体を切り替える前(ページ脚書き(PageFoot)イベントとページ頭書き(PageHead)イベントの間)に帳票定義体閉鎖時</td>        
+    <td width="213">帳票フォーム開設に対応する終了処理</td>        
+  </tr>        
+  <tr>        
+    <td width="131">明細計算(CalculateDE)</td>      
+    <td width="333">レコード読込みの正常終了時</td>      
+    <td width="213">明細内の派生処理</td>      
+  </tr>      
+  <tr>      
+    <td width="131">報告書頭書き(ReportHead)</td>      
+    <td width="333">報告書頭書きの印刷の直前</td>      
+    <td width="213">報告書頭書きに印刷する値の設定</td>      
+  </tr>      
+  <tr>      
+    <td width="131">ページ頭書き(PageHead)</td>      
+    <td width="333">ページ頭書きの印刷の直前</td>      
+    <td width="213">ページ頭書きに印刷する値の設定</td>      
+  </tr>      
+  <tr>      
+    <td width="131">制御頭書き(CBHead)</td>     
+    <td width="333">制御頭書きの印刷の直前、<br>   
+      集計表形式、または、段組み集計表形式の改ページに対するコントロールブレーク発生時、または、<br> 
+      段組み集計表形式の改ブロックに対するコントロールブレーク発生時</td>     
+    <td width="213">制御頭書きに印刷する値の設定</td>     
+  </tr>     
+  <tr>     
+    <td width="131">明細出力(PrintDE)</td>     
+    <td width="333">明細の印刷の直前</td>     
+    <td width="213">明細の合計の計算、印刷形式変更</td>     
+  </tr>     
+  <tr>     
+    <td width="131">制御脚書き(CBFoot)</td>     
+    <td width="333">制御脚書きの印刷の直前、<br>   
+      集計表形式、または、段組み集計表形式の改ページに対するコントロールブレーク発生時、または、<br> 
+      段組み集計表形式の改ブロックに対するコントロールブレーク発生時</td>     
+    <td width="213">制御脚書きに印刷する値の設定</td>     
+  </tr>     
+  <tr>     
+    <td width="131">ページ脚書き(PageFoot)</td>     
+    <td width="333">ページ脚書きの印刷の直前</td>     
+    <td width="213">ページ脚書きに印刷する値の設定</td>     
+  </tr>     
+  <tr>     
+    <td width="131">報告書脚書き(ReportFoot)</td>     
+    <td width="333">報告書脚書きの印刷の直前</td>     
+    <td width="213">報告書脚書きに印刷する値の設定</td>     
+  </tr>     
+</table>     
+     
+<hr>     
+     
+<p>また、各帳票定義体種別で発生するイベントの一覧を以下に示します。   
+</p>  
+  
+<p><b>【各帳票定義体種別で発生するイベント一覧】</b></p>  
+  
+<table border="1" width="100%">  
+  <tr>  
+    <td width="27%" colspan="2"><p align="center"><strong>帳票定義体種別</strong></td>  
+    <td width="13%" align="center"><strong>ページ形式</strong></td>  
+    <td width="20%" align="center"><strong>段組み伝票形式</strong></td>  
+    <td width="19%" align="center"><strong>タックシール形式</strong></td>  
+    <td width="21%" align="center"><strong>集計表形式<br>  
+      段組み集計表形式</strong></td>  
+  </tr>  
+  <tr>  
+    <td width="9%" rowspan="15"><p align="center"><strong>イベント</strong></td>  
+    <td width="18%">帳票開設</td>  
+    <td width="13%" align="center">○</td>  
+    <td width="20%" align="center">○</td>  
+    <td width="19%" align="center">○</td>  
+    <td width="21%" align="center">○</td>  
+  </tr>  
+  <tr>  
+    <td width="18%">レコード読込み</td>  
+    <td width="13%" align="center">○</td>  
+    <td width="20%" align="center">○</td>  
+    <td width="19%" align="center">○</td>  
+    <td width="21%" align="center">○</td>  
+  </tr>  
+  <tr>  
+    <td width="18%">エラーメッセージ</td>  
+    <td width="13%" align="center">○</td>  
+    <td width="20%" align="center">○</td>  
+    <td width="19%" align="center">○</td>  
+    <td width="21%" align="center">○</td>  
+  </tr>  
+  <tr>  
+    <td width="18%">印刷キャンセル</td>  
+    <td width="13%" align="center">○</td>  
+    <td width="20%" align="center">○</td>  
+    <td width="19%" align="center">○</td>  
+    <td width="21%" align="center">○</td>  
+  </tr>  
+  <tr>  
+    <td width="18%">帳票閉鎖</td>  
+    <td width="13%" align="center">○</td>  
+    <td width="20%" align="center">○</td>  
+    <td width="19%" align="center">○</td>  
+    <td width="21%" align="center">○</td>  
+  </tr>  
+  <tr>  
+    <td width="18%">帳票定義体開設</td>  
+    <td width="13%" align="center">○</td>  
+    <td width="20%" align="center">○</td>  
+    <td width="19%" align="center">○</td>  
+    <td width="21%" align="center">○</td>  
+  </tr>  
+  <tr>  
+    <td width="18%">帳票定義体閉鎖</td>  
+    <td width="13%" align="center">○</td>  
+    <td width="20%" align="center">○</td>  
+    <td width="19%" align="center">○</td>  
+    <td width="21%" align="center">○</td>  
+  </tr>  
+  <tr>  
+    <td width="18%">明細計算</td>  
+    <td width="13%" align="center">○※１</td>  
+    <td width="20%" align="center">○※１</td>  
+    <td width="19%" align="center">○※１</td>  
+    <td width="21%" align="center">○※１</td>  
+  </tr>  
+  <tr>  
+    <td width="18%">報告書頭書き</td>  
+    <td width="13%" align="center">－</td>  
+    <td width="20%" align="center">－</td>  
+    <td width="19%" align="center">－</td>  
+    <td width="21%" align="center">○</td>  
+  </tr>  
+  <tr>  
+    <td width="18%">ページ頭書き</td>  
+    <td width="13%" align="center">－</td>  
+    <td width="20%" align="center">○※２</td>  
+    <td width="19%" align="center">－</td>  
+    <td width="21%" align="center">○</td>  
+  </tr>  
+  <tr>  
+    <td width="18%">制御頭書き</td>  
+    <td width="13%" align="center">－</td>  
+    <td width="20%" align="center">－</td>  
+    <td width="19%" align="center">－</td>  
+    <td width="21%" align="center">○</td>  
+  </tr>  
+  <tr>  
+    <td width="18%">明細出力</td>  
+    <td width="13%" align="center">○※１</td>  
+    <td width="20%" align="center">○※１</td>  
+    <td width="19%" align="center">○※１</td>  
+    <td width="21%" align="center">○※１</td>  
+  </tr>  
+  <tr>  
+    <td width="18%">制御脚書き</td>  
+    <td width="13%" align="center">－</td>  
+    <td width="20%" align="center">－</td>  
+    <td width="19%" align="center">－</td>  
+    <td width="21%" align="center">○</td>  
+  </tr>  
+  <tr>  
+    <td width="18%">ページ脚書き</td>  
+    <td width="13%" align="center">－</td>  
+    <td width="20%" align="center">○※３</td>  
+    <td width="19%" align="center">－</td>  
+    <td width="21%" align="center">○</td>  
+  </tr>  
+  <tr>  
+    <td width="18%">報告書脚書き</td>  
+    <td width="13%" align="center">－</td>  
+    <td width="20%" align="center">－</td>  
+    <td width="19%" align="center">－</td>  
+    <td width="21%" align="center">○</td>  
+  </tr>  
+</table>  
+  
+<p>※　〇：イベント発生あり</p>
+
+<p>　　－：イベント発生なし</p>
+
+<p>※１　以下のように帳票定義体種別によって、イベントに対応するパーティションが異なります。</p>
+
+<table border="1" width="100%">
+  <tr>
+    <td width="50%" align="center"><strong>帳票定義体種別</strong></td>
+    <td width="50%" align="center"><strong>イベントに対応するパーティション</strong></td>
+  </tr>
+  <tr>
+    <td width="50%" align="left">ページ形式</td>
+    <td width="50%" align="left">ページ全体のパーティション</td>
+  </tr>
+  <tr>
+    <td width="50%" align="left">段組み伝票形式</td>
+    <td width="50%" align="left">ボディ部のパーティション</td>
+  </tr>
+  <tr>
+    <td width="50%" align="left">タックシール形式</td>
+    <td width="50%" align="left">ボディ部のパーティション</td>
+  </tr>
+  <tr>
+    <td width="50%" align="left">集計表形式/段組み集計票形式</td>
+    <td width="50%" align="left">明細のパーティション</td>
+  </tr>
+</table>
+
+<p>※２　イベントに対応するパーティションは、ヘッド部のパーティションです。</p>
+
+<p>※３　イベントに対応するパーティションは、テイル部のパーティションです。</p>
+  
+<p>□ 関連項目</p>            
+            
+<p>→ <a HREF="pctl0330.htm">帳票印刷コントロールのイベントの流れ</a></p>            
+            
+<hr>            
+            
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">            
+  <tr>            
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a HREF="pctl0310.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a HREF="pctl0330.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>            
+  </tr>            
+</table>            
+            
+<hr>            
+            
+<p align="right">All Rights Reserved, Copyright (C) 富士通株式会社 
+1998-2001</p>          
+</body>          
+</html>          

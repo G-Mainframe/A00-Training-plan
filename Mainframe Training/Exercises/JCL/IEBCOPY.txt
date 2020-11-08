@@ -1,0 +1,153 @@
+************************************************************************
+Example 1: Copy an Entire Data Set
+拷贝整个数据集,不拷贝名字相同的成员.
+
+//COPY     JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//JOBSTEP  EXEC PGM=IEBCOPY                                         
+//SYSPRINT DD SYSOUT=*                                              
+//SYSUT1   DD DSN=IBMUSER.TEST.LHF.PDSDT01,DISP=SHR                 
+//SYSUT2   DD DSN=IBMUSER.TEST.LHF.PDSDT05,UNIT=SYSDA,              
+//            SPACE=(TRK,(5,1,2)),DISP=(NEW,CATLG)                  
+//                                                                  
+************************************************************************
+
+************************************************************************
+Example 2: Merge Four Data Sets
+合并整个数据集
+
+//COPY     JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//JOBSTEP  EXEC PGM=IEBCOPY                                         
+//SYSPRINT DD SYSOUT=*                                              
+//SYSIN1   DD DSN=IBMUSER.TEST.LHF.PDSDT01,DISP=SHR                 
+//SYSIN2   DD DSN=IBMUSER.TEST.LHF.PDSDT02,DISP=OLD                 
+//SYSIN3   DD DSN=IBMUSER.TEST.LHF.PDSDT03,DISP=(OLD,DELETE)        
+//SYSOT1   DD DSN=IBMUSER.TEST.LHF.PDSDT11,DISP=(OLD,KEEP)          
+//SYSIN    DD  *                                                    
+COPYOPER COPY OUTDD=SYSOT1                                          
+         INDD=SYSIN1                                                
+         INDD=SYSIN3                                                
+         INDD=SYSIN2                                                
+/*                                                                            
+************************************************************************
+
+************************************************************************
+Example 3: Copy and Replace Selected Members of a Data Set
+拷贝并覆盖指定PDS成员
+PDSDT01:A(T01-A),C(T01-C)
+PDSDT02:B(T02-B),C(T02-C),D(T02-D)
+PDSDT11:A(T11-A),B(T11-B),F(T11-F)
+
+//COPY     JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID  
+//JOBSTEP  EXEC PGM=IEBCOPY                                          
+//SYSPRINT DD SYSOUT=*                                               
+//SYSIN1   DD DSN=IBMUSER.TEST.LHF.PDSDT01,DISP=SHR                  
+//SYSIN2   DD DSN=IBMUSER.TEST.LHF.PDSDT02,DISP=OLD                  
+//SYSOT1   DD DSN=IBMUSER.TEST.LHF.PDSDT11,DISP=(OLD,KEEP)           
+//SYSIN    DD  *                                                     
+COPYOPER COPY OUTDD=SYSOT1                                           
+         INDD=SYSIN1,SYSIN2                                          
+         SELECT MEMBER=(A,(B,,R),C)                                    
+/*
+
+************************************************************************
+
+************************************************************************
+Example 4: Merge Data Sets and Compress the Merged Data Set
+合并数据集及压缩合并后的数据集
+PDSDT01:A(T01-A),C(T01-C)
+PDSDT02:B(T02-B),C(T02-C),D(T02-D)
+PDSDT11:A(T11-A),B(T11-B),F(T11-F)
+
+//COPY     JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//JOBSTEP  EXEC PGM=IEBCOPY                                         
+//SYSPRINT DD SYSOUT=*                                              
+//SYSIN1   DD DSN=IBMUSER.TEST.LHF.PDSDT01,DISP=OLD                 
+//SYSIN2   DD DSN=IBMUSER.TEST.LHF.PDSDT02,DISP=(OLD,KEEP)          
+//SYSOT1   DD DSN=IBMUSER.TEST.LHF.PDSDT11,DISP=(OLD,KEEP)          
+//SYSUT3   DD UNIT=SYSDA,SPACE=(TRK,(1))                            
+//SYSUT4   DD UNIT=SYSDA,SPACE=(TRK,(1))                            
+//SYSIN    DD  *                                                    
+COPYOPER COPY OUTDD=SYSOT1,INDD=(SYSIN1,(SYSIN2,R),SYSOT1)          
+/*
+
+************************************************************************
+
+************************************************************************
+Example 5: Multiple Copy Operations with One Output Data Set
+复杂的拷贝:一个输出数据集
+PDSDT01:A(T01-A),J(T01-J)
+PDSDT02:F(T02-F),L(T02-L),M(T02-M),N(T02-N)
+PDSDT03:M(T03-M),P(T03-P)
+PDSDT04:D(T04-D),E(T04-E),F(T04-F),T(T04-T)
+PDSDT11:A(T11-A),B(T11-B),C(T11-C),D(T11-D),E(T11-E),F(T11-F),G(T11-G)
+
+//COPY     JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID   
+//JOBSTEP  EXEC PGM=IEBCOPY                                           
+//SYSPRINT DD SYSOUT=*                                                
+//SYSIN1   DD DSN=IBMUSER.TEST.LHF.PDSDT01,DISP=OLD                   
+//SYSIN2   DD DSN=IBMUSER.TEST.LHF.PDSDT02,DISP=OLD                   
+//SYSIN3   DD DSN=IBMUSER.TEST.LHF.PDSDT03,DISP=OLD                   
+//SYSIN4   DD DSN=IBMUSER.TEST.LHF.PDSDT04,DISP=OLD                   
+//SYSOT1   DD DSN=IBMUSER.TEST.LHF.PDSDT11,DISP=OLD                   
+//SYSOT2   DD DSN=IBMUSER.TEST.LHF.PDSDT12,DISP=(NEW,CATLG),          
+//            SPACE=(TRK,(3,1,2)),UNIT=SYSDA                          
+//SYSUT3   DD UNIT=SYSDA,SPACE=(TRK,(1))                              
+//SYSIN    DD  *                                                      
+COPERST1 COPY    O=SYSOT2,I=SYSOT1            
+         COPY    OUTDD=SYSOT1,INDD=SYSOT1     
+         INDD=SYSIN1                          
+         COPY    OUTDD=SYSOT1                 
+         INDD=SYSIN3                          
+         EXCLUDE MEMBER=M                     
+         INDD=SYSIN2                          
+         SELECT  MEMBER=((L,D,R))             
+         INDD=SYSIN4                          
+/*                                            
+
+************************************************************************
+
+************************************************************************
+Example 6: Multiple Copy Operations with Different Output Data Sets
+复杂的拷贝:不同的输出数据集
+PDSDT01:A(T01-A),J(T01-J)
+PDSDT02:F(T02-F),L(T02-L),M(T02-M),N(T02-N)
+PDSDT03:M(T03-M),P(T03-P)
+PDSDT04:A(T04-A),J(T04-J),K(T04-K)
+PDSDT11:A(T11-A),B(T11-B),D(T11-D)
+
+//COPY     JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID    
+//JOBSTEP  EXEC PGM=IEBCOPY                                            
+//SYSPRINT DD SYSOUT=*                                                 
+//SYSIN1   DD DSN=IBMUSER.TEST.LHF.PDSDT01,DISP=OLD                    
+//SYSIN2   DD DSN=IBMUSER.TEST.LHF.PDSDT02,DISP=(OLD,KEEP)             
+//SYSIN3   DD DSN=IBMUSER.TEST.LHF.PDSDT03,DISP=OLD                    
+//SYSIN4   DD DSN=IBMUSER.TEST.LHF.PDSDT04,DISP=OLD                    
+//SYSOT1   DD DSN=IBMUSER.TEST.LHF.PDSDT11,DISP=OLD                    
+//SYSUT3   DD UNIT=SYSDA,SPACE=(TRK,(1))                               
+//SYSUT4   DD UNIT=SYSDA,SPACE=(TRK,(1))                               
+//SYSIN    DD  *                                  
+         COPY    OUTDD=SYSOT1                     
+         INDD=SYSIN4                              
+         SELECT  MEMBER=(A,J)                     
+         INDD=SYSIN2                              
+         EXCLUDE MEMBER=(M,N)                     
+         COPY    OUTDD=SYSIN1,INDD=SYSIN3         
+         INDD=((SYSIN2,R),SYSIN1)                 
+         COPY    OUTDD=SYSIN3,INDD=((SYSIN1,R))   
+         SELECT  MEMBER=M                         
+/*                                                
+
+************************************************************************
+
+************************************************************************
+Example 7: Convert a Partitioned Data Set to a PDSE
+分区数据集转化为扩展分区数据集
+
+//COPY     JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//JOBSTEP  EXEC PGM=IEBCOPY                                         
+//SYSPRINT DD SYSOUT=*                                              
+//SYSUT1   DD DSN=IBMUSER.TEST.LHF.PDSDT01,DISP=SHR                 
+//SYSUT2   DD DSN=IBMUSER.TEST.LHF.PDSDT21,DISP=(NEW,CATLG),        
+//            LIKE=IBMUSER.TEST.LHF.PDSDT01,DSNTYPE=LIBRARY         
+//                                                                                                                                    
+************************************************************************

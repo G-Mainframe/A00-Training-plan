@@ -1,0 +1,562 @@
+ IDENTIFICATION DIVISION.                                                 
+*PATTERN-ID.     EXTRACT  "C".                                            
+ PROGRAM-ID.     JFU250C.                                                 
+*作成者　　　　　ＮＢＣＩＳ　松永                                         
+ DATE-WRITTEN.     -  -  .                                                
+*UPDATE-WRITTEN.   -  -   REV.                                            
+ DATE-COMPILED.                                                           
+*                                                                         
+*    児童扶養手当 SYSTEM　児童数算出（１８歳到達用）                      
+*                                                                         
+ ENVIRONMENT DIVISION.                                                    
+ CONFIGURATION SECTION.                                                   
+ SOURCE-COMPUTER.    ACOS-77.                                             
+ OBJECT-COMPUTER.    ACOS-77.                                             
+*                                                                         
+ SPECIAL-NAMES.                                                           
+     CHAR007  IS  UCDATE1.                                                
+*                                                                         
+ INPUT-OUTPUT  SECTION.                                                   
+ FILE-CONTROL.                                                            
+*    受給資格Ｍ＋請求者Ｍ＋対象児童Ｍ＋リンクＦ                           
+     SELECT INP1-FILE ASSIGN  IND1-DS.                                    
+*    所得判定Ｍ                                                           
+     SELECT INP2-FILE ASSIGN  IND2-RDB IND2AP1-RKEY                       
+                                       IND2AP2-RDB                        
+                ORGANIZATION  INDEXED                                     
+                      ACCESS  DYNAMIC                                     
+                      RECORD  KEY INP2-ACP1                               
+            ALTERNATE RECORD  KEY INP2-ACP2                               
+                      STATUS  S-INP2-STATUS.                              
+*    手当計算Ｆ                                                           
+     SELECT INP3-FILE ASSIGN  IND3-RDB                                    
+                ORGANIZATION  INDEXED                                     
+                      ACCESS  DYNAMIC                                     
+                      RECORD  KEY INP3-KEY                                
+                      STATUS  S-INP3-STATUS.                              
+*    受給資格Ｍ＋請求者Ｍ＋対象児童Ｍ＋リンクＦ                           
+     SELECT OUT1-FILE ASSIGN  OTD1-DS.                                    
+*    プルーフリスト                                                       
+     SELECT OUT2-FILE ASSIGN  PR01-USEROUT.                               
+**                                                                        
+ I-O-CONTROL.                                                             
+     APPLY SHIFT-CODE ON OUT2-FILE                                        
+                         WITH PPR-CONTROL-1.                              
+/                                                                         
+ DATA DIVISION.                                                           
+ FILE SECTION.                                                            
+*                                                                         
+*    受給資格Ｍ＋請求者Ｍ＋対象児童Ｍ＋リンクＦ                           
+*                                                                         
+ FD  INP1-FILE                                                            
+         BLOCK     5  RECORDS                                             
+         RECORD 1150  CHARACTERS                                          
+         LABEL RECORD STANDARD.                                           
+******************************                                            
+* INP1-FILE, INP1-KEY RECORD *                                            
+******************************                                            
+ 01  INP1-REC.                                                            
+     03  FIL         PIC X(2).                                            
+     03  INP1-KEY01  PIC X(10).                                           
+     03  FIL         PIC X(1138).                                         
+**************************                                                
+* INP1-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  INP1-REC1.                                                           
+     02  INP1-JFUJQSK.                                                    
+     COPY JFUJQSK.                                                        
+     02  INP1-JFUSEIQ.                                                    
+     COPY JFUSEIQ.                                                        
+     02  INP1-JFUTJDO.                                                    
+     COPY JFUTJDO.                                                        
+     02  INP1-YHLB15.                                                     
+     COPY YHLB15.                                                         
+/                                                                         
+*    児童扶養手当所得マスタ                                               
+*                                                                         
+ FD  INP2-FILE                                                            
+         LABEL RECORD STANDARD.                                           
+*******************************                                           
+* INP2-FILE, INP2-ACP1 RECORD *                                           
+*******************************                                           
+ 01  INP2-ACP1.                                                           
+     COPY JFUSHTA1.                                                       
+*******************************                                           
+* INP2-FILE, INP2-ACP2 RECORD *                                           
+*******************************                                           
+ 01  INP2-ACP2.                                                           
+     COPY JFUSHTA2.                                                       
+**************************                                                
+* INP2-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  INP2-REC1.                                                           
+     COPY JFUSHTE.                                                        
+/                                                                         
+*    児童扶養手当手当計算ファイル                                         
+*                                                                         
+ FD  INP3-FILE                                                            
+         LABEL RECORD STANDARD.                                           
+******************************                                            
+* INP3-FILE, INP3-KEY RECORD *                                            
+******************************                                            
+ 01  INP3-REC.                                                            
+     02  FIL         PIC X(2).                                            
+     02  INP3-KEY    PIC 9(6).                                            
+     02  FIL         PIC X(92).                                           
+**************************                                                
+* INP3-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  INP3-REC1.                                                           
+     COPY JFSCOMP.                                                        
+/                                                                         
+*    受給資格Ｍ＋請求者Ｍ＋対象児童Ｍ＋リンクＦ                           
+*                                                                         
+ FD  OUT1-FILE                                                            
+         BLOCK     5 RECORDS                                              
+         RECORD 1150 CHARACTERS                                           
+         LABEL RECORD STANDARD.                                           
+**************************                                                
+* OUT1-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  OUT1-REC1.                                                           
+     02  INP1-JFUJQSK  PIC X(150).                                        
+     02  INP1-JFUSEIQ  PIC X(350).                                        
+     02  INP1-JFUTJDO  PIC X(100).                                        
+     02  INP1-YHLB15   PIC X(550).                                        
+/                                                                         
+*    プルーフリスト                                                       
+*                                                                         
+ FD  OUT2-FILE                                                            
+         RECORD  132  CHARACTERS                                          
+         LABEL RECORD OMITTED                                             
+         LINAGE  62                                                       
+         TOP      2                                                       
+         BOTTOM   2.                                                      
+***************************                                               
+* OUT2-FILE, DATA RECORD  *                                               
+***************************                                               
+ 01  OUT2-REC1.                                                           
+     02  FIL         PIC X(132).                                          
+/                                                                         
+ WORKING-STORAGE SECTION.                                                 
+*****************************                                             
+* STANDARD CODING WORK AREA *                                             
+*****************************                                             
+ 77  C-DEC1          PIC 9(1) VALUE 1.                                    
+*                                                                         
+ 77  I-FALSE         PIC 9(1) VALUE 0.                                    
+ 77  I-TRUE          PIC 9(1) VALUE 1.                                    
+ 77  I-SKIPLN        PIC 9(1) VALUE 2.                                    
+*                                                                         
+ 77  S-INP1-END      PIC 9(1).                                            
+ 77  S-EXTRACT       PIC 9(1).                                            
+*                                                                         
+*                                                                         
+*                                                                         
+* INPUT-OUTPUT RECORD COUNT *                                             
+ 01  F-IOREC-CNT.                                                         
+     02  F-PROG-NAME     PIC X(10) VALUE "JFU250C   ".                    
+     02  FIL             PIC X(10) VALUE " INPI-REC=".                    
+     02  F-INP1-CNT      PIC 9(6).                                        
+     02  FIL             PIC X(11) VALUE ", OUT1-REC=".                   
+     02  F-OUT1-CNT      PIC 9(6).                                        
+/*************************                                                
+* USERS CODING WORK AREA *                                                
+**************************                                                
+*                                                                         
+ 77  S-INP2-KEYERR          PIC  9(1).                                    
+ 77  S-INP2-STATUS          PIC  X(2).                                    
+ 77  S-INP3-END             PIC  9(1).                                    
+ 77  S-INP3-KEYERR          PIC  9(1).                                    
+ 77  S-INP3-STATUS          PIC  X(2).                                    
+*                                                                         
+*    INP1-FILEの退避用テーブル                                            
+ 01  WK-TABLE.                                                            
+     02   WK-TBL  OCCURS  15.                                             
+     COPY JFUJQSK REPLACING , //JFJ-// BY //TFJ-//.                       
+     COPY JFUSEIQ REPLACING , //JFS-// BY //TFS-//.                       
+     COPY JFUTJDO REPLACING , //JFD-// BY //TFD-//.                       
+     COPY YHLB15  REPLACING , //B15-// BY //T15-//.                       
+/                                                                         
+*    添字                                                                 
+ 01  I                      PIC  9(2).                                    
+ 01  J                      PIC  9(2).                                    
+*                                                                         
+*    タイプインワーク（基準日）                                           
+ 01  ACW-KIYMD.                                                           
+     03  ACW-KING           PIC  X(1).                                    
+     03  ACW-KIYY           PIC  9(2).                                    
+     03  ACW-KIMM           PIC  9(2).                                    
+     03  ACW-KIDD           PIC  9(2).                                    
+ 01  ACS-KIYMD              PIC  9(8).                                    
+ 01  ACS-KIYMDR  REDEFINES  ACS-KIYMD.                                    
+     03  ACS-KIYM.                                                        
+         05  ACS-KIYY       PIC  9(4).                                    
+         05  ACS-KIMM       PIC  9(2).                                    
+     03  ACS-KIDD           PIC  9(2).                                    
+*                                                                         
+*    基準日の翌月                                                         
+ 01  WK-YM.                                                               
+     03  WK-YY              PIC  9(4).                                    
+     03  WK-MM              PIC  9(2).                                    
+*                                                                         
+*    基準日の翌月の年度                                                   
+ 01  WK-NEND                PIC  9(4).                                    
+*                                                                         
+*    手当月額                                                             
+ 01  WK-TATGK               PIC  9(6).                                    
+ 01  WK-TATGK-CP            PIC  9(6).                                    
+/                                                                         
+     COPY KAGREKIW.                                                       
+     COPY CMLB002W.                                                       
+/                                                                         
+ PROCEDURE DIVISION.                                                      
+***********      C1SU01--C1SS07, C1PS01, C1EU01--C1ES04                   
+* LEVEL 1 *                                                               
+***********                                                               
+*                                                                         
+ MAIN-PROCESS.                                                            
+     PERFORM MAIN-INIT-PROC THRU MAIN-INIT-EXT.                   C1SU01  
+     MOVE I-FALSE TO S-INP1-END.                                  C1SS02  
+     MOVE ZERO TO F-INP1-CNT.                                     C1SS03  
+     OPEN INPUT INP1-FILE.                                        C1SS04  
+     PERFORM INP1-READ-RTN THRU INP1-READ-EXT.                    C1SS05*1
+     MOVE ZERO TO F-OUT1-CNT.                                     C1SS06  
+     OPEN OUTPUT OUT1-FILE.                                       C1SS07  
+     OPEN OUTPUT OUT2-FILE                                                
+     PERFORM INIT-RTN      THRU INIT-EXT.                         USERS P 
+*                                                                         
+     PERFORM EXTRACT                                              C1PS01  
+                 UNTIL S-INP1-END = I-TRUE.                               
+*                                                                         
+     COMPUTE F-INP1-CNT = F-INP1-CNT - C-DEC1.                    C1ES04  
+*    DISPLAY F-IOREC-CNT.                                         C1ES04  
+     PERFORM MAIN-FINISH-PROC THRU MAIN-FINISH-EXT.               C1EU01  
+     CLOSE INP1-FILE.                                             C1ES02  
+     CLOSE OUT1-FILE.                                             C1ES03  
+     CLOSE OUT2-FILE.                                                     
+     STOP RUN.                                                            
+/**********      C2SS01, C2SU02, C2PS01, C2PS02, C2ES01                   
+* LEVEL 2 *                                                               
+***********                                                               
+*                                                                         
+ EXTRACT.                                                         (C1PS01)
+     MOVE I-FALSE TO S-EXTRACT.                                   C2SS01  
+*                                                                         
+     PERFORM EXTRACT-COND-PROC THRU EXTRACT-COND-EXT.             C2SU02  
+*                                                                         
+     IF S-EXTRACT = I-TRUE                                        C2PS01  
+             PERFORM OUT1-WRITE-PROC                              C2PS02  
+                               THRU OUT1-WRITE-EXIT               USERS P 
+                     VARYING J FROM 1 BY 1                        USERS P 
+                       UNTIL J >  I                               USERS P 
+*            ワークテーブルクリア処理                             USER    
+             PERFORM TBL-CLR-RTN THRU TBL-CLR-EXT                 USERS P 
+*            テーブル退避処理                                     USER    
+             PERFORM TBL-SET-RTN THRU TBL-SET-EXT                 USERS P 
+        ELSE                                                              
+             NEXT SENTENCE.                                               
+*                                                                         
+     PERFORM INP1-READ-RTN THRU INP1-READ-EXT.                    C2ES01*1
+/**********      C3PU01, C3PS02                                           
+* LEVEL 3 *                                                               
+***********                                                               
+*                                                                         
+ OUT1-WRITE-PROC.                                                 (C2PS01)
+     PERFORM EDIT-OUT1-PROC THRU EDIT-OUT1-EXT.                   C3PU01  
+     PERFORM OUT1-WRITE-RTN THRU OUT1-WRITE-EXT.                  C3PS02*2
+ OUT1-WRITE-EXIT.                                                 (C2PS01)
+     EXIT.                                                                
+/**************  *1=C1SS05, C2ES01  *2=C3PS02                             
+* SUBROUTINES *                                                           
+*  (STANDARD) *                                                           
+***************                                                           
+*                                                                         
+ INP1-READ-RTN.                                                   *1      
+     READ INP1-FILE                                                       
+         AT END MOVE I-TRUE TO S-INP1-END.                                
+     COMPUTE F-INP1-CNT = F-INP1-CNT + C-DEC1.                            
+ INP1-READ-EXT.                                                           
+     EXIT.                                                                
+*                                                                         
+ OUT1-WRITE-RTN.                                                  *2      
+     WRITE OUT1-REC1.                                                     
+     COMPUTE F-OUT1-CNT = F-OUT1-CNT + C-DEC1.                            
+ OUT1-WRITE-EXT.                                                          
+     EXIT.                                                                
+*                                                                         
+ OUT2-WRITE-RTN.                                                          
+     WRITE OUT2-REC1 BEFORE I-SKIPLN.                                     
+     MOVE SPACE TO OUT2-REC1.                                             
+ OUT2-WRITE-EXT.                                                          
+     EXIT.                                                                
+/*************   C1SU01, C1EU01, C2SU02, C3PU01                           
+* USERS PROC *                                                            
+**************                                                            
+*                                                                         
+* (FROM C1SU01)                                                           
+ MAIN-INIT-PROC.                                                          
+*    基準日                                                               
+     ACCEPT  ACW-KIYMD   FROM UCDATE1.                                    
+     MOVE    ACW-KING     TO  WAREKI-NG.                                  
+     TRANSFORM WAREKI-NG FROM " MTSH" TO "01234".                         
+     MOVE    ACW-KIYY     TO  WAREKI-YY.                                  
+     MOVE    ACW-KIMM     TO  WAREKI-MM.                                  
+     MOVE    ACW-KIDD     TO  WAREKI-DD.                                  
+     PERFORM WAREKI-SEIREKI-RTN THRU WAREKI-SEIREKI-EXT.                  
+     MOVE    SEIREKI-YY   TO  ACS-KIYY.                                   
+     MOVE    SEIREKI-MM   TO  ACS-KIMM.                                   
+     MOVE    SEIREKI-DD   TO  ACS-KIDD.                                   
+*    ファイルオープン                                                     
+     OPEN    INPUT        INP2-FILE  INP3-FILE.                           
+ MAIN-INIT-EXT.                                                           
+     EXIT.                                                                
+*                                                                         
+* (FROM C1EU01)                                                           
+ MAIN-FINISH-PROC.                                                        
+*    対象児童数＞０の時のみ、手当月額の再計算を行う                       
+     IF  TFJ-TJDSU(1)  >  ZEROS                                           
+*        手当月額取得処理                                                 
+         PERFORM  TAT-GET-RTN  THRU  TAT-GET-EXT.                         
+*    出力ファイル１ＷＲＩＴＥ処理                                         
+     PERFORM  OUT1-WRITE-PROC  THRU  OUT1-WRITE-EXIT                      
+                      VARYING  J  FROM  1  BY  1                          
+                        UNTIL  J  >  I.                                   
+*    出力ファイル２ＷＲＩＴＥ処理                                         
+     MOVE  F-IOREC-CNT  TO  OUT2-REC1.                                    
+     PERFORM  OUT2-WRITE-RTN  THRU  OUT2-WRITE-EXT.                       
+     DISPLAY F-IOREC-CNT.                                                 
+*    ファイルクローズ                                                     
+     CLOSE   INP2-FILE  INP3-FILE.                                        
+ MAIN-FINISH-EXT.                                                         
+     EXIT.                                                                
+*                                                                         
+* (FROM C2SU02)                                                           
+ EXTRACT-COND-PROC.                                                       
+*    退避キーとの比較                                                     
+     IF  INP1-KEY01  =  TFJ-KEY(1)                                        
+*        テーブル退避処理                                                 
+         PERFORM  TBL-SET-RTN  THRU  TBL-SET-EXT                          
+     ELSE                                                                 
+*        対象児童数＞０の時のみ、手当月額の再計算を行う                   
+         IF  TFJ-TJDSU(1)  >  ZEROS                                       
+*            手当月額取得処理                                             
+             PERFORM  TAT-GET-RTN  THRU  TAT-GET-EXT                      
+         ELSE                                                             
+*            ＷＲＩＴＥ用のフラグセット                                   
+             MOVE  I-TRUE  TO  S-EXTRACT.                                 
+ EXTRACT-COND-EXT.                                                        
+     EXIT.                                                                
+*                                                                         
+* (FROM C3PU01)                                                           
+ EDIT-OUT1-PROC.                                                          
+*    出力ファイル１レコードの初期化                                       
+     INITIALIZE  OUT1-REC1.                                               
+*    資格喪失処理                                                         
+     IF  TFJ-TJDSU(1)  =  ZEROS                                           
+*        受給資格マスタ項目セット                                         
+         MOVE  1            TO  TFJ-STDKB(J)                              
+         MOVE  ACS-KIYMD    TO  TFJ-STDBI(J)                              
+         MOVE  4            TO  TFJ-SKSJU(J)                              
+         MOVE  ACS-KIYMD    TO  TFJ-SKSBI(J)                              
+         MOVE  ZEROS        TO  TFJ-TJDSU(J)                              
+         MOVE  ZEROS        TO  TFJ-CQRKB(J)                              
+         MOVE  ZEROS        TO  TFJ-TATGK(J)                              
+*        対象児童マスタ項目セット                                         
+         MOVE  5            TO  TFD-GTSJU(J)                              
+         MOVE  ACS-KIYMD    TO  TFD-GTSBI(J)                              
+*    額改定処理                                                           
+     ELSE                                                                 
+*        受給資格マスタ項目セット                                         
+         MOVE  TFJ-TJDSU(1) TO  TFJ-TJDSU(J)                              
+         MOVE  WK-TATGK     TO  TFJ-TATGK(J)                              
+*        対象児童マスタ項目セット                                         
+         MOVE  5            TO  TFD-GTSJU(J)                              
+         MOVE  ACS-KIYMD    TO  TFD-GTSBI(J).                             
+*    出力ファイル１レコードへテーブル内容をセット                         
+     MOVE  WK-TBL(J)        TO  OUT1-REC1.                                
+ EDIT-OUT1-EXT.                                                           
+     EXIT.                                                                
+/                                                                         
+*    初期処理                                                             
+*                                                                         
+ INIT-RTN.                                                                
+*    ワークテーブルクリア処理                                             
+     PERFORM  TBL-CLR-RTN  THRU  TBL-CLR-EXT.                             
+*    キーの退避                                                           
+     MOVE     INP1-KEY01   TO    TFJ-KEY(1).                              
+ INIT-EXT.                                                                
+     EXIT.                                                                
+*                                                                         
+*    ワークテーブルクリア処理                                             
+*                                                                         
+ TBL-CLR-RTN.                                                             
+*    ワークテーブルと添字の初期化                                         
+     INITIALIZE  WK-TABLE  I.                                             
+ TBL-CLR-EXT.                                                             
+     EXIT.                                                                
+*                                                                         
+*    テーブル退避処理                                                     
+*                                                                         
+ TBL-SET-RTN.                                                             
+*    添字の加算（１）                                                     
+     ADD  1  TO  I.                                                       
+*    入力レコードをワークテーブルに退避                                   
+     MOVE  INP1-REC1  TO  WK-TBL(I).                                      
+*    対象児童数の減算（１人）                                             
+     COMPUTE  TFJ-TJDSU(1)  =  TFJ-TJDSU(1)  -  1.                        
+ TBL-SET-EXT.                                                             
+     EXIT.                                                                
+/                                                                         
+*    手当月額取得処理                                                     
+*                                                                         
+ TAT-GET-RTN.                                                             
+*    基準日の翌月を算出                                                   
+     MOVE  ACS-KIYM  TO  WK-YM                                            
+     ADD   1         TO  WK-MM                                            
+     IF    WK-MM      >  12                                               
+           ADD   1   TO  WK-YY                                            
+           MOVE  1   TO  WK-MM.                                           
+*    基準日の翌月の年度を算出                                             
+     MOVE  WK-YY     TO  WK-NEND.                                         
+     IF    WK-MM      <  8                                                
+           COMPUTE   WK-NEND  =  WK-NEND  -  1.                           
+*    所得判定マスタＲＥＡＤ用キーセット                                   
+     MOVE  TFJ-DNTKB(1)     TO  JFHA1-DNTKB.                              
+     MOVE  TFJ-SKJNO(1)     TO  JFHA1-SKJNO.                              
+     MOVE  TFJ-NTRNO(1)     TO  JFHA1-NTRNO.                              
+     MOVE  WK-NEND          TO  JFHA1-SHTND.                              
+     MOVE  TFJ-SKJNO(1)     TO  JFHA1-HTKNO.                              
+*    所得判定マスタＲＥＡＤ                                               
+     PERFORM INP2-READ-RTN THRU INP2-READ-EXT.                            
+*    所得判定マスタを読めた時のみ、次処理へ                               
+     IF  S-INP2-KEYERR  =  I-TRUE                                         
+*        エラー処理                                                       
+         PERFORM  ERR-EDIT-RTN  THRU  ERR-EDIT-EXT                        
+         DISPLAY  NC"所得判定マスタリードエラー"                          
+         DISPLAY  NC"個人番号＝"  TFJ-SKJNO(1)                            
+         STOP     "000"                                                   
+     ELSE                                                                 
+*        手当計算ファイル情報取得処理                                     
+         PERFORM INP3-GET-RTN THRU INP3-GET-EXT.                          
+ TAT-GET-EXT.                                                             
+     EXIT.                                                                
+*                                                                         
+*    手当計算ファイル情報取得処理                                         
+*                                                                         
+ INP3-GET-RTN.                                                            
+*    手当計算ファイルＳＴＡＲＴ用キーセット                               
+     MOVE  WK-YM  TO  INP3-KEY.                                           
+*    手当計算ファイルＳＴＡＲＴ                                           
+     PERFORM INP3-STARTP-RTN THRU INP3-STARTP-EXT.                        
+     IF  S-INP3-STATUS  NOT =  ZERO                                       
+         PERFORM INP3-STARTL-RTN THRU INP3-STARTL-EXT.                    
+     IF  S-INP3-STATUS  NOT =  ZERO                                       
+*        エラー処理                                                       
+         PERFORM  ERR-EDIT-RTN  THRU  ERR-EDIT-EXT                        
+         DISPLAY  NC"手当計算ファイルスタートエラー"                      
+         DISPLAY  NC"個人番号＝"  TFJ-SKJNO(1)                            
+         DISPLAY  NC"年月　　＝"  WK-YM                                   
+         STOP     "000"                                                   
+     ELSE                                                                 
+*        手当計算ファイルＲＥＡＤ　ＰＲＩＯＲ                             
+         PERFORM INP3-READP-RTN THRU INP3-READP-EXT                       
+         IF (S-INP3-KEYERR  =  I-TRUE   )  OR                             
+            (WK-YM          <  JCP-KTEYM)                                 
+*            エラー処理                                                   
+             PERFORM  ERR-EDIT-RTN  THRU  ERR-EDIT-EXT                    
+             DISPLAY  NC"手当計算ファイルスタートエラー"                  
+             DISPLAY  NC"個人番号＝"  TFJ-SKJNO(1)                        
+             DISPLAY  NC"年月　　＝"  WK-YM                               
+             STOP     "000"                                               
+         ELSE                                                             
+*            ＷＲＩＴＥ用のフラグセット                                   
+             MOVE  I-TRUE  TO  S-EXTRACT                                  
+*            手当月額算出処理                                             
+             PERFORM TAT-CMP-RTN THRU TAT-CMP-EXT.                        
+ INP3-GET-EXT.                                                            
+     EXIT.                                                                
+*                                                                         
+*    手当月額算出処理                                                     
+*                                                                         
+ TAT-CMP-RTN.                                                             
+*    手当月額の初期化                                                     
+     MOVE  ZEROS  TO  WK-TATGK  WK-TATGK-CP.                              
+*    全部支給                                                             
+     IF  TFJ-CQRKB(1)  =  1                                               
+*        対象児童数２人以上                                               
+         IF  TFJ-TJDSU(1)  >  1                                           
+             COMPUTE  WK-TATGK  =  JCP-ZCQGK     +  JCP-JD2GK             
+                   + (JCP-JD3GK * (TFJ-TJDSU(1)  -  2))                   
+*        対象児童数１人                                                   
+         ELSE                                                             
+             MOVE  JCP-ZCQGK  TO  WK-TATGK                                
+*    一部支給                                                             
+     ELSE                                                                 
+     IF  TFJ-CQRKB(1)  =  2                                               
+*        対象児童数２人以上                                               
+         IF  TFJ-TJDSU(1)  >  1                                           
+             COMPUTE  WK-TATGK-CP  =  JCP-ICKGK  - (JFH-KJGGK             
+                   -  JFH-ZCGGK)   *  JCP-KBSGK  /  JCP-KBBGK             
+                   +  JCP-JD2GK    + (JCP-JD3GK  * (TFJ-TJDSU(1)          
+                   -  2))                                                 
+*            一円単位を四捨五入                                           
+             COMPUTE  WK-TATGK-CP  ROUNDED  =  WK-TATGK-CP  /  10         
+             COMPUTE  WK-TATGK     =  WK-TATGK-CP  *  10                  
+*        対象児童数１人                                                   
+         ELSE                                                             
+             COMPUTE  WK-TATGK-CP  =  JCP-ICKGK  - (JFH-KJGGK             
+                   -  JFH-ZCGGK)   *  JCP-KBSGK  /  JCP-KBBGK             
+*            一円単位を四捨五入                                           
+             COMPUTE  WK-TATGK-CP  ROUNDED  =  WK-TATGK-CP  /  10         
+             COMPUTE  WK-TATGK     =  WK-TATGK-CP  *  10.                 
+ TAT-CMP-EXT.                                                             
+     EXIT.                                                                
+*                                                                         
+*    エラー処理                                                           
+*                                                                         
+ ERR-EDIT-RTN.                                                            
+*    ワークテーブルクリア処理                                             
+     PERFORM TBL-CLR-RTN THRU TBL-CLR-EXT.                                
+*    テーブル退避処理                                                     
+     PERFORM TBL-SET-RTN THRU TBL-SET-EXT.                                
+ ERR-EDIT-EXT.                                                            
+     EXIT.                                                                
+/                                                                         
+*    所得判定マスタＲＥＡＤ                                               
+*                                                                         
+ INP2-READ-RTN.                                                           
+     MOVE  I-FALSE     TO  S-INP2-KEYERR.                                 
+     READ  INP2-FILE  KEY  IS    INP2-ACP1                                
+           INVALID    KEY  MOVE  I-TRUE  TO  S-INP2-KEYERR.               
+ INP2-READ-EXT.                                                           
+     EXIT.                                                                
+*                                                                         
+*    手当計算ファイルＳＴＡＲＴ（＞）                                     
+*                                                                         
+ INP3-STARTP-RTN.                                                         
+     MOVE  I-FALSE     TO  S-INP3-KEYERR.                                 
+     START INP3-FILE  KEY  >     INP3-KEY                                 
+           INVALID    KEY  MOVE  I-TRUE  TO  S-INP3-KEYERR.               
+ INP3-STARTP-EXT.                                                         
+     EXIT.                                                                
+*                                                                         
+*    手当計算ファイルＳＴＡＲＴ（ＬＡＳＴ）                               
+*                                                                         
+ INP3-STARTL-RTN.                                                         
+     MOVE  I-FALSE     TO  S-INP3-KEYERR.                                 
+     START INP3-FILE LAST  RECORD                                         
+           INVALID    KEY  MOVE  I-TRUE  TO  S-INP3-KEYERR.               
+ INP3-STARTL-EXT.                                                         
+     EXIT.                                                                
+*                                                                         
+*    手当計算ファイルＲＥＡＤ（ＰＲＩＯＲ）                               
+*                                                                         
+ INP3-READP-RTN.                                                          
+     MOVE  I-FALSE     TO  S-INP3-END.                                    
+     READ  INP3-FILE       PRIOR                                          
+           AT         END  MOVE  I-TRUE  TO  S-INP3-END.                  
+ INP3-READP-EXT.                                                          
+     EXIT.                                                                
+/                                                                         
+     COPY KAGREKI.                                                        

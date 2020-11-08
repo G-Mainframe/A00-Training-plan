@@ -1,0 +1,84 @@
+       IDENTIFICATION DIVISION.
+      *
+       PROGRAM-ID. COL91.
+      *
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT OLD-SALES-FILE   ASSIGN TO INFILE.
+           SELECT NEW-SALES-FILE   ASSIGN TO PFILE.
+       DATA DIVISION.
+       FILE SECTION.
+       FD  OLD-SALES-FILE  LABEL RECORD IS STANDARD
+              DATA RECORD IS OLD-SALES-RECORD
+              RECORDING MODE IS F.
+       01  OLD-SALES-RECORD.
+          02 YR-MON-DAY-O.
+              03 YEAR        PIC  99.
+              03 MONTH       PIC  99.
+              03 DAYY        PIC  99.
+          02 PRODUCT-CODE    PIC  9(4).
+          02 CUSTOMER-CODE   PIC  9(4).
+          02 QUANTITY        PIC  9(6).
+       FD  NEW-SALES-FILE  LABEL RECORD IS STANDARD
+              DATA RECORD IS NEW-SALES-RECORD
+              RECORDING MODE IS F.
+       01  NEW-SALES-RECORD.
+          02 FILLER          PIC  X.
+          02 YR-MON-DAY-N.
+              03 YEAR-N      PIC  99.
+              03 MONTH-N     PIC  99.
+              03 DAYY-N      PIC  99.
+          02 PRODUCT-CODE-N  PIC  9(4).
+          02 CUSTOMER-CODE-N PIC  9(4).
+          02 QUANTITY-N      PIC  9(6).
+          02 UNIT-PRICE-N    PIC  9(6).
+          02 SALES-VALUE-N   PIC  9(8).
+       WORKING-STORAGE SECTION.
+       77 I                  PIC  99.
+       01 UNIT-PRICE-TABLE.
+         02 FILLER           PIC   X(10) VALUE '0010000200'.
+         02 FILLER           PIC   X(10) VALUE '0020000500'.
+         02 FILLER           PIC   X(10) VALUE '0030000300'.
+         02 FILLER           PIC   X(10) VALUE '0040000250'.
+         02 FILLER           PIC   X(10) VALUE '0050005000'.
+         02 FILLER           PIC   X(10) VALUE '0060000450'.
+         02 FILLER           PIC   X(10) VALUE '0090000125'.
+         02 FILLER           PIC   X(10) VALUE '0100000670'.
+         02 FILLER           PIC   X(10) VALUE '0110001200'.
+         02 FILLER           PIC   X(10) VALUE '0120000390'.
+         02 FILLER           PIC   X(10) VALUE '0130000650'.
+         02 FILLER           PIC   X(10) VALUE '0150001670'.
+         02 FILLER           PIC   X(10) VALUE '0190003000'.
+         02 FILLER           PIC   X(10) VALUE '0200000127'.
+         02 FILLER           PIC   X(10) VALUE '0230000098'.
+         02 FILLER           PIC   X(10) VALUE '0240000160'.
+         02 FILLER           PIC   X(10) VALUE '0270000320'.
+         02 FILLER           PIC   X(10) VALUE '0300000290'.
+         02 FILLER           PIC   X(10) VALUE '0330000960'.
+       01 UNIT-PRICE-TABLE-R REDEFINES UNIT-PRICE-TABLE.
+         02 TABLES OCCURS 20.
+           03 PRODUCT-CODE-T PIC   9(4).
+           03 UNIT-PRICE-T   PIC   9(6).
+       PROCEDURE DIVISION.
+       PROGRAM-START.
+           OPEN INPUT  OLD-SALES-FILE
+                OUTPUT NEW-SALES-FILE.
+       READING.
+           READ OLD-SALES-FILE
+                AT END CLOSE OLD-SALES-FILE, NEW-SALES-FILE
+                       STOP RUN.
+           MOVE YEAR TO YEAR-N.
+           MOVE MONTH TO MONTH-N.
+           MOVE DAYY TO DAYY-N.
+           MOVE PRODUCT-CODE TO PRODUCT-CODE-N.
+           MOVE CUSTOMER-CODE TO CUSTOMER-CODE-N.
+           MOVE QUANTITY TO QUANTITY-N.
+           PERFORM TABLE-LOOKUP VARYING I FROM 1 BY 1 UNTIL I > 20.
+           GO TO READING.
+       TABLE-LOOKUP.
+           IF PRODUCT-CODE = PRODUCT-CODE-T(I)
+              MOVE UNIT-PRICE-T(I) TO UNIT-PRICE-N
+              COMPUTE SALES-VALUE-N = QUANTITY-N * UNIT-PRICE-N
+              WRITE NEW-SALES-RECORD.
+

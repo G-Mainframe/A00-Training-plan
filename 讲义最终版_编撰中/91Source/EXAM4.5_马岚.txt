@@ -1,0 +1,43 @@
+       IDENTIFICATION      DIVISION.
+       PROGRAM-ID.         EXAM45.
+       ENVIRONMENT         DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT IN-FILE  ASSIGN TO FILE1.
+           SELECT PRINT-FILE ASSIGN TO FILE2.
+       DATA                DIVISION.
+       FILE SECTION.
+       FD IN-FILE LABEL RECORD IS STANDARD.
+       01 IN-R.
+           02 YR-MON-DAY      PIC 9(6).
+           02 PRODUCT-CODE    PIC 9(4).
+           02 CUSTOMER-CODE   PIC 9(4).
+           02 QUANTITY        PIC 9(6).
+           02 UNIT-PRICE      PIC 9(6).
+       FD PRINT-FILE LABEL RECORD IS STANDARD.
+       01 PRINT-P.
+           02 FILLER          PIC X(6).
+           02 YR-MON-DAY-P    PIC 9(6).
+           02 FILLER          PIC X(2).
+           02 PRODUCT-CODE-P  PIC 9(4).
+           02 FILLER          PIC X(2).
+           02 CUSTOMER-CODE-P PIC 9(4).
+           02 FILLER          PIC X(2).
+           02 QUANTITY-P      PIC 9(6).
+           02 FILLER          PIC X(2).
+           02 UNIT-PRICE-P    PIC 9(6).
+       PROCEDURE     DIVISION.
+       S.  OPEN INPUT IN-FILE
+                OUTPUT PRINT-FILE.
+           MOVE SPACE TO PRINT-P.
+       R.  READ IN-FILE
+                AT END CLOSE IN-FILE, PRINT-FILE
+                       STOP RUN.
+       M.  MOVE YR-MON-DAY  TO YR-MON-DAY-P.
+           MOVE PRODUCT-CODE TO PRODUCT-CODE-P.
+           MOVE CUSTOMER-CODE TO CUSTOMER-CODE-P.
+           MOVE QUANTITY     TO QUANTITY-P.
+           MOVE UNIT-PRICE   TO UNIT-PRICE-P.
+       W.  WRITE PRINT-P AFTER 2.
+           GO TO R.
+

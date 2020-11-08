@@ -1,0 +1,27 @@
+       IDENTIFICATION           DIVISION.
+       PROGRAM-ID. TEST4.
+       ENVIRONMENT              DIVISION.
+       INPUT-OUTPUT             SECTION.
+       FILE-CONTROL.
+           SELECT INPUT-FILE ASSIGN TO SYS01.
+           SELECT OUTPUT-FILE ASSIGN TO SYS02.
+       DATA                     DIVISION.
+       FILE                     SECTION.
+       FD  INPUT-FILE
+              RECORDING MODE IS F
+              LABEL RECORD IS STANDARD.
+       01  NAME PIC X(80).
+       FD  OUTPUT-FILE LABEL RECORD IS OMITTED.
+       01  OUTPUT-RECORD.
+           02 FILLER PIC X.
+           02 OUTLINE PIC X(132).
+       PROCEDURE                DIVISION.
+       A.  OPEN INPUT INPUT-FILE
+                OUTPUT OUTPUT-FILE.
+       B.  READ INPUT-FILE AT END GO TO C.
+           MOVE NAME TO OUTLINE.
+           WRITE OUTPUT-RECORD AFTER 2.
+           GO TO B.
+       C.  CLOSE INPUT-FILE  OUTPUT-FILE.
+           STOP RUN.
+

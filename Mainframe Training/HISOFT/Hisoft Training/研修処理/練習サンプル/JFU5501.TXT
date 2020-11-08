@@ -1,0 +1,16 @@
+\MAC ;                                                                    
+        \COMM ** éôì∂ï}ó{éËìñéxï•ÉfÅ[É^ SORT **;                          
+                                                                          
+        \SENDO MSG='** éôì∂ï}ó{éËìñéxï•ÉfÅ[É^ SORT **';                   
+                                                                          
+        \SORT                                                             
+            INFILE=(FILE=JFU5151,MEDIA=DK302,RSZ=470,BSZ=4700),           
+           OUTFILE=(INFILE),                                              
+            WKFILE=(FILE=SWK,MEDIA=DK103,AU=CYL,SZ=2,INCSZ=5,TEMP);       
+                                                                          
+        \OPTION ;                                                         
+            FUNCTION: DUPREC=FIFO                                         
+            RECORD:                                                       
+                KEYS=(53 12) (3 13)                                       
+            ENDSORT:                                                      
+        \ENDOPTION ;                                                      

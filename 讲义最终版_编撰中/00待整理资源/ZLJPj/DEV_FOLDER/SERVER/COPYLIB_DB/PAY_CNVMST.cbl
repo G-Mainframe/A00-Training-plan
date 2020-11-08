@@ -1,0 +1,8 @@
+000010************************************************
+000020* (PAY_CNVMST)
+000030************************************************
+000040 01  PAY_CNVMST-BNKCOD PIC  X(004).
+000050 01  PAY_CNVMST-BRCCOD PIC  X(003).
+000060 01  PAY_CNVMST-DEPKND PIC  X(001).
+000070 01  PAY_CNVMST-DEPNUM PIC  X(007).
+000080 01  PAY_CNVMST-CSTNAM PIC  X(030).

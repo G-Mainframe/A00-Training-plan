@@ -1,0 +1,21 @@
+CREATE TABLE  LTRKKK  (
+       契約番号＿１                       CHAR(7)           NOT NULL,
+       契約番号＿２                       CHAR(2)           NOT NULL,
+       事業所コード                       NUMBER(4,0)       NOT NULL,
+       ユーザコード                       CHAR(8)           NOT NULL,
+       名寄せコード                       CHAR(8)           NOT NULL,
+       担当者コード                       NUMBER(4,0)       NOT NULL,
+       検収日＿世紀                       NUMBER(1,0)       NOT NULL,
+       検収日＿検収日                     CHAR(6)           NOT NULL,
+       転リース提携先リース               NUMBER(2,0)       NOT NULL,
+       最終契約枝番                       CHAR(2)           NOT NULL,
+       充当相殺区分                       NUMBER(1,0)       NOT NULL,
+       前途金区分                         NUMBER(1,0)       NOT NULL,
+       取引日＿世紀                       NUMBER(1,0)       NOT NULL,
+       取引日＿検収日                     CHAR(6)           NOT NULL,
+       ダミー００１                       CHAR(30)          NOT NULL,
+       購入先レコード件数                 NUMBER(2,0)       NOT NULL,
+       共通情報                           CHAR(35)          NOT NULL,
+CONSTRAINT  PK_LTRKKK  PRIMARY KEY (
+       契約番号＿１,
+       契約番号＿２));

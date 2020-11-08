@@ -1,0 +1,8 @@
+ /*RCMS CUST,8 LAYOUT                                                 */00030001
+ /*                                                                   */00030101
+                                                                        00030200
+   3 TPMAINT       CHAR(1),     /*   1 TYPE OF MAINT                  */00060001
+   3 MACHST        CHAR(1),     /*   2 MACHINE STATUS                 */00070001
+   3 FILLER        CHAR(78);    /*   3 FILLER                         */00080002
+                                /*  TOTAL LENGTH  80                  */00090001
+

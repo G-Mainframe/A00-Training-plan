@@ -1,0 +1,40 @@
+IDENTIFICATION   DIVISION.                      
+PROGRAM-ID.      EXAM28.                        
+ENVIRONMENT      DIVISION.                      
+INPUT-OUTPUT     SECTION.                       
+FILE-CONTROL.                                   
+     SELECT  PRINT-FILE   ASSIGN  TO   PRINTER. 
+DATA             DIVISION.                      
+FILE   SECTION.                                 
+FD   PRINT-FILE                                 
+     RECORDING  MODE  IS  F                     
+     LABEL  RECORD  IS  OMITTED.                
+01   PRINT-RECORD.                              
+ 02  FILLER  PIC  X.                            
+ 02  PRINT-REC  PIC  X(120).                    
+WORKING-STORAGE  SECTION.                       
+77   M  PICTURE IS  9(4).                       
+77   I  PICTURE  IS  9.                         
+77   PRICE  PICTURE  IS  99.            
+77   AMOUNT  PICTURE  IS 9(5).          
+PROCEDURE        DIVISION.              
+    ACCEPT       M.                     
+    DIVIDE  50  INTO  M  GIVING  I.     
+    ADD   1  TO  I.                     
+    GO TO  A, B, C, D, E  DEPENDING  I. 
+A.  MOVE  10  TO  PRICE.                
+    GO TO  F.                           
+B.  MOVE  09  TO  PRICE.                
+    GO TO  F.                           
+C.  MOVE  08  TO  PRICE.                
+    GO TO  F.                           
+D.  MOVE  07  TO  PRICE.                
+    GO TO  F.                           
+E.  MOVE  06  TO  PRICE.                
+    GO TO  F.                           
+F.  COMPUTE  AMOUNT = PRICE * M.   
+    OPEN  OUTPUT  PRINT-FILE.      
+    MOVE  AMOUNT  TO  PRINT-REC.   
+    WRITE  PRINT-RECORD  AFTER 2.  
+    CLOSE  PRINT-FILE.             
+    STOP RUN.                      

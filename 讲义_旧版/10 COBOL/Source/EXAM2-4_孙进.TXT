@@ -1,0 +1,17 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200 PROGRAM-ID. EXAM2-4.                                             00020000
+000300 ENVIRONMENT DIVISION.                                            00030000
+000400 DATA DIVISION.                                                   00040000
+000500 WORKING-STORAGE SECTION.                                         00050000
+000600 77 X PIC 9999.                                                   00060000
+000700 77 A PIC   99.                                                   00070000
+000800 77 B PIC   99.                                                   00080000
+000900 77 C PIC   99.                                                   00090000
+001000 PROCEDURE DIVISION.                                              00100000
+001200 S.   ACCEPT A.                                                   00120002
+001300      ACCEPT B.                                                   00130002
+001400      ACCEPT C.                                                   00140002
+001500      COMPUTE X = (A + B) / C.                                    00150002
+001600      DISPLAY X.                                                  00160002
+001700      STOP RUN.                                                   00170002
+

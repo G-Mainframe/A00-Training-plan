@@ -1,0 +1,57 @@
+************************************************************************
+对单个数据集排序
+
+//SORT     JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//STEP     EXEC PGM=SORT                                            
+//SYSOUT   DD SYSOUT=A                                              
+//SORTIN   DD DSN=IBMUSER.TEST.LHF.PSDT52,DISP=SHR                  
+//SORTWK01 DD UNIT=SYSDA,SPACE=(CYL,(1,1))                          
+//SORTOUT  DD DSN=IBMUSER.TEST.LHF.PSDT62,DISP=SHR                  
+//SYSIN    DD *                                                     
+  SORT FIELDS=(3,4,A,12,3,D),FORMAT=CH  OR    SORT FIELDS=(3,4,CH,A,12,3,CH,D)                       
+/*
+************************************************************************
+
+************************************************************************
+对两个数据集合并排序1
+
+//SORT     JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID   
+//STEP     EXEC PGM=SORT                                              
+//SYSOUT   DD SYSOUT=A                                                
+//SORTIN   DD DSN=IBMUSER.TEST.LHF.PSDT52,DISP=SHR                    
+//         DD DSN=IBMUSER.TEST.LHF.PSDT62,DISP=SHR                    
+//SORTOUT  DD DSN=IBMUSER.TEST.LHF.PSDT82,DISP=SHR                    
+//SYSIN    DD *                                                       
+  SORT FIELDS=(3,4,A,12,3,D),FORMAT=CH                                
+/*                                                                    
+//                                                                    
+************************************************************************
+
+************************************************************************
+对两个数据集合并排序2
+'MERGE前提条件：所有MERGE数据集都是已经事先排好序的
+
+//SORT     JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//STEP     EXEC PGM=SORT                                          
+//SYSOUT   DD SYSOUT=A                                              
+//SORTIN1  DD DSN=IBMUSER.TEST.LHF.PSDT53,DISP=SHR                  
+//SORTIN2  DD DSN=IBMUSER.TEST.LHF.PSDT63,DISP=SHR                  
+//SORTOUT  DD DSN=IBMUSER.TEST.LHF.PSDT85,DISP=SHR                  
+//SYSIN    DD *                                                     
+  MERGE FIELDS=(8,3,A,12,3,D),FORMAT=CH                             
+/*                                                                  
+//
+************************************************************************
+
+************************************************************************
+拷贝数据集
+
+//SORT     JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID  
+//STEP     EXEC PGM=SORT                                             
+//SYSOUT   DD SYSOUT=A                                               
+//SORTIN   DD DSN=IBMUSER.TEST.LHF.PSDT52,DISP=SHR                   
+//SORTOUT  DD DSN=IBMUSER.TEST.LHF.PSDT82,DISP=SHR                   
+//SYSIN    DD *                                                      
+   OPTION COPY                                                       
+/*                                                                   
+************************************************************************

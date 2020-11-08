@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{F0299A24-A380-4170-8505-5A3489A962CC}") = "InterProgram", "InterProgram.cobproj", "{210C1235-44E7-4A44-A262-6570ABD24CEA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{210C1235-44E7-4A44-A262-6570ABD24CEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{210C1235-44E7-4A44-A262-6570ABD24CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{210C1235-44E7-4A44-A262-6570ABD24CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{210C1235-44E7-4A44-A262-6570ABD24CEA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

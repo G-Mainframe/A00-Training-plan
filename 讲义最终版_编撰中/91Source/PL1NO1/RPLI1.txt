@@ -1,0 +1,11 @@
+ 000101 //CN0007B JOB (PLI1),CLASS=A,MSGCLASS=H,MSGLEVEL=(1,1),                
+ 000102 //        NOTIFY=CN0007                                                
+ 000104 //STEP1   EXEC PGM=TST0007                                             
+ 000105 //STEPLIB DD   DISP=SHR,DSN=CN0007.TEST.LOADLIB                        
+ 000106 //*OUTFILE  DD  DISP=SHR,DSN=CN0007.AA.PLI(OUTPUT)                     
+ 000107 //*INFILE DD DISP=SHR,DSN=CN0007.AA.PLI(INPUT)                         
+ 000108 //SYSPRINT DD  SYSOUT=*                                                
+ 000109 //PLIDUMP  DD  DUMMY                                                   
+ 000110 //SYSOUT DD SYSOUT=*                                                   
+ 000111 //SYSIN  DD *                                                          
+ 000112             5                                                          

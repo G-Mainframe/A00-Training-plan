@@ -1,0 +1,32 @@
+       IDENTIFICATION DIVISION.
+      *
+       PROGRAM-ID. EXAM41.
+      *
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT    SECTION.
+       FILE-CONTROL.
+           SELECT  ABC ASSIGN TO SYS011.
+           SELECT  XYZ ASSIGN TO SYS021.
+      *
+       DATA DIVISION.
+       FILE            SECTION.
+       FD ABC LABEL RECORD IS STANDARD.
+       01 A           PIC   X(80).
+      *
+       FD XYZ LABEL RECORD IS STANDARD.
+       01 B.
+          02 FILLER   PIC   X.
+          02 C        PIC   X(80).
+      *
+       PROCEDURE DIVISION.
+      *
+       K.  OPEN  INPUT  ABC
+                 OUTPUT XYZ.
+       T.  READ    ABC  AT END GO TO J.
+           MOVE    A    TO C.
+           WRITE   B    AFTER ADVANCING 2 LINES.
+           GO TO   T.
+       J.  DISPLAY  'PROGRAM END'.
+           CLOSE ABC
+                 XYZ.
+           STOP RUN.

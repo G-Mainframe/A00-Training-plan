@@ -1,0 +1,60 @@
+       IDENTIFICATION DIVISION.                      
+       PROGRAM-ID. EXAM65.                           
+       ENVIRONMENT DIVISION.                         
+       CONFIGURATION SECTION.                        
+       SOURCE-COMPUTER.                              
+       OBJECT-COMPUTER.                              
+       INPUT-OUTPUT SECTION.                         
+       FILE-CONTROL.                                 
+           SELECT INPUT-FILE ASSIGN TO IN-FILE.      
+           SELECT LP-FILE ASSIGN TO P-FILE.          
+       DATA DIVISION.                                
+       FILE SECTION.                                 
+       FD  INPUT-FILE                                
+             LABEL RECORD IS STANDARD                
+             DATA RECORD IS GOODS-RECORD.      
+       01 GOODS-RECORD.                      
+          02 GOODS-CODE PIC 9(3).            
+          02 PRICE      PIC 999V99.          
+          02 QUANTITY   PIC 999.             
+       FD  LP-FILE                           
+             LABEL RECORD IS STANDARD        
+             DATA RECORD IS PRINT-LINE.      
+       01 PRINT-LINE.                        
+          02 FILLER     PIC X(5).            
+          02 GROUP-P    PIC 9.               
+          02 FILLER     PIC X(5).            
+          02 DAY-P      PIC 9.               
+          02 FILLER     PIC X(5).            
+          02 AMOUNT-P   PIC $(6).99.         
+       WORKING-STORAGE    SECTION.           
+       77 GROUP-W       PIC 9.               
+       77 DAY-W         PIC 9.               
+       77 GOODS-W       PIC 9.                                       
+       77 SALES-VALUE   PIC 9(5)V99.                                 
+       77 AMOUNT        PIC 9(5)V99 VALUE ZERO.                      
+       PROCEDURE          DIVISION.                                  
+       BEGIN.                                                        
+            OPEN  INPUT  INPUT-FILE                                  
+                OUTPUT  LP-FILE.                                     
+       PERFORMING.                                                   
+             PERFORM  DATA-PROCESSING                                
+                 VARYING  GROUP-W  FROM 1 BY 1 UNTIL GROUP-W > 4     
+                 AFTER    DAY-W    FROM 1 BY 1 UNTIL DAY-W > 7       
+                 AFTER    GOODS-W  FROM 1 BY 1 UNTIL GOODS-W > 5.    
+             PERFORM   WINDING-UP.                                   
+       DATA-PROCESSING.                                              
+             READ  INPUT-FILE                                        
+                   AT END GO TO WINDING-UP.                          
+             COMPUTE SALES-VALUE = QUANTITY * PRICE.                 
+             ADD SALES-VALUE TO AMOUNT.                
+             IF GOODS-W NOT < 5                        
+                 MOVE SPACE TO PRINT-LINE              
+                 MOVE GROUP-W TO GROUP-P               
+                 MOVE DAY-W TO DAY-P                   
+                 MOVE AMOUNT TO AMOUNT-P               
+                 WRITE PRINT-LINE AFTER 1.             
+                 MOVE 0 TO AMOUNT.                     
+          WINDING-UP.                                  
+                 CLOSE INPUT-FILE, LP-FILE             
+                 STOP RUN.                                   

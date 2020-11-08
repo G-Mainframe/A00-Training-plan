@@ -1,0 +1,11 @@
+//ST002J06 JOB NOTIFY=ST002                                             
+//*--------------------*                                                
+//* CREATE A GDG.                                                       
+//*--------------------*                                                
+//GDGCREAT EXEC PGM=IDCAMS                                              
+//GDGMODEL DD DSN=ST002.TEST.GDG04MOL,DISP=(NEW,CATLG,DELETE),          
+// SPACE=(TRK,(0)),DCB=(RECFM=FB,LRECL=80,BLKSIZE=4000,DSORG=PS)        
+//SYSPRINT DD SYSOUT=*                                                  
+//SYSIN DD *                                                            
+   DEFINE GDG (NAME(ST002.TEST.GDG04) LIMIT(100))                       
+/*                                                                      

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>3.0.109.0</ProductVersion>
+    <SchemaVersion>3.0</SchemaVersion>
+    <ProjectGuid>{DDCD2594-05B1-4A74-AB53-40AD49C616BB}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CSVOUT</RootNamespace>
+    <AssemblyName>CSVOUT</AssemblyName>
+    <MainEntryPoint>CSVOUT</MainEntryPoint>
+    <ReferencePath>$(MSBuildProjectDirectory)</ReferencePath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <AdditionalOptions>/wc:"CHECK(ALL),RCS(SJIS-UCS2)"</AdditionalOptions>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CSVOUT.cob" />
+    <Compile Include="Properties\AssemblyInfo.cob" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Fujitsu\NetCOBOL for .NET\V3.0\Fujitsu.COBOL.targets" />
+  <!--
+	ビルド作業を変更するには、独自タスクを以下のターゲットに追加してください。
+	同様の拡張方法はほかにもあります。Fujitsu.COBOL.targetsを参照してください。
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>

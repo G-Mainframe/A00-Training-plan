@@ -1,0 +1,8 @@
+bin\Debug\StockProcedures.dll
+bin\Debug\StockProcedures.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\StockProcedures.dll
+obj\Debug\StockProcedures.pdb
+bin\Release\StockProcedures.dll
+obj\Release\ResolveAssemblyReference.cache
+obj\Release\StockProcedures.dll

@@ -1,0 +1,10 @@
+//ST002J01 JOB  (ISSC#),'HONGYE',CLASS=A,MSGCLASS=H,                  
+//   NOTIFY=ST002                                                     
+//BUILD    EXEC  PGM=IEBGENER                                         
+//SYSPRINT DD  SYSOUT=*                                               
+//SYSUT1   DD  DSN=ST002.TEST.DATA.REC,DISP=SHR                       
+//SYSUT2   DD DSN=ST002.TEST.JCL(OUTPUT),DISP=(,CATLG,DELETE),        
+//         SPACE=(TRK,(1,1,20)),                                      
+//         RECFM=FB,LRECL=80,UNIT=SYSDA                               
+//SYSIN    DD  DUMMY                                                  
+/*                                                                    

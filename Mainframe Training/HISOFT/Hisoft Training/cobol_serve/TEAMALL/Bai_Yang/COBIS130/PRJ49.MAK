@@ -1,0 +1,3 @@
+PRECOMP:
+	"D:\oracle\ora92\bin\procob.exe" INAME="C:\COB97\SOC\COBIS130\COBIS130.PCO" ONAME="COBIS130.COB"
+

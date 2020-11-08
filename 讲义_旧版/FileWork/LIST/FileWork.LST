@@ -1,0 +1,131 @@
+
+
+
+NetCOBOL V7.0L10                                                                   2005年10月20日(木) 12時49分15秒  0001
+
+
+＊＊　指定翻訳オプション　＊＊
+
+
+CHECK(1,ALL)
+COPY
+NODLOAD
+FLAG(I)
+NOFLAGSW
+NOGEN
+LANGLVL(85)
+LINECOUNT(60)
+LINESIZE(136)
+MAIN
+MESSAGE
+NONUMBER
+OBJECT
+RSV(ALL)
+SOURCE
+SSOUT(LOGFILE)
+STD1(JIS1)
+NOTRACE
+NOXREF
+TEST,MAIN(MAIN)
+
+
+＊＊　確定翻訳オプション　＊＊
+
+
+  ALPHAL(ALL)           NOEQUALS                  MESSAGE                 RSV(ALL)                STD1(JIS1)            
+  BINARY(WORD,MLBON)      FLAG(I)               NONAME                  NOSAI                     TAB(8)                
+  CHECK(1,ALL)          NOFLAGSW                  NCW(STD)                SDS                     TEST                  
+NOCONF                  NOGEN                     NSPCOMP(NSP)          NOSHREXT                  THREAD(SINGLE)        
+  COPY(FULL)              LANGLVL(85)           NONUMBER                  SOURCE(1)             NOTRACE                 
+NOCOUNT                   LINECOUNT(60)           OBJECT                  SQLGRP                NOTRUNC                 
+  CREATE(OBJ)             LINESIZE(136)         NOOPTIMIZE                SRF(VAR,VAR)          NOXREF                  
+  CURRENCY(\)           NOLIST                    QUOTE                   SSIN(SYSIN)             ZWB                   
+NODLOAD                   MAIN(MAIN)              RCS(SJIS)               SSOUT(LOGFILE)                                
+
+
+
+NetCOBOL V7.0L10  FILEWORK                                                         2005年10月20日(木) 12時49分15秒  0002
+
+
+＊＊　ＣＯＰＹ情報　＊＊
+
+
+   修飾値      行番号  原文名
+
+
+        1          16  SEQ01                                                                                            
+        2          20  SEQ02                                                                                            
+
+
+
+NetCOBOL V7.0L10  FILEWORK                                                         2005年10月20日(木) 12時49分15秒  0003
+
+
+     行番号 一連番号 A   B
+
+
+          1   000010 IDENTIFICATION DIVISION.
+          2   000020 PROGRAM-ID. FileWork.
+          3   000030 ENVIRONMENT DIVISION.
+          4   000040 CONFIGURATION                   SECTION.        
+          5   000070 INPUT-OUTPUT SECTION.                           
+          6   000090 FILE-CONTROL.                                   
+          7   000100     SELECT  IN-FILE    ASSIGN TO  FSEQ01
+          8                 FILE STATUS  SYS-FILE-STATUS.      
+          9   000120     SELECT  OUT-FILE   ASSIGN TO  FSEQ02
+         10                 FILE STATUS  SYS-FILE-STATUS.      
+         11   000140 DATA DIVISION.                                  
+         12   000150 FILE SECTION.                                   
+         13   000160 FD  IN-FILE                                                   
+         14   000170     LABEL RECORD IS STANDARD.
+         15   000190 01 A.
+         16   000200       COPY SEQ01.
+        1-1 C 000010    03 SQE1 PIC 9(3).
+         17   000240 FD  OUT-FILE                                                   
+         18   000250     LABEL RECORD IS STANDARD.
+         19   000270 01 B.
+         20   000290       COPY SEQ02.
+        2-1 C 000010    03 SQE2 PIC 9(3).
+         21   000321 WORKING-STORAGE SECTION.
+         22   000340 01 SYS-FILE-STATUS PIC X(2) VALUE "00".
+         23   000341 01 STOP-FLAG PIC X(1) VALUE "0".
+         24   000350 PROCEDURE DIVISION.
+         25   000370 STAT.
+         26               OPEN INPUT  IN-FILE 
+         27   000380          OUTPUT OUT-FILE.
+         28   000360 MAIN.        
+         29   000361      PERFORM MAIN1 THRU MAIN1-END  
+         30   000362               UNTIL STOP-FLAG = "1".
+         31          END-EXIT.
+         32   000522      CLOSE IN-FILE , OUT-FILE.
+         33               STOP 1.
+         34          MAIN1.             
+         35   000381     READ IN-FILE AT END MOVE "1" TO STOP-FLAG 
+         36                        GO TO MAIN1-END.
+         37   000382     DISPLAY "A = " , A .
+         38   000383     MOVE A TO B.
+         39              DISPLAY "B = " , B.
+         40   000520     WRITE B .
+         41          MAIN1-END.
+         42              EXIT.
+         43   000523      
+
+
+
+NetCOBOL V7.0L10  FILEWORK                                                         2005年10月20日(木) 12時49分15秒  0004
+
+
+＊＊　プログラム特性リスト　＊＊
+
+　ファイル名 = FileWork.COB
+　ソース名　 = FILEWORK
+　翻訳日付　 = 2005年10月20日(木) 12時49分15秒
+
+　　原始プログラムのレコード数　　　　　　　　　=         45 レコード
+　　目的プログラムの大きさ（ＣＯＤＥサイズ）　　=       2376 バイト
+　　目的プログラムの大きさ（ＤＡＴＡサイズ）　　=        540 バイト
+　　デバッグ用領域の大きさ　　　　　　　　　　　=        293 バイト
+　　制御レベル　　　　　　　　　　　　　　　　　=          1 レベル
+　　翻訳に要した時間　　　　　　　　　　　　　　=       0.12 秒
+
+　最大重大度コード = I

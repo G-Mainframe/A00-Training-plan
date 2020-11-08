@@ -1,0 +1,378 @@
+//DFHNADEF JOB (20,FB3),CICSTS23,
+//         CLASS=A,MSGCLASS=H,NOTIFY=&SYSUID
+//*
+//*********************************************************************
+//*                                                                   *
+//* @BANNER_START                           01                        *
+//* Licensed Materials - Property of IBM                              *
+//*                                                                   *
+//* 5697-E93                                                          *
+//*                                                                   *
+//* (C) Copyright IBM Corp. 2002                                      *
+//*                                                                   *
+//* CICS                                                              *
+//* (Element of CICS Transaction Server                               *
+//* for z/OS, Version 2 Release 3)                                    *
+//* @BANNER_END                                                       *
+//*                                                                   *
+//* STATUS = 6.2.0                                                    *
+//*                                                                   *
+//* CHANGE ACTIVITY :                                                 *
+//*                                                                   *
+//*   $MOD(DFHNADEF),COMP(SAMPLES),PROD(CICS    ):                    *
+//*                                                                   *
+//*  PN= REASON REL YYMMDD HDXXIII : REMARKS                          *
+//* $L0= Base   620 02     HDFXAB  : Base                             *
+//*                                                                   *
+//*********************************************************************
+//*********************************************************************
+//*                                                                   *
+//* JCL NAME = DFHNADEF                                               *
+//*                                                                   *
+//* DESCRIPTIVE NAME = CICS     NACT Sample                           *
+//*                                                                   *
+//* FUNCTION =                                                        *
+//*                                                                   *
+//*   Sample JCL to define the NACT sample files and load data        *
+//*   into them.                                                      *
+//*                                                                   *
+//*********************************************************************
+//*                                                                   *
+//*********************************************************************
+//*                                                                   *
+//* Copy file data to a temporary file.                               *
+//*                                                                   *
+//*********************************************************************
+//COPY01   EXEC PGM=IEBGENER
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD DUMMY
+//SYSUT2   DD DSN=&&DATA,DISP=(NEW,PASS),
+//            DCB=(RECFM=FB,LRECL=80,BLKSIZE=8000),
+//            SPACE=(TRK,(15,15)),
+//            UNIT=3390
+//SYSUT1   DD DATA,DLM='/*'
+10001JONES             JACOB       JMAST11222233332 PARTRY CLOSE
+   CHANDLERS FORD          SA99 4SS                JERRY
+
+                                     1020299LGJJO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+10002JONES             JASON       JMR T11222233332 THE CRESCENT
+   CHANDLERS FORD          SA99 4AA                SUSAN
+
+                                     1020299LGJJO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+10003RICHARDSON        STANLEY      MR  111111122223 SUNNEY AVENUE
+   NETSCAPEVILLE           ALABAMA
+
+                                     1032699SGMJMSAPN  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+10004HODGES            MARY        QMS  01234555551 HELLO ROAD
+   WELCOME                 HANTS
+
+                                     1010199RQIMM   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+10005LOPEZ             JUAN         MR  000034330322 HIGH STREET
+   GLASGOW                 SCOTLAND
+
+                                     3020299LGMJM   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+10006HORSWILL          JOHN             222222222218A PEANUT CLOSE
+   HURSLEY                                         IAN
+
+                                     2020299LGJJO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+10007SMITH             BRIAN       JMR  123456789019 HIGH STREET
+   BASINGSTOKE             HANTS                   GARRY
+
+                                     9120399SQBOD   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+10008JUBILEE           CORKY        MR  233445567817 LOON ROAD
+   WINCHESTER              HAMPSHIRE
+
+                                     1120299NWSTA   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+10009HODGES            BRIAN        MR  039949999410 JUDO WALK
+   OKINAWA
+
+                                     7022799NECDE   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+20001JESSE             GLORIA      JMISS033999449599 FIDDLERS ROW
+   STORKVILLE
+
+                                     3010199LRUIO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+20002JURASSIC          CHLOE       JMR  1234567890THE ISLAND
+   DINOSAUR COUNTY
+
+                                     1030399LTSFS   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+20003WALTERS           MICHAEL      MR  33999499551-500 MAD STREET
+   LOS ANGELES             USA
+
+                                     9090999NYPP    N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+20004JOHNSON           MAGIC        MR  330449995972 RICH LANE
+   BIRMINGHAM              UK
+
+                                     9100399LUJAY   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+20005TREVORS           MIKE        JMR  025544444425 CARROT ROAD
+   BISHOPSTOKE             ZZ11 1ZZ                BERNADETTE TREVORS
+
+                                     2120399NGMJMS  N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+20006JUPITUS           TOBIAS       MR  048889999499 FUNNY AVENUE
+   MANCHESTER              Q16 9DQ
+
+                                     1060499NISTP   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+20007OZANIEC           ANNE        A    1234567890GRESHAM
+   OREGON
+
+                                     1021999LGJJO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+20008SHIRT             WAYNE            39928844995 HALF QUAY
+   HURSLEY
+
+                                     1040299LGJJO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+20009OZANIEC           ETHAN       H    0000000001EVANSTON
+   ILLINOIS                USA
+
+                                     1021999LGJJO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+30001SUMMERS           DAVID       MMR  123456789011 TURKEY GARDENS
+   SWINDON
+
+                                     1121299NSSSSS  N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+30002HODGES            ANDY        A    0000000001ASTON DENE
+   MARSHFIELD
+
+                                     1030399NGJJO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+30003OZANIEC           ALFRED      A    0000399399PING ALOR
+   MERSTHAM
+
+                                     2020299LGJJO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+30004COUSINS           BERTIE      A    000044883313 RADCOT CLOSE
+   DURSLEY
+
+                                     3020399LGJJO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+30005LOADER            CHARLES     A    00023994446 STANDON WAY
+   OXFORD
+
+                                     4020499LGJJO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+30006DARVISH           DUNCAN      A    000983774532 WISHING LANE
+   MARLBOROUGH
+
+                                     5020599LGJJO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+30007GRIFFITHS         ETHEL       A    0028838841MARLBOROUGH
+   ILLINOIS
+
+                                     2021999LGJJO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+30008FROG              FREDDIE     A    0098338401DISNEY
+   FLORIDA
+
+                                     1021999LGJJO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+30009WILLIAMS          WILLIAM     WW   0000088901WATERS DRIVE
+   WATERSTONE                                      W
+            W                               W
+     W                               1020299RGJJO   N  1000.00    0.000
+00000    0.00000000    0.00    0.00000000    0.00000000    0.00    0.00
+000000    0.0000000000000Û00
+/*
+//*********************************************************************
+//*                                                                   *
+//* Copy REXX exec to a temporary file.                               *
+//*                                                                   *
+//*********************************************************************
+//IF0010   IF (RC = 0) THEN
+//COPY02   EXEC PGM=IEBGENER
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD DUMMY
+//SYSUT2   DD DSN=&&CLIST(CLIST),DISP=(NEW,PASS),
+//            DCB=(RECFM=FB,LRECL=80,BLKSIZE=8000),
+//            SPACE=(TRK,(10,15,15)),
+//            UNIT=3390
+//SYSUT1   DD DATA,DLM='))'
+/* REXX */
+rc = 0
+do forever
+  "EXECIO 6 DISKR INPUT ( STEM  inrec."
+  if rc = 2 then leave
+  if rc ¬= 0 then signal diskr_error
+  outrec = substr(inrec.1,1,71)
+  outrec = outrec || substr(inrec.2,1,71)
+  outrec = outrec || substr(inrec.3,1,71)
+  outrec = outrec || substr(inrec.4,1,71)
+  outrec = outrec || substr(inrec.5,1,71)
+  outrec = outrec || substr(inrec.6,1,28)
+  outrecord.1 = outrec
+  "EXECIO * DISKW OUTPUT ( STEM outrecord."
+  if rc ¬= 0 then signal diskw_error
+end
+if inrec.0 ¬= 0 then signal input_data_error
+rc = 0
+return rc
+exit
+diskr_error:
+say "Error reading file INPUT, Return code" rc "issued from EXECIO"
+return rc
+exit
+diskw_error:
+say "Error writing file OUTPUT, Return code" rc "issued from EXECIO"
+return rc
+exit
+input_data_error:
+say "The input data is incomplete"
+rc = 99
+return rc
+exit
+))
+//*********************************************************************
+//*                                                                   *
+//* TSO batch to create the ACCTFILE repro data                       *
+//*                                                                   *
+//*********************************************************************
+//IF0020   IF (RC = 0) THEN
+//C1        EXEC PGM=IKJEFT01,REGION=4M
+//INPUT     DD DSN=&&DATA,DISP=(OLD,DELETE)
+//OUTPUT    DD DSN=&&REPRO,DISP=(NEW,PASS),
+//             DCB=(RECFM=FB,LRECL=383,BLKSIZE=3830),
+//             SPACE=(TRK,(15,15)),
+//             UNIT=3390
+//SYSPROC   DD DSN=&&CLIST,DISP=(OLD,DELETE)
+//SYSTSPRT  DD SYSOUT=*
+//SYSTSIN   DD *
+ CLIST
+/*
+//*********************************************************************
+//*                                                                   *
+//* Delete and define VSAM datasets ACCTFILE and ACTINUSE             *
+//*                                                                   *
+//*********************************************************************
+//IF0030   IF (RC = 0) THEN
+//DEFINE   EXEC PGM=IDCAMS,REGION=2M
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD *
+ DELETE CICSTS23.ACCTFILE
+ DELETE CICSTS23.ACTINUSE
+ SET MAXCC=0
+ DEFINE CLUSTER(NAME(CICSTS23.ACCTFILE)             -
+          KEYS(5 0)                                 -
+          INDEXED                                   -
+          RECORDSIZE(383 383)                       -
+          REC(80)                                   -
+          SHR(2 3)                                  -
+          LOG(UNDO)                                 -
+          VOLUMES(VPDFHA))                          -
+        DATA(NAME(CICSTS23.ACCTFILE.DATA)           -
+          UNIQUE)                                   -
+       INDEX(NAME(CICSTS23.ACCTFILE.INDEX)          -
+          UNIQUE)
+ /*                              */
+ DEFINE CLUSTER(NAME(CICSTS23.ACTINUSE)             -
+          KEYS(5 0)                                 -
+          INDEXED                                   -
+          RECORDSIZE(25 25)                         -
+          REC(80)                                   -
+          SHR(2 3)                                  -
+          LOG(UNDO)                                 -
+          VOLUMES(VPDFHA))                          -
+        DATA(NAME(CICSTS23.ACTINUSE.DATA)           -
+          UNIQUE)                                   -
+       INDEX(NAME(CICSTS23.ACTINUSE.INDEX)          -
+        UNIQUE)
+/*
+//*********************************************************************
+//*                                                                   *
+//* Repro dataset ACCTFILE                                            *
+//*                                                                   *
+//*********************************************************************
+//IF0040   IF (RC = 0) THEN
+//LOAD     EXEC PGM=IDCAMS,REGION=2M
+//SYSPRINT DD SYSOUT=*
+//INDD     DD DSN=&&REPRO,DISP=(OLD,DELETE)
+//SYSIN    DD *
+       REPRO                                        -
+         INFILE(INDD)                               -
+         ODS(CICSTS23.ACCTFILE)
+/*
+//*********************************************************************
+//*                                                                   *
+//* Create the AIX and path for file ACCTNAM                          *
+//*                                                                   *
+//*********************************************************************
+//IF0050   IF (RC = 0) THEN
+//LOAD     EXEC PGM=IDCAMS,REGION=2M
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD *
+   DEFINE AIX(NAME(CICSTS23.ACCTNAIX)           -
+            RELATE(CICSTS23.ACCTFILE)           -
+            VOLUMES(SYSDAV)                     -
+            KEYS(18 5)                          -
+            NONUNIQUEKEY                        -
+            UPGRADE                             -
+            REC(80)                             -
+            SHR(2 3))                           -
+          DATA(NAME(CICSTS23.ACCTNAIX.DATA)     -
+            UNIQUE)                             -
+         INDEX(NAME(CICSTS23.ACCTNAIX.INDEX)    -
+            UNIQUE)
+   IF LASTCC = 0                                -
+     THEN DO
+       DEFINE PATH(NAME(CICSTS23.ACCTNAME)      -
+                PATHENTRY(CICSTS23.ACCTNAIX)    -
+                UPDATE)
+   END
+ /*-------------------------------------------------------------*
+ /*                                                             *
+ /* Create the alternate index for file ACCTNAM                 *
+ /*                                                             *
+ /*-------------------------------------------------------------*
+   IF MAXCC = 0                                 -
+     THEN DO
+       BLDINDEX INDATASET(CICSTS23.ACCTFILE)    -
+            OUTDATASET(CICSTS23.ACCTNAIX)       -
+            INTERNALSORT
+   END
+/*
+//IF0010   ENDIF
+//IF0020   ENDIF
+//IF0030   ENDIF
+//IF0040   ENDIF
+//IF0050   ENDIF
+

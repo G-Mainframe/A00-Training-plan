@@ -1,0 +1,141 @@
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1                Date 03/19/2014  Time 12:42:25   Page     1                
+0调用参数：
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0生效的选项：
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+     NOCICS                                                                                                                          
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILEDEMO  Date 03/19/2014  Time 12:42:25   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0/* FILEDEMO                                                                                                                         
+   000001         000010 IDENTIFICATION DIVISION.                                                                                    
+   000002         000020 PROGRAM-ID. FILEDEMO.                                                                                       
+   000003         000030*                                                                                                            
+   000004         000040 ENVIRONMENT DIVISION.                                                                                       
+   000005         000050 INPUT-OUTPUT SECTION.                                                                                       
+   000006         000060 FILE-CONTROL.                                                                                               
+   000007         000070     SELECT DISK-FILE ASSIGN TO OUT01                                      15                                
+   000008                    ORGANIZATION IS       INDEXED                                                                           
+   000009                    ACCESS MODE IS RANDOM                                                                                   
+   000010                    RECORD KEY KEY-WORD                                                   19                                
+   000011         000071     FILE STATUS  SYS-FILE-STATUS.                                         22                                
+   000012         000080*                                                                                                            
+   000013         000090 DATA DIVISION.                                                                                              
+   000014         000100 FILE SECTION.                                                                                               
+   000015         000110 FD DISK-FILE.                                                                                               
+   000016         000120                                                                                                             
+   000017         000130 01 FILE-REC.                                                                                                
+   000018                    COPY FILEREC.                                                                                           
+   000019C        000140     03 KEY-WORD PIC X(20).                                                                                  
+   000020C        000150     03 WORD1    PIC XX.                                                                                     
+   000021         000191 WORKING-STORAGE SECTION.                                                                                    
+   000022         000192 01 SYS-FILE-STATUS PIC X(2) VALUE "00".                                                                     
+   000023         000200*                                                                                                            
+   000024         000210 PROCEDURE DIVISION.                                                                                         
+   000025         000220*****                                                                                                        
+   000026         000230* 1 *                                                                                                        
+   000027         000240*****                                                                                                        
+   000028         000250 MAIN-PROCESS.                                                                                               
+   000029         000260     OPEN OUTPUT DISK-FILE.                                                15                                
+   000030         000270*                                                                                                            
+   000031         000280     PERFORM EXECUTE-INIT THRU EXEXUTE-EXIT                                41 48                             
+   000032         000290              2 TIMES.                                                                                       
+   000033         000300*                                                                                                            
+   000034         000310     CLOSE DISK-FILE.                                                      15                                
+   000035                    DISPLAY "SYS-FILE-STATUS=" , SYS-FILE-STATUS.                         22                                
+   000036                    STOP 1.                                                                                                 
+   000037         000320     STOP RUN.                                                                                               
+   000038         000330*****                                                                                                        
+   000039         000340* 2 *                                                                                                        
+   000040         000350*****                                                                                                        
+   000041         000360 EXECUTE-INIT.                                                                                               
+   000042         000370     DISPLAY "INPUT KEY-WORD"                                                                                
+   000043         000380     ACCEPT  KEY-WORD.                                                     19                                
+   000044         000390     DISPLAY "INPUT WORD1".                                                                                  
+   000045         000400     ACCEPT  WORD1.                                                        20                                
+   000046         000490     WRITE FILE-REC.                                                       17                                
+   000047                    DISPLAY "SYS-FILE-STATUS=" , SYS-FILE-STATUS.                         22                                
+   000048         000500 EXEXUTE-EXIT.                                                                                               
+   000049         000510     EXIT.                                                                                                   
+ */ FILEDEMO                                                                                                                         
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILEDEMO  Date 03/19/2014  Time 12:42:25   Page     3                
+0数据名引用前的“M”指示数据名由此引用修改。
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+       15   DISK-FILE. . . . . . . . . . .  7 29 34                                                                                                                          
+       17   FILE-REC . . . . . . . . . . .  46                                                                                                                               
+       19   KEY-WORD . . . . . . . . . . .  10 M43                                                                                                                           
+       22   SYS-FILE-STATUS. . . . . . . .  11 35 47                                                                                                                         
+       20   WORD1. . . . . . . . . . . . .  M45                                                                                                                              
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILEDEMO  Date 03/19/2014  Time 12:42:25   Page     4                
+0上下文用法由过程名引用前的字母指示。
+ 这些字母和它们的含义为：
+     A = ALTER（过程名）
+     D = GO TO（过程名）DEPENDING ON
+     E = 范围（PERFORM）到（过程名）的结束
+     G = GO TO（过程名）
+     P = PERFORM（过程名）
+     T = (ALTER) TO PROCEED TO（过程名）
+     U = USE FOR DEBUGGING（过程名）
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+       41   EXECUTE-INIT . . . . . . . . .  P31                                                                                                                              
+       48   EXEXUTE-EXIT . . . . . . . . .  E31                                                                                                                              
+       28   MAIN-PROCESS                                                                                                                                                     
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILEDEMO  Date 03/19/2014  Time 12:42:25   Page     5                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   FILEDEMO                                                                                                                                                         
+-* COBOL 程序 FILEDEMO 的统计信息：
+ *    源记录 = 49
+ *    数据部分语句 = 4
+ *    过程部分语句 = 13
+0语言环境 = zh_CN.IBM-1386
+0编译 1 结束，程序 FILEDEMO，未标记任何语句。
+0返回码 0

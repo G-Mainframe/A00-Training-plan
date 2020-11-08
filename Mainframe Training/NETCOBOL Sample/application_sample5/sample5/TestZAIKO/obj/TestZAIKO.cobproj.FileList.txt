@@ -1,0 +1,13 @@
+bin\Debug\TestZAIKO.exe.config
+bin\Debug\TestZAIKO.exe
+bin\Debug\TestZAIKO.pdb
+bin\Debug\StockLibrary.dll
+bin\Debug\StockLibrary.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\TestZAIKO.exe
+obj\Debug\TestZAIKO.pdb
+obj\Release\ResolveAssemblyReference.cache
+bin\Release\TestZAIKO.exe.config
+bin\Release\TestZAIKO.exe
+bin\Release\StockLibrary.dll
+obj\Release\TestZAIKO.exe

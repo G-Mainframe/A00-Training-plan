@@ -1,0 +1,76 @@
+000001 IDENTIFICATION DIVISION.                                         00010000
+       PROGRAM-ID MAPCICC2.                                             00020000
+       DATA DIVISION.                                                   00030000
+       WORKING-STORAGE SECTION.                                         00040000
+       01 RECL     PIC S9(4) COMP.                                      00050000
+       01 RECKEY   PIC X(6).                                            00060000
+       01 ERR-CODE PIC S9(8).                                           00070005
+       01 FILEREC.                                                      00080000
+           02   NAMES   PIC X(20).                                      00090000
+           02   STOCKS  PIC X(6).                                       00100010
+           02   QUANS   PIC X(10).                                      00110010
+             COPY MAPSETA.                                              00120000
+             COPY DFHBMSCA.                                             00130017
+             COPY DFHAID.                                               00140000
+       LINKAGE SECTION.                                                 00150001
+       01 DFHCOMMAREA.                                                  00160001
+          05 STOCKSS PIC X(6).                                          00170011
+       PROCEDURE DIVISION.                                              00180000
+      *                                                                 00190000
+                   EXEC CICS RECEIVE MAP('ORDERM') MAPSET('MAPSETA')    00200000
+                           RESP(ERR-CODE)                               00210004
+                   END-EXEC                                             00220000
+                   IF STOCKI NOT EQUAL STOCKSS                          00230013
+                     MOVE NAMEI TO NAMES                                00240018
+                     MOVE QUANI TO QUANS                                00250018
+                      MOVE STOCKI TO STOCKS                             00260018
+                      MOVE 36 TO RECL                                   00270018
+                      EXEC CICS WRITE FILE('LUKSDS')                    00280018
+                                      RIDFLD(STOCKS)                    00290018
+                                      FROM(FILEREC)                     00300018
+                                      LENGTH(RECL)                      00310018
+                                      RESP(ERR-CODE)                    00320018
+                                      END-EXEC                          00330018
+                        IF ERR-CODE NOT EQUAL DFHRESP(NORMAL)           00340020
+                            MOVE 'INSERT FAILS!' TO MSGO                00350018
+                            EXEC CICS SEND MAP('ORDERM')                00360019
+                                              MAPSET('MAPSETA')         00370019
+                                              DATAONLY                  00380019
+                                              END-EXEC                  00390019
+                            EXEC CICS RETURN END-EXEC                   00400019
+                        ELSE                                            00410018
+                            MOVE 'INSERT COMPLETED!' TO MSGO            00420019
+                            EXEC CICS SEND MAP('ORDERM')                00430019
+                                              MAPSET('MAPSETA')         00440019
+                                              DATAONLY                  00450019
+                                              END-EXEC                  00460019
+                            EXEC CICS RETURN END-EXEC.                  00470019
+                   IF ERR-CODE IS EQUAL TO DFHRESP(MAPFAIL)             00480004
+                            MOVE 'MAPFAIL!' TO MSGO                     00490019
+                            EXEC CICS SEND MAP('ORDERM')                00500019
+                                     MAPSET('MAPSETA')                  00510009
+                                     DATAONLY                           00520007
+                                     END-EXEC                           00530007
+                            EXEC CICS RETURN END-EXEC.                  00540019
+      *       ELSE                                                      00550003
+                  MOVE 36 TO RECL                                       00560000
+                  MOVE STOCKSS TO RECKEY.                               00570006
+                  EXEC CICS READ FILE('LUKSDS')                         00580000
+                          UPDATE                                        00590000
+                          INTO(FILEREC)                                 00600000
+                          RIDFLD(RECKEY)                                00610000
+                          LENGTH(RECL)                                  00620000
+                          END-EXEC .                                    00630000
+                  MOVE NAMEI TO NAMES                                   00640000
+                  MOVE QUANI TO QUANS                                   00650000
+                  EXEC CICS REWRITE FILE('LUKSDS')                      00660000
+                          FROM(FILEREC)                                 00670000
+                          LENGTH(RECL)                                  00680000
+                         END-EXEC.                                      00690000
+            MOVE 'UPDATE VSAM COMPLETE!' TO MSGO.                       00700007
+            EXEC CICS SEND MAP('ORDERM') MAPSET('MAPSETA') DATAONLY     00710009
+            END-EXEC.                                                   00720007
+           EXEC CICS RETURN END-EXEC.                                   00730000
+           GOBACK.                                                      00740000
+      *        EXIT.                                                    00750000
+

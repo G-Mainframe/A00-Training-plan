@@ -1,0 +1,44 @@
+000100  IDENTIFICATION DIVISION.                                        00010000
+000200  PROGRAM-ID. WRITE01.                                            00020000
+000300  ENVIRONMENT DIVISION.                                           00030000
+000400  INPUT-OUTPUT SECTION.                                           00040000
+000500  FILE-CONTROL.                                                   00050000
+000600       SELECT CUSTMAST ASSIGN TO UT-S-CUSTMAST.                   00060000
+000700       SELECT OUT1     ASSIGN TO UT-S-MYOUT.                      00070000
+000800  DATA DIVISION.                                                  00080000
+000900  FILE SECTION.                                                   00090000
+001000  FD CUSTMAST.                                                    00100000
+001100  01 CUSTMOER-MASTER-RECORD.                                      00110000
+001200     02 CM-BRANCH-NUMBER        PIC 9(2).                         00120000
+001300     02 CM-SALESREP-NUMBER      PIC 9(2).                         00130000
+001400     02 CM-CUSTOMER-NUMBER      PIC 9(5).                         00140000
+001500     02 CM-CUSTOMER-NAME        PIC X(20).                        00150000
+001600     02 CM-SALES-THIS-YTD       PIC S9(5)V9(2).                   00160000
+001700     02 CM-SALES-LAST-YTD       PIC S9(5)V9(2).                   00170000
+001800 FD OUT1.                                                         00180000
+001900 01 OUT1-REC.                                                     00190000
+002000     02 OUT1-CUSTOMER-NUMBER    PIC 9(5).                         00200000
+002100     02 OUT1-CUSTOMER-NAME      PIC X(20).                        00210000
+002110     02 OUT1-SALES-THIS-YTD     PIC S9(5)V9(2).                   00211003
+002120     02 OUT1-SALES-LAST-YTD     PIC S9(5)V9(2).                   00212003
+002200 WORKING-STORAGE SECTION.                                         00220000
+002300 01 SWITCHES.                                                     00230000
+002400     02 CUSTMAST-EOF-SWITCH     PIC X VALUE "N".                  00240000
+002500 PROCEDURE DIVISION.                                              00250000
+002600 000-PREPARE-SALES-REPORT.                                        00260000
+002700     OPEN INPUT CUSTMAST OUTPUT OUT1.                             00270001
+002800 000-READ.                                                        00280000
+002900     READ CUSTMAST                                                00290000
+003000          AT END GO TO 000-END.                                   00300000
+003100     DISPLAY 'CUST NUM = ' CM-CUSTOMER-NUMBER                     00310000
+003200     MOVE CM-CUSTOMER-NUMBER TO OUT1-CUSTOMER-NUMBER              00320000
+003300     MOVE CM-CUSTOMER-NAME   TO OUT1-CUSTOMER-NAME                00330000
+003310     MOVE CM-SALES-THIS-YTD  TO OUT1-SALES-THIS-YTD               00331002
+003320     MOVE CM-SALES-LAST-YTD  TO OUT1-SALES-LAST-YTD               00332002
+003400     DISPLAY ' OUT1-REC = ' OUT1-REC                              00340000
+003500     WRITE OUT1-REC                                               00350000
+003600     GO TO 000-READ.                                              00360000
+003700 000-END.                                                         00370000
+003800     CLOSE CUSTMAST OUT1.                                         00380000
+003900     STOP RUN.                                                    00390000
+

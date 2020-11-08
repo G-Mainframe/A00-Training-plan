@@ -1,0 +1,65 @@
+       IDENTIFICATION  DIVISION.
+       PROGRAM-ID.    EXAM47.
+       ENVIRONMENT   DIVISION.
+       INPUT-OUTPUT   SECTION.
+       FILE-CONTROL.
+           SELECT SALES-PERSON-FILE  ASSIGN  TO  FILE1.
+           SELECT REPORT-FILE    ASSIGN  TO  FILE2.
+       DATA  DIVISION.
+       FILE  SECTION.
+       FD    SALES-PERSON-FILE
+             LABEL RECORD IS STANDARD
+             DATA  RECORD IS SALES-PERSON-RECORD.
+       01  SALES-PERSON-RECORD.
+             02  FILLER             PIC X(2).
+             02  SP-NUMBER          PIC X(4).
+             02  FILLER             PIC X(2).
+             02  SP-NAME            PIC X(10).
+             02  FILLER             PIC X(2).
+             02  SP-CURRENT-SALE    PIC 9(5)V99.
+             02  FILLER             PIC X(2).
+             02  SP-CURRENT-RETURN  PIC 9(4)V99.
+             02  FILLER             PIC X(2).
+       FD     REPORT-FILE
+              LABEL RECORD IS STANDARD
+              DATA  RECORD IS REPORT-RECORD.
+       01  REPORT-RECORD.
+             02  FILLER               PIC  X(10).
+             02  RT-NUMBER            PIC  X(4).
+             02  FILLER               PIC  X(6).
+             02  RT-NAME              PIC  X(10).
+             02  FILLER               PIC  X(6).
+             02  RT-NET-CURRENT-SALE  PIC ZZ,ZZZ.99.
+             02  FILLER               PIC  X(16).
+             02  RT-COMMISSION        PIC  Z,ZZZ.99.
+       WORKING-STORAGE    SECTION.
+       77  NET-CURRENT-SALES  PIC 9(5)V99.
+       77  COMMISSION         PIC 9(4)V99.
+       PROCEDURE     DIVISION.
+       OPEN-FILES.
+               OPEN  INPUT  SALES-PERSON-FILE
+                     OUTPUT REPORT-FILE.
+       READ-INPUT.
+               READ  SALES-PERSON-FILE
+                   AT END CLOSE SALES-PERSON-FILE, REPORT-FILE
+                   STOP  RUN.
+       CALCULATE-COMMISSON.
+             SUBTRACT  SP-CURRENT-RETURN  FROM
+             SP-CURRENT-SALE  GIVING  NET-CURRENT-SALES.
+             IF NET-CURRENT-SALES  IS LESS THAN 5000
+                  MULTIPLY   NET-CURRENT-SALES  BY  0.075
+                      GIVING  COMMISSION
+                ADD  100  TO  COMMISSION
+           ELSE
+                MULTIPLY NET-CURRENT-SALES  BY  0.10
+                GIVING   COMMISSION
+                ADD  150  TO  COMMISSION.
+       WRITE-OUTPUT.
+            MOVE   SPACE  TO  REPORT-RECORD.
+            MOVE   SP-NUMBER  TO  RT-NUMBER.
+            MOVE   SP-NAME  TO  RT-NAME.
+            MOVE   NET-CURRENT-SALES  TO  RT-NET-CURRENT-SALE.
+            MOVE   COMMISSION  TO  RT-COMMISSION.
+            WRITE  REPORT-RECORD  AFTER  2.
+            GO TO  READ-INPUT.
+

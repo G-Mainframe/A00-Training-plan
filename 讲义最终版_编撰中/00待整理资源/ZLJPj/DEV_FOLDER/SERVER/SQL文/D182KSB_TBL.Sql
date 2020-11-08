@@ -1,0 +1,28 @@
+DROP   TABLE  D182KSB_TBL   ;
+CREATE TABLE  D182KSB_TBL  (
+       幣種コード                         CHAR(3)           NOT NULL,
+       適用年月                           CHAR(6)           NOT NULL,
+       ユニット単位                       CHAR(1)           NOT NULL,
+       通貨小数点位置                     NUMBER(2,0)       NOT NULL,
+       月末ＴＴＳ                         NUMBER(10,6)      NOT NULL,
+       月末ＴＴＢ                         NUMBER(10,6)      NOT NULL,
+       月末換算相場                       NUMBER(10,6)      NOT NULL,
+       月末基準日                         CHAR(8)           NOT NULL,
+       前月末ＴＴＳ                       NUMBER(10,6)      NOT NULL,
+       前月末ＴＴＢ                       NUMBER(10,6)      NOT NULL,
+       前月末換算相場                     NUMBER(10,6)      NOT NULL,
+       前月末基準日                       CHAR(8)           NOT NULL,
+       前期末ＴＴＳ                       NUMBER(10,6)      NOT NULL,
+       前期末ＴＴＢ                       NUMBER(10,6)      NOT NULL,
+       前期末換算相場                     NUMBER(10,6)      NOT NULL,
+       前期末基準日                       CHAR(8)           NOT NULL,
+       登録年月日                         CHAR(8)           NOT NULL,
+       登録時間                           CHAR(8)           NOT NULL,
+       登録担当者                         CHAR(8)           NOT NULL,
+       更新年月日                         CHAR(8)           NOT NULL,
+       更新時間                           CHAR(8)           NOT NULL,
+       更新者                             CHAR(8)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+CONSTRAINT  PK_D182KSB_TBL  PRIMARY KEY (
+       幣種コード,
+       適用年月));

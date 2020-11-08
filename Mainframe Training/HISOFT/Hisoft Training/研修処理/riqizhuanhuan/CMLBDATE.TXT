@@ -1,0 +1,42 @@
+*******************************************************************       
+*    CMPDATES Ö³ ØÝ¹°¼Þ(CMLBDATE) 980619                          *       
+*******************************************************************       
+ 01  CMLBDATE.                                                            
+     02  CM-WSDATEX.                                                      
+         03  CM-WSREKIX   PIC X(1).                                       
+         03  CM-WSYMDX.                                                   
+             05  CM-WSYYX PIC 9(2).                                       
+             05  CM-WSMMX PIC 9(2).                                       
+             05  CM-WSDDX PIC 9(2).                                       
+     02  CM-WSDATE9.                                                      
+         03  CM-WSREKI9   PIC 9(1).                                       
+         03  CM-WSYMD9.                                                   
+             05  CM-WSYY9 PIC 9(2).                                       
+             05  CM-WSMM9 PIC 9(2).                                       
+             05  CM-WSDD9 PIC 9(2).                                       
+     02  CM-WDATEX.                                                       
+         03  CM-WREKIX    PIC X(1).                                       
+         03  CM-WYMDX.                                                    
+             05  CM-WYYX  PIC 9(2).                                       
+             05  CM-WMMX  PIC 9(2).                                       
+             05  CM-WDDX  PIC 9(2).                                       
+     02  CM-WDATE9.                                                       
+         03  CM-WREKI9    PIC 9(1).                                       
+         03  CM-WYMD9.                                                    
+             05  CM-WYY9  PIC 9(2).                                       
+             05  CM-WMM9  PIC 9(2).                                       
+             05  CM-WDD9  PIC 9(2).                                       
+     02  CM-DATE.                                                         
+         03  CM-YY        PIC 9(2).                                       
+         03  CM-MM        PIC 9(2).                                       
+         03  CM-DD        PIC 9(2).                                       
+     02  CM-SDATE.                                                        
+         03  CM-SYY1      PIC 9(2).                                       
+         03  CM-SYMD.                                                     
+             05  CM-SYY2  PIC 9(2).                                       
+             05  CM-SMM2  PIC 9(2).                                       
+             05  CM-SDD2  PIC 9(2).                                       
+     02  CM-SDATE-R REDEFINES CM-SDATE.                                   
+         03  CM-YYYY      PIC 9(4).                                       
+         03  CM-SMM3      PIC 9(2).                                       
+         03  CM-SDD3      PIC 9(2).                                       

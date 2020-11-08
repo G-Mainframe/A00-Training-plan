@@ -1,0 +1,32 @@
+CREATE TABLE KAI_SHOBUN
+(
+    契約番号                       CHAR(9) NOT NULL,
+    物件NO                         CHAR(3) NOT NULL,
+    資産処分区分                   CHAR(1) NOT NULL,
+    処分先識別番号                 CHAR(1) NOT NULL,
+    売却先引渡先名漢字             VARCHAR2(60) NOT NULL,
+    売却先引渡先名カナ             VARCHAR2(30) NOT NULL,
+    設置場所名                     VARCHAR2(40) NOT NULL,
+    設置場所名カナ                 VARCHAR2(20) NOT NULL,
+    設置場所住所                   VARCHAR2(100) NOT NULL,
+    売却引渡先区分                 CHAR(1) NOT NULL,
+    物件名漢字                     VARCHAR2(40) NOT NULL,
+    物件名カナ                     VARCHAR2(20) NOT NULL,
+    仕様製造番号                   VARCHAR2(20) NOT NULL,
+    数量                           NUMBER(4,0) NOT NULL,
+    単価                           NUMBER(13,0) NOT NULL,
+    売却金額                       NUMBER(13,0) NOT NULL,
+    売却税率                       NUMBER(3,1) NOT NULL,
+    売却金額入金先コード           CHAR(8) NOT NULL,
+    売却金額入金予定日             CHAR(8) NOT NULL,
+    引取費用                       NUMBER(13,0) NOT NULL,
+    登録日                         CHAR(8) NOT NULL,
+    登録時刻                       CHAR(6) NOT NULL,
+    登録担当者コード               CHAR(4) NOT NULL,
+    更新日                         CHAR(8) NOT NULL,
+    更新時刻                       CHAR(6) NOT NULL,
+    更新担当者コード               CHAR(4) NOT NULL,
+    支払条件                       VARCHAR2(172),
+    CONSTRAINT PK_TBKAI_SHOBUN PRIMARY KEY (契約番号, 物件NO) USING INDEX
+)
+/

@@ -1,0 +1,42 @@
+000010 IDENTIFICATION DIVISION.                                         00001000
+000011                                                                  00001100
+000012 PROGRAM-ID. MYSUB.                                               00001200
+000013 ENVIRONMENT DIVISION.                                            00001300
+000014 CONFIGURATION SECTION.                                           00001400
+000015 DATA DIVISION.                                                   00001500
+000016 WORKING-STORAGE SECTION.                                         00001600
+000017 LINKAGE SECTION.                                                 00001700
+000018 77  LK-PARM1              PIC 99.                                00001800
+000019                                                                  00001900
+000020 77  LK-PARM2              PIC 99.                                00002000
+000030                                                                  00003000
+000040 77  LK-PARM3              PIC 9(4).                              00004000
+000050                                                                  00005000
+000080 PROCEDURE DIVISION USING LK-PARM1 LK-PARM2 LK-PARM3.             00008000
+000081                                                                  00008100
+000090 001-MAIN.                                                        00009000
+000100           PERFORM DISPLAY-THE-DATA THRU DISPLAY-EXIT.            00010000
+000500                                                                  00050000
+000600           GOBACK.                                                00060001
+000700                                                                  00070000
+000800 DISPLAY-THE-DATA.                                                00080000
+000810*----------------------------------------------------             00081000
+000820* THIS PARAGRAPH IS USED TO DISPLAY OUR OUTPUT.                   00082000
+000830*----------------------------------------------------             00083000
+000900         DISPLAY ' IN MYSUB .....'.                               00090000
+001000         DISPLAY 'LK-PARM1 = ' LK-PARM1.                          00100000
+001100                                                                  00110000
+001110         DISPLAY 'LK-PARM2 = ' LK-PARM2.                          00111000
+001111                                                                  00111100
+001112         DISPLAY 'LK-PARM3 = ' LK-PARM3.                          00111200
+001113         MOVE 50 to LK-PARM1.                                           00111300
+
+               MOVE 20 to LK_PARM2.
+               MOVE 300 to LK_PARM3.  
+001500 DISPLAY-EXIT.                                                    00150000
+001600         EXIT.                                                    00160000
+001700                                                                  00170000
+001800                                                                  00180000
+001900                                                                  00190000
+002000                                                                  00200000
+

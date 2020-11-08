@@ -1,0 +1,1308 @@
+000010******************************************************************
+000020*         ＜海輝軟件(大連)＞                                     *
+000030*      1. プログラム名  : 管理与信契約移行処理                   *
+000040*      2. プログラムID  : COBIS660                               *
+000050*      3. 処理概要      : ① 与信(基本・明細)を全件対象として    *
+000060*                         与信(明細)単位に管理与信契約を作成する *
+000070*                                                                *
+000080*                         ② 債権より消費税率を取得する。        *
+000090*                                                                *
+000100*                         ③ 否認に登録された契約で              *
+000110*                            あるか否かを契約内容より取得する。  *
+000120*                                                                *
+000130*      4. 作成者        : 劉国舒                                 *
+000140*      5. 作成日        : 2005.04.04                             *
+000150******************************************************************
+000160*                                                                 
+000170******************************************************************
+000180*    ＩＤＥＮＴＩＦＩＣＡＴＩＯＮ  ＤＩＶＩＳＩＯＮ              *
+000190******************************************************************
+000200 IDENTIFICATION                       DIVISION.                   
+000210*                                                                 
+000220 PROGRAM-ID.                          COBIS660.                   
+000230*                                                                 
+000240******************************************************************
+000250*    ＥＮＶＩＲＯＮＭＥＮＴ        ＤＩＶＩＳＩＯＮ              *
+000260******************************************************************
+000270 ENVIRONMENT                          DIVISION.                   
+000280*                                                                 
+000290******************************************************************
+000300*    ＩＮＰＵＴ－ＯＵＴＰＵＴ      ＳＥＣＴＩＯＮ                *
+000310******************************************************************
+000320 INPUT-OUTPUT                         SECTION.                    
+000330*                                                                 
+000340 FILE-CONTROL.                                                    
+000350     SELECT    出力ファイル           ASSIGN    TO     U11        
+000360     FILE      STATUS     IS          Ｗ－ファイル状態            
+000370     ORGANIZATION         IS          LINE      SEQUENTIAL.       
+000380*                                                                 
+000390******************************************************************
+000400*    ＤＡＴＡ                      ＤＩＶＩＳＩＯＮ              *
+000410******************************************************************
+000420 DATA                                 DIVISION.                   
+000430*                                                                 
+000440******************************************************************
+000450*    ＦＩＬＥ                      ＳＥＣＴＩＯＮ                *
+000460******************************************************************
+000470 FILE                                 SECTION.                    
+000480*                                                                 
+000490*----------------------------------------------------------------*
+000500*    出力ファイル                                                *
+000510*----------------------------------------------------------------*
+000520 FD  出力ファイル                                                 
+000530     LABEL     RECORD     IS          STANDARD                    
+000540     BLOCK     CONTAINS   0           RECORDS.                    
+000550*                                                                 
+000560 01  出力－レコード.                                              
+000570     COPY  CISUF660  REPLACING  ==()==  BY  ==出力－==.           
+000580*                                                                 
+000590******************************************************************
+000600*  ＷＯＲＫＩＮＧ－ＳＴＯＲＡＧＥ  ＳＥＣＴＩＯＮ                *
+000610******************************************************************
+000620 WORKING-STORAGE                      SECTION.                    
+000630*                                                                 
+000640*----------------------------------------------------------------*
+000650*    ホスト変数定義エリア                                        *
+000660*----------------------------------------------------------------*
+000670     EXEC  SQL  BEGIN  DECLARE        SECTION  END-EXEC.          
+000680*                                                                 
+000690 01  ＷＳ－ホスト変数.                                            
+000700     03  ＷＳ－管理与信先コード       PIC  X(08)  VALUE  SPACE.   
+000710     03  ＷＳ－新取引先コード         PIC  X(07)  VALUE  SPACE.   
+000720     03  ＷＳ－再リース回数           PIC  9(02)  VALUE  ZERO.    
+000730     03  ＷＳ－契約種類               PIC  X(03)  VALUE  SPACE.   
+000740*                                                                 
+000750*--< ＯＲＡＣＬＥ共通変数 >                                       
+000760     EXEC  SQL  INCLUDE  SQLCOM.CBL            END-EXEC.          
+000770*                                                                 
+000780*--< ＯＲＡＣＬＥ  ＳＱＬ実行情報 >                               
+000790     EXEC  SQL  INCLUDE  SQLCA.COB             END-EXEC.          
+000800*                                                                 
+000810*--< 与信(基本) >                                                 
+000820     EXEC  SQL  INCLUDE  YOSHINKIHON.CBL       END-EXEC.          
+000830*                                                                 
+000840*--< 与信(明細) >                                                 
+000850     EXEC  SQL  INCLUDE  YOSHINMEISAI.CBL      END-EXEC.          
+000860*                                                                 
+000870*--< 契約内容 >                                                   
+000880     EXEC  SQL  INCLUDE  D31KYK.CBL            END-EXEC.          
+000890*                                                                 
+000900*--< 債権 >                                                       
+000910     EXEC  SQL  INCLUDE  D32SAK.CBL            END-EXEC.          
+000920*                                                                 
+000930*--< 変換テーブル >                                               
+000940     EXEC  SQL  INCLUDE  IKOTBL001.CBL         END-EXEC.          
+000950*                                                                 
+000960*--< 契約種類等変換テーブル >                                     
+000970     EXEC  SQL  INCLUDE  IKOTBL002.CBL         END-EXEC.          
+000980*                                                                 
+000990     EXEC  SQL  END  DECLARE          SECTION  END-EXEC.          
+001000*                                                                 
+001010*----------------------------------------------------------------*
+001020*    ＷＯＲＫエリア                                              *
+001030*----------------------------------------------------------------*
+001040 01  ＷＯＲＫ－エリア.                                            
+001050*--< エラー判定用 >                                               
+001060     03  Ｗ－エラーコード             PIC S9(04).                 
+001070*                                                                 
+001080*--< 件数エリア >                                                 
+001090     03  件数エリア.                                              
+001100         05  Ｗ－入力１－件数         PIC  9(09).                 
+001110         05  Ｗ－入力２－件数         PIC  9(09).                 
+001120         05  Ｗ－入力３－件数         PIC  9(09).                 
+001130         05  Ｗ－入力４－件数         PIC  9(09).                 
+001140         05  Ｗ－出力－件数           PIC  9(09).                 
+001150*                                                                 
+001160*--< フラグアリア >                                               
+001170     03  フラグアリア.                                            
+001180         05  Ｗ－終了－フラグ         PIC  X(01).                 
+001190         05  Ｗ－異常終了－フラグ     PIC  X(01).                 
+001200*                                                                 
+001210*--< ファイル状態 >                                               
+001220     03  Ｗ－ファイル状態             PIC  X(02).                 
+001230*                                                                 
+001240*--< 変数定義 >                                                   
+001250     03  Ｗ－変数定義.                                            
+001260         05  Ｗ－信用保険付保区分     PIC  X(01).                 
+001270         05  Ｗ－計算方式             PIC  X(01).                 
+001280         05  Ｗ－消費税率             PIC  9V99.                  
+001290         05  Ｗ－判定                 PIC  X(01).                 
+001300*                                                                 
+001310*--< 共通情報定義 >                                               
+001320 01  Ｗ－共通情報.                                                
+001330     03  Ｗ－システム日付.                                        
+001340         05  Ｗ－世紀                 PIC  X(02) VALUE "20".      
+001350         05  Ｗ－年月日               PIC  X(06).                 
+001360     03  Ｗ－システム時刻             PIC  X(08).                 
+001370     03  Ｗ－担当者                   PIC  X(08) VALUE "IKOPG   ".
+001380*                                                                 
+001390*----------------------------------------------------------------*
+001400*    サブルーチン名                                              *
+001410*----------------------------------------------------------------*
+001420 01  CALL-AREA.                                                   
+001430*--< 共通ログサブルーチン >                                       
+001440     03  CLOCO001                     PIC  X(08) VALUE "CLOCO001".
+001450     03  COBCO001                     PIC  X(08) VALUE "COBCO001".
+001460*                                                                 
+001470*----------------------------------------------------------------*
+001480*    ＣＯＰＹ領域                                                *
+001490*----------------------------------------------------------------*
+001500*--< 共通ログ用パラメータ >                                       
+001510 01  IF-CHOCO001.                                                 
+001520     COPY  CHOCO001  REPLACING   ==()==  BY  ==共１－==.          
+001530*                                                                 
+001540*----------------------------------------------------------------*
+001550*    ＩＮＩファイル読込サブルーチン用パラメタ領域                *
+001560*----------------------------------------------------------------*
+001570 01  PARA-AREA.                                                   
+001580     COPY CPBCO001.                                               
+001590*                                                                 
+001600*----------------------------------------------------------------*
+001610*    レコード初期化領域                                          *
+001620*----------------------------------------------------------------*
+001630 01  初期化レコード.                                              
+001640     COPY  CISUF660   REPLACING  ==()==  BY  ==初期化－==.        
+001650*                                                                 
+001660*----------------------------------------------------------------*
+001670*    定数用データ定義エリア                                      *
+001680*----------------------------------------------------------------*
+001690 CONSTANT                             SECTION.                    
+001700 01  定数領域.                                                    
+001710     03  定数－プログラムＩＤ         PIC  X(08) VALUE "COBIS660".
+001720     03  定数－プログラム名           PIC  X(80)                  
+001730                                    VALUE  "管理与信契約移行処理".
+001740     03  定数－ＳＱＬＯＫ             PIC S9(04)  VALUE  ZERO.    
+001750     03  定数－ＳＱＬＥＮＤ           PIC S9(04)  VALUE  0100.    
+001760     03  定数－正常状態               PIC S9(04)  VALUE  ZERO.    
+001770     03  定数－異常状態               PIC S9(04)  VALUE  0009.    
+001780*                                                                 
+001790******************************************************************
+001800*    ＰＲＯＣＥＤＵＲＥ            ＤＩＶＩＳＩＯＮ              *
+001810******************************************************************
+001820 PROCEDURE                            DIVISION.                   
+001830*                                                                 
+001840     PERFORM  初期処理.                                           
+001850*                                                                 
+001860     PERFORM  主処理  UNTIL  Ｗ－終了－フラグ  =  "Y".            
+001870*                                                                 
+001880     PERFORM  終了処理.                                           
+001890*                                                                 
+001900     STOP     RUN.                                                
+001910*                                                                 
+001920******************************************************************
+001930*    初期処理                                                    *
+001940******************************************************************
+001950 初期処理                             SECTION.                    
+001960 初期処理－ＳＴＡＲＴ.                                            
+001970*                                                                 
+001980*--< 開始メッセージ出力 >                                         
+001990     PERFORM   開始メッセージ出力.                                
+002000*                                                                 
+002010*--< 作業領域の初期値処理 >                                       
+002020     PERFORM   作業領域の初期値処理.                              
+002030*                                                                 
+002040*--< ＯＲＡＣＬＥ接続 >                                           
+002050     PERFORM   ＯＲＡＣＬＥ接続.                                  
+002060*                                                                 
+002070*--< 結合テーブルカーソル定義 >                                   
+002080     PERFORM  結合テーブルカーソル定義.                           
+002090*                                                                 
+002100*--< ファイルオープン >                                           
+002110     PERFORM  ファイルオープン.                                   
+002120*                                                                 
+002130*--< システム時刻を取得 >                                         
+002140     PERFORM  システム時刻を取得.                                 
+002150*                                                                 
+002160*--< 結合テーブル読込（１件目）>                                  
+002170     PERFORM  結合テーブル読込.                                   
+002180*                                                                 
+002190 初期処理－ＥＸＩＴ.                                              
+002200     EXIT.                                                        
+002210*                                                                 
+002220******************************************************************
+002230*    開始メッセージ出力                                          *
+002240******************************************************************
+002250 開始メッセージ出力                   SECTION.                    
+002260 開始メッセージ出力－ＳＴＡＲＴ.                                  
+002270*                                                                 
+002280     INITIALIZE                       IF-CHOCO001.                
+002290     MOVE  "3"                        TO  共１－イベント種別.     
+002300     MOVE  定数－プログラムＩＤ       TO  共１－ソースＩＤ.       
+002310     MOVE  "0"                        TO  共１－復帰コード.       
+002320     MOVE  "START"                    TO  共１－処理識別.         
+002330     MOVE  定数－プログラム名         TO  共１－その他メッセージ. 
+002340     CALL  CLOCO001                USING  IF-CHOCO001.            
+002350*                                                                 
+002360 開始メッセージ出力－ＥＸＩＴ.                                    
+002370     EXIT.                                                        
+002380*                                                                 
+002390******************************************************************
+002400*    作業領域の初期値処理                                        *
+002410******************************************************************
+002420 作業領域の初期値処理                 SECTION.                    
+002430 作業領域の初期値処理－ＳＴＡＲＴ.                                
+002440*                                                                 
+002450     MOVE  SPACE                      TO  ＷＯＲＫ－エリア.       
+002460     INITIALIZE                           ＷＯＲＫ－エリア.       
+002470*                                                                 
+002480     MOVE  SPACE                      TO  初期化レコード.         
+002490     INITIALIZE                           初期化レコード.         
+002500*                                                                 
+002510 作業領域の初期値処理－ＥＸＩＴ.                                  
+002520     EXIT.                                                        
+002530*                                                                 
+002540******************************************************************
+002550*    ＯＲＡＣＬＥ接続                                            *
+002560******************************************************************
+002570 ＯＲＡＣＬＥ接続                     SECTION.                    
+002580 ＯＲＡＣＬＥ接続－ＳＴＡＲＴ.                                    
+002590*                                                                 
+002600*--< ＤＢ接続用情報を取得処理 >                                   
+002610     CALL  COBCO001                USING  PARA-AREA.              
+002620*                                                                 
+002630     MOVE  PARA-DBSTRING              TO  DB-STRING.              
+002640     MOVE  PARA-USERNAME              TO  USERNAME.               
+002650     MOVE  PARA-PASSWORD              TO  PASSWD.                 
+002660*                                                                 
+002670*--< 開始接続 >                                                   
+002680     IF    DB-STRING  =  SPACE                                    
+002690        EXEC SQL                                                  
+002700           CONNECT  :USERNAME IDENTIFIED BY :PASSWD               
+002710        END-EXEC                                                  
+002720     ELSE                                                         
+002730        EXEC SQL                                                  
+002740           CONNECT  :USERNAME IDENTIFIED BY :PASSWD               
+002750             USING  :DB-STRING                                    
+002760        END-EXEC                                                  
+002770     END-IF.                                                      
+002780*                                                                 
+002790*--< 接続確認 >                                                   
+002800     EVALUATE  SQLCODE                                            
+002810*--<    接続正常 >                                                
+002820        WHEN  定数－ＳＱＬＯＫ                                    
+002830           CONTINUE                                               
+002840*--<    接続エラー >                                              
+002850        WHEN  OTHER                                               
+002860           MOVE  -10                  TO  Ｗ－エラーコード        
+002870           PERFORM  エラー判定処理                                
+002880     END-EVALUATE.                                                
+002890*                                                                 
+002900 ＯＲＡＣＬＥ接続－ＥＸＩＴ.                                      
+002910     EXIT.                                                        
+002920*                                                                 
+002930******************************************************************
+002940*    結合テーブルカーソル定義                                    *
+002950******************************************************************
+002960 結合テーブルカーソル定義             SECTION.                    
+002970 結合テーブルカーソル定義－ＳＴＡＲＴ.                            
+002980*                                                                 
+002990*--< カーソル定義 >                                               
+003000     EXEC SQL                                                     
+003010        DECLARE CUR1  CURSOR FOR                                  
+003020           SELECT                                                 
+003030                   NVL(YOSHINKIHON.管理与信先コード,'00000000')   
+003040                  ,YOSHINMEISAI.契約ＮＯ                          
+003050                  ,YOSHINMEISAI.勘定コード                        
+003060                  ,YOSHINMEISAI.事業所コード                      
+003070                  ,YOSHINMEISAI.事故日                            
+003080                  ,YOSHINMEISAI.契約日                            
+003090                  ,YOSHINMEISAI.検収日                            
+003100                  ,YOSHINMEISAI.満了日                            
+003110                  ,YOSHINMEISAI.当債権残                          
+003120                  ,YOSHINMEISAI.貸付金別口                        
+003130                  ,YOSHINMEISAI.非稼動資産                        
+003140                  ,YOSHINMEISAI.貯蔵品                            
+003150                  ,YOSHINMEISAI.信用保険付保区分                  
+003160                  ,YOSHINMEISAI.信用保険求償                      
+003170                  ,YOSHINMEISAI.契約金額                          
+003180                  ,YOSHINMEISAI.入金日                            
+003190                  ,YOSHINMEISAI.開始回数                          
+003200                  ,YOSHINMEISAI.明細支払回数                      
+003210                  ,YOSHINMEISAI.計算方式                          
+003220                  ,YOSHINMEISAI.請求サイクル                      
+003230                  ,YOSHINMEISAI.延滞開始日                        
+003240                  ,YOSHINMEISAI.歯抜けフラグ１                    
+003250                  ,YOSHINMEISAI.歯抜けフラグ２                    
+003260                  ,YOSHINMEISAI.残価額                            
+003270                  ,YOSHINMEISAI.月割Ｌ料                          
+003280                  ,YOSHINMEISAI.ヤクベン区分                      
+003290                  ,YOSHINMEISAI.事故債権残                        
+003300                  ,YOSHINMEISAI.事故元本残                        
+003310                  ,YOSHINMEISAI.当元本残                          
+003320                  ,YOSHINMEISAI.未収元本                          
+003330                  ,YOSHINMEISAI.未収利息                          
+003340                  ,YOSHINMEISAI.未徴収金                          
+003350                  ,YOSHINMEISAI.Ｂ未徴収金                        
+003360                  ,YOSHINMEISAI.売却金額                          
+003370                  ,YOSHINMEISAI.固定利率                          
+003380                  ,YOSHINMEISAI.金利変動区分                      
+003390                  ,YOSHINMEISAI.スプレッド                        
+003400                  ,YOSHINMEISAI.連動金利区分                      
+003410                  ,NVL(YOSHINKIHON.解約区分,' ')                  
+003420             FROM  YOSHINMEISAI                                   
+003430                  ,YOSHINKIHON                                    
+003440            WHERE  YOSHINMEISAI.管理与信先コード  =               
+003450                                YOSHINKIHON.管理与信先コード (+)  
+003460              AND  YOSHINMEISAI.管理与信区分  =                   
+003470                                YOSHINKIHON.管理与信区分 (+)      
+003480              AND  YOSHINMEISAI.自動与信区分  =                   
+003490                                YOSHINKIHON.自動与信区分 (+)      
+003500              AND  YOSHINMEISAI.事故日  =                         
+003510                                YOSHINKIHON.事故日 (+)            
+003520     END-EXEC.                                                    
+003530*                                                                 
+003540*--< カーソルＯＰＥＮ処理 >                                       
+003550     EXEC  SQL                                                    
+003560        OPEN  CUR1                                                
+003570     END-EXEC.                                                    
+003580*                                                                 
+003590*--< カーソルＯＰＥＮ確認 >                                       
+003600     EVALUATE  SQLCODE                                            
+003610*--<    カーソルＯＰＥＮ正常 >                                    
+003620        WHEN  定数－ＳＱＬＯＫ                                    
+003630           CONTINUE                                               
+003640*--<    カーソルＯＰＥＮエラー >                                  
+003650        WHEN  OTHER                                               
+003660           MOVE  -20                  TO  Ｗ－エラーコード        
+003670           PERFORM  エラー判定処理                                
+003680     END-EVALUATE.                                                
+003690*                                                                 
+003700 結合テーブルカーソル定義－ＥＸＩＴ.                              
+003710     EXIT.                                                        
+003720*                                                                 
+003730******************************************************************
+003740*    ファイルオープン                                            *
+003750******************************************************************
+003760 ファイルオープン                     SECTION.                    
+003770 ファイルオープン－ＳＴＡＲＴ.                                    
+003780*                                                                 
+003790*--< ファイルオープン ＯＰＥＮ >                                  
+003800     OPEN  OUTPUT  出力ファイル.                                  
+003810*                                                                 
+003820*--< ファイルオープン状態判定 >                                   
+003830     EVALUATE  Ｗ－ファイル状態                                   
+003840*--<    ファイルオープン正常 >                                    
+003850        WHEN  ZERO                                                
+003860           CONTINUE                                               
+003870*--<    ファイルオープンエラー >                                  
+003880        WHEN  OTHER                                               
+003890           MOVE  -30                  TO  Ｗ－エラーコード        
+003900           PERFORM  エラー判定処理                                
+003910     END-EVALUATE.                                                
+003920*                                                                 
+003930 ファイルオープン－ＥＸＩＴ.                                      
+003940     EXIT.                                                        
+003950*                                                                 
+003960******************************************************************
+003970*    システム時刻を取得                                          *
+003980******************************************************************
+003990 システム時刻を取得                   SECTION.                    
+004000 システム時刻を取得－ＳＴＡＲＴ.                                  
+004010*                                                                 
+004020*--< システム年月日を取得 >                                       
+004030     ACCEPT  Ｗ－年月日               FROM  DATE.                 
+004040*                                                                 
+004050*--< システム時刻を取得 >                                         
+004060     ACCEPT  Ｗ－システム時刻         FROM  TIME.                 
+004070*                                                                 
+004080 システム時刻を取得－ＥＸＩＴ.                                    
+004090     EXIT.                                                        
+004100*                                                                 
+004110******************************************************************
+004120*    結合テーブルカーソル読込                                    *
+004130******************************************************************
+004140 結合テーブル読込                     SECTION.                    
+004150 結合テーブル読込－ＳＴＡＲＴ.                                    
+004160*                                                                 
+004170*--< 結合テーブルカーソル読込 >                                   
+004180     EXEC SQL                                                     
+004190         FETCH  CUR1                                              
+004200          INTO   :ＹＯＳＨＩＮＫＩＨＯＮ－管理与信先コード        
+004210                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－契約ＮＯ              
+004220                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－勘定コード            
+004230                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－事業所コード          
+004240                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－事故日                
+004250                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－契約日                
+004260                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－検収日                
+004270                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－満了日                
+004280                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－当債権残              
+004290                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－貸付金別口            
+004300                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－非稼動資産            
+004310                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－貯蔵品                
+004320                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－信用保険付保区分      
+004330                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－信用保険求償          
+004340                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－契約金額              
+004350                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－入金日                
+004360                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－開始回数              
+004370                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－明細支払回数          
+004380                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－計算方式              
+004390                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－請求サイクル          
+004400                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－延滞開始日            
+004410                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－歯抜けフラグ１        
+004420                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－歯抜けフラグ２        
+004430                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－残価額                
+004440                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－月割Ｌ料              
+004450                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－ヤクベン区分          
+004460                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－事故債権残            
+004470                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－事故元本残            
+004480                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－当元本残              
+004490                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－未収元本              
+004500                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－未収利息              
+004510                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－未徴収金              
+004520                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－Ｂ未徴収金            
+004530                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－売却金額              
+004540                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－固定利率              
+004550                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－金利変動区分          
+004560                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－スプレッド            
+004570                ,:ＹＯＳＨＩＮＭＥＩＳＡＩ－連動金利区分          
+004580                ,:ＹＯＳＨＩＮＫＩＨＯＮ－解約区分                
+004590     END-EXEC.                                                    
+004600*                                                                 
+004610*--< 結合テーブル読込を確認 >                                     
+004620     EVALUATE   SQLCODE                                           
+004630*--<    読込正常 >                                                
+004640        WHEN  定数－ＳＱＬＯＫ                                    
+004650           COMPUTE  Ｗ－入力１－件数  =  Ｗ－入力１－件数  +  1   
+004660           COMPUTE  Ｗ－入力２－件数  =  Ｗ－入力２－件数  +  1   
+004670*--<    読込終了 >                                                
+004680        WHEN  定数－ＳＱＬＥＮＤ                                  
+004690           MOVE  "Y"                  TO  Ｗ－終了－フラグ        
+004700*--<    読込エラー >                                              
+004710        WHEN  OTHER                                               
+004720           MOVE  -40                  TO  Ｗ－エラーコード        
+004730           PERFORM  エラー判定処理                                
+004740     END-EVALUATE.                                                
+004750*                                                                 
+004760 結合テーブル読込－ＥＸＩＴ.                                      
+004770     EXIT.                                                        
+004780*                                                                 
+004790******************************************************************
+004800*    主処理                                                      *
+004810******************************************************************
+004820 主処理                               SECTION.                    
+004830 主処理－ＳＴＡＲＴ.                                              
+004840*                                                                 
+004850*--< 管理与信先コード編集 >                                       
+004860     PERFORM  管理与信先コード編集.                               
+004870*                                                                 
+004880*--< 編集、出力判定 >                                             
+004890     IF  Ｗ－判定  =  "Y"                                         
+004900*                                                                 
+004910*--<    編集処理 >                                                
+004920        PERFORM  編集処理                                         
+004930*                                                                 
+004940*--<    出力処理 >                                                
+004950        PERFORM  出力処理                                         
+004960     END-IF.                                                      
+004970*                                                                 
+004980*--< 結合テーブル入力読込処理(２件目以降) >                       
+004990     PERFORM  結合テーブル読込.                                   
+005000*                                                                 
+005010 主処理－ＥＸＩＴ.                                                
+005020     EXIT.                                                        
+005030*                                                                 
+005040******************************************************************
+005050*    管理与信先コード編集                                        *
+005060******************************************************************
+005070 管理与信先コード編集                 SECTION.                    
+005080 管理与信先コード編集－ＳＴＡＲＴ.                                
+005090*                                                                 
+005100*--< 管理与信先コード変換 >                                       
+005110     EVALUATE  ＹＯＳＨＩＮＫＩＨＯＮ－管理与信先コード           
+005120        WHEN  "02683250"                                          
+005130           MOVE  "02683233"           TO  ＷＳ－管理与信先コード  
+005140        WHEN  "T2677944"                                          
+005150           MOVE  "T2672500"           TO  ＷＳ－管理与信先コード  
+005160        WHEN  "S1519455"                                          
+005170           MOVE  "S1519684"           TO  ＷＳ－管理与信先コード  
+005180        WHEN  OTHER                                               
+005190           MOVE  ＹＯＳＨＩＮＫＩＨＯＮ－管理与信先コード         
+005200                                      TO  ＷＳ－管理与信先コード  
+005210*                                                                 
+005220     END-EVALUATE.                                                
+005230*                                                                 
+005240*--< 新取引先コード編集 >                                         
+005250     EXEC  SQL                                                    
+005260        SELECT  新取引先コード                                    
+005270          INTO  :ＩＫＯ００１－新取引先コード                     
+005280          FROM  IKOTBL001                                         
+005290         WHERE  取引先コード          =  :ＷＳ－管理与信先コード  
+005300           AND  目的ＣＤ              =  '2'                      
+005310     END-EXEC.                                                    
+005320*                                                                 
+005330*--< 新取引先コード取得を確認 >                                   
+005340     EVALUATE  SQLCODE                                            
+005350*--<    取得正常 >                                                
+005360        WHEN  定数－ＳＱＬＯＫ                                    
+005370           MOVE  ＩＫＯ００１－新取引先コード                     
+005380                                      TO  ＷＳ－新取引先コード    
+005390           MOVE  "Y"                  TO  Ｗ－判定                
+005400*                                                                 
+005410*--<    取得エラー >                                              
+005420        WHEN  OTHER                                               
+005430           DISPLAY  "＜与信管理先コード変換エラー＞  "            
+005440                    "管理与信先コード/目的ＣＤ :"                 
+005450                     ＷＳ－管理与信先コード "/""2"                
+005460           MOVE  "N"                  TO  Ｗ－判定                
+005470     END-EVALUATE.                                                
+005480*                                                                 
+005490 管理与信先コード編集－ＥＸＩＴ.                                  
+005500     EXIT.                                                        
+005510*                                                                 
+005520******************************************************************
+005530*    編集処理                                                    *
+005540******************************************************************
+005550 編集処理                             SECTION.                    
+005560 編集処理－ＳＴＡＲＴ.                                            
+005570*                                                                 
+005580*--< 出力レコード初期化 >                                         
+005590     MOVE  初期化レコード             TO  出力－レコード.         
+005600*                                                                 
+005610*--< NO.01 >                                                      
+005620     MOVE  ＷＳ－新取引先コード       TO  出力－与信管理先コード. 
+005630*                                                                 
+005640*--< NO.02 >                                                      
+005650     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－契約ＮＯ                     
+005660                                      TO  出力－契約番号.         
+005670*                                                                 
+005680*--< NO.03 >                                                      
+005690     PERFORM  再リース回数編集.                                   
+005700     MOVE  ＷＳ－再リース回数         TO  出力－再リース回数.     
+005710*                                                                 
+005720*--< NO.04 >                                                      
+005730     PERFORM  契約種類編集.                                       
+005740     MOVE  ＷＳ－契約種類             TO  出力－契約種類.         
+005750*                                                                 
+005760*--< NO.05 >                                                      
+005770     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－勘定コード                   
+005780                                      TO  出力－勘定処理コード.   
+005790*                                                                 
+005800*--< NO.06 >                                                      
+005810     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－事業所コード                 
+005820                                      TO  出力－部課コード.       
+005830*                                                                 
+005840*--< NO.07 >                                                      
+005850     PERFORM  主契約区分編集.                                     
+005860     MOVE  ＩＫＯ００２－主契約区分   TO  出力－主契約区分.       
+005870*                                                                 
+005880*--< NO.08 >                                                      
+005890     PERFORM  契約先コード編集.                                   
+005900     MOVE  ＩＫＯ００１－枝番         TO  出力－契約先コード.     
+005910*                                                                 
+005920*--< NO.09 >                                                      
+005930     PERFORM  契約内容テーブル読込処理                            
+005940     MOVE  Ｄ３１－契約件名           TO  出力－契約件名.         
+005950*                                                                 
+005960*--< NO.10 >                                                      
+005970     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－事故日                       
+005980                                      TO  出力－取引年月日.       
+005990*                                                                 
+006000*--< NO.11 >                                                      
+006010     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－契約日                       
+006020                                      TO  出力－契約年月日.       
+006030*                                                                 
+006040*--< NO.12 >                                                      
+006050     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－検収日                       
+006060                                      TO  出力－検収年月日.       
+006070*                                                                 
+006080*--< NO.13 >                                                      
+006090     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－満了日                       
+006100                                      TO  出力－満了年月日.       
+006110*                                                                 
+006120*--< NO.14 >                                                      
+006130     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－当債権残                     
+006140                                      TO  出力－対外債権残高.     
+006150*                                                                 
+006160*--< NO.15 >                                                      
+006170     PERFORM  債権テーブル読込処理                                
+006180     COMPUTE  出力－対外債権残高消費税                            
+006190           =  ＹＯＳＨＩＮＭＥＩＳＡＩ－当債権残  *  Ｗ－消費税率.
+006200*                                                                 
+006210*--< NO.16 >                                                      
+006220     MOVE  ZERO                       TO  出力－前受金残高.       
+006230*                                                                 
+006240*--< NO.17 >                                                      
+006250     MOVE  ZERO                       TO  出力－前受金残高消費税. 
+006260*                                                                 
+006270*--< NO.18 >                                                      
+006280     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－貸付金別口                   
+006290                                      TO  出力－貸付金別口.       
+006300*                                                                 
+006310*--< NO.19 >                                                      
+006320     COMPUTE  出力－貸付金別口消費税                              
+006330         =  ＹＯＳＨＩＮＭＥＩＳＡＩ－貸付金別口  *  Ｗ－消費税率.
+006340*                                                                 
+006350*--< NO.20 >                                                      
+006360     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－非稼動資産                   
+006370                                      TO  出力－非稼働資産.       
+006380*                                                                 
+006390*--< NO.21 >                                                      
+006400     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－貯蔵品                       
+006410                                      TO  出力－貯蔵品.           
+006420*                                                                 
+006430*--< NO.22 >                                                      
+006440     MOVE  ZERO                       TO  出力－担保残高.         
+006450*                                                                 
+006460*--< NO.23 >                                                      
+006470     PERFORM  信用保険区分編集.                                   
+006480     MOVE  Ｗ－信用保険付保区分       TO  出力－信用保険区分.     
+006490*                                                                 
+006500*--< NO.24 >                                                      
+006510     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－信用保険求償                 
+006520                                      TO  出力－信用保険求償.     
+006530*                                                                 
+006540*--< NO.25 >                                                      
+006550     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－契約金額                     
+006560                                      TO  出力－契約金額.         
+006570*                                                                 
+006580*--< NO.26 >                                                      
+006590     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－入金日                       
+006600                                      TO  出力－入金日.           
+006610*                                                                 
+006620*--< NO.27 >                                                      
+006630     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－開始回数                     
+006640                                      TO  出力－開始回数.         
+006650*                                                                 
+006660*--< NO.28 >                                                      
+006670     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－明細支払回数                 
+006680                                      TO  出力－明細支払回数.     
+006690*                                                                 
+006700*--< NO.29 >                                                      
+006710     PERFORM  計算方式編集.                                       
+006720     MOVE  Ｗ－計算方式               TO  出力－計算方式.         
+006730*                                                                 
+006740*--< NO.30 >                                                      
+006750     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－請求サイクル                 
+006760                                      TO  出力－請求サイクル.     
+006770*                                                                 
+006780*--< NO.31 >                                                      
+006790     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－延滞開始日                   
+006800                                      TO  出力－延滞開始年月日.   
+006810*                                                                 
+006820*--< NO.32 >                                                      
+006830     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－歯抜けフラグ１               
+006840                                      TO  出力－歯抜フラグ１.     
+006850*                                                                 
+006860*--< NO.33 >                                                      
+006870     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－歯抜けフラグ２               
+006880                                      TO  出力－歯抜フラグ２.     
+006890*                                                                 
+006900*--< NO.34 >                                                      
+006910     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－残価額                       
+006920                                      TO  出力－残価額.           
+006930*                                                                 
+006940*--< NO.35 >                                                      
+006950     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－月割Ｌ料                     
+006960                                      TO  出力－月割Ｌ料.         
+006970*                                                                 
+006980*--< NO.36 >                                                      
+006990     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－ヤクベン区分                 
+007000                                      TO  出力－約弁区分.         
+007010*                                                                 
+007020*--< NO.37 >                                                      
+007030     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－事故債権残                   
+007040                                      TO  出力－事故債権残.       
+007050*                                                                 
+007060*--< NO.38 >                                                      
+007070     COMPUTE  出力－事故債権残消費税                              
+007080          =  ＹＯＳＨＩＮＭＥＩＳＡＩ－事故債権残 *  Ｗ－消費税率.
+007090*                                                                 
+007100*--< NO.39 >                                                      
+007110     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－事故元本残                   
+007120                                      TO  出力－事故元本残.       
+007130*                                                                 
+007140*--< NO.40 >                                                      
+007150     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－当債権残                     
+007160                                      TO  出力－当月末債権残.     
+007170*                                                                 
+007180*--< NO.41 >                                                      
+007190     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－当元本残                     
+007200                                      TO  出力－当月末元本残.     
+007210*                                                                 
+007220*--< NO.42 >                                                      
+007230     MOVE  ZERO                       TO  出力－Ｎ当月末債権残.   
+007240*                                                                 
+007250*--< NO.43 >                                                      
+007260     MOVE  ZERO                       TO  出力－Ｎ当月末元本残.   
+007270*                                                                 
+007280*--< NO.44 >                                                      
+007290     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－未収元本                     
+007300                                      TO  出力－未収元本.         
+007310*                                                                 
+007320*--< NO.45 >                                                      
+007330     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－未収利息                     
+007340                                      TO  出力－未収利息.         
+007350*                                                                 
+007360*--< NO.46 >                                                      
+007370     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－未徴収金                     
+007380                                      TO  出力－未徴収金.         
+007390*                                                                 
+007400*--< NO.47 >                                                      
+007410     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－Ｂ未徴収金                   
+007420                                      TO  出力－Ｂ未徴収金.       
+007430*                                                                 
+007440*--< NO.48 >                                                      
+007450     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－売却金額                     
+007460                                      TO  出力－売却金額.         
+007470*                                                                 
+007480*--< NO.49 >                                                      
+007490     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－固定利率                     
+007500                                      TO  出力－固定利率.         
+007510*                                                                 
+007520*--< NO.50 >                                                      
+007530     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－金利変動区分                 
+007540                                      TO  出力－金利変動区分.     
+007550*                                                                 
+007560*--< NO.51 >                                                      
+007570     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－スプレッド                   
+007580                                      TO  出力－スプレッド.       
+007590*                                                                 
+007600*--< NO.52 >                                                      
+007610     MOVE  ＹＯＳＨＩＮＭＥＩＳＡＩ－連動金利区分                 
+007620                                      TO  出力－連動金利区分.     
+007630*                                                                 
+007640*--< NO.53 >                                                      
+007650     MOVE  SPACE                      TO  出力－備考.             
+007660*                                                                 
+007670*--< NO.54 >                                                      
+007680     MOVE  ZERO                       TO  出力－対外元本残高.     
+007690*                                                                 
+007700*--< NO.55 >                                                      
+007710     MOVE  出力－対外債権残高         TO 出力－前月末対外債権残高.
+007720*                                                                 
+007730*--< NO.56 >                                                      
+007740     MOVE  出力－対外債権残高消費税   TO                          
+007750                                   出力－前月末対外債権残高消費税.
+007760*                                                                 
+007770*--< NO.57 >                                                      
+007780     MOVE  出力－当月末元本残         TO 出力－前月末対外元本残高.
+007790*                                                                 
+007800*--< NO.58 >                                                      
+007810     MOVE  ZERO                       TO  出力－前月末前受金残高. 
+007820*                                                                 
+007830*--< NO.59 >                                                      
+007840     MOVE  ZERO                       TO                          
+007850                                     出力－前月末前受金残高消費税.
+007860*                                                                 
+007870*--< NO.60 >                                                      
+007880     MOVE  出力－貸付金別口           TO  出力－前月末貸付金別口. 
+007890*                                                                 
+007900*--< NO.61 >                                                      
+007910     MOVE  出力－貸付金別口消費税     TO                          
+007920                                     出力－前月末貸付金別口消費税.
+007930*                                                                 
+007940*--< NO.62 >                                                      
+007950     MOVE  出力－非稼働資産           TO  出力－前月末非稼働資産. 
+007960*                                                                 
+007970*--< NO.63 >                                                      
+007980     MOVE  出力－貯蔵品               TO  出力－前月末貯蔵品.     
+007990*                                                                 
+008000*--< NO.64 >                                                      
+008010     MOVE  "9"                        TO  出力－解約理由.         
+008020*                                                                 
+008030*--< NO.65 >                                                      
+008040     MOVE  ＹＯＳＨＩＮＫＩＨＯＮ－解約区分                       
+008050                                      TO  出力－解約区分.         
+008060*                                                                 
+008070*--< NO.66 >                                                      
+008080     MOVE  Ｄ３１－否認区分           TO  出力－否認区分.         
+008090*                                                                 
+008100*--< NO.67 >                                                      
+008110     COMPUTE  出力－当月末債権残高消費税                          
+008120           =  ＹＯＳＨＩＮＭＥＩＳＡＩ－当債権残  *  Ｗ－消費税率.
+008130*                                                                 
+008140*--< NO.68 >                                                      
+008150     COMPUTE  出力－未徴収金消費税                                
+008160           =  ＹＯＳＨＩＮＭＥＩＳＡＩ－未徴収金  *  Ｗ－消費税率.
+008170*                                                                 
+008180*--< No.69 >                                                      
+008190     MOVE  Ｗ－システム日付           TO  出力－登録年月日.       
+008200*                                                                 
+008210*--< No.70 >                                                      
+008220     MOVE  Ｗ－システム時刻           TO  出力－登録時間.         
+008230*                                                                 
+008240*--< No.71 >                                                      
+008250     MOVE  Ｗ－担当者                 TO  出力－登録担当者.       
+008260*                                                                 
+008270*--< No.72 >                                                      
+008280     MOVE  Ｗ－システム日付           TO  出力－更新年月日.       
+008290*                                                                 
+008300*--< No.73 >                                                      
+008310     MOVE  Ｗ－システム時刻           TO  出力－更新時間.         
+008320*                                                                 
+008330*--< No.74 >                                                      
+008340     MOVE  Ｗ－担当者                 TO  出力－更新者.           
+008350*                                                                 
+008360*--< No.75 >                                                      
+008370     MOVE  Ｗ－担当者                 TO  出力－入力担当者コード. 
+008380*                                                                 
+008390 編集処理－ＥＸＩＴ.                                              
+008400     EXIT.                                                        
+008410*                                                                 
+008420******************************************************************
+008430*    再リース回数編集                                            *
+008440******************************************************************
+008450 再リース回数編集                     SECTION.                    
+008460 再リース回数編集－ＳＴＡＲＴ.                                    
+008470*                                                                 
+008480     EXEC  SQL                                                    
+008490        SELECT  MAX(再リース回数)                                 
+008500          INTO  :ＩＫＯ００２－再リース回数                       
+008510          FROM  IKOTBL002                                         
+008520         WHERE  契約ＮＯ  =  :ＹＯＳＨＩＮＭＥＩＳＡＩ－契約ＮＯ  
+008530           AND  旧債権勘定処理コード                              
+008540                          =  :ＹＯＳＨＩＮＭＥＩＳＡＩ－勘定コード
+008550     END-EXEC.                                                    
+008560*                                                                 
+008570*--< 再リース回数取得を確認 >                                     
+008580     EVALUATE  SQLCODE                                            
+008590*--<    取得正常 >                                                
+008600        WHEN  定数－ＳＱＬＯＫ                                    
+008610           MOVE  ＩＫＯ００２－再リース回数                       
+008620                                      TO  ＷＳ－再リース回数      
+008630*--<    取得エラー >                                              
+008640        WHEN  OTHER                                               
+008650           MOVE  ZERO                 TO  ＷＳ－再リース回数      
+008660     END-EVALUATE.                                                
+008670*                                                                 
+008680 再リース回数編集－ＥＸＩＴ.                                      
+008690     EXIT.                                                        
+008700*                                                                 
+008710******************************************************************
+008720*    契約種類編集                                                *
+008730******************************************************************
+008740 契約種類編集                         SECTION.                    
+008750 契約種類編集－ＳＴＡＲＴ.                                        
+008760*                                                                 
+008770     EXEC  SQL                                                    
+008780        SELECT  MIN(契約種類)                                     
+008790          INTO  :ＩＫＯ００２－契約種類                           
+008800          FROM  IKOTBL002                                         
+008810         WHERE  契約ＮＯ  =  :ＹＯＳＨＩＮＭＥＩＳＡＩ－契約ＮＯ  
+008820           AND  旧債権勘定処理コード                              
+008830                          =  :ＹＯＳＨＩＮＭＥＩＳＡＩ－勘定コード
+008840           AND  再リース回数  =  :ＷＳ－再リース回数              
+008850     END-EXEC.                                                    
+008860*                                                                 
+008870*--< 再リース回数取得を確認 >                                     
+008880     EVALUATE  SQLCODE                                            
+008890*--<    取得正常 >                                                
+008900        WHEN  定数－ＳＱＬＯＫ                                    
+008910           MOVE  ＩＫＯ００２－契約種類                           
+008920                                      TO  ＷＳ－契約種類          
+008930*--<    取得エラー >                                              
+008940        WHEN  OTHER                                               
+008950           MOVE  ZERO                 TO  ＷＳ－契約種類          
+008960*                                                                 
+008970     END-EVALUATE.                                                
+008980*                                                                 
+008990 契約種類編集－ＥＸＩＴ.                                          
+009000     EXIT.                                                        
+009010*                                                                 
+009020******************************************************************
+009030*    主契約区分編集                                              *
+009040******************************************************************
+009050 主契約区分編集                       SECTION.                    
+009060 主契約区分編集－ＳＴＡＲＴ.                                      
+009070*                                                                 
+009080     EXEC  SQL                                                    
+009090        SELECT  主契約区分                                        
+009100          INTO  :ＩＫＯ００２－主契約区分                         
+009110          FROM  IKOTBL002                                         
+009120         WHERE  契約ＮＯ  =  :ＹＯＳＨＩＮＭＥＩＳＡＩ－契約ＮＯ  
+009130           AND  旧債権勘定処理コード                              
+009140                          =  :ＹＯＳＨＩＮＭＥＩＳＡＩ－勘定コード
+009150           AND  契約種類  =  :ＷＳ－契約種類                      
+009160           AND  再リース回数          =  :ＷＳ－再リース回数      
+009170     END-EXEC.                                                    
+009180*                                                                 
+009190*--< 再リース回数取得を確認 >                                     
+009200     EVALUATE  SQLCODE                                            
+009210*--<    取得正常 >                                                
+009220        WHEN  定数－ＳＱＬＯＫ                                    
+009230           CONTINUE                                               
+009240*--<    取得エラー >                                              
+009250        WHEN  OTHER                                               
+009260           MOVE  ZERO                 TO  ＩＫＯ００２－主契約区分
+009270*                                                                 
+009280     END-EVALUATE.                                                
+009290*                                                                 
+009300 主契約区分編集－ＥＸＩＴ.                                        
+009310     EXIT.                                                        
+009320*                                                                 
+009330******************************************************************
+009340*    契約先コード編集                                            *
+009350******************************************************************
+009360 契約先コード編集                     SECTION.                    
+009370 契約先コード編集－ＳＴＡＲＴ.                                    
+009380*                                                                 
+009390     EXEC  SQL                                                    
+009400        SELECT  枝番                                              
+009410          INTO  :ＩＫＯ００１－枝番                               
+009420          FROM  IKOTBL001                                         
+009430         WHERE  取引先コード          =  :ＷＳ－管理与信先コード  
+009440           AND  目的ＣＤ              =  '2'                      
+009450           AND  新取引先コード        =  :ＷＳ－新取引先コード    
+009460     END-EXEC.                                                    
+009470*                                                                 
+009480*--< 枝番取得を確認 >                                             
+009490     EVALUATE  SQLCODE                                            
+009500*--<    取得正常 >                                                
+009510        WHEN  定数－ＳＱＬＯＫ                                    
+009520           CONTINUE                                               
+009530*--<    取得エラー >                                              
+009540        WHEN  OTHER                                               
+009550           MOVE  ZERO                 TO  ＩＫＯ００１－枝番      
+009560*                                                                 
+009570     END-EVALUATE.                                                
+009580*                                                                 
+009590 契約先コード編集－ＥＸＩＴ.                                      
+009600     EXIT.                                                        
+009610*                                                                 
+009620******************************************************************
+009630*    契約内容テーブル読込処理                                    *
+009640******************************************************************
+009650 契約内容テーブル読込処理             SECTION.                    
+009660 契約内容テーブル読込処理－ＳＴＡＲＴ.                            
+009670*                                                                 
+009680     EXEC  SQL                                                    
+009690        SELECT  契約件名                                          
+009700               ,否認区分                                          
+009710          INTO  :Ｄ３１－契約件名                                 
+009720               ,:Ｄ３１－否認区分                                 
+009730          FROM  D31KYK_TBL                                        
+009740         WHERE  契約番号    =  :ＹＯＳＨＩＮＭＥＩＳＡＩ－契約ＮＯ
+009750           AND  再リース回数          =  :ＷＳ－再リース回数      
+009760     END-EXEC.                                                    
+009770*                                                                 
+009780*--< 契約内容読込を確認 >                                         
+009790     EVALUATE  SQLCODE                                            
+009800*--<    読込正常 >                                                
+009810        WHEN  定数－ＳＱＬＯＫ                                    
+009820           COMPUTE  Ｗ－入力３－件数  =  Ｗ－入力３－件数  +  1   
+009830*--<    読込エラー >                                              
+009840        WHEN  OTHER                                               
+009850           MOVE  ZERO                 TO  Ｄ３１－契約件名        
+009860           MOVE  ZERO                 TO  Ｄ３１－否認区分        
+009870*                                                                 
+009880     END-EVALUATE.                                                
+009890*                                                                 
+009900 契約内容テーブル読込処理－ＥＸＩＴ.                              
+009910     EXIT.                                                        
+009920*                                                                 
+009930******************************************************************
+009940*    債権テーブル読込処理                                        *
+009950******************************************************************
+009960 債権テーブル読込処理                 SECTION.                    
+009970 債権テーブル読込処理－ＳＴＡＲＴ.                                
+009980*                                                                 
+009990*--< 最新消費税区分取得 >                                         
+010000     EXEC  SQL                                                    
+010010        SELECT  最新消費税区分                                    
+010020          INTO  :Ｄ３２－最新消費税区分                           
+010030          FROM  D32SAK_TBL                                        
+010040         WHERE  契約番号  =  :ＹＯＳＨＩＮＭＥＩＳＡＩ－契約ＮＯ  
+010050           AND  再リース回数                                      
+010060                                      =  :ＷＳ－再リース回数      
+010070           AND  契約種類              =  :ＷＳ－契約種類          
+010080     END-EXEC.                                                    
+010090*                                                                 
+010100*--< 最新消費税区分取得を確認 >                                   
+010110     EVALUATE  SQLCODE                                            
+010120*--<    消費税率取得正常 >                                        
+010130        WHEN  定数－ＳＱＬＯＫ                                    
+010140           EVALUATE  Ｄ３２－最新消費税区分                       
+010150              WHEN  "11"                                          
+010160                 MOVE   0.03          TO  Ｗ－消費税率            
+010170              WHEN  "12"                                          
+010180                 MOVE   0.05          TO  Ｗ－消費税率            
+010190              WHEN  OTHER                                         
+010200                 MOVE   ZERO          TO  Ｗ－消費税率            
+010210           END-EVALUATE                                           
+010220           COMPUTE  Ｗ－入力４－件数  =  Ｗ－入力４－件数  +  1   
+010230*--<    消費税率取得エラー >                                      
+010240        WHEN  OTHER                                               
+010250           MOVE  ZERO                 TO  Ｄ３２－最新消費税区分  
+010260           MOVE  0.05                 TO  Ｗ－消費税率            
+010270     END-EVALUATE.                                                
+010280*                                                                 
+010290 債権テーブル読込処理－ＥＸＩＴ.                                  
+010300     EXIT.                                                        
+010310*                                                                 
+010320******************************************************************
+010330*    信用保険区分編集                                            *
+010340******************************************************************
+010350 信用保険区分編集                     SECTION.                    
+010360 信用保険区分編集－ＳＴＡＲＴ.                                    
+010370*                                                                 
+010380*--< 信用保険付保区分コード変換 >                                 
+010390     EVALUATE  ＹＯＳＨＩＮＭＥＩＳＡＩ－信用保険付保区分         
+010400        WHEN  ZERO                                                
+010410           MOVE  ZERO                 TO  Ｗ－信用保険付保区分    
+010420        WHEN  OTHER                                               
+010430           MOVE  "1"                  TO  Ｗ－信用保険付保区分    
+010440*                                                                 
+010450     END-EVALUATE.                                                
+010460*                                                                 
+010470 信用保険区分編集－ＥＸＩＴ.                                      
+010480     EXIT.                                                        
+010490*                                                                 
+010500******************************************************************
+010510*    計算方式編集                                                *
+010520******************************************************************
+010530 計算方式編集                         SECTION.                    
+010540 計算方式編集－ＳＴＡＲＴ.                                        
+010550*                                                                 
+010560*--< 信用保険付保区分コード変換 >                                 
+010570     EVALUATE  ＹＯＳＨＩＮＭＥＩＳＡＩ－計算方式                 
+010580        WHEN  ZERO                                                
+010590           MOVE  "1"                  TO  Ｗ－計算方式            
+010600        WHEN  "1"                                                 
+010610           EVALUATE  ＹＯＳＨＩＮＭＥＩＳＡＩ－請求サイクル       
+010620              WHEN  "12"                                          
+010630                 MOVE  ZERO           TO  Ｗ－計算方式            
+010640              WHEN  OTHER                                         
+010650                 MOVE  "2"            TO  Ｗ－計算方式            
+010660           END-EVALUATE                                           
+010670        WHEN  "2"                                                 
+010680           MOVE  "2"                  TO  Ｗ－計算方式            
+010690*                                                                 
+010700     END-EVALUATE.                                                
+010710*                                                                 
+010720 計算方式編集－ＥＸＩＴ.                                          
+010730     EXIT.                                                        
+010740*                                                                 
+010750******************************************************************
+010760*    出力処理                                                    *
+010770******************************************************************
+010780 出力処理                             SECTION.                    
+010790 出力処理－ＳＴＡＲＴ.                                            
+010800*                                                                 
+010810     WRITE  出力－レコード.                                       
+010820*                                                                 
+010830*----------------------------------------------------------------*
+010840*    ファイル状態判定                                            *
+010850*----------------------------------------------------------------*
+010860     EVALUATE   Ｗ－ファイル状態                                  
+010870*--<    出力件数１の加算 >                                        
+010880        WHEN  ZERO                                                
+010890           COMPUTE  Ｗ－出力－件数    =  Ｗ－出力－件数  +  1     
+010900*--<    取引先コード変換テーブル出力エラー >                      
+010910        WHEN  OTHER                                               
+010920           MOVE  -50                  TO  Ｗ－エラーコード        
+010930           PERFORM  エラー判定処理                                
+010940     END-EVALUATE.                                                
+010950*                                                                 
+010960 出力処理－ＥＸＩＴ.                                              
+010970     EXIT.                                                        
+010980*                                                                 
+010990******************************************************************
+011000*    終了処理                                                    *
+011010******************************************************************
+011020 終了処理                             SECTION.                    
+011030 終了処理－ＳＴＡＲＴ.                                            
+011040*                                                                 
+011050*--< ＤＢクローズ >                                               
+011060     PERFORM  ＤＢクローズ処理.                                   
+011070*                                                                 
+011080*--< ファイルクローズ >                                           
+011090     CLOSE  出力ファイル.                                         
+011100*                                                                 
+011110*--< 件数メッセージ出力処理 >                                     
+011120     PERFORM  件数メッセージ出力.                                 
+011130*                                                                 
+011140*--< 終了メッセージ出力処理 >                                     
+011150     PERFORM  終了メッセージ出力.                                 
+011160*                                                                 
+011170*--< プログラム正常終了 >                                         
+011180     MOVE  定数－正常状態             TO  PROGRAM-STATUS.         
+011190*                                                                 
+011200 終了処理－ＥＸＩＴ.                                              
+011210     EXIT.                                                        
+011220*                                                                 
+011230******************************************************************
+011240*    ＤＢクローズ                                                *
+011250******************************************************************
+011260 ＤＢクローズ処理                     SECTION.                    
+011270 ＤＢクローズ処理－ＳＴＡＲＴ.                                    
+011280*                                                                 
+011290*--< カーソル クローズ >                                          
+011300     EXEC SQL                                                     
+011310        CLOSE  CUR1                                               
+011320     END-EXEC.                                                    
+011330*                                                                 
+011340 ＤＢクローズ処理－ＥＸＩＴ.                                      
+011350     EXIT.                                                        
+011360*                                                                 
+011370******************************************************************
+011380*    件数メッセージ出力                                          *
+011390******************************************************************
+011400 件数メッセージ出力                   SECTION.                    
+011410 件数メッセージ出力－ＳＴＡＲＴ.                                  
+011420*                                                                 
+011430     INITIALIZE                       IF-CHOCO001.                
+011440     MOVE  "3"                        TO  共１－イベント種別.     
+011450     MOVE  定数－プログラムＩＤ       TO  共１－ソースＩＤ.       
+011460     MOVE  "0"                        TO  共１－復帰コード.       
+011470     MOVE  "YSKIHON"                  TO  共１－処理テーブルＩＤ. 
+011480     MOVE  "COUNT"                    TO  共１－処理識別.         
+011490     MOVE  Ｗ－入力１－件数           TO  共１－データ内容.       
+011500     MOVE  "与信(基本)読込件数"       TO  共１－その他メッセージ. 
+011510     CALL  CLOCO001                USING  IF-CHOCO001.            
+011520*                                                                 
+011530     INITIALIZE                       IF-CHOCO001.                
+011540     MOVE  "3"                        TO  共１－イベント種別.     
+011550     MOVE  定数－プログラムＩＤ       TO  共１－ソースＩＤ.       
+011560     MOVE  "0"                        TO  共１－復帰コード.       
+011570     MOVE  "YSMEISAI"                 TO  共１－処理テーブルＩＤ. 
+011580     MOVE  "COUNT"                    TO  共１－処理識別.         
+011590     MOVE  Ｗ－入力２－件数           TO  共１－データ内容.       
+011600     MOVE  "与信(明細)読込件数"       TO  共１－その他メッセージ. 
+011610     CALL  CLOCO001                USING  IF-CHOCO001.            
+011620*                                                                 
+011630     INITIALIZE                       IF-CHOCO001.                
+011640     MOVE  "3"                        TO  共１－イベント種別.     
+011650     MOVE  定数－プログラムＩＤ       TO  共１－ソースＩＤ.       
+011660     MOVE  "0"                        TO  共１－復帰コード.       
+011670     MOVE  "D31KYK"                   TO  共１－処理テーブルＩＤ. 
+011680     MOVE  "COUNT"                    TO  共１－処理識別.         
+011690     MOVE  Ｗ－入力３－件数           TO  共１－データ内容.       
+011700     MOVE  "契約内容読込件数"         TO  共１－その他メッセージ. 
+011710     CALL  CLOCO001                USING  IF-CHOCO001.            
+011720*                                                                 
+011730     INITIALIZE                       IF-CHOCO001.                
+011740     MOVE  "3"                        TO  共１－イベント種別.     
+011750     MOVE  定数－プログラムＩＤ       TO  共１－ソースＩＤ.       
+011760     MOVE  "0"                        TO  共１－復帰コード.       
+011770     MOVE  "D32SAK"                   TO  共１－処理テーブルＩＤ. 
+011780     MOVE  "COUNT"                    TO  共１－処理識別.         
+011790     MOVE  Ｗ－入力４－件数           TO  共１－データ内容.       
+011800     MOVE  "債権読込件数"             TO  共１－その他メッセージ. 
+011810     CALL  CLOCO001                USING  IF-CHOCO001.            
+011820*                                                                 
+011830     INITIALIZE                       IF-CHOCO001.                
+011840     MOVE  "3"                        TO  共１－イベント種別.     
+011850     MOVE  定数－プログラムＩＤ       TO  共１－ソースＩＤ.       
+011860     MOVE  "0"                        TO  共１－復帰コード.       
+011870     MOVE  "FFUIS660"                 TO  共１－処理テーブルＩＤ. 
+011880     MOVE  "COUNT"                    TO  共１－処理識別.         
+011890     MOVE  Ｗ－出力－件数             TO  共１－データ内容.       
+011900     MOVE  "管理与信契約(PS)出力件数" TO  共１－その他メッセージ. 
+011910     CALL  CLOCO001                USING  IF-CHOCO001.            
+011920*                                                                 
+011930 件数メッセージ出力－ＥＸＩＴ.                                    
+011940     EXIT.                                                        
+011950*                                                                 
+011960******************************************************************
+011970*    終了メッセージ出力                                          *
+011980******************************************************************
+011990 終了メッセージ出力                   SECTION.                    
+012000 終了メッセージ出力－ＳＴＡＲＴ.                                  
+012010*                                                                 
+012020     INITIALIZE                       IF-CHOCO001.                
+012030     MOVE  "3"                        TO  共１－イベント種別.     
+012040     MOVE  定数－プログラムＩＤ       TO  共１－ソースＩＤ.       
+012050     MOVE  "0"                        TO  共１－復帰コード.       
+012060     MOVE  "END"                      TO  共１－処理識別.         
+012070     MOVE  定数－プログラム名         TO  共１－その他メッセージ. 
+012080     CALL  CLOCO001                USING  IF-CHOCO001.            
+012090*                                                                 
+012100 終了メッセージ出力－ＥＸＩＴ.                                    
+012110     EXIT.                                                        
+012120*                                                                 
+012130******************************************************************
+012140*    エラー判定処理                                              *
+012150******************************************************************
+012160 エラー判定処理                       SECTION.                    
+012170 エラー判定処理－ＳＴＡＲＴ.                                      
+012180*                                                                 
+012190     MOVE  "Y"                        TO  Ｗ－異常終了－フラグ.   
+012200     INITIALIZE                       IF-CHOCO001.                
+012210*                                                                 
+012220     EVALUATE  Ｗ－エラーコード                                   
+012230*                                                                 
+012240        WHEN  -10                                                 
+012250*                                                                 
+012260*--<       ＯＲＡＣＬＥ接続失敗 >                                 
+012270           MOVE  "1"                  TO  共１－イベント種別      
+012280           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+012290           MOVE  "9"                  TO  共１－復帰コード        
+012300           MOVE  "CONNECT"            TO  共１－処理識別          
+012310           MOVE  SQLCODE              TO  共１－データ内容        
+012320           MOVE  SQLERRMC             TO  共１－その他メッセージ  
+012330           CALL  CLOCO001          USING  IF-CHOCO001             
+012340*                                                                 
+012350        WHEN  -20                                                 
+012360*                                                                 
+012370*--<       結合テーブルカーソル定義失敗 >                         
+012380           MOVE  "1"                  TO  共１－イベント種別      
+012390           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+012400           MOVE  "9"                  TO  共１－復帰コード        
+012410           MOVE  "YSMEISAI"           TO  共１－処理テーブルＩＤ  
+012420           MOVE  "OPEN"               TO  共１－処理識別          
+012430           MOVE  SQLCODE              TO  共１－データ内容        
+012440           MOVE  SQLERRMC             TO  共１－その他メッセージ  
+012450           CALL  CLOCO001          USING  IF-CHOCO001             
+012460*                                                                 
+012470        WHEN  -30                                                 
+012480*                                                                 
+012490*--<       管理与信契約ファイルオープンエラー >                   
+012500           MOVE  "1"                  TO  共１－イベント種別      
+012510           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+012520           MOVE  "9"                  TO  共１－復帰コード        
+012530           MOVE  "FFUIS660"           TO  共１－処理テーブルＩＤ  
+012540           MOVE  "OPEN"               TO  共１－処理識別          
+012550           MOVE  Ｗ－ファイル状態     TO  共１－データ内容        
+012560           MOVE  "管理与信契約ファイルオープンエラー "            
+012570                                      TO  共１－その他メッセージ  
+012580           CALL  CLOCO001          USING  IF-CHOCO001             
+012590*                                                                 
+012600        WHEN  -40                                                 
+012610*                                                                 
+012620*--<       結合テーブル読込失敗 >                                 
+012630           MOVE  "1"                  TO  共１－イベント種別      
+012640           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+012650           MOVE  "9"                  TO  共１－復帰コード        
+012660           MOVE  "YSMEISAI"           TO  共１－処理テーブルＩＤ  
+012670           MOVE  "FETCH"              TO  共１－処理識別          
+012680           MOVE  SQLCODE              TO  共１－データ内容        
+012690           MOVE  SQLERRMC             TO  共１－その他メッセージ  
+012700           CALL  CLOCO001          USING  IF-CHOCO001             
+012710*                                                                 
+012720        WHEN  -50                                                 
+012730*                                                                 
+012740*--<       管理与信契約ファイル出力処理失敗 >                     
+012750           MOVE  "1"                  TO  共１－イベント種別      
+012760           MOVE  定数－プログラムＩＤ TO  共１－ソースＩＤ        
+012770           MOVE  "9"                  TO  共１－復帰コード        
+012780           MOVE  "SFHSED25"           TO  共１－処理テーブルＩＤ  
+012790           MOVE  "WRITE"              TO  共１－処理識別          
+012800           MOVE  Ｗ－ファイル状態     TO  共１－データ内容        
+012810           MOVE  "管理与信契約ファイル出力エラー"                 
+012820                                      TO  共１－その他メッセージ  
+012830           CALL  CLOCO001          USING  IF-CHOCO001             
+012840*                                                                 
+012850        WHEN  OTHER                                               
+012860           MOVE  "N"                  TO  Ｗ－異常終了－フラグ    
+012870     END-EVALUATE.                                                
+012880*                                                                 
+012890     IF Ｗ－異常終了－フラグ  =  "Y"                              
+012900*--<    件数メッセージ出力処理 >                                  
+012910        PERFORM  件数メッセージ出力                               
+012920*                                                                 
+012930*--<    終了メッセージ出力処理 >                                  
+012940        PERFORM  終了メッセージ出力                               
+012950*                                                                 
+012960*--<    プログラムリターンコード >                                
+012970        MOVE  定数－異常状態          TO  PROGRAM-STATUS          
+012980*                                                                 
+012990        EXIT  PROGRAM                                             
+013000     END-IF.                                                      
+013010*                                                                 
+013020 エラー判定処理－ＥＸＩＴ.                                        
+013030     EXIT.                                                        
+013040*                                                                 
+013050******************************************************************
+013060*                  END OF PROGRAM                                *
+013070******************************************************************
+

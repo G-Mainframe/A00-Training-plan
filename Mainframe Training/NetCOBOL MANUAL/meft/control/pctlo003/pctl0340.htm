@@ -1,0 +1,174 @@
+<html>
+
+<head>
+<title>3.3 帳票印刷コントロールに対する処理記述</title>
+</head>
+
+<body BGCOLOR="#FFFFFF">
+
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">
+  <tr>
+    <td ALIGN="LEFT"><strong>帳票印刷コントロール使用手引書</strong> 
+    </td>
+  </tr>
+  <tr>
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a HREF="pctl0330.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a href="pctl0350.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>      
+  </tr>      
+</table>      
+      
+<hr>      
+      
+<dl>      
+  <dl>      
+    <dt><a HREF="../pctlo002/pctl0210.htm"><img SRC="../pctlosrc/up.gif" BORDER="0" ALT="上へ" WIDTH="16" HEIGHT="15">第3章       
+      </a><a HREF="pctl0310.htm" TARGET="fmain">帳票印刷コントロールの処理を記述する</a>       
+    </dt>      
+  </dl>      
+</dl>      
+      
+<hr>      
+      
+<h2>3.3 帳票印刷コントロールに対する処理記述</h2>      
+      
+<p>帳票印刷コントロールに対する処理記述について、以下に示します。</p>      
+      
+<h4>◆帳票印刷の開始</h4>      
+      
+<p>帳票印刷コントロールを利用して帳票印刷を開始するには、「帳票印刷(PrintControl)」メソッドを呼び出して行います。</p>    
+    
+<p><img SRC="../pctlosrc/box1poin.gif" ALT="image" WIDTH="47" HEIGHT="41">　<strong>[Microsoft(R) VisualBasic(R)の記述例]</strong></p>      
+      
+<blockquote>      
+  <p>帳票印刷メソッドの呼出しの記述例を以下に示します。<br>     
+  コマンドボタンのクリックイベントで、帳票印刷コントロール(PowerFormReport1)の「帳票印刷(PrintControl)」メソッドを呼び出します。</p>    
+</blockquote>    
+    
+<table BORDER="1" WIDTH="74%">    
+  <tr>    
+    <td><pre>'CommandButtonのClickイベント                                                                                  
+Private Sub Command1_Click()
+    'コマンドボタンを選択不可にする
+    Command1.Enabled = False
+
+    '帳票印刷メソッドの実行
+    PowerFormReport1.PrintControl (0)
+
+    'コマンドボタンを選択可能にする
+    Command1.Enabled = True
+End Sub</pre>    
+    </td>    
+  </tr>    
+</table>    
+    
+<h4><br>    
+◆帳票定義体名の設定</h4>    
+    
+<p>帳票印刷コントロールで帳票定義体を利用するには、帳票定義体のファイル名を設定する必要があります。帳票定義体のファイル名は、「帳票印刷(PrintControl)」メソッド起動前、または、帳票開設(OpenReport)イベントで、「帳票フォーム名(FormName)」プロパティに設定します。</p>    
+    
+<p>帳票定義体は、以下のディレクトリから読み込まれます。</p>  
+<p>　　・｢帳票フォーム名(FormName)｣プロパティに指定したフルパスのディレクトリ</p>
+<p>　　・｢帳票フォーム格納ディレクトリ(FormDirectory)｣プロパティに指定したディレクトリ</p>
+<p>　　・カレントディレクトリ</p>
+  
+<p>また、「帳票フォーム名(FormName)」プロパティを使用して、複数の帳票定義体を利用した印刷を行うことができます。</p>  
+  
+<p><img SRC="../pctlosrc/box1poin.gif" ALT="image" WIDTH="47" HEIGHT="41">　<strong>[Microsoft(R) VisualBasic(R)の記述例]</strong></p>      
+      
+<blockquote>      
+  <p>帳票定義体名設定時のプロパティの記述例を以下に示します。</p>      
+</blockquote>      
+      
+<blockquote>      
+  <p>帳票印刷コントロール(PowerFormReport1)の帳票開設(OpenReport)イベントで、「帳票フォーム格納ディレクトリ(FormDirectory)」プロパティに、&quot;カレントディレクトリ\帳票フォーム&quot;ディレクトリを指定します。<br>      
+  また、「帳票フォーム名(FormName)」プロパティに、&quot;Rentalrp2.pxd&quot;を指定します。</p>      
+</blockquote>      
+      
+<table BORDER="1" WIDTH="74%">      
+  <tr>      
+    <td><pre>'帳票印刷コントロールの帳票開設(OpenReport)イベント                                                            
+Private Sub PowerFormReport1_OpenReport()
+    '帳票定義体名、ディレクトリ名を帳票コントロール
+    'のプロパティ、「FormName」、「FormDirectory」に設定します。
+    'ディレクトリは、アプリ実行配下の帳票定義体の格納ディレクトリとします。
+    PowerFormReport1.FormDirectory = App.Path &amp; &quot;\帳票フォーム&quot;
+    PowerFormReport1.FormName = &quot;Rentalrp2.pxd&quot;
+
+ End Sub</pre>      
+    </td>      
+  </tr>      
+</table>      
+      
+<h4><br>      
+◆項目レコードの設定</h4>     
+     
+<p>帳票定義体上の各項目へのレコードの設定は、各項目の印刷前に発生するイベント内で記述します。</p>     
+     
+<p>どのイベント内で記述を行えばよいかは、帳票印刷コントロールのイベントの記述を参照してください。</p>     
+     
+<p>項目レコードの設定は、「項目文字(FieldText)」プロパティを使用して記述することができます。</p>     
+     
+<p><img SRC="../pctlosrc/box1poin.gif" ALT="image" WIDTH="47" HEIGHT="41">　<strong>[Microsoft(R) VisualBasic(R)の記述例]</strong></p>      
+      
+<blockquote>      
+  <p>パラメタ付きプロパティの記述例を以下に示します。</p>      
+</blockquote>      
+      
+<blockquote>      
+  <p>帳票印刷コントロール(PowerFormReport1)の項目1のレコード、属性を変更します。</p>      
+</blockquote>      
+      
+<table BORDER="1" WIDTH="74%">      
+  <tr>      
+    <td><pre>'項目&quot;項目1&quot;に&quot;富士通&quot;を転記
+PowerFormReport1.FieldText(&quot;項目1&quot;,-1, 0, 0 ) = &quot;富士通&quot;
+'項目&quot;項目1&quot;を赤に変更
+PowerFormReport1.TextColor(&quot;項目1&quot;,-1, 0, 0 ) = 4
+'項目&quot;項目1&quot;を斜体に変更
+PowerFormReport1.SetFontItalic(&quot;項目1&quot;, -1, 0, 0 ) = True</pre>      
+    </td>      
+  </tr>      
+</table>      
+      
+<h4><br>      
+◆帳票印刷の終了</h4>      
+      
+<p>「帳票印刷(PrintControl)」メソッドは、印刷レコードがある限り処理を続けます。</p>     
+     
+<p>最終レコードまで処理が終了した場合、レコード読込み(ReadRecord)イベントで「レコードEOF(RecordEOF)」プロパティの値に「true」を設定する必要があります。</p>     
+     
+<p><img SRC="../pctlosrc/box1poin.gif" ALT="image" WIDTH="47" HEIGHT="41">　<strong>[Microsoft(R) VisualBasic(R)の記述例]</strong></p>      
+      
+<blockquote>      
+  <p>パラメタ付きプロパティの記述例を以下に示します。</p>      
+</blockquote>      
+      
+<blockquote>      
+  <p>帳票印刷コントロール(PowerFormReport1)のレコード読込み(ReadRecord)イベントで、レコードEOF(RecordEOF)」プロパティの値に「true」を設定します。</p>      
+</blockquote>      
+      
+<table BORDER="1" WIDTH="74%">      
+  <tr>      
+    <td><pre>'帳票印刷コントロールのレコード読込み(ReadRecord)イベント                                                      
+Private Sub PowerFormReport1_ReadRecord(ByVal PrintRecord As Long)
+    '１件のレコードも処理せず終了する
+    PowerFormReport1.RecordEOF = True
+
+End Sub</pre>      
+    </td>      
+  </tr>      
+</table>      
+      
+<hr>      
+      
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">      
+  <tr>      
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a HREF="pctl0330.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a HREF="pctl0350.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>      
+  </tr>      
+</table>      
+      
+<hr>      
+      
+<p align="right">All Rights Reserved, Copyright (C) 富士通株式会社 
+1998-2001</p>    
+</body>    
+</html>    

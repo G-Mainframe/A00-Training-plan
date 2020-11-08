@@ -1,0 +1,38 @@
+//WENSON3 JOB (CBLCLG),'WENSON',CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),      00010004
+//        NOTIFY=&SYSUID                                                00020004
+//*****************************************************************     00030002
+//*  JOB TO COMPILE AND LINK-EDIT AND RUN COBOL PROGRAM                 00040002
+//*****************************************************************     00050002
+//COBOL  EXEC  PGM=IGYCRCTL,REGION=2048K                                00051002
+//STEPLIB  DD  DSNAME=COBOL.V3R1.SIGYCOMP,                              00052002
+//             DISP=SHR                                                 00053002
+//SYSPRINT DD  SYSOUT=*                                                 00053102
+//SYSLIN   DD  DSNAME=&&LOADSET,UNIT=SYSDA,                             00053202
+//             DISP=(MOD,PASS),SPACE=(TRK,(3,3)),                       00053302
+//             DCB=(BLKSIZE=3200)                                       00053402
+//SYSIN    DD  DSN=WENSON.TRAIN.COBOL(IGYIVP),DISP=SHR                  00053503
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(CYL,(1,1))                             00053602
+//SYSUT2   DD  UNIT=SYSDA,SPACE=(CYL,(1,1))                             00053702
+//SYSUT3   DD  UNIT=SYSDA,SPACE=(CYL,(1,1))                             00053802
+//SYSUT4   DD  UNIT=SYSDA,SPACE=(CYL,(1,1))                             00053902
+//SYSUT5   DD  UNIT=SYSDA,SPACE=(CYL,(1,1))                             00054002
+//SYSUT6   DD  UNIT=SYSDA,SPACE=(CYL,(1,1))                             00054102
+//SYSUT7   DD  UNIT=SYSDA,SPACE=(CYL,(1,1))                             00054202
+//LKED   EXEC PGM=HEWL,COND=(8,LT,COBOL),REGION=1024K                   00054302
+//SYSLIB   DD  DSNAME=CEE.SCEELKED,                                     00054402
+//             DISP=SHR                                                 00054502
+//SYSPRINT DD  SYSOUT=*                                                 00054602
+//SYSLIN   DD  DSNAME=&&LOADSET,DISP=(OLD,DELETE)                       00054702
+//         DD  DDNAME=SYSIN                                             00054802
+//SYSLMOD  DD  DSNAME=&&GOSET(GO),                                      00054902
+//             SPACE=(TRK,(10,10,1)),                                   00055002
+//             UNIT=SYSDA,DISP=(MOD,PASS)                               00055102
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(TRK,(10,10))                           00055202
+//GO     EXEC PGM=*.LKED.SYSLMOD,COND=((8,LT,COBOL),(4,LT,LKED)),       00055300
+//             REGION=2048K                                             00055400
+//STEPLIB  DD  DSNAME=CEE.SCEERUN,                                      00055501
+//             DISP=SHR                                                 00056000
+//SYSPRINT DD  SYSOUT=*                                                 00057000
+//CEEDUMP  DD  SYSOUT=*                                                 00058000
+//SYSUDUMP DD  SYSOUT=*                                                 00059000
+

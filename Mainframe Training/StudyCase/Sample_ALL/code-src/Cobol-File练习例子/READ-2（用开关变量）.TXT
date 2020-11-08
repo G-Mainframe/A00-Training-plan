@@ -1,0 +1,36 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200 PROGRAM-ID.  SEQFILE1.                                           00020000
+000210 ENVIRONMENT DIVISION.                                            00021000
+000220 INPUT-OUTPUT SECTION.                                            00022000
+000230 FILE-CONTROL.                                                    00023000
+000240       SELECT STUDENTFILE ASSIGN TO STUDENTS.                     00024000
+000250 DATA DIVISION.                                                   00025000
+000260 FILE SECTION.                                                    00026000
+000270 FD StudentFile.                                                  00027000
+000280 01 StudentDetails.                                               00028000
+000290    02  StudentId       PIC 9(7).                                 00029000
+000300    02  STUDENTNAME     PIC X(12).                                00030000
+000310    02  DateOfBirth.                                              00031000
+000320        03 YOBirth      PIC 9(2).                                 00032000
+000330        03 MOBirth      PIC 9(2).                                 00033000
+000340        03 DOBirth      PIC 9(2).                                 00034000
+000350    02  CourseCode      PIC X(4).                                 00035000
+000360    02  Gender          PIC X.                                    00036000
+000370 WORKING-STORAGE SECTION.                                         00037000
+000380 01   EOF-OF-FILE-SWITCH  PIC X VALUE 'N'.                        00038000
+000381      88   EOF-OF-FILE     VALUE 'Y'.                             00038100
+000390 PROCEDURE DIVISION.                                              00039000
+000400 BEGIN.                                                           00040000
+000500     OPEN INPUT STUDENTFILE                                       00050000
+000600     READ STUDENTFILE                                             00060000
+000700           AT END MOVE 'Y'   TO EOF-OF-FILE-SWITCH                00070000
+000800     END-READ                                                     00080000
+000900     PERFORM UNTIL EOF-OF-FILE                                    00090000
+001000     DISPLAY STUDENTID  SPACE  STUDENTNAME SPACE COURSECODE       00100000
+001100     READ  STUDENTFILE                                            00110000
+001200         AT END      MOVE 'Y'   TO EOF-OF-FILE-SWITCH             00120000
+001300     END-READ                                                     00130000
+001320     END-PERFORM                                                  00132000
+001340     CLOSE STUDENTFILE                                            00134000
+001350     STOP RUN.                                                    00135000
+

@@ -1,0 +1,119 @@
+000100 IDENTIFICATION DIVISION.                                         00010001
+000200*                                                                 00020001
+000300 PROGRAM-ID. NAMEINQ.                                             00030001
+000400*                                                                 00040001
+000500 ENVIRONMENT DIVISION.                                            00050001
+000600*                                                                 00060001
+000700 INPUT-OUTPUT SECTION.                                            00070001
+000800*                                                                 00080001
+000900 FILE-CONTROL.                                                    00090002
+001000*                                                                 00100001
+001100 DATA DIVISION.                                                   00110001
+001200*                                                                 00120001
+001300 FILE SECTION.                                                    00130001
+001400*                                                                 00140001
+001500 WORKING-STORAGE SECTION.                                         00150001
+001600*                                                                 00160001
+001700 01 SWITCHES.                                                     00170001
+001800     05 END-OF-INQUIRIES-SW     PIC X    VALUE 'N'.               00180001
+001900         88 END-OF-INQUIRIES             VALUE 'Y'.               00190001
+002000     05 END-OF-CUSTOMERS-SW     PIC X    VALUE 'N'.               00200007
+002100         88 END-OF-CUSTOMERS             VALUE 'Y'.               00210001
+002200     05 VALID-CURSOR-SW         PIC X    VALUE 'Y'.               00220001
+002300         88 VALID-CURSOR                 VALUE 'Y'.               00230001
+002400*                                                                 00240001
+002500 01 COUNT-FIELDS.                                                 00250001
+002600     05 CUSTOMER-COUNT          PIC S9(7)  COMP-3.                00260001
+002700     05 EDITED-CUSTOMER-COUNT   PIC Z(6)9.                        00270001
+002800*                                                                 00280001
+002900 01 SEARCH-STRINGS.                                               00290006
+003000     05 NAME-STRING             PIC X(5).                         00300001
+003100     05 STATE-STRING            PIC XX.                           00310001
+003200*                                                                 00320001
+003300     EXEC SQL                                                     00330001
+003400         INCLUDE CUSTOMER                                         00340001
+003500     END-EXEC.                                                    00350001
+003600*                                                                 00360001
+003700     EXEC SQL                                                     00370001
+003800         INCLUDE SQLCA                                            00380001
+003900     END-EXEC.                                                    00390001
+004000*                                                                 00400001
+004100     EXEC SQL                                                     00410001
+004200         DECLARE CUSTCURS CURSOR FOR                              00420001
+004300             SELECT CUSTNO, LNAME, FNAME, STATE                   00430001
+004400                 FROM MM01.CUSTOMER                               00440001
+004500                     WHERE LNAME LIKE :NAME-STRING                00450004
+004600                       AND STATE LIKE :STATE-STRING               00460004
+004700     END-EXEC.                                                    00470001
+004800*                                                                 00480001
+004900 PROCEDURE DIVISION.                                              00490001
+005000*                                                                 00500001
+005100 000-PROCESS-CUST-INQUIRIES.                                      00510001
+005200     PERFORM 100-PROCESS-CUST-INQUIRY                             00520001
+005300         UNTIL END-OF-INQUIRIES.                                  00530001
+005400     STOP RUN.                                                    00540001
+005500*                                                                 00550001
+005600 100-PROCESS-CUST-INQUIRY.                                        00560001
+005700     PERFORM 110-ACCEPT-SEARCH-VALUES.                            00570001
+005800     IF NOT END-OF-INQUIRIES                                      00580001
+005900         MOVE 'Y' TO VALID-CURSOR-SW                              00590001
+006000         MOVE ZERO TO CUSTOMER-COUNT                              00600001
+006100         PERFORM 120-OPEN-CUSTOMER-CURSOR                         00610007
+006200         IF VALID-CURSOR                                          00620001
+006300             MOVE 'N' TO END-OF-CUSTOMERS-SW                      00630001
+006400             PERFORM 130-DISPLAY-CUSTOMER-INFO                    00640001
+006500                 UNTIL END-OF-CUSTOMERS                           00650007
+006600             PERFORM 150-CLOSE-CUSTOMER-CURSOR                    00660001
+006700             MOVE CUSTOMER-COUNT TO EDITED-CUSTOMER-COUNT         00670001
+006800             DISPLAY EDITED-CUSTOMER-COUNT ' CUSTOMER(S) FOUND.'. 00680001
+006900*                                                                 00690001
+007000 110-ACCEPT-SEARCH-VALUES.                                        00700001
+007100     MOVE SPACE TO NAME-STRING.                                   00710001
+007200     MOVE SPACE TO STATE-STRING.                                  00720001
+007300     DISPLAY '------------------------------------------------'.  00730001
+007400     DISPLAY '(ENTER 99 FOR NAME OR STATE TO QUIT.)'.             00740001
+007500     DISPLAY 'ENTER FIRST ONE TO FOUR CHARACTERS OF LAST NAME:'.  00750001
+007600     ACCEPT NAME-STRING.                                          00760006
+007700     IF NAME-STRING = '99'                                        00770005
+007800         MOVE 'Y' TO END-OF-INQUIRIES-SW                          00780001
+007900     ELSE                                                         00790001
+008000         STRING NAME-STRING '%%%%%' DELIMITED BY ' '              00800005
+008100             INTO NAME-STRING                                     00810005
+008200         DISPLAY 'ENTER STATE CODE: '                             00820001
+008300         ACCEPT STATE-STRING                                      00830005
+008400         IF STATE-STRING = '99'                                   00840005
+008500             MOVE 'Y' TO END-OF-INQUIRIES-SW                      00850001
+008600         ELSE                                                     00860001
+008700             STRING STATE-STRING '%%' DELIMITED BY ' '            00870005
+008800                 INTO STATE-STRING.                               00880005
+008900*                                                                 00890001
+009000 120-OPEN-CUSTOMER-CURSOR.                                        00900001
+009100     EXEC SQL                                                     00910001
+009200         OPEN CUSTCURS                                            00920001
+009300     END-EXEC.                                                    00930001
+009400     IF SQLCODE NOT = 0                                           00940001
+009500         MOVE 'N' TO VALID-CURSOR-SW.                             00950001
+009600*                                                                 00960001
+009700 130-DISPLAY-CUSTOMER-INFO.                                       00970001
+009800     PERFORM 140-FETCH-CUSTOMER-ROW.                              00980001
+009900     IF NOT END-OF-CUSTOMERS                                      00990001
+010000         IF VALID-CURSOR                                          01000001
+010100             DISPLAY 'CUST: ' CUSTNO '--' FNAME ' '               01010001
+010200                     LNAME ' ' STATE.                             01020001
+010300*                                                                 01030001
+010400 140-FETCH-CUSTOMER-ROW.                                          01040001
+010500     EXEC SQL                                                     01050001
+010600         FETCH CUSTCURS                                           01060001
+010700             INTO :CUSTNO, :LNAME, :FNAME, :STATE                 01070001
+010800     END-EXEC.                                                    01080001
+010900     IF SQLCODE = 0                                               01090001
+011000         ADD 1 TO CUSTOMER-COUNT                                  01100001
+011100     ELSE                                                         01110001
+011200         MOVE 'Y' TO END-OF-CUSTOMERS-SW                          01120001
+011300         IF SQLCODE NOT = 100                                     01130001
+011400             MOVE 'N' TO VALID-CURSOR-SW.                         01140001
+011500*                                                                 01150001
+011600 150-CLOSE-CUSTOMER-CURSOR.                                       01160001
+011700     EXEC SQL                                                     01170001
+011800         CLOSE CUSTCURS                                           01180001
+011900     END-EXEC.                                                    01190001

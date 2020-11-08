@@ -1,0 +1,81 @@
+
+
+
+COBOL97 V61L20                                                                     2005年04月12日(火) 16時19分48秒  0001
+
+
+＊＊　指定翻訳オプション　＊＊
+
+
+CHECK(1,ALL)
+COPY
+NODLOAD
+FLAG(I)
+NOFLAGSW
+NOGEN
+LANGLVL(85)
+LINECOUNT(60)
+LINESIZE(136)
+MAIN
+MESSAGE
+NONUMBER
+OBJECT
+RSV(ALL)
+SOURCE
+SSOUT(LOGFILE)
+STD1(JIS1)
+NOTRACE
+NOXREF
+NOMAIN,TEST
+
+
+＊＊　確定翻訳オプション　＊＊
+
+
+  ALPHAL(ALL)           NOEQUALS                  MESSAGE                 RSV(ALL)                STD1(JIS1)            
+  BINARY(WORD,MLBON)      FLAG(I)               NONAME                  NOSAI                     TAB(8)                
+  CHECK(1,ALL)          NOFLAGSW                  NCW(STD)                SDS                     TEST                  
+NOCONF                  NOGEN                     NSPCOMP(NSP)          NOSHREXT                  THREAD(SINGLE)        
+  COPY(FULL)              LANGLVL(85)           NONUMBER                  SOURCE(1)             NOTRACE                 
+NOCOUNT                   LINECOUNT(60)           OBJECT                  SQLGRP                NOTRUNC                 
+  CREATE(OBJ)             LINESIZE(136)         NOOPTIMIZE                SRF(VAR,VAR)          NOXREF                  
+  CURRENCY(\)           NOLIST                    QUOTE                   SSIN(SYSIN)             ZWB                   
+NODLOAD                 NOMAIN                    RCS(SJIS)               SSOUT(LOGFILE)                                
+
+
+
+COBOL97 V61L20  HELLO                                                              2005年04月12日(火) 16時19分48秒  0002
+
+
+     行番号 一連番号 A   B
+
+
+          1   000010 IDENTIFICATION DIVISION.
+          2   000020 PROGRAM-ID. HELLO.
+          3   000030 ENVIRONMENT DIVISION.
+          4   000040 DATA DIVISION.
+          5   000050 WORKING-STORAGE SECTION.
+          6   000060 PROCEDURE DIVISION.
+          7   000070 S.     
+          8   000080     DISPLAY  "HELLO WORLD" .
+          9   000090     STOP 1.
+
+
+
+COBOL97 V61L20  HELLO                                                              2005年04月12日(火) 16時19分48秒  0003
+
+
+＊＊　プログラム特性リスト　＊＊
+
+　ファイル名 = hello.COB
+　ソース名　 = HELLO
+　翻訳日付　 = 2005年04月12日(火) 16時19分48秒
+
+　　原始プログラムのレコード数　　　　　　　　　=          9 レコード
+　　目的プログラムの大きさ（ＣＯＤＥサイズ）　　=       1320 バイト
+　　目的プログラムの大きさ（ＤＡＴＡサイズ）　　=        200 バイト
+　　デバッグ用領域の大きさ　　　　　　　　　　　=        162 バイト
+　　制御レベル　　　　　　　　　　　　　　　　　=          1 レベル
+　　翻訳に要した時間　　　　　　　　　　　　　　=       1.25 秒
+
+　最大重大度コード = I

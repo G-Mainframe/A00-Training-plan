@@ -1,0 +1,33 @@
+CREATE TABLE MAN_WK_APL_MATCH
+(
+    処理日                         CHAR(8) NOT NULL,
+    ＮＯ                           CHAR(4) NOT NULL,
+    契約番号                       CHAR(9) NOT NULL,
+    物件ＮＯ                       CHAR(3) NOT NULL,
+    アポロ契約ＮＯ                 CHAR(7) NOT NULL,
+    アポロ契約ＮＯ＿枝番           CHAR(3) NOT NULL,
+    検収日                         CHAR(8) NOT NULL,
+    満了日                         CHAR(8) NOT NULL,
+    期間                           NUMBER(3,0) NOT NULL,
+    リース料＿年額                 NUMBER(13,0) NOT NULL,
+    設置場所名                     VARCHAR2(20) NOT NULL,
+    物件名                         VARCHAR2(20) NOT NULL,
+    数量                           NUMBER(4,0) NOT NULL,
+    物件金額                       NUMBER(13,0) NOT NULL,
+    処理                           CHAR(1) NOT NULL,
+    廃棄物件金額                   NUMBER(13,0) NOT NULL,
+    廃棄数量                       NUMBER(4,0) NOT NULL,
+    再リース物件金額               NUMBER(13,0) NOT NULL,
+    再リース数量                   NUMBER(4,0) NOT NULL,
+    再リース満了日                 CHAR(8) NOT NULL,
+    再リース期間                   NUMBER(3,0) NOT NULL,
+    再リース料＿年額               NUMBER(13,0) NOT NULL,
+    消費税額                       NUMBER(13,0) NOT NULL,
+    エラー区分                     CHAR(1) NOT NULL,
+    エラーメッセージ               VARCHAR2(30) NOT NULL,
+    更新日                         CHAR(8) NOT NULL,
+    更新時刻                       CHAR(6) NOT NULL,
+    更新担当者コード               CHAR(4) NOT NULL,
+    CONSTRAINT P_MAN_WK_APL_MATCH PRIMARY KEY (処理日, ＮＯ) USING INDEX
+)
+/

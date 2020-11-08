@@ -1,0 +1,624 @@
+ CD02L97: /* EXTRACT FORMAT CL AND CX RECORDS AND PRODUCE CL AND        00000010
+            DIFF TYPE OF CX RECORDS FILE FOR DB2 LOAD               */  00000020
+          PROC OPTIONS(MAIN) REORDER ;                                  00000030
+ /********************************************************************/ 00000040
+ /*                                                                  */ 00000050
+ /* MODULE NAME = CD02L97                                            */ 00000060
+ /* DESCRIPTION = READS FILES EDQWI0S AND EXTRACT CL AND CX RECORDS  */ 00000070
+ /*               FOR DB2 LOAD.                                      */ 00000080
+ /*                                                                  */ 00000090
+ /*                                                   VERSION 0001   */ 00000100
+ /* CHANGED BY RICK DANIELS SEPT 94. ADDED 5 NEW FIELDS TO OUTPUT    */ 00000100
+ /* RECORD. CUST_DEF, ATTR_6, CUST_PROB_REF, ATTR_8 & ATTR_9.        */ 00000110
+ /* RENAMED FROM CSDP41 TO COMPLY WITH NAMING STANDARDS              */ 00000110
+ /*                                                                  */ 00000120
+ /********************************************************************/ 00000130
+ /* MODULE HISTORY:                                                  */ 00000140
+ /* 07.02.91 CALL EXTRACT RECORD (EXTR_RECC) CHANGED. VERSION 0002   */ 00000150
+ /*          IFLTPMH DELETED, AND SEDQMJB REPLACED BY IOPDBU         */ 00000160
+ /* 01.03.91 CALL EXTRACT RECORD CHANGED. INCT_TEXT COLS REMOVED.    */ 00000170
+ /*          GEOGR AREA CODE SPLIT INTO SERV BRCH CODE CHAR(1) AND   */ 00000180
+ /*          GEOGR AREA CODE CHAR(7). INCIDENT TIMES/DATES ARRAY     */ 00000190
+ /*          COPIED IN FULL 8 DATES (DDDDDDHHMM).     VERSION 0003   */ 00000200
+ /* 09.05.91 CALL EXTENSION HAS BEEN DELETED IN THIS PROGRAM AS THE  */ 00000210
+ /*          CALL EXTENSION WERE SEPARATED AND IMPLEMENTED THROUGH   */ 00000220
+ /*          ANOTHER PL1 PROGRAM CALLED CSDP45.       VERSION 0004   */ 00000230
+ /* 04.11.91 E.B. ONG                                 VERSION 0005   */ 00000240
+ /*          SOME CALL EXTENSION DATA HAS BEEN "DENORMALISED" AND    */ 00000250
+ /*          INCLUDED IN THE CALL OUTPUT FILE (EG., OEM'S SERIAL_NO) */ 00000260
+ /* 11.09.97 IR0012                                                  */ 00000240
+ /*          M. HIDAYAT (MH01)                        VERSION 0006   */ 00000240
+ /*          - ADD COUNTERS FOR RECORDS READ IN, WRITTEN OUT AND     */ 00000270
+ /*            WRITE THEM OUT TO JOB OUTPUT.                         */ 00000270
+ /*          - ADD SYSPRINT DECLARATION.                             */ 00000270
+ /*          - ADD 'ON ERROR' BLOCK.                                 */ 00000270
+ /*          - ADD ISSPLI EXTERNAL AND PLIDUMP BUILTIN.              */ 00000270
+ /*          - DELETE OUTFCMP OUTPUT FILE DECLARATION AND REFERENCES.*/ 00000270
+ /*                                                                  */ 00000270
+ /* SEP 1998 RCMS RELEASE 5                                          */ 00000280
+ /*          K. FINNIGAN                              VERSION 0007   */ 00000280
+ /*                                                                  */ 00000290
+ /********************************************************************/ 00000300
+ /*            RECORD STRUCTURES                                     */ 00000310
+ /********************************************************************/ 00000320
+1/********************************************************************  00000330
+     PURGE RECORD (EDQWI0S)     DCL       R050   L=2700     97/10/31    00000340
+  *******************************************************************/  00000350
+ DCL 1 PURG_REC,                                                        00000360
+     %INCLUDE EDQWI0S;
+     DUMMY1 CHAR(0)                                                     00000530
+ ;
+
+1/********************************************************************  00000540
+     CALL RECORD  (EDQCL0S)     DCL       R021   L=1620     89/11/15    00000550
+  *******************************************************************/  00000560
+ DCL 1 CALL_REC  BASED(ADDR(PURG_REC.SEDQRSA)),                         00000570
+      5 EDQCL0S                  /*CALL RECORD (CL0)                    00000580
+                                   **********************************/, 00000590
+      10 SEDQRST     CHAR(1)     /*RCMS RECORD STATUS               */, 00000600
+      10 SEDQRID     CHAR(3)     /*RCMS RECORD ID                   */, 00000610
+      10 DDBSLUP     CHAR(8)     /*DATE OF LAST UPDATE OF RECORD    */, 00000620
+      10 DDBSTLU     CHAR(6)     /*TIME OF LAST UPDATE/DELETION OF      00000630
+                                   RECORD                           */, 00000640
+      10 IUSRUUL     CHAR(8)     /*LAST UPDATE USER ID              */, 00000650
+      10 SEDQK52                 /**********  PRIMARY KEY  *********    00000660
+                                   **********************************/, 00000670
+       15 SEDQKPR    CHAR(4)     /*VSAM KEY PREFIX                  */, 00000680
+       15 IFLTRCM    CHAR(7)     /*INCIDENT NUMBER (RCMS)           */, 00000690
+      10 SEDQPMH     CHAR(1)     /*PMH INCIDENT CODE                */, 00000700
+      10 SEDQK12                 /*********  SECONDARY KEY  ********    00000710
+                                   **********************************/, 00000720
+       15 IFLTPMH    CHAR(5)     /*INCIDENT NUMBER (PMH)            */, 00000730
+       15 SEDQBOR    CHAR(3)     /*CE BRANCH OFFICE (RETAIN)        */, 00000740
+       15 SEDQRGR    CHAR(2)     /*CE REGION (RETAIN)               */, 00000750
+       15 SEDQTER    CHAR(3)     /*CE TERRITORY (RETAIN)            */, 00000760
+      10 SEDQK03                 /****** OPTIONAL SECONDARY KEY ****    00000770
+                                   **********************************/, 00000780
+       15 ICUSHWU    CHAR(8)     /*USER CUSTOMER ACCOUNT NUMBER (HW)*/, 00000790
+       15 SEDQCSX    CHAR(8)     /*CUSTOMER/BU SUFFIX               */, 00000800
+       15 ICUSANO    CHAR(3)     /*ADDRESS NUMBER                   */, 00000810
+      10 SEDQK02                 /***** OPTIONAL SECONDARY KEY *****    00000820
+                                   **********************************/, 00000830
+       15 SEDQMJB                /*MAJOR BUSINESS UNIT IN COUNTRY   */, 00000840
+        20 CODPDIV    CHAR(1)    /*BUSINESS UNIT DIVISION           */, 00000850
+        20 CODPBUC    CHAR(7)    /*CE BUSINESS UNIT                 */, 00000860
+       15 IODPDBU                /*CE BUSINESS UNIT IN COUNTRY      */, 00000870
+        20 CODPDIV    CHAR(1)    /*BUSINESS UNIT DIVISION           */, 00000880
+        20 CODPBUC    CHAR(7)    /*CE BUSINESS UNIT                 */, 00000890
+      10 SEDQQEX FIXED DEC(3,0)  /*TOTAL NUMBER OF EXTENSION        */, 00000900
+      10 SEDQNLC FIXED DEC(3,0)  /*NEXT ADD TEXT LINE               */, 00000910
+      10 IFLTMCH      CHAR(7)    /*MACHINE LAST INCIDENT NUMBER     */, 00000920
+      10 DFLTMCH      CHAR(8)    /*MACHINE LAST INCIDENT DATE       */, 00000930
+      10 IFLTCUS      CHAR(7)    /*CUSTOMER LAST INCIDENT NUMBER (RCMS) 00000940
+                                                                    */, 00000950
+      10 DFLTCUS      CHAR(8)    /*CUSTOMER LAST INCIDENT DATE      */, 00000960
+      10 NCUSABB      CHAR(22)   /*CUSTOMER ABBREVIATED NAME        */, 00000970
+      10 NCUSSTR      CHAR(30)   /*STREET NAME                      */, 00000980
+      10 ICUSCTY      CHAR(30)   /*CUSTOMER CITY                    */, 00000990
+      10 SEDQTEL      CHAR(30)   /*CUSTOMER TELEPHONE NUMBER        */, 00001000
+      10 ICUSGZC      CHAR(8)    /*GEOGRAPHICAL AREA CODE           */, 00001010
+      10 NCUSCON      CHAR(24)   /*CUSTOMER CONTACT NAME            */, 00001020
+      10 IHSITOS                 /*MACHINE TYPE/ORIGIN/SERIAL       */, 00001030
+       15 CSLMTYP     CHAR(4)    /*MACHINE TYPE                     */, 00001040
+       15 IHSIMID                /*MACHINE SERIAL NUMBER            */, 00001050
+        20 IOLCPLM    CHAR(2)    /*PLANT OF MANUFACTURE             */, 00001060
+        20 IHSINBR    CHAR(7)    /*MACHINE SEQUENCE NUMBER          */, 00001070
+      10 CSLMMOD      CHAR(3)    /*MACHINE MODEL                    */, 00001080
+      10 ISLMCPU      CHAR(4)    /*ASSOCIATED CPU TYPE              */, 00001090
+      10 QFLTECO      PIC '(2)9' /*INCIDENT ECHO COUNT              */, 00001100
+      10 SEDQODI                 /*OWNER DESTINATION INFORMATION    */, 00001110
+       15 IFLTDEX     CHAR(6)    /*INCIDENT RECORD DESTINATION      */, 00001120
+       15 IDEXCTY     CHAR(3)    /*COUNTRY IDENTIFIER               */, 00001120
+       15 SEDQDET     BIT(16)    /*DESTINATION TYPE                 */, 00001130
+       15 IFLTADX     CHAR(6)    /*INCIDENT RECORD ACTUAL DESTINATION   00001140
+                                                                    */, 00001150
+       15 IADXCTY     CHAR(3)    /*COUNTRY IDENTIFIER               */, 00001140
+      10 SEDQDEX(1:8)            /*DISTRIBUTION INFORMATION ARRAY   */, 00001170
+       15 IFLTDEX     CHAR(6)    /*INCIDENT RECORD DESTINATION      */, 00001180
+       15 IDEXCTY     CHAR(3)    /*COUNTRY IDENTIFIER               */, 00001120
+       15 SEDQDET     BIT(16)    /*DESTINATION TYPE                 */, 00001190
+       15 IFLTADX     CHAR(6)    /*INCIDENT RECORD ACTUAL DESTINATION   00001200
+                                                                    */, 00001210
+       15 IADXCTY     CHAR(3)    /*COUNTRY IDENTIFIER               */, 00001140
+      10 SEDQRSY(1:20)           /*SYSTEM-ID ARRAY                  */, 00001230
+       15 IDEXSSY     CHAR(2)    /*SHORT SYSTEM-ID (RCMS)           */, 00001240
+      10 SEDQSTA(1:32) BIT(1)    /*ACTION FLAGS ARRAY (STATIC)      */, 00001250
+      10 SEDQSSY      CHAR(2)    /*NEW OWNER SYSTEM-ID              */, 00001260
+      10 SEDQRQ1      CHAR(2)    /*REQUEST TO CALL MANAG. FLAGS 1   */, 00001270
+      10 SEDQRQ2      CHAR(2)    /*REQUEST TO CALL MANAG. FLAGS 2   */, 00001280
+      10 SEDQCSY      CHAR(1)    /*RESERVED                         */, 00001290
+      10 SEDQALR      BIT(16)    /*TIMEOUT-ALERT FLAGS (RC0663)     */, 00001300
+      10 SEDQISV      CHAR(1)    /*INITIAL SEVERITY OF INCIDENT     */, 00001310
+      10 CFLTSEV      CHAR(1)    /*SEVERITY OF INCIDENT             */, 00001320
+      10 SEDQPVC                 /*PREVIOUS CONDITIONS OF INCIDENT  */, 00001330
+       15 CFLTTYP     CHAR(3)   /*INCIDENT RECORD REASON CODE      */,  00001340
+       15 CFLTSTS     CHAR(3)   /*STATUS OF INCIDENT RECORD        */,  00001350
+      10 CFLTTYP      CHAR(3)    /*INCIDENT RECORD REASON CODE      */, 00001360
+      10 CFLTSTS      CHAR(3)    /*STATUS OF INCIDENT RECORD        */, 00001370
+      10 SEDQICI                 /*INCIDENT CREATION INFORMATION    */, 00001380
+       15 IUSRIDY     CHAR(8)    /*USER IDENTITY                    */, 00001390
+       15 DFLTCRT     CHAR(12)   /*INCIDENT CREATE DATE-TIME        */, 00001400
+       15 CCRTTZC     CHAR(3)    /*INCIDENT CREATE TIME ZONDE CODE  */, 00001400
+      10 DFLTUPD      CHAR(12)   /*INCIDENT RECORD LAST CHANGE DATE */, 00001410
+      10 CUPDTZC      CHAR(3)    /*INCIDENT UPDATE TIME ZONDE CODE  */, 00001410
+      10 DFLTTST      CHAR(12)   /*INCIDENT RECORD REASON/STATUS LAST   00001420
+                                   CHANGE DATE                      */, 00001430
+      10 CTSTTZC      CHAR(3)    /*REASON/STATUS CHG DATE TIME ZONE */, 00001440
+      10 DFLTDLY      CHAR(12)   /*INCIDENT RECORD ACTIVE DELAY     */, 00001440
+      10 CDLYTZC      CHAR(3)    /*ACTIVE DELAY TIME ZONE CODE      */, 00001440
+      10 NEMPABB      CHAR(30)   /*IBM EMPLOYEE ABBREVIATED NAME    */, 00001450
+      10 IEMPNBR      CHAR(7)    /*IBM EMPLOYEE NUMBER              */, 00001460
+      10 IEMPRAD      CHAR(5)    /*EMPLOYEE RADIO NUMBER            */, 00001470
+      10 IEMPPAG      CHAR(12)   /*EMPLOYEE PAGER ID                */, 00001480
+      10 SEDQIFL(1:16) BIT(1)    /*INCIDENT FLAGS ARRAY             */, 00001490
+      10 CSLMWCD      CHAR(1)    /*WARRANTY CATEGORY                */, 00001500
+      10 CSLMGWC      CHAR(1)    /*WARRANTY CATEGORY (GOVERNMENT)   */, 00001510
+      10 DAGREWP      CHAR(8)    /*WARRANTY EXPIRY DATE             */, 00001520
+      10 CHSIISC      CHAR(1)    /*INVENTORY STATUS CODE            */, 00001530
+      10 CAGRTYP      CHAR(1)    /*TYPE OF AGREEMENT CODE           */, 00001540
+      10 DAGRMEX      CHAR(8)    /*M/A EXPIRY DATE                  */, 00001550
+      10 RAGRWCP(1:7)            /*MAINTENANCE AGREEMENT WEEKLY         00001560
+                                   COVERAGE                         */, 00001570
+       15 DAGRMFR     CHAR(3)    /*M/A FROM TIME                    */, 00001580
+       15 DAGRMTO     CHAR(3)    /*M/A TO TIME                      */, 00001590
+      10 CHSISTM      CHAR(1)    /*TYPE OF MAINTENANCE              */, 00001600
+      10 CCESTSV      CHAR(1)    /*CE/CS TYPE OF SERVICE            */, 00001610
+      10 SEDQADC      CHAR(2)    /*DISTRIB. LIST CODE (ADDITIONAL)  */, 00001620
+      10 SEDQRLC FIXED DEC(5)    /*REQUEST LOOP COUNTER (PER02056)  */, 00001630
+      10 FILL_G3      CHAR(2),                                          00001640
+      10 SEDQPRX                 /*PRODUCT USER-EXIT DATA           */, 00001650
+       15 UDTEUEX     CHAR(8)    /*USER EXIT DATA                   */, 00001660
+      10 SEDQINX                 /*INVENTORY USER-EXIT DATA         */, 00001670
+       15 UDTEUEX     CHAR(8)    /*USER EXIT DATA                   */, 00001680
+      10 SEDQCUX                 /*CUSTOMER USER-EXIT DATA          */, 00001690
+       15 UDTEUEX     CHAR(8)    /*USER EXIT DATA                   */, 00001700
+      10 RFLTDTM(1:8)            /*INCIDENT EVENTS TIMES            */, 00001710
+       15 DFLTDTM     CHAR(12)   /*INCIDENT EVENTS TIME             */, 00001720
+      10 GPTDRCM                 /*PARTS SHIPPING ADDRESS CODES     */, 00001730
+       15 CPTDSAD     CHAR(3)    /*PARTS SHIPPING ADDRESS CODE      */, 00001740
+       15 CPTDCAD     CHAR(3)    /*PARTS SHIPPING ADDRESS CODE (RCMS)   00001750
+                                                                    */, 00001760
+      10 CCUACOD      CHAR(1)    /*CASH ON DELIVERY CODE            */, 00001770
+      10 QCESPCM      PIC '9999' /*QUANTITY OF CUSTOMER PER-CALL        00001780
+                                   MACHINES                         */, 00001790
+      10 CFLTSRC      CHAR(16)   /*SYMPTOM REFERENCE CODE (SRC/ERC) */, 00001800
+      10 SEDQPCD      PIC '(3)9' /*PURGING INCIDENT DELAY           */, 00001810
+      10 UDBSSPD      CHAR(230)  /*SCRATCH PAD                      */, 00001820
+      10 SEDQIRL(1:7)            /*ARRAY OF INCIDENT LINE OF TEXT   */, 00001830
+       15 SEDQILA     CHAR(1)    /*INCIDENT LINE OF TEXT ATTRIBUTE  */, 00001840
+       15 SEDQILN     CHAR(78)   /*INCIDENT LINE OF TEXT            */, 00001850
+      10 UDTECUF      CHAR(20)   /*COUNTRY USE                      */, 00001860
+      10 SEDQEAT      CHAR(12)   /*EXPECTED ARRIVAL TIME            */, 00001870
+      10 SEDQH36      CHAR(1)    /*PMH QUEUE LEVEL                  */, 00001880
+      10 SEDQH1B      CHAR(6)    /*PMH QUEUE NAME                   */, 00001890
+      10 SEDQH29      CHAR(3)    /*SUPPORT CENTER ID (PER02052)     */, 00001900
+      10 SEDQCFL      CHAR(1)    /*CRITICAL CUSTOMER DATA           */, 00001910
+      10 FCUSEMB      CHAR(1)    /*EMBARGO CODE                     */, 00001920
+      10 FILL_G5      CHAR(1)                                           00001930
+ /* END OF STRUCTURE */;                                                00001940
+1/********************************************************************  00001950
+     CALL EXTENTION RECORD   -  EDQCX0S   R010   L=1230     85/12/04    00001960
+ ********************************************************************/  00001970
+ DCL 1 CX_REC  BASED(ADDR(PURG_REC.SEDQRSA)),                           00001980
+      %INCLUDE EDQCX0S;
+      DUMMY2 CHAR(0)                                                    00002160
+ ;                                                                      00002170
+ /********************************************************************  00002180
+     CL RECORD (EXTRACT)        DCL       R021   L=980      04/11/91    00002190
+  *******************************************************************/  00002200
+ DCL 1 EXTR_RECC,                                                       00002210
+      5 EDQCL0S                  /*CALL RECORD (CL0)                    00002220
+                                   **********************************/, 00002230
+      10 DDBSLUO     CHAR(10)    /*DATE OF LAST UPDATE OF RECORD    */, 00002240
+      10 DDBSTLO     CHAR(8)     /*TIME OF LAST UPDATE/DELETION OF      00002250
+                                   RECORD                           */, 00002260
+      10 IUSRUUL     CHAR(7)     /*LAST UPDATE USER ID              */, 00002270
+      10 IFLTRCM     CHAR(7)     /*INCIDENT NUMBER (RCMS)           */, 00002280
+      10 SEDQBOR     CHAR(3)     /*CE BRANCH OFFICE (RETAIN)        */, 00002290
+      10 ICUSHWU     CHAR(8)     /*USER CUSTOMER ACCOUNT NUMBER (HW)*/, 00002300
+      10 SEDQCSX     CHAR(8)     /*CUSTOMER/BU SUFFIX               */, 00002310
+      10 ICUSANO     CHAR(3)     /*ADDRESS NUMBER                   */, 00002320
+      10 IODPDBU                 /*CE BUSINESS UNIT IN COUNTRY      */, 00002330
+       15 CODPDIV    CHAR(1)     /*BUSINESS UNIT DIVISION           */, 00002340
+       15 CODPBUC    CHAR(7)     /*CE BUSINESS UNIT                 */, 00002350
+      10 SEDQQEX FIXED DEC(3,0)  /*TOTAL NUMBER OF EXTENSION        */, 00002360
+      10 SEDQNLC FIXED DEC(3,0)  /*NEXT ADD TEXT LINE               */, 00002370
+      10 IFLTCUS     CHAR(7)     /*CUSTOMER LAST INCIDENT NUMBER (RCMS) 00002380
+                                                                    */, 00002390
+      10 DFLTCUS     CHAR(10)    /*CUSTOMER LAST INCIDENT DATE      */, 00002400
+      10 NCUSABB     CHAR(22)    /*CUSTOMER ABBREVIATED NAME        */, 00002410
+      10 NCUSSTR     CHAR(30)    /*STREET NAME                      */, 00002420
+      10 ICUSCTY     CHAR(30)    /*CUSTOMER CITY                    */, 00002430
+      10 SEDQTEL     CHAR(30)    /*CUSTOMER TELEPHONE NUMBER        */, 00002440
+      10 ICUSGEO                 /*GEOGRAPHICAL AREA CODE           */, 00002450
+       15 ICUSSBC    CHAR(1)     /*SERVICE BRANCH CODE              */, 00002460
+       15 ICUSGAC    CHAR(7)     /*GEOGRAPHICAL AREA CODE           */, 00002470
+      10 NCUSCON     CHAR(24)    /*CUSTOMER CONTACT NAME            */, 00002480
+      10 IHSITOS                 /*MACHINE TYPE/ORIGIN/SERIAL       */, 00002490
+       15 CSLMTYP    CHAR(4)     /*MACHINE TYPE                     */, 00002500
+       15 IHSIMID                /*MACHINE SERIAL NUMBER            */, 00002510
+        20 IOLCPLM   CHAR(2)     /*PLANT OF MANUFACTURE             */, 00002520
+        20 IHSINBR   CHAR(7)     /*MACHINE SEQUENCE NUMBER          */, 00002530
+      10 CSLMMOD     CHAR(3)     /*MACHINE MODEL                    */, 00002540
+      10 ISLMCPU     CHAR(4)     /*ASSOCIATED CPU TYPE              */, 00002550
+      10 QFLTECO     PIC '(2)9'  /*INCIDENT ECHO COUNT              */, 00002560
+      10 SEDQODI                 /*OWNER DESTINATION INFORMATION    */, 00002570
+       15 IFLTDEX    CHAR(6)     /*INCIDENT RECORD DESTINATION      */, 00002580
+      10 IFLTADX     CHAR(6)     /*INCIDENT RECORD ACTUAL DESTINATION   00002590
+                                                                    */, 00002600
+      10 SEDQDEX                 /*DISTRIBUTION INFORMATION ARRAY   */, 00002610
+       15 IFLTDEO    CHAR(6)     /*INCIDENT RECORD DESTINATION      */, 00002620
+       15 IFLTADO    CHAR(6)     /*INCIDENT RECORD ACTUAL DESTINATION   00002630
+                                                                    */, 00002640
+      10 SEDQISV     CHAR(1)     /*INITIAL SEVERITY OF INCIDENT     */, 00002650
+      10 CFLTSEV     CHAR(1)     /*SEVERITY OF INCIDENT             */, 00002660
+      10 SEDQPVC                 /*PREVIOUS CONDITIONS OF INCIDENT  */, 00002670
+       15 CFLTTYP    CHAR(3)     /*INCIDENT RECORD REASON CODE      */, 00002680
+       15 CFLTSTS    CHAR(3)     /*STATUS OF INCIDENT RECORD        */, 00002690
+      10 CFLTTYP     CHAR(3)     /*INCIDENT RECORD REASON CODE      */, 00002700
+      10 CFLTSTS     CHAR(3)     /*STATUS OF INCIDENT RECORD        */, 00002710
+      10 SEDQICI                 /*INCIDENT CREATION INFORMATION    */, 00002720
+       15 IUSRIDY    CHAR(7)     /*USER IDENTITY                    */, 00002730
+       15 DFLTCRD    CHAR(10)    /*INCIDENT CREATE DATE             */, 00002740
+       15 DFLTCTO    CHAR(8)     /*INCIDENT CREATE TIME             */, 00002750
+      10 DFLTTSD     CHAR(10)    /*INCIDENT RECORD REASON/STATUS LAST   00002760
+                                   CHANGE DATE                      */, 00002770
+      10 DFLTSTO     CHAR(8)     /*INCIDENT RECORD REASON/STATUS LAST   00002780
+                                   CHANGE TIME                      */, 00002790
+      10 NEMPABB     CHAR(30)    /*IBM EMPLOYEE ABBREVIATED NAME    */, 00002800
+      10 IEMPNBR     CHAR(7)     /*IBM EMPLOYEE NUMBER              */, 00002810
+      10 IEMPPAG     CHAR(12)    /*EMPLOYEE PAGER ID                */, 00002820
+      10 CSLMWCD     CHAR(1)     /*WARRANTY CATEGORY                */, 00002830
+      10 DAGREWP     CHAR(10)    /*WARRANTY EXPIRY DATE             */, 00002840
+      10 CHSIISC     CHAR(1)     /*INVENTORY STATUS CODE            */, 00002850
+      10 CAGRTYP     CHAR(1)     /*TYPE OF AGREEMENT CODE           */, 00002860
+      10 DAGRMEX     CHAR(10)    /*M/A EXPIRY DATE                  */, 00002870
+      10 CHSISTM     CHAR(1)     /*TYPE OF MAINTENANCE              */, 00002880
+      10 CCESTSV     CHAR(1)     /*CE/CS TYPE OF SERVICE            */, 00002890
+      10 RFLTDTM(1:8)            /*INCIDENTS EVENTS DATE/TIME       */, 00002900
+       15 DFLTDTM    CHAR(10)    /*INCIDENTS EVENTS DATE            */, 00002910
+      10 SEDQEAD     CHAR(10)    /*EXPECTED ARRIVAL DATE            */, 00002920
+      10 SEDQEAO     CHAR(8)     /*EXPECTED ARRIVAL TIME            */, 00002930
+      10 SEDQH36     CHAR(1)     /*PMH QUEUE LEVEL                  */, 00002940
+      10 SEDQH1B     CHAR(6)     /*PMH QUEUE NAME                   */, 00002950
+      10 SEDQCFL     CHAR(1)     /*CRITICAL CUSTOMER DATA           */, 00002960
+      10 UDBSSPD     CHAR(230)   /*SCRATCH PAD                      */, 00002970
+      10 SERIAL_NO   CHAR(15),                                          00002980
+      10 PROBLEM_DESC CHAR(75),                                         00002990
+      10 PROBLEM_FIX CHAR(75),                                          00003000
+      10 CUST_CONTACT CHAR(75),                                         00003010
+      10 CUST_DEF     CHAR(1),                                          00003010
+      10 ATTR_6       CHAR(15),                                         00003010
+      10 CUST_PROB_REF CHAR(15),                                        00003010
+      10 ATTR_8       CHAR(20),                                         00003010
+      10 ATTR_9       CHAR(78)                                          00003010
+ /* END OF STRUCTURE */;                                                00003020
+ DCL 1 MSG_OUT_REC BASED (ADDR(EXTR_RECC)),                             00003030
+      2 MSG_OUT_DATA CHAR(740);                                         00003040
+1/********************************************************************/ 00003050
+ /*            DECLARE FILES                                         */ 00003060
+ /********************************************************************/ 00003070
+ DCL INFILE   FILE RECORD SEQUENTIAL INPUT;                             00003080
+ DCL OUTFLEC  FILE RECORD SEQUENTIAL OUTPUT;                            00003090
+ DCL SYSPRINT FILE PRINT; /* MH01 */                                    00003090
+ /********************************************************************/
+ /*  %INCLUDE  SYSLIB2(SMONERR1)           ADD 98/12/28              */
+ /********************************************************************/
+ %INCLUDE  SYSLIB2(SMONERR1);
+
+0/********************************************************************/ 00003120
+ /*            MISC                                                  */ 00003130
+ /********************************************************************/ 00003140
+ DCL EOF           BIT(1) INIT('0'B);                                   00003150
+ DCL MSG           BIT(1) INIT('0'B);                                   00003160
+ DCL I             FIXED BIN(15,0);                                     00003170
+ DCL DATE_WRK      CHAR(8) INIT('');                                    00003180
+ DCL DATE_RETN     CHAR(10) INIT('');                                   00003190
+0/********************************************************************/ 00003120
+ /*            COUNTERS (MH01)                                       */ 00003130
+ /********************************************************************/ 00003140
+ DCL READ_IN                          FIXED BIN(31) INIT(0);
+ DCL WRITE_OUT                        FIXED BIN(31) INIT(0);
+0/********************************************************************/ 00003120
+ /*            BUILTIN                                               */ 00003130
+ /********************************************************************/ 00003140
+ DCL SUBSTR        BUILTIN;                                             00003200
+ DCL CHAR          BUILTIN;                                             00003210
+ DCL VERIFY        BUILTIN;                                             00003220
+ DCL ADDR          BUILTIN;                                             00003230
+ DCL STRING        BUILTIN;                                             00003240
+ DCL PLIDUMP       BUILTIN; /* MH01 */                                  00003250
+ /********************************************************************/
+ /*            EXTERNAL (MH01)              DELETE 98/12/28          */
+ /********************************************************************/
+ /*DCL ISSPLI                   EXTERNAL ENTRY                       */
+ /*                           (CHAR(1)) RETURNS(CHAR(44)VAR);        */
+1/********************************************************************/ 00003260
+ /*            ON UNITS                                              */ 00003270
+ /********************************************************************/ 00003280
+ ON ENDFILE(INFILE) EOF = '1'B;                                         00003290
+ /********************************************************************/ 00003260
+ /*            ON ERROR (MH01)                                       */ 00003270
+ /********************************************************************/ 00003280
+ /*ON ERROR                                                          */
+ /*  BEGIN;                                                          */
+ /*    ON ERROR SYSTEM;                                              */
+ /*                                                                  */
+ /*    PUT SKIP LIST ('CD02L97 - NO. OF WEEKLY WI RECS READ IN   : ',*/
+ /*                    READ_IN);                                     */
+ /*    PUT SKIP LIST ('CD02L97 - NO. OF EXTRACT RECS WRITTEN OUT : ',*/
+ /*                    WRITE_OUT);                                   */
+ /*                                                                  */
+ /*    CLOSE FILE(INFILE);                                           */
+ /*    CLOSE FILE(OUTFLEC);                                          */
+ /*    CLOSE FILE(SYSPRINT);                                         */
+ /*                                                                  */
+ /*    CALL PLIDUMP(ISSPLI('D'));                                    */
+ /*  END;                                                            */
+1/********************************************************************/ 00003300
+ /*            MAINLINE                                              */ 00003310
+ /********************************************************************/ 00003320
+                                                                        00003330
+ PURG_REC = '';                                                         00003340
+ EXTR_RECC = '';                                                        00003350
+                                                                        00003360
+ OPEN FILE (INFILE);                                                    00003370
+ OPEN FILE (OUTFLEC);                                                   00003380
+ OPEN FILE (SYSPRINT); /* MH01 */                                       00003380
+                                                                        00003400
+ READ FILE(INFILE) INTO(PURG_REC);                                      00003410
+                                                                        00003420
+ DO WHILE((EOF);                                                        00003430
+   READ_IN = READ_IN + 1; /* MH01 */
+   IF SUBSTR(PURG_REC.SEDQRSA,2,2) = 'CL' THEN                          00003450
+     DO;                                                                00003460
+       IF (CALL_REC.EDQCL0S.CFLTTYP  = 'MSG' &                          00003470
+           CALL_REC.EDQCL0S.CFLTTYP  = 'PGE') THEN                      00003480
+         MSG = '0'B;                                                    00003490
+       ELSE                                                             00003500
+         IF (CALL_REC.EDQCL0S.CFLTTYP = 'MSG'  |                        00003510
+             CALL_REC.EDQCL0S.CFLTTYP = 'PGE') &                        00003520
+            (CALL_REC.CFLTSEV = '1') THEN                               00003530
+           MSG = '1'B;                                                  00003540
+       CALL SETUP_CL_FILE;                                              00003550
+     END;                                                               00003560
+   ELSE                                                                 00003570
+     READ FILE(INFILE) INTO(PURG_REC);                                  00003580
+ END; /* END DO WHILE */                                                00003590
+                                                                        00003600
+ /* WRITE RECORD COUNTERS TO JOB OUTPUT (MH01) */
+ PUT SKIP LIST ('CD02L97 - NO. OF WEEKLY WI RECS READ IN   : ',
+                 READ_IN);
+ PUT SKIP LIST ('CD02L97 - NO. OF EXTRACT RECS WRITTEN OUT : ',
+                 WRITE_OUT);
+                                                                        00005140
+ CLOSE FILE(INFILE);                                                    00003610
+ CLOSE FILE(OUTFLEC);                                                   00003620
+ CLOSE FILE(SYSPRINT); /* MH01 */                                       00003620
+                                                                        00003640
+1/********************************************************************/ 00003670
+ /*        MOVE INPUT RECORD TO OUTPUT SEQ RECORD                    */ 00003680
+ /********************************************************************/ 00003690
+ SETUP_CL_FILE : PROC;                                                  00003650
+                                                                        00003700
+   EXTR_RECC = CALL_REC, BY NAME;                                       00003710
+                                                                        00003720
+   DATE_WRK = CALL_REC.DDBSLUP;                                         00003730
+   CALL DATE_FORMAT;                                                    00003740
+   EXTR_RECC.DDBSLUO = DATE_RETN;                                       00003750
+                                                                        00003760
+   IF CALL_REC.DDBSTLU = '' THEN                                        00003770
+ /*  EXTR_RECC.DDBSTLO = '';                         CHG  99/06/08   */ 00003780
+     EXTR_RECC.DDBSTLO = '00.00.00';                                    00003780
+   ELSE                                                                 00003790
+     EXTR_RECC.DDBSTLO = SUBSTR(CALL_REC.DDBSTLU,1,2) || '.' ||         00003800
+                         SUBSTR(CALL_REC.DDBSTLU,3,2) || '.' ||         00003810
+                         SUBSTR(CALL_REC.DDBSTLU,5,2);                  00003820
+                                                                        00003830
+   DATE_WRK = CALL_REC.DFLTCUS;                                         00003840
+   CALL DATE_FORMAT;                                                    00003850
+   EXTR_RECC.DFLTCUS = DATE_RETN;                                       00003860
+                                                                        00003870
+ /*DATE_WRK = SUBSTR(CALL_REC.DFLTCRT,1,6);          CHG  99/06/08   */ 00003880
+   DATE_WRK = SUBSTR(CALL_REC.DFLTCRT,1,8);                             00003880
+   CALL DATE_FORMAT;                                                    00003890
+   EXTR_RECC.DFLTCRD = DATE_RETN;                                       00003900
+                                                                        00003910
+ /*IF SUBSTR(CALL_REC.DFLTCRT,7,4) = '' THEN         CHG  99/06/08   */ 00003920
+ /*  EXTR_RECC.DFLTCTO = '';                                         */ 00003930
+ /*ELSE                                                              */ 00003940
+ /*  EXTR_RECC.DFLTCTO = SUBSTR(CALL_REC.DFLTCRT,7,2) || '.' ||      */ 00003950
+ /*                      SUBSTR(CALL_REC.DFLTCRT,9,2) || '.' ||      */ 00003960
+ /*                      '00';                                       */ 00003970
+   IF SUBSTR(CALL_REC.DFLTCRT,9,4) = '' THEN                            00003920
+     EXTR_RECC.DFLTCTO = '00.00.00';                                    00003930
+   ELSE                                                                 00003940
+     EXTR_RECC.DFLTCTO = SUBSTR(CALL_REC.DFLTCRT,9,2) || '.' ||         00003950
+                         SUBSTR(CALL_REC.DFLTCRT,11,2) || '.' ||        00003960
+                         '00';                                          00003970
+                                                                        00003980
+ /*DATE_WRK = SUBSTR(CALL_REC.SEDQEAT,1,6);          CHG  99/06/08   */ 00003990
+   DATE_WRK = SUBSTR(CALL_REC.SEDQEAT,1,8);                             00003990
+   CALL DATE_FORMAT;                                                    00004000
+   EXTR_RECC.SEDQEAD = DATE_RETN;                                       00004010
+                                                                        00004020
+ /*IF SUBSTR(CALL_REC.SEDQEAT,7,4) = '' THEN         CHG  99/06/08   */ 00004030
+ /*  EXTR_RECC.SEDQEAO = '';                                         */ 00004040
+ /*ELSE                                                              */ 00004050
+ /*  EXTR_RECC.SEDQEAO = SUBSTR(CALL_REC.SEDQEAT,7,2) || '.' ||      */ 00004060
+ /*                      SUBSTR(CALL_REC.SEDQEAT,9,2) || '.' ||      */ 00004070
+ /*                      '00';                                       */ 00004080
+   IF SUBSTR(CALL_REC.SEDQEAT,9,4) = '' THEN                            00004030
+     EXTR_RECC.SEDQEAO = '00.00.00';                                    00004040
+   ELSE                                                                 00004050
+     EXTR_RECC.SEDQEAO = SUBSTR(CALL_REC.SEDQEAT,9,2) || '.' ||         00004060
+                         SUBSTR(CALL_REC.SEDQEAT,11,2) || '.' ||        00004070
+                         '00';                                          00004080
+                                                                        00004090
+ /*DATE_WRK = SUBSTR(CALL_REC.DFLTTST,1,6);          CHG  99/06/08   */ 00004100
+   DATE_WRK = SUBSTR(CALL_REC.DFLTTST,1,8);                             00004100
+   CALL DATE_FORMAT;                                                    00004110
+   EXTR_RECC.DFLTTSD = DATE_RETN;                                       00004120
+                                                                        00004130
+ /*IF SUBSTR(CALL_REC.DFLTTST,7,4) = '' THEN         CHG  99/06/08   */ 00004140
+ /*  EXTR_RECC.DFLTSTO = '';                                         */ 00004150
+ /*ELSE                                                              */ 00004160
+ /*  EXTR_RECC.DFLTSTO = SUBSTR(CALL_REC.DFLTTST,7,2) || '.' ||      */ 00004170
+ /*                      SUBSTR(CALL_REC.DFLTTST,9,2) || '.' ||      */ 00004180
+ /*                      '00';                                       */ 00004190
+   IF SUBSTR(CALL_REC.DFLTTST,9,4) = '' THEN                            00004140
+     EXTR_RECC.DFLTSTO = '00.00.00';                                    00004150
+   ELSE                                                                 00004160
+     EXTR_RECC.DFLTSTO = SUBSTR(CALL_REC.DFLTTST,9,2) || '.' ||         00004170
+                         SUBSTR(CALL_REC.DFLTTST,11,2) || '.' ||        00004180
+                         '00';                                          00004190
+                                                                        00004200
+   DATE_WRK = CALL_REC.DAGREWP;                                         00004210
+   CALL DATE_FORMAT;                                                    00004220
+   EXTR_RECC.DAGREWP = DATE_RETN;                                       00004230
+                                                                        00004240
+   DATE_WRK = CALL_REC.DAGRMEX;                                         00004250
+   CALL DATE_FORMAT;                                                    00004260
+   EXTR_RECC.DAGRMEX = DATE_RETN;                                       00004270
+                                                                        00004280
+   EXTR_RECC.IFLTDEO = CALL_REC.SEDQDEX.IFLTDEX(1);                     00004290
+   EXTR_RECC.IFLTADO = CALL_REC.SEDQDEX.IFLTADX(1);                     00004300
+                                                                        00004310
+   EXTR_RECC.IFLTRCM = CALL_REC.IFLTRCM;                                00004320
+   EXTR_RECC.SEDQBOR = CALL_REC.SEDQBOR;                                00004330
+   EXTR_RECC.ICUSHWU = CALL_REC.ICUSHWU;                                00004340
+   EXTR_RECC.SEDQCSX = CALL_REC.SEDQCSX;                                00004350
+   EXTR_RECC.ICUSANO = CALL_REC.ICUSANO;                                00004360
+   EXTR_RECC.CODPDIV = CALL_REC.IODPDBU.CODPDIV;                        00004370
+   EXTR_RECC.CODPBUC = CALL_REC.IODPDBU.CODPBUC;                        00004380
+   EXTR_RECC.ICUSSBC = SUBSTR(CALL_REC.ICUSGZC,1,1);                    00004390
+   EXTR_RECC.ICUSGAC = SUBSTR(CALL_REC.ICUSGZC,2,7);                    00004400
+   EXTR_RECC.IFLTADX = CALL_REC.SEDQODI.IFLTADX;                        00004410
+
+   /*******************************************************************/
+   /* MODIFY TO CATER FOR RELEASE 5 LENGTH INCREASES                  */
+   /*******************************************************************/
+                                 /* STRIP CENTURY, GETS ADDED AGAIN   */
+                                 /* IN ATL094                         */
+   DO I = 1 TO 8;
+                                 /* IF IT IS YEAR 2000                */
+                                 /* PUT 'X' IN POSITION 1             */
+                                 /* PRIOR TO STRIPPING OFF CENTURY    */
+                                 /* ADD 00/02/15                      */
+     IF SUBSTR(CALL_REC.RFLTDTM(I).DFLTDTM,1,4) = '2000' THEN
+       EXTR_RECC.RFLTDTM(I).DFLTDTM =
+         'X0' || SUBSTR(CALL_REC.RFLTDTM(I).DFLTDTM,5,8);
+     ELSE
+       EXTR_RECC.RFLTDTM(I).DFLTDTM =
+         SUBSTR(CALL_REC.RFLTDTM(I).DFLTDTM,3,10);
+   END;
+
+   SERIAL_NO = ' ';                                                     00004420
+   PROBLEM_DESC = ' ';                                                  00004430
+   PROBLEM_FIX = ' ';                                                   00004440
+   CUST_CONTACT = ' ';                                                  00004450
+   CUST_DEF     = ' ';                                                  00004450
+   ATTR_6       = ' ';                                                  00004450
+   CUST_PROB_REF= ' ';                                                  00004450
+   ATTR_8       = ' ';                                                  00004450
+   ATTR_9       = ' ';                                                  00004450
+                                                                        00004460
+   CALL OUTPUT_REC;                                                     00004470
+                                                                        00004480
+-END SETUP_CL_FILE;                                                     00004490
+                                                                        00004520
+1/********************************************************************/ 00004530
+ /*        MOVE INPUT RECORD TO OUTPUT SEQ RECORD                    */ 00004540
+ /********************************************************************/ 00004550
+ DATE_FORMAT : PROC;                                                    00004510
+                                                                        00004560
+ /*DATE_RETN = '';                                    CHG  99/06/08  */ 00004570
+   DATE_RETN = '9999-12-31';                                            00004570
+                                                                        00004580
+   IF SUBSTR(DATE_WRK,1,4) = '9999' &                                   00004590
+      SUBSTR(DATE_WRK,5,2) = '99' &                                     00004600
+      SUBSTR(DATE_WRK,7,2) = '99' THEN                                  00004610
+     DATE_RETN = '9999-12-31';                                          00004620
+   ELSE                                                                 00004630
+     DO;
+       IF DATE_WRK  = '' &                                              00004640
+          DATE_WRK  = '00000000' THEN                                   00004650
+         DO;                                                            00004660
+           IF VERIFY(DATE_WRK,'0123456789') = 0 THEN                    00004670
+             DO;                                                        00004680
+               IF (SUBSTR(DATE_WRK,5,2) >= '01' &                       00004690
+                   SUBSTR(DATE_WRK,5,2) <= '12') THEN                   00004700
+                 DO;                                                    00004710
+                   IF (SUBSTR(DATE_WRK,7,2) >= '01' &                   00004720
+                       SUBSTR(DATE_WRK,7,2) <= '31') THEN               00004730
+                     DATE_RETN = SUBSTR(DATE_WRK,1,4) || '-' ||
+                                 SUBSTR(DATE_WRK,5,2) || '-' ||
+                                 SUBSTR(DATE_WRK,7,2);
+                 END;                                                   00004780
+             END;                                                       00004790
+         END;                                                           00004800
+     END;                                                               00004810
+-END DATE_FORMAT;                                                       00004820
+                                                                        00004840
+1/********************************************************************/ 00004530
+ /*        OUTPUT_REC                                                */ 00004540
+ /********************************************************************/ 00004550
+ OUTPUT_REC : PROC;                                                     00004850
+                                                                        00004860
+   IF MSG THEN                                                          00004870
+     DO;                                                                00004880
+       READ FILE(INFILE) INTO (PURG_REC);                               00004900
+       READ_IN = READ_IN + 1; /* MH01 */
+     END;                                                               00004910
+   ELSE                                                                 00004920
+     DO;                                                                00004930
+       READ FILE(INFILE) INTO (PURG_REC);                               00004940
+
+       DO UNTIL ((SUBSTR(PURG_REC.SEDQRSA,2,2))='CX') | (EOF));         00004950
+         READ_IN = READ_IN + 1; /* MH01 */
+         DO I = 1 TO 15;                                                00004970
+           SELECT;                                                      00004980
+             WHEN (EDQCX0S.SEDQILA(I) = '1')                            00004990
+               SERIAL_NO = SUBSTR(EDQCX0S.SEDQILN(I),1,15);             00005000
+             WHEN (EDQCX0S.SEDQILA(I) = '2')                            00005010
+               PROBLEM_DESC = SUBSTR(EDQCX0S.SEDQILN(I),1,75);          00005020
+             WHEN (EDQCX0S.SEDQILA(I) = '3')                            00005030
+               PROBLEM_FIX = SUBSTR(EDQCX0S.SEDQILN(I),1,75);           00005040
+             WHEN (EDQCX0S.SEDQILA(I) = '4')                            00005050
+               CUST_CONTACT = SUBSTR(EDQCX0S.SEDQILN(I),1,75);          00005060
+             WHEN (EDQCX0S.SEDQILA(I) = '5')                            00005050
+               CUST_DEF     = SUBSTR(EDQCX0S.SEDQILN(I),1,1);           00005060
+             WHEN (EDQCX0S.SEDQILA(I) = '6')                            00005050
+               ATTR_6       = SUBSTR(EDQCX0S.SEDQILN(I),1,15);          00005060
+             WHEN (EDQCX0S.SEDQILA(I) = '7')                            00005050
+               CUST_PROB_REF= SUBSTR(EDQCX0S.SEDQILN(I),1,15);          00005060
+             WHEN (EDQCX0S.SEDQILA(I) = '8')                            00005050
+               ATTR_8       = SUBSTR(EDQCX0S.SEDQILN(I),1,20);          00005060
+             WHEN (EDQCX0S.SEDQILA(I) = '9')                            00005050
+               ATTR_9       = SUBSTR(EDQCX0S.SEDQILN(I),1,78);          00005060
+             OTHERWISE;                                                 00005070
+           END;                                                         00005080
+         END;                                                           00005090
+         READ FILE(INFILE) INTO (PURG_REC);                             00005100
+       END;                                                             00005110
+       WRITE FILE(OUTFLEC) FROM (EXTR_RECC);                            00005120
+       WRITE_OUT = WRITE_OUT + 1; /* MH01 */
+     END;                                                               00005130
+                                                                        00005140
+-END OUTPUT_REC;                                                        00005150
+ /********************************************************************/
+ /* PROGRAM END BLOCK              ADD 98/12/28                      */
+ /********************************************************************/
+   %INCLUDE SYSLIB2(SMHEAD3);
+   XDESC = 'CD02L97 : CREATE DB2 LOAD FILE';
+   XPGMR = 'MSS';
+   %INCLUDE SYSLIB2(SMCTIME1);
+   %INCLUDE SYSLIB2(SMCHECK5);
+   SMCOUNT4(
+ READ_IN,
+ WRITE_OUT,END);
+   %XTWOWAY=3;
+   SMEND7(END);
+                                                                        00005140
+-END CD02L97;                                                           00005190
+

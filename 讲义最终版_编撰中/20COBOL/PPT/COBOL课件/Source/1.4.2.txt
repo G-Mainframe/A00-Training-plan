@@ -1,0 +1,16 @@
+          IDENTIFICATION  DIVISION.
+          PROGRAM-ID.   EXAM2.
+
+          ENVIRONMENT  DIVISION.
+
+          DATA  DIVISION.
+          WORKING-STORAGE  SECTION.
+          77  A  PICTURE  IS  9(3).
+          77  B  PICTURE  IS  9(3).
+
+          PROCEDURE  DIVISION.
+          S.    ACCEPT  A
+                 ACCEPT  B
+                 ADD A TO B
+                 DISPLAY A, B.
+                 STOP RUN.

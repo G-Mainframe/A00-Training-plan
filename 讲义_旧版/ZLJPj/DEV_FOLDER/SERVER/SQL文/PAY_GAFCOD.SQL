@@ -1,0 +1,10 @@
+CREATE TABLE PAY_GAFCOD
+(
+    EXPCOD                         CHAR(3) NOT NULL,
+    EXPNAM                         VARCHAR2(30) NOT NULL
+)
+/
+CREATE UNIQUE INDEX PAY_GAFCOD
+ON PAY_GAFCOD
+(EXPCOD)
+/

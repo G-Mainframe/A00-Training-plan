@@ -1,0 +1,54 @@
+000001 IDENTIFICATION DIVISION.                                         00010000
+       PROGRAM-ID MAPCICB.                                              00020000
+       DATA DIVISION.                                                   00030000
+       WORKING-STORAGE SECTION.                                         00040000
+       01 RECL     PIC S9(4) COMP.                                      00050000
+       01 RECKEY   PIC X(6).                                            00060000
+       77 POS      PIC S9(4) COMP.                                      00070018
+       01 FILEREC.                                                      00080000
+           02   NAMES   PIC X(20).                                      00090000
+           02   STOCKS  PIC S9(6).                                      00100000
+           02   QUANS   PIC S9(10).                                     00110000
+       01  ERR-CODE PIC S9(8).                                          00120000
+       01  DETAIL-C PIC S9(8).                                          00130015
+       01 COMSTART.                                                     00140000
+           05 NAMESS PIC X(20).                                         00150000
+             COPY DFHAID.                                               00160000
+       PROCEDURE DIVISION.                                              00170000
+      *                                                                 00180000
+           MOVE 10 TO POS.                                              00190016
+           MOVE 111111 TO RECKEY.                                       00200029
+           EXEC CICS STARTBR FILE('LUKSDS')                             00210000
+                             RIDFLD(RECKEY)                             00220000
+                             RESP(ERR-CODE)                             00230000
+                             RESP2(DETAIL-C)                            00240008
+                             END-EXEC.                                  00250000
+           IF ERR-CODE EQUAL DFHRESP(EOC) OR DFHRESP(NORMAL)            00260001
+              PERFORM UNTIL ERR-CODE EQUAL DFHRESP(ENDFILE)             00270025
+                   EXEC CICS READNEXT FILE('LUKSDS')                    00280029
+                                INTO(FILEREC)                           00290000
+                                RIDFLD(RECKEY)                          00300000
+                                RESP(ERR-CODE)                          00310000
+                                END-EXEC                                00320000
+                   PERFORM 1000-SENDRECORD                              00330029
+             END-PERFORM                                                00340015
+           ELSE                                                         00350006
+             EXEC CICS SEND FROM(ERR-CODE) LENGTH(8) ERASE              00360025
+                                END-EXEC                                00370025
+             EXEC CICS SEND CONTROL CURSOR(POS) END-EXEC                00380025
+             EXEC CICS SEND FROM(DETAIL-C) LENGTH(8)                    00390025
+                                    END-EXEC.                           00400008
+             EXEC CICS ENDBR FILE('LUKSDS') END-EXEC.                   00410013
+           EXEC CICS RETURN END-EXEC.                                   00420000
+           GOBACK.                                                      00430000
+       1000-SENDRECORD.                                                 00440029
+             IF ERR-CODE EQUAL DFHRESP(ENDFILE)                         00450027
+                     EXEC CICS RETURN END-EXEC                          00460026
+                   ELSE                                                 00470026
+                     ADD 80 TO POS                                      00480026
+                     EXEC CICS SEND CONTROL CURSOR(POS) END-EXEC        00490026
+                     EXEC CICS SEND FROM(FILEREC)                       00500026
+                             LENGTH(36)                                 00510026
+                             END-EXEC .                                 00520028
+      *        EXIT.                                                    00530000
+

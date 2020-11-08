@@ -1,0 +1,4 @@
+//CN0015A  JOB CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//RHELLO   EXEC PGM=HELLO01                                     
+//STEPLIB  DD DSN=CN0015.TEST.LOAD,DISP=SHR                     
+//                                                              

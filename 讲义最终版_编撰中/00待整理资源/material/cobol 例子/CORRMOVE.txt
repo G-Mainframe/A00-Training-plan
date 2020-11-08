@@ -1,0 +1,21 @@
+000100 IDENTIFICATION DIVISION.                                         00010002
+000200 PROGRAM-ID. CORRMOVE.                                            00020002
+000300****                                                              00030002
+000400 DATA DIVISION.                                                   00040002
+       WORKING-STORAGE SECTION.                                         00041003
+000500 01 STRUCT1.                                                      00050002
+000600      02 FIELDA PIC 9(3) VALUE 123.                               00060004
+000700      02 FIELDB PIC 9(4) VALUE 2341.                              00070004
+000800      02 FIELDC PIC 9(5) VALUE 123.                               00080004
+            02 FIELDD PIC 9(2) VALUE 89.                                00081006
+000900 01 STRUCT2.                                                      00090002
+001000      03 FIELDA PIC 9(4).                                         00100004
+001100      03 FIELDC PIC 9(6).                                         00110004
+001200      03 FIELDB PIC 9(5).                                         00120004
+            03 FIELDE PIC 9(2) VALUE 89.                                00121008
+001300******                                                            00130002
+001400 PROCEDURE DIVISION.                                              00140002
+001600      MOVE CORR STRUCT1 TO STRUCT2.                               00160002
+001700      DISPLAY STRUCT1 STRUCT2.                                    00170002
+001800      STOP RUN.                                                   00180002
+

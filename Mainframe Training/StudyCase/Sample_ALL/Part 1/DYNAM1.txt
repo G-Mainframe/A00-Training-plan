@@ -1,0 +1,87 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200*                                                                 00020000
+000300 PROGRAM-ID.    DYNAM1.                                           00030000
+000400*                                                                 00040000
+000500 ENVIRONMENT DIVISION.                                            00050000
+000600*                                                                 00060000
+000700 INPUT-OUTPUT SECTION.                                            00070000
+000800*                                                                 00080000
+000900 FILE-CONTROL.                                                    00090000
+001000*                                                                 00100000
+001100 DATA DIVISION.                                                   00110000
+001200*                                                                 00120000
+001300 FILE SECTION.                                                    00130000
+001400*                                                                 00140000
+001500 WORKING-STORAGE SECTION.                                         00150000
+001600*                                                                 00160000
+001700 01  SWITCHES.                                                    00170000
+001800*                                                                 00180000
+001900     05  END-OF-DELETES-SW           PIC X    VALUE 'N'.          00190004
+002000         88  END-OF-DELETES                   VALUE 'Y'.          00200004
+002100*                                                                 00210000
+002200 01  WORK-FIELDS.                                                 00220000
+002300*                                                                 00230000
+002400     05  TABLE-NAME                  PIC X(18).                   00240000
+002500     05  CUSTOMER-NUMBER             PIC X(6).                    00250000
+002600     05  DELETE-STATEMENT.                                        00260000
+002700         49  DELETE-STATEMENT-LEN    PIC S9(4) COMP VALUE +320.   00270000
+002800         49  DELETE-STATEMENT-TEXT   PIC X(320).                  00280000
+002900     05  EDITED-SQLCODE              PIC -(4).                    00290000
+003000*                                                                 00300000
+003100     EXEC SQL                                                     00310000
+003200         INCLUDE SQLCA                                            00320000
+003300     END-EXEC.                                                    00330000
+003400*                                                                 00340000
+003500 PROCEDURE DIVISION.                                              00350000
+003600*                                                                 00360000
+003700 000-DELETE-CUSTOMER-ROWS.                                        00370000
+003800*                                                                 00380000
+003900     PERFORM 100-PROCESS-CUSTOMER-ROW                             00390000
+004000         UNTIL END-OF-DELETES.                                    00400000
+004100     STOP RUN.                                                    00410000
+004200*                                                                 00420000
+004300 100-PROCESS-CUSTOMER-ROW.                                        00430002
+004400*                                                                 00440000
+004500     PERFORM 110-GET-TABLE-NAME.                                  00450000
+004600     IF NOT END-OF-DELETES                                        00460000
+004700         PERFORM 120-GET-CUSTOMER-NUMBER.                         00470000
+004800     IF NOT END-OF-DELETES                                        00480000
+004900         PERFORM 130-DELETE-CUSTOMER-ROW                          00490000
+005000         PERFORM 140-DISPLAY-STATUS-MESSAGE.                      00500000
+005100*                                                                 00510000
+005200 110-GET-TABLE-NAME.                                              00520000
+005300*                                                                 00530000
+005400     DISPLAY '-----------------------------------------------'.   00540004
+005500     DISPLAY ' ENTER THE TABLE NAME OR 999999 TO QUIT.'.          00550004
+005600     ACCEPT TABLE-NAME.                                           00560000
+005700     IF TABLE-NAME = '999999'                                     00570004
+005800         MOVE 'Y' TO END-OF-DELETES-SW.                           00580004
+005900*                                                                 00590000
+006000 120-GET-CUSTOMER-NUMBER.                                         00600000
+006100*                                                                 00610000
+006200     DISPLAY ' ENTER THE CUSTOMER NUMBER OR 999999 TO QUIT.'.     00620004
+006300     ACCEPT CUSTOMER-NUMBER.                                      00630000
+006400     IF CUSTOMER-NUMBER = '999999'                                00640004
+006500         MOVE 'Y' TO END-OF-DELETES-SW.                           00650004
+006600*                                                                 00660000
+006700 130-DELETE-CUSTOMER-ROW.                                         00670002
+006800*                                                                 00680000
+006900     MOVE SPACES TO DELETE-STATEMENT-TEXT.                        00690000
+007000     STRING 'DELETE FROM MM01.' TABLE-NAME                        00700004
+007100            ' WHERE CUSTNO = ''' CUSTOMER-NUMBER ''''             00710004
+007200            DELIMITED BY SIZE                                     00720000
+007300            INTO DELETE-STATEMENT-TEXT.                           00730000
+007400*                                                                 00740000
+007500     EXEC SQL                                                     00750000
+007600         EXECUTE IMMEDIATE :DELETE-STATEMENT                      00760000
+007700     END-EXEC.                                                    00770000
+007800*                                                                 00780000
+007900 140-DISPLAY-STATUS-MESSAGE.                                      00790000
+008000*                                                                 00800000
+008100     IF SQLCODE = 0                                               00810000
+008200         DISPLAY ' CUSTOMER ' CUSTOMER-NUMBER ' DELETED.'         00820004
+008300     ELSE                                                         00830000
+008400         DISPLAY ' CUSTOMER ' CUSTOMER-NUMBER ' NOT DELETED.'     00840004
+008500         MOVE SQLCODE TO EDITED-SQLCODE                           00850000
+008600         DISPLAY '    SQLCODE = ' EDITED-SQLCODE.                 00860004
+008700*                                                                 00870000

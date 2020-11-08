@@ -1,0 +1,27 @@
+DROP   TABLE  D482KSA_TBL   ;
+CREATE TABLE  D482KSA_TBL  (
+       契約番号                           CHAR(10)          NOT NULL,
+       申請連番                           NUMBER(2,0)       NOT NULL,
+       契約種類                           CHAR(3)           NOT NULL,
+       回収種類                           CHAR(3)           NOT NULL,
+       回収連番                           NUMBER(3,0)       NOT NULL,
+       紐付契約番号                       CHAR(10)          NOT NULL,
+       紐付再リース回数                   NUMBER(2,0)       NOT NULL,
+       紐付契約種類                       CHAR(3)           NOT NULL,
+       紐付連番                           NUMBER(3,0)       NOT NULL,
+       約定回収年月日                     CHAR(8)           NOT NULL,
+       回収サイト                         NUMBER(5,2)       NOT NULL,
+       約定回収金額                       NUMBER(13,0)      NOT NULL,
+       登録年月日                         CHAR(8)           NOT NULL,
+       登録時間                           CHAR(8)           NOT NULL,
+       登録担当者                         CHAR(8)           NOT NULL,
+       更新年月日                         CHAR(8)           NOT NULL,
+       更新時間                           CHAR(8)           NOT NULL,
+       更新者                             CHAR(8)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+CONSTRAINT  PK_D482KSA_TBL  PRIMARY KEY (
+       契約番号,
+       申請連番,
+       契約種類,
+       回収種類,
+       回収連番));

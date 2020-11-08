@@ -1,0 +1,25 @@
+DROP   TABLE  D12SIB_TBL   ;
+CREATE TABLE  D12SIB_TBL  (
+       資産種類                           CHAR(7)           NOT NULL,
+       適用年月日                         CHAR(8)           NOT NULL,
+       資産大分類名称                     VARCHAR2(40)      NOT NULL,
+       資産名称                           VARCHAR2(60)      NOT NULL,
+       耐用年数                           NUMBER(2,0)       NOT NULL,
+       税法区分                           CHAR(1)           NOT NULL,
+       更新日時                           CHAR(16)          NOT NULL,
+       更新者                             CHAR(8)           NOT NULL,
+       申告用判定コード                   CHAR(1)           NOT NULL,
+       開示用判定コード                   CHAR(1)           NOT NULL,
+       年次統計用判定コード               CHAR(1)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+       資産名称カナ                       VARCHAR2(40)      NOT NULL,
+       資産略称                           VARCHAR2(10)      NOT NULL,
+       資産略称カナ                       VARCHAR2(12)      NOT NULL,
+       登録年月日                         CHAR(8)           NOT NULL,
+       登録時間                           CHAR(8)           NOT NULL,
+       登録担当者                         CHAR(8)           NOT NULL,
+       更新年月日                         CHAR(8)           NOT NULL,
+       更新時間                           CHAR(8)           NOT NULL,
+CONSTRAINT  PK_D12SIB_TBL  PRIMARY KEY (
+       資産種類,
+       適用年月日));

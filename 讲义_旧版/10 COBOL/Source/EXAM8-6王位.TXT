@@ -1,0 +1,47 @@
+100001 IDENTIFICATION  DIVISION.                                    
+100002 PROGRAM-ID.    EX86.                                       
+100003 ENVIRONMENT      DIVISION.                                 
+100004 INPUT-OUTPUT     SECTION.                                   
+100005 FILE-CONTROL.                                                 
+100006     SELECT IN-FILE  ASSIGN TO    STDT.             
+100007     SELECT PRINT-FILE  ASSIGN TO P-FILE.               
+100008 DATA             DIVISION.                                  
+100009 FILE             SECTION.                             
+100II0 FD  IN-FILE LABEL RECORD IS STANDARD.                    
+100011 01  STUDENT-RECORD.                                      
+100012   02 NAME PIC  X(10).                                       
+100013   02 NUMB PIC  9(6).                                   
+100014   02 GRADE-1  PIC 9(3).                                     
+100015   02 GRADE-2  PIC 9(3).                                      
+100016   02 GRADE-3  PIC 9(3).                                       
+100017   02 GRADE-4  PIC 9(3).                                          
+100018   02 GRADE-5  PIC 9(3).                                       
+100019 FD   PRINT-FILE LABEL RECORD IS STANDARD.                     
+100020 01   PRINT-LINE.                                                
+100021   02 FILLER PIC X.                                          
+100022   02 NAME-P PIC X(10).                              
+100023   02 FILLER PIC X(5).                                      
+100024   02 AVER-P PIC 9(3).                                  
+100025 WORKING-STORAGE  SECTION.                                     
+100026 77  N PIC 99 VALUE 0.                                           
+100027 77  TOTAL PIC 9(6) VALUE 0.                                    
+100028 77  TOTAL-M PIC 9(3)V99.                                         
+100029 77  AVERAGE PIC 9(3).99 BLANK WHEN ZERO.                     
+100030 77  AVER-M PIC 9(3).                                          
+100031 PROCEDURE       DIVISION.                                       
+100032 S.   OPEN INPUT  IN-FILE                                     
+100033      OUTPUT   PRINT-FILE.                                 
+100034 R.   READ IN-FILE AT END GO TO C.                               
+100035      CALL 'CALCUL' USING STUDENT-RECORD, TOTAL-                
+100036-     M, AVER-M.                                          
+100037      MOVE  NAME TO NAME-P.                                    
+100038      MOVE  NAME TO AVER-P.                                  
+100039      WRITE PRINT-LINE AFTER 2.                             
+100040      ADD 1 TO N.                                          
+100041      ADD TOTAL-M TO TOTAL.                                     
+100042      GO TO R.                                                   
+100043 C.   COMPUTE AVERAGE ROUNDED = TOTAL / (5 * N).                  
+100044      DISPLAY 'AVERAGE=', AVERAGE.                             
+100045 E.   CLOSE  IN-FILE, PRINT-FILE.                              
+100046      STOP RUN.                                             
+

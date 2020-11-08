@@ -1,0 +1,9 @@
+//CN0016A  JOB  CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID
+//SEPT1    EXEC PGM=INDEX01                                     
+//STEPLIB  DD DSN=CN0016.TEST.LOAD,DISP=SHR                     
+//TBLFILE  DD DSN=CN0016.TEST.FILELIB(TBLFILE),DISP=SHR         
+//EMPFILE  DD DSN=CN0016.TEST.FILELIB(EMPFILE),DISP=SHR         
+//PAYLIST  DD DSN=CN0016.TEST.PAYLIST1,DISP=(NEW,CATLG,DELETE), 
+//            SPACE=(TRK,(10,10)),                              
+//            DCB=(RECFM=FB,LRECL=134,BLKSIZE=4020)             
+//                                                              

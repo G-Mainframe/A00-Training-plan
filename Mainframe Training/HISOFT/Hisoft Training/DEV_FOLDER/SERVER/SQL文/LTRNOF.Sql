@@ -1,0 +1,20 @@
+CREATE TABLE  LTRNOF  (
+       納付先コード                       CHAR(6)           NOT NULL,
+       都道府県名漢字                     VARCHAR2(8)       NOT NULL,
+       市区名郡町村名漢字                 VARCHAR2(30)      NOT NULL,
+       市区名郡町村名カナ                 CHAR(30)          NOT NULL,
+       ダミー００１                       CHAR(1)           NOT NULL,
+       親                                 CHAR(3)           NOT NULL,
+       子                                 CHAR(4)           NOT NULL,
+       住所名市郡名番地号漢字             VARCHAR2(60)      NOT NULL,
+       住所名都道府県名番地号カナ         CHAR(60)          NOT NULL,
+       納付先名漢字                       VARCHAR2(20)      NOT NULL,
+       納付先名カナ                       CHAR(20)          NOT NULL,
+       報奨金支払区分                     CHAR(1)           NOT NULL,
+       納付方法                           CHAR(1)           NOT NULL,
+       償却資産税率                       NUMBER(5,3)       NOT NULL,
+       納付銀行コード                     CHAR(4)           NOT NULL,
+       ダミー００２                       CHAR(13)          NOT NULL,
+       共通情報                           CHAR(35)          NOT NULL,
+CONSTRAINT  PK_LTRNOF  PRIMARY KEY (
+       納付先コード));

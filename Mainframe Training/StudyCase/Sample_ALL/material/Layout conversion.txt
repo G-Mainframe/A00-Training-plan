@@ -1,0 +1,20 @@
+Layout conversion
+
+//*-------------------------------------------------------------------*
+//* USED TXN LAYOUT CHANGE ------------------------------------------ *
+//*-------------------------------------------------------------------*
+//ST010    EXEC  CM91GEN5,TN=&TN                                       
+//FILE1    DD DSN=NE65.DS.ULMTMT&TN,DISP=SHR                           
+//FILEO    DD DSN=&&MTMTXN,DISP=(,PASS),                               
+//         SPACE=(CYL,(10,1),RLSE),                                    
+//         DCB=(RECFM=FB,LRECL=732,BLKSIZE=27816)                      
+//SYSIN    DD *                                                        
+FILE1                                                                  
+ AREA1  0001 0523C                                                     
+ SEQNO  0524 0015C                                                     
+ AREA2  0539 0179C                                                     
+FILEO                                                                  
+ SEQNO  0001 0015C                                                     
+ AREA1  0016 0523C                                                     
+ SEQNO  0539 0015C                                                     
+ AREA2  0554 0179C

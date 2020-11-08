@@ -1,0 +1,32 @@
+CREATE TABLE MST_SINYO
+(
+    信用保険料率コード             CHAR(4) NOT NULL,
+    適用日_１                      CHAR(8) NOT NULL,
+    信用保険保険料率_１            NUMBER(10,8) NOT NULL,
+    適用日_２                      CHAR(8) NOT NULL,
+    信用保険保険料率_２            NUMBER(10,8) NOT NULL,
+    適用日_３                      CHAR(8) NOT NULL,
+    信用保険保険料率_３            NUMBER(10,8) NOT NULL,
+    信用保険料率区分               CHAR(1) NOT NULL,
+    リース_割賦区分                CHAR(1) NOT NULL,
+    信用保険コード_機械区分        CHAR(2) NOT NULL,
+    信用保険コード_機種区分        CHAR(2) NOT NULL,
+    登録日                         CHAR(8) NOT NULL,
+    登録時刻                       CHAR(6) NOT NULL,
+    登録担当者コード               CHAR(4) NOT NULL,
+    更新日                         CHAR(8) NOT NULL,
+    更新時刻                       CHAR(6) NOT NULL,
+    更新担当者コード               CHAR(4) NOT NULL,
+    付保区分                       CHAR(1) NOT NULL,
+    保険期間月数_１                CHAR(3) NOT NULL,
+    割増割引区分_１                CHAR(1) NOT NULL,
+    割増割引率_１                  NUMBER(10,8) NOT NULL,
+    保険期間月数_２                CHAR(3) NOT NULL,
+    割増割引区分_２                CHAR(1) NOT NULL,
+    割増割引率_２                  NUMBER(10,8) NOT NULL,
+    保険期間月数_３                CHAR(3) NOT NULL,
+    割増割引区分_３                CHAR(1) NOT NULL,
+    割増割引率_３                  NUMBER(10,8) NOT NULL,
+    CONSTRAINT P_MSTSINYO_KEY PRIMARY KEY (付保区分, リース_割賦区分, 信用保険料率コード) USING INDEX
+)
+/

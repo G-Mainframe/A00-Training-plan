@@ -1,0 +1,38 @@
+//*****I    JOB (012),'TE.010',MSGLEVEL=(1,1),
+//          MSGCLASS=Q,CLASS=A,NOTIFY=*****
+//*-------------------------------------------------------------------//
+//*      CARD TO DISK                                                 //
+//*-------------------------------------------------------------------//
+//BUILD     EXEC  PGM=IEBGENER
+//SYSPRINT  DD    SYSOUT=*
+//SYSUT1    DD    *
+  JONES     FRED  53AF  87  8701  NINE MILE ROAD
+  ANDERSON  DON   78AF  32  320   WESTFHIMER #219
+//SYSUT2    DD    DSN=*****.TEST.DATA.REC,DISP=(,CATLG,DELETE),
+//          SPACE=(TRK,(1,1)),RECFM=FB,LRECL=80,UNIT=SYSDA
+//SYSIN     DD    DUMMY
+//*-------------------------------------------------------------------//
+//*      COPY                                                         //
+//*-------------------------------------------------------------------//
+//COPY      EXEC  PGM=IEBGENER
+//SYSPRINT  DD    SYSOUT=*
+//SYSUT1    DD    DSN=*****.TEST.DATA.REC,DISP=SHR
+//SYSUT2    DD    DSN=*****.TEST.DATA.REC1,DISP=(,CATLG,DELETE),
+//          SPACE=(TRK,(1,1)),RECFM=FB,LRECL=80,UNIT=SYSDA
+//SYSIN     DD    DUMMY
+//*-------------------------------------------------------------------//
+//*      PRINT TO TERMINAL                                            //
+//*-------------------------------------------------------------------//
+//PRINT     EXEC  PGM=IEBGENER
+//SYSPRINT  DD    SYSOUT=*
+//SYSUT1    DD    DSN=*****.TEST.DATA.REC1,DISP=SHR
+//SYSUT2    DD    SYSOUT=*
+//SYSIN     DD    *
+  GENERATE MAXFLDS=3
+  RECORD FIELD=(10,3,,1),FIELD=(5,13,,15),FIELD=(20,35,,30)
+//*-------------------------------------------------------------------//
+//*      DELETE SEQUANTIAL DATA SET                                   //
+//*-------------------------------------------------------------------//
+//DELETE EXEC PGM=IEFBR14
+//DD1    DD   DSN=*****.TEST.DATA.REC1,DISP=(OLD,DELETE)
+//DD2    DD   DSN=*****.TEST.DATA.REC,DISP=(OLD,DELETE)

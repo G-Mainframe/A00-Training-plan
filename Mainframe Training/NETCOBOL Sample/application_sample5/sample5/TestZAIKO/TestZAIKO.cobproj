@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="shift_jis"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <ProductVersion>3.0.109.0</ProductVersion>
+    <SchemaVersion>3.0</SchemaVersion>
+    <ProjectGuid>{7FCE62A1-A212-4479-9D83-D051D8778D35}</ProjectGuid>
+    <AssemblyName>TestZAIKO</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>TestZAIKO</RootNamespace>
+    <MainEntryPoint>TestZAIKO.Program1</MainEntryPoint>
+    <ReferencePath>$(MSBuildProjectDirectory)</ReferencePath>
+    <CommonCopyBookPath>..\StockLibrary\</CommonCopyBookPath>
+    <CopyBookPath>$(CommonCopyBookPath)</CopyBookPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <AdditionalOptions>/WC:"CHECK(ALL),RCS(SJIS-UCS2)"</AdditionalOptions>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AdditionalOptions>/WC:"RCS(SJIS-UCS2)"</AdditionalOptions>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Fujitsu\NetCOBOL for .NET\V3.0\Fujitsu.COBOL.targets" />
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program1.cob" />
+    <Compile Include="Properties\AssemblyInfo.cob" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyBookFile Include="..\StockLibrary\IODETAIL.cbl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StockLibrary\StockLibrary.cobproj">
+      <Project>{BA7E67F5-023F-43BB-BD1A-DD052D66F43A}</Project>
+      <Name>StockLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

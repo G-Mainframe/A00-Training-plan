@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE root SYSTEM "config.dtd">
+<root>
+    <file>%TPFSHARE%\nl\zh\uss_base_file_actions.xml</file>
+    <file>%TPFSHARE%\nl\zh\uss_file_actions.xml</file>
+    <project>%TPFSHARE%\nl\zh\uss_base_subproject_actions.xml</project>
+</root>

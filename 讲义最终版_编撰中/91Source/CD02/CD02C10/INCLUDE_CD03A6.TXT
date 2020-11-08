@@ -1,0 +1,18 @@
+ /*PIMS-CALL DISPATCH DATA                                            */00030001
+ /*     ORIGINAL SYS1.DCL(CA75CAL)                                    */00031001
+  2 CTRYNUMB       CHAR(3),     /*   1 COUNTRY NUMBER                 */00031201
+  2 CALLNUM        CHAR(7),     /*   4 CESIS CALL NUMBER              */00031401
+  2 MACHTYPE       CHAR(4),     /*  11 MACHINE TYPE                   */00031601
+                                /*     CMAXA   RRDDI1    001 CHAR(  4)*/00031701
+                                /*     CMAXA  JRCMHM0    001 CHAR(  4)*/00031801
+  2 MACHSER        CHAR(5),     /*  15 MACHINE SERIAL NUMBER          */00031901
+                                /*     RMAXA   RRDDI1    005 CHAR(  7)*/00032001
+                                /*     RMAXA  JRCMHM0    008 CHAR(  7)*/00032101
+  2 MACHST         CHAR(2),     /*  20 MACHINE STATUS NUMBER          */00032301
+  2 MACHORG        CHAR(2),     /*  22 MACHINE ORIGIN NUMBER          */00032501
+  2 CUSTNUM        CHAR(7),     /*  24 CUSTOMER NUMBER                */00032601
+                                /*     RCUXA   RRDDI1    114 CHAR(  6)*/00032701
+                                /*     RCUXA  JRCMHM0    008 CHAR(  6)*/00032801
+  2 SVCCODE        CHAR(2),     /*  31 SERVICE CODE                   */00032901
+  2 FILLER         CHAR(10);    /*  33 FILLER                         */00034001
+

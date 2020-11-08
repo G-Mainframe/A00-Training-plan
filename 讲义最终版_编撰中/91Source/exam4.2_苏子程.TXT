@@ -1,0 +1,25 @@
+      IDENTIFICATION    DIVISION.
+      PROGRAM-ID.       EXAM42.
+      ENVIRONMENT       DIVISION.
+      INPUT-OUTPUT    SECTION.
+      FILE CONTROL.
+         SELECT    PRINT-FILE  ASSIGN  TO  PRINTER.
+      DATA DIVISION.
+      FILE SECTION.
+      FD     PRINT-FILE  LABEL  RECORD IS OMITTED.
+      01  T.
+         02  FILLER  PIC  X.
+         02  T1  PIC  A(5).
+         02  T2  PIC  A(3).
+         02  T3  PIC  A(2).
+         02  T4  PIC  A(5).
+      PROCEDURE DIVISION.
+        OPEN OUTPUT ABC.
+      MOVE 'THIS ' TO  T1.
+      MOVE ' IS '  TO  T2.
+      MOVE  'A'    TO  T3.
+      MOVE 'BOOK'  TO  T4.
+      WRITE  T  AFTER 1.
+      CLOSE  ABC.
+      STOP RUN.
+

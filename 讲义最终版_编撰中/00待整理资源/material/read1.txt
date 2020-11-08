@@ -1,0 +1,48 @@
+       IDENTIFICATION DIVISION.
+      *
+       PROGRAM-ID. RPT1000.
+      *
+       ENVIRONMENT DIVISION.
+      *
+       INPUT-OUTPUT SECTION.
+      *
+       FILE-CONTROL.
+      *
+           SELECT CUSTMAST ASSIGN TO UT-S-CUSTMAST.
+      *
+       DATA DIVISION.
+      *
+       FILE SECTION.
+      *
+       FD  CUSTMAST.
+      *
+       01  CUSTOMER-MASTER-RECORD.
+           05  CM-BRANCH-NUMBER        PIC 9(2).
+           05  CM-SALESREP-NUMBER      PIC 9(2).
+           05  CM-CUSTOMER-NUMBER      PIC 9(5).
+           05  CM-CUSTOMER-NAME        PIC X(20).
+           05  CM-SALES-THIS-YTD       PIC S9(5)V9(2).
+           05  CM-SALES-LAST-YTD       PIC S9(5)V9(2).
+      *
+      *
+       WORKING-STORAGE SECTION.
+      *
+       01  SWITCHES.
+           05  CUSTMAST-EOF-SWITCH     PIC X    VALUE "N".
+      *
+      *
+       PROCEDURE DIVISION.
+      *
+       000-PREPARE-SALES-REPORT.
+      *
+           OPEN INPUT  CUSTMAST.
+       000-READ.
+           READ CUSTMAST
+                AT END GO TO 000-END.
+           DISPLAY 'CUST NUM = ' CM-CUSTOMER-NUMBER
+           GO TO 000-READ.
+       000-END.
+           CLOSE CUSTMAST.
+           STOP RUN.
+      *
+

@@ -1,0 +1,23 @@
+CREATE TABLE  CPFRDSAI  (
+       流動化ＩＤ                         CHAR(7)           NOT NULL,
+       契約番号                           NUMBER(9,0)       NOT NULL,
+       再リースコード                     NUMBER(1,0)       NOT NULL,
+       解約区分                           CHAR(1)           NOT NULL,
+       解約日＿世紀区分                   CHAR(1)           NOT NULL,
+       解約日＿年                         CHAR(2)           NOT NULL,
+       解約日＿月                         CHAR(2)           NOT NULL,
+       解約日＿日                         CHAR(2)           NOT NULL,
+       勘定処理コード                     NUMBER(2,0)       NOT NULL,
+       ファイナンス開始＿世紀区分         CHAR(1)           NOT NULL,
+       ファイナンス開始＿年               CHAR(2)           NOT NULL,
+       ファイナンス開始＿月               CHAR(2)           NOT NULL,
+       ファイナンス終了＿世紀区分         CHAR(1)           NOT NULL,
+       ファイナンス終了＿年               CHAR(2)           NOT NULL,
+       ファイナンス終了＿月               CHAR(2)           NOT NULL,
+       ファイナンス期間                   NUMBER(3,0)       NOT NULL,
+       債権残高                           NUMBER(13,0)      NOT NULL,
+       一部解約金額                       NUMBER(13,0)      NOT NULL,
+       ダミー００１                       CHAR(46)          NOT NULL,
+CONSTRAINT  PK_CPFRDSAI  PRIMARY KEY (
+       流動化ＩＤ,
+       契約番号));

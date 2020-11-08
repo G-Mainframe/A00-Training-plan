@@ -1,0 +1,19 @@
+
+DISPLAY   ZERO
+
+
+			A在内存中字节数		结果
+MOVE  ZERO TO A			4		0000  (每个字节都是0)
+MOVE ZEROS TO A			1		0
+
+MOVE SPACE TO A			4		四个空格
+MOVE SPACE TO A			1		一个空格
+
+MOVE HIGH-VALUE TO A		4		每隔字节二进制都是11111111
+MOVE LOW-VALUE TO A		4		每隔字节二进制都是00000000
+
+MOVE QUOTE TO A			4		''''  (四个单引号)
+
+MOVE ALL  '*'  TO  A		4		****
+MOVE ALL  'AB'  TO  A		4		ABAB
+MOVE ALL  'ABC'  TO  A		5		ABCAB

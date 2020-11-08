@@ -1,0 +1,32 @@
+CREATE TABLE ANK_KIHON
+(
+    案件番号                       CHAR(10) NOT NULL,
+    見積枝番                       CHAR(2) NOT NULL,
+    ユーザーコード                 CHAR(8) NOT NULL,
+    顧客コード                     CHAR(6) NOT NULL,
+    取引先名                       VARCHAR2(60) NOT NULL,
+    見積日                         CHAR(8) NOT NULL,
+    見積有効期限                   CHAR(8) NOT NULL,
+    取引形態コード                 CHAR(2) NOT NULL,
+    見積書提出先                   VARCHAR2(60) NOT NULL,
+    コメント                       VARCHAR2(60) NOT NULL,
+    検収予定日                     CHAR(8) NOT NULL,
+    リース料支払い方法１           VARCHAR2(40) NOT NULL,
+    リース料支払い方法２           VARCHAR2(40) NOT NULL,
+    納入場所                       VARCHAR2(60) NOT NULL,
+    保守契約先名                   VARCHAR2(60) NOT NULL,
+    再リース料                     VARCHAR2(60) NOT NULL,
+    連帯保証人                     VARCHAR2(60) NOT NULL,
+    見積附随条項番号               VARCHAR2(80) NOT NULL,
+    見積附随条項                   VARCHAR2(500) NOT NULL,
+    案件リファレンス１             VARCHAR2(20) NOT NULL,
+    案件リファレンス２             VARCHAR2(20) NOT NULL,
+    登録日                         CHAR(8) NOT NULL,
+    登録時刻                       CHAR(6) NOT NULL,
+    登録担当者コード               CHAR(4) NOT NULL,
+    更新日                         CHAR(8) NOT NULL,
+    更新時刻                       CHAR(6) NOT NULL,
+    更新担当者コード               CHAR(4) NOT NULL,
+    CONSTRAINT SYS_C0022043 PRIMARY KEY (案件番号, 見積枝番) USING INDEX
+)
+/

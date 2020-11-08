@@ -1,0 +1,31 @@
+CREATE TABLE NTL_MANTSU_CSV
+(
+    レコード種別                   VARCHAR2(3) NOT NULL,
+    リース会社ＩＤ                 VARCHAR2(8) NOT NULL,
+    顧客ＩＤ                       VARCHAR2(14) NOT NULL,
+    契約ＩＤ                       VARCHAR2(24) NOT NULL,
+    満了年月                       VARCHAR2(8),
+    送付先コード                   VARCHAR2(22),
+    再リース期間＿自               VARCHAR2(12),
+    再リース期間＿至               VARCHAR2(12),
+    再リース料                     VARCHAR2(15),
+    再リース料消費税               VARCHAR2(16),
+    送付先会社名                   VARCHAR2(66),
+    送付先部署名                   VARCHAR2(36),
+    送付先担当者名                 VARCHAR2(36),
+    送付先住所                     VARCHAR2(122),
+    代理回収保守料                 VARCHAR2(15),
+    代理回収保守料消費税           VARCHAR2(16),
+    代表物件名                     VARCHAR2(66),
+    ハードソフト区分               VARCHAR2(3),
+    再リース料区分                 VARCHAR2(6),
+    代理回収保守料区分             VARCHAR2(6),
+    ソート専用項目                 VARCHAR2(32),
+    備忘情報                       VARCHAR2(62),
+    作成ＩＤ                       VARCHAR2(12),
+    作成日                         VARCHAR2(12),
+    更新ＩＤ                       VARCHAR2(12),
+    更新日                         VARCHAR2(12),
+    CONSTRAINT SYS_C0027496 PRIMARY KEY (レコード種別, リース会社ＩＤ, 顧客ＩＤ, 契約ＩＤ) USING INDEX
+)
+/

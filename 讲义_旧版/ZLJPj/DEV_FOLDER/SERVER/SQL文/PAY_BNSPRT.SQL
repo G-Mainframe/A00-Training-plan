@@ -1,0 +1,50 @@
+CREATE TABLE PAY_BNSPRT
+(
+    CNTNUM                         CHAR(9) NOT NULL,
+    RELEAS                         CHAR(1) NOT NULL,
+    CNTDAY                         CHAR(8),
+    DIVCOD                         CHAR(4),
+    CLTCOD                         CHAR(8),
+    CLTNAM                         VARCHAR2(60) NOT NULL,
+    PAYCLT                         CHAR(8),
+    PAYNAM                         VARCHAR2(60),
+    RCVBGN                         CHAR(8),
+    RCVCYC                         CHAR(2),
+    RCVCNT                         NUMBER(3,0),
+    RCVDAY                         CHAR(2),
+    PAYBGN                         CHAR(8),
+    PAYCYC                         CHAR(2),
+    PAYCNT                         NUMBER(3,0),
+    HOLSFT                         CHAR(1),
+    CLTCNT                         NUMBER(2,0),
+    CHCKYN                         CHAR(1),
+    REMARK                         VARCHAR2(46),
+    CHGTYP                         CHAR(1),
+    TRNTYP                         CHAR(1),
+    PLNDAY                         CHAR(8),
+    PAYDAY                         CHAR(8),
+    BNKCOD                         CHAR(4),
+    BRCCOD                         CHAR(3),
+    DEPKND                         CHAR(1),
+    DEPNUM                         CHAR(7),
+    UPDFLG                         CHAR(1),
+    TRNAMT                         NUMBER(13,0),
+    TRNTAX                         NUMBER(13,0),
+    CHGAMT                         NUMBER(13,0),
+    CHGTAX                         NUMBER(13,0),
+    TAXRAT                         NUMBER(3,1),
+    CNTAMT                         NUMBER(13,0),
+    RCVBAL                         NUMBER(13,0),
+    UNPBAL                         NUMBER(13,0),
+    REGDAY                         CHAR(8),
+    REGTIM                         CHAR(6),
+    REGPSN                         CHAR(4),
+    MODDAY                         CHAR(8),
+    MODTIM                         CHAR(6),
+    MODPSN                         CHAR(4)
+)
+/
+CREATE INDEX PAY_BNSPRT
+ON PAY_BNSPRT
+(CNTNUM, RELEAS, PAYCLT, PLNDAY, PAYDAY)
+/

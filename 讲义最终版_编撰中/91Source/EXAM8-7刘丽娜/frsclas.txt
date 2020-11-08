@@ -1,0 +1,26 @@
+       IDENTIFICATION DIVISION.
+      *
+       PROGRAM-ID. COL87S4.
+      *
+       ENVIRONMENT DIVISION.
+      *
+       DATA DIVISION.
+       LINKAGE SECTION.
+       77 DISTANCE        PIC   9(3).
+       77 FRST-CLASS-FEE  PIC   9(4).
+       PROCEDURE DIVISION USING DISTANCE, FRST-CLASS-FEE.
+       START-FRSCLAS.
+           IF DISTANCE < 101
+              MOVE 5 TO FRST-CLASS-FEE
+           ELSE
+               IF DISTANCE < 201
+                  MOVE 10 TO FRST-CLASS-FEE
+               ELSE
+                   IF DISTANCE < 401
+                      MOVE 15 TO FRST-CLASS-FEE
+                   ELSE
+                       IF DISTANCE < 601
+                          MOVE 20 TO FRST-CLASS-FEE
+                       ELSE MOVE 25 TO FRST-CLASS-FEE.
+       E.  EXIT PROGRAM.
+

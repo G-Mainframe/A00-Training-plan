@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>3.0.109.0</ProductVersion>
+    <SchemaVersion>3.0</SchemaVersion>
+    <ProjectTypeGuids>{D14573E8-FB76-49a1-87B5-A71CD360372C};{c252feb5-a946-4202-b1d4-9916a0590387};{65061393-A89E-4bd7-8A55-90C3D2908C67}</ProjectTypeGuids>
+    <ProjectGuid>{CF7A0A9F-3614-40B5-8C48-3F4996344078}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>StockProcedures</RootNamespace>
+    <AssemblyName>StockProcedures</AssemblyName>
+    <PermissionLevel>1</PermissionLevel>
+    <ReferencePath>$(MSBuildProjectDirectory)</ReferencePath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <AdditionalOptions>/optionset:sqlclr /wc:"CHECK(ALL)"</AdditionalOptions>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <AdditionalOptions>/optionset:sqlclr</AdditionalOptions>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Fujitsu\NetCOBOL for .NET\V3.0\Fujitsu.COBOL.targets" />
+  <Import Project="$(MSBuildBinPath)\SqlServer.targets" />
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cob" />
+    <Compile Include="SP_SYAIN.cob" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Test Scripts\Test.sql">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <!--
+	ビルド作業を変更するには、独自タスクを以下のターゲットに追加してください。
+	同様の拡張方法はほかにもあります。Fujitsu.COBOL.targetsを参照してください。
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>

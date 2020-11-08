@@ -1,0 +1,82 @@
+//EV6317DL  JOB (F9500B,NE65,32,                                        00000101
+//       'TM=01'),F9500,                                                00000200
+//       NOTIFY=EV6317,REGION=4M,                                       00000301
+//       CLASS=M,MSGCLASS=R,                                            00000400
+//       USER=NE65U1,PASSWORD=ZAQ12WSX                                  00000500
+//*---------------------------------------< JOB LIBRARY    >-----------*00002200
+//JOBLIB  DD DSN=DSN.DSNLOAD,DISP=SHR                                   00002300
+//        DD DSN=DSN.RUNLIB.LOAD,DISP=SHR                               00002400
+//*---------------------------------------< SCRATCH        >-----------*00002700
+//DELETE EXEC MSSSCR2,SYM='TM=&TM'                                      00003000
+/*                                                                      00009000
+//*--------------------------------------------------------------------*00048800
+//*  RESET UTILITY STATUS FOR LOAD STEP                                *00048900
+//*--------------------------------------------------------------------*00049100
+//RESETUTL EXEC PGM=IKJEFT01,DYNAMNBR=20                                00049500
+//SYSTSPRT DD  SYSOUT=*                                                 00049600
+//SYSPRINT DD  SYSOUT=*                                                 00049700
+//SYSUDUMP DD  SYSOUT=*                                                 00049800
+//OUTPUT   DD  SYSOUT=*,DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0)             00049900
+//SYSTSIN  DD *                                                         00050000
+  DSN SYSTEM(DSN)                                                       00050100
+  -TERM UTIL(NE65.LOADTACD)                                             00050200
+/*                                                                      00050300
+//*--------------------------------------------------------------------*00050400
+//*  LOAD PROFILE DATA TO DATABASE                                     *00050500
+//*--------------------------------------------------------------------*00050600
+//NE65LD  PROC                                                          00050800
+//LOAD    EXEC PGM=DSNUTILB,REGION=6M,PARM='DSN,&UID'                   00050900
+//STEPLIB  DD DSN=DSN.DSNLOAD,DISP=SHR                                  00051000
+//SYSPRINT DD  SYSOUT=*                                                 00051200
+//UTPRINT  DD  SYSOUT=*                                                 00051300
+//SORTWK01 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00051400
+//SORTWK02 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00051500
+//SORTWK03 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00051600
+//SORTWK04 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00051700
+//SORTWK05 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00051800
+//SORTWK06 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00051900
+//SORTOUT  DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00052000
+//SYSREC   DD  DISP=(,DELETE),UNIT=SYSDA,                               00052100
+//             SPACE=(CYL,(30,10),RLSE),                                00052200
+//             DCB=(RECFM=FB,LRECL=80,BLKSIZE=4000)                     00052300
+//SYSMAP   DD  UNIT=SYSDA,SPACE=(CYL,(10,10),RLSE)                      00052400
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(CYL,(10,10),RLSE)                      00052500
+//SORTOUT  DD  UNIT=SYSDA,SPACE=(CYL,(10,10),RLSE)                      00052600
+//SYSREC00 DD  DSN=EV6317.B601.LD,DISP=SHR                              00052701
+//SYSIN    DD  DSN=EV6317.B601.PH,DISP=SHR                              00052801
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)                      00052900
+//        PEND                                                          00053100
+//*-------------------------------------------------------------------* 00053200
+//LDACD   EXEC NE65LD,UID='NE65.LOADTACD'                               00053300
+//*                                                                     00053400
+//*--------------------------------------------------------------------*00053500
+//*  RESET UTILITY STATUS FOR REPAIR STEP                              *00053600
+//*--------------------------------------------------------------------*00053700
+//RESETUTL EXEC PGM=IKJEFT01,DYNAMNBR=20                                00053800
+//SYSTSPRT DD  SYSOUT=*                                                 00053900
+//SYSPRINT DD  SYSOUT=*                                                 00054000
+//SYSUDUMP DD  SYSOUT=*                                                 00054100
+//OUTPUT   DD  SYSOUT=*,DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0)             00054200
+//SYSTSIN  DD *                                                         00054300
+  DSN SYSTEM(DSN)                                                       00054400
+  -TERM UTIL(NE65.REPTACD)                                              00054500
+/*                                                                      00054600
+//*--------------------------------------------------------------------*00054700
+//*  REPAIR UTILITY                                                    *00054800
+//*--------------------------------------------------------------------*00054900
+//REPAIR  EXEC PGM=DSNUTILB,PARM='DSN,NE65.REPTACD'                     00055000
+//STEPLIB  DD DSN=DSN.DSNLOAD,DISP=SHR                                  00055100
+//SYSPRINT DD SYSOUT=*                                                  00055200
+//UTPRINT  DD SYSOUT=*                                                  00055300
+//SYSUDUMP DD SYSOUT=*                                                  00055400
+//SYSUT1   DD UNIT=(DISK2,3),SPACE=(TRK,(50,10))                        00055500
+//SYSIN    DD *                                                         00055600
+ REPAIR SET TABLESPACE NE65D001.NE65SMTS   NOCOPYPEND                   00055700
+ REPAIR SET TABLESPACE NE65D001.NE65SMTS   NOCHECKPEND                  00055800
+//*                                                                     00055900
+//*--------------------------------------------------------------------*00056000
+//*  ABTRAP                                                            *00056100
+//*--------------------------------------------------------------------*00056200
+//ABEND   EXEC ABTRAP,RETCD=8                                           00057000
+//*                                                                     00060000
+

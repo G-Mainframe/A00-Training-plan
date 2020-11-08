@@ -1,0 +1,32 @@
+CREATE TABLE SSF_WK_ITIRAN
+(
+    契約番号                       CHAR(9) NOT NULL,
+    第１回リース料入金日           CHAR(8),
+    第２回リース料入金日           CHAR(8),
+    検収日                         CHAR(8),
+    取引先名                       VARCHAR2(60),
+    金庫支店コード                 CHAR(5),
+    リース期間                     NUMBER(3,0),
+    繰延月数                       NUMBER(4,2),
+    担当者                         CHAR(4),
+    社内金利                       NUMBER(2,3),
+    勘定コード                     CHAR(2),
+    物件金額                       NUMBER(13,0),
+    仕入れ消費税                   NUMBER(13,0),
+    そうしん初回リース料           NUMBER(13,0),
+    当社初回リース料               NUMBER(13,0),
+    当社初回消費税等               NUMBER(13,0),
+    そうしん定額リース料           NUMBER(13,0),
+    当社定額リース料               NUMBER(13,0),
+    当社定額消費税等額             NUMBER(13,0),
+    そうしん契約金額               NUMBER(13,0),
+    当社契約金額                   NUMBER(13,0),
+    一括消費税等額                 NUMBER(13,0),
+    そうしん前受リース料           NUMBER(13,0),
+    当社前受リース料               NUMBER(13,0),
+    当社前受消費税等額             NUMBER(13,0),
+    粗利益                         NUMBER(13,0),
+    実質利回                       NUMBER(10,8),
+    CONSTRAINT SYS_C009991 PRIMARY KEY (契約番号) USING INDEX
+)
+/

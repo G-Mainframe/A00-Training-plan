@@ -1,0 +1,17 @@
+[Compile Options]
+CHECK=Yes 1,ALL
+COPY=Yes
+FLAG=I
+FLAGSW=No STDM
+LIB="d:\ZLJPj\Source\COPYLIB"
+LINECOUNT=60
+LINESIZE=136
+MAIN=Yes WINMAIN
+MESSAGE=No
+NUMBER=No
+SOURCE=Yes
+[Release Options]
+CHECK=Yes 1,ALL
+[Debug Options]
+TEST=Yes
+CHECK=Yes 1,BOUND

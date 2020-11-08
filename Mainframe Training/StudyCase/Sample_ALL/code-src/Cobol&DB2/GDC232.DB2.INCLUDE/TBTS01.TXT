@@ -1,0 +1,25 @@
+      ******************************************************************
+      * DCLGEN TABLE(GDC232.TBTS01)                                    *
+      *        LIBRARY(GDC232.DB2.INCLUDE(TBTS01))                     *
+      *        ACTION(REPLACE)                                         *
+      *        LANGUAGE(COBOL)                                         *
+      *        QUOTE                                                   *
+      * ... IS THE DCLGEN COMMAND THAT MADE THE FOLLOWING STATEMENTS   *
+      ******************************************************************
+           EXEC SQL DECLARE GDC232.TBTS01 TABLE                         
+           ( IN_SNO                         INTEGER NOT NULL,           
+             IN_SNAME                       VARCHAR(18),                
+             IN_REMARK                      VARCHAR(30),                
+             IN_FILLER                      VARCHAR(30)                 
+           ) END-EXEC.                                                  
+      ******************************************************************
+      * COBOL DECLARATION FOR TABLE GDC232.TBTS01                      *
+      ******************************************************************
+       01  DCLTBTS01.                                                   
+           10 IN-SNO               PIC S9(9) USAGE COMP.                
+           10 IN-SNAME             PIC X(18).                           
+           10 IN-REMARK            PIC X(30).                           
+           10 IN-FILLER            PIC X(30).                           
+      ******************************************************************
+      * THE NUMBER OF COLUMNS DESCRIBED BY THIS DECLARATION IS 4       *
+      ******************************************************************

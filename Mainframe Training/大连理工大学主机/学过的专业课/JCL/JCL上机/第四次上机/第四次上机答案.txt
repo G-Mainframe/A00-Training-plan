@@ -1,0 +1,40 @@
+//ST002DEF JOB (012),ZHAO,CLASS=A,MSGLEVEL=(1,0),                       
+//  NOTIFY=ST002,MSGCLASS=A                                             
+//*-------------------------------------------------------------------//
+//*      CARD TO DISK                                                 //
+//*-------------------------------------------------------------------//
+//BUILD     EXEC  PGM=IEBGENER                                          
+//SYSPRINT  DD    SYSOUT=*                                              
+//SYSUT1    DD    *                                                     
+  JONES     FRED  53AF  87  8701  NINE MILE ROAD                        
+  ANDERSON  DON   78AF  32  320   WESTFHIMER #219                       
+  BRITNEY   LIN   589F   85 1258  DONSETER  #23                         
+//SYSUT2    DD    DSN=ST002.TEST.DATA.REC1,SPACE=(TRK,(1,1)),           
+//          VOL=SER=WORK01,RECFM=FB,LRECL=80,DISP=(,CATLG,DELETE)       
+//SYSIN     DD    DUMMY                                                 
+//*-------------------------------------------------------------------//
+//*      SORT                                                         //
+//*-------------------------------------------------------------------//
+//SORT      EXEC PGM=ICEMAN,COND=(0,NE,BUILD)                           
+//SYSOUT    DD   SYSOUT=*                                               
+//SORTIN    DD   DSN=ST002.TEST.DATA.REC1,DISP=OLD                      
+//SORTOUT   DD   DSN=ST002.TEST.DATA.REC2,SPACE=(TRK,(1,1)),            
+//          VOL=SER=WORK01,RECFM=FB,LRECL=80,DISP=(,CATLG,DELETE)       
+//SYSIN     DD *                                                        
+ SORT FIELDS=(3,10,CH,A)                                                
+//*-------------------------------------------------------------------//
+//*      PRINT TO TERMINAL                                              
+//*-------------------------------------------------------------------//
+//PRINT     EXEC  PGM=IEBGENER,COND=(8,LT,SORT)                         
+//SYSPRINT  DD    SYSOUT=*                                              
+//SYSUT1    DD    DSN=ST002.TEST.DATA.REC2,DISP=OLD                     
+//SYSUT2    DD    SYSOUT=*                                              
+//SYSIN     DD    *                                                     
+  GENERATE MAXFLDS=1                                                    
+  RECORD FIELD=(10,3,,1)                                                
+//*-------------------------------------------------------------------//
+//*      DELETE                                                       //
+//*-------------------------------------------------------------------//
+//DELETE EXEC PGM=IEFBR14,COND=EVEN                                     
+//DD1    DD   DSN=ST002.TEST.DATA.REC1,DISP=(OLD,DELETE)                
+//DD2    DD   DSN=ST002.TEST.DATA.REC2,DISP=(OLD,DELETE)                

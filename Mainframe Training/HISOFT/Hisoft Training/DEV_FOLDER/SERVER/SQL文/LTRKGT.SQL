@@ -1,0 +1,23 @@
+CREATE TABLE  LTRKGT  (
+       契約ＮＯ                           CHAR(9)           NOT NULL,
+       展開番号                           NUMBER(3,0)       NOT NULL,
+       利息基準日回収日                   CHAR(7)           NOT NULL,
+       元本内入                           NUMBER(13,0)      NOT NULL,
+       利息額                             NUMBER(13,0)      NOT NULL,
+       元利合計                           NUMBER(13,0)      NOT NULL,
+       元本残高                           NUMBER(13,0)      NOT NULL,
+       期間月数                           NUMBER(3,0)       NOT NULL,
+       期間日数                           NUMBER(4,0)       NOT NULL,
+       利率                               NUMBER(10,8)      NOT NULL,
+       社内金利                           NUMBER(10,8)      NOT NULL,
+       回収方式元本                       NUMBER(1,0)       NOT NULL,
+       回収方式利息                       NUMBER(1,0)       NOT NULL,
+       利率確定区分                       NUMBER(1,0)       NOT NULL,
+       回収済区分元本                     NUMBER(1,0)       NOT NULL,
+       回収済区分利息                     NUMBER(1,0)       NOT NULL,
+       休日区分                           NUMBER(1,0)       NOT NULL,
+       約定返済日                         CHAR(7)           NOT NULL,
+       予備                               CHAR(30)          NOT NULL,
+CONSTRAINT  PK_LTRKGT  PRIMARY KEY (
+       契約ＮＯ,
+       展開番号));

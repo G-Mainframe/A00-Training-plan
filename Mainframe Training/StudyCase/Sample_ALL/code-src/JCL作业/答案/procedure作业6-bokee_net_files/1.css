@@ -1,0 +1,87 @@
+HTML {
+	min-width: 880px
+}
+IMG {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px
+}
+P.access {
+	DISPLAY: none
+}
+BODY {
+	FONT-FAMILY: verdana,ËÎÌו,arial,sans-serif; WORD-WRAP: break-word
+}
+#main {
+	CLEAR: both; WIDTH: 880px; TEXT-ALIGN: left
+}
+#top {
+	CLEAR: both; WIDTH: 880px
+}
+#top H1 {
+	FLOAT: left; WIDTH: 79px; TEXT-ALIGN: center
+}
+#top H2 {
+	FLOAT: left; WIDTH: 160px; TEXT-ALIGN: center
+}
+#top .top01 {
+	FLOAT: left; WIDTH: 510px
+}
+#top .top02 {
+	FLOAT: left; WIDTH: 120px
+}
+#head {
+	CLEAR: both
+}
+#menu {
+	CLEAR: both
+}
+#middle {
+	CLEAR: both
+}
+#middle .mleft {
+	FLOAT: left; OVERFLOW: hidden; WIDTH: 200px
+}
+#middle .mcenter {
+	FLOAT: left; OVERFLOW: hidden; WIDTH: 460px
+}
+#middle .mright {
+	FLOAT: left; OVERFLOW: hidden; WIDTH: 200px
+}
+.userlogo_img {
+	WIDTH: 150px; HEIGHT: 120px
+}
+.userlogo UL {
+	WIDTH: 162px
+}
+.userlogo UL LI {
+	FLOAT: left; WIDTH: 75px
+}
+.friend_img {
+	WIDTH: 80px; HEIGHT: 70px
+}
+.friend_name {
+	WIDTH: 90px
+}
+.product_img {
+	WIDTH: 80px; HEIGHT: 70px
+}
+.product_name {
+	WIDTH: 90px
+}
+.blogimage {
+	WIDTH: 170px; HEIGHT: 120px
+}
+.blogimage_bfq {
+	WIDTH: 178px
+}
+#foot {
+	CLEAR: both; WIDTH: 880px
+}
+.hackbox {
+	CLEAR: both; BORDER-TOP: transparent 0px solid; MARGIN-TOP: 0px; VISIBILITY: hidden
+}
+#middle .mmleft {
+	FLOAT: left; OVERFLOW: hidden; WIDTH: 200px
+}
+#middle .mmright {
+	FLOAT: right; OVERFLOW: hidden; WIDTH: 670px
+}

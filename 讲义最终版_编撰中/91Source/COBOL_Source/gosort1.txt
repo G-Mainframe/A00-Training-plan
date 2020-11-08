@@ -1,0 +1,18 @@
+//CN0016A  JOB ACCT#,SUNNY,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),      
+//             NOTIFY=&SYSUID                                      
+//SCAN     EXEC  PGM=SORT1                                         
+//STEPLIB  DD DSN=CN0016.TEST.LOAD,DISP=SHR                        
+//SYSPRINT DD  SYSOUT=*                                            
+//SYSOUT   DD  SYSOUT=*                                            
+//SYSUDUMP DD  SYSOUT=*                                            
+//SORTOUT  DD  SYSOUT=*                                            
+//RCTTRAN  DD DSN=CN0016.RCTTRAN.DATBIN,DISP=SHR                   
+//OLDMAST  DD DSN=CN0016.OLDMAST.DATBIN,DISP=SHR                   
+//NEWMAST  DD DSN=CN0016.TEST.NEWMAST,DISP=(MOD,CATLG,DELETE),     
+//            SPACE=(TRK,(1,1)),DCB=(RECFM=FB,BLKSIZE=700,LRECL=70)
+//ERRTRAN  DD DSN=CN0016.TEST.ERRTRAN,DISP=(MOD,CATLG,DELETE),     
+//            SPACE=(TRK,(1,1)),DCB=(RECFM=FB,BLKSIZE=230,LRECL=23)
+//SORTWK     DD  SPACE=(TRK,(1,1)),UNIT=SYSDA                      
+//SORTWK01   DD  SPACE=(TRK,(1,1)),UNIT=SYSDA                      
+//SORTWK02   DD  SPACE=(TRK,(1,1)),UNIT=SYSDA
+//                      

@@ -1,0 +1,233 @@
+000010 IDENTIFICATION DIVISION.
+000020 PROGRAM-ID.  Sub13.
+      *****************************************************************
+      *程序ID         ：Sub13
+      *程序名         ：学生学籍信息统计报表
+      *处理概要       ：对学生学籍信息按条件进行报表处理
+      *
+      *
+      *变量           IO       变量名
+      *
+      *
+      *
+      *日期           作成者            概要
+      *2007/03/18     张丽娟             作成
+      *
+      *
+      *
+      *****************************************************************
+000030 ENVIRONMENT                                  DIVISION.
+       INPUT-OUTPUT                                 SECTION.
+       FILE-CONTROL.
+      *    报表文件
+           SELECT     STR      ASSIGN    TO   R13.
+      *
+000040 DATA                                         DIVISION.
+       FILE                                         SECTION.
+      *
+       FD  STR
+           LABEL RECORD IS OMITTED
+           RECORD CONTAINS 150 CHARACTERS
+           REPORT IS STUDENTREPORT.
+
+000050 WORKING-STORAGE SECTION.
+      *----------------------------------------------------------------
+      *数据库用数据定义
+      *----------------------------------------------------------------
+000051     EXEC  SQL  BEGIN  DECLARE        SECTION  END-EXEC.
+000052     EXEC  SQL  INCLUDE  SQLCOM.CBL            END-EXEC.
+000055     EXEC  SQL  INCLUDE  SQLCA.COB             END-EXEC.
+      *    学生信息表
+           EXEC  SQL  INCLUDE  STINFO.CBL            END-EXEC.
+      *
+000056     EXEC  SQL  END      DECLARE      SECTION  END-EXEC.
+      *----------------------------------------------------------------
+      *屏幕线型定义
+      *----------------------------------------------------------------
+       COPY WKSCRLine.
+      *
+      *----------------------------------------------------------------
+      *WORK变量
+      *----------------------------------------------------------------
+       COPY WKAREA.
+         
+         
+000070 LINKAGE                                      SECTION.
+      *----------------------------------------------------------------
+      *
+      *----------------------------------------------------------------
+       REPORT                                       SECTION.
+      *报表名
+       RD STUDENTREPORT
+           CONTROLS ARE FINAL SCOLLEGIAN
+           PAGE LIMIT 60 LINES
+           HEADING 3
+           FIRST DETAIL 9
+           last detail 52
+           FOOTING 58.
+      *
+       COPY REPSUB13.
+
+      *----------------------------------------------------------------
+      *
+      *----------------------------------------------------------------
+000080 SCREEN                                       SECTION.
+      *画面头
+000090 COPY SCRHEAD.
+      *
+000090 COPY SUB13SCR.
+      *画面底
+       COPY SCRFLOOR.
+
+      *****************************************************************
+      *
+      *****************************************************************
+000120 PROCEDURE DIVISION.
+000130 MAIN-PROCESS.
+      *初期处理
+           PERFORM STARTRTN.
+      *
+      *主处理
+      *    显示屏幕
+           DISPLAY SCRHEAD.
+           MOVE "请输入新增学生信息,然后输入I并按回车键确认" TO WKCLUE.
+           DISPLAY SUB13SCR.
+           MOVE "输入I并按回车键确认,输入其它字符返回主菜单" TO WKCLUE.
+           DISPLAY SCRFLOOR.
+      *    数据输入
+           ACCEPT  SUB13SCR.
+      *    进行查询处理,生成游标
+      *     PERFORM STINFOSELECTRTN.
+
+      *    设置报表条件
+           PERFORM UNTIL sqlcode = 100
+             构造并生成报表文件
+              PERFORM STINFOFETCHRTN
+           END-PERFORM.
+
+      *    显示报表
+
+      *    生成报表文件
+
+
+
+      *终了处理
+      *     PERFORM EndRTN.
+
+000180 END-PROGRAM.
+000190     EXIT PROGRAM .
+      *****************************************************************
+      *初期处理
+      *
+      *****************************************************************
+       StartRTN                                     SECTION.
+      *    初始化Work变量
+           INITIALIZE WKAREA.
+      *     OPEN OUTPUT STR.
+      *
+      *     EVALUATE  FILESTATE                                     
+      *        WHEN  ZERO                                         
+      *           DISPLAY "文件打开成功 = "
+      *           CONTINUE                                        
+      *        WHEN  OTHER                                        
+      *          文件打开失败                          
+      *           MOVE     40           TO  EMSGCD  
+      *           CALL "ERRORMSG" USING ERRORKEY
+      *     END-EVALUATE.                                         
+
+      *
+       StartExit.
+           EXIT.
+
+      *****************************************************************
+      *主处理
+      *
+      *****************************************************************
+      *----------------------------------------------------------------
+      *查询学生信息
+      *----------------------------------------------------------------
+       STINFOSELECTRTN                              SECTION.
+      *    定义游标
+      *     EXEC  SQL
+      *        DECLARE  CUR1  CURSOR  FOR
+      *           SELECT  NO
+      *                  ,COLLEGIAN
+      *           FROM  STUDENTINFO
+      *     END-EXEC.
+      *
+      *     EXEC  SQL
+      *        OPEN  CUR1
+      *     END-EXEC.
+      **
+      *     EVALUATE   SQLCODE
+      *     WHEN  0
+      **       游标打开正常
+      *        DISPLAY  "游标打开正常sqlok=", SQLCODE
+      *        CONTINUE
+      *     WHEN OTHER
+      **       游标打开失败
+      *        DISPLAY  "游标打开失败sqlok=", SQLCODE
+      *        MOVE SQLCODE TO EMSGSQLCD
+      *       错误处理
+      *        CALL "ERRORMSG" USING ERRORKEY
+      *     END-EVALUATE.
+
+
+           stop 1.
+
+      *
+       STINFOSELECTEXIT.
+           EXIT.
+
+      *----------------------------------------------------------------
+      *遍历游标
+      *----------------------------------------------------------------
+       STINFOFETCHRTN                               SECTION.
+           EXEC  SQL
+              FETCH  CUR1
+                 INTO
+                   :ＪＯＭ－ＳＹＯＨＩＮ－ＭＳＴ－ジョモ商品コード
+                  ,:ＪＯＭ－ＳＹＯＨＩＮ－ＭＳＴ－ジョモ商品分類名
+                  ,:ＪＯＭ－ＳＹＯＨＩＮ－ＭＳＴ－物件名－漢字
+           END-EXEC.
+      
+           EVALUATE   SQLCODE
+           WHEN  0
+             游标打开正常
+             DISPLAY  "FETCH游标正常sqlok=", SQLCODE
+             将记录写入到报表文件中去
+             PERFORM 
+          WHEN OTHER
+             游标打开失败
+             DISPLAY  "FETCH游标失败sqlok=", SQLCODE
+             MOVE      -20             TO  EMSGCD
+             MOVE SQLCODE TO EMSGSQLCD
+             错误处理
+             CALL "ERRORMSG" USING ERRORKEY
+          END-EVALUATE.
+
+       STINFOFETCHEXIT.
+           EXIT.
+
+
+      *****************************************************************
+      *SQL Rc校验
+      *****************************************************************
+       DBRcRTN                                      SECTION.
+      *    MOVE 0                       TO SQLRcFlag.
+           DISPLAY "sub11 rc chack ok".
+      *    插入数据成功提交
+
+       DBRcExit.
+           EXIT.
+      *****************************************************************
+      *终了处理
+      *
+      *****************************************************************
+       EndRTN                                       SECTION.
+           display "sub11 end-program ok".
+       EndExit.
+           EXIT.
+      *****************************************************************
+       END PROGRAM Sub13.
+      *****************************************************************

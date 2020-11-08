@@ -1,0 +1,33 @@
+CREATE TABLE PAY_BILPRT
+(
+    REGJPN                         CHAR(6),
+    CTLNUM                         CHAR(9),
+    DATNUM                         CHAR(4),
+    BILNUM                         CHAR(9),
+    DRWJPN                         CHAR(6),
+    DUEJPN                         CHAR(6),
+    SEPNUM                         CHAR(1),
+    CLTNAM                         CHAR(44),
+    SNDTYP                         CHAR(1),
+    CNTNUM                         CHAR(9),
+    ZIPCOD                         CHAR(7),
+    MALNAM                         CHAR(42),
+    MALNM2                         CHAR(42),
+    MALADR                         CHAR(42),
+    MALAD2                         CHAR(42),
+    MALAD3                         CHAR(42),
+    ADRTYP                         CHAR(1),
+    DAYBGN                         CHAR(8),
+    DAYEND                         CHAR(8),
+    SNDDAY                         CHAR(8),
+    DIVCOD                         CHAR(4),
+    DOCTYP                         CHAR(1),
+    SEPCNT                         NUMBER(1,0),
+    TAXTYP                         NUMBER(6,0),
+    BILCNT                         NUMBER(4,0),
+    TAXCNT                         NUMBER(4,0),
+    BILAMT                         NUMBER(13,0),
+    TAXAMT                         NUMBER(13,0),
+    TOTAMT                         NUMBER(13,0)
+)
+/

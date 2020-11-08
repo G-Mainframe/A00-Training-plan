@@ -1,0 +1,23 @@
+100001 IDENTIFICATION     DIVISION.                                     00010000
+100002 PROGRAM-ID.  CALCUL.                                             00020000
+100003 ENVIRONMENT        DIVISION.                                     00030000
+100004 DATA               DIVISION.                                     00040000
+100005 LINKAGE   SECTION.                                               00050000
+100006 77  TOTAL-S PIC 9(3).                                            00060000
+100007 77  AVER-S  PIC 9(3).                                            00070000
+100008 01  STUDENT-RECORD.                                              00080000
+100009  02 NAME-S PIC X(10).                                            00090000
+100010  02 NUMB-S PIC 9(6).                                             00100000
+100011  02 GRADE-1-S PIC 9(3).                                          00110000
+100012  02 GRADE-2-S PIC 9(3).                                          00120000
+100013  02 GRADE-3-S PIC 9(3).                                          00130000
+100014  02 GRADE-4-S PIC 9(3).                                          00140000
+100015  02 GRADE-5-S PIC 9(3).                                          00150000
+100016 PROCEDURE            DIVISION USING STUDENT-RECOR                00160001
+100017-    D, TOTAL-S, AVER-S.                                          00170002
+100018 S.   COMPUTE   TOTAL-S = GRADE-1-S + GRADE-2-S + GRADE-3-        00190002
+100019-    S + GRADE-4-S + GRADE-5-S.                                   00200000
+100020     DIVIDE  5 INTO TOTAL-S GIVING AVER-S.                        00220000
+100021     EXIT PROGRAM.                                                00230000
+                                                                        00240000
+

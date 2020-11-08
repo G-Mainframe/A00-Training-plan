@@ -1,0 +1,269 @@
+ EV63542:/* MTM INFORMATION AUDIT PROCESS       *IBM INTERNAL USE ONLY*/00010057
+    PROC(PARM) OPTIONS(MAIN);                                           00020000
+ /* ----------------------------------------------------------------- */00030000
+ /* **    SECURITY CLASS      : IBM INTERNAL USE ONLY              ** */00040000
+ /* **    PROJECT NO.         : B601                               ** */00050055
+ /* **    PROJECT NAME        : PLI TRAIN                          ** */00060001
+ /* **    MODULE GROUP NAME   :                                    ** */00070000
+ /* **    PROGRAM NO.         : EV63542                            ** */00080057
+ /* **    PROGRAM NAME        : EV63542                            ** */00090057
+ /* **    PROGRAM DESCRIPTION : MTM INFORMATION AUDIT PROCESS      ** */00100000
+ /* **                        :                                    ** */00110000
+ /* **                        :                                    ** */00120000
+ /* **    PROGRAMMER          : MING DL LIU                        ** */00130001
+ /* **    CODED      DATE     : 2006/10/26                         ** */00140001
+ /* **    UPDATE     DATE     :                                    ** */00150000
+ /* **    UPDATE     DATE     :                                    ** */00160000
+ /*----------------- FUNCTION NARRATIVE ------------------------------*/00170000
+ /*   NARRATIVE DESCRIPTION OF FUNCTION                               */00180000
+ /*                                                                   */00190000
+ /*----------------- INPUT FILE DESCRIPTION --------------------------*/00200000
+ /*   (DDNAME)    (PLINCLE)        (FILE DESCRIPTION)                 */00210000
+ /*    FINP1       MTMTM            MTM  MASTER                       */00220023
+ /*    FINP2       TXMTMH           MTM  MTM  INFROMATION TXN         */00230023
+ /*----------------- UPDATE FILE DESCRIPTION -------------------------*/00240000
+ /*   (DDNAME)    (PLINCLE)        (FILE DESCRIPTION)                 */00250000
+ /*    NONE                                                           */00260000
+ /*----------------- OUTPUT FILE DESCRIPTION -------------------------*/00270000
+ /*   (DDNAME)    (CRDNAME)        (FILE DESCRIPTION)                 */00280000
+ /*    FOUT1       ADINFO                                             */00300025
+ /*    FASCA       FASCA            ASCA FILE                         */00310023
+ /*----------------- CALL NG MODULE INFORMATION ----------------------*/00320023
+ /*   (MODULE)                     (MODULE DESCRIPTION)               */00330000
+ /*----------------- PARAMETER/COMMON AREA DCL -----------------------*/00340000
+ /*   (PTR/LABEL) (CRDNAME)        (DESCRIPTION)                      */00350000
+ /*   PARM                     &TY&TM&TD(EXAMPLE '40201'=04/02/01)    */00360000
+ /*                                                                   */00370000
+ /*----------------- EXIT --------------------------------------------*/00380000
+ /*   EXIT NORMAL  :                                                  */00390000
+ /*   (NORMAL CONDITION)           (EXIT(LABEL))                      */00400000
+ /*   EXIT ERROR   :                                                  */00410000
+ /*   (ERROR CONDITION)(ERROR CODE)(EXIT(LABEL))                      */00420000
+ /*-------------------------------------------------------------------*/00430000
+  DCL FINP1    FILE RECORD INPUT;                    /* FINP1         */00540005
+  DCL FINP2    FILE RECORD INPUT;                    /* FINP2         */00550005
+  DCL FOUT1    FILE RECORD OUTPUT;                   /* FOUT1         */00570025
+  DCL FASCA    FILE RECORD OUTPUT;                   /* FASCA         */00580005
+  DCL SYSPRINT FILE OUTPUT PRINT;                                       00590021
+   DCL 1 IN_FINP1 STATIC,                                               00600059
+         2 TANSCODE CHAR(1),                                            00610001
+         2 MACHTYPE CHAR(4),                                            00620001
+         2 MACHMOCO CHAR(3),                                            00630001
+         2 COMMEENT CHAR(4),                                            00640001
+         2 WARSDATE CHAR(8),                                            00650001
+         2 WAREDATE CHAR(8),                                            00660001
+         2 REQUETNO CHAR(4);                                            00670001
+   DCL 1 IN_FINP2 STATIC,                                               00680006
+         2 MACHTYPE CHAR(4),                                            00681001
+         2 MACHMOCO CHAR(3),                                            00682001
+         2 COMMEENT CHAR(4);                                            00683001
+ DCL 1 OUT_FOUT1 STATIC,                             /* DCL OUT_FOUT1 */00700025
+       2 TANSCODE CHAR(1),                                              00710003
+       2 MACHTYPE CHAR(4),                                              00720003
+       2 MACHMOCO CHAR(3),                                              00730003
+       2 COMMEENT CHAR(4),                                              00740003
+       2 WARSDATE CHAR(8),                                              00750003
+       2 WAREDATE CHAR(8),                                              00760003
+       2 REQUETNO CHAR(4),                                              00770003
+       2 OKNGFLG  CHAR(1);                                              00780007
+  DCL 1 OUT_FASCA STATIC,                            /* DCL OUT_FASCA */01180018
+        2 OUTDATE    CHAR(8),                                           01190018
+        2 MACHTYPE   CHAR(4),                                           01191018
+        2 OKCOUNT FIXED DEC(3,0),                                       01192047
+        2 NGCOUNT FIXED DEC(3,0);                                       01193047
+ /*----------------- KEY AREA ----------------------------------------*/01200000
+ DCL  KEY_FINP1        CHAR(07) INIT('');                               01210018
+ DCL  KEY_FINP2        CHAR(07) INIT('');                               01220018
+ DCL  NEW_KEY          CHAR(07) INIT('');                               01230018
+ DCL  OLD_KEY          CHAR(07) INIT('');                               01240018
+ /*----------------- WORKAREA ----------------------------------------*/01250021
+ DCL PARM           CHAR(80) VAR;                                       01260001
+ DCL CHECK_FLG      CHAR(01) INIT('');               /* DCL FLAG      */01380011
+ DCL SAME_FLG       CHAR(1) INIT('0');                                  01381043
+ /*----------------- BUILTIN FUNCTION & SUBROUTINE--------------------*/01390000
+ DCL                                                 /* DCL FUNC      */01400000
+      HIGH              BUILTIN,                     /* BUILTIN       */01410008
+      SUBSTR            BUILTIN,                     /* BUILTIN       */01420008
+      STRING            BUILTIN,                     /* BUILTIN       */01430008
+      PLIDUMP           BUILTIN;                     /* BUILTIN       */01490008
+ /*-------------------------------------------------------------------*/01500001
+ /*----------------- SWITCH & COUNTER --------------------------------*/01630000
+ DCL                                                 /* DCL FILE_EOF  */01640000
+      1 SWITCH          STATIC,                      /* DCL SWITCH    */01650008
+        2 (                                          /*               */01660000
+           FINP1_EOF,                                /* DCL FINP1_EOF */01670008
+           FINP2_EOF                                 /* DCL FINP2_EOF */01680000
+           )BIT(1) INIT('0'B);                                          01690008
+ /*---------------DCL NUM COUNT-----------*/                            01691038
+ DCL                                                 /* DCL COUNTER   */01700000
+      1 COUNT           STATIC,                      /* DCL COUNT     */01710008
+        2 (                                          /*               */01720000
+           COUNT_INPUT_FINP1,                        /* COUNT IN FINP2*/01740037
+           COUNT_INPUT_FINP2,                       /* COUNT FOUT1   */ 01760043
+           COUNT_MATCH,                                                 01780025
+           COUNT_MAST_ONLY,                                             01781043
+           COUNT_TRAN_ONLY,                                             01790025
+           COUNT_CHECK_OK,                                              01810025
+           COUNT_CHECK_NG                                               01820027
+           )FIXED BIN(31,0) INIT(0);                                    01830048
+  /*---------------DCL FLAG----------------*/                           01831038
+  ON ENDFILE(FINP1)  BEGIN;                                             01840027
+     FINP1_EOF='1'B;                                                    01850052
+     KEY_FINP1=HIGH(07);                                                01860052
+   END;                                                                 01870025
+   ON ENDFILE(FINP2)  BEGIN;                                            01880051
+     FINP2_EOF='1'B;                                                    01890052
+     KEY_FINP2=HIGH(07) ;                                               01900052
+   END;                                                                 01910025
+ /*----------------FILE--------------*/                                 01911051
+   OPEN FILE(FINP1);                                                    01920025
+   OPEN FILE(FINP2);                                                    01930025
+   OPEN FILE(FOUT1);                                                    01940026
+   OPEN FILE(FASCA);                                                    01950025
+   CALL READ_FINP1;                                                     01960025
+   CALL READ_FINP2;                                                     01970025
+   /*------------------MAIN-------------*/                              01971051
+   DO WHILE(FINP1_EOF='0'B | FINP2_EOF='0'B);                           01980052
+     CALL CLEAR_FOUT1;                                                  02000036
+     CHECK_FLG = 'Y';                                                   02010035
+     SELECT;                                                            02020035
+     WHEN(KEY_FINP1 > KEY_FINP2) DO;                                    02030039
+       CALL READ_FINP2;                                                 02040060
+       IF SAME_FLG='1' THEN DO;                                         02041041
+          SAME_FLG='0';                                                 02050041
+       END;                                                             02051041
+       ELSE DO;                                                         02052041
+         COUNT_MAST_ONLY=COUNT_MAST_ONLY+1;                             02053060
+       END;                                                             02054041
+     END;                                                               02060035
+     WHEN(KEY_FINP1=KEY_FINP2) DO;                                      02070039
+         COUNT_MATCH=COUNT_MATCH+1;                                     02080060
+         IF IN_FINP1.TANSCODE='U'|                                      02090060
+            IN_FINP1.TANSCODE='D'                                       02100060
+         THEN DO;                                                       02110060
+            CALL CHK_RTN;                                               02120060
+         END;                                                           02710060
+         ELSE DO;                                                       02710160
+            CHECK_FLG='N';                                              02710260
+         END;                                                           02710360
+         CALL OUT_PUT;                                                  02710460
+         SAME_FLG='1'B;                                                 02710960
+         CALL READ_FINP1;                                               02711060
+     END;                                                               02712044
+     WHEN(KEY_FINP1 < KEY_FINP2) DO;                                    02712642
+       COUNT_TRAN_ONLY=COUNT_TRAN_ONLY+1;                               02712760
+       IF IN_FINP1.TANSCODE='A' THEN DO;                                02712843
+          CALL CHK_RTN;                                                 02713035
+       END;                                                             02713135
+       ELSE DO;                                                         02713235
+          CHECK_FLG='N';                                                02713338
+       END;                                                             02713454
+       CALL OUT_PUT;                                                    02714160
+       CALL READ_FINP1;                                                 02714260
+      END;                                                              02715342
+    END;                                                                02715444
+   END;                                                                 02715549
+ /*----------------READ FINP1-----------------------*/                  02715835
+  READ_FINP1:PROC;                                                      02716042
+     READ FILE(FINP1) INTO(IN_FINP1);                                   02720028
+     IF FINP1_EOF='0'B THEN DO;                                         02730042
+        KEY_FINP1=IN_FINP1.MACHTYPE                                     02760042
+               || IN_FINP1.MACHMOCO;                                    02790042
+        COUNT_INPUT_FINP1=COUNT_INPUT_FINP1+1;                          02791043
+     END;                                                               02800025
+  END READ_FINP1;                                                       02810025
+ /*---------------READ FINP2---------------------*/                     02811035
+  READ_FINP2:PROC;                                                      02820042
+     READ FILE(FINP2) INTO(IN_FINP2);                                   02830042
+     IF FINP2_EOF='0'B THEN DO;                                         02840042
+        KEY_FINP2=IN_FINP2.MACHTYPE                                     02850042
+               || IN_FINP2.MACHMOCO;                                    02860042
+        COUNT_INPUT_FINP2=COUNT_INPUT_FINP2+1;                          02870043
+     END;                                                               02880042
+  END READ_FINP2;                                                       02900042
+  /*------------------------CHK RTN-----------------*/                  02911042
+  CHK_RTN : PROC;                                                       02920025
+                                                                        02930025
+     IF IN_FINP1.TANSCODE¬='A'                                          02940028
+      & IN_FINP1.TANSCODE¬='U'                                          02950028
+      & IN_FINP1.TANSCODE¬='D'                                          02960028
+       THEN DO;                                                         02970025
+         CHECK_FLG='N';                                                 02980025
+       END;                                                             02990025
+     ELSE DO;                                                           03000025
+       IF SUBSTR(IN_FINP1.MACHTYPE,1,1)='@'                             03010028
+        | SUBSTR(IN_FINP1.MACHTYPE,1,1)='#'                             03020028
+        | IN_FINP1.MACHTYPE=' '                                         03030028
+       THEN DO;                                                         03040045
+         CHECK_FLG='N';                                                 03050045
+       END;                                                             03060045
+       ELSE DO;                                                         03070025
+         IF SUBSTR(IN_FINP1.MACHMOCO,1,1)='@'                           03080025
+          | SUBSTR(IN_FINP1.MACHMOCO,1,1)='#'                           03090025
+          | IN_FINP1.MACHMOCO=' '                                       03100025
+         THEN DO;                                                       03110045
+          CHECK_FLG='N';                                                03120050
+         END;                                                           03130045
+       END;                                                             03140025
+      END;                                                              03150045
+  END CHK_RTN ;                                                         03160025
+ /*----------------SYOYRI KEKKA EDIT--------------*/                    03161035
+ OUT_PUT : PROC;                                                        03170042
+                                                                        03180025
+    OUT_FOUT1.TANSCODE=IN_FINP1.TANSCODE;                               03191027
+    OUT_FOUT1.MACHTYPE=IN_FINP1.MACHTYPE;                               03192027
+    OUT_FOUT1.MACHMOCO=IN_FINP1.MACHMOCO;                               03193027
+    OUT_FOUT1.COMMEENT=IN_FINP1.COMMEENT;                               03194027
+    OUT_FOUT1.WARSDATE=IN_FINP1.WARSDATE;                               03195027
+    OUT_FOUT1.WAREDATE=IN_FINP1.WAREDATE;                               03196027
+    OUT_FOUT1.REQUETNO=IN_FINP1.REQUETNO;                               03197027
+    OUT_FOUT1.OKNGFLG=CHECK_FLG;                                        03200026
+                                                                        03210025
+    IF CHECK_FLG='Y'  THEN DO;                                          03220025
+       COUNT_CHECK_OK=COUNT_CHECK_OK+1;                                 03230025
+    END;                                                                03240025
+    ELSE DO;                                                            03250025
+       COUNT_CHECK_NG=COUNT_CHECK_NG+1;                                 03260025
+    END;                                                                03270025
+       PUT SKIP LIST(OUT_FOUT1); /*********/                            03270160
+    WRITE FILE(FOUT1) FROM(OUT_FOUT1);                                  03271044
+       PUT SKIP LIST(COUNT_CHECK_OK); /*************/                   03272060
+ END OUT_PUT;                                                           03280042
+ /*--------------CLEAR FOUT-------------------*/                        03281035
+ CLEAR_FOUT1 : PROC;                                                    03290042
+        OUT_FOUT1.TANSCODE=' ';                                         03300028
+        OUT_FOUT1.MACHTYPE='    ';                                      03310028
+        OUT_FOUT1.MACHMOCO='   ';                                       03320028
+        OUT_FOUT1.COMMEENT='    ';                                      03330028
+        OUT_FOUT1.WARSDATE='        ';                                  03340028
+        OUT_FOUT1.WAREDATE='        ';                                  03350028
+        OUT_FOUT1.REQUETNO='    ';                                      03360028
+        OUT_FOUT1.OKNGFLG=' ';                                          03370028
+                                                                        03380025
+ END CLEAR_FOUT1 ;                                                      03390026
+ /*----------------- ASCA_WRITE: -----------------*/                    03391035
+ ASCA_WRITE:PROC;                                                       03400025
+          OUT_FASCA.OUTDATE=IN_FINP1.WARSDATE;                          03410027
+          OUT_FASCA.MACHTYPE=IN_FINP1.MACHTYPE;                         03420027
+          OUT_FASCA.OKCOUNT=COUNT_CHECK_OK;                             03430025
+          OUT_FASCA.NGCOUNT=COUNT_CHECK_NG;                             03440025
+     WRITE FILE(FASCA) FROM(OUT_FASCA) ;                                03441044
+ END ASCA_WRITE;                                                        03450025
+ /*-------------END ------------------------*/                          03451035
+  CALL ASCA_WRITE;                                                      03470052
+      CLOSE FILE (FINP1);                                               03480025
+      CLOSE FILE (FINP2);                                               03490025
+      CLOSE FILE (FOUT1);                                               03500026
+      CLOSE FILE (FASCA);                                               03510025
+                                                                        03511044
+      PUT LIST('** PGM=EV63542  COUNT LIST ***********')SKIP(3);        03520057
+      PUT LIST('COUNT_INPUT_FINP1  =',COUNT_INPUT_FINP1)SKIP(1);        03540053
+      PUT LIST('COUNT_OUTPUT_FOUT1 =',COUNT_INPUT_FINP2)SKIP(1);        03550053
+      PUT LIST('COUNT_MATCH        =',COUNT_MATCH      )SKIP(1);        03570053
+      PUT LIST('COUNT_TRAN_ONLY    =',COUNT_TRAN_ONLY  )SKIP(1);        03580053
+      PUT LIST('COUNT_CHECK_OK     =',COUNT_CHECK_OK   )SKIP(1);        03591053
+      PUT LIST('COUNT_MAST_ONLY    =',COUNT_MAST_ONLY  )SKIP(1);        03591156
+      PUT LIST('COUNT_CHECK_NG     =',COUNT_CHECK_NG   )SKIP(1);        03592053
+                                                                        03593044
+   END EV63542;                                                         03600057
+

@@ -1,0 +1,21 @@
+
+
+	DATA  DIVISION.
+
+	FILE SECTION.
+
+	FD  ACCOUNTS-FILE		//内部文件名
+
+	  LABEL  RECORD  IS STANDARD.
+
+	  DATA  RECORD  IS  RECEIVABLE.
+
+	01  RECEIVABLE.			//记录名
+
+	  02 ACCOUNT PIC  9(6).		//帐号
+
+	  02 FILLER  PIC  X(3).		//填充
+
+	  02 AMOUNT  PIC  9(6).		//金额
+
+	  02 NAME  PIC  X(60).		//名字

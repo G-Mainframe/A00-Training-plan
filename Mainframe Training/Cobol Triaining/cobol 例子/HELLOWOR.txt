@@ -1,0 +1,13 @@
+        IDENTIFICATION DIVISION.                                        00010011
+        PROGRAM-ID. HELLOWOR.                                           00020011
+        ENVIRONMENT DIVISION.                                           00020111
+        DATA DIVISION.                                                  00021008
+        FILE SECTION.                                                   00022011
+        WORKING-STORAGE SECTION.                                        00023011
+        01    NUMA    PIC 9(2).                                         00024011
+        01    NUMB    PIC 9(2).                                         00025011
+        01    NUMC    PIC 9(3).                                         00026011
+        PROCEDURE DIVISION.                                             00030011
+            DISPLAY 'HELLO WORLD!'.                                     00040011
+            STOP RUN.                                                   00050011
+

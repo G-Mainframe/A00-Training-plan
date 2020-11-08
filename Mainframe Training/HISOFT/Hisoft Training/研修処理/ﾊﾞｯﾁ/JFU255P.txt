@@ -1,0 +1,603 @@
+ IDENTIFICATION DIVISION.                                                 
+*PATTERN-ID.     REPORT  "P".                                             
+ PROGRAM-ID.     JFU255P.                                                 
+ AUTHOR.         DHC HAKU.                                                
+ DATE-WRITTEN.     -  -  .                                                
+*UPDATE-WRITTEN.   -  -   REV.                                            
+ DATE-COMPILED.                                                           
+*                                                                         
+*    児童扶養手当　年齢到達者一覧                                         
+*                                                                         
+ ENVIRONMENT DIVISION.                                                    
+ CONFIGURATION SECTION.                                                   
+ SOURCE-COMPUTER.    ACOS-77.                                             
+ OBJECT-COMPUTER.    ACOS-77.                                             
+*                                                                         
+  SPECIAL-NAMES.                                                          
+     CHAR007  IS  UCDATE1.                                                
+*                                                                         
+ INPUT-OUTPUT SECTION.                                                    
+ FILE-CONTROL.                                                            
+*    受給資格Ｆ+請求者Ｆ+対象児童Ｆ+住記リンク一時Ｆ                      
+     SELECT INP1-FILE  ASSIGN  IND1-DS.                                   
+*    受給資格マスタ                                                       
+     SELECT INP2-FILE ASSIGN  IND2-RDB  IND2AP-RKEY                       
+                       ORGANIZATION    INDEXED                            
+                       ACCESS  MODE    DYNAMIC                            
+                       RECORD  KEY     INP2-ACP                           
+                       STATUS        S-INP2-STATUS.                       
+*    コードファイル                                                       
+     SELECT INP3-FILE ASSIGN  IND3-RDB  IND3AP-RKEY                       
+                       ORGANIZATION    INDEXED                            
+                       ACCESS  MODE    DYNAMIC                            
+                       RECORD  KEY     INP3-ACP                           
+                       STATUS        S-INP3-STATUS.                       
+*                                                                         
+*    年齢到達者一覧                                                       
+     SELECT OUT1-FILE ASSIGN PR01-USEROUT.                                
+ I-O-CONTROL .                                                            
+     APPLY SHIFT-CODE ON OUT1-FILE                                        
+                         WITH PPR-CONTROL-1.                              
+/                                                                         
+ DATA DIVISION.                                                           
+ FILE SECTION.                                                            
+/                                                                         
+*    受給資格Ｆ+請求者Ｆ+対象児童Ｆ+住記リンク一時Ｆ                      
+ FD  INP1-FILE                                                            
+         BLOCK     5  RECORDS                                             
+         RECORD 1150  CHARACTERS                                          
+         LABEL RECORD STANDARD.                                           
+******************************                                            
+* INP1-FILE, INP1-KEY RECORD *                                            
+******************************                                            
+ 01  INP1-REC.                                                            
+     02  FIL         PIC X(2).                                            
+     02  INP1-KEY01  PIC X(10).                                           
+     02  FIL         PIC X(1138).                                         
+**************************                                                
+* INP1-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  INP1-REC1.                                                           
+     COPY JFUJQSK.                                                        
+     COPY JFUSEIQ.                                                        
+     COPY JFUTJDO.                                                        
+     COPY YHLB15.                                                         
+*                                                                         
+*    受給資格マスタ                                                       
+ FD  INP2-FILE                                                            
+         LABEL RECORD STANDARD.                                           
+*******************************                                           
+* INP2-FILE INP2-KEY RECORD *                                             
+*******************************                                           
+ 01  INP2-ACP.                                                            
+     COPY JFUJQSA1.                                                       
+***************************                                               
+* INP2-FILE, DATA RECORD *                                                
+***************************                                               
+ 01  INP2-REC.                                                            
+     COPY JFUJQSK  REPLACING //JFJ-// BY //JFI-//.                        
+*                                                                         
+*    コードファイル                                                       
+ FD  INP3-FILE                                                            
+         LABEL RECORD STANDARD.                                           
+*******************************                                           
+* INP3-FILE INP3-KEY RECORD *                                             
+*******************************                                           
+ 01  INP3-ACP.                                                            
+     COPY JFSCODA1.                                                       
+***************************                                               
+* INP3-FILE, DATA RECORD *                                                
+***************************                                               
+ 01  INP3-REC.                                                            
+     COPY JFSCODE.                                                        
+/                                                                         
+*    年齢到達者一覧                                                       
+ FD  OUT1-FILE                                                            
+         RECORD  200  CHARACTERS                                          
+         LABEL RECORD OMITTED                                             
+         LINAGE   62                                                      
+         TOP       2                                                      
+         BOTTOM    2.                                                     
+**************************                                                
+* OUT1-FILE, DATA RECORD *                                                
+**************************                                                
+ 01  OUT1-REC1.                                                           
+     02  FIL     PIC X(200).                                              
+/                                                                         
+ WORKING-STORAGE SECTION.                                                 
+*****************************                                             
+* STANDARD CODING WORK AREA *                                             
+*****************************                                             
+ 77  C-DEC1          PIC 9(1)    VALUE 1.                                 
+ 77  I-TRUE          PIC 9(1)    VALUE 1.                                 
+ 77  I-FALSE         PIC 9(1)    VALUE 0.                                 
+ 77  I-SKIPLN        PIC 9(2)    VALUE 2.                                 
+*                                                                         
+ 77  S-INP2-STATUS   PIC X(2).                                            
+ 77  S-INP2-KEYERR   PIC 9(1).                                            
+ 77  S-INP3-STATUS   PIC X(2).                                            
+ 77  S-INP3-KEYERR   PIC 9(1).                                            
+*****************************                                             
+* INPUT-OUTPUT RECORD COUNT *                                             
+*****************************                                             
+ 01  F-IOREC-CNT.                                                         
+     02  F-PROG-NAME     PIC X(8)  VALUE "JFU255P".                       
+     02  FILLER          PIC X(10) VALUE " INP1-REC=".                    
+     02  F-INP1-CNT      PIC 9(5).                                        
+     02  FILLER          PIC X(11) VALUE " ,OUT1-REC=".                   
+     02  F-OUT1-CNT      PIC 9(5).                                        
+*************                                                             
+* KEY-FIELD *                                                             
+*************                                                             
+* CURRENT KEY FIELD ON INP1-FILE *                                        
+ 01  INP1-KEY.                                                            
+     02  INP1-KEY01  PIC X(10).                                           
+* NEXT KEY FIELD ON INP1-FILE *                                           
+ 01  INP1-KEY-NEXT.                                                       
+     02  INP1-KEY01  PIC X(10).                                           
+/*************************                                                
+* USERS CODING WORK AREA *                                                
+**************************                                                
+**************************                                                
+*    帳票出力用ワーク    *                                                
+**************************                                                
+*    見出し                                                               
+*                                                                         
+ 01  HEAD1.                                                               
+     02  H1-YYMMDD.                                                       
+         03  H1-YMD  PIC N(11)                                            
+                     CHARACTER TYPE KM-9P COLUMN 109.                     
+     02  H1-PAGE     PIC Z(4)             COLUMN 131.                     
+*                                                                         
+ 01  HEAD2.                                                               
+     02  H2-TAISYOYM.                                                     
+         03  H2-TYM   PIC N(8)                                            
+                     CHARACTER TYPE KM-9P COLUMN 14.                      
+*                                                                         
+*    リスト１                                                             
+ 01  LIST1.                                                               
+     02 LIST1A.                                                           
+        03 L1A-REC.                                                       
+*          請求者区分                                                     
+           04 L1A-SEIQKB   PIC N(6)                                       
+                           CHARACTER TYPE KM-9P COLUMN 21.                
+*          住　　所1                                                      
+           04 L1A-ADR1     PIC N(15)                                      
+                           CHARACTER TYPE KM-9P COLUMN 43.                
+*          改定／喪失                                                     
+           04 L1A-SOSITU   PIC N(2)                                       
+                           CHARACTER TYPE KM-9P COLUMN 72.                
+*          障害有無                                                       
+           04 L1A-SYOGAI   PIC N(2)                                       
+                           CHARACTER TYPE KM-9P COLUMN 124.               
+     02 LIST1B.                                                           
+        03 L1B-REC.                                                       
+*          №                                                             
+           04 L1B-NO       PIC Z(4)   COLUMN 3.                           
+*          証書番号                                                       
+           04 L1B-SHBAN    PIC X(10)  COLUMN 9.                           
+*          フリガナ(受給者)                                               
+           04 L1B-JQMEIK   PIC X(20)  COLUMN 21.                          
+*          住　　所2                                                      
+           04 L1B-ADR2     PIC N(15)                                      
+                           CHARACTER TYPE KM-9P COLUMN 43.                
+*          更新前児童数                                                   
+           04 L1B-MJIDSU   PIC X(2)   COLUMN 72.                          
+           04 L1B-NINSU    PIC N(1)                                       
+                           CHARACTER TYPE KM-9P COLUMN 75.                
+*          個人番号(児童)                                                 
+           04 L1B-JDKNO    PIC 9(7)   COLUMN 81.                          
+*          フリガナ(児童)                                                 
+           04 L1B-JDMEIK   PIC X(20)  COLUMN 100.                         
+*          ９条の２                                                       
+           04 L1B-9JYO2    PIC N(2)                                       
+                           CHARACTER TYPE KM-9P COLUMN 124.               
+     02 LIST1C.                                                           
+        03 L1C-REC.                                                       
+*          氏　　名(受給者)                                               
+           04 L1C-JQMEIN   PIC N(10)                                      
+                           CHARACTER TYPE KM-9P COLUMN 21.                
+*          方　　書                                                       
+           04 L1C-KATA     PIC N(15)                                      
+                           CHARACTER TYPE KM-9P COLUMN 43.                
+*          更新後児童数                                                   
+           04 L1C-GJIDSU   PIC X(2)    COLUMN 72.                         
+           04 L1C-NINSU    PIC N(1)                                       
+                           CHARACTER TYPE KM-9P COLUMN 75.                
+*          生年月日                                                       
+           04 L1C-SEINEN   PIC N(11)                                      
+                           CHARACTER TYPE KM-9P COLUMN 81.                
+*          氏　　名(児童)                                                 
+           04 L1C-JDMEIN   PIC N(10)                                      
+                           CHARACTER TYPE KM-9P COLUMN 100.               
+*          到達年齢                                                       
+           04 L1C-NENREI   PIC N(5)                                       
+                           CHARACTER TYPE KM-9P COLUMN 122.               
+**************************                                                
+*    項目編集用ワーク    *                                                
+**************************                                                
+*                                                                         
+*    リスト出力用ワーク                                                   
+*                                                                         
+ 01  LIST              PIC X(200).                                        
+*                                                                         
+*    システム日付用ワーク                                                 
+*                                                                         
+     COPY  CMLBDATE.                                              2000-I  
+     COPY  CMLB002W.                                                      
+*                                                                         
+ 01  WK-GYMD             PIC X(7).                                        
+ 01  WK-GYMDR  REDEFINES  WK-GYMD.                                        
+     02 WK-NG            PIC X(1).                                        
+     02 WK-YY            PIC 9(2).                                        
+     02 WK-MM            PIC 9(2).                                        
+     02 WK-DD            PIC 9(2).                                        
+*                                                                         
+ 01  WK-DATE-N            PIC N(11).                                      
+ 01  WK-DATE-N-R          REDEFINES  WK-DATE-N.                           
+     02  WK-YYMM-N        PIC N(8).                                       
+     02  WK-YYMM-N-R      REDEFINES  WK-YYMM-N.                           
+         03  WK-NG-N      PIC N(2).                                       
+         03  WK-YY-N      PIC N(2).                                       
+         03  WK-F1-N      PIC N(1).                                       
+         03  WK-MM-N      PIC N(2).                                       
+         03  WK-F2-N      PIC N(1).                                       
+     02  WK-DD-N          PIC N(2).                                       
+     02  WK-F3-N          PIC N(1).                                       
+*                                                                         
+ 01  WK-ADR            PIC N(30).                                         
+ 01  WK-ADR-R          REDEFINES  WK-ADR.                                 
+     02  WK-ADR1       PIC N(15).                                         
+     02  WK-ADR2       PIC N(15).                                         
+*                                                                         
+*    アカウント                                                           
+*                                                                         
+ 01  IDX               PIC 9(4).                                          
+ 01  LINE-CNT          PIC 9(2).                                          
+*                                                                         
+*    ページカウント                                                       
+*                                                                         
+ 01  PGCNT             PIC 9(4).                                          
+*                                                                         
+*    変換用ワーク                                                         
+*                                                                         
+ 01  WK-HENKAN1         PIC Z9.                                           
+*                                                                         
+*    タイプイン項目                                                       
+*                                                                         
+ 01  WK-ACCEPT.                                                           
+     02  WK-ACCNG          PIC X(1).                                      
+     02  WK-ACCYY          PIC 9(2).                                      
+     02  WK-ACCMM          PIC 9(2).                                      
+     02  WK-ACCDD          PIC 9(2).                                      
+*                                                                         
+/                                                                         
+ PROCEDURE DIVISION.                                                      
+***********      I1SU01--I1SU07, I1PS01, I1EU01--I1ES04                   
+* LEVEL 1 *                                                               
+***********                                                               
+ MAIN-PROCESS.                                                            
+     PERFORM MAIN-INIT-PROC.                                      I1SU01  
+     MOVE ZERO TO F-INP1-CNT.                                     I1SS02  
+     OPEN INPUT INP1-FILE.                                        I1SS03  
+     OPEN INPUT INP2-FILE.                                        I1SS04  
+     OPEN INPUT INP3-FILE.                                        I1SS05  
+     PERFORM INP1-READ-RTN THRU INP1-READ-EXT.                    I1SS06*1
+     MOVE ZERO TO F-OUT1-CNT.                                     I1SS07  
+     OPEN OUTPUT OUT1-FILE.                                       I1SS08  
+     PERFORM PR-INIT-PROC.                                        I1SU09  
+*                                                                         
+     PERFORM EDIT-REPORT                                          I1PS01  
+         UNTIL INP1-KEY-NEXT = HIGH-VALUE.                                
+*                                                                         
+     COMPUTE F-INP1-CNT = F-INP1-CNT - C-DEC1.                    I1ES04  
+     DISPLAY F-IOREC-CNT.                                         I1ES04  
+     PERFORM MAIN-FINISH-PROC.                                    I1EU01  
+     CLOSE INP1-FILE.                                             I1ES02  
+     CLOSE INP2-FILE.                                             I1ES03  
+     CLOSE INP3-FILE.                                             I1ES04  
+     CLOSE OUT1-FILE.                                             I1ES05  
+     STOP RUN.                                                            
+/**********                                                               
+* LEVEL 2 *                                                               
+***********                                                               
+ EDIT-REPORT.                                                             
+     PERFORM FILE-EDIT-PROC.                                              
+***********      I3PU01--I3PS05                                           
+* LEVEL 3 *                                                               
+***********                                                               
+ FILE-EDIT-PROC.                                                          
+     PERFORM COMPUTATION-PROC.                                            
+     PERFORM HEAD-RTN         THRU HEAD-EXT.                              
+     PERFORM REPORT-EDIT-RTN  THRU REPORT-EDIT-EXT.                       
+     PERFORM OUT1-WRITE-RTN   THRU OUT1-WRITE-EXT.                        
+     PERFORM INP1-READ-RTN THRU INP1-READ-EXT.                            
+/**************   *1=I1SS04, I3PS05  *2=I3PS04  *3=I3PS02                 
+* SUBROUTINES *                                                           
+*  (STANDARD) *                                                           
+***************                                                           
+ INP1-READ-RTN.                                                   *1      
+     READ INP1-FILE                                                       
+         AT END  MOVE HIGH-VALUE TO INP1-KEY-NEXT                         
+                 MOVE CORR INP1-KEY-NEXT TO INP1-REC.                     
+     MOVE CORR INP1-REC TO INP1-KEY-NEXT.                                 
+     COMPUTE F-INP1-CNT = F-INP1-CNT + C-DEC1.                            
+ INP1-READ-EXT.                                                           
+     EXIT.                                                                
+*                                                                         
+ INP2-READ-RTN.                                                           
+     INITIALIZE  S-INP2-KEYERR.                                           
+     READ INP2-FILE   KEY IS  INP2-ACP                                    
+         INVALID KEY  MOVE I-TRUE  TO S-INP2-KEYERR.                      
+ INP2-READ-EXT.                                                           
+     EXIT.                                                                
+*                                                                         
+ INP3-READ-RTN.                                                           
+     INITIALIZE  S-INP3-KEYERR.                                           
+     READ INP3-FILE   KEY IS  INP3-ACP                                    
+         INVALID KEY  MOVE I-TRUE  TO S-INP3-KEYERR.                      
+ INP3-READ-EXT.                                                           
+     EXIT.                                                                
+/*************                                                            
+* USERS PROC *                                                            
+**************                                                            
+*                                                                         
+ HEAD-RTN.                                                        *3      
+     IF LINAGE-COUNTER = C-DEC1                                           
+        PERFORM HEAD-PRINT-PROC                                           
+     ELSE                                                                 
+        NEXT SENTENCE.                                                    
+ HEAD-EXT.                                                                
+     EXIT.                                                                
+*                                                                         
+ MAIN-INIT-PROC.                                                          
+     INITIALIZE              WK-GYMD.                                     
+     CALL "CMPDATES"   USING CMLBDATE.                                    
+     MOVE CM-WDATE9       TO WK-GYMD.                                     
+*                                                                         
+* (FROM I1SU07)                                                           
+ PR-INIT-PROC.                                                            
+*                                                                         
+     INITIALIZE OUT1-REC1 IDX INP1-KEY LINE-CNT.                          
+*                                                                         
+* (FROM I1EU01)                                                           
+ MAIN-FINISH-PROC.                                                        
+     INITIALIZE OUT1-REC1  LIST.                                          
+     MOVE  SPACE      TO   LIST.                                          
+     WRITE OUT1-REC1 FROM LIST  BEFORE PAGE.                              
+     WRITE OUT1-REC1 FROM LIST  BEFORE 10.                                
+*                                                                         
+     MOVE F-IOREC-CNT TO LIST.                                            
+     WRITE OUT1-REC1 FROM LIST  BEFORE 1.                                 
+*                                                                         
+ COMPUTATION-PROC.                                                        
+*    行数チェック                                                         
+     IF  (LINE-CNT NOT < 17)                                              
+         INITIALIZE OUT1-REC1  LINE-CNT                                   
+         WRITE OUT1-REC1 BEFORE PAGE                                      
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+/                                                                         
+******************************                                            
+*    帳票出力項目編集　　                                                 
+******************************                                            
+ REPORT-EDIT-RTN.                                                         
+     ADD  1        TO  IDX  LINE-CNT.                                     
+     INITIALIZE    L1A-REC  L1B-REC  L1C-REC.                             
+*                                                                         
+*    受給者出力項目編集                                                   
+     IF (INP1-KEY-NEXT  NOT =  INP1-KEY)  OR                              
+        (LINE-CNT           =  1       )                                  
+         MOVE  INP1-KEY-NEXT  TO  INP1-KEY                                
+         PERFORM JQ-EDIT-RTN THRU JQ-EDIT-EXT.                            
+*                                                                         
+*    児童出力項目編集                                                     
+     PERFORM JD-EDIT-RTN THRU JD-EDIT-EXT.                                
+ REPORT-EDIT-EXT.                                                         
+     EXIT.                                                                
+******************************                                            
+*    受給者出力項目編集　　                                               
+******************************                                            
+ JQ-EDIT-RTN.                                                             
+*    証書番号                                                             
+     MOVE  JFJ-SHBAN      TO L1B-SHBAN.                                   
+*    請求者区分                                                           
+     IF  JFS-SEQKB  NOT = ZERO AND SPACE                                  
+         MOVE 0003          TO JCDA1-CDSYR                                
+         MOVE JFS-SEQKB     TO JCDA1-CDKBN                                
+         PERFORM INP3-READ-RTN THRU INP3-READ-EXT                         
+         IF  S-INP3-KEYERR  =  I-TRUE                                     
+             DISPLAY "JFU255P コードＦにデータ無し " INP3-ACP             
+         ELSE                                                             
+             MOVE JCD-SETUM TO L1A-SEIQKB                                 
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+*    フリガナ(受給者)                                                     
+     MOVE  JFS-KNANM      TO L1B-JQMEIK.                                  
+*    氏　　名(受給者)                                                     
+     MOVE  JFS-KJINM      TO L1C-JQMEIN.                                  
+*    住　　所1                                                            
+     INITIALIZE         WK-ADR.                                           
+     MOVE  JFS-ADRSN   TO  WK-ADR.                                        
+     MOVE  WK-ADR1     TO  L1A-ADR1.                                      
+*    住　　所2                                                            
+     MOVE  WK-ADR2        TO L1B-ADR2.                                    
+*    方　　書                                                             
+     MOVE  JFS-KATAG      TO L1C-KATA.                                    
+*    改定／喪失                                                           
+     IF  JFJ-TJDSU =  ZERO                                                
+         MOVE NC"喪失"    TO L1A-SOSITU                                   
+     ELSE                                                                 
+     IF  JFJ-TJDSU  > ZERO                                                
+         MOVE NC"改定"    TO L1A-SOSITU                                   
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+*    更新前児童数                                                         
+     MOVE  JFJ-DNTKB      TO JFJA1-DNTKB.                                 
+     MOVE  JFJ-SKJNO      TO JFJA1-SKJNO.                                 
+     MOVE  JFJ-NTRNO      TO JFJA1-NTRNO.                                 
+     PERFORM INP2-READ-RTN THRU INP2-READ-EXT.                            
+     IF  S-INP2-KEYERR  = I-TRUE                                          
+         DISPLAY "JFU255P 受給資格Ｍに該当データ無し"                     
+     ELSE                                                                 
+         MOVE  JFI-TJDSU  TO WK-HENKAN1                                   
+         MOVE  WK-HENKAN1 TO L1B-MJIDSU.                                  
+     MOVE  NC"人"         TO L1B-NINSU.                                   
+*    更新後児童数                                                         
+     MOVE  JFJ-TJDSU      TO WK-HENKAN1.                                  
+     MOVE  WK-HENKAN1     TO L1C-GJIDSU.                                  
+     MOVE  NC"人"         TO L1C-NINSU.                                   
+ JQ-EDIT-EXT.                                                             
+     EXIT.                                                                
+******************************                                            
+*    児童出力項目編集　　                                                 
+******************************                                            
+ JD-EDIT-RTN.                                                             
+*    №                                                                   
+     MOVE  IDX            TO L1B-NO.                                      
+*    個人番号(児童)                                                       
+     MOVE  JFD-JDKNO      TO L1B-JDKNO.                                   
+*    生年月日                                                             
+     IF  B15-UGP  NOT = ZERO                                              
+         INITIALIZE        WK-GYMD                                        
+         MOVE B15-UGP TO WK-GYMD                                          
+         IF  WK-NG  =  "1" OR "M"                                         
+             MOVE NC"明治"  TO WK-NG-N                                    
+         ELSE                                                             
+         IF  WK-NG  =  "2" OR "T"                                         
+             MOVE NC"大正"  TO WK-NG-N                                    
+         ELSE                                                             
+         IF  WK-NG  =  "3" OR "S"                                         
+             MOVE NC"昭和"  TO WK-NG-N                                    
+         ELSE                                                             
+         IF  WK-NG  =  "4" OR "H"                                         
+             MOVE NC"平成"  TO WK-NG-N                                    
+         ELSE                                                             
+             NEXT SENTENCE.                                               
+     IF  B15-UGP  NOT = ZERO                                              
+         MOVE WK-YY         TO WK-HENKAN1                                 
+         MOVE WK-HENKAN1    TO WK-YY-N                                    
+         MOVE NC"年"        TO WK-F1-N                                    
+         MOVE WK-MM         TO WK-HENKAN1                                 
+         MOVE WK-HENKAN1    TO WK-MM-N                                    
+         MOVE NC"月"        TO WK-F2-N                                    
+         MOVE WK-DD         TO WK-HENKAN1                                 
+         MOVE WK-HENKAN1    TO WK-DD-N                                    
+         MOVE NC"日"        TO WK-F3-N                                    
+         MOVE WK-DATE-N     TO L1C-SEINEN.                                
+*    フリガナ(児童)                                                       
+     MOVE  B15-NAM        TO L1B-JDMEIK.                                  
+*    氏　　名(児童)                                                       
+     MOVE  B15-NAMK         TO L1C-JDMEIN                                 
+*    障害有無                                                             
+     IF  JFD-SGJKB NOT = ZERO                                             
+         MOVE JFD-SGJKB   TO JCDA1-CDKBN                                  
+         MOVE 0015        TO JCDA1-CDSYR                                  
+         PERFORM INP3-READ-RTN THRU INP3-READ-EXT                         
+         IF  S-INP3-KEYERR  =  I-TRUE                                     
+             DISPLAY "JFU255P コードＦにデータ無し " INP3-ACP             
+         ELSE                                                             
+             MOVE JCD-SETUM  TO L1A-SYOGAI                                
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+*    ９条の２                                                             
+     IF JFD-KJIKB = 1                                                     
+        MOVE NC"該当"     TO L1B-9JYO2.                                   
+*    到達年齢                                                             
+     IF  JFD-SGJKB  =  ZERO                                               
+         MOVE  NC"１８歳到達"   TO  L1C-NENREI                            
+     ELSE                                                                 
+     IF  JFD-SGJKB  =  1                                                  
+         MOVE  NC"２０歳到達"   TO  L1C-NENREI                            
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+ JD-EDIT-EXT.                                                             
+     EXIT.                                                                
+/                                                                         
+************************                                                  
+* (FROM HEAD-RTN)                                                         
+************************                                                  
+ HEAD-PRINT-PROC.                                                         
+     INITIALIZE OUT1-REC1  LIST.                                          
+     MOVE  SPACE      TO   LIST.                                          
+     WRITE OUT1-REC1 FROM LIST  BEFORE 2.                                 
+*                                                                         
+*    システム年月日                                                       
+*    INITIALIZE  WK-DATE-N.                                               
+     IF  WK-NG  =  1                                                      
+         MOVE NC"明治"    TO WK-NG-N                                      
+     ELSE                                                                 
+     IF  WK-NG  =  2                                                      
+         MOVE NC"大正"    TO WK-NG-N                                      
+     ELSE                                                                 
+     IF  WK-NG  =  3                                                      
+         MOVE NC"昭和"    TO WK-NG-N                                      
+     ELSE                                                                 
+     IF  WK-NG  =  4                                                      
+         MOVE NC"平成"    TO WK-NG-N                                      
+     ELSE                                                                 
+         NEXT SENTENCE.                                                   
+     MOVE WK-YY           TO WK-HENKAN1.                                  
+     MOVE WK-HENKAN1      TO WK-YY-N.                                     
+     MOVE NC"年"          TO WK-F1-N.                                     
+     MOVE WK-MM           TO WK-HENKAN1.                                  
+     MOVE WK-HENKAN1      TO WK-MM-N.                                     
+     MOVE NC"月"          TO WK-F2-N.                                     
+     MOVE WK-DD           TO WK-HENKAN1.                                  
+     MOVE WK-HENKAN1      TO WK-DD-N.                                     
+     MOVE NC"日"          TO WK-F3-N.                                     
+     MOVE WK-DATE-N       TO H1-YMD.                                      
+*    ページ数編集                                                         
+     ADD  1               TO  PGCNT.                                      
+     MOVE PGCNT           TO  H1-PAGE.                                    
+     WRITE OUT1-REC1 FROM HEAD1 BEFORE 1.                                 
+     MOVE SPACE TO OUT1-REC1.                                             
+*                                                                         
+*    対象年月                                                             
+     ACCEPT  WK-ACCEPT   FROM UCDATE1.                                    
+     INITIALIZE  WK-DATE-N.                                               
+     IF  WK-ACCNG  =  "1" OR  "M"                                         
+         MOVE NC"明治"    TO WK-NG-N                                      
+     ELSE                                                                 
+     IF  WK-ACCNG  =  "2" OR  "T"                                         
+         MOVE NC"大正"    TO WK-NG-N                                      
+     ELSE                                                                 
+     IF  WK-ACCNG  =  "3" OR  "S"                                         
+         MOVE NC"昭和"    TO WK-NG-N                                      
+     ELSE                                                                 
+     IF  WK-ACCNG  =  "4" OR  "H"                                         
+         MOVE NC"平成"    TO WK-NG-N                                      
+     ELSE                                                                 
+         INITIALIZE          WK-NG-N                                      
+         DISPLAY NC"年号取得エラー"                                       
+         DISPLAY NC"　　年号＝" WK-NG-N                                   
+         STOP "000".                                                      
+     MOVE WK-ACCYY        TO WK-HENKAN1.                                  
+     MOVE WK-HENKAN1      TO WK-YY-N.                                     
+     MOVE NC"年"          TO WK-F1-N.                                     
+     MOVE WK-ACCMM        TO WK-HENKAN1.                                  
+     MOVE WK-HENKAN1      TO WK-MM-N.                                     
+     MOVE NC"月"          TO WK-F2-N.                                     
+     MOVE WK-YYMM-N       TO H2-TYM.                                      
+*                                                                         
+     INITIALIZE OUT1-REC1.                                                
+     WRITE OUT1-REC1 FROM HEAD2  BEFORE 6.                                
+*                                                                         
+************************                                                  
+* (FROM OUT1-WRITE-RTN)                                                   
+************************                                                  
+ OUT1-WRITE-RTN.                                                          
+*                                                                         
+     INITIALIZE     OUT1-REC1                                             
+     WRITE OUT1-REC1 FROM LIST1A  BEFORE 1.                               
+*                                                                         
+     INITIALIZE     OUT1-REC1                                             
+     WRITE OUT1-REC1 FROM LIST1B  BEFORE 1.                               
+*                                                                         
+     INITIALIZE     OUT1-REC1                                             
+     WRITE OUT1-REC1 FROM LIST1C  BEFORE 1.                               
+     COMPUTE F-OUT1-CNT = F-OUT1-CNT + C-DEC1.                            
+*                                                                         
+ OUT1-WRITE-EXT.                                                          
+     EXIT.                                                                
+*                                                                         

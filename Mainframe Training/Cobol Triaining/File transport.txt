@@ -1,0 +1,10 @@
+ run  command 6
+1. SEND:(EATSO environment(for example)
+command:
+ XMIT JKWIS01.HostID DA(dataset(member))
+2.RECEIVE
+command:
+ RECEIVE
+default receive path is :HostID.SenderHostID
+
+XMIT BJES2.EV6354 FF67.DS.SAP.BATCH2.MD

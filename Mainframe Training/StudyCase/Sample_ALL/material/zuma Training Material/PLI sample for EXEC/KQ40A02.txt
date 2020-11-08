@@ -1,0 +1,300 @@
+ /* IG43A02: PROFILE DATA ASCA CHECK                                  */00001001
+ /*********************************************************************/00002000
+ /*                                                                   */00003000
+ /*       SECURITY CLASS      --- UNCLASSIFIED                        */00004000
+ /*       PROJECT NAME        --- SUB/JV PROJECT CONTROL IW           */00005000
+ /*       PROJECT NO.         --- IG43                                */00006000
+ /*       MODULE GROUP NAME   ---                                     */00007000
+ /*       MODULE NAME         --- IG43A02                             */00008001
+ /*       PROGRAM DESCRIPTION --- PROFILE DATA ASCA CHECK             */00009001
+ /*       PROGRAM TYPE        --- ASCA CHECK                          */00010001
+ /*       PROGRAMMER NAME     --- WU JIN HUA                          */00020000
+ /*       WRITTEN DATE        --- 05/12/31                            */00030001
+ /*                                                                   */00040000
+ /*-------------------------------------------------------------------*/00050000
+ /*       IG43A02  --- PROCEDURE NAME                                 */00060001
+ /*       IG43PRF1 --- DATA FILE DCL MEMBER NAME                      */00070001
+ /*       IG43TRA1 --- TRAILER FILE DCL MEMBER NAME                   */00080001
+ /*       IG43CYC  --- PROFILE FTP CYCLE NUMBER FILE DCL MEMBER NAME  */00081001
+ /*       IG43ASC1 --- ASCA CHECK RESULT FILE DCL MEMBER NAME         */00082001
+ /*                                                                   */00090000
+ /*       ---- REPLACE FILE NAME ACCORDING TO NAMING CONVENTION ----  */00100000
+ /*       SIGA02I1 --- PROFILE DATA FILE(INCLUDE TRAILER RECORD)      */00110001
+ /*       SIGA02I2 --- LAST TIME'S FTP CYCLE NUMBER FILE              */00111001
+ /*       SIGA02O1 --- PROFILE DATA FILE(EXCLUDE TRAILER RECORD)      */00120009
+ /*       SIGA02O2 --- ASCA CHECK RESULT FILE                         */00121009
+ /*       SIGA02O3 --- THIS TIME'S FTP CYCLE NUMBER FILE              */00122009
+ /*-------------------------------------------------------------------*/00130000
+ /*                                                                   */00140000
+ /*********************************************************************/00150000
+ IG43A02 : PROC   OPTIONS(MAIN);                                        00160001
+ /*-------------------------------------------------------------------*/00170000
+ %INCLUDE SYSLIB2(SMONERR1);                                            00180000
+ /*********************************************************************/00190000
+ /* DECLARATION BLOCK                                                 */00200000
+ /*********************************************************************/00210000
+ /*---DCL BUILTIN FUNCTION--------------------------------------------*/00220016
+ DCL ADDR          BUILTIN                 ;/* BUILTIN DECLARATION    */00230022
+ DCL PLIRETC       BUILTIN                 ;/*                        */00231022
+                                            /*                        */00240016
+ /*---FILE DECLARATION------------------------------------------------*/00240400
+ DCL SIGA02I1      FILE   RECORD           ;/* DECLARE INPUT  FILES   */00240501
+ DCL SIGA02I2      FILE   RECORD           ;/*                        */00240601
+ DCL SIGA02O1      FILE   RECORD           ;/* DECLARE OUTPUT FILES   */00240701
+ DCL SIGA02O2      FILE   RECORD           ;/*                        */00240801
+ DCL SIGA02O3      FILE   RECORD           ;/*                        */00240901
+                                            /*                        */00241001
+ /*---I/O AREA--------------------------------------------------------*/00241101
+ DCL IN_STRING     CHAR(1429) INIT('')     ;/* INPUT RECORD CARD      */00241213
+                                            /*                        */00241313
+ DCL 1 IN_PROFILE  BASED(ADDR(IN_STRING))  ,/* PROFILE DATA CARD      */00241401
+       %INCLUDE IG43PRF1                   ;/*                        */00241501
+                                            /*                        */00243000
+ DCL 1 IN_TRAILER  BASED(ADDR(IN_STRING))  ,/* PROFILE TRAILER CARD   */00243101
+       %INCLUDE IG43TRA1                   ;/*                        */00243201
+                                            /*                        */00243301
+ DCL 1 IN_CYCLENUMBER                      ,/* CYCLENUMBER CARD       */00244001
+       %INCLUDE IG43CYC                    ;/*                        */00245001
+                                            /*                        */00246000
+ DCL 1 OUT_CYCLENUMBER                     ,/* CYCLENUMBER CARD       */00246101
+       %INCLUDE IG43CYC                    ;/*                        */00246201
+                                            /*                        */00246301
+ DCL 1 OUT_ASCA                            ,/* ASCA CHECK RESULT CARD */00247001
+       %INCLUDE IG43ASC1                   ;/*                        */00248001
+                                            /*                        */00249001
+ /*---WORK AREA------------------------------------------------------*/ 00250000
+ DCL WK_TRAILER_SEQ DEC FIXED(15,0) INIT(0);/* COUNTER OF INPUT DATA  */00260001
+                                            /* ASCA REPORT ITEMS      */00270014
+ DCL WK_ITEM1 CHAR(45) INIT('LAST TIME CYELENUMBER:');                  00280024
+ DCL WK_ITEM2 CHAR(45) INIT('THIS TIME CYELENUMBER:');                  00280124
+ DCL WK_ITEM3 CHAR(45) INIT('COUNT OF INPUT PROFILE DATA:');            00280224
+ DCL WK_ITEM4 CHAR(45) INIT('COUNT IN TRAILER RECORD:');                00280324
+ DCL WK_ITEM5 CHAR(45) INIT('AMOUNT OF INPUT PROFILE DATA:');           00280424
+ DCL WK_ITEM6 CHAR(45) INIT('AMOUNT IN TRAILER RECORD:');               00280524
+ DCL WK_ITEM7 CHAR(45) INIT('TRAILER SEQ:');                            00280624
+                                            /*                        */00281002
+ /*---SWITCH----------------------------------------------------------*/00290000
+ DCL EOF_SIGA02I1  BIT(1)    INIT ('0'B)   ;/* EOF FLAG               */00300001
+ DCL EOF_SIGA02I2  BIT(1)    INIT ('0'B)   ;/* EOF FLAG               */00301001
+                                            /*                        */00310000
+ /*---COUNTER & AMOUNT & CYCLE NUMBER---------------------------------*/00320001
+ DCL CNT_PROFILE   DEC FIXED(15,0) INIT(0) ;/* COUNTER OF PROFILE     */00330014
+ DCL CNT_TRAILER   DEC FIXED(15,0) INIT(0) ;/* COUNTER IN TRAILER     */00340014
+                                            /*                        */00350000
+ DCL AMT_PROFILE   DEC FIXED(15,0) INIT(0) ;/* AMOUNT OF PROFILE      */00352022
+ DCL AMT_TRAILER   DEC FIXED(15,0) INIT(0) ;/* AMOUNT IN TRAILER DATA */00353022
+                                            /*                        */00354001
+ DCL CYC_CYCIN     DEC FIXED(15,0) INIT(0) ;/* CYCLE NUM OF LAST TIME */00355014
+ DCL CYC_TRAILER   DEC FIXED(15,0) INIT(0) ;/* CYCLE NUM OF THIS TIME */00356014
+                                            /*                        */00357001
+ /*---FLAG------------------------------------------------------------*/00360000
+ DCL ABEND_FLAG    BIT(1)    INIT ('0'B)   ;/* ABEND FLAG             */00361001
+                                            /*                        */00370000
+ /*---ON CONDITION BLOCK----------------------------------------------*/00380000
+ ON  ENDFILE(SIGA02I1) EOF_SIGA02I1 ='1'B  ;/*                        */00390001
+ ON  ENDFILE(SIGA02I2) EOF_SIGA02I2 ='1'B  ;/*                        */00391001
+                                            /*                        */00400000
+ /*-------------------------------------------------------------------*/00410000
+ /*  INITIAL PROCESS                                                  */00420000
+ /*-------------------------------------------------------------------*/00430000
+ OPEN FILE(SIGA02I1) INPUT RECORD          ;/* OPEN INPUT FILES       */00440014
+ OPEN FILE(SIGA02I2) INPUT RECORD          ;/*                        */00441001
+ OPEN FILE(SIGA02O1) OUTPUT RECORD         ;/* OPEN OUTPUT FILES      */00442014
+ OPEN FILE(SIGA02O2) OUTPUT RECORD         ;/*                        */00443002
+ OPEN FILE(SIGA02O3) OUTPUT RECORD         ;/*                        */00444002
+                                            /*                        */00450000
+ /*********************************************************************/00460000
+ /*    MAIN PROCESS BLOCK                                             */00470000
+ /*********************************************************************/00480000
+ IN_CYCLENUMBER  =  ''                     ;/*                        */00490014
+ READ FILE(SIGA02I2) INTO(IN_CYCLENUMBER)  ;/* READ THE INPUT DATA    */00491009
+ IF EOF_SIGA02I2 ý= '1'B                    /*                        */00492002
+ THEN DO                                   ;/*                        */00493002
+   CYC_CYCIN = IN_CYCLENUMBER.CYCLE_NUMBER ;/*                        */00494007
+ END                                       ;/*                        */00495002
+ ELSE DO                                   ;/*                        */00496026
+   SMCONST2( NO RECORD IN CYCLE NUMBER INPUT FILE!!!);                  00497027
+ END                                       ;/*                        */00498026
+                                            /*                        */00500000
+ IN_PROFILE  = ''                          ;/*                        */00500114
+ READ FILE(SIGA02I1) INTO(IN_PROFILE)      ;/* READ THE FIRST DATA    */00501002
+ DO WHILE (EOF_SIGA02I1 = '0'B)            ;/*                        */00510002
+                                            /*                        */00520000
+   SELECT(IN_PROFILE.RECORD_TYPE)          ;/* CHECK RECORD TYPE      */00540014
+     WHEN ('PROFILE') DO                   ;/* PROFILE DATA           */00550005
+      CNT_PROFILE  = CNT_PROFILE + 1       ;/*                        */00560002
+                                            /*                        */00560122
+      IF IN_PROFILE.SRV_AMOUNT = ''         /*                        */00561023
+      THEN DO                              ;/*                        */00562022
+        IN_PROFILE.SRV_AMOUNT  = '0'       ;/*                        */00563023
+      END                                  ;/*                        */00564022
+                                            /*                        */00565022
+      AMT_PROFILE  = AMT_PROFILE + IN_PROFILE.SRV_AMOUNT;               00570006
+      WRITE FILE(SIGA02O1) FROM(IN_PROFILE);/*                        */00580002
+     END                                   ;/*                        */00600002
+     WHEN ('TRAILER') DO                   ;/* TRAILER DATA           */00610005
+      WK_TRAILER_SEQ = WK_TRAILER_SEQ + 1  ;/*                        */00611011
+      CNT_TRAILER  = IN_TRAILER.COUNT      ;/*                        */00620002
+      AMT_TRAILER  = IN_TRAILER.AMOUNT     ;/*                        */00621002
+      CYC_TRAILER  = IN_TRAILER.CYCLE_NUMBER;                           00622007
+     END                                   ;/*                        */00624002
+     OTHERWISE DO                          ;/* OTHER OCCASION         */00625002
+      SMCONST2( THE RECORD TYPE IS INCORRECT!!!);                       00628002
+     END                                   ;/*                        */00629102
+   END                                     ;/*                        */00629202
+                                            /*                        */00629312
+   IN_PROFILE  = ''                        ;/*                        */00629414
+   READ FILE(SIGA02I1) INTO(IN_PROFILE)    ;/*                        */00629502
+                                            /*                        */00629612
+ END                                       ;/*                        */00630000
+                                            /*                        */00640000
+ CALL ASCA_CHECK                           ;/*                        */00641002
+                                            /*                        */00641125
+ IF ABEND_FLAG = '1'B                       /* CHECK THE ABEND FLAG   */00641225
+ THEN DO                                   ;/*                        */00641325
+   CALL PLIRETC(2006)                      ;/*                        */00641425
+ END                                       ;/*                        */00641525
+ ELSE DO                                   ;/*                        */00641625
+   CALL CYC_WRITE                          ;/*                        */00641725
+ END                                       ;/*                        */00641825
+                                            /*                        */00641925
+ /*********************************************************************/00650000
+ /*    ASCA CHECK SUBROUTINE                                          */00660002
+ /*********************************************************************/00670000
+ ASCA_CHECK : PROC                         ;/* ASCA CHECK SUBROUTINE  */00680002
+                                            /*                        */00690000
+   OUT_ASCA = ''                           ;/*                        */00700014
+                                            /*                        */00701014
+   IF CYC_CYCIN = CYC_TRAILER - 1           /* CHECK CYCLE NUMBER     */00710003
+   THEN DO                                 ;/*                        */00720000
+     OUT_ASCA.CHECK_ITEM = WK_ITEM1        ;/*                        */00731003
+     OUT_ASCA.CHECK_ITEM_VALUE = CYC_CYCIN ;/*                        */00731122
+     OUT_ASCA.CHECK_RESULT     = 'OK'      ;/*                        */00731203
+     WRITE FILE(SIGA02O2) FROM(OUT_ASCA)   ;/*                        */00731303
+                                            /*                        */00731403
+     OUT_ASCA.CHECK_ITEM = WK_ITEM2        ;/*                        */00731503
+     OUT_ASCA.CHECK_ITEM_VALUE = CYC_TRAILER;                           00731603
+     OUT_ASCA.CHECK_RESULT     = 'OK'      ;/*                        */00731703
+     WRITE FILE(SIGA02O2) FROM(OUT_ASCA)   ;/*                        */00731803
+   END                                     ;/*                        */00740000
+   ELSE DO                                 ;/*                        */00741003
+     ABEND_FLAG          = '1'B            ;/*                        */00742003
+     OUT_ASCA.CHECK_ITEM = WK_ITEM1        ;/*                        */00743003
+     OUT_ASCA.CHECK_ITEM_VALUE = CYC_CYCIN ;/*                        */00744022
+     OUT_ASCA.CHECK_RESULT     = 'NG'      ;/*                        */00745003
+     WRITE FILE(SIGA02O2) FROM(OUT_ASCA)   ;/*                        */00746003
+                                            /*                        */00747003
+     OUT_ASCA.CHECK_ITEM = WK_ITEM2        ;/*                        */00748003
+     OUT_ASCA.CHECK_ITEM_VALUE = CYC_TRAILER;                           00749003
+     OUT_ASCA.CHECK_RESULT     = 'NG'      ;/*                        */00749103
+     WRITE FILE(SIGA02O2) FROM(OUT_ASCA)   ;/*                        */00749203
+   END                                     ;/*                        */00749303
+                                            /*                        */00750000
+   IF CNT_PROFILE = CNT_TRAILER             /* CHECK RECORD COUNT     */00751003
+   THEN DO                                 ;/*                        */00752003
+     OUT_ASCA.CHECK_ITEM = WK_ITEM3        ;/*                        */00753003
+     OUT_ASCA.CHECK_ITEM_VALUE = CNT_PROFILE;                           00754003
+     OUT_ASCA.CHECK_RESULT     = 'OK'      ;/*                        */00755003
+     WRITE FILE(SIGA02O2) FROM(OUT_ASCA)   ;/*                        */00756003
+                                            /*                        */00757003
+     OUT_ASCA.CHECK_ITEM = WK_ITEM4        ;/*                        */00758003
+     OUT_ASCA.CHECK_ITEM_VALUE = CNT_TRAILER;                           00759003
+     OUT_ASCA.CHECK_RESULT     = 'OK'      ;/*                        */00759103
+     WRITE FILE(SIGA02O2) FROM(OUT_ASCA)   ;/*                        */00759203
+   END                                     ;/*                        */00759303
+   ELSE DO                                 ;/*                        */00759403
+     ABEND_FLAG          = '1'B            ;/*                        */00759503
+     OUT_ASCA.CHECK_ITEM = WK_ITEM3        ;/*                        */00759603
+     OUT_ASCA.CHECK_ITEM_VALUE = CNT_PROFILE;                           00759703
+     OUT_ASCA.CHECK_RESULT     = 'NG'      ;/*                        */00759803
+     WRITE FILE(SIGA02O2) FROM(OUT_ASCA)   ;/*                        */00759903
+                                            /*                        */00760003
+     OUT_ASCA.CHECK_ITEM = WK_ITEM4        ;/*                        */00760103
+     OUT_ASCA.CHECK_ITEM_VALUE = CNT_TRAILER;                           00760203
+     OUT_ASCA.CHECK_RESULT     = 'NG'      ;/*                        */00760303
+     WRITE FILE(SIGA02O2) FROM(OUT_ASCA)   ;/*                        */00760403
+   END                                     ;/*                        */00760503
+                                            /*                        */00760603
+   IF AMT_PROFILE = AMT_TRAILER             /* CHECK RECORD AMOUNT    */00760703
+   THEN DO                                 ;/*                        */00760803
+     OUT_ASCA.CHECK_ITEM = WK_ITEM5        ;/*                        */00760903
+     OUT_ASCA.CHECK_ITEM_VALUE = AMT_PROFILE;                           00761003
+     OUT_ASCA.CHECK_RESULT     = 'OK'      ;/*                        */00761103
+     WRITE FILE(SIGA02O2) FROM(OUT_ASCA)   ;/*                        */00761203
+                                            /*                        */00761303
+     OUT_ASCA.CHECK_ITEM = WK_ITEM6        ;/*                        */00761403
+     OUT_ASCA.CHECK_ITEM_VALUE = AMT_TRAILER;                           00761503
+     OUT_ASCA.CHECK_RESULT     = 'OK'      ;/*                        */00761603
+     WRITE FILE(SIGA02O2) FROM(OUT_ASCA)   ;/*                        */00761703
+   END                                     ;/*                        */00761803
+   ELSE DO                                 ;/*                        */00761903
+     ABEND_FLAG          = '1'B            ;/*                        */00762003
+     OUT_ASCA.CHECK_ITEM = WK_ITEM5        ;/*                        */00762103
+     OUT_ASCA.CHECK_ITEM_VALUE = AMT_PROFILE;                           00762203
+     OUT_ASCA.CHECK_RESULT     = 'NG'      ;/*                        */00762303
+     WRITE FILE(SIGA02O2) FROM(OUT_ASCA)   ;/*                        */00762403
+                                            /*                        */00762503
+     OUT_ASCA.CHECK_ITEM = WK_ITEM6        ;/*                        */00762603
+     OUT_ASCA.CHECK_ITEM_VALUE = AMT_TRAILER;                           00762703
+     OUT_ASCA.CHECK_RESULT     = 'NG'      ;/*                        */00762803
+     WRITE FILE(SIGA02O2) FROM(OUT_ASCA)   ;/*                        */00762903
+   END                                     ;/*                        */00763003
+                                            /*                        */00763103
+   IF WK_TRAILER_SEQ = 1                    /* CHECK TRAILER SEQ      */00763203
+   THEN DO                                 ;/*                        */00763303
+     OUT_ASCA.CHECK_ITEM = WK_ITEM7        ;/*                        */00763403
+     OUT_ASCA.CHECK_ITEM_VALUE = WK_TRAILER_SEQ;                        00763503
+     OUT_ASCA.CHECK_RESULT     = 'OK'      ;/*                        */00763603
+     WRITE FILE(SIGA02O2) FROM(OUT_ASCA)   ;/*                        */00763703
+   END                                     ;/*                        */00764303
+   ELSE DO                                 ;/*                        */00764403
+     ABEND_FLAG          = '1'B            ;/*                        */00764503
+     OUT_ASCA.CHECK_ITEM = WK_ITEM7        ;/*                        */00764603
+     OUT_ASCA.CHECK_ITEM_VALUE = WK_TRAILER_SEQ;                        00764703
+     OUT_ASCA.CHECK_RESULT     = 'NG'      ;/*                        */00764803
+     WRITE FILE(SIGA02O2) FROM(OUT_ASCA)   ;/*                        */00764903
+   END                                     ;/*                        */00765503
+                                            /*                        */00766103
+ END ASCA_CHECK                            ;/*                        */00767003
+                                            /*                        */00770000
+ /*********************************************************************/00780003
+ /*    CYCLE NUMBER WRITE SUBROUTINE                                  */00790022
+ /*********************************************************************/00800003
+ CYC_WRITE : PROC                          ;/* CYC WRITE SUBROUTINE   */00810003
+                                            /*                        */00820003
+   OUT_CYCLENUMBER = IN_CYCLENUMBER        ;/*                        */00830004
+   OUT_CYCLENUMBER.CYCLE_NUMBER = CYC_TRAILER;                          00840020
+   WRITE FILE(SIGA02O3) FROM(OUT_CYCLENUMBER);                          00850003
+                                            /*                        */00851003
+ END CYC_WRITE                             ;/*                        */00860003
+                                            /*                        */00870003
+ /*********************************************************************/01748000
+ /* END OF PROGRAM                                                    */01749000
+ /*********************************************************************/01750000
+ PUT EDIT (' ***** IG43A02 ASCA CHECK LIST  ***** ')(A) PAGE ;          01751003
+ PUT EDIT (' LAST TIME CYCLE NO. :',CYC_CYCIN  )                        01752003
+          (A,P'ZZZ,ZZZ,ZZZ,ZZZ,ZZ9') SKIP  ;/*                        */01753003
+ PUT EDIT (' THIS TIME CYCLE NO. :',CYC_TRAILER)                        01753103
+          (A,P'ZZZ,ZZZ,ZZZ,ZZZ,ZZ9') SKIP  ;/*                        */01753303
+ PUT EDIT (' INPUT PROFILE COUNT :',CNT_PROFILE)                        01753403
+          (A,P'ZZZ,ZZZ,ZZZ,ZZZ,ZZ9') SKIP  ;/*                        */01753503
+ PUT EDIT (' COUNT IN TRAILER    :',CNT_TRAILER)                        01753603
+          (A,P'ZZZ,ZZZ,ZZZ,ZZZ,ZZ9') SKIP  ;/*                        */01753703
+ PUT EDIT (' INPUT PROFILE AMOUNT:',AMT_PROFILE)                        01753803
+          (A,P'ZZZ,ZZZ,ZZZ,ZZZ,ZZ9') SKIP ;/*                        */ 01753919
+ PUT EDIT (' AMOUNT IN TRAILER   :',AMT_TRAILER)                        01754003
+          (A,P'ZZZ,ZZZ,ZZZ,ZZZ,ZZ9') SKIP ;/*                        */ 01755119
+ PUT EDIT (' ***** IG43A02 ASCA CHECK END   ***** ')(A) PAGE ;          01756003
+                                            /*                        */01757000
+ CLOSE FILE(SIGA02I1)                      ;/*  CLOSE INPUT FILES     */01758014
+ CLOSE FILE(SIGA02I2)                      ;/*                        */01758114
+ CLOSE FILE(SIGA02O1)                      ;/*  CLOSE OUTPUT FILES    */01759014
+ CLOSE FILE(SIGA02O2)                      ;/*                        */01759114
+ CLOSE FILE(SIGA02O3)                      ;/*                        */01759214
+                                            /*                        */01760000
+ %INCLUDE SYSLIB2(SMHEAD3)                 ;/*                        */01770000
+ %INCLUDE SYSLIB2(SMCHECK5)                ;/*                        */01780000
+ %XTWOWAY=3                                ;/*                        */01790000
+ SMEND7(END)                               ;/*                        */01800000
+ END IG43A02                               ;/*                        */01810001
+

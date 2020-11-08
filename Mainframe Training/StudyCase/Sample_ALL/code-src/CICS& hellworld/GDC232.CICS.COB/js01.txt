@@ -1,0 +1,54 @@
+*****************************************************************
+ IDENTIFICATION                  DIVISION.                       
+*****************************************************************
+ PROGRAM-ID.                     JS01.                           
+*****************************************************************
+ ENVIRONMENT                     DIVISION.                       
+*****************************************************************
+*****************************************************************
+ DATA                            DIVISION.                       
+*****************************************************************
+*----------------------------------------------------------------
+ WORKING-STORAGE                 SECTION.                        
+*----------------------------------------------------------------
+*                                                                
+ 77  TRANSID                     PIC X(4) VALUE 'JS01'.          
+ 77  MIN-1                       PIC S9   VALUE -1.              
+*---------------   COPY BOOK   ----------------------------------
+     COPY DFHAID.                                                
+     COPY JS01SET.                                               
+*----------------------------------------------------------------
+ LINKAGE                         SECTION.                        
+*----------------------------------------------------------------
+ 01  DFHCOMMAREA.                                                
+     10  FILLER                  PIC X OCCURS 0 TO 32700         
+                                      DEPENDING ON EIBCALEN.     
+**************************************************************** 
+ PROCEDURE DIVISION.                                             
+**************************************************************** 
+ 100-BEGIN-PGM001.                                               
+*                                                                
+* // INITIALIZE MAP //*                                          
+*                                                                
+     IF      EIBCALEN            =    ZERO                       
+             MOVE    LOW-VALUES  TO   JS01MAPI                   
+             MOVE    LOW-VALUES  TO   JS01MAPO                   
+             MOVE    'TEST'      TO   NAME-MI                    
+             MOVE    'HOELLO WORLD'                     
+                                 TO   L-01-MI           
+     END-IF.                                            
+*                                                       
+ 180-SEND-MAP.                                          
+     EXEC    CICS    SEND        MAP('JS01MAP')         
+                                 MAPSET('JS01SET')      
+                                 FROM(JS01MAPO)         
+                                 ERASE                  
+                                 FREEKB                 
+                                 CURSOR                 
+                                 ALARM                  
+                                 FRSET                  
+     END-EXEC.                                          
+*                                                       
+     EXEC    CICS    RETURN      END-EXEC.              
+     GOBACK.                                            
+*                                                       

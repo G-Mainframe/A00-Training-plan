@@ -1,0 +1,26 @@
+DROP   TABLE  D085NLU_TBL   ;
+CREATE TABLE  D085NLU_TBL  (
+       分類コード                         CHAR(1)           NOT NULL,
+       ログインＩＤ                       CHAR(10)          NOT NULL,
+       取引先コード                       CHAR(9)           NOT NULL,
+       契約先コード                       CHAR(10)          NOT NULL,
+       請求先コード                       CHAR(10)          NOT NULL,
+       会社名                             CHAR(96)          NOT NULL,
+       部署名                             CHAR(34)          NOT NULL,
+       氏名                               CHAR(34)          NOT NULL,
+       ｅｍａｉｌアドレス                 CHAR(50)          NOT NULL,
+       郵便番号                           CHAR(7)           NOT NULL,
+       住所                               CHAR(120)         NOT NULL,
+       電話番号                           CHAR(15)          NOT NULL,
+       担当者                             CHAR(1)           NOT NULL,
+       区分                               CHAR(8)           NOT NULL,
+       登録年月日                         CHAR(8)           NOT NULL,
+       登録時間                           CHAR(8)           NOT NULL,
+       登録担当者                         CHAR(8)           NOT NULL,
+       更新年月日                         CHAR(8)           NOT NULL,
+       更新時間                           CHAR(8)           NOT NULL,
+       更新者                             CHAR(8)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+CONSTRAINT  PK_D085NLU_TBL  PRIMARY KEY (
+       分類コード,
+       ログインＩＤ));

@@ -1,0 +1,62 @@
+ IDENTIFICATION DIVISION.                                                 
+ PROGRAM-ID. CMPDATES.                                                    
+ AUTHOR.                                                                  
+*    Ë½Þ¹ ACCEPT »ÌÞ                                                      
+*    ØÝ¸ Ö³ Ü-¸   ×²ÌÞ×Ø : CMLBDATE                                       
+*     CM-WSDATEX  <=  S730618                                             
+*     CM-WSDATE9  <=  3730618                                             
+*     CM-WDATEX   <=  H100618                                             
+*     CM-WDATE9   <=  4100618                                             
+*     CM-DATE     <=  980618       <=  ACCEPT DATE                        
+*     CM-SDATE    <=  19980618                                            
+ ENVIRONMENT DIVISION.                                                    
+ CONFIGURATION SECTION.                                                   
+ SOURCE-COMPUTER. ACORS.                                                  
+ OBJECT-COMPUTER. ACORS.                                                  
+ DATA DIVISION.                                                           
+ WORKING-STORAGE SECTION.                                                 
+*                                                                         
+ 01  WK-DATA.                                                             
+     02 WK-WSREKIX   PIC X(01) VALUE "S".                                 
+     02 WK-WSREKI9   PIC 9(01) VALUE  3.                                  
+     02 WK-WREKIX    PIC X(01) VALUE "H".                                 
+     02 WK-WREKI9    PIC 9(01) VALUE  4.                                  
+     02 WK-2000      PIC 9(02) VALUE 20.                                  
+     02 WK-1900      PIC 9(02) VALUE 19.                                  
+*                                                                         
+ LINKAGE SECTION.                                                         
+     COPY CMLBDATE.                                                       
+/                                                                         
+ PROCEDURE DIVISION USING CMLBDATE.                                       
+*                                                                         
+ MAIN-PROCESS.                                                            
+*                                                                         
+     INITIALIZE CMLBDATE.                                                 
+*                                                                         
+     ACCEPT CM-DATE FROM DATE.                                            
+*                                                                         
+     MOVE   CM-DATE    TO  CM-WSYMDX.                                     
+     MOVE   WK-WSREKIX TO  CM-WSREKIX.                                    
+     MOVE   CM-DATE    TO  CM-WSYMD9.                                     
+     MOVE   WK-WSREKI9 TO  CM-WSREKI9.                                    
+*                                                                         
+     MOVE   CM-DATE    TO  CM-WYMDX.                                      
+     MOVE   WK-WREKIX  TO  CM-WREKIX.                                     
+     MOVE   CM-DATE    TO  CM-WYMD9.                                      
+     MOVE   WK-WREKI9  TO  CM-WREKI9.                                     
+     MOVE   CM-DATE    TO  CM-SYMD.                                       
+*                                                                         
+     COMPUTE CM-WYYX = CM-YY + 12.                                        
+     COMPUTE CM-WYY9 = CM-YY + 12.                                        
+*                                                                         
+     IF  CM-YY  > 74                                                      
+         COMPUTE CM-WSYYX = CM-YY - 25                                    
+         COMPUTE CM-WSYY9 = CM-YY - 25                                    
+         MOVE WK-1900   TO  CM-SYY1                                       
+     ELSE                                                                 
+         COMPUTE CM-WSYYX = CM-YY + 75                                    
+         COMPUTE CM-WSYY9 = CM-YY + 75                                    
+         MOVE WK-2000   TO  CM-SYY1.                                      
+*                                                                         
+ MAIN-EXT.                                                                
+     EXIT PROGRAM.                                                        

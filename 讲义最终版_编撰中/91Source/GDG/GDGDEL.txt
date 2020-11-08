@@ -1,0 +1,19 @@
+//ST002J08 JOB NOTIFY=ST002                                             
+//*--------------------------------*                                    
+//* BEFORE DELETING A GDG, WE MUST                                      
+//* DELETE ALL DATASETS IN IT.                                          
+//*--------------------------------*                                    
+//DELDS EXEC PGM=IDCAMS                                                 
+//SYSPRINT DD SYSOUT=*                                                  
+//SYSIN DD *                                                            
+   DELETE ST002.TEST.GDG04.*                                            
+   DELETE ST002.TEST.GDG04MOL                                           
+/*                                                                      
+//*-------------------*                                                 
+//* DELETE GDG.                                                         
+//*-------------------*                                                 
+//DELGDG EXEC PGM=IDCAMS,COND=(0,NE)                                    
+//SYSPRINT DD SYSOUT=*                                                  
+//SYSIN DD *                                                            
+  DELETE ST002.TEST.GDG04 GDG                                           
+/*                                                                      

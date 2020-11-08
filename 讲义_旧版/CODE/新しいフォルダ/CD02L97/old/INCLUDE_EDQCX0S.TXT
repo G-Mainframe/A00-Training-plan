@@ -1,0 +1,23 @@
+1/********************************************************************
+     CALL EXTENSION RECORD   -  EDQCX0S   R050   L=1230     97/07/10
+ ********************************************************************/
+      2 EDQCX0S                  /*CALL EXTENSION RECORD   - (CX0)
+                                   **********************************/,
+      3 SEDQRST CHAR(1)          /*RCMS RECORD STATUS               */,
+      3 SEDQRID CHAR(3)          /*RCMS RECORD ID                   */,
+      3 DDBSLUP CHAR(8)          /*DATE OF LAST UPDATE OF RECORD    */,
+      3 DDBSTLU CHAR(6)          /*TIME OF LAST UPDATE/DELETION OF
+                                   RECORD                           */,
+      3 IUSRUUL CHAR(8)          /*LAST UPDATE USER ID              */,
+      3 SEDQK71                  /**********  PRIMARY KEY  *********
+                                   **********************************/,
+       5 SEDQKPR CHAR(4)         /*VSAM KEY PREFIX                  */,
+       5 IFLTRCM CHAR(7)         /*INCIDENT NUMBER (RCMS)           */,
+       5 IFLTCEX CHAR(3)         /*INCIDENT RECORD EXTENSION
+                                   IDENTIFIER                       */,
+      3 SEDQIRL(1:15)            /*ARRAY OF INCIDENT LINE OF TEXT   */,
+       5 SEDQILA CHAR(1)         /*INCIDENT LINE OF TEXT ATTRIBUTE  */,
+       5 SEDQILN CHAR(78)        /*INCIDENT LINE OF TEXT            */,
+      3 UDTERES CHAR(5)          /*RESERVED FOR FUTURE USE          */
+ /* END OF STRUCTURE */,
+

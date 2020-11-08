@@ -1,0 +1,22 @@
+CREATE TABLE  CPFBUP03  (
+       ‚j‚d‚xQ“ü—ÍŽ–‹ÆŠ‚b‚c             NUMBER(4,0)       NOT NULL,
+       ‚j‚d‚xQƒf[ƒ^Ž¯•Ê                 NUMBER(2,0)       NOT NULL,
+       ‚j‚d‚xQŽ–‹ÆŠ‚b‚c                 NUMBER(4,0)       NOT NULL,
+       ‚j‚d‚xQƒŒƒR[ƒh‹æ•ª               CHAR(1)           NOT NULL,
+       ‚j‚d‚xQŒ_–ñ‚m‚n                   CHAR(9)           NOT NULL,
+       ‚j‚d‚xQ•¨Œ‚m‚n                   NUMBER(3,0)       NOT NULL,
+       ‚j‚d‚xQŠ¨’èˆ—‚b‚c               NUMBER(2,0)       NOT NULL,
+       ‚j‚d‚xQƒ_ƒ~[                     CHAR(4)           NOT NULL,
+       ‚j‚d‚xQÄƒŠ[ƒX‚b‚c               NUMBER(1,0)       NOT NULL,
+       “WŠJ‹àŠz                           NUMBER(13,0)      NOT NULL,
+       ‰ñ”                               NUMBER(3,0)       NOT NULL,
+CONSTRAINT  PK_CPFBUP03  PRIMARY KEY (
+       ‚j‚d‚xQ“ü—ÍŽ–‹ÆŠ‚b‚c,
+       ‚j‚d‚xQƒf[ƒ^Ž¯•Ê,
+       ‚j‚d‚xQŽ–‹ÆŠ‚b‚c,
+       ‚j‚d‚xQƒŒƒR[ƒh‹æ•ª,
+       ‚j‚d‚xQŒ_–ñ‚m‚n,
+       ‚j‚d‚xQ•¨Œ‚m‚n,
+       ‚j‚d‚xQŠ¨’èˆ—‚b‚c,
+       ‚j‚d‚xQƒ_ƒ~[,
+       ‚j‚d‚xQÄƒŠ[ƒX‚b‚c));

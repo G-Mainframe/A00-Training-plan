@@ -1,0 +1,26 @@
+DROP   TABLE  D230SKS_TBL   ;
+CREATE TABLE  D230SKS_TBL  (
+       承継元＿契約番号                   CHAR(10)          NOT NULL,
+       承継元＿再リース回数               NUMBER(2,0)       NOT NULL,
+       承継申請連番                       NUMBER(2,0)       NOT NULL,
+       承継先＿連番                       NUMBER(2,0)       NOT NULL,
+       承継先＿契約番号                   CHAR(10)          NOT NULL,
+       承継先＿再リース回数               NUMBER(2,0)       NOT NULL,
+       承継先＿契約開始日                 CHAR(8)           NOT NULL,
+       エントリ日                         CHAR(8)           NOT NULL,
+       業務年月                           CHAR(6)           NOT NULL,
+       再リース承継区分                   CHAR(1)           NOT NULL,
+       元契約番号                         CHAR(10)          NOT NULL,
+       元再リース回数                     NUMBER(2,0)       NOT NULL,
+       更新年月日                         CHAR(8)           NOT NULL,
+       更新時間                           CHAR(6)           NOT NULL,
+       更新者                             CHAR(8)           NOT NULL,
+       登録年月日                         CHAR(8)           NOT NULL,
+       登録時間                           CHAR(8)           NOT NULL,
+       登録担当者                         CHAR(8)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+CONSTRAINT  PK_D230SKS_TBL  PRIMARY KEY (
+       承継元＿契約番号,
+       承継元＿再リース回数,
+       承継申請連番,
+       承継先＿連番));

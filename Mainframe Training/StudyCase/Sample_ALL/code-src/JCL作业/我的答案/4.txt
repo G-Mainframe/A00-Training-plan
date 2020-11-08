@@ -1,0 +1,32 @@
+//SID08784 JOB (),'SID0878',                                        
+//             NOTIFY=&SYSUID,                                      
+//             MSGLEVEL=(1,1)                                       
+//PROC1   PROC                                                      
+//STEP01  EXEC PGM=IEBGENER                                         
+//SYSPRINT  DD SYSOUT=*                                             
+//SYSUT1    DD DSN=SID0878.JCLW3D1.PS41,DISP=SHR                    
+//SYSUT2    DD SYSOUT=*                                             
+//SYSIN     DD DUMMY                                                
+//        PEND                                                      
+//PROC2   PROC                                                      
+//STEP02  EXEC PGM=IEBGENER                                         
+//SYSPRINT  DD SYSOUT=*                                             
+//SYSUT2    DD DSN=SID0878.JCLW3D1.PS41,DISP=(NEW,CATLG,DELETE),    
+//             SPACE=(TRK,(10,11)),                                 
+//             DCB=(RECFM=FB,LRECL=80,BLKSIZE=240,DSORG=PS)         
+//SYSIN     DD DUMMY                                                
+//        PEND                                                      
+//PROC3  PROC                                                       
+//STEP03  EXEC PGM=IEBGENER                                         
+//SYSPRINT  DD SYSOUT=*                                             
+//SYSUT2    DD DSN=SID0878.JCLW3D1.PS41,DISP=SHR                    
+//SYSIN     DD DUMMY                                                
+//        PEND                                                      
+//STEP1   EXEC PROC=PROC2                                           
+//STEP02.SYSUT1  DD *                                               
+   DATA1                                                            
+//STEP2   EXEC PROC=PROC1                                           
+//STEP3   EXEC PROC=PROC3                                           
+//STEP03.SYSUT1 DD *                                                
+   DTAT2                                                            
+//STEP4   EXEC PROC=PROC1                                                                                 

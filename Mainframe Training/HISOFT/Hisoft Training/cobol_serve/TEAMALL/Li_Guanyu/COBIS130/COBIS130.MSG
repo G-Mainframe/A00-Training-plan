@@ -1,0 +1,6 @@
+ﾋﾞﾙﾄﾞ開始
+"D:\ORACLE\BIN\procob.exe" INAME="C:\COB97\SOC\COBIS130\COBIS130.PCO" ONAME="COBIS130.COB"
+Pro*COBOL: Release 9.2.0.1.0 - Production on 水 Jan 24 10:13:50 2001
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+システムのデフォルト・オプション値: D:\ORACLE\precomp\admin\pcbcfg.cfg
+ﾋﾞﾙﾄﾞ終了

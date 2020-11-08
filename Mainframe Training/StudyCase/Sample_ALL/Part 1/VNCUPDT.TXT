@@ -1,0 +1,192 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200*                                                                 00020000
+000300 PROGRAM-ID.       VNCUPDT.                                       00030000
+000400*                                                                 00040000
+000500 ENVIRONMENT DIVISION.                                            00050000
+000600*                                                                 00060000
+000700 INPUT-OUTPUT SECTION.                                            00070000
+000800*                                                                 00080000
+000900 FILE-CONTROL.                                                    00090000
+001000*                                                                 00100000
+001100     SELECT CUSTTRAN ASSIGN TO UT-S-CUSTTRAN.                     00110000
+001200     SELECT BADTRAN  ASSIGN TO UT-S-BADTRAN.                      00120000
+001300*                                                                 00130000
+001400 DATA DIVISION.                                                   00140000
+001500*                                                                 00150000
+001600 FILE SECTION.                                                    00160000
+001700*                                                                 00170000
+001800 FD  CUSTTRAN                                                     00180000
+001900     LABEL RECORDS ARE STANDARD                                   00190000
+002000     RECORD CONTAINS 375 CHARACTERS.                              00200000
+002100*                                                                 00210000
+002200 01  CUSTOMER-TRANSACTION-RECORD.                                 00220000
+002300*                                                                 00230000
+002400     05  CTR-TRANSACTION-CODE     PIC X.                          00240000
+002500     05  CTR-TRANSACTION-DATA.                                    00250000
+002600         10  CTR-CUSTNO           PIC X(6).                       00260000
+002700         10  CTR-FNAME            PIC X(20).                      00270000
+002800         10  CTR-LNAME            PIC X(30).                      00280000
+002900         10  CTR-CITY             PIC X(20).                      00290000
+003000         10  CTR-STATE            PIC XX.                         00300000
+003100         10  CTR-ZIPCODE          PIC X(10).                      00310000
+003200         10  CTR-HOMEPH           PIC X(16).                      00320000
+003300         10  CTR-WORKPH           PIC X(16).                      00330000
+003400         10  CTR-NOTES            PIC X(254).                     00340000
+003500*                                                                 00350000
+003600 FD  BADTRAN                                                      00360000
+003700     LABEL RECORDS ARE STANDARD                                   00370000
+003800     RECORD CONTAINS 375 CHARACTERS.                              00380000
+003900*                                                                 00390000
+004000 01  BAD-TRANSACTION-RECORD.                                      00400000
+004100*                                                                 00410000
+004200     05  BTR-TRANSACTION-CODE     PIC X.                          00420000
+004300     05  BTR-TRANSACTION-DATA     PIC X(374).                     00430000
+004400*                                                                 00440000
+004500 WORKING-STORAGE SECTION.                                         00450000
+004600*                                                                 00460000
+004700 01  SWITCHES.                                                    00470000
+004800*                                                                 00480000
+004900     05  END-OF-TRANSACTIONS-SW   PIC X    VALUE 'N'.             00490000
+005000         88  END-OF-TRANSACTIONS           VALUE 'Y'.             00500000
+005100     05  VALID-TRANSACTION-SW     PIC X    VALUE 'Y'.             00510000
+005200         88  VALID-TRANSACTION             VALUE 'Y'.             00520000
+005300*                                                                 00530000
+005400 01  INDICATORS.                                                  00540000
+005500*                                                                 00550000
+005600     05  IND-HOMEPH               PIC S9(4) COMP.                 00560000
+005700     05  IND-WORKPH               PIC S9(4) COMP.                 00570000
+005800     05  IND-NOTES                PIC S9(4) COMP.                 00580000
+005900*                                                                 00590000
+006000     EXEC SQL                                                     00600000
+006100         INCLUDE VARCUST                                          00610000
+006200     END-EXEC.                                                    00620000
+006300*                                                                 00630000
+006400     EXEC SQL                                                     00640000
+006500         INCLUDE SQLCA                                            00650000
+006600     END-EXEC.                                                    00660000
+006700*                                                                 00670000
+006800 PROCEDURE DIVISION.                                              00680000
+006900*                                                                 00690000
+007000 000-POST-CUST-TRANSACTIONS.                                      00700000
+007100*                                                                 00710000
+007200     OPEN INPUT  CUSTTRAN                                         00720000
+007300          OUTPUT BADTRAN.                                         00730000
+007400     PERFORM 100-POST-CUST-TRANSACTION                            00740000
+007500         UNTIL END-OF-TRANSACTIONS.                               00750000
+007600     CLOSE CUSTTRAN                                               00760000
+007700           BADTRAN.                                               00770000
+007800     STOP RUN.                                                    00780000
+007900*                                                                 00790000
+008000 100-POST-CUST-TRANSACTION.                                       00800000
+008100*                                                                 00810000
+008200     MOVE 'Y' TO VALID-TRANSACTION-SW.                            00820000
+008300     PERFORM 110-READ-TRANSACTION-RECORD.                         00830000
+008400     IF NOT END-OF-TRANSACTIONS                                   00840000
+008500         MOVE CTR-CUSTNO  TO CUSTNO                               00850000
+008600         MOVE CTR-FNAME   TO FNAME-TEXT                           00860000
+008700         MOVE CTR-LNAME   TO LNAME-TEXT                           00870000
+008800         MOVE CTR-CITY    TO CITY-TEXT                            00880000
+008900         MOVE CTR-STATE   TO STATE                                00890000
+009000         MOVE CTR-ZIPCODE TO ZIPCODE                              00900000
+009100         MOVE CTR-HOMEPH  TO HOMEPH                               00910000
+009200         MOVE CTR-WORKPH  TO WORKPH                               00920000
+009300         MOVE CTR-NOTES   TO NOTES-TEXT                           00930000
+009400         EVALUATE CTR-TRANSACTION-CODE                            00940000
+009500             WHEN 'A'   PERFORM 120-INSERT-CUSTOMER-ROW           00950000
+009600             WHEN 'R'   PERFORM 140-UPDATE-CUSTOMER-ROW           00960000
+009700             WHEN 'D'   PERFORM 150-DELETE-CUSTOMER-ROW           00970000
+009800             WHEN OTHER MOVE 'N' TO VALID-TRANSACTION-SW          00980000
+009900         END-EVALUATE                                             00990000
+010000         IF NOT VALID-TRANSACTION                                 01000000
+010100             PERFORM 160-WRITE-BAD-TRANSACTION.                   01010000
+010200*                                                                 01020000
+010300 110-READ-TRANSACTION-RECORD.                                     01030000
+010400*                                                                 01040000
+010500     READ CUSTTRAN                                                01050000
+010600         AT END                                                   01060000
+010700             MOVE 'Y' TO END-OF-TRANSACTIONS-SW.                  01070000
+010800*                                                                 01080000
+010900 120-INSERT-CUSTOMER-ROW.                                         01090000
+011000*                                                                 01100000
+011100     PERFORM 130-SET-NULLS-AND-LENGTHS.                           01110000
+011200     EXEC SQL                                                     01120000
+011300         INSERT INTO MM01.VARCUST                                 01130000
+011400               (  CUSTNO,               FNAME,                    01140000
+011500                  LNAME,                CITY,                     01150000
+011600                  STATE,                ZIPCODE,                  01160000
+011700                  HOMEPH,               WORKPH,                   01170000
+011800                  NOTES)                                          01180000
+011900         VALUES (:CUSTNO,              :FNAME,                    01190000
+012000                 :LNAME,               :CITY,                     01200000
+012100                 :STATE,               :ZIPCODE,                  01210000
+012200                 :HOMEPH:IND-HOMEPH,   :WORKPH:IND-WORKPH,        01220000
+012300                 :NOTES:IND-NOTES)                                01230000
+012400     END-EXEC.                                                    01240000
+012500     IF SQLCODE NOT = 0                                           01250000
+012600         MOVE 'N' TO VALID-TRANSACTION-SW.                        01260000
+012700*                                                                 01270000
+012800 130-SET-NULLS-AND-LENGTHS.                                       01280000
+012900*                                                                 01290000
+013000     MOVE LENGTH OF FNAME-TEXT TO FNAME-LEN.                      01300000
+013100     CALL 'STRLEN' USING FNAME-LEN                                01310000
+013200                         FNAME-TEXT.                              01320000
+013300*                                                                 01330000
+013400     MOVE LENGTH OF LNAME-TEXT TO LNAME-LEN.                      01340000
+013500     CALL 'STRLEN' USING LNAME-LEN                                01350000
+013600                         LNAME-TEXT.                              01360000
+013700*                                                                 01370000
+013800     MOVE LENGTH OF CITY-TEXT TO CITY-LEN.                        01380001
+013900     CALL 'STRLEN' USING CITY-LEN                                 01390000
+014000                         CITY-TEXT.                               01400000
+014100*                                                                 01410000
+014200     IF HOMEPH = SPACE                                            01420000
+014300         MOVE -1 TO IND-HOMEPH                                    01430000
+014400     ELSE                                                         01440000
+014500         MOVE 0  TO IND-HOMEPH.                                   01450000
+014600*                                                                 01460000
+014700     IF WORKPH = SPACE                                            01470000
+014800         MOVE -1 TO IND-WORKPH                                    01480000
+014900     ELSE                                                         01490000
+015000         MOVE 0  TO IND-WORKPH.                                   01500000
+015100*                                                                 01510000
+015200     IF NOTES-TEXT = SPACE                                        01520000
+015300         MOVE -1 TO IND-NOTES                                     01530000
+015400     ELSE                                                         01540000
+015500         MOVE 0  TO IND-NOTES                                     01550000
+015600         MOVE LENGTH OF NOTES-TEXT TO NOTES-LEN                   01560000
+015700         CALL 'STRLEN' USING NOTES-LEN                            01570000
+015800                             NOTES-TEXT.                          01580000
+015900*                                                                 01590000
+016000 140-UPDATE-CUSTOMER-ROW.                                         01600000
+016100*                                                                 01610000
+016200     PERFORM 130-SET-NULLS-AND-LENGTHS.                           01620000
+016300     EXEC SQL                                                     01630000
+016400         UPDATE MM01.VARCUST                                      01640000
+016500            SET CUSTNO  = :CUSTNO,                                01650000
+016600                FNAME   = :FNAME,                                 01660000
+016700                LNAME   = :LNAME,                                 01670000
+016800                CITY    = :CITY,                                  01680000
+016900                STATE   = :STATE,                                 01690000
+017000                ZIPCODE = :ZIPCODE,                               01700000
+017100                HOMEPH  = :HOMEPH:IND-HOMEPH,                     01710000
+017200                WORKPH  = :WORKPH:IND-WORKPH,                     01720000
+017300                NOTES   = :NOTES:IND-NOTES                        01730000
+017400         WHERE  CUSTNO  = :CUSTNO                                 01740000
+017500     END-EXEC.                                                    01750000
+017600     IF SQLCODE NOT = 0                                           01760000
+017700         MOVE 'N' TO VALID-TRANSACTION-SW.                        01770000
+017800*                                                                 01780000
+017900 150-DELETE-CUSTOMER-ROW.                                         01790000
+018000*                                                                 01800000
+018100     EXEC SQL                                                     01810000
+018200         DELETE FROM MM01.VARCUST                                 01820000
+018300             WHERE CUSTNO = :CUSTNO                               01830000
+018400     END-EXEC.                                                    01840000
+018500     IF SQLCODE NOT = 0                                           01850000
+018600         MOVE 'N' TO VALID-TRANSACTION-SW.                        01860000
+018700*                                                                 01870000
+018800 160-WRITE-BAD-TRANSACTION.                                       01880000
+018900*                                                                 01890000
+019000     WRITE BAD-TRANSACTION-RECORD                                 01900000
+019100         FROM CUSTOMER-TRANSACTION-RECORD.                        01910000
+019200*                                                                 01920000

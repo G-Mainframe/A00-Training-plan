@@ -1,0 +1,73 @@
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.   EXAM62.
+      *
+       ENVIRONMENT      DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+            SELECT INPUT-FILE ASSIGN TO SYSIN1.
+            SELECT OUTPUT-FILE ASSIGN TO SYSOT1.
+      *
+       DATA   DIVISION.
+       FILE   SECTION.
+       FD  INPUT-FILE LABEL RECORD IS STANDARD.
+       01 IN-REC.
+          02 CITY PIC X(10).
+          02 TEMP PIC S9(2).
+          02 HUMID PIC 9(3).
+       FD  OUTPUT-FILE LABEL RECORD IS STANDARD.
+       01 OUT-REC.
+          02 FILLER PIC X.
+          02 OUT-DATA PIC X(80).
+       WORKING-STORAGE  SECTION.
+       77 IN-END PIC X(3) VALUE SPACE.
+       77 LINE-COUNT PIC 9(2) VALUE 25.
+       01 TITLE-R.
+          02 FILLER PIC X(28) VALUE SPACE.
+          02 FILLER PIC X(10) VALUE 'NATIONWIDE'.
+          02 FILLER PIC X(10) VALUE SPACE.
+          02 FILLER PIC X(11) VALUE 'TEMPERATURE'.
+       01 SUBTITLE.
+          02 PIC X(20) VALUE SPACE.
+          02 PIC X(9)  VALUE 'CITY NAME'.
+          02 PIC X(12) VALUE SPACE.
+          02 PIC X(11) VALUE 'TEMPERATURE'.
+          02 PIC X(8) VALUE SPACE.
+          02 PIC X(8) VALUE 'HUMIDITY'.
+       01 DETAILS.
+          02 FILLER PIC X(20) VALUE SPACE.
+          02 CITY PIC X(10).
+          02 FILLER PIC X(15) VALUE SPACE.
+          02 TEMP PIC ---.
+          02 FILLER PIC X(2) VALUE 'C'.
+          02 FILLER PIC X(11) VALUE SPACE.
+          02 HUMID PIC ZZ9.
+          02 FILLER PIC X(2) VALUE '%'.
+       PROCEDURE    DIVISION.
+       START-RUN.
+             OPEN  INPUT INPUT-FILE
+                   OUTPUT OUTPUT-FILE.
+             MOVE SPACE TO IN-END.
+       READ-RECORD.
+             READ INPUT-FILE
+                  AT END  MOVE 'END' TO IN-END.
+             PERFORM IN-PROCESSING UNTIL IN-END = 'END'.
+             CLOSE INPUT-FILE  OUTPUT-FILE.
+             STOP RUN.
+       IN-PROCESSING.
+           IF LINE-COUNT = 25
+              MOVE SPACE TO OUT-DATA
+              WRITE OUT-REC BEFORE PAGE
+              MOVE SPACE TO OUT-DATA
+              WRITE OUT-REC BEFORE 1
+              MOVE TITLE-R TO OUT-DATA
+              WRITE OUT-REC BEFORE 2
+              MOVE SUBTITLE TO OUT-DATA
+              WRITE OUT-REC BEFORE 2
+              MOVE ZERO TO LINE-COUNT
+           ELSE
+              MOVE CORR IN-REC TO DETAILS
+              MOVE DETAILS TO OUT-DATA
+              WRITE OUT-REC BEFORE 1
+              ADD 1 TO LINE-COUNT
+              READ INPUT-FILE AT END MOVE 'END' TO IN-END.
+

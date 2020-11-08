@@ -1,0 +1,25 @@
+*ÿ›π∞ºﬁ **********************************************************        
+*º÷ÿ“≤(20); Åyã§í ÅzÇfÇoÇcÇsÇdÇcÅ@ÉäÉìÉPÅ[ÉWãÂ                            
+*“› ﬁ“≤   ;  GPDTEDLK                                                     
+*ª∏æ≤º‘   ;  ÇmÇdÇb                                                       
+*º’≥æ≤º‘  ;  QNES                                                         
+*’∞ªﬁ     ;  ISAHAYA                                                      
+*’∞ªﬁ∏Ãﬁ› ;  PKG                                                          
+*∫≥º›Àﬁ   ;  011101                                                       
+*Àﬁ∫≥(26) ;  ì˙ïtï“èW                                                     
+******************************************************************        
+ 01  GPDTEDLK.                                                            
+     02  DTEDKBN                 PIC 9(1).                                
+     02  DTEDDATE                PIC 9(7).                                
+     02  DTEDDATEX                                                        
+             REDEFINES  DTEDDATE.                                         
+       03  DTED-R                PIC X(1).                                
+       03  DTED-Y                PIC 9(2).                                
+       03  DTED-M                PIC 9(2).                                
+       03  DTED-D                PIC 9(2).                                
+     02  DTEDDATE-DT.                                                     
+       03  DTEDDATE-X7           PIC X(7).                                
+       03  DTEDDATE-X9           PIC X(9).                                
+       03  DTEDDATE-N            PIC N(11).                               
+       03  DTEDDATE-S            PIC N(11).                               
+     02  DTEDRTN                 PIC 9(1).                                

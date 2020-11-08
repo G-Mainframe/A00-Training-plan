@@ -1,0 +1,31 @@
+CREATE TABLE NTL_MANTSU
+(
+    レコード種別                   CHAR(1) NOT NULL,
+    リース会社ＩＤ                 CHAR(6) NOT NULL,
+    顧客ＩＤ                       CHAR(12) NOT NULL,
+    契約ＩＤ                       CHAR(22) NOT NULL,
+    満了年月                       CHAR(6),
+    送付先コード                   CHAR(20),
+    再リース期間＿自               CHAR(10),
+    再リース期間＿至               CHAR(10),
+    再リース料                     NUMBER(13,0),
+    再リース料消費税               NUMBER(14,0),
+    送付先会社名                   CHAR(64),
+    送付先部署名                   CHAR(34),
+    送付先担当者名                 CHAR(34),
+    送付先住所                     CHAR(120),
+    代理回収保守料                 NUMBER(13,0),
+    代理回収保守料消費税           NUMBER(14,0),
+    代表物件名                     CHAR(64),
+    ハードソフト区分               CHAR(1),
+    再リース料区分                 CHAR(4),
+    代理回収保守料区分             CHAR(4),
+    ソート専用項目                 CHAR(30),
+    備忘情報                       CHAR(60),
+    作成ＩＤ                       CHAR(10),
+    作成日                         CHAR(10),
+    更新ＩＤ                       CHAR(10),
+    更新日                         CHAR(10),
+    CONSTRAINT SYS_C0027481 PRIMARY KEY (レコード種別, リース会社ＩＤ, 顧客ＩＤ, 契約ＩＤ) USING INDEX
+)
+/

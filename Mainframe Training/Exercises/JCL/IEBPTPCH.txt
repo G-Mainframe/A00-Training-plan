@@ -1,0 +1,120 @@
+************************************************************************
+要打印一个顺序数据集
+
+//PRINT    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//STEP1    EXEC PGM=IEBPTPCH                                        
+//SYSPRINT DD SYSOUT=*                                              
+//SYSUT1   DD DSN=IBMUSER.TEST.LHF.PSDT12,DISP=SHR                  
+//*YSUT2   DD DSN=IBMUSER.TEST.LHF.PSDT03,DISP=SHR                  
+//SYSUT2   DD SYSOUT=*                                              
+//SYSIN    DD *                                                     
+   PRINT TYPORG=PS                                                  
+   TITLE ITEM=('PRINT PARTITIONED DIRECTORY OF A PDS',12)           
+/*
+************************************************************************
+
+************************************************************************
+要打印顺序数据集的修改版本
+Note:
+. INITPG and MAXLINE can only be specified with PRINT
+. CDSEQ  and CDINCR  can only be specified with PUNCH
+
+//PRINT    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//STEP1    EXEC PGM=IEBPTPCH                                        
+//SYSPRINT DD SYSOUT=*                                              
+//SYSUT1   DD DSN=IBMUSER.TEST.LHF.PSDT12,DISP=SHR                  
+//SYSUT2   DD DSN=IBMUSER.TEST.LHF.PSDT03,DISP=SHR                  
+//*YSUT2   DD SYSOUT=*                                              
+//SYSIN    DD *                                                     
+   PUNCH MAXFLDS=1,CDSEQ=0,CDINCR=10                                
+   RECORD FIELD=(72)                                                
+/*                                                                  
+************************************************************************
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+************************************************************************
+要打印一个分区数据集
+
+//PRINT    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//STEP1    EXEC PGM=IEBPTPCH                                        
+//SYSPRINT DD SYSOUT=*                                              
+//SYSUT1   DD DSN=IBMUSER.TEST.LHF.PDSDT21,DISP=SHR                 
+//SYSUT2   DD DSN=IBMUSER.TEST.LHF.PSDT03,DISP=SHR                  
+//*YSUT2   DD SYSOUT=*                                              
+//SYSIN    DD *                                                     
+   PRINT  TYPORG=PO
+/*
+************************************************************************
+
+************************************************************************
+打印分区数据集中的部分成员
+
+//PRINT    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//STEP1    EXEC PGM=IEBPTPCH                                        
+//SYSPRINT DD SYSOUT=*                                              
+//SYSUT1   DD DSN=IBMUSER.TEST.LHF.PDSDT21,DISP=SHR                 
+//SYSUT2   DD DSN=IBMUSER.TEST.LHF.PSDT03,DISP=SHR                  
+//*YSUT2   DD SYSOUT=*                                              
+//SYSIN    DD *                                                     
+   PRINT  TYPORG=PO,MAXNAME=2                                       
+   MEMBER NAME=A                                                    
+   MEMBER NAME=D                                                    
+/*
+************************************************************************
+
+************************************************************************
+使用标准格式打印一个分区数据集的成员，但其中的数字将转换为16进制的格式打印
+
+//PRINT    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID   
+//STEP1    EXEC PGM=IEBPTPCH                                          
+//SYSPRINT DD SYSOUT=*                                                
+//SYSUT1   DD DSN=IBMUSER.TEST.LHF.PDSDT21,DISP=SHR                   
+//*YSUT2   DD DSN=IBMUSER.TEST.LHF.PSDT03,DISP=SHR                    
+//SYSUT2   DD SYSOUT=*                                                
+//SYSIN    DD *                                                       
+   PRINT  TYPORG=PO,TOTCONV=XE,MAXNAME=2                              
+   MEMBER NAME=A                                                      
+   MEMBER NAME=D                                                      
+/*                                                                    
+************************************************************************
+
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+要打印顺序数据集的部分记录
+
+INPUT:
+    IBMUSER.TEST.LHF.PSDT03                         Columns 00001 00072 
+ ===>                                                  Scroll ===> CSR  
+***************************** Top of Data ******************************
+T001 INPUT DATA SET,                                                    
+     THE CONTROL DATA SET.   **                                         
+     INITIALIZES THE PRINT OPERATION.            T002                   
+**************************** Bottom of Data ****************************
+
+//PRINT    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//STEP1    EXEC PGM=IEBPTPCH                                        
+//SYSPRINT DD SYSOUT=*                                              
+//SYSUT1   DD DSN=IBMUSER.TEST.LHF.PSDT03,DISP=SHR                  
+//*YSUT2   DD DSN=IBMUSER.TEST.LHF.PSDT03,DISP=SHR                  
+//SYSUT2   DD SYSOUT=*                                              
+//SYSIN    DD *                                                     
+   PRINT MAXFLDS=9,MAXGPS=9,MAXLITS=23,STOPAFT=32767                
+   TITLE  ITEM=('******************',20)                            
+   TITLE  ITEM=('$$$$$$$$$$$$$$',22)                                
+   RECORD IDENT=(4,'T001',1),FIELD=(5,6,,2)                         
+   RECORD IDENT=(2,'**',30),FIELD=(4,18,,8)                         
+   RECORD IDENT=(4,'T002',50),FIELD=(5,22,,15)                      
+/*
+
+OUTPUT:
+********************************* TOP OF DATA **********************************
+                                                                                
+                   ******************                                           
+                     $$$$$$$$$$$$$$                                             
+ INPUT                                                                          
+       DATA                                                                     
+              PRINT                                                             
+******************************** BOTTOM OF DATA ********************************
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

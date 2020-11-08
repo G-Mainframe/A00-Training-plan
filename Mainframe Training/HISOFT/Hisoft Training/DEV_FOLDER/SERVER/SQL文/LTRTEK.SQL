@@ -1,0 +1,22 @@
+CREATE TABLE  LTRTEK  (
+       Œ_–ñ‚m‚n                           CHAR(9)           NOT NULL,
+       Œ_–ñ‚m‚n‚P                         CHAR(9)           NOT NULL,
+       Œ_–ñ‚m‚n‚Q                         CHAR(9)           NOT NULL,
+       Œ_–ñ‚m‚n‚R                         CHAR(9)           NOT NULL,
+       Œ_–ñ‚m‚n‚S                         CHAR(9)           NOT NULL,
+       Œ_–ñ‚m‚n‚T                         CHAR(9)           NOT NULL,
+       Œ_–ñ‚m‚n‚U                         CHAR(9)           NOT NULL,
+       Œ_–ñ‚m‚n‚V                         CHAR(9)           NOT NULL,
+       Œ_–ñ‚m‚n‚W                         CHAR(9)           NOT NULL,
+       Œ_–ñ‚m‚n‚X                         CHAR(9)           NOT NULL,
+       Œ_–ñ‚m‚n‚P‚O                       CHAR(9)           NOT NULL,
+       ŽæˆøæƒR[ƒh                       CHAR(8)           NOT NULL,
+       –¼ÌŠ¿Žš                           VARCHAR2(40)      NOT NULL,
+       –¼ÌƒJƒi                           CHAR(40)          NOT NULL,
+       Ž–‹ÆŠƒR[ƒh                       CHAR(4)           NOT NULL,
+       Œ_–ñŠz                             NUMBER(13,0)      NOT NULL,
+       ‘‡Œv‹àŠz                         NUMBER(13,0)      NOT NULL,
+       ƒ_ƒ~[‚O‚O‚P                       CHAR(60)          NOT NULL,
+       ‹¤’Êî•ñ                           CHAR(35)          NOT NULL,
+CONSTRAINT  PK_LTRTEK  PRIMARY KEY (
+       Œ_–ñ‚m‚n));

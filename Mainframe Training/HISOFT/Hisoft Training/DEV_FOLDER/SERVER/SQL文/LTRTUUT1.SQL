@@ -1,0 +1,12 @@
+CREATE TABLE  LTRTUUT1  (
+       ÇjÇdÇxÇP                           CHAR(2)           NOT NULL,
+       ÇjÇdÇxÇQ                           CHAR(8)           NOT NULL,
+       åé                                 NUMBER(2,0)       NOT NULL,
+       ì˙                                 NUMBER(2,0)       NOT NULL,
+       îN                                 NUMBER(1,0)       NOT NULL,
+       àÍòAî‘çÜ                           NUMBER(4,0)       NOT NULL,
+       É_É~Å[ÇOÇOÇP                       CHAR(46)          NOT NULL,
+       ã§í èÓïÒ                           CHAR(35)          NOT NULL,
+CONSTRAINT  PK_LTRTUUT1  PRIMARY KEY (
+       ÇjÇdÇxÇP,
+       ÇjÇdÇxÇQ));

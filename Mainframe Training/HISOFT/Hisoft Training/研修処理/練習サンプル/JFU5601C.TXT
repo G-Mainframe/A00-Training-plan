@@ -1,0 +1,15 @@
+\MAC ;                                                                    
+        \COMM ** éôì∂ï}ó{éËìñå˚ç¿êUë÷àÀóäèëÅiÇbÅjPRINT **';               
+                                                                          
+        \SENDO MSG='** éôì∂ï}ó{éËìñå˚ç¿êUë÷àÀóäèëÅiÇbÅjPRINT **';         
+        \PRIVLIB PWS@LM001,MEDIA=DK105;                                   
+        \STEP JFU560P;                                                    
+            \DBASSIGN COMMIT=100;                                         
+            \ASSIGN IND1  ,JFU5151 ,MEDIA=DK302;                          
+            \DEFINE IND1  ,DVC=DS;                                        
+            \ASSIGN IND2  ,JFSCODE;                                       
+            \ASSIGN IND2AP,JFSCODA1;                                      
+            \ASSIGN IND3  ,ISABANK;                                       
+            \ASSIGN PR01  ,@OUT;                                          
+            \DEFINE PR01  ,FORMSET=FXJFU56C;                              
+        \ENDSTEP ;                                                        

@@ -1,0 +1,33 @@
+PLI Compile
+
+1. Use SCLM
+
+‡@Copy PLI source code to develop environment path ,NE65I.DEVLIB1.PLI for example.Then set it's type to " PLIM".
+‡ACreate a member which language type is ARCHDEF  under the ARCHDEF directory(such as NE65I.DEVLIB1.ARCHDEF).
+
+*---------------------------------------------------------------------* 
+* MEMBER NAME      : EV6326A                                          * 
+* DEFINITION TYPE  : LEC ARCHITECTURE DEFINITION                      * 
+* DESCRIPTION      : DEFINE BATCH EXECUTABLE LOAD MODULE              * 
+*  (NO DLI CALL)                                                      * 
+*---------------------------------------------------------------------* 
+LKED     LINKM                         * LINKAGE                      * 
+LOAD     EV6326A   LMOD                * LOAD MODULE                  * 
+INCLD    EV6326A   PLI                 * PLI SOURCE                   * 
+
+‡Brun 10.4 command to compile 
+
+
+2.Use JCL
+example(not contains DB2 operation):
+
+//EV6326CP JOB (F9500B,BI14T,31),                                       
+//             'CIS-TEST',                                              
+//             CLASS=O,MSGCLASS=T,MSGLEVEL=(1,1),NOTIFY=EV6326          
+//PRC      JCLLIB   ORDER=('NE65I.B601.PROCLIB')                        
+//********************************************************************  
+//COMPILE EXEC PLIXCL,                                                  
+//             PARM.PLI='NEST,INC,GS,X(FULL),AG,OFF,ATTRIBUTES'         
+//PLI.SYSLIB   DD  DSN=NE65I.DEVLIB1.PLINCL,DISP=SHR                    
+//PLI.SYSIN    DD  DSN=NE65I.DEVLIB1.PLI(EV6326A),DISP=SHR              
+//LKED.SYSLMOD DD  DSN=NE65I.DEVLIB1.LMOD(EV6326A),DISP=SHR 

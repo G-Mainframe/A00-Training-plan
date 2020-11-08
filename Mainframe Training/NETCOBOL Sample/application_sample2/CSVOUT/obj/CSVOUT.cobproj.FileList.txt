@@ -1,0 +1,10 @@
+obj\Debug\ResolveAssemblyReference.cache
+bin\Debug\CSVOUT.exe.config
+bin\Debug\CSVOUT.exe
+bin\Debug\CSVOUT.pdb
+obj\Debug\CSVOUT.exe
+obj\Debug\CSVOUT.pdb
+bin\Release\CSVOUT.exe.config
+bin\Release\CSVOUT.exe
+obj\Release\ResolveAssemblyReference.cache
+obj\Release\CSVOUT.exe

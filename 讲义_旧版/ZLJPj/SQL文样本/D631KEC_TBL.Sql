@@ -1,0 +1,28 @@
+DROP   TABLE  D631KEC_TBL   ;
+CREATE TABLE  D631KEC_TBL  (
+       契約番号                           CHAR(10)          NOT NULL,
+       再リース回数                       NUMBER(2,0)       NOT NULL,
+       申請連番                           NUMBER(2,0)       ,
+       徴求管理種類                       CHAR(1)           ,
+       契約関連書類種類                   NUMBER(3,0)       ,
+       購入取引先コード                   CHAR(9)           ,
+       購入先コード                       CHAR(5)           ,
+       物件処分区分                       CHAR(1)           ,
+       書類連番＿徴求書類＿               NUMBER(3,0)       NOT NULL,
+       発行済フラグ                       CHAR(1)           NOT NULL,
+       登録年月日                         CHAR(8)           NOT NULL,
+       登録時間                           CHAR(8)           NOT NULL,
+       登録担当者                         CHAR(8)           NOT NULL,
+       更新年月日                         CHAR(8)           NOT NULL,
+       更新時間                           CHAR(8)           NOT NULL,
+       更新者                             CHAR(8)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+CONSTRAINT  PK_D631KEC_TBL  PRIMARY KEY (
+       契約番号,
+       再リース回数,
+       申請連番,
+       徴求管理種類,
+       契約関連書類種類,
+       購入取引先コード,
+       購入先コード,
+       物件処分区分));

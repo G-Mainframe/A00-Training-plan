@@ -1,0 +1,14 @@
+\MAC ;                                                                    
+        \COMM ** 児童扶養手当申請届出マスタ更新 **;                       
+                                                                          
+        \SENDO MSG='** 児童扶養手当申請届出マスタ更新 **';                
+        \PRIVLIB PWS@LM001,MEDIA=DK105;                                   
+        \STEP JFU295L;                                                    
+            \DBASSIGN COMMIT=100;                                         
+            \ASSIGN IND1    ,JFU2901 ,MEDIA=DK302;                        
+            \DEFINE IND1    ,DVC=DS;                                      
+            \ASSIGN INOUT1  ,JFUSNTD;                                     
+            \ASSIGN INOUT1AP,JFUSNTA1;                                    
+            \ASSIGN PR01    ,@OUT;                                        
+            \DEFINE PR01    ,FORMSET=FXSTD03;                             
+        \ENDSTEP ;                                                        

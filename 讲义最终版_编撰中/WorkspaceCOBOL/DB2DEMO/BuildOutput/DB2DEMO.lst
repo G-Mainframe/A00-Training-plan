@@ -1,0 +1,245 @@
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1                Date 02/21/2014  Time 22:28:11   Page     1                
+0调用参数：
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW)),SQL,SQL('DATABASE LEARNPUB USER db2admin USING ********')
+0生效的选项：
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+     NOCICS                                                                                                                          
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+       SQL('DATABASE LEARNPUB USER db2admin USING ********')                                                                         
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DB2DEMO   Date 02/21/2014  Time 22:28:11   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0/* DB2DEMO                                                                                                                          
+   000001                IDENTIFICATION              DIVISION.                                                                       
+   000002               *                                                                                                            
+   000003                  PROGRAM-ID.               DB2DEMO.                                                                        
+   000004               *                                                                                                            
+   000005                ENVIRONMENT                 DIVISION.                                                                       
+   000006               *                                                                                                            
+   000007                INPUT-OUTPUT                SECTION.                                                                        
+   000008                FILE-CONTROL.                                                                                               
+   000009               *                                                                                                            
+   000010                DATA                        DIVISION.                                                                       
+   000011                FILE                        SECTION.                                                                        
+   000012               *                                                                                                            
+   000013                WORKING-STORAGE SECTION.                                                                                    
+   000014               *--< SQLCA >--*                                                                                              
+   000015                    EXEC SQL INCLUDE SQLCA END-EXEC.                                                                        
+   000016C              **************************************************************************                                   
+   000017C              *                                                                                                            
+   000018C              *  Source File Name = SQLCA.CBL                                                                              
+   000019C              *                                                                                                            
+   000020C              *  (C) Copyright IBM Corp. 1987, 1997                                                                        
+   000021C              *  All Rights Reserved                                                                                       
+   000022C              *  Licensed Material - Program Property of IBM                                                               
+   000023C              *                                                                                                            
+   000024C              *  US Government Users Restricted Rights - Use, duplication or                                               
+   000025C              *  disclosure restricted by GSA ADP Schedule Contract with IBM Corp.                                         
+   000026C              *                                                                                                            
+   000027C              *  Function = Copy File defining:                                                                            
+   000028C              *               SQLCA                                                                                        
+   000029C              *                                                                                                            
+   000030C              **************************************************************************                                   
+   000031C                                                                                                                           
+   000032C              *   SQL Communication Area - SQLCA                                                                           
+   000033C                                                                                                                           
+   000034C               01 SQLCA SYNC.                                                                                              
+   000035C                  05 SQLCAID PIC X(8) VALUE "SQLCA   ".                                                                    
+   000036C              *                        Eyecatcher = 'SQLCA   '                                                             
+   000037C                  05 SQLCABC PIC S9(9) COMP-5 VALUE 136.                                                                   
+   000038C              *                        SQLCA size in bytes = 136                                                           
+   000039C                  05 SQLCODE PIC S9(9) COMP-5.                                                                             
+   000040C              *                        SQL return code                                                                     
+   000041C                  05 SQLERRM.                                                                                              
+   000042C              *                        SQL error message                                                                   
+   000043C                     49 SQLERRML PIC S9(4) COMP-5.                                                                         
+   000044C              *                        Length for SQLERRMC                                                                 
+   000045C                     49 SQLERRMC PIC X(70).                                                                                
+   000046C              *                        Error message tokens                                                                
+   000047C                  05 SQLERRP PIC X(8).                                                                                     
+   000048C              *                        Diagnostic information                                                              
+   000049C                  05 SQLERRD OCCURS 6 TIMES PIC S9(9) COMP-5.                                                              
+   000050C              *                        Diagnostic information                                                              
+   000051C                  05 SQLWARN.                                                                                              
+   000052C              *                        Warning flags                                                                       
+   000053C                     10 SQLWARN0 PIC X.                                                                                    
+   000054C                     10 SQLWARN1 PIC X.                                                                                    
+   000055C                     10 SQLWARN2 PIC X.                                                                                    
+   000056C                     10 SQLWARN3 PIC X.                                                                                    
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DB2DEMO   Date 02/21/2014  Time 22:28:11   Page     3                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0  000057C                     10 SQLWARN4 PIC X.                                                                                    
+   000058C                     10 SQLWARN5 PIC X.                                                                                    
+   000059C                     10 SQLWARN6 PIC X.                                                                                    
+   000060C                     10 SQLWARN7 PIC X.                                                                                    
+   000061C                     10 SQLWARN8 PIC X.                                                                                    
+   000062C                     10 SQLWARN9 PIC X.                                                                                    
+   000063C                     10 SQLWARNA PIC X.                                                                                    
+   000064C              *                        Warning flags                                                                       
+   000065C                  05 SQLSTATE PIC X(5).                                                                                    
+   000066C              *                        SQLSTATE                                                                            
+   000067C                                                                                                                           
+   000068C                                                                                                                           
+   000069               *                                                                                                            
+   000070                    EXEC SQL BEGIN DECLARE SECTION END-EXEC.                                                                
+   000071               *                                                                                                            
+   000072                    EXEC SQL                                                                                                
+   000073                      INCLUDE   DB2TEST                                                                                     
+   000074                    END-EXEC.                                                                                               
+   000075C                   EXEC SQL DECLARE DB2TEST TABLE                                                                          
+   000076C                   ( SNO                            CHAR( 2) NOT NULL,                                                     
+   000077C                     SNAME                          CHAR(10) NOT NULL                                                      
+   000078C                   ) END-EXEC.                                                                                             
+   000079C               01  DCLDB2TEST.                                                                                             
+   000080C                   10 SNO                  PIC X(2).                                                                       
+   000081C                   10 SNAME                PIC X(10).                                                                      
+   000082                01 DB2CNT         PIC S9(9) COMP-4.                                                                         
+   000083               *                                                                                                            
+   000084                    EXEC SQL END   DECLARE SECTION END-EXEC.                                                                
+   000085                01 DB2CNT9        PIC +9(9).                                                                                
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DB2DEMO   Date 02/21/2014  Time 22:28:11   Page     4                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+   000086               /                                                                                                            
+   000087                PROCEDURE                  DIVISION.                                                                        
+   000088               **************************************                                                                       
+   000089               *    DB2TEST(main)                   *                                                                       
+   000090               **************************************                                                                       
+   000091                MAIN                       SECTION.                                                                         
+   000092                MAIN-START.                                                                                                 
+   000093               *                                                                                                            
+   000094                    EXEC SQL CONNECT TO  LEARNPUB   END-EXEC.                                                               
+   000095                    DISPLAY " CONNECT  SQL CODE:" , SQLCODE.                              39                                
+   000096               *                                                                                                            
+   000097                    DISPLAY  "START" UPON CONSOLE.                                                                          
+   000098               *                                                                                                            
+   000099                    PERFORM  PRC10.                                                       110                               
+   000100               *                                                                                                            
+   000101                    EXEC SQL DISCONNECT  LEARNPUB   END-EXEC.                                                               
+   000102               *                                                                                                            
+   000103                    STOP "PG END".                                                                                          
+   000104               *                                                                                                            
+   000105                MAIN-END.                                                                                                   
+   000106                    STOP   RUN.                                                                                             
+   000107               **************************************                                                                       
+   000108               *                                    *                                                                       
+   000109               **************************************                                                                       
+   000110                PRC10                       SECTION.                                                                        
+   000111                PRC10-START.                                                                                                
+   000112               *                                                                                                            
+   000113                    EXEC  SQL                                                                                               
+   000114                      SELECT  count(*)                                                                                      
+   000115                      INTO  :DB2CNT                                                       82                                
+   000116                      FROM DB2TEST                                                                                          
+   000117                    END-EXEC.                                                                                               
+   000118               *                                                                                                            
+   000119                    DISPLAY "SQL CODE:" , SQLCODE.                                        39                                
+   000120                    MOVE DB2CNT TO DB2CNT9.                                               82 85                             
+   000121                    DISPLAY "DB2CNT9 :" , DB2CNT9 .                                       85                                
+   000122               *                                                                                                            
+   000123                PRC10-END.                                                                                                  
+   000124                    EXIT.                                                                                                   
+ */ DB2DEMO                                                                                                                          
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DB2DEMO   Date 02/21/2014  Time 22:28:11   Page     5                
+0数据名引用前的“M”指示数据名由此引用修改。
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+       82   DB2CNT . . . . . . . . . . . .  115 120                                                                                                                          
+       85   DB2CNT9. . . . . . . . . . . .  M120 121                                                                                                                         
+       79   DCLDB2TEST                                                                                                                                                       
+       81   SNAME                                                                                                                                                            
+       80   SNO                                                                                                                                                              
+       34   SQLCA                                                                                                                                                            
+       37   SQLCABC                                                                                                                                                          
+       35   SQLCAID                                                                                                                                                          
+       39   SQLCODE. . . . . . . . . . . .  95 119                                                                                                                           
+       49   SQLERRD                                                                                                                                                          
+       41   SQLERRM                                                                                                                                                          
+       45   SQLERRMC                                                                                                                                                         
+       43   SQLERRML                                                                                                                                                         
+       47   SQLERRP                                                                                                                                                          
+       65   SQLSTATE                                                                                                                                                         
+       51   SQLWARN                                                                                                                                                          
+       53   SQLWARN0                                                                                                                                                         
+       54   SQLWARN1                                                                                                                                                         
+       55   SQLWARN2                                                                                                                                                         
+       56   SQLWARN3                                                                                                                                                         
+       57   SQLWARN4                                                                                                                                                         
+       58   SQLWARN5                                                                                                                                                         
+       59   SQLWARN6                                                                                                                                                         
+       60   SQLWARN7                                                                                                                                                         
+       61   SQLWARN8                                                                                                                                                         
+       62   SQLWARN9                                                                                                                                                         
+       63   SQLWARNA                                                                                                                                                         
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DB2DEMO   Date 02/21/2014  Time 22:28:11   Page     6                
+0上下文用法由过程名引用前的字母指示。
+ 这些字母和它们的含义为：
+     A = ALTER（过程名）
+     D = GO TO（过程名）DEPENDING ON
+     E = 范围（PERFORM）到（过程名）的结束
+     G = GO TO（过程名）
+     P = PERFORM（过程名）
+     T = (ALTER) TO PROCEED TO（过程名）
+     U = USE FOR DEBUGGING（过程名）
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+       91   MAIN                                                                                                                                                             
+      105   MAIN-END                                                                                                                                                         
+       92   MAIN-START                                                                                                                                                       
+      110   PRC10. . . . . . . . . . . . .  P99                                                                                                                              
+      123   PRC10-END                                                                                                                                                        
+      111   PRC10-START                                                                                                                                                      
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      DB2DEMO   Date 02/21/2014  Time 22:28:11   Page     7                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        3   DB2DEMO                                                                                                                                                          
+-* COBOL 程序 DB2DEMO 的统计信息：
+ *    源记录 = 256
+ *    数据部分语句 = 28
+ *    过程部分语句 = 27
+0语言环境 = zh_CN.IBM-1386
+0编译 1 结束，程序 DB2DEMO，未标记任何语句。
+0返回码 0

@@ -1,0 +1,52 @@
+Cobol:
+
+
+1.   Hello.
+
+2.   Read / write.
+
+3.   comp-3 and comp. Accept input. Date. (write1).
+
+     numeric in group - Hello3 / gohello3.
+
+4.   redefines. If numeric / Alphabetic, Compute =.
+
+5.   Parm input. Print format.
+
+6.   Perform,    perform until. Switch. Sync.
+
+     If else ------ nest if;    / Evaluate........ 
+
+----------------------------------------------------------------------
+
+     High-value, low-value. Paragraph, section.  reference modification
+
+     a)	Basic PERFORM                                                         
+     b)	PERFORM TIMES                                                      
+     c)	PERFORM UNTIL                                                         
+     d)	PERFORM VARYING
+     e)	IN-LINE PERFORM  
+
+
+     Initialize. 
+     SET TO TRUE
+
+     length.
+
+     PIC 9.99 and 9v99
+
+6.   Copy book
+
+7.   Sub-program. Subroutine can open file. 
+
+8.   Occurs.  Table.  Search Table. Search / Search all.
+
+     subscript, index. 
+
+9.   Character string manipulation.
+      Inspect, tally, string, unstring. reference modification
+
+10.  Internal sort.
+
+11.  VSAM File.
+ 

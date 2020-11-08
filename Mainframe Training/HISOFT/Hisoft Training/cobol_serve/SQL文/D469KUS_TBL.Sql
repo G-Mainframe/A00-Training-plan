@@ -1,0 +1,27 @@
+DROP   TABLE  D469KUS_TBL   ;
+CREATE TABLE  D469KUS_TBL  (
+       契約番号                           CHAR(10)          NOT NULL,
+       再リース回数                       NUMBER(2,0)       NOT NULL,
+       申請連番                           NUMBER(2,0)       NOT NULL,
+       契約種類                           CHAR(3)           NOT NULL,
+       損害金請求方法                     CHAR(1)           NOT NULL,
+       解約年月日                         CHAR(8)           NOT NULL,
+       解約区分                           CHAR(1)           NOT NULL,
+       解約理由                           CHAR(2)           NOT NULL,
+       新契約番号                         CHAR(10)          NOT NULL,
+       新見積番号                         NUMBER(7,0)       NOT NULL,
+       上乗せ相殺金額                     NUMBER(13,0)      NOT NULL,
+       相殺区分                           CHAR(1)           NOT NULL,
+       登録年月日                         CHAR(8)           NOT NULL,
+       登録時間                           CHAR(8)           NOT NULL,
+       登録担当者                         CHAR(8)           NOT NULL,
+       更新年月日                         CHAR(8)           NOT NULL,
+       更新時間                           CHAR(8)           NOT NULL,
+       更新者                             CHAR(8)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+CONSTRAINT  PK_D469KUS_TBL  PRIMARY KEY (
+       契約番号,
+       再リース回数,
+       申請連番,
+       契約種類,
+       損害金請求方法));

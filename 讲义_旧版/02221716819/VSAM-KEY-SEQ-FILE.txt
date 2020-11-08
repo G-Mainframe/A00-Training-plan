@@ -1,0 +1,45 @@
+
+//SYSPRINT DD SYSOUT=*
+//VSAMC1    DD UNIT=SYSDA, VOL=SER=VSAMC1, DISP=SHR
+//SYSIN        DD *
+ DEFINE CLUSTER  -
+                   (NAME(H4$.INVMSTR) -
+                    VOLUMES(VSAMC1) -
+                    RECORDS(100 30) -
+                    RECORDSIZE(32 32) -
+                    INDEXED -
+                    KEYS(5 0) -
+                    UNIQUE -
+                   FILE(VSAMC1) ) -
+                DATA -
+                     NAME(h4$.INVMSTR.DATA) -
+                INDEX -
+                     NAME(H4$.INVMSTR.INDEX)
+
+
+------------------------------------------------------------------------------------------------
+//                 EXEC PGM=IDCAMS
+//SYSPRINT DD SYSOUT=*
+//SYSIN        DD *
+ DEFINE CLUSTER  -
+                   (NAME(H4$.INVMSTR) -
+                    VOLUMES(VSAMC1) -
+                    RECORDS(100 30) -
+                    RECORDSIZE(32 32) -
+                    INDEXED -
+                    KEYS(5 0)  )-                    
+                DATA -
+                     NAME(h4$.INVMSTR.DATA) -
+                INDEX -
+                     NAME(H4$.INVMSTR.INDEX)
+
+--------------------------------------------------------------------
+
+   SELECT   INVMSTR   ASSIGN TO INVMSTR
+                                                         ORGANIZATION IS INDEXED
+                                                          ACCESS IS RANDOM
+                                                          RECORD KEY IS IM-ITEM-NUMBER
+                                                          FILE STATUS IS INVMSTR-ERROR-CODE. 
+
+
+              

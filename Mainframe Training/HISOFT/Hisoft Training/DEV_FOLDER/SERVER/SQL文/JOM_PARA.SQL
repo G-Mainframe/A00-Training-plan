@@ -1,0 +1,32 @@
+CREATE TABLE JOM_PARA
+(
+    ＫＥＹ                         CHAR(3) NOT NULL,
+    事業所コード                   CHAR(4) NOT NULL,
+    ユーザーコード                 CHAR(8) NOT NULL,
+    顧客コード                     CHAR(6) NOT NULL,
+    取引先名                       VARCHAR2(60) NOT NULL,
+    担当者コード                   CHAR(4) NOT NULL,
+    契約日                         CHAR(8) NOT NULL,
+    検収日                         CHAR(8) NOT NULL,
+    第１回入金日                   CHAR(8) NOT NULL,
+    入金基準日                     CHAR(2) NOT NULL,
+    据置月数                       NUMBER(4,2) NOT NULL,
+    消費税率                       NUMBER(3,1) NOT NULL,
+    転リース提携先コード           CHAR(2) NOT NULL,
+    充当相殺区分                   CHAR(1) NOT NULL,
+    ディーラーコード               CHAR(5) NOT NULL,
+    売主名                         VARCHAR2(60) NOT NULL,
+    売主住所                       VARCHAR2(100) NOT NULL,
+    購入先コード                   CHAR(8) NOT NULL,
+    支払先コード                   CHAR(4) NOT NULL,
+    斡旋手数料                     NUMBER(13,0) NOT NULL,
+    斡旋手数料支払日               VARCHAR2(60) NOT NULL,
+    登録日                         CHAR(8) NOT NULL,
+    登録時刻                       CHAR(6) NOT NULL,
+    登録担当者コード               CHAR(4) NOT NULL,
+    更新日                         CHAR(8) NOT NULL,
+    更新時刻                       CHAR(6) NOT NULL,
+    更新担当者コード               CHAR(4) NOT NULL,
+    CONSTRAINT SYS_C0024415 PRIMARY KEY (ＫＥＹ) USING INDEX
+)
+/

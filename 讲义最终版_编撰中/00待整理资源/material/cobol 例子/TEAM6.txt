@@ -1,0 +1,859 @@
+      ******************************************************************
+      *IDENTIFICATION DIVISION                                         *
+       IDENTIFICATION              DIVISION.
+       PROGRAM-ID.                 TEAM6.
+      ******************************************************************
+       ENVIRONMENT                 DIVISION.
+       CONFIGURATION               SECTION.
+       INPUT-OUTPUT                SECTION.
+       FILE-CONTROL.
+           SELECT  MSTINPUT ASSIGN    TO MSTINPUT
+                   ORGANIZATION       IS SEQUENTIAL
+                   ACCESS MODE        IS SEQUENTIAL
+                   FILE   STATUS      IS MSTINPUT-FILE-STATUS.
+           SELECT  TRAINPUT ASSIGN    TO TRAINPUT
+                   ORGANIZATION       IS SEQUENTIAL
+                   ACCESS MODE        IS SEQUENTIAL
+                   FILE   STATUS      IS TRAINPUT-FILE-STATUS.
+           SELECT  PARINPUT ASSIGN    TO PARINPUT
+                   FILE   STATUS      IS PARINPUT-FILE-STATUS.
+
+           SELECT  ERRFILE  ASSIGN    TO ERRFILE
+                   ORGANIZATION       IS SEQUENTIAL
+                   ACCESS MODE        IS SEQUENTIAL
+                   FILE   STATUS      IS ERRFILE-FILE-STATUS.
+           SELECT  MSTOUTPT ASSIGN    TO MSTOUTPT
+                   ORGANIZATION       IS SEQUENTIAL
+                   ACCESS MODE        IS SEQUENTIAL
+                   FILE   STATUS      IS MSTOUTPT-FILE-STATUS.
+           SELECT  MONPAYO  ASSIGN    TO MONPAYO
+                   ORGANIZATION       IS SEQUENTIAL
+                   ACCESS MODE        IS SEQUENTIAL
+                   FILE   STATUS      IS MONPAYO-FILE-STATUS.
+           SELECT  ARCHFILE ASSIGN    TO ARCHFILE
+                   ORGANIZATION       IS SEQUENTIAL
+                   ACCESS MODE        IS SEQUENTIAL
+                   FILE   STATUS      IS ARCHFILE-FILE-STATUS.
+           SELECT  SETLILE  ASSIGN    TO SETLILE
+                   ORGANIZATION       IS SEQUENTIAL
+                   ACCESS MODE        IS SEQUENTIAL
+                   FILE   STATUS      IS SETLILE-FILE-STATUS.
+      ******************************************************************
+      *DATA                        DIVISION                            *
+      ******************************************************************
+       DATA                        DIVISION.
+      ******************************************************************
+       FILE                        SECTION.
+      *---<INPUT FILE>--------------------------------------------------
+      **** MASTER FILE *************************************************
+       FD  MSTINPUT.
+       01  MSTINPUT-REC.
+         03 WS-EMP-ID              PIC  X(06).
+         03 WS-EMP-NAME            PIC  X(20).
+         03 WS-EMP-ADDRESS         PIC  X(50).
+         03 WS-TEL-NO              PIC  X(13).
+         03 WS-SALARY-RATE         PIC  9(06)V9(02).
+         03 WS-AMT-PAYABLE         PIC  9(10).
+         03 WS-LAST-DATE           PIC  X(08).
+      **** TRANSACTION FILE  *******************************************
+       FD  TRAINPUT.
+       01  TRAINPUT-REC            PIC X(90).
+      **** TRANSACTION FILE  *******************************************
+       FD  PARINPUT.
+       01  PARINPUT-REC            PIC X(8).
+      *---<OUTPUT FILE>-------------------------------------------------
+      **** ERROR REPORT FILE *******************************************
+       FD  ERRFILE.
+       01  ERRFILE-REC.
+         03 WS-ERR-KBN         PIC X(01).
+         03 WS-ERR-MSG         PIC X(97).
+      **** MSTOUTPT FILE ***********************************************
+       FD  MSTOUTPT.
+       01  MSTOUTPT-REC.
+         03 WS-EMP-ID              PIC  X(06).
+         03 WS-EMP-NAME            PIC  X(20).
+         03 WS-EMP-ADDRESS         PIC  X(50).
+         03 WS-TEL-NO              PIC  X(13).
+         03 WS-SALARY-RATE         PIC  9(06)V9(02).
+         03 WS-AMT-PAYABLE         PIC  9(10).
+         03 WS-LAST-DATE           PIC  X(08).
+      *COPY VMSTFILE.
+      **** MONPAYO  FILE ***********************************************
+       FD  MONPAYO.
+       01  MONPAYO-REC.
+      *COPY MONPAYOC.
+         03 WS-EMP-ID              PIC  X(06).
+         03 WS-SALARY-RATE         PIC  9(10)V9(02).
+      **** ARCHFILE FILE ***********************************************
+       FD  ARCHFILE.
+       01  ARCHFILE-REC.
+        03 WS-EMP-ID              PIC  X(06).
+        03 WS-EMP-NAME            PIC  X(20).
+        03 WS-EMP-ADDRESS         PIC  X(50).
+        03 WS-TEL-NO              PIC  X(13).
+        03 WS-SALARY-RATE         PIC  9(06)V9(02).
+        03 WS-AMT-PAYABLE         PIC  9(10).
+        03 WS-LAST-DATE           PIC  X(08).
+      *COPY ARCHFILC.
+      **** SETLILE  FILE ***********************************************
+       FD  SETLILE.
+       01  SETLILE-REC.
+      *COPY SETLILEC.
+         03 WS-EMP-ID              PIC  X(06).
+         03 WS-EMP-NAME            PIC  X(20).
+         03 WS-EMP-ADDRESS         PIC  X(50).
+         03 WS-TEL-NO              PIC  X(13).
+         03 WS-SALARY-RATE         PIC  9(06)V9(02).
+      *-----------------------------------------------------------------
+       WORKING-STORAGE             SECTION.
+      ******************************************************************
+       01  WS-TEMP-STR             PIC X(100).
+      ***** SYSTEM DATE ************************************************
+       01   WS-DATM.
+         03 WS-DATM-YYYY           PIC X(04).
+         03 WS-DATM-MM             PIC X(02).
+         03 WS-DATM-DD             PIC X(02).
+      ***** SYSIN  DATE ************************************************
+       01   WS-DATN.
+         03 WS-DATN-YYYY           PIC X(04).
+         03 WS-DATN-MM             PIC X(02).
+         03 WS-DATN-DD             PIC X(02).
+      **** TRANSACTION FILE FORMAT LIST ********************************
+      *COPY TSCFILE.
+      *   TRAN-CD = H FILE FORMAT
+       01   WS-TRN-H.
+         03 WS-TRAN-CD             PIC  X(01).
+         03 WS-EMP-ID              PIC  X(06).
+         03 WS-HRS-WORKED          PIC  9(10).
+         03 WS-SALARY-RATE         PIC  9(06)V9(02).
+         03 FILLER                 PIC  X(65).
+      *  TRAN-CD = R FILE FORMAT
+       01   WS-TRN-R.
+         03 WS-TRAN-CD             PIC  X(01).
+         03 WS-EMP-ID              PIC  X(06).
+         03 WS-LAST-WORK-DATE      PIC  X(08).
+         03 FILLER                 PIC  X(75).
+      *  TRAN-CD = U FILE FORMAT
+       01   WS-TRN-U.
+         03 WS-TRAN-CD             PIC  X(01).
+         03 WS-EMP-ID              PIC  X(06).
+         03 WS-EMP-NAME            PIC  X(20).
+         03 WS-EMP-ADDRESS         PIC  X(50).
+         03 WS-TEL-NO              PIC  X(13).
+      **** TRANSACTION FILE EMP ID TEMP ********************************
+       01  WS-TEMP-EMPID           PIC X(06).
+       01  WS-TEMP-TRAN            PIC X(90).
+       01  WS-TEMP-FLG             PIC X(01).
+      **** PROGRAM ID **************************************************
+       01  WS-PROGRAM-ID           PIC X(08) VALUE "TEAM6".
+      ******************************************************************
+      * ERROR FORMAT                                                   *
+      ******************************************************************
+      *COPY DISERROR.
+      * DISPLAY ERROR MSG FORMAT
+       01   WS-ERR.
+      *      03 WS-ERR-PGMID       PIC X(08).
+         03 WS-ERR-CD          PIC X(06).
+         03 WS-ERR-MSG         PIC X(50).
+      ******************************************************************
+      * FILE INPUT/OUTPUT COUNT TOTAL FORMAT                           *
+      ******************************************************************
+       01    WS-MSTINPUT-I.
+         03  FILLER                PIC X(20) VALUE
+             "MASTER FILE INPUT:".
+         03  WS-MSTINPUT-CNT       PIC ZZZZZ9.
+         03  FILLER                PIC X(07) VALUE " COUNT.".
+       01    WS-TRAINPUT-I.
+         03  FILLER                PIC X(20) VALUE
+             "TRAN FILE INPUT:".
+         03  WS-TRAINPUT-CNT       PIC ZZZZZ9.
+         03  FILLER                PIC X(07) VALUE " COUNT.".
+       01    WS-MSTOUTPT-O.
+         03  FILLER                PIC X(21) VALUE
+             "MASTER OUTPUT:".
+         03  WS-MSTOUTPT-CNT       PIC ZZZZZ9.
+         03  FILLER                PIC X(07) VALUE " COUNT.".
+       01    WS-ARCHFILE-O.
+         03  FILLER                PIC X(21) VALUE
+             "ARCHFILE:".
+         03  WS-ARCHFILE-CNT       PIC ZZZZZ9.
+         03  FILLER                PIC X(07) VALUE " COUNT.".
+       01    WS-ERRFILE-O.
+         03  FILLER                PIC X(21) VALUE
+             "ERRFILE :".
+         03  WS-ERRFILE-CNT        PIC ZZZZZ9.
+         03  FILLER                PIC X(07) VALUE " COUNT.".
+       01    WS-MONPAYO-O.
+         03  FILLER                PIC X(21) VALUE
+             "MONPAY :".
+         03  WS-MONPAYO-CNT        PIC ZZZZZ9.
+         03  FILLER                PIC X(07) VALUE " COUNT.".
+       01    WS-SETLILE-O.
+         03  FILLER                PIC X(21) VALUE
+             " SETLILE :".
+         03  WS-SETLILE-CNT        PIC ZZZZZ9.
+         03  FILLER                PIC X(07) VALUE " COUNT.".
+      *************THE RECORD IN FILE COUNT
+       01    WS-FILE-COUNT.
+         03  WS-MSTINPUT-C         PIC 9(06).
+         03  WS-TRAINPUT-C         PIC 9(06).
+         03  WS-MSTOUTPT-C         PIC 9(06).
+         03  WS-ARCHFILE-C         PIC 9(06).
+         03  WS-ERRFILE-C          PIC 9(06).
+         03  WS-MONPAYO-C          PIC 9(06).
+         03  WS-SETLILE-C          PIC 9(06).
+      ******************************************************************
+      * FILE STATUS                                                    *
+      ******************************************************************
+       77  MSTINPUT-FILE-STATUS    PIC X(02).
+       77  MSTOUTPT-FILE-STATUS    PIC X(02).
+       77  TRAINPUT-FILE-STATUS    PIC X(02).
+       77  ARCHFILE-FILE-STATUS    PIC X(02).
+       77  ERRFILE-FILE-STATUS     PIC X(02).
+       77  MONPAYO-FILE-STATUS     PIC X(02).
+       77  SETLILE-FILE-STATUS     PIC X(02).
+       77  PARINPUT-FILE-STATUS     PIC X(02).
+      ******************************************************************
+       PROCEDURE                   DIVISION.
+      ******************************************************************
+       PROC-MAIN                   SECTION.
+      *
+           DISPLAY  'PERFORM  0000-INIT THRU 0000-EXIT'
+           PERFORM  0000-INIT THRU 0000-EXIT.
+      *
+           DISPLAY  'PERFORM  3000-MAIN THRU 3000-EXIT'
+           PERFORM  3000-MAIN THRU 3000-EXIT.
+      *
+           DISPLAY  'PERFORM  9000-END THRU 9000-END-EXT'
+           PERFORM  9000-END THRU 9000-END-EXT.
+       PROC-MAIN-EXT.
+           STOP RUN.
+      ******************************************************************
+
+       0000-INIT                   SECTION.
+
+           PERFORM 0100-INIT-WS THRU 0100-EXIT.
+           PERFORM 0200-OPEN-FILE THRU 0200-EXIT.
+           PERFORM 0300-READ-PARM THRU 0300-EXIT.
+           PERFORM 0400-GET-SYSDATE THRU 0400-EXIT.
+           PERFORM 0500-PUT-TRA-1ST-REC-TO-TMP THRU 0500-EXIT.
+      * AND GET 2ND REC TO TRAN-FD-REC IN 0500
+           PERFORM 0600-READ-MST-1ST-REC THRU 0600-EXIT.
+       0000-EXIT.
+           EXIT.
+       0100-INIT-WS.
+           DISPLAY '0100-INIT-WS'
+           INITIALIZE              WS-TRN-H
+                                   WS-TRN-R
+                                   WS-TRN-U
+                                   WS-FILE-COUNT
+                                   WS-TEMP-EMPID
+                                   WS-TEMP-FLG
+                                   WS-TEMP-TRAN.
+      *                            TRAINPUT-REC.
+       0100-EXIT.
+           EXIT.
+       0200-OPEN-FILE.
+           DISPLAY '0200-OPEN-FILE'
+           OPEN INPUT  TRAINPUT.
+           IF TRAINPUT-FILE-STATUS NOT = "00"  THEN
+              MOVE SPACE           TO WS-ERR
+              MOVE TRAINPUT-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "FILE TRAINPUT OPEN ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              DISPLAY WS-ERR
+              DISPLAY '0200-OPEN-FILE'
+              STOP RUN
+           END-IF.
+           OPEN INPUT  MSTINPUT.
+           IF MSTINPUT-FILE-STATUS NOT = "00"  THEN
+              MOVE SPACE           TO WS-ERR
+              MOVE MSTINPUT-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "FILE MSTINPUT OPEN ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              DISPLAY WS-ERR
+              DISPLAY '0200-OPEN-FILE2'
+              CLOSE TRAINPUT
+              STOP RUN
+           END-IF.
+           OPEN INPUT  PARINPUT.
+           IF PARINPUT-FILE-STATUS NOT = "00"  THEN
+              MOVE SPACE           TO WS-ERR
+              MOVE PARINPUT-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "FILE PARINPUT OPEN ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              DISPLAY WS-ERR
+              CLOSE PARINPUT
+              STOP RUN
+           END-IF.
+           OPEN OUTPUT MSTOUTPT.
+           IF MSTOUTPT-FILE-STATUS NOT = "00"  THEN
+              MOVE SPACE           TO WS-ERR
+              MOVE MSTOUTPT-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "FILE MSTOUTPT OPEN ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              DISPLAY WS-ERR
+              CLOSE TRAINPUT MSTINPUT
+              STOP RUN
+           END-IF.
+           OPEN OUTPUT ERRFILE.
+           IF ERRFILE-FILE-STATUS  NOT = "00"  THEN
+              MOVE SPACE           TO WS-ERR
+              MOVE ERRFILE-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "FILE ERRFILE OPEN ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              DISPLAY WS-ERR
+              CLOSE TRAINPUT MSTINPUT MSTOUTPT
+              STOP RUN
+           END-IF.
+           OPEN OUTPUT MONPAYO.
+           IF MONPAYO-FILE-STATUS  NOT = "00"  THEN
+              MOVE SPACE           TO WS-ERR
+              MOVE MONPAYO-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "FILE MONPAYO OPEN ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              DISPLAY WS-ERR
+              CLOSE TRAINPUT MSTINPUT MSTOUTPT ERRFILE
+              STOP RUN
+           END-IF.
+           OPEN OUTPUT ARCHFILE.
+           IF ARCHFILE-FILE-STATUS NOT = "00"  THEN
+              MOVE SPACE           TO WS-ERR
+              MOVE ARCHFILE-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "FILE ARCHFILE OPEN ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              DISPLAY WS-ERR
+              CLOSE TRAINPUT MSTINPUT MSTOUTPT ERRFILE MONPAYO
+              STOP RUN
+           END-IF.
+           OPEN OUTPUT SETLILE.
+           IF SETLILE-FILE-STATUS  NOT = "00"  THEN
+              MOVE SPACE           TO WS-ERR
+              MOVE SETLILE-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "FILE SETLILE  OPEN ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              DISPLAY WS-ERR
+              CLOSE TRAINPUT MSTINPUT MSTOUTPT ERRFILE MONPAYO
+                    ARCHFILE
+              STOP RUN
+           END-IF.
+       0200-EXIT.
+           EXIT.
+
+       0300-READ-PARM.
+           DISPLAY '0300-READ-PARM'
+           READ PARINPUT.
+           IF PARINPUT-FILE-STATUS NOT = "00"
+             OR PARINPUT-REC = SPACE THEN
+             MOVE FUNCTION CURRENT-DATE(1:8) TO WS-DATM
+           END-IF.
+
+           MOVE PARINPUT-REC TO WS-DATM.
+       0300-EXIT.
+           EXIT.
+
+       0400-GET-SYSDATE.
+             DISPLAY '0400-GET-SYSDATE'
+             MOVE FUNCTION CURRENT-DATE(1:8) TO WS-DATN
+           DISPLAY '0300-READ-PARM'.
+       0400-EXIT.
+           EXIT.
+
+       0500-PUT-TRA-1ST-REC-TO-TMP.
+           DISPLAY '0500-PUT-TRA'
+      ** GET 1ST TRA RECORD TO WS-TEMP
+           PERFORM  PROC-TRA-READ THRU PROC-TRA-READ-EXT
+           IF TRAINPUT-FILE-STATUS = "00"    THEN
+              MOVE TRAINPUT-REC      TO WS-TEMP-TRAN
+              MOVE TRAINPUT-REC(2:6) TO WS-TEMP-EMPID
+      ** GET 2ND TRA RECORD TO REC ***
+              PERFORM PROC-TRA-READ THRU PROC-TRA-READ-EXT
+           END-IF.
+       0500-EXIT.
+           EXIT.
+
+       0600-READ-MST-1ST-REC.
+           DISPLAY '0600-READ-MST-1ST-REC'
+           PERFORM PROC-MST-READ THRU PROC-MST-READ-EXT.
+       0600-EXIT.
+           EXIT.
+
+      ******************************************************************
+       3000-MAIN.
+       301A.
+           DISPLAY '301A'.
+           IF TRAINPUT-FILE-STATUS = "10"              AND
+              WS-TEMP-TRAN         = SPACE             THEN
+              GO TO 309A
+           END-IF.
+           PERFORM 3100-CHECK-TRA-EMP-DUP THRU 3100-EXIT
+
+           PERFORM 3200-MST-CHECK THRU 3200-EXIT .
+
+       309A.
+           DISPLAY '309A'
+      *WRITE UNCHECK MSTREC
+           IF MSTINPUT-FILE-STATUS NOT = "10"          THEN
+              MOVE MSTINPUT-REC TO MSTOUTPT-REC
+              PERFORM PROC-MST-WRITE THRU PROC-MST-WRITE-EXT
+              PERFORM PROC-MST-READ THRU PROC-MST-READ-EXT
+              GO TO 309A
+           END-IF.
+       3000-EXIT.
+           EXIT.
+      ******************************************************************
+       3100-CHECK-TRA-EMP-DUP.
+           DISPLAY '3100-CHECK-TRA-EMP-DUP'
+      ** IF TRA PERIOR(TMP) AND CURRENT REC'S EMP-ID IS SAME,THEN ERR***
+           IF WS-TEMP-TRAN(2:6) = TRAINPUT-REC(2:6)    THEN
+              MOVE "1"                TO WS-TEMP-FLG
+              PERFORM 3110-TRA-EMP-SAME-ERROR THRU 3110-EXT
+              MOVE TRAINPUT-REC       TO WS-TEMP-TRAN
+              IF TRAINPUT-FILE-STATUS = "00"
+                 PERFORM PROC-TRA-READ
+              ELSE
+                 MOVE SPACE           TO TRAINPUT-REC
+              END-IF
+              GO TO 301A
+           ELSE IF WS-TEMP-FLG = "1"            THEN
+              PERFORM 3110-TRA-EMP-SAME-ERROR
+              MOVE TRAINPUT-REC  TO WS-TEMP-TRAN
+              IF TRAINPUT-FILE-STATUS = "00"
+                  PERFORM PROC-TRA-READ THRU PROC-TRA-READ-EXT
+              ELSE
+                  MOVE SPACE           TO TRAINPUT-REC
+              END-IF
+              MOVE "0"           TO WS-TEMP-FLG
+              GO TO 301A
+           END-IF.
+
+       3100-EXIT.
+           EXIT.
+
+       3200-MST-CHECK.
+           DISPLAY '3200-MST-CHECK'
+           IF MSTINPUT-FILE-STATUS = "10"              THEN
+      ******* IF EMP-ID IN TRAN IS NOT IN MASTER
+              DISPLAY 'MSTINPUT-FILE-STATUS=10' MSTINPUT-FILE-STATUS
+              PERFORM 3210-WRONG-EMP-IN-MST
+              IF TRAINPUT-FILE-STATUS = "00"
+                 PERFORM PROC-TRA-READ THRU PROC-TRA-READ-EXT
+              ELSE
+                 MOVE SPACE           TO TRAINPUT-REC
+              END-IF
+              MOVE TRAINPUT-REC       TO WS-TEMP-TRAN
+              GO TO 301A
+           END-IF.
+           IF WS-TEMP-TRAN(2:6)  > WS-EMP-ID OF MSTINPUT-REC THEN
+              MOVE MSTINPUT-REC TO MSTOUTPT-REC
+      *****  WRITE MST .READ
+              PERFORM PROC-MST-WRITE THRU PROC-MST-WRITE-EXT
+
+              PERFORM PROC-MST-READ THRU PROC-MST-READ-EXT
+              GO TO 301A
+           ELSE IF WS-TEMP-TRAN(2:6) < WS-EMP-ID OF MSTINPUT-REC THEN
+                   DISPLAY 'WS-TEMP-TRAN(2:6) < WS-EMP-ID OF MAST'
+                   DISPLAY WS-TEMP-TRAN(2:6) WS-EMP-ID OF MSTINPUT-REC
+                   PERFORM 3210-WRONG-EMP-IN-MST
+                   MOVE TRAINPUT-REC       TO WS-TEMP-TRAN
+                   IF TRAINPUT-FILE-STATUS = "00"
+      ***************** READ NEXT TRAN RECORD **************************
+                      PERFORM PROC-TRA-READ THRU PROC-TRA-READ-EXT
+                   ELSE
+                      MOVE SPACE           TO TRAINPUT-REC
+                   END-IF
+                   GO TO 301A
+      ******EMP-ID IN TRAN = EMP IN MST **************************
+                ELSE
+                   DISPLAY 'IAMHERE'
+                   EVALUATE WS-TEMP-TRAN(1:1)
+                      WHEN 'H'
+      ******* IF SYSTEM TIME = INPUT TIME,THEN COMPUTE MONPAY **********
+                           DISPLAY 'WS-DATM' WS-DATM
+                           DISPLAY 'WS-DATN' WS-DATN
+                           IF WS-DATM = WS-DATN
+                              MOVE WS-TEMP-TRAN TO WS-TRN-H
+                              PERFORM 3220-MONPAY
+                              MOVE MSTINPUT-REC TO MSTOUTPT-REC
+                              PERFORM PROC-MST-WRITE THRU
+                              PROC-MST-WRITE-EXT
+                           ELSE
+                              MOVE MSTINPUT-REC TO MSTOUTPT-REC
+                          PERFORM PROC-MST-WRITE THRU PROC-MST-WRITE-EXT
+                           END-IF
+                      WHEN 'R'
+                           MOVE WS-TEMP-TRAN TO WS-TRN-R
+                           IF WS-DATM >= WS-LAST-WORK-DATE
+                                         OF WS-TRN-R
+                              PERFORM 3230-ARCHOT THRU 3230-ARCHOT-EXT
+                           ELSE
+                              MOVE MSTINPUT-REC TO MSTOUTPT-REC
+                          PERFORM PROC-MST-WRITE THRU PROC-MST-WRITE-EXT
+                           END-IF
+                      WHEN 'U'
+                           MOVE WS-TEMP-TRAN TO WS-TRN-U
+                           PERFORM 3240-UPTMST THRU 3240-UPTMST-EXT
+                   END-EVALUATE
+                   MOVE TRAINPUT-REC       TO WS-TEMP-TRAN
+                   IF TRAINPUT-FILE-STATUS = "00"
+                      PERFORM PROC-TRA-READ THRU PROC-TRA-READ-EXT
+                   ELSE
+                      MOVE SPACE           TO TRAINPUT-REC
+                   END-IF
+                   PERFORM PROC-MST-READ THRU PROC-MST-READ-EXT
+                   GO TO 301A
+                END-IF
+           END-IF.
+
+       3200-EXIT.
+           EXIT.
+
+      ******************************************************************
+       PROC-MST-WRITE              SECTION.
+      *
+           DISPLAY 'PROC-MST-WRITE'
+           WRITE MSTOUTPT-REC.
+           IF MSTOUTPT-FILE-STATUS NOT = "00"          THEN
+              MOVE SPACE           TO WS-ERR
+              MOVE MSTOUTPT-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "FILE MSTOUTPT WRITE ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              PERFORM 9999-ERR
+           END-IF.
+           ADD 1                   TO WS-MSTOUTPT-C.
+      *
+       PROC-MST-WRITE-EXT.
+           EXIT.
+      ******************************************************************
+       3210-WRONG-EMP-IN-MST                 SECTION.
+      *
+             DISPLAY 'START 3210-WRONG-EMP-IN-MST'
+             EVALUATE WS-TEMP-TRAN(1:1)
+             WHEN 'H'
+             MOVE SPACE               TO WS-TEMP-STR
+             MOVE WS-TEMP-TRAN        TO WS-TRN-H
+             STRING "NO EMPID IN MST:"       DELIMITED BY SIZE
+                    WS-EMP-ID OF WS-TRN-H
+                                  DELIMITED BY SIZE
+                    "  HRS WORKED:"  DELIMITED BY SIZE
+                    WS-HRS-WORKED OF WS-TRN-H
+                                  DELIMITED BY SIZE
+                    INTO WS-TEMP-STR
+             WHEN 'R'
+             MOVE SPACE               TO WS-TEMP-STR
+             MOVE WS-TEMP-TRAN        TO WS-TRN-R
+             STRING "NO EMPID IN MST:"       DELIMITED BY SIZE
+                    WS-EMP-ID OF WS-TRN-R
+                                  DELIMITED BY SIZE
+                    "  LAST WORK DATE:"  DELIMITED BY SIZE
+                    WS-LAST-WORK-DATE OF WS-TRN-R
+                                  DELIMITED BY SIZE
+                    INTO WS-TEMP-STR
+             WHEN 'U'
+             MOVE SPACE               TO WS-TEMP-STR
+             MOVE WS-TEMP-TRAN        TO WS-TRN-U
+             STRING "NO EMP ID IN MST:"       DELIMITED BY SIZE
+                    WS-EMP-ID OF WS-TRN-U
+                                  DELIMITED BY SIZE
+                    "  EMP NAME:" DELIMITED BY SIZE
+                     WS-EMP-NAME      OF WS-TRN-U
+                                  DELIMITED BY "      "
+                    "  ADDRESS:"  DELIMITED BY SIZE
+                    WS-EMP-ADDRESS OF WS-TRN-U
+                                  DELIMITED BY "      "
+                    "  TEL NO:"   DELIMITED BY SIZE
+                    WS-TEL-NO         OF WS-TRN-U
+                                  DELIMITED BY "      "
+                    INTO WS-TEMP-STR
+               END-EVALUATE.
+               MOVE WS-TEMP-STR         TO ERRFILE-REC.
+               PERFORM PROC-WRITE-ERRF.
+      *
+       3210-EXIT.
+           EXIT.
+      ******************************************************************
+       3220-MONPAY                 SECTION.
+      *
+           DISPLAY 'START3220-MONPAY'
+           MOVE WS-EMP-ID OF WS-TRN-H
+                                   TO WS-EMP-ID OF MONPAYO-REC.
+           COMPUTE WS-SALARY-RATE  OF MONPAYO-REC =
+                   WS-HRS-WORKED   OF WS-TRN-H * WS-SALARY-RATE
+                                                OF WS-TRN-H.
+           WRITE MONPAYO-REC.
+           IF MONPAYO-FILE-STATUS  NOT = "00"          THEN
+              MOVE SPACE           TO WS-ERR
+              MOVE MONPAYO-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "FILE MONPAYO WRITE ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              PERFORM 9999-ERR
+           END-IF.
+           ADD 1                   TO WS-MONPAYO-C.
+      *** WHEN WRITE MONPAY, CLEAR MST AMTPAY
+           MOVE ZERO               TO WS-AMT-PAYABLE
+                                   OF MSTINPUT-REC.
+           MOVE MSTINPUT-REC TO MSTOUTPT-REC.
+      *
+       3220-MONPAY-EXT.
+           EXIT.
+      ******************************************************************
+       3230-ARCHOT                 SECTION.
+      *
+           DISPLAY '3230-ARCHOT'
+           MOVE WS-EMP-ID     OF MSTINPUT-REC   TO
+                WS-EMP-ID     OF SETLILE-REC.
+           MOVE WS-EMP-NAME   OF MSTINPUT-REC   TO
+                WS-EMP-NAME   OF SETLILE-REC.
+           MOVE WS-EMP-ADDRESS  OF MSTINPUT-REC   TO
+                WS-EMP-ADDRESS  OF SETLILE-REC.
+           MOVE WS-TEL-NO     OF MSTINPUT-REC   TO
+                WS-TEL-NO     OF SETLILE-REC.
+           MOVE WS-SALARY-RATE  OF MSTINPUT-REC   TO
+                WS-SALARY-RATE  OF SETLILE-REC.
+           PERFORM PROC-SEL-WRITE.
+           MOVE WS-EMP-ID     OF MSTINPUT-REC   TO
+                WS-EMP-ID     OF ARCHFILE-REC.
+           MOVE WS-EMP-NAME   OF MSTINPUT-REC   TO
+                WS-EMP-NAME   OF ARCHFILE-REC.
+           MOVE WS-EMP-ADDRESS  OF MSTINPUT-REC   TO
+                WS-EMP-ADDRESS  OF ARCHFILE-REC.
+           MOVE WS-TEL-NO     OF MSTINPUT-REC   TO
+                WS-TEL-NO     OF ARCHFILE-REC.
+           MOVE WS-SALARY-RATE  OF MSTINPUT-REC   TO
+                WS-SALARY-RATE  OF ARCHFILE-REC.
+           MOVE WS-AMT-PAYABLE  OF MSTINPUT-REC   TO
+                WS-AMT-PAYABLE  OF ARCHFILE-REC.
+           MOVE WS-LAST-DATE    OF MSTINPUT-REC   TO
+                WS-LAST-DATE    OF ARCHFILE-REC.
+           PERFORM PROC-ARC-WRITE.
+      *
+       3230-ARCHOT-EXT.
+           EXIT.
+
+      ******************************************************************
+       PROC-ARC-WRITE              SECTION.
+      *
+           DISPLAY 'PROC-ARC-WRITE'
+           WRITE ARCHFILE-REC.
+           IF ARCHFILE-FILE-STATUS NOT = "00"          THEN
+              MOVE SPACE           TO WS-ERR
+              MOVE ARCHFILE-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "FILE ARCHFILE WRITE ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              PERFORM 9999-ERR
+           END-IF.
+           ADD 1                   TO WS-ARCHFILE-C.
+      *
+       PROC-ARC-EXT.
+           EXIT.
+      ******************************************************************
+       PROC-SEL-WRITE              SECTION.
+      *
+           DISPLAY 'PROC-SEL-WRITE'
+           WRITE SETLILE-REC.
+           IF SETLILE-FILE-STATUS  NOT = "00"          THEN
+              MOVE SPACE           TO WS-ERR
+              MOVE SETLILE-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "SETLILE WRITE ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              PERFORM 9999-ERR
+           END-IF.
+           ADD 1                   TO WS-SETLILE-C.
+      *
+       PROC-SEL-EXT.
+           EXIT.
+      ******************************************************************
+       PROC-TRA-READ               SECTION.
+      *
+           DISPLAY 'PROC-TRA-READ'
+           READ TRAINPUT.
+           IF TRAINPUT-FILE-STATUS NOT = "00" AND "10" THEN
+              MOVE SPACE           TO WS-ERR
+              MOVE TRAINPUT-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "FILE TRAINPUT READ ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              PERFORM 9999-ERR
+           END-IF.
+           IF TRAINPUT-FILE-STATUS = "00"   THEN
+              ADD 1                TO WS-TRAINPUT-C
+           ELSE
+              MOVE SPACE           TO TRAINPUT-REC
+           END-IF.
+      *
+       PROC-TRA-READ-EXT.
+           EXIT.
+      ******************************************************************
+       PROC-MST-READ    SECTION.
+      *
+           DISPLAY 'PROC-MST-READ'
+           READ MSTINPUT.
+           IF MSTINPUT-FILE-STATUS NOT = "00" AND "10" THEN
+
+              MOVE SPACE           TO WS-ERR
+              MOVE MSTINPUT-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "FILE MSTINPUT READ ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              PERFORM 9999-ERR
+           END-IF.
+           IF MSTINPUT-FILE-STATUS NOT = "10"          THEN
+              ADD 1                TO WS-MSTINPUT-C
+           END-IF.
+      *
+       PROC-MST-READ-EXT.
+           EXIT.
+
+      ******************************************************************
+       3110-TRA-EMP-SAME-ERROR             SECTION.
+      *
+           DISPLAY '3110-TRA-EMP-ERROR'
+           EVALUATE WS-TEMP-TRAN(1:1)
+              WHEN 'H'
+                 MOVE SPACE           TO WS-TEMP-STR
+                 MOVE WS-TEMP-TRAN    TO WS-TRN-H
+                 STRING "1 EMP ID:"   DELIMITED BY SIZE
+                        WS-EMP-ID OF WS-TRN-H
+                                      DELIMITED BY SIZE
+                        "  HRS WORKED:"  DELIMITED BY SIZE
+                        WS-HRS-WORKED OF WS-TRN-H
+                                      DELIMITED BY SIZE
+                        INTO WS-TEMP-STR
+                 MOVE WS-TEMP-STR     TO ERRFILE-REC
+                 PERFORM PROC-WRITE-ERRF
+              WHEN 'R'
+                 MOVE SPACE           TO WS-TEMP-STR
+                 MOVE WS-TEMP-TRAN    TO WS-TRN-R
+                 STRING "1 EMP ID:"   DELIMITED BY SIZE
+                        WS-EMP-ID OF WS-TRN-R
+                                      DELIMITED BY SIZE
+                        "  LAST WORK DATE:"  DELIMITED BY SIZE
+                        WS-LAST-WORK-DATE OF WS-TRN-R
+                                      DELIMITED BY SIZE
+                        INTO WS-TEMP-STR
+                 MOVE WS-TEMP-STR     TO ERRFILE-REC
+                 PERFORM PROC-WRITE-ERRF
+              WHEN 'U'
+                 MOVE SPACE           TO WS-TEMP-STR
+                 MOVE WS-TEMP-TRAN    TO WS-TRN-U
+                 STRING "1 EMP ID:"   DELIMITED BY SIZE
+                        WS-EMP-ID OF WS-TRN-U
+                                      DELIMITED BY SIZE
+                        "  EMP NAME:" DELIMITED BY SIZE
+                         WS-EMP-NAME  OF WS-TRN-U
+                                      DELIMITED BY "  "
+                        "  ADDRESS:"  DELIMITED BY SIZE
+                        WS-EMP-ADDRESS OF WS-TRN-U
+                                      DELIMITED BY "  "
+                        "  TEL NO:"   DELIMITED BY SIZE
+                        WS-TEL-NO     OF WS-TRN-U
+                                      DELIMITED BY "  "
+                        INTO WS-TEMP-STR
+                 MOVE WS-TEMP-STR     TO ERRFILE-REC
+                 PERFORM PROC-WRITE-ERRF
+           END-EVALUATE.
+      *
+       3110-EXT.
+           EXIT.
+
+
+      ******************************************************************
+       PROC-WRITE-ERRF             SECTION.
+      *
+           DISPLAY 'PROC-WRITE-ERRF'
+           WRITE ERRFILE-REC.
+           IF ERRFILE-FILE-STATUS  NOT = "00"          THEN
+              MOVE SPACE           TO WS-ERR
+              MOVE ERRFILE-FILE-STATUS
+                                   TO WS-ERR-CD OF WS-ERR
+              MOVE "FILE ERRFILE WRITE ERROR"
+                                   TO WS-ERR-MSG OF WS-ERR
+              PERFORM 9999-ERR
+           END-IF.
+           ADD 1                   TO WS-ERRFILE-C.
+      *
+       PROC-WRITE-EXT.
+           EXIT.
+      ******************************************************************
+
+      ******************************************************************
+       3240-UPTMST                 SECTION.
+      *
+           DISPLAY '3240-UPTMST'
+           MOVE WS-EMP-NAME   OF WS-TRN-U       TO
+                WS-EMP-NAME   OF MSTINPUT-REC.
+           MOVE WS-EMP-ADDRESS  OF WS-TRN-U       TO
+                WS-EMP-ADDRESS  OF MSTINPUT-REC.
+           MOVE WS-TEL-NO     OF WS-TRN-U       TO
+                WS-TEL-NO     OF MSTINPUT-REC.
+           MOVE MSTINPUT-REC  TO MSTOUTPT-REC.
+           PERFORM PROC-MST-WRITE THRU PROC-MST-WRITE-EXT.
+      *
+       3240-UPTMST-EXT.
+           EXIT.
+
+      ******************************************************************
+       9000-END                    SECTION.
+      *
+           DISPLAY '9000-END'
+           MOVE WS-MSTINPUT-C     TO WS-MSTINPUT-CNT.
+           MOVE WS-TRAINPUT-C     TO WS-TRAINPUT-CNT.
+           MOVE WS-MSTOUTPT-C     TO WS-MSTOUTPT-CNT.
+           MOVE WS-ARCHFILE-C     TO WS-ARCHFILE-CNT.
+           MOVE WS-ERRFILE-C      TO WS-ERRFILE-CNT.
+           MOVE WS-MONPAYO-C      TO WS-MONPAYO-CNT.
+           MOVE WS-SETLILE-C      TO WS-SETLILE-CNT.
+           DISPLAY WS-MSTINPUT-I.
+           DISPLAY WS-TRAINPUT-I.
+           DISPLAY WS-MSTOUTPT-O.
+           DISPLAY WS-ARCHFILE-O.
+           DISPLAY WS-ERRFILE-O.
+           DISPLAY WS-MONPAYO-O.
+           DISPLAY WS-SETLILE-O.
+           CLOSE   MSTINPUT MSTOUTPT
+                   TRAINPUT ARCHFILE
+                   ERRFILE MONPAYO
+                   SETLILE PARINPUT.
+      *
+       9000-END-EXT.
+           EXIT.
+      ******************************************************************
+       9999-ERR                    SECTION.
+      *
+           DISPLAY '9999-ERR'
+           MOVE WS-MSTINPUT-C     TO WS-MSTINPUT-CNT.
+           MOVE WS-TRAINPUT-C     TO WS-TRAINPUT-CNT.
+           MOVE WS-MSTOUTPT-C     TO WS-MSTOUTPT-CNT.
+           MOVE WS-ARCHFILE-C     TO WS-ARCHFILE-CNT.
+           MOVE WS-ERRFILE-C      TO WS-ERRFILE-CNT.
+           MOVE WS-MONPAYO-C      TO WS-MONPAYO-CNT.
+           MOVE WS-SETLILE-C      TO WS-SETLILE-CNT.
+           DISPLAY WS-MSTINPUT-I.
+           DISPLAY WS-TRAINPUT-I.
+           DISPLAY WS-MSTOUTPT-O.
+           DISPLAY WS-ARCHFILE-O.
+           DISPLAY WS-ERRFILE-O.
+           DISPLAY WS-MONPAYO-O.
+           DISPLAY WS-SETLILE-O.
+           DISPLAY WS-ERR.
+           CLOSE   MSTINPUT MSTOUTPT
+                   TRAINPUT ARCHFILE
+                   ERRFILE MONPAYO
+                   SETLILE PARINPUT.
+           STOP RUN.
+      *
+       9999-ERR-EXT.
+           EXIT.
+

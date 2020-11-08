@@ -1,0 +1,27 @@
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      EXAM207.
+       ENVIRONMENT      DIVISION.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       77   M  PICTURE IS  9(4).
+       77   I  PICTURE  IS  9.
+       77   AMOUNT  PICTURE  IS 9(5).
+       PROCEDURE        DIVISION.
+           ACCEPT       M.
+           DIVIDE  50  INTO  M  GIVING  I.
+           ADD   1  TO  I.
+           GO TO  A, B, C, D, E  DEPENDING  I.
+       A.  COMPUTE  AMOUNT = 10 * M.
+           GO TO  F.
+       B.  COMPUTE  AMOUNT = 9 * M.
+           GO TO  F.
+       C.  COMPUTE  AMOUNT = 8 * M.
+           GO TO  F.
+       D.  COMPUTE  AMOUNT = 7 * M.
+           GO TO  F.
+       E.  COMPUTE  AMOUNT = 6 * M.
+           GO TO  F.
+       F.  DISPLAY  'M=', M.
+           DISPLAY  'AMOUNT=',  AMOUNT.
+           STOP RUN.
+

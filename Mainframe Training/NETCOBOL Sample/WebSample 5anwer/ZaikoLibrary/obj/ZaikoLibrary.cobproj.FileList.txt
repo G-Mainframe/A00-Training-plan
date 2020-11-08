@@ -1,0 +1,5 @@
+bin\Debug\ZaikoLibrary.dll
+bin\Debug\ZaikoLibrary.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\ZaikoLibrary.dll
+obj\Debug\ZaikoLibrary.pdb

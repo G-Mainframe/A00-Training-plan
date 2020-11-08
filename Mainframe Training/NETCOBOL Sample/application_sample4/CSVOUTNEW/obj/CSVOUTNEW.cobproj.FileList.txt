@@ -1,0 +1,12 @@
+bin\Debug\CSVOUTNEW.exe
+bin\Debug\CSVOUTNEW.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\CSVOUTNEW.Form1.resources
+obj\Debug\CSVOUTNEW.cobproj.GenerateResource.Cache
+obj\Debug\CSVOUTNEW.exe
+obj\Debug\CSVOUTNEW.pdb
+bin\Release\CSVOUTNEW.exe
+obj\Release\ResolveAssemblyReference.cache
+obj\Release\CSVOUTNEW.Form1.resources
+obj\Release\CSVOUTNEW.cobproj.GenerateResource.Cache
+obj\Release\CSVOUTNEW.exe

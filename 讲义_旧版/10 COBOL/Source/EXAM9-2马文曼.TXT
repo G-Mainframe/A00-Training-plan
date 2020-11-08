@@ -1,0 +1,29 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.     EX92.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT      SECTION.
+       FILE-CONTROL.
+              SELECT INPUT-FILE ASSIGN TO FILE1.
+       DATA DIVISION.
+       FILE               SECTION.
+       FD  INPUT-FILE LABEL RECORD IS STANDARD
+              RECORDING MODE IS F.
+       01 WORKER-REC.
+       02 WORKER-TABLE OCCURS 50 TIMES INDEXED BY N.
+       04 NUMB PIC 9(4).
+       04 NAME PIC X(20).
+       04 AGE PIC 9(3).
+       04 PAY PIC 9(3).
+       PROCEDURE DIVISION.
+           OPEN INPUT INPUT-FILE.
+       RE. READ INPUT-FILE AT END GO TO JOB-LINE.
+       RE1. SET N TO 1.
+           SEARCH WORKER-TABLE
+           AT END DISPLAY 'CANNOT FIND NAME'
+           WHEN NAME (N) = 'ZHANG SHENG'
+           DISPLAY  NAME (N), PAY (N).
+           GO TO RE.
+       JOB-LINE.
+           CLOSE INPUT-FILE.
+           STOP RUN.
+

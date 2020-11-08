@@ -1,0 +1,36 @@
+ /*                                                            */
+ /*       THIS IS A DEMO PROGRAM FOR                           */
+ /*    1. DEMO BUILTIN.                                        */
+ /*    2. GET FILE                                             */
+ /*    3. DECLARE FILE. AND OPEN IN SUB PROGRAM.               */
+ /*                                                            */
+ /*                                                            */
+ /*                                                            */
+ /*                                                            */
+ SAMP1: PROC OPTIONS(MAIN);
+
+  DCL (A1, B1, C1) DEC(7,2);
+  B1= 49;
+  A1= SQRT(B1);
+  PUT SKIP LIST ('A1 = ', A1);
+  PUT SKIP LIST ('B1 = ', B1);
+
+  DCL RATE FLOAT (10),
+           TIME FLOAT(5),
+           DISTANCE FLOAT(15),
+           MASTER FILE;
+  DCL READCM   EXT ENTRY;
+  CALL READCM (RATE, TIME, DISTANCE, MASTER);
+
+  PUT SKIP LIST(' BACK FROM READCM ');
+  PUT SKIP LIST(RATE);
+  PUT SKIP LIST(TIME);
+  PUT SKIP LIST(DISTANCE);
+ /*  PUT SKIP LIST(MASTER); */
+ END SAMP1;
+
+
+
+
+
+

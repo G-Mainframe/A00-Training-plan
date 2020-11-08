@@ -1,0 +1,51 @@
+CREATE TABLE SWP_CORTMP
+(
+    JOBTYP                         CHAR(1) NOT NULL,
+    REGDAY                         CHAR(8) NOT NULL,
+    REGTIM                         CHAR(6) NOT NULL,
+    CTLNUM                         CHAR(4) NOT NULL,
+    BNKCOD                         CHAR(4),
+    BRCCOD                         CHAR(3),
+    BNKNAM                         VARCHAR2(50),
+    CONDAY                         CHAR(8),
+    CCYCOD                         CHAR(3),
+    CNTCAP                         NUMBER(13,0),
+    BALCAP                         NUMBER(13,0),
+    COLAMT                         NUMBER(13,0),
+    COLLST                         NUMBER(13,0),
+    COLCNT                         NUMBER(3,0),
+    RCVRAT                         NUMBER(8,6),
+    PAYRAT                         NUMBER(8,6),
+    MARGIN                         NUMBER(8,6),
+    INTBGN                         CHAR(8),
+    DUEDAY                         CHAR(8),
+    BNKCOD_O                       CHAR(4),
+    BRCCOD_O                       CHAR(3),
+    CONDAY_O                       CHAR(8),
+    CCYCOD_O                       CHAR(3),
+    CNTCAP_O                       NUMBER(13,0),
+    COLAMT_O                       NUMBER(13,0),
+    COLLST_O                       NUMBER(13,0),
+    RCVRAT_O                       NUMBER(8,6),
+    PAYRAT_O                       NUMBER(8,6),
+    MARGIN_O                       NUMBER(8,6),
+    INTBGN_O                       CHAR(8),
+    DUEDAY_O                       CHAR(8),
+    BNKCOD_M                       CHAR(1),
+    BRCCOD_M                       CHAR(1),
+    CONDAY_M                       CHAR(1),
+    CCYCOD_M                       CHAR(1),
+    CNTCAP_M                       CHAR(1),
+    COLAMT_M                       CHAR(1),
+    COLLST_M                       CHAR(1),
+    RCVRAT_M                       CHAR(1),
+    PAYRAT_M                       CHAR(1),
+    MARGIN_M                       CHAR(1),
+    INTBGN_M                       CHAR(1),
+    DUEDAY_M                       CHAR(1)
+)
+/
+CREATE UNIQUE INDEX SWP_CORTMP
+ON SWP_CORTMP
+(REGDAY, REGTIM, JOBTYP)
+/

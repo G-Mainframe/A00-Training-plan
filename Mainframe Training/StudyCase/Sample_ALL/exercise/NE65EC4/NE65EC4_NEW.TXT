@@ -1,0 +1,681 @@
+ NE65EC4:/* MTS MASTER UPDATE                   *IBM INTERNAL USE ONLY*/00010000
+    PROC(PARM) OPTIONS(MAIN);                                           00020000
+ /* ----------------------------------------------------------------- */00030000
+ /* **    SECURITY CLASS      : IBM INTERNAL USE ONLY              ** */00040000
+ /* **    PROJECT NO.         : NE65                               ** */00050000
+ /* **    PROJECT NAME        : PCS CUBE                           ** */00060000
+ /* **    MODULE GROUP NAME   :                                    ** */00070000
+ /* **    PROGRAM NO.         : NE65EC4                            ** */00080000
+ /* **    PROGRAM NAME        : NE65EC4                            ** */00090000
+ /* **    PROGRAM DESCRIPTION : MTS MASTER UPDATE PROCESS          ** */00100000
+ /* **                        :                                    ** */00110000
+ /* **                        :                                    ** */00120000
+ /* **    PROGRAMMER          : PAN JIE                            ** */00130000
+ /* **    CODED      DATE     : 2005/12/22                         ** */00140000
+ /* **    UPDATE     DATE     :                                    ** */00150000
+ /*----------------- FUNCTION NARRATIVE ------------------------------*/00160000
+ /*   NARRATIVE DESCRIPTION OF FUNCTION                               */00170000
+ /*                                                                   */00180000
+ /*----------------- INPUT FILE DESCRIPTION --------------------------*/00190000
+ /*   (DDNAME)    (PLINCLE)        (FILE DESCRIPTION)                 */00200000
+ /*    FINP1       NE65XMTS         MTS TXN DATA                      */00210000
+ /*    FINP2       NE65TMTS         MTS MASTER(YESTERDAY)             */00220000
+ /*----------------- UPDATE FILE DESCRIPTION -------------------------*/00230000
+ /*   (DDNAME)    (PLINCLE)        (FILE DESCRIPTION)                 */00240000
+ /*    NONE                                                           */00250000
+ /*----------------- OUTPUT FILE DESCRIPTION -------------------------*/00260000
+ /*   (DDNAME)    (CRDNAME)        (FILE DESCRIPTION)                 */00270000
+ /*    FOUT1       NE65TMTS         MTS MASTER(TODAY)                 */00280000
+ /*    FOUT2       NE65HMTS         MTS HISTRORY                      */00290000
+ /*    FASCA       NE65TASC         ASCA FILE                         */00300000
+ /*----------------- CALLING MODULE INFORMATION ----------------------*/00310000
+ /*   (MODULE)                     (MODULE DESCRIPTION)               */00320000
+ /*----------------- PARAMETER/COMMON AREA DCL -----------------------*/00330000
+ /*   (PTR/LABEL) (CRDNAME)        (DESCRIPTION)                      */00340000
+ /*   PARM                     &TY&TM&TD(EXAMPLE '40201'=04/02/01)    */00350000
+ /*                                                                   */00360000
+ /*----------------- EXIT --------------------------------------------*/00370000
+ /*   EXIT NORMAL  :                                                  */00380000
+ /*   (NORMAL CONDITION)           (EXIT(LABEL))                      */00390000
+ /*   EXIT ERROR   :                                                  */00400000
+ /*   (ERROR CONDITION)(ERROR CODE)(EXIT(LABEL))                      */00410000
+ /*----------------- CHANGE ACTIVITY ---------------------------------*/00420000
+ /*   (SEARCH KEY) (PROGRAMMER)    (DATE)   (DESCRIPTION)             */00430000
+ /*-------------------------------------------------------------------*/00432000
+                                                                        00433000
+1/* DCP DECLARE */                                                      00434000
+      %INCLUDE DCPENV ;                              /*               */00435000
+      DCPCXCB(FINP1C,FINP1) ;                        /*               */00436000
+      DCPCXCB(FINP2C,FINP2) ;                        /*               */00437000
+      DCPCXCB(FOUT1C,FOUT1) ;                        /*               */00438000
+      DCPCXCB(FOUT2C,FOUT2) ;                        /*               */00439000
+      DCPCXCB(FASCAC,FASCA) ;                        /*               */00440000
+                                                     /*               */00450000
+1DCL                                                 /*               */00460000
+      FINP1    FILE RECORD INPUT,                    /*               */00470000
+      FINP2    FILE RECORD INPUT,                    /*               */00480000
+      FOUT1    FILE RECORD OUTPUT,                   /*               */00490000
+      FOUT2    FILE RECORD OUTPUT,                   /*               */00500000
+      FASCA    FILE RECORD OUTPUT,                   /*               */00510000
+      SYSPRINT FILE OUTPUT PRINT;                    /*               */00520000
+ DCL                                                 /*               */00530000
+     1 IN_FINP1         STATIC,                      /*               */00540000
+ %INCLUDE (NE65XMTS);                                /*               */00550000
+ DCL                                                 /*               */00560000
+     1 IN_FINP2         STATIC,                      /*               */00570000
+ %INCLUDE (NE65TMTS);                                /*               */00580000
+ DCL                                                 /*               */00590000
+     1 OUT_FOUT1        STATIC,                      /*               */00600000
+ %INCLUDE (NE65TMTS);                                /*               */00610000
+ DCL                                                 /*               */00620000
+     1 OUT_FOUT2        STATIC,                      /*               */00630000
+ %INCLUDE (NE65HMTS);                                /*               */00640000
+ DCL                                                 /*               */00650000
+     1 OUT_FASCA        STATIC,                      /*               */00660000
+ %INCLUDE (NE65TASC);                                /*               */00670000
+ /*----------------- KEY AREA ----------------------------------------*/00680000
+ DCL 1 KEY_FINP1        CHAR(16) INIT('') ;          /*               */00690000
+ DCL 1 KEY_FINP2        CHAR(16) INIT('') ;          /*               */00700000
+ /*----------------- WK  AREA ----------------------------------------*/00710000
+ DCL PARM           CHAR(80) VAR ;                   /*               */00720000
+ DCL WK_PARM            CHAR(8),                     /*               */00730000
+     WK_PARM_TY         CHAR(1)       DEF WK_PARM POS(1) ,              00740000
+     WK_PARM_TM         CHAR(2)       DEF WK_PARM POS(2) ,              00750000
+     WK_PARM_TD         CHAR(2)       DEF WK_PARM POS(4) ,              00760000
+     WK_PARM_DAYS       PIC'999'      DEF WK_PARM POS(6) ;              00770000
+ DCL WK_PARM_DAYS_DEC   FIXED (5,0) INIT(0);         /*               */00780000
+ DCL WK_DATE_YYYY       CHAR(4) ,                    /*               */00790000
+     WK_DATE_TY         CHAR(1)   DEF WK_DATE_YYYY POS(4) ,             00800000
+     WK_DATE_TY2        CHAR(3)   DEF WK_DATE_YYYY POS(1) ,             00810000
+     WK_DATE_YYYY_9     PIC'9999' DEF WK_DATE_YYYY        ;             00820000
+ DCL WK_SYMBOLIC        CHAR(10) ;                   /*               */00830000
+ DCL WK_RUNDATE         CHAR(26) INIT('');           /*               */00840000
+                                                     /*               */00850000
+ DCL WK_CHK_1BYTE   CHAR(01) INIT('') ;              /*               */00860000
+ DCL WK_CHK_FLG     CHAR(01) INIT('') ;          /* S:SET,C:CLEAR     */00870000
+ /*----------------- CONST AREA --------------------------------------*/00880000
+ DCL CLEAR_DATE     CHAR(10) INIT('0001-01-01');     /*               */00890000
+ /*----------------- BUILTIN FUNCTION & SUBROUTINE--------------------*/00900000
+ DCL                                                 /*               */00910000
+      HIGH              BUILTIN,                     /*               */00920000
+      SUBSTR            BUILTIN,                     /*               */00930000
+      DATETIME          BUILTIN,                     /*               */00940000
+      MOD               BUILTIN,                     /*               */00950000
+      PLIDUMP           BUILTIN,                     /*               */00960000
+      STRING            BUILTIN;                     /*               */00970000
+ /*----------------- SWITCH & COUNTER --------------------------------*/00980000
+ DCL                                                 /*               */00990000
+      1 SWITCH          STATIC,                      /*               */01000000
+        2 (                                          /*               */01010000
+           FINP1_EOF,                                /*               */01020000
+           FINP2_EOF                                 /*               */01030000
+           )            BIT(1)    INIT('0'B);        /*               */01040000
+ DCL                                                 /*               */01050000
+      1 COUNT           STATIC,                      /*               */01060000
+        2 (                                          /*               */01070000
+           COUNT_INPUT_FINP1,                        /*               */01080000
+           COUNT_INPUT_FINP2,                        /*               */01090000
+           COUNT_OUTPUT_FOUT1,                       /*               */01100000
+           COUNT_OUTPUT_FOUT2,                       /*               */01110000
+           COUNT_OUTPUT_ASCA,                        /*               */01120000
+           COUNT_TRAN_ONLY,                          /*               */01130000
+           COUNT_MATCH,                              /*               */01140000
+           COUNT_MAST_ONLY,                          /*               */01150000
+           COUNT_TRXCD_A,                            /*               */01160000
+           COUNT_TRXCD_U,                            /*               */01170000
+           COUNT_TRXCD_D                             /*               */01180000
+           )            FIXED BIN(31,0) INIT(0);     /*               */01190000
+                                                     /*               */01200000
+ /*-------------------------------------------------------------------*/01210000
+ /* %INCLUDE SYSLIB2(SMONERR1) BLOCK                                  */01220000
+ /*-------------------------------------------------------------------*/01230000
+    %INCLUDE SYSLIB2(SMONERR1);                      /*               */01240000
+ /*-------------------------------------------------------------------*/01250000
+ /* ON END CONDITION                                                  */01260000
+ /*-------------------------------------------------------------------*/01270000
+   ON ENDFILE(FINP1 )  BEGIN;                        /*               */01280000
+      FINP1_EOF = '1'B;                              /*               */01290000
+      KEY_FINP1 = HIGH(16) ;                         /*               */01300000
+    END;                                             /*               */01310000
+    ON ENDFILE(FINP2 )  BEGIN;                       /*               */01320000
+      FINP2_EOF = '1'B;                              /*               */01330000
+      KEY_FINP2 = HIGH(16) ;                         /*               */01340000
+    END;                                             /*               */01350000
+                                                     /*               */01360000
+1/*-------------------------------------------------------------------*/01370000
+ /*         MAIN                                                      */01380000
+ /*-------------------------------------------------------------------*/01390000
+    CALL INIT_RTN;                                   /*               */01400000
+    CALL READ_FINP1 ;                                /*               */01410000
+    CALL READ_FINP2 ;                                /*               */01420000
+                                                     /*               */01430000
+    DO WHILE(FINP1_EOF = '0'B | FINP2_EOF = '0'B) ;  /*               */01440000
+      OUT_FOUT1 = '';                                /*               */01450000
+      OUT_FOUT2 = '';                                /*               */01460000
+      SELECT ;                                       /*               */01470000
+        WHEN(KEY_FINP1 > KEY_FINP2) DO ;             /*               */01480000
+          COUNT_TRAN_ONLY = COUNT_TRAN_ONLY + 1 ;    /*               */01490000
+                                                     /*               */01500000
+          CALL MASTER_YESTER_EDIT;                   /*               */01510000
+          CALL CWRITE(FOUT1C,OUT_FOUT1);             /*               */01520000
+          COUNT_OUTPUT_FOUT1  =  COUNT_OUTPUT_FOUT1 + 1 ;               01530000
+                                                     /*               */01540000
+          CALL READ_FINP2 ;                          /*               */01550000
+        END;                                         /*               */01560000
+        WHEN(KEY_FINP1 = KEY_FINP2) DO ;             /*               */01570000
+          COUNT_MATCH = COUNT_MATCH + 1 ;            /*               */01580000
+                                                     /*               */01590000
+            SELECT ;                                 /*               */01600000
+              WHEN(IN_FINP1.TRXCD = 'U') DO;         /*               */01610000
+                COUNT_TRXCD_U       =  COUNT_TRXCD_U + 1;               01620000
+                CALL MASTER_EDIT_UPDATE1;            /*               */01632015
+                CALL HISTORY_EDIT1;                  /*               */01632115
+                CALL CWRITE(FOUT1C,OUT_FOUT1) ;      /*               */01650000
+                COUNT_OUTPUT_FOUT1  =  COUNT_OUTPUT_FOUT1 + 1 ;         01660000
+                                                     /*               */01670000
+                CALL CWRITE(FOUT2C,OUT_FOUT2) ;      /*               */01690000
+                COUNT_OUTPUT_FOUT2  =  COUNT_OUTPUT_FOUT2 + 1 ;         01700000
+              END;                                   /*               */01710000
+                                                     /*               */01720000
+              WHEN(IN_FINP1.TRXCD = 'D') DO;         /*               */01730000
+                COUNT_TRXCD_D       =  COUNT_TRXCD_D + 1;               01740000
+                                                     /*               */01750000
+                CALL HISTORY_EDIT;                   /*               */01760000
+                CALL CWRITE(FOUT2C,OUT_FOUT2) ;      /*               */01770000
+                COUNT_OUTPUT_FOUT2  =  COUNT_OUTPUT_FOUT2 + 1 ;         01780000
+              END;                                   /*               */01790000
+              OTHERWISE;                             /*               */01800000
+            END;/* SELECT END */                                        01810000
+                                                     /*               */01820000
+          CALL READ_FINP1 ;                          /*               */01830000
+          CALL READ_FINP2 ;                          /*               */01840000
+        END;                                         /*               */01850000
+        WHEN(KEY_FINP1 < KEY_FINP2) DO ;             /*               */01860000
+          COUNT_MAST_ONLY = COUNT_MAST_ONLY + 1 ;    /*               */01870000
+                                                     /*               */01880000
+          IF IN_FINP1.TRXCD = 'A'                    /*               */01890000
+          THEN DO;                                   /*               */01900000
+            COUNT_TRXCD_A       =  COUNT_TRXCD_A + 1 ;                  01910000
+                                                     /*               */01920000
+            CALL MASTER_EDIT_ADD;                    /*               */01930000
+            CALL CWRITE(FOUT1C,OUT_FOUT1) ;          /*               */01940000
+            COUNT_OUTPUT_FOUT1  =  COUNT_OUTPUT_FOUT1 + 1 ;             01950000
+          END;                                       /*               */01960000
+                                                     /*               */01970000
+          CALL READ_FINP1 ;                          /*               */01980000
+        END;                                         /*               */01990000
+      END; /* SELECT END */                                             02000000
+    END; /* DO WHILE END */                                             02010000
+1/*-------------------------------------------------------------------*/02020000
+ /*         INIT ROUTINE                                              */02030000
+ /*-------------------------------------------------------------------*/02040000
+ INIT_RTN: PROC ;                                    /*               */02050000
+    CALL OPENCX(FINP1C,'IN')  ;                      /*               */02060000
+    CALL OPENCX(FINP2C,'IN')  ;                      /*               */02070000
+    CALL OPENCX(FOUT1C,'OUT') ;                      /*               */02080000
+    CALL OPENCX(FOUT2C,'OUT') ;                      /*               */02090000
+    CALL OPENCX(FASCAC,'OUT') ;                      /*               */02100000
+                                                     /*               */02110000
+   WK_PARM      = STRING(PARM) ;                     /*               */02120000
+   WK_DATE_YYYY = SUBSTR(DATETIME,1,4) ;             /*               */02130000
+                                                     /*               */02140000
+   IF WK_PARM_TY = WK_DATE_TY                        /*               */02150000
+   THEN DO;                                          /*               */02160000
+     SUBSTR(WK_SYMBOLIC,1,4) = WK_DATE_YYYY;         /*               */02170000
+     SUBSTR(WK_SYMBOLIC,5,1) = '-';                  /*               */02180000
+     SUBSTR(WK_SYMBOLIC,6,2) = WK_PARM_TM;           /*               */02190000
+     SUBSTR(WK_SYMBOLIC,8,1) = '-';                  /*               */02200000
+     SUBSTR(WK_SYMBOLIC,9,2) = WK_PARM_TD;           /*               */02210000
+   END;                                              /*               */02220000
+   ELSE DO;                                          /*               */02230000
+     WK_DATE_YYYY_9 = WK_DATE_YYYY_9 - 1 ;           /*               */02240000
+     SUBSTR(WK_SYMBOLIC,1,4) = WK_DATE_TY2||WK_PARM_TY;                 02250000
+     SUBSTR(WK_SYMBOLIC,5,1) = '-';                  /*               */02260000
+     SUBSTR(WK_SYMBOLIC,6,2) = WK_PARM_TM;           /*               */02270000
+     SUBSTR(WK_SYMBOLIC,8,1) = '-';                  /*               */02280000
+     SUBSTR(WK_SYMBOLIC,9,2) = WK_PARM_TD;           /*               */02290000
+   END ;                                             /*               */02300000
+                                                     /*               */02310000
+   WK_RUNDATE  =  SUBSTR(DATETIME, 1,4) || '-' ||    /*               */02320000
+                  SUBSTR(DATETIME, 5,2) || '-' ||    /*               */02330000
+                  SUBSTR(DATETIME, 7,2) || '-' ||    /*               */02340000
+                  SUBSTR(DATETIME, 9,2) || '.' ||    /*               */02350000
+                  SUBSTR(DATETIME,11,2) || '.' ||    /*               */02360000
+                  SUBSTR(DATETIME,13,2) || '.' ||    /*               */02370000
+                  SUBSTR(DATETIME,15,3) ;            /*               */02380000
+   PUT DATA(WK_RUNDATE) ;                            /*               */02390000
+                                                     /*               */02400000
+ END INIT_RTN ;                                      /*               */02410000
+                                                     /*               */02420000
+1/*-------------------------------------------------------------------*/02430000
+ /*         READ_FINP1 ROUTINE                                        */02440000
+ /*-------------------------------------------------------------------*/02450000
+ READ_FINP1:PROC;                                    /*               */02460000
+    CALL READX(FINP1C,IN_FINP1,RETCD1) ;             /*               */02470000
+    IF RETCD1='EOF'                                  /*               */02480000
+      THEN SIGNAL ENDFILE(FINP1) ;                   /*               */02490000
+    ELSE DO;                                         /*               */02500000
+      KEY_FINP1 = IN_FINP1.CMAXA                     /*               */02510000
+               || IN_FINP1.CMMXA                     /*               */02520000
+               || IN_FINP1.RMAXA ;                   /*               */02530000
+      COUNT_INPUT_FINP1 = COUNT_INPUT_FINP1 + 1 ;    /*               */02540000
+    END;                                             /*               */02550000
+ END READ_FINP1;                                     /*               */02560000
+1/*-------------------------------------------------------------------*/02570000
+ /*         READ_FINP2 ROUTINE                                        */02580000
+ /*-------------------------------------------------------------------*/02590000
+ READ_FINP2:PROC;                                    /*               */02600000
+    CALL READX(FINP2C,IN_FINP2,RETCD2) ;             /*               */02610000
+    IF RETCD2='EOF'                                  /*               */02620000
+      THEN SIGNAL ENDFILE(FINP2) ;                   /*               */02630000
+    ELSE DO;                                         /*               */02640000
+      KEY_FINP2 = IN_FINP2.CMAXA                     /*               */02650000
+               || IN_FINP2.CMMXA                     /*               */02660000
+               || IN_FINP2.RMAXA ;                   /*               */02670000
+      COUNT_INPUT_FINP2 = COUNT_INPUT_FINP2 + 1 ;    /*               */02680000
+    END;                                             /*               */02690000
+ END READ_FINP2;                                     /*               */02700000
+1/*-------------------------------------------------------------------*/02710000
+ /*         MTS  MASTER  EDIT (YESTERDAY) ROUTINE                     */02720000
+ /*-------------------------------------------------------------------*/02730000
+ MASTER_YESTER_EDIT : PROC;                          /*               */02740000
+                                                  /* EDIT MASTER ITEM */02750000
+    OUT_FOUT1       = ''                            ;/*               */02760000
+    OUT_FOUT1.CMAXA = IN_FINP2.CMAXA                ;/*               */02770000
+    OUT_FOUT1.CMMXA = IN_FINP2.CMMXA                ;/*               */02780000
+    OUT_FOUT1.RMAXA = IN_FINP2.RMAXA                ;/*               */02790000
+    OUT_FOUT1.TPEOP = IN_FINP2.TPEOP                ;/*               */02800008
+    OUT_FOUT1.MTSCM = IN_FINP2.MTSCM                ;/*               */02810000
+    OUT_FOUT1.WSDTL = IN_FINP2.WSDTL                ;/*               */02820000
+    OUT_FOUT1.WEDTL = IN_FINP2.WEDTL                ;/*               */02830000
+    OUT_FOUT1.WTSDF = IN_FINP2.WTSDF                ;/*               */02840000
+    OUT_FOUT1.SVPNO = IN_FINP2.SVPNO                ;/*               */02850000
+    OUT_FOUT1.SSTDT = IN_FINP2.SSTDT                ;/*               */02860000
+    OUT_FOUT1.SEDDT = IN_FINP2.SEDDT                ;/*               */02870000
+    OUT_FOUT1.SWSDF = IN_FINP2.SWSDF                ;/*               */02880000
+    OUT_FOUT1.SEQNO = IN_FINP2.SEQNO                ;/*               */02890000
+    OUT_FOUT1.CREDT = IN_FINP2.CREDT                ;/*               */02900000
+    OUT_FOUT1.LTUDT = IN_FINP2.LTUDT                ;/*               */02910000
+    OUT_FOUT1.CREID = IN_FINP2.CREID                ;/*               */02920000
+    OUT_FOUT1.LTUID = IN_FINP2.LTUID                ;/*               */02930000
+    OUT_FOUT1.RPJBL = IN_FINP2.RPJBL                ;/*               */02940000
+                                                     /*               */02950000
+ END MASTER_YESTER_EDIT ;                            /*               */02960000
+1/*-------------------------------------------------------------------*/02970000
+ /*         MTS  MASTER  EDIT(UPDATE) ROUTINE                         */02980000
+ /*-------------------------------------------------------------------*/02990000
+ MASTER_EDIT_UPDATE1 : PROC;                         /*               */03000011
+                                                  /* EDIT MASTER ITEM */03010000
+    OUT_FOUT1       = ''                            ;/*               */03020000
+    OUT_FOUT1.CMAXA = IN_FINP1.CMAXA                ;/*               */03030000
+    OUT_FOUT1.CMMXA = IN_FINP1.CMMXA                ;/*               */03040000
+    OUT_FOUT1.RMAXA = IN_FINP1.RMAXA                ;/*               */03050000
+                                                     /*               */03060000
+    OUT_FOUT1.TPEOP = IN_FINP2.TPEOP                ;/*               */03070011
+                                                     /*               */03080011
+    OUT_FOUT1.MTSCM = IN_FINP1.MTSCM                ;/*               */03200011
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.MTSCM,1,1)    ;/*               */03210000
+    CALL FIELD_CHK                                  ;/*               */03220000
+    SELECT(WK_CHK_FLG);                              /*               */03230000
+      WHEN('S') DO;                                  /*               */03240000
+        OUT_FOUT1.MTSCM = IN_FINP2.MTSCM            ;/*               */03250000
+      END;                                           /*               */03260000
+      WHEN('C') DO;                                  /*               */03270000
+        OUT_FOUT1.MTSCM = ''                        ;/*               */03280000
+      END;                                           /*               */03290000
+      OTHER;                                         /*               */03300000
+    END;/* SELECT END*/                                                 03310000
+                                                     /*               */03320000
+    OUT_FOUT1.WSDTL = IN_FINP1.WSDTL                ;/*               */03330000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.WSDTL,1,1)    ;/*               */03340000
+    CALL FIELD_CHK                                  ;/*               */03350000
+    SELECT(WK_CHK_FLG);                              /*               */03360000
+      WHEN('S') DO;                                  /*               */03370000
+        OUT_FOUT1.WSDTL = IN_FINP2.WSDTL            ;/*               */03380000
+      END;                                           /*               */03390000
+      WHEN('C') DO;                                  /*               */03400000
+        OUT_FOUT1.WSDTL = CLEAR_DATE                ;/*               */03410000
+      END;                                           /*               */03420000
+      OTHER;                                         /*               */03430000
+    END;/* SELECT END*/                                                 03440000
+                                                     /*               */03450000
+                                                  /* FIELD CHECK START*/03460000
+    OUT_FOUT1.WEDTL = IN_FINP1.WEDTL                ;/*               */03470000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.WEDTL,1,1)    ;/*               */03480000
+    CALL FIELD_CHK                                  ;/*               */03490000
+    SELECT(WK_CHK_FLG);                              /*               */03500000
+      WHEN('S') DO;                                  /*               */03510000
+        OUT_FOUT1.WEDTL = IN_FINP2.WEDTL            ;/*               */03520000
+      END;                                           /*               */03530000
+      WHEN('C') DO;                                  /*               */03540000
+        OUT_FOUT1.WEDTL = CLEAR_DATE               ; /*               */03550000
+      END;                                           /*               */03560000
+      OTHER;                                         /*               */03570000
+    END;/* SELECT END*/                                                 03580000
+                                                     /*               */03590000
+    OUT_FOUT1.WTSDF = IN_FINP1.WTSDF                ;/*               */03600000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.WTSDF,1,1)    ;/*               */03610000
+    CALL FIELD_CHK                                  ;/*               */03620000
+    SELECT(WK_CHK_FLG);                              /*               */03630000
+      WHEN('S') DO;                                  /*               */03640000
+        OUT_FOUT1.WTSDF = IN_FINP2.WTSDF            ;/*               */03650000
+      END;                                           /*               */03660000
+      WHEN('C') DO;                                  /*               */03670000
+        OUT_FOUT1.WTSDF = ''                        ;/*               */03680000
+      END;                                           /*               */03690000
+      OTHER;                                         /*               */03700000
+    END;/* SELECT END*/                                                 03710000
+                                                     /*               */03720000
+    OUT_FOUT1.SVPNO = IN_FINP1.SVPNO                ;/*               */03730000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.SVPNO,1,1)    ;/*               */03740000
+    CALL FIELD_CHK                                  ;/*               */03750000
+    SELECT(WK_CHK_FLG);                              /*               */03760000
+      WHEN('S') DO;                                  /*               */03770000
+        OUT_FOUT1.SVPNO = IN_FINP2.SVPNO            ;/*               */03780000
+      END;                                           /*               */03790000
+      WHEN('C') DO;                                  /*               */03800000
+        OUT_FOUT1.SVPNO = ''                        ;/*               */03810000
+      END;                                           /*               */03820000
+      OTHER;                                         /*               */03830000
+    END;/* SELECT END*/                                                 03840000
+                                                     /*               */03850000
+    OUT_FOUT1.SSTDT = IN_FINP1.SSTDT                ;/*               */03860000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.SSTDT,1,1)    ;/*               */03870000
+    CALL FIELD_CHK                                  ;/*               */03880000
+    SELECT(WK_CHK_FLG);                              /*               */03890000
+      WHEN('S') DO;                                  /*               */03900000
+        OUT_FOUT1.SSTDT = IN_FINP2.SSTDT            ;/*               */03910000
+      END;                                           /*               */03920000
+      WHEN('C') DO;                                  /*               */03930000
+        OUT_FOUT1.SSTDT = CLEAR_DATE                ;/*               */03940000
+      END;                                           /*               */03950000
+      OTHER;                                         /*               */03960000
+    END;/* SELECT END*/                                                 03970000
+                                                     /*               */03980000
+    OUT_FOUT1.SEDDT = IN_FINP1.SEDDT                ;/*               */03990000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.SEDDT,1,1)    ;/*               */04000000
+    CALL FIELD_CHK                                  ;/*               */04010000
+    SELECT(WK_CHK_FLG);                              /*               */04020000
+      WHEN('S') DO;                                  /*               */04030000
+        OUT_FOUT1.SEDDT = IN_FINP2.SEDDT            ;/*               */04040000
+      END;                                           /*               */04050000
+      WHEN('C') DO;                                  /*               */04060000
+        OUT_FOUT1.SEDDT =  CLEAR_DATE               ;/*               */04070000
+      END;                                           /*               */04080000
+       OTHER;                                        /*               */04090000
+    END;/* SELECT END*/                                                 04100000
+                                                     /*               */04110000
+    OUT_FOUT1.SWSDF = IN_FINP1.SWSDF                ;/*               */04120000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.SWSDF,1,1)    ;/*               */04130000
+    CALL FIELD_CHK                                  ;/*               */04140000
+    SELECT(WK_CHK_FLG);                              /*               */04150000
+      WHEN('S') DO;                                  /*               */04160000
+        OUT_FOUT1.SWSDF = IN_FINP2.SWSDF            ;/*               */04170000
+      END;                                           /*               */04180000
+      WHEN('C') DO;                                  /*               */04190000
+        OUT_FOUT1.SWSDF = ''                        ;/*               */04200000
+      END;                                           /*               */04210000
+      OTHER;                                         /*               */04220000
+    END;/* SELECT END*/                                                 04230000
+                                                     /*               */04240000
+                                                  /* FIELD CHECK END  */04250000
+    OUT_FOUT1.SEQNO = IN_FINP1.SEQNO                ;/*               */04260000
+    OUT_FOUT1.CREDT = IN_FINP1.CREDT                ;/*               */04270000
+    OUT_FOUT1.LTUDT = WK_RUNDATE                    ;/*               */04280014
+    OUT_FOUT1.CREID = IN_FINP1.CREID                ;/*               */04290000
+    OUT_FOUT1.LTUID = IN_FINP1.LTUID                ;/*               */04300000
+    OUT_FOUT1.RPJBL = IN_FINP1.RPJBL                ;/*               */04310000
+                                                     /*               */04320000
+                                                     /*               */04330000
+ END MASTER_EDIT_UPDATE1 ;                           /*               */04340011
+1/*-------------------------------------------------------------------*/04360900
+ /*         MTS  MASTER  EDIT(ADD) ROUTINE                            */04361000
+ /*-------------------------------------------------------------------*/04370000
+ MASTER_EDIT_ADD : PROC;                             /*               */04380000
+                                                  /* EDIT MASTER ITEM */04390000
+    OUT_FOUT1       = ''                            ;/*               */04400000
+    OUT_FOUT1.CMAXA = IN_FINP1.CMAXA                ;/*               */04410000
+    OUT_FOUT1.CMMXA = IN_FINP1.CMMXA                ;/*               */04420000
+    OUT_FOUT1.RMAXA = IN_FINP1.RMAXA                ;/*               */04430000
+                                                     /*               */04440000
+                                                  /* FIELD CHECK START*/04450000
+                                                  /* FILED CLEAR IF   */04460000
+                                                  /* '','#','@        */04470000
+    OUT_FOUT1.TPEOP = IN_FINP1.TPEOP                ;/*               */04480000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.TPEOP,1,1)    ;/*               */04490000
+    CALL FIELD_CHK                                  ;/*               */04500000
+    IF ( WK_CHK_FLG ý= '')                           /*               */04510000
+    THEN DO;                                         /*               */04520000
+        OUT_FOUT1.TPEOP = ''                       ; /*               */04530000
+    END;                                             /*               */04540000
+                                                     /*               */04550000
+    OUT_FOUT1.MTSCM = IN_FINP1.MTSCM                ;/*               */04560000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.MTSCM,1,1)    ;/*               */04570000
+    CALL FIELD_CHK                                  ;/*               */04580000
+    IF ( WK_CHK_FLG ý= '')                           /*               */04590000
+    THEN DO;                                         /*               */04600000
+        OUT_FOUT1.MTSCM = ''                       ; /*               */04610000
+    END;                                             /*               */04620000
+                                                     /*               */04630000
+    OUT_FOUT1.WSDTL = IN_FINP1.WSDTL                ;/*               */04640000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.WSDTL,1,1)    ;/*               */04650000
+    CALL FIELD_CHK                                  ;/*               */04660000
+    IF ( WK_CHK_FLG ý= '')                           /*               */04670000
+    THEN DO;                                         /*               */04680000
+        OUT_FOUT1.WSDTL = CLEAR_DATE                ;/*               */04690000
+    END;                                             /*               */04700000
+                                                     /*               */04710000
+    OUT_FOUT1.WEDTL = IN_FINP1.WEDTL                ;/*               */04720000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.WEDTL,1,1)    ;/*               */04730000
+    CALL FIELD_CHK                                  ;/*               */04740000
+    IF ( WK_CHK_FLG ý= '')                           /*               */04750000
+    THEN DO;                                         /*               */04760000
+        OUT_FOUT1.WEDTL = CLEAR_DATE               ; /*               */04770000
+    END;                                             /*               */04780000
+                                                     /*               */04790000
+    OUT_FOUT1.WTSDF = IN_FINP1.WTSDF                ;/*               */04800000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.WTSDF,1,1)    ;/*               */04810000
+    CALL FIELD_CHK                                  ;/*               */04820000
+    IF ( WK_CHK_FLG ý= '')                           /*               */04830000
+    THEN DO;                                         /*               */04840000
+        OUT_FOUT1.WTSDF = ''                        ;/*               */04850000
+    END;                                             /*               */04860000
+                                                     /*               */04870000
+    OUT_FOUT1.SVPNO = IN_FINP1.SVPNO                ;/*               */04880000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.SVPNO,1,1)    ;/*               */04890000
+    CALL FIELD_CHK                                  ;/*               */04900000
+    IF ( WK_CHK_FLG ý= '')                           /*               */04910000
+    THEN DO;                                         /*               */04920000
+        OUT_FOUT1.SVPNO = ''                        ;/*               */04930000
+    END;                                             /*               */04940000
+                                                     /*               */04950000
+    OUT_FOUT1.SSTDT = IN_FINP1.SSTDT                ;/*               */04960000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.SSTDT,1,1)    ;/*               */04970000
+    CALL FIELD_CHK                                  ;/*               */04980000
+    IF ( WK_CHK_FLG ý= '')                           /*               */04990000
+    THEN DO;                                         /*               */05000000
+        OUT_FOUT1.SSTDT = CLEAR_DATE                ;/*               */05010000
+    END;                                             /*               */05020000
+                                                     /*               */05030000
+    OUT_FOUT1.SEDDT = IN_FINP1.SEDDT                ;/*               */05040000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.SEDDT,1,1)    ;/*               */05050000
+    CALL FIELD_CHK                                  ;/*               */05060000
+    IF ( WK_CHK_FLG ý= '')                           /*               */05070000
+    THEN DO;                                         /*               */05080000
+        OUT_FOUT1.SEDDT =  CLEAR_DATE               ;/*               */05090000
+    END;                                             /*               */05100000
+                                                     /*               */05110000
+    OUT_FOUT1.SWSDF = IN_FINP1.SWSDF                ;/*               */05120000
+    WK_CHK_1BYTE    = SUBSTR(IN_FINP1.SWSDF,1,1)    ;/*               */05130000
+    CALL FIELD_CHK                                  ;/*               */05140000
+    IF ( WK_CHK_FLG ý= '')                           /*               */05150000
+    THEN DO;                                         /*               */05160000
+        OUT_FOUT1.SWSDF = ''                        ;/*               */05170000
+    END;                                             /*               */05180000
+                                                     /*               */05190000
+                                                  /* FIELD CHECK END  */05200000
+    OUT_FOUT1.SEQNO = IN_FINP1.SEQNO                ;/*               */05210000
+    OUT_FOUT1.CREDT = IN_FINP1.CREDT                ;/*               */05220000
+    OUT_FOUT1.LTUDT = WK_RUNDATE                    ;/*               */05230000
+    OUT_FOUT1.CREID = IN_FINP1.CREID                ;/*               */05240000
+    OUT_FOUT1.LTUID = IN_FINP1.LTUID                ;/*               */05250000
+    OUT_FOUT1.RPJBL = IN_FINP1.RPJBL                ;/*               */05260000
+                                                     /*               */05270000
+                                                     /*               */05280000
+ END MASTER_EDIT_ADD ;                               /*               */05290000
+1/*-------------------------------------------------------------------*/05300000
+ /*         MTS  HISTORY EDIT ROUTINE                                 */05310000
+ /*-------------------------------------------------------------------*/05320000
+ HISTORY_EDIT : PROC;                                /*               */05330000
+                                                     /*               */05340000
+    OUT_FOUT2       = ''                            ;/*               */05350000
+    OUT_FOUT2.CMAXA = IN_FINP2.CMAXA                ;/*               */05360000
+    OUT_FOUT2.CMMXA = IN_FINP2.CMMXA                ;/*               */05370000
+    OUT_FOUT2.RMAXA = IN_FINP2.RMAXA                ;/*               */05380000
+    OUT_FOUT2.TPEOP = IN_FINP2.TPEOP                ;/*               */05383009
+    OUT_FOUT2.MTSCM = IN_FINP2.MTSCM                ;/*               */05400000
+    OUT_FOUT2.WSDTL = IN_FINP2.WSDTL                ;/*               */05410000
+    OUT_FOUT2.WEDTL = IN_FINP2.WEDTL                ;/*               */05420000
+    OUT_FOUT2.WTSDF = IN_FINP2.WTSDF                ;/*               */05430000
+    OUT_FOUT2.SVPNO = IN_FINP2.SVPNO                ;/*               */05440000
+    OUT_FOUT2.SSTDT = IN_FINP2.SSTDT                ;/*               */05450000
+    OUT_FOUT2.SEDDT = IN_FINP2.SEDDT                ;/*               */05460000
+    OUT_FOUT2.SWSDF = IN_FINP2.SWSDF                ;/*               */05470000
+    OUT_FOUT2.SEQNO = IN_FINP2.SEQNO                ;/*               */05480000
+    OUT_FOUT2.CREDT = IN_FINP2.CREDT                ;/*               */05490000
+    OUT_FOUT2.LTUDT = IN_FINP2.LTUDT                ;/*               */05500000
+    OUT_FOUT2.CREID = IN_FINP2.CREID                ;/*               */05510000
+    OUT_FOUT2.LTUID = IN_FINP2.LTUID                ;/*               */05520000
+    OUT_FOUT2.RPJBL = IN_FINP2.RPJBL                ;/*               */05530000
+    OUT_FOUT2.OPEDT = IN_FINP1.CREDT                ;/*               */05540000
+    OUT_FOUT2.OPUID = IN_FINP1.CREID                ;/*               */05550000
+    OUT_FOUT2.OPTYP = IN_FINP1.TRXCD                ;/*               */05560000
+                                                     /*               */05570000
+ END HISTORY_EDIT ;                                  /*               */05580000
+1/*-------------------------------------------------------------------*/05581011
+ /*         MTS  HISTORY EDIT ROUTINE                                 */05582011
+ /*-------------------------------------------------------------------*/05583011
+ HISTORY_EDIT1 : PROC;                               /*               */05584011
+                                                     /*               */05585011
+    OUT_FOUT2       = ''                            ;/*               */05586011
+    OUT_FOUT2.CMAXA = IN_FINP2.CMAXA                ;/*               */05587011
+    OUT_FOUT2.CMMXA = IN_FINP2.CMMXA                ;/*               */05588011
+    OUT_FOUT2.RMAXA = IN_FINP2.RMAXA                ;/*               */05589011
+    OUT_FOUT2.TPEOP = IN_FINP1.TPEOP                ;/*               */05589111
+    OUT_FOUT2.MTSCM = IN_FINP2.MTSCM                ;/*               */05589211
+    OUT_FOUT2.WSDTL = IN_FINP2.WSDTL                ;/*               */05589311
+    OUT_FOUT2.WEDTL = IN_FINP2.WEDTL                ;/*               */05589411
+    OUT_FOUT2.WTSDF = IN_FINP2.WTSDF                ;/*               */05589511
+    OUT_FOUT2.SVPNO = IN_FINP2.SVPNO                ;/*               */05589611
+    OUT_FOUT2.SSTDT = IN_FINP2.SSTDT                ;/*               */05589711
+    OUT_FOUT2.SEDDT = IN_FINP2.SEDDT                ;/*               */05589811
+    OUT_FOUT2.SWSDF = IN_FINP2.SWSDF                ;/*               */05589911
+    OUT_FOUT2.SEQNO = IN_FINP2.SEQNO                ;/*               */05590011
+    OUT_FOUT2.CREDT = IN_FINP2.CREDT                ;/*               */05590111
+    OUT_FOUT2.LTUDT = IN_FINP2.LTUDT                ;/*               */05590211
+    OUT_FOUT2.CREID = IN_FINP2.CREID                ;/*               */05590311
+    OUT_FOUT2.LTUID = IN_FINP2.LTUID                ;/*               */05590411
+    OUT_FOUT2.RPJBL = IN_FINP2.RPJBL                ;/*               */05590511
+    OUT_FOUT2.OPEDT = IN_FINP2.CREDT                ;/*               */05590611
+    OUT_FOUT2.OPUID = IN_FINP2.CREID                ;/*               */05590711
+    OUT_FOUT2.OPTYP = 'U'                           ;/*               */05590811
+                                                     /*               */05590911
+ END HISTORY_EDIT1 ;                                 /*               */05591011
+1/*-------------------------------------------------------------------*/05594000
+ /*         FIELD CHECK ROUTINE                                       */05600000
+ /*-------------------------------------------------------------------*/05610000
+ FIELD_CHK : PROC;                                   /*               */05620000
+                                                     /*               */05630000
+    WK_CHK_FLG = '' ;                                /*               */05640000
+    IF (WK_CHK_1BYTE  = '' |  WK_CHK_1BYTE = '#')    /*               */05650000
+    THEN DO;                                         /*               */05660000
+       WK_CHK_FLG = 'S';                             /*               */05670000
+    END;                                             /*               */05680000
+    ELSE DO;                                         /*               */05690000
+      IF (WK_CHK_1BYTE = '@')                        /*               */05700000
+      THEN DO;                                       /*               */05710000
+       WK_CHK_FLG = 'C';                             /*               */05720000
+      END;                                           /*               */05730000
+    END;                                             /*               */05740000
+                                                     /*               */05750000
+ END FIELD_CHK ;                                     /*               */05760000
+1/*-------------------------------------------------------------------*/05770000
+ /*         ASCA FILE EDIT & WRITE                                    */05780000
+ /*-------------------------------------------------------------------*/05790000
+ ASCA_WRITE : PROC;                                  /*               */05800000
+                                                     /*               */05810000
+    OUT_FASCA       = ''                       ;     /*               */05820000
+                                                     /*               */05830000
+    OUT_FASCA.CFLBL = 'PCS4'                   ;     /*               */05840000
+    OUT_FASCA.DRXAS = WK_SYMBOLIC              ;     /*               */05850000
+    OUT_FASCA.TLCLS = 'MTS'                    ;     /*               */05860000
+    OUT_FASCA.USEQN = '5E'                     ;     /*               */05870000
+    OUT_FASCA.IOCLS = ' '                      ;     /*               */05880000
+    OUT_FASCA.UPKBM = 'A'                      ;     /*               */05890000
+    OUT_FASCA.TFLAD = '(O)    * ADD          ' ;     /*               */05900000
+    OUT_FASCA.QUBBM = COUNT_TRXCD_A            ;     /*               */05910000
+    CALL CWRITE(FASCAC,OUT_FASCA) ;                  /*               */05920000
+    COUNT_OUTPUT_ASCA  =  COUNT_OUTPUT_ASCA + 1 ;    /*               */05930000
+                                                     /*               */05940000
+    OUT_FASCA.USEQN = '5F'                     ;     /*               */05950000
+    OUT_FASCA.IOCLS = ' '                      ;     /*               */05960000
+    OUT_FASCA.UPKBM = 'U'                      ;     /*               */05970000
+    OUT_FASCA.TFLAD = '(P)    * UPDATE       ' ;     /*               */05980000
+    OUT_FASCA.QUBBM = COUNT_TRXCD_U            ;     /*               */05990000
+    CALL CWRITE(FASCAC,OUT_FASCA) ;                  /*               */06000000
+    COUNT_OUTPUT_ASCA  =  COUNT_OUTPUT_ASCA + 1 ;    /*               */06010000
+                                                     /*               */06020000
+    OUT_FASCA.USEQN = '5G'                     ;     /*               */06030000
+    OUT_FASCA.IOCLS = ' '                      ;     /*               */06040000
+    OUT_FASCA.UPKBM = 'D'                      ;     /*               */06050000
+    OUT_FASCA.TFLAD = '(Q)    * DELETE       ' ;     /*               */06060000
+    OUT_FASCA.QUBBM = COUNT_TRXCD_D            ;     /*               */06070000
+    CALL CWRITE(FASCAC,OUT_FASCA) ;                  /*               */06080000
+    COUNT_OUTPUT_ASCA  =  COUNT_OUTPUT_ASCA + 1 ;    /*               */06090000
+                                                     /*               */06100000
+    OUT_FASCA.USEQN = '5H'                     ;     /*               */06110000
+    OUT_FASCA.IOCLS = ' '                      ;     /*               */06120000
+    OUT_FASCA.UPKBM = '*'                      ;     /*               */06130000
+    OUT_FASCA.TFLAD = '(R)    * NO EXIST     ' ;     /*               */06140000
+    OUT_FASCA.QUBBM = 0                        ;     /*               */06150000
+    CALL CWRITE(FASCAC,OUT_FASCA) ;                  /*               */06160000
+    COUNT_OUTPUT_ASCA  =  COUNT_OUTPUT_ASCA + 1 ;    /*               */06170000
+                                                     /*               */06180000
+ END ASCA_WRITE ;                                    /*               */06190000
+1/*-------------------------------------------------------------------*/06200000
+ /*         ENDING                                                    */06210000
+ /*-------------------------------------------------------------------*/06220000
+                                                     /*               */06230000
+    CALL ASCA_WRITE ;                                /*               */06240000
+                                                     /*               */06250000
+    CALL CLOSECX(FINP1C) ;                           /*               */06260000
+    CALL CLOSECX(FINP2C) ;                           /*               */06270000
+    CALL CLOSECX(FOUT1C) ;                           /*               */06280000
+    CALL CLOSECX(FOUT2C) ;                           /*               */06290000
+    CALL CLOSECX(FASCAC) ;                           /*               */06300000
+                                                     /*               */06310000
+1/*-------------------------------------------------------------------*/06320000
+ /*         END OF JOB PROCESS                                        */06330000
+ /*-------------------------------------------------------------------*/06340000
+    %INCLUDE SYSLIB2(SMHEAD3);                       /*               */06350000
+    PUT LIST('** PGM=NE65EC4  COUNT LIST *******************') SKIP(3); 06360007
+    PUT LIST('MTS TXT   INPUT  RECORD  =',COUNT_INPUT_FINP1 ) SKIP(1);  06370000
+    PUT LIST('MTS MAST  INPUT  RECORD  =',COUNT_INPUT_FINP2 ) SKIP(1);  06380000
+    PUT LIST('MTS MAST  OUTPUT RECORD  =',COUNT_OUTPUT_FOUT1) SKIP(1);  06390000
+    PUT LIST('HISTORY   OUTPUT RECORD  =',COUNT_OUTPUT_FOUT2) SKIP(1);  06400000
+    PUT LIST(' TRXCD = A       RECORD  =',COUNT_TRXCD_A     ) SKIP(1);  06410000
+    PUT LIST(' TRXCD = U       RECORD  =',COUNT_TRXCD_U     ) SKIP(1);  06420000
+    PUT LIST(' TRXCD = D       RECORD  =',COUNT_TRXCD_D     ) SKIP(1);  06430000
+    PUT LIST('ASCA      OUTPUT RECORD  =',COUNT_OUTPUT_ASCA ) SKIP(1);  06440000
+    %INCLUDE SYSLIB2(SMCTIME1) ;                     /*               */06450000
+    %INCLUDE SYSLIB2(SMCHECK5);                                         06460000
+    %XTWOWAY=3;                                                         06470000
+    SMEND7(END);                                                        06480000
+                                                                        06490000
+ END NE65EC4;   /* PROGRAM END */                                       06500007
+ /*-------------------------------------------------------------------*/06510000
+ /*         +==============+                                          */06520000
+ /*         | END NE65EC4 |                                           */06530007
+ /*         +==============+                                          */06540000
+ /*-------------------------------------------------------------------*/06550000
+

@@ -1,0 +1,25 @@
+\MAC ;                                                                    
+        \COMM ** 児童扶養手当認定請求者一覧プリント処理 **;               
+                                                                          
+        \SENDO MSG='************************************************';    
+        \SENDO MSG='* 児童扶養手当認定請求者一覧プリント処理 START *';    
+        \SENDO MSG='************************************************';    
+                                                                          
+        \REPORT LEVEL=JOB;                                                
+                                                                          
+        \DCV    UCDATE1 ,CHAR ,LEN=7 ;                                    
+        \DCV    UCDATE2 ,CHAR ,LEN=7 ;                                    
+                                                                          
+        \EXEC  JFU1001;                                                   
+                                                                          
+        \EXEC  JFU1051;                                                   
+                                                                          
+        \EXEC  JFU1101;                                                   
+                                                                          
+        \EXEC  JFU1151;                                                   
+        \DEALLOC FILE=JFUSNTDS,MEDIA=NS12 ;                               
+        \DEALLOC FILE=JFU1001,MEDIA=NS12 ;                                
+                                                                          
+        \SENDO MSG='************************************************';    
+        \SENDO MSG='* 児童扶養手当認定請求者一覧プリント処理  END  *';    
+        \SENDO MSG='************************************************';    

@@ -1,0 +1,17 @@
+//LBDLVSM  JOB    (ACCT#),                              
+//         'DELVSAM',                                   
+//         CLASS=S,                                     
+//         MSGLEVEL=(1,1),                              
+//         MSGCLASS=S,                                  
+//         NOTIFY=&SYSUID                               
+//*                                                     
+//DELVSAM  EXEC PGM=IDCAMS                              
+//DD1      DD   VOL=SER=TSTCC2,UNIT=3390,DISP=OLD       
+//SYSPRINT DD   SYSOUT=*                                
+//SYSIN    DD   *                                       
+     DELETE -                                           
+           DVLPDA.VKDSMF.VK      -                      
+           FILE(DD1)             -                      
+          PURGE                 -                       
+          ERASE                                         
+/*                                                      

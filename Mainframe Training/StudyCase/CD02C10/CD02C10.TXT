@@ -1,0 +1,242 @@
+1/* CD02C10 : MACHINE STATUS REFORMAT           IBM INTERNAL USE ONLY */00000100
+0CD02C10: PROC(PARM)  OPTIONS(MAIN);                                    00000200
+ /* ----------------------------------------------------------------- */
+ /*       SECURITY CLASS      --- IBM INTERNAL USE ONLY               */
+ /*       PROJECT NAME        --- ATLAS APNORTH SUPPORT               */
+ /*       PROJECT NO.         --- CG48                                */
+ /*       MODULE GROUP NAME   ---                                     */
+ /*       MODULE NAME         --- CD02C10                             */
+ /*       PROGRAM DESCRIPTION --- MACHINE STATUS REFORMAT             */
+ /*       PROGRAMMER NAME     --- MSS                                 */
+ /*       WRITTEN DATE        --- 98/10/19                            */
+ /*       REVISED DATE        --- YY/MM/DD                            */
+ /*        - COMPACTION TAIOU --- 99/11/10                          L1*/
+ /* ----------------------------------------------------------------- */
+1/*-------------------------------------------------------------------*/00003900
+ /*           FILE DECLARE                                            */00004000
+ /*-------------------------------------------------------------------*/00004100
+ %INCLUDE DCPENV  ;                               /*                L1*/
+                                                  /* DCP INPUT FILE   */
+ DCPCXCB(INF1C,INF1) ;                            /*                L1*/
+ DCPCXCB(INF2C,INF2) ;                            /*                L1*/
+ DCPCXCB(OUTF1C,OUTF1) ;                          /*                L1*/
+
+ DCL INF1          FILE RECORD INPUT;            /* RCMS CALL DATA    */00004800
+ DCL INF2          FILE RECORD INPUT;            /* TM VS MS TBL      */00004900
+ DCL OUTF1         FILE RECORD OUTPUT;           /* REFORMAT FILE     */00005000
+ DCL SYSPRINT      STREAM OUTPUT;                /* SYSPRINT          */00005400
+1/*-------------------------------------------------------------------*/00005500
+ /*           INPUT AREA(RCMS CALL DATA )                             */00005600
+ /*-------------------------------------------------------------------*/00005700
+ DCL 1 IN_CDAT,                                                         00005800
+       %INCLUDE CD02BASE;                                               00005900
+1/*-------------------------------------------------------------------*/00006000
+ /*           INPUT AREA(TYPE OF MAINT VS MACHINE STATUS TABLE)       */00006100
+ /*-------------------------------------------------------------------*/00006200
+ DCL 1 IN_MS,                                                           00005800
+       %INCLUDE CD03A7;                                                 00005900
+1/*-------------------------------------------------------------------*/00006000
+ /*           OUTPUT AREA(MACHINE STATUS REFORMAT FILE)               */00006100
+ /*-------------------------------------------------------------------*/00006200
+ DCL 1 OUT_CDAT,                                                        00005800
+       %INCLUDE CD03A6;                                                 00005900
+1/*-------------------------------------------------------------------*/00008900
+ /*           WORK AREA                                               */00009000
+ /*-------------------------------------------------------------------*/00009100
+                                                  /*                  */00009600
+ DCL 1 COUNT         STATIC,                      /* COUNTER          */
+       3 CNT_CDAT       FIXED BIN(31,0) INIT(0),  /* INPUT CALL DATA  */
+       3 CNT_MS         FIXED BIN(31,0) INIT(0),  /* INPUT PI TABLE   */
+       3 CNT_OUTF1      FIXED BIN(31,0) INIT(0),  /* OUTPUT  FILE     */
+       3 TBL_CNT_MS     FIXED BIN(15)   INIT(0);  /* TABLE BY MS      */00009400
+
+ DCL  PARM             CHAR(100) VAR;
+ DCL  PARM_COUNTRY_NO  CHAR(3)  INIT('');
+                                                  /*                  */00009600
+1/*-------------------------------------------------------------------*/00013600
+ /*           TABLE INCORE AREA(TYPE OF MAINT VS MACHINE STATUS TABLE)*/00013700
+ /*-------------------------------------------------------------------*/00013800
+ DCL 1 MS_TBL(*)        CTL,                     /*                   */00013900
+       3 TPMAINT         CHAR(01),               /* TYPE OF MAINT     */00014200
+       3 MACHST          CHAR(01);               /* MACHINE STATUS    */00014200
+                                                 /*                   */00017600
+1/*-------------------------------------------------------------------*/00017700
+ /*           TABLE KEY AREA                                          */00017800
+ /*-------------------------------------------------------------------*/00017900
+                                                 /*                   */00018000
+ DCL FD       FIXED BIN(15) INIT(0);             /* TABLE ANSWER WORK */00018300
+                                                 /*                   */00018400
+ DCL  KEY_TPMAINT   CHAR(01) INIT('');           /* MS TBL'S KEY      */00018500
+                                                 /*                   */00019000
+ /*-------------------------------------------------------------------*/00019100
+ /*           END OF FILE SWITCH  &  FOUND/NOT FOUND SW               */00019200
+ /*-------------------------------------------------------------------*/00019300
+ DCL SW_EOF_CDAT        BIT(1) INIT('0'B) STATIC;                       00019400
+ DCL SW_EOF_MS          BIT(1) INIT('0'B) STATIC;                       00019600
+ DCL SW_FD_MS           BIT(1) INIT('0'B) STATIC;                       00019600
+ /*-------------------------------------------------------------------*/00019800
+ /*           BUILTIN FUNCTION                                        */00019900
+ /*-------------------------------------------------------------------*/00020000
+ DCL INTSRT             ENTRY,                                          00020100
+     BSRCH              ENTRY,                                          00020200
+     SUBSTR             BUILTIN,                                        00020500
+     DATETIME           BUILTIN,                                        00020500
+     PLIDUMP            BUILTIN;                                        00020600
+1/*-------------------------------------------------------------------*/00020800
+ /*           ON CONDITION                                            */00020900
+ /*-------------------------------------------------------------------*/00021000
+ ON ENDFILE(INF1)                                                       00021100
+    BEGIN;                                                              00021200
+       SW_EOF_CDAT = '1'B;                                              00021400
+    END;                                                                00021500
+
+ ON ENDFILE(INF2)                                                       00021600
+    BEGIN;                                                              00021700
+       SW_EOF_MS = '1'B;                                                00021900
+    END;                                                                00022000
+
+1/*-------------------------------------------------------------------*/00023100
+ /*           %INCLUDE SYSLIB2(SMONERR1)                              */00023200
+ /*-------------------------------------------------------------------*/00023300
+ %INCLUDE SYSLIB2(SMONERR1);                                            00023400
+1/*-------------------------------------------------------------------*/00023500
+ /*           OPEN                                                    */00023600
+ /*-------------------------------------------------------------------*/00023700
+                                                 /* OPEN              */00023800
+     CALL OPENCX(INF1C,'IN');                    /*                 L1*/
+     CALL OPENCX(INF2C,'IN');                    /*                 L1*/
+     CALL OPENCX(OUTF1C,'OUT');                  /*                 L1*/
+                                                 /*                   */00025280
+ /*-------------------------------------------------------------------*/00025300
+ /*                                                                   */00025400
+ /*-------------------------------------------------------------------*/00025500
+                                                 /*                   */00025600
+ CALL READ_INF2;                                 /* READ MS TBL     L1*/00025800
+                                                 /*                   */00026400
+ DO WHILE (SW_EOF_MS = '0'B);                    /* DO LOOP           */00026500
+   TBL_CNT_MS = TBL_CNT_MS + 1;                  /* MS TBL COUNT      */00026600
+   CALL READ_INF2;                               /* READ MS TBL     L1*/00025800
+ END;                                            /*                   */00027400
+                                                 /*                   */00027500
+ CALL CLOSECX(INF2C,'IN');                       /* CLOSE MS TBL    L1*/00027600
+                                                 /*                   */00027800
+ CALL OPENCX(INF2C,'IN');                        /* OPEN MS TBL       */00027900
+                                                 /*                   */00028100
+ IF TBL_CNT_MS = 0                               /* IF TBL_CNT = 0    */00028200
+ THEN                                            /*                   */00028300
+   ALLOC MS_TBL(1);                              /* ALLOC MS TBL(1)   */00028400
+ ELSE                                            /*                   */00028600
+   ALLOC MS_TBL(TBL_CNT_MS);                     /* ALLOC MS TBL      */00028700
+                                                 /*                   */00028900
+ SW_EOF_MS  = '0'B;                              /* CLEAR SW_EOF_MS   */00029100
+ CNT_MS     = 0;                                 /* CLEAR CNT_MS      */00029200
+ TBL_CNT_MS = 0;                                 /* CLEAR TBL_CNT_MS  */00029200
+
+ CALL READ_INF2;                                 /* READ MS TBL       */00025800
+
+ DO WHILE (SW_EOF_MS = '0'B);                    /* DO LOOP           */00030000
+   TBL_CNT_MS = TBL_CNT_MS + 1;                  /* COUNT MS TBL      */
+                                                 /*                   */
+   MS_TBL.TPMAINT(TBL_CNT_MS) = IN_MS.TPMAINT;
+   MS_TBL.MACHST(TBL_CNT_MS)  = IN_MS.MACHST;
+                                                 /*                   */00032400
+   CALL READ_INF2;                               /* READ MS TBL       */00025800
+ END;                                            /*                   */00033200
+                                                 /*                   */00033300
+ IF TBL_CNT_MS > 1                               /* IF MS TBL EXIST   */
+ THEN
+   CALL INTSRT(MS_TBL,MS_TBL.TPMAINT,TBL_CNT_MS); /* SORT KEY         */00033400
+                                                 /* TYPE  OF MAINT    */00033500
+ /*-------------------------------------------------------------------*/00088700
+ /*           MAIN PROCESS                                            */00088800
+ /*-------------------------------------------------------------------*/00088900
+                                                 /*                   */00089000
+ PARM_COUNTRY_NO = PARM;
+ CALL READ_INF1;                                 /* READ CDAT FILE    */00089200
+                                                 /*                   */00089600
+ DO WHILE (SW_EOF_CDAT = '0'B);                  /* DO LOOP           */00089700
+   CALL TBL_SERCH;                               /* MS TBL SERCH      */
+   CALL READ_INF1;                               /* READ CDAT FILE    */00091500
+ END;                                            /*                   */00091600
+                                                 /* CLOSE             */00092500
+ CALL CLOSECX(INF1C,'IN');                       /*                 L1*/
+ CALL CLOSECX(INF2C,'IN');                       /*                 L1*/
+ CALL CLOSECX(OUTF1C,'OUT');                     /*                 L1*/
+                                                 /*                   */00093300
+1/*-------------------------------------------------------------------*/00104500
+ /*   CALL DATA RECORD READ PROCESS                                   */00104600
+ /*-------------------------------------------------------------------*/00104700
+ READ_INF1: PROC;                                                       00104800
+                                                 /*                   */00105600
+   CALL READX(INF1C,IN_CDAT,RETCD1);             /* READ REC        L1*/00025800
+   IF RETCD1 = 'EOF'                             /* IF AT END       L1*/
+     THEN  SIGNAL ENDFILE(INF1);                 /*                 L1*/
+     ELSE  CNT_CDAT = CNT_CDAT + 1;              /* COUNT INPUT       */00026200
+                                                 /*                   */00110400
+ END READ_INF1;                                                         00110500
+1/*-------------------------------------------------------------------*/00104500
+ /*   TYPE OF MAINT VS MACHINE STATUS RECORD READ PROCESS             */00104600
+ /*-------------------------------------------------------------------*/00104700
+ READ_INF2: PROC;                                                       00104800
+                                                 /*                   */00105600
+   CALL READX(INF2C,IN_MS,RETCD2);               /* READ REC        L1*/00025800
+   IF RETCD2 = 'EOF'                             /* IF AT END       L1*/
+     THEN  SIGNAL ENDFILE(INF2);                 /*                 L1*/
+     ELSE  CNT_MS = CNT_MS + 1;                  /* COUNT INPUT       */00026200
+                                                 /*                   */00110400
+ END READ_INF2;                                                         00110500
+ /*-------------------------------------------------------------------*/00104700
+ /*     MS  TABLE   SERCH PROCESS                                     */00093500
+ /*-------------------------------------------------------------------*/00093600
+ TBL_SERCH: PROC;                                                       00093700
+                                                 /*                   */
+   IF TBL_CNT_MS > 0                             /* MS TBL EXIST      */
+   THEN DO;                                      /*                   */
+     FD = 0;                                     /* FOUND CLEAR       */
+     KEY_TPMAINT = IN_CDAT.EDQCH0S.SEDQCMD.CHSISTM;
+                                                 /* KEY SET TPMAINT   */
+     CALL BSRCH(KEY_TPMAINT,MS_TBL.TPMAINT,TBL_CNT_MS,FD);
+                                                 /* SERCH MS TABLE    */
+     OUT_CDAT = '';                              /* OUT AREA CLEAR    */
+     IF FD  = 0                                  /* IF ANSWER         */
+       THEN DO;                                  /* FOUND             */
+         CALL  OUT_SET;                          /* IN => OUT         */
+ /*      SUBSTR(OUT_CDAT.MACHST,1,1) = MS_TBL.MACHST(FD);             */
+         OUT_CDAT.MACHST = '0' || MS_TBL.MACHST(FD); /* CHG 99/02/02*/
+       END;                                    /* TPMAINT => MACHST */
+       ELSE                                    /* TBL  NOT FOUND    */
+         CALL  OUT_SET;                          /* IN => OUT         */
+
+     CALL CWRITE(OUTF1C,OUT_CDAT);               /* OUT FILE WRITE  L1*/
+     CNT_OUTF1    =   CNT_OUTF1    +   1;        /* OUT FILE COUNT    */
+   END;                                          /*                   */00104200
+   ELSE;                                         /* TBL  NOT EXIST    */
+
+ END TBL_SERCH;                                  /*                   */00104300
+ /*-------------------------------------------------------------------*/00104700
+ /*       OUT  SET    PROCESS                                         */00093500
+ /*-------------------------------------------------------------------*/00093600
+ OUT_SET  : PROC;                                                       00093700
+     OUT_CDAT.CTRYNUMB  =  PARM_COUNTRY_NO;
+     OUT_CDAT.CALLNUM   =  IN_CDAT.EDQCL0S.SEDQK52.IFLTRCM;
+     OUT_CDAT.MACHTYPE  =  IN_CDAT.EDQCH0S.IHSITOS.CSLMTYP;
+     OUT_CDAT.MACHSER   =  SUBSTR(IN_CDAT.EDQCH0S.IHSINBR,3,5);
+     OUT_CDAT.MACHORG   =  IN_CDAT.EDQCH0S.IOLCPLM;
+     OUT_CDAT.CUSTNUM   =  SUBSTR(IN_CDAT.EDQCH0S.SEDQK03.ICUSHWU,2,7);
+ END OUT_SET ;                                   /* INPUT => OUTPUT   */
+1/* ***************************************************************** */
+ /* PROGRAM END BLOCK                                                 */
+ /* ***************************************************************** */
+0   %INCLUDE SYSLIB2(SMHEAD3);
+    XDESC = 'CD02C10 : MACHINE STATUS REFORMAT';
+    XPGMR = 'MSS';
+    %INCLUDE SYSLIB2(SMCTIME1);
+    %INCLUDE SYSLIB2(SMCHECK5);
+    SMCOUNT4(
+ CNT_CDAT,
+ CNT_MS,
+ CNT_OUTF1,END);
+    %XTWOWAY=3;
+    SMEND7(END);
+0END CD02C10;
+

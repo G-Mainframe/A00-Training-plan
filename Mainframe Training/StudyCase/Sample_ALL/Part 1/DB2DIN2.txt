@@ -1,0 +1,358 @@
+ IDENTIFICATION DIVISION.
+*
+ PROGRAM-ID.    DB2DIN2.
+*
+ ENVIRONMENT DIVISION.
+*
+ DATA DIVISION.
+*
+ FILE SECTION.
+*
+ WORKING-STORAGE SECTION.
+*
+ 01  SWITCHES.
+*
+     05  VALID-DATA-SW               PIC X   VALUE 'Y'.
+         88  VALID-DATA                      VALUE 'Y'.
+     05  END-OF-CUSTOMERS-SW         PIC X   VALUE 'N'.
+         88  END-OF-CUSTOMERS                VALUE 'Y'.
+     05  CLEAR-CUSTOMER-ROWS-SW      PIC X   VALUE 'N'.
+         88  CLEAR-CUSTOMER-ROWS             VALUE 'Y'.
+*
+ 01  COMMUNICATION-AREA.
+*
+     05  CA-STATE-CODE               PIC XX.
+     05  CA-TS-RECORD-COUNT          PIC S9(4)  COMP.
+     05  CA-FIRST-RECORD-ON-DISPLAY  PIC S9(4)  COMP.
+*
+ 01  RESPONSE-CODE                   PIC S9(8)  COMP.
+*
+ 01  TEMPORARY-STORAGE-FIELDS.
+*
+     05  TS-QUEUE-NAME.
+         10  TS-TERMINAL-ID          PIC X(4).
+         10  FILLER                  PIC X(4) VALUE 'DIN2'.
+     05  TS-ITEM-NUMBER              PIC S9(4) COMP VALUE ZERO.
+     05  TS-CUSTOMER-ROW.
+         10  TS-CUSTNO               PIC X(6).
+         10  TS-CNAME                PIC X(34).
+         10  TS-CITY                 PIC X(20).
+*
+ 01  POSITION-MESSAGE.
+*
+     05  FILLER                      PIC X(6) VALUE 'Lines '.
+     05  PM-START                    PIC ZZZ9.
+     05  FILLER                      PIC X(4) VALUE ' to '.
+     05  PM-END                      PIC ZZZ9.
+     05  FILLER                      PIC X(4) VALUE ' of '.
+     05  PM-TOTAL                    PIC ZZZ9.
+*
+ 01  WORK-FIELDS.
+*
+     05  TOP-ROW-PLUS-13             PIC S9(4) COMP.
+     05  STATE-MAP-ROW               PIC S9(4) COMP.
+*
+ 01  CUSTOMER-ROW.
+*
+     05  CUSTNO                      PIC X(6).
+     05  CNAME                       PIC X(34).
+     05  CITY                        PIC X(20).
+*
+     EXEC SQL
+         INCLUDE SQLCA
+     END-EXEC.
+*
+ COPY DINSET2.
+*
+ COPY DFHAID.
+*
+     EXEC SQL
+         DECLARE CUST CURSOR FOR
+             SELECT CUSTNO,
+                 (LNAME || ', ' ||
+                  SUBSTR(FNAME,1,1) || '.'),
+                  CITY
+                FROM MM01.CUSTOMER
+                WHERE STATE = SIM-D-STATE
+             ORDER BY 2
+     END-EXEC.
+*
+ LINKAGE SECTION.
+*
+ 01  DFHCOMMAREA                 PIC X(6).
+*
+ PROCEDURE DIVISION.
+*
+ 0000-PROCESS-CUSTOMER-BROWSE.
+*
+     EVALUATE TRUE
+
+         WHEN EIBCALEN = ZERO
+             PERFORM 3000-SEND-STATE-MAP
+
+         WHEN EIBAID = DFHCLEAR
+             PERFORM 3000-SEND-STATE-MAP
+
+         WHEN EIBAID = DFHPA1 OR DFHPA2 OR DFHPA3
+             CONTINUE
+
+         WHEN EIBAID = DFHPF3 OR DFHPF12
+             PERFORM 1100-DELETE-TS-QUEUE
+             EXEC CICS
+                 XCTL PROGRAM('DB2MENU')
+             END-EXEC
+
+         WHEN EIBAID = DFHPF7 OR DFHPF8
+             PERFORM 2000-DISPLAY-SCROLLED-DATA
+
+         WHEN EIBAID = DFHENTER
+             PERFORM 1000-START-NEW-BROWSE
+
+         WHEN OTHER
+             MOVE DFHCOMMAREA TO COMMUNICATION-AREA
+             MOVE LOW-VALUE TO STATE-INQUIRY-MAP
+             MOVE 'Invalid key pressed.' TO SIM-D-MESSAGE
+             MOVE CA-STATE-CODE TO SIM-D-STATE
+             PERFORM 1600-SEND-ERROR-MESSAGE
+
+     END-EVALUATE.
+
+     EXEC CICS
+         RETURN TRANSID('DIN2')
+                COMMAREA(COMMUNICATION-AREA)
+     END-EXEC.
+*
+ 1000-START-NEW-BROWSE.
+*
+     MOVE LOW-VALUE TO STATE-INQUIRY-MAP.
+     MOVE SPACE     TO SIM-D-MESSAGE.
+     PERFORM 1100-DELETE-TS-QUEUE.
+     PERFORM 1200-RECEIVE-STATE-MAP.
+     PERFORM 1300-EDIT-STATE-CODE.
+     IF VALID-DATA
+         MOVE ZERO TO CA-TS-RECORD-COUNT
+         PERFORM 1400-GET-CUSTOMER-ROWS.
+     IF VALID-DATA
+         IF CA-TS-RECORD-COUNT > 0
+             PERFORM 1500-DISPLAY-INITIAL-DATA
+         ELSE
+             MOVE 'There are no customers in that state.'
+                        TO SIM-D-MESSAGE
+             MOVE SPACE TO SIM-D-LINEMSG
+                           SIM-D-MOREMSG
+             MOVE 'Y'   TO CLEAR-CUSTOMER-ROWS-SW
+             MOVE 'N'   TO VALID-DATA-SW.
+     IF NOT VALID-DATA
+         PERFORM 1600-SEND-ERROR-MESSAGE.
+*
+ 1100-DELETE-TS-QUEUE.
+*
+     MOVE EIBTRMID TO TS-TERMINAL-ID.
+     EXEC CICS
+         DELETEQ TS QUEUE(TS-QUEUE-NAME)
+                    RESP(RESPONSE-CODE)
+     END-EXEC.
+     IF       RESPONSE-CODE NOT = DFHRESP(NORMAL)
+          AND RESPONSE-CODE NOT = DFHRESP(QIDERR)
+         EXEC CICS
+             ABEND
+         END-EXEC.
+*
+ 1200-RECEIVE-STATE-MAP.
+*
+     EXEC CICS
+         RECEIVE MAP('DINMAP2')
+                 MAPSET('DINSET2')
+                 INTO(STATE-INQUIRY-MAP)
+     END-EXEC.
+*
+ 1300-EDIT-STATE-CODE.
+*
+     IF       SIM-L-STATE = ZERO
+           OR SIM-D-STATE = SPACE
+         MOVE 'N' TO VALID-DATA-SW
+         MOVE 'Y' TO CLEAR-CUSTOMER-ROWS-SW
+         MOVE 'You must enter a state code. ' TO SIM-D-MESSAGE
+     ELSE
+         MOVE SIM-D-STATE TO CA-STATE-CODE.
+*
+ 1400-GET-CUSTOMER-ROWS.
+*
+     PERFORM 1410-OPEN-CUSTOMER-CURSOR.
+     IF VALID-DATA
+         PERFORM 1420-PROCESS-CUSTOMER-ROW
+             UNTIL END-OF-CUSTOMERS
+         PERFORM 1450-CLOSE-CUSTOMER-CURSOR.
+*
+ 1410-OPEN-CUSTOMER-CURSOR.
+*
+     EXEC SQL
+         OPEN CUST
+     END-EXEC.
+     IF SQLCODE NOT = 0
+         MOVE 'Y' TO CLEAR-CUSTOMER-ROWS-SW
+         MOVE 'DB2 open error.' TO SIM-D-MESSAGE
+         MOVE 'N' TO VALID-DATA-SW.
+*
+ 1420-PROCESS-CUSTOMER-ROW.
+*
+     PERFORM 1430-FETCH-CUSTOMER-ROW.
+     IF NOT END-OF-CUSTOMERS
+         PERFORM 1440-WRITE-QUEUE-RECORD.
+*
+ 1430-FETCH-CUSTOMER-ROW.
+*
+     EXEC SQL
+         FETCH CUST
+             INTO :CUSTNO, :CNAME, :CITY
+     END-EXEC.
+     IF SQLCODE NOT = 0
+         MOVE 'Y' TO END-OF-CUSTOMERS-SW
+         IF SQLCODE NOT = 100
+             MOVE 'Y' TO CLEAR-CUSTOMER-ROWS-SW
+             MOVE 'DB2 fetch error.' TO SIM-D-MESSAGE
+             MOVE 'N' TO VALID-DATA-SW.
+*
+ 1440-WRITE-QUEUE-RECORD.
+*
+     ADD 1        TO CA-TS-RECORD-COUNT.
+     MOVE CUSTNO  TO TS-CUSTNO.
+     MOVE CNAME   TO TS-CNAME.
+     MOVE CITY    TO TS-CITY.
+     EXEC CICS
+         WRITEQ TS QUEUE(TS-QUEUE-NAME)
+                   FROM(TS-CUSTOMER-ROW)
+     END-EXEC.
+*
+ 1450-CLOSE-CUSTOMER-CURSOR.
+*
+     EXEC SQL
+         CLOSE CUST
+     END-EXEC.
+     IF SQLCODE NOT = 0
+         MOVE 'Y' TO CLEAR-CUSTOMER-ROWS-SW
+         MOVE 'DB2 close error.' TO SIM-D-MESSAGE
+         MOVE 'N' TO VALID-DATA-SW.
+*
+ 1500-DISPLAY-INITIAL-DATA.
+*
+     MOVE SPACE TO SIM-D-MESSAGE.
+     MOVE 1 TO CA-FIRST-RECORD-ON-DISPLAY
+               TS-ITEM-NUMBER.
+     PERFORM 1510-MOVE-ROW-DATA-TO-MAP
+         VARYING STATE-MAP-ROW FROM 1 BY 1
+         UNTIL STATE-MAP-ROW > 14.
+     MOVE 1 TO PM-START.
+     MOVE CA-TS-RECORD-COUNT TO PM-TOTAL.
+     IF CA-TS-RECORD-COUNT > 14
+         MOVE 14 TO PM-END
+         MOVE 'More:   +' TO SIM-D-MOREMSG
+     ELSE
+         MOVE CA-TS-RECORD-COUNT TO PM-END
+         MOVE SPACE TO SIM-D-MOREMSG.
+     MOVE POSITION-MESSAGE TO SIM-D-LINEMSG.
+     PERFORM 1520-SEND-CUSTOMER-DATA.
+*
+ 1510-MOVE-ROW-DATA-TO-MAP.
+*
+     IF TS-ITEM-NUMBER <= CA-TS-RECORD-COUNT
+         EXEC CICS
+             READQ TS QUEUE(TS-QUEUE-NAME)
+                      INTO (TS-CUSTOMER-ROW)
+                      ITEM(TS-ITEM-NUMBER)
+         END-EXEC
+         MOVE TS-CUSTNO TO SIM-D-CUSTNO(STATE-MAP-ROW)
+         MOVE TS-CNAME  TO SIM-D-NAME(STATE-MAP-ROW)
+         MOVE TS-CITY   TO SIM-D-CITY(STATE-MAP-ROW)
+         ADD 1 TO TS-ITEM-NUMBER
+     ELSE
+         MOVE SPACE     TO SIM-D-CUSTNO(STATE-MAP-ROW)
+                           SIM-D-NAME(STATE-MAP-ROW)
+                           SIM-D-CITY(STATE-MAP-ROW).
+*
+ 1520-SEND-CUSTOMER-DATA.
+*
+     EXEC CICS
+         SEND MAP('DINMAP2')
+              MAPSET('DINSET2')
+              FROM(STATE-INQUIRY-MAP)
+              DATAONLY
+     END-EXEC.
+*
+ 1600-SEND-ERROR-MESSAGE.
+*
+     IF CLEAR-CUSTOMER-ROWS
+         PERFORM 1610-CLEAR-CUSTOMER-ROW
+             VARYING STATE-MAP-ROW FROM 1 BY 1
+             UNTIL STATE-MAP-ROW > 14.
+     EXEC CICS
+         SEND MAP('DINMAP2')
+              MAPSET('DINSET2')
+              FROM(STATE-INQUIRY-MAP)
+              DATAONLY
+              ALARM
+     END-EXEC.
+*
+ 1610-CLEAR-CUSTOMER-ROW.
+*
+     MOVE SPACE TO SIM-D-CUSTNO(STATE-MAP-ROW)
+                   SIM-D-NAME(STATE-MAP-ROW)
+                   SIM-D-CITY(STATE-MAP-ROW).
+*
+ 2000-DISPLAY-SCROLLED-DATA.
+*
+     MOVE DFHCOMMAREA   TO COMMUNICATION-AREA.
+     MOVE EIBTRMID      TO TS-TERMINAL-ID.
+     MOVE LOW-VALUE     TO STATE-INQUIRY-MAP.
+     MOVE SPACE         TO SIM-D-MESSAGE.
+     MOVE CA-STATE-CODE TO SIM-D-STATE.
+     IF CA-TS-RECORD-COUNT = 0
+         MOVE 'No customers selected.' TO SIM-D-MESSAGE
+     ELSE
+         IF EIBAID = DFHPF7
+             IF CA-FIRST-RECORD-ON-DISPLAY > 13
+                 SUBTRACT 13 FROM CA-FIRST-RECORD-ON-DISPLAY
+             END-IF
+         ELSE
+             IF CA-FIRST-RECORD-ON-DISPLAY + 13 <
+                     CA-TS-RECORD-COUNT
+                 ADD 13 TO CA-FIRST-RECORD-ON-DISPLAY
+             END-IF
+         END-IF
+         MOVE CA-FIRST-RECORD-ON-DISPLAY TO TS-ITEM-NUMBER
+         PERFORM 1510-MOVE-ROW-DATA-TO-MAP
+             VARYING STATE-MAP-ROW FROM 1 BY 1
+             UNTIL STATE-MAP-ROW > 14
+         MOVE CA-FIRST-RECORD-ON-DISPLAY  TO PM-START
+         MOVE CA-TS-RECORD-COUNT          TO PM-TOTAL
+         ADD 13 TO CA-FIRST-RECORD-ON-DISPLAY
+             GIVING TOP-ROW-PLUS-13
+         IF CA-FIRST-RECORD-ON-DISPLAY = 1
+             IF TOP-ROW-PLUS-13 < CA-TS-RECORD-COUNT
+                 MOVE TOP-ROW-PLUS-13     TO PM-END
+                 MOVE 'More:   +'         TO SIM-D-MOREMSG
+             ELSE
+                 MOVE CA-TS-RECORD-COUNT  TO PM-END
+                 MOVE SPACE               TO SIM-D-MOREMSG
+             END-IF
+         ELSE
+             IF TOP-ROW-PLUS-13 < CA-TS-RECORD-COUNT
+                 MOVE TOP-ROW-PLUS-13     TO PM-END
+                 MOVE 'More: - +'         TO SIM-D-MOREMSG
+             ELSE
+                 MOVE CA-TS-RECORD-COUNT  TO PM-END
+                 MOVE 'More: -  '         TO SIM-D-MOREMSG
+             END-IF
+         END-IF
+         MOVE POSITION-MESSAGE TO SIM-D-LINEMSG.
+     PERFORM 1520-SEND-CUSTOMER-DATA.
+*
+ 3000-SEND-STATE-MAP.
+*
+     MOVE LOW-VALUE TO STATE-INQUIRY-MAP.
+     EXEC CICS
+         SEND MAP('DINMAP2')
+              MAPSET('DINSET2')
+              FROM(STATE-INQUIRY-MAP)
+              ERASE
+     END-EXEC.

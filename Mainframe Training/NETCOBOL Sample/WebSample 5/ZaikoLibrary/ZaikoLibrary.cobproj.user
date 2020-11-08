@@ -1,0 +1,6 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <UserCopyBookPath>C:\Sample\WebSample\Copy\</UserCopyBookPath>
+    <CopyBookPath>$(UserCopyBookPath);$(CommonCopyBookPath)</CopyBookPath>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,9 @@
+//ST00202 JOB  (ISSC#),'HONGYE',CLASS=A,MSGCLASS=H,                   
+//       NOTIFY=ST002                                                 
+//SORT     EXEC  PGM=ICEMAN                                           
+//SYSOUT   DD  SYSOUT=*                                               
+//SORTIN   DD  DISP=OLD,DSN=ST002.TEST.JCL(INV3000)                   
+//SORTOUT  DD  DSN=ST002.SORT.JCL,DISP=(,CATLG),                      
+//         SPACE=(TRK,(1,1)),                                         
+//         RECFM=FB,LRECL=80,UNIT=SYSDA                               
+//SYSIN    DD  *                                                      

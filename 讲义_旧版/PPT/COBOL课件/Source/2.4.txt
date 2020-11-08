@@ -1,0 +1,34 @@
+......
+DATA  DIVISION.
+WORKING-STORAGE  SECTION.
+77   A   PIC   99V99.
+77   B   PIC   999V999.
+
+PROCEDURE  DIVISION. 
+S.	MOVE  123.456  TO   A.
+	MOVE  A   TO  B.
+	DISPLAY   A.		//2345
+	DISPLAY   B.		//023450
+	STOP  RUN.
+
+
+
+......
+DATA DIVISION.             
+WORKING-STORAGE SECTION.   
+77 A  PIC  X.
+77 B  PIC  XX.
+77 C  PIC  XXX.
+PROCEDURE DIVISION. 
+S1.
+      MOVE 'XYZ' TO B.
+      MOVE B TO A.
+      MOVE B TO C.
+      DISPLAY A.           		//X
+      DISPLAY B.           		//XY
+      DISPLAY C, 'HELLO'.  		//XY  HELLO
+      STOP RUN.
+
+
+
+

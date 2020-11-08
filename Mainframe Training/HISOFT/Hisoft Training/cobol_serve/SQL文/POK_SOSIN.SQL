@@ -1,0 +1,6 @@
+CREATE TABLE POK_SOSIN
+(
+    データ                         VARCHAR2(900) NOT NULL,
+    CONSTRAINT SYS_C0028240 PRIMARY KEY (データ) USING INDEX
+)
+/

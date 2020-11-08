@@ -1,0 +1,26 @@
+DROP   TABLE  D512KFK_TBL   ;
+CREATE TABLE  D512KFK_TBL  (
+       契約番号                           CHAR(10)          NOT NULL,
+       申請連番                           NUMBER(2,0)       NOT NULL,
+       期限前決済予定日                   CHAR(8)           NOT NULL,
+       違約金                             NUMBER(13,0)      NOT NULL,
+       債権買取明細選択数                 NUMBER(3,0)       NOT NULL,
+       額面金額合計                       NUMBER(13,0)      NOT NULL,
+       戻し利息合計                       NUMBER(13,0)      NOT NULL,
+       返戻区分                           CHAR(1)           NOT NULL,
+       元本残高                           NUMBER(13,0)      NOT NULL,
+       消込フラグ                         CHAR(1)           NOT NULL,
+       確定フラグ                         CHAR(1)           NOT NULL,
+       決裁フラグ                         CHAR(1)           NOT NULL,
+       決裁日                             CHAR(8)           NOT NULL,
+       確定日                             CHAR(8)           NOT NULL,
+       登録年月日                         CHAR(8)           NOT NULL,
+       登録時間                           CHAR(8)           NOT NULL,
+       登録担当者                         CHAR(8)           NOT NULL,
+       更新年月日                         CHAR(8)           NOT NULL,
+       更新時間                           CHAR(8)           NOT NULL,
+       更新者                             CHAR(8)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+CONSTRAINT  PK_D512KFK_TBL  PRIMARY KEY (
+       契約番号,
+       申請連番));

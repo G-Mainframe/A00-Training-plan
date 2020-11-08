@@ -1,0 +1,143 @@
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1                Date 03/28/2014  Time 23:45:16   Page     1                
+0调用参数：
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0生效的选项：
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+     NOCICS                                                                                                                          
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      99SUB2    Date 03/28/2014  Time 23:45:16   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0/* 99SUB2                                                                                                                           
+   000001         000010 IDENTIFICATION                   DIVISION.                                                                  
+   000002         000020 PROGRAM-ID.                      99SUB2.                                                                    
+   000003         000030 ENVIRONMENT                      DIVISION.                                                                  
+   000004         000040 DATA                             DIVISION.                                                                  
+   000005         000050 WORKING-STORAGE                  SECTION.                                                                   
+   000006         000060 01 L-MARK                   PIC       9.                                                                    
+   000007         000070 01 R-MARK                   PIC       99.                                                                   
+   000008         000080 01 DATA-SET.                                                                                                
+   000009         000090  02 MULTI-NUM          PIC       9.                                                                         
+   000010         000100  02 MULTI-MARK         PIC       X VALUE "*".                                                               
+   000011         000110  02 MULTIED-NUM        PIC       9.                                                                         
+   000012         000120  02 EQUAL-MARK         PIC       X VALUE "=".                                                               
+   000013         000130  02 RESULT             PIC       99.                                                                        
+   000014         000140  02 FILLER             PIC       X VALUE " ".                                                               
+   000015         000150 LINKAGE                          SECTION.                                                                   
+   000016         000160 01 TABLE-99.                                                                                                
+   000017         000170   02 L OCCURS 9 TIMES.                                                                                      
+   000018         000180    03 R OCCURS 9 TIMES PIC 9(7).                                                                            
+   000019         000190 77 NUM                 PIC       X.                                                                         
+   000020         000200 PROCEDURE                        DIVISION USING TABLE-99 NUM.             16 19                             
+   000021         000210 PRG-BEGIN.                                                                                                  
+   000022         000220     PERFORM L-PART THRU L-END UNTIL L-MARK = NUM.                         25 31 6 19                        
+   000023         000230 PRG-END.                                                                                                    
+   000024         000240     EXIT PROGRAM.                                                                                           
+   000025         000250 L-PART.                                                                                                     
+   000026         000260     IF L-MARK NOT = NUM                                                   6 19                              
+   000027      1  000270     MOVE 10 TO R-MARK                                                     7                                 
+   000028      1  000280     ADD 1 TO L-MARK                                                       6                                 
+   000029      1  000290     PERFORM R-PART THRU R-END UNTIL R-MARK = L-MARK                       33 40 7 6                         
+   000030      1  000300     DISPLAY L(L-MARK).                                                    17 6                              
+   000031         000310 L-END.                                                                                                      
+   000032         000320     EXIT.                                                                                                   
+   000033         000330 R-PART.                                                                                                     
+   000034         000340     IF R-MARK NOT = L-MARK                                                7 6                               
+   000035      1  000350     SUBTRACT 1 FROM R-MARK                                                7                                 
+   000036      1  000360     MOVE L-MARK TO MULTI-NUM                                              6 9                               
+   000037      1  000370     COMPUTE MULTIED-NUM = 10 - R-MARK                                     11 7                              
+   000038      1  000380     COMPUTE RESULT = MULTI-NUM * MULTIED-NUM                              13 9 11                           
+   000039      1  000390     MOVE DATA-SET TO R(L-MARK, R-MARK).                                   8 18 6 7                          
+   000040         000400 R-END.                                                                                                      
+   000041         000410     EXIT.                                                                                                   
+ */ 99SUB2                                                                                                                           
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      99SUB2    Date 03/28/2014  Time 23:45:16   Page     3                
+0数据名引用前的“M”指示数据名由此引用修改。
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+        8   DATA-SET . . . . . . . . . . .  39                                                                                                                               
+       12   EQUAL-MARK                                                                                                                                                       
+       17   L. . . . . . . . . . . . . . .  30                                                                                                                               
+        6   L-MARK . . . . . . . . . . . .  22 26 M28 29 30 34 36 39                                                                                                         
+       10   MULTI-MARK                                                                                                                                                       
+        9   MULTI-NUM. . . . . . . . . . .  M36 38                                                                                                                           
+       11   MULTIED-NUM. . . . . . . . . .  M37 38                                                                                                                           
+       19   NUM. . . . . . . . . . . . . .  20 22 26                                                                                                                         
+       18   R. . . . . . . . . . . . . . .  M39                                                                                                                              
+        7   R-MARK . . . . . . . . . . . .  M27 29 34 M35 37 39                                                                                                              
+       13   RESULT . . . . . . . . . . . .  M38                                                                                                                              
+       16   TABLE-99 . . . . . . . . . . .  20                                                                                                                               
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      99SUB2    Date 03/28/2014  Time 23:45:16   Page     4                
+0上下文用法由过程名引用前的字母指示。
+ 这些字母和它们的含义为：
+     A = ALTER（过程名）
+     D = GO TO（过程名）DEPENDING ON
+     E = 范围（PERFORM）到（过程名）的结束
+     G = GO TO（过程名）
+     P = PERFORM（过程名）
+     T = (ALTER) TO PROCEED TO（过程名）
+     U = USE FOR DEBUGGING（过程名）
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+       31   L-END. . . . . . . . . . . . .  E22                                                                                                                              
+       25   L-PART . . . . . . . . . . . .  P22                                                                                                                              
+       21   PRG-BEGIN                                                                                                                                                        
+       23   PRG-END                                                                                                                                                          
+       40   R-END. . . . . . . . . . . . .  E29                                                                                                                              
+       33   R-PART . . . . . . . . . . . .  P29                                                                                                                              
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      99SUB2    Date 03/28/2014  Time 23:45:16   Page     5                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   99SUB2                                                                                                                                                           
+-* COBOL 程序 99SUB2 的统计信息：
+ *    源记录 = 41
+ *    数据部分语句 = 12
+ *    过程部分语句 = 15
+0语言环境 = zh_CN.IBM-1386
+0编译 1 结束，程序 99SUB2，未标记任何语句。
+0返回码 0

@@ -1,0 +1,18 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. EX85.
+       ENVIRONMENT    DIVISION.
+       DATA           DIVISION.
+       WORKING-STORAGE SECTION.
+       77 A PIC 99V99.
+       77 B PIC 99V99.
+       77 H PIC 99V99.
+       77 V PIC 9(6).99.
+       PROCEDURE      DIVISION.
+       S.   DISPLAY 'A, B, H=?'.
+            ACCEPT A.
+            ACCEPT B.
+            ACCEPT H.
+            IF H=0 DISPLAY 'END' STOP RUN.
+            CALL 'SUB' USING A B H V.
+            DISPLAY 'V=', V.
+            GO TO S.

@@ -1,0 +1,121 @@
+000100 IDENTIFICATION DIVISION.                                         0001
+000300 PROGRAM-ID. INDEX01.                                             0003
+000500 ENVIRONMENT DIVISION.                                            0005
+000700 INPUT-OUTPUT SECTION.                                            0007
+000900 FILE-CONTROL.                                                    0009
+001100      SELECT TBLFILE ASSIGN TO UT-S-TBLFILE.                      0011
+001110      SELECT EMPFILE ASSIGN TO UT-S-EMPFILE.                      0011
+001120      SELECT PAYLIST ASSIGN TO UT-S-PAYLIST.                      0011
+001140 DATA DIVISION.                                                   0011
+001160 FILE SECTION.                                                    0011
+001170 FD  TBLFILE                                                      0011
+001190     LABEL RECORDS ARE STANDARD                                   0011
+001200     RECORDING MODE IS F                                          0012
+001300     RECORD CONTAINS 80 CHARACTERS                                0013
+001400     BLOCK CONTAINS 0 RECORDS.                                    0014
+001600 01  TABLE-DATA-AREA             PIC X(80).                       0016
+001800 FD  EMPFILE                                                      0018
+002000     LABEL RECORDS ARE STANDARD                                   0020
+002010     RECORDING MODE IS F                                          0020
+002020     RECORD CONTAINS 80 CHARACTERS                                0020
+002030     BLOCK CONTAINS 0 RECORDS.                                    0020
+002050 01  EM-AREA             PIC X(80).                               0020
+002080 FD  PAYLIST                                                      0020
+002091     LABEL RECORDS ARE STANDARD                                   0020
+002092     RECORDING MODE IS F                                          0020
+002093     RECORD CONTAINS 133 CHARACTERS                               0020
+002094     BLOCK CONTAINS 0 RECORDS.                                    0020
+002096 01  PRINT-AREA             PIC X(133).                           0020
+002098 WORKING-STORAGE SECTION.                                         0020
+002100 01  SWITCHES.                                                    0021
+002200     05  TABLE-EOF-SW            PIC X    VALUE "N".              0022
+002300         88  TABLE-EOF                    VALUE "Y".              0023
+002400     05  EMP-EOF-SW              PIC X    VALUE "N".              0024
+002410         88  EMP-EOF                      VALUE "Y".              0024
+002430 01  WORK-FIELDS                COMP-3.                           0024
+002440     05  GROSS-PAY              PIC S999V99.                      0024
+002450 01  COUNT-FIELDS               COMP-3.                           0024
+002460     05  TABLE-ENTRY-COUNT      PIC S999.                         0024
+002470*01  SUBSCRIPTS                 COMP  SYNC.                       0024
+002480*    05  RATE-SUB               PIC 99.                           0024
+002490 01  RATE-TABLE.                                                  0024
+002500     05  PAY-RATE               OCCURS 26 TIMES                   0025
+002600                                INDEXED BY RATE-INDEX             0026
+002610                                PIC S9V99.                        0026
+002700 01  TD-RECORD.                                                   0027
+002800     05  TD-NO-OF-ENTRIES       PIC 99.                           0028
+002900     05  TD-ENTRY               OCCURS 26 TIMES                   0029
+002910                                INDEXED BY TABLE-INDEX            0029
+003000                                PIC 9V99.                         0030
+003100 01  EM-RECORD.                                                   0031
+003110     05  EM-EMP-NO              PIC X(4).                         0031
+003120     05  FILLER                 PIC X(23).                        0031
+003130     05  EM-PAY-CLASS           PIC 99.                           0031
+003140     05  EM-HOURS-WORKED        PIC 99V9.                         0031
+003150     05  FILLER                 PIC X(48).                        0031
+003160 01  EMPLOYEE-LINE.                                               0031
+003170     05  EL-CC                  PIC X.                            0031
+003180     05  EL-EMP-NO              PIC X(4).                         0031
+003190     05  FILLER                 PIC X(3)   VALUE SPACE.           0031
+003191     05  EL-PAY-RATE            PIC Z.99.                         0031
+003192     05  FILER                  PIC X(3)  VALUE SPACE.            0031
+003193     05  EL-HOURS-WORKED        PIC ZZ.9.                         0031
+003194     05  FILLER                 PIC X(3)  VALUE SPACE.            0031
+003195     05  EL-GROSS-PAY           PIC ZZZ.99.                       0031
+003196     05  FILLER                 PIC X(105) VALUE SPACE.           0031
+003198 PROCEDURE DIVISION.                                              0031
+003200 000-PRODUCE-PAYROLL-LISTING.                                     0032
+003400     OPEN INPUT  TBLFILE                                          0034
+003500                 EMPFILE                                          0035
+003600          OUTPUT PAYLIST.                                         0036
+003700     PERFORM 100-LOAD-RATE-TABLE.                                 0037
+003800     PERFORM 200-PRODUCE-EMPLOYEE-LINE                            0038
+003900                UNTIL EMP-EOF.                                    0039
+003910     CLOSE TBLFILE                                                0039
+003920           EMPFILE                                                0039
+003930           PAYLIST.                                               0039
+003940     DISPLAY 'RATELKUP  I  1  NORMAL EOJ'.                        0039
+003950     STOP RUN.                                                    0039
+003960 100-LOAD-RATE-TABLE.                                             0039
+003970     PERFORM 110-READ-TABLE-RECORD.                               0039
+003980     IF NOT TABLE-EOF                                             0039
+003990         MOVE TD-NO-OF-ENTRIES TO TABLE-ENTRY-COUNT               0039
+004000         PERFORM 120-STORE-TABLE-ENTRY                            0040
+004100*            VARYING RATE-SUB FORM 1 BY 1                         0041
+004110             VARYING RATE-INDEX FROM 1 BY 1                       0041
+004200*            UNTIL RATE-SUB GREATER THAN TABLE-ENTRY-COUNT.       0042
+004210             UNTIL RATE-INDEX GREATER THAN TABLE-ENTRY-COUNT.     0042
+004300 110-READ-TABLE-RECORD.                                           0043
+004400     READ TBLFILE INTO TD-RECORD                                  0044
+004500                AT END                                            0045
+004600                    MOVE "Y" TO TABLE-EOF-SW.                     0046
+004700 120-STORE-TABLE-ENTRY.                                           0047
+004800     SET TABLE-INDEX         TO RATE-INDEX.                       0048
+004810     MOVE TD-ENTRY(TABLE-INDEX) TO PAY-RATE (RATE-INDEX).         0048
+004900 200-PRODUCE-EMPLOYEE-LINE.                                       0049
+005000     PERFORM 210-READ-EMPLOYEE-RECORD.                            0050
+005100     IF NOT EMP-EOF                                               0051
+005200         IF        EM-PAY-CLASS LESS  1                           0052
+005210               OR  EM-PAY-CLASS GREATER TABLE-ENTRY-COUNT         0052
+005220            DISPLAY  'RATELKUP  A  2  INVALID PAY CLASS FOR '     0052
+005230                    'EMPLOYEE  NO. ' EM-EMP-NO                    0052
+005240        ELSE                                                      0052
+005250            SET RATE-INDEX   TO EM-PAY-CLASS                      0052
+005260            MULTIPLY EM-HOURS-WORKED BY PAY-RATE (RATE-INDEX)     0052
+005270                GIVING GROSS-PAY ROUNDED                          0052
+005280            PERFORM  220-PRINT-EMPLOYEE-LINE.                     0052
+005290 210-READ-EMPLOYEE-RECORD.                                        0052
+005300     READ EMPFILE INTO EM-RECORD                                  0053
+005400         AT  END                                                  0054
+005500              MOVE 'Y' TO EMP-EOF-SW.                             0055
+005600 220-PRINT-EMPLOYEE-LINE.                                         0056
+005700     MOVE EM-EMP-NO            TO EL-EMP-NO.                      0057
+005800     MOVE PAY-RATE (RATE-INDEX) TO EL-PAY-RATE.                   0058
+005900     MOVE EM-HOURS-WORKED         TO EL-HOURS-WORKED.             0059
+006000     MOVE GROSS-PAY            TO EL-GROSS-PAY.                   0060
+006100     MOVE EMPLOYEE-LINE        TO PRINT-AREA.                     0061
+006200     PERFORM 230-WRITE-REPORT-LINE.                               0062
+006300 230-WRITE-REPORT-LINE.                                           0063
+006400     WRITE PRINT-AREA                                             0064
+006500         AFTER ADVANCING  1  LINES.                               0065
+

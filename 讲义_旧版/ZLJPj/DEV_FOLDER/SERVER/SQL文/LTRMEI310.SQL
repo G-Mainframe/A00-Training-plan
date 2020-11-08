@@ -1,0 +1,21 @@
+CREATE TABLE  LTRMEI310  (
+       レコード種別                       CHAR(3)           NOT NULL,
+       当月翌月区分                       CHAR(1)           NOT NULL,
+       勘定科目コード                     CHAR(5)           NOT NULL,
+       ダミー００１                       CHAR(6)           NOT NULL,
+       登録削除                           CHAR(1)           NOT NULL,
+       ダミー００２                       CHAR(4)           NOT NULL,
+       勘定科目名称                       VARCHAR2(32)      NOT NULL,
+       集計科目                           CHAR(5)           NOT NULL,
+       科目タイプ                         CHAR(1)           NOT NULL,
+       資負区分                           CHAR(1)           NOT NULL,
+       ＡＬＭ区分                         NUMBER(1,0)       NOT NULL,
+       適用日＿世紀                       NUMBER(1,0)       NOT NULL,
+       適用日＿年月日                     NUMBER(6,0)       NOT NULL,
+       ダミー００３                       CHAR(98)          NOT NULL,
+       共通情報                           CHAR(35)          NOT NULL,
+CONSTRAINT  PK_LTRMEI310  PRIMARY KEY (
+       レコード種別,
+       当月翌月区分,
+       勘定科目コード,
+       ダミー００１));

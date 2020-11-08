@@ -1,0 +1,23 @@
+//TE002N9 JOB (DYNRUN),'CHARLES',CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),
+//        NOTIFY=&SYSUID
+//JOBLIB  DD  DSN=DSN710.SDSNEXIT,DISP=SHR
+//        DD  DSN=DSN710.SDSNLOAD,DISP=SHR
+//*****************************************************************
+//*  JOB TO PRECOMPILE AND COMPILE AND LINK-EDIT COBOL FOR DB2
+//*****************************************************************
+//RUN   EXEC PGM=IKJEFT01,DYNAMNBR=20,COND=(4,LT)
+//SYSTSPRT DD SYSOUT=*
+//SYSPRINT DD SYSOUT=*
+//SYSUDUMP DD SYSOUT=*
+//SYSOUT   DD SYSOUT=*
+//SYSIN    DD DUMMY
+//SYSTSIN DD *
+ DSN SYSTEM(DB7G)
+ RUN  PROGRAM(READDB2) PLAN(TE002) -
+      LIB('TE002.PLI.LOAD')
+ END
+//
+
+
+
+

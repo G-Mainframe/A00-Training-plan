@@ -1,0 +1,7 @@
+000010************************************************
+000020* (PAY_TAXTBL)
+000030************************************************
+000040 01  PAY_TAXTBL-DOCTYP PIC  X(001).
+000050 01  PAY_TAXTBL-MINAMT PIC S9(012) COMP-3.
+000060 01  PAY_TAXTBL-MAXAMT PIC S9(012) COMP-3.
+000070 01  PAY_TAXTBL-TAXAMT PIC S9(012) COMP-3.

@@ -1,0 +1,34 @@
+//EVXXXXAP JOB (F9500B,CN10X,31),E23636,MSGCLASS=R,                     00010005
+//       CLASS=A,NOTIFY=EV603U                                          00020005
+//JOBLIB  DD DSN=DSN.DSNLOAD,DISP=SHR                                   00030000
+//*-------------------------------------------------------------------- 00031006
+//*        BIND  PROGRAM                                                00032006
+//*------------------------------------------------------------------   00033006
+//BIND     EXEC PGM=IKJEFT01,DYNAMNBR=20                                00040002
+//DBRMLIB  DD DSN=CN10I.DEVLIB1.DBRM,DISP=SHR                           00050000
+//SYSTSPRT DD SYSOUT=*                                                  00060000
+//SYSPRINT DD SYSOUT=*                                                  00070000
+//SYSUDUMP DD SYSOUT=*                                                  00080000
+//OUTPUT   DD SYSOUT=*,DCB=(RECFM=FB,LRECL=723,BLKSIZE=27474)           00090004
+//SYSTSIN  DD *                                                         00100000
+ DSN SYSTEM(DSN)                                                        00110000
+ BIND  PLAN(CN10G11) MEMBER(CN10G11) OWNER(CN10U2) QUALIFIER(PDAS) -    00120000
+ ACTION(REPLACE) ISOLATION(CS) RETAIN                                   00130000
+ END                                                                    00140000
+/*                                                                      00150000
+//*-------------------------------------------------------------------- 00160000
+//*        GRANT PROGRAM                                                00170000
+//*------------------------------------------------------------------   00180000
+//GRANT   EXEC PGM=IKJEFT01,DYNAMNBR=20                                 00190000
+//STEPLIB  DD DSN=DSN.DSNLOAD,DISP=SHR                                  00200000
+//SYSTSPRT DD SYSOUT=*                                                  00210000
+//SYSPRINT DD SYSOUT=*                                                  00220000
+//SYSUDUMP DD SYSOUT=*                                                  00230000
+//SYSTSIN  DD *                                                         00240000
+  DSN SYSTEM(DSN)                                                       00250000
+  RUN PROGRAM(DSNTIAD) PLAN(DSNTIAD) LIB('DSN.RUNLIB.LOAD')             00260000
+  END                                                                   00270000
+/*                                                                      00280000
+//SYSIN    DD *                                                         00290000
+ GRANT EXECUTE ON PLAN CN10G11 TO EV603U;                               00300005
+/*                                                                      00310000

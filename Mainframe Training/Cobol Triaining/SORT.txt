@@ -1,0 +1,15 @@
+SORT
+
+//*-------------------------------------------------------------------* 
+ //*        SORT ADDITIONAL TXN                                          
+ //*-------------------------------------------------------------------* 
+ //ST020   EXEC DCPSORT                                                  
+ //SORTIN    DD DSN=&&MTMTXN,DISP=(OLD,DELETE)                           
+ //SORTOUT   DD DSN=&&MTMTX2,DISP=(,PASS),                               
+ //             SPACE=(CYL,(10,1),RLSE),                                 
+ //             DCB=(RECFM=FB,LRECL=732,BLKSIZE=27816)                   
+ //SYSIN     DD *                                                        
+  OPTION SORTINS=1                                                       
+  RECORD TYPE=F,LENGTH=(732)                                             
+  SORT FIELDS=(1,15,CH,A)                                                
+/*

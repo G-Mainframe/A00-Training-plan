@@ -1,0 +1,16 @@
+//LBSTVSAM JOB    (ACCT#),                           
+//         'GDC232',                                 
+//         CLASS=A,                                  
+//         MSGLEVEL=(1,1),                           
+//         MSGCLASS=X,                               
+//         NOTIFY=&SYSUID                            
+//*                                                  
+//SORTVSAM EXEC PGM=SORT                             
+//SYSOUT   DD SYSOUT=*                               
+//SORTIN   DD *                                      
+01                  JEONGWOONSONG                    
+//SORTOUT  DD DSN=GDC232.VKTS01,DISP=OLD             
+//SYSIN    DD *                                      
+  SORT FIELDS=COPY                                   
+  OUTREC FIELDS=(1,80)     80VSAM RECSZ(80 80)       
+/*                                                   

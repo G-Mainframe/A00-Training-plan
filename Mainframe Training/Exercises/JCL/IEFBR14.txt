@@ -1,0 +1,4 @@
+//IBMUSERA JOB CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),    
+//         NOTIFY=IBMUSER                                  
+//ALLOC    EXEC PGM=IEFBR14                        
+//DATASET DD DSN=IBMUSER.TEST.GB10.PS2,DISP=(OLD,DELETE)                                               

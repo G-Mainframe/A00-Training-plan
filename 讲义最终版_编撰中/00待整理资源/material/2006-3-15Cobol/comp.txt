@@ -1,0 +1,42 @@
+//C200300C JOB (CBLCL),'WENSON',CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),      00010000
+//        NOTIFY=&SYSUID                                                00020000
+//*****************************************************************     00030000
+//*  JOB TO COMPILE AND LINK-EDIT COBOL PROGRAM                         00040000
+//*****************************************************************     00050000
+//COBOL  EXEC  PGM=IGYCRCTL,REGION=2048K                                00060000
+//STEPLIB  DD  DSNAME=COBOL.V3R1.SIGYCOMP,                              00070000
+//             DISP=SHR                                                 00080000
+//SYSPRINT DD  SYSOUT=*                                                 00090000
+//SYSLIN   DD  DSNAME=&&LOADSET,UNIT=SYSDA,                             00100000
+//             DISP=(MOD,PASS),SPACE=(TRK,(3,3)),                       00110000
+//             DCB=(BLKSIZE=3200)                                       00120000
+//SYSIN    DD  DSN=C200300.TEST.COBOL(ACCEPT1),DISP=SHR                 00130001
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(CYL,(1,1))                             00140000
+//SYSUT2   DD  UNIT=SYSDA,SPACE=(CYL,(1,1))                             00150000
+//SYSUT3   DD  UNIT=SYSDA,SPACE=(CYL,(1,1))                             00160000
+//SYSUT4   DD  UNIT=SYSDA,SPACE=(CYL,(1,1))                             00170000
+//SYSUT5   DD  UNIT=SYSDA,SPACE=(CYL,(1,1))                             00180000
+//SYSUT6   DD  UNIT=SYSDA,SPACE=(CYL,(1,1))                             00190000
+//SYSUT7   DD  UNIT=SYSDA,SPACE=(CYL,(1,1))                             00200000
+//LKED   EXEC PGM=HEWL,COND=(8,LT,COBOL),REGION=1024K                   00210000
+//SYSLIB   DD  DSNAME=CEE.SCEELKED,                                     00220000
+//             DISP=SHR                                                 00230000
+//SYSPRINT DD  SYSOUT=*                                                 00240000
+//SYSLIN   DD  DSNAME=&&LOADSET,DISP=(OLD,DELETE)                       00250000
+//         DD  DDNAME=SYSIN                                             00260000
+//SYSLMOD  DD  DSNAME=C200300.TEST.LOADLIB,                             00270000
+//             SPACE=(TRK,(10,10,1)),                                   00280000
+//             UNIT=SYSDA,DISP=(MOD,PASS)                               00290000
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(TRK,(10,10))                           00300000
+//LKED.SYSIN   DD *                                                     00310000
+  NAME ACCEPT1(R)                                                       00320001
+//                                                                      00330000
+                                                                        00340000
+                                                                        00350000
+                                                                        00360000
+                                                                        00370000
+                                                                        00380000
+                                                                        00390000
+                                                                        00400000
+                                                                        00410000
+

@@ -1,0 +1,30 @@
+CREATE TABLE SFC_MEISAI
+(
+    シャープ契約番号               CHAR(12) NOT NULL,
+    シャープ商品連番               CHAR(3) NOT NULL,
+    契約番号                       CHAR(9) NOT NULL,
+    物件ＮＯ                       CHAR(3) NOT NULL,
+    シャープ商品コード             CHAR(4) NOT NULL,
+    物件名                         CHAR(15) NOT NULL,
+    機種名                         CHAR(15) NOT NULL,
+    数量                           NUMBER(4,0) NOT NULL,
+    購入金額                       NUMBER(13,0) NOT NULL,
+    仕入消費税等額                 NUMBER(13,0) NOT NULL,
+    個別リース料                   NUMBER(13,0) NOT NULL,
+    動総保険コード                 CHAR(4) NOT NULL,
+    動総保険料率                   NUMBER(5,3) NOT NULL,
+    資産コード                     CHAR(7) NOT NULL,
+    耐用年数                       CHAR(2) NOT NULL,
+    信用保険コード                 CHAR(6) NOT NULL,
+    税区分                         CHAR(1) NOT NULL,
+    固定資産税率                   NUMBER(4,2) NOT NULL,
+    納付先コード                   CHAR(6) NOT NULL,
+    登録日                         CHAR(8) NOT NULL,
+    登録時刻                       CHAR(6) NOT NULL,
+    登録担当者コード               CHAR(4) NOT NULL,
+    更新日                         CHAR(8) NOT NULL,
+    更新時刻                       CHAR(6) NOT NULL,
+    更新担当者コード               CHAR(4) NOT NULL,
+    CONSTRAINT SYS_C0028478 PRIMARY KEY (シャープ契約番号, シャープ商品連番) USING INDEX
+)
+/

@@ -1,0 +1,20 @@
+CREATE TABLE  LTRMEI011  (
+       レコード種別                       CHAR(3)           NOT NULL,
+       当月翌月区分                       CHAR(1)           NOT NULL,
+       事業所コード                       NUMBER(4,0)       NOT NULL,
+       ダミー００１                       CHAR(7)           NOT NULL,
+       部支店名                           VARCHAR2(20)      NOT NULL,
+       部支店名略称                       VARCHAR2(10)      NOT NULL,
+       部支店名カナ                       CHAR(25)          NOT NULL,
+       部支店名カナ略称                   CHAR(12)          NOT NULL,
+       適用日＿世紀                       NUMBER(1,0)       NOT NULL,
+       適用日＿年月日                     NUMBER(6,0)       NOT NULL,
+       電話番号                           CHAR(15)          NOT NULL,
+       グループＮＯ                       CHAR(2)           NOT NULL,
+       ダミー００２                       CHAR(59)          NOT NULL,
+       共通情報                           CHAR(35)          NOT NULL,
+CONSTRAINT  PK_LTRMEI011  PRIMARY KEY (
+       レコード種別,
+       当月翌月区分,
+       事業所コード,
+       ダミー００１));

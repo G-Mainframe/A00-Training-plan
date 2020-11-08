@@ -1,0 +1,57 @@
+//EV6326S2  JOB (F9500B,KQ40,32,                                        00001000
+//      'DATE=030217'),CFTS,                                            00002000
+//       NOTIFY=EV6326,REGION=6M,                                       00003000
+//       CLASS=M,MSGCLASS=R                                             00004000
+//*--------------------------------------------------------------------*
+//JOBLIB  DD DSN=DSN.DSNLOAD,DISP=SHR
+//        DD DSN=ADB.SADBLLIB,DISP=SHR
+//*--------------------------------------------------------------------*
+//*
+//* DB2 ADMIN GENERATED JOB
+//*
+//* TARGET -> TABLESPACE,TABLE,INDEX,VIEWS,GRANTS,LABELS,COMMENT
+//*
+//*--------------------------------------------------------------------*
+//GENSQL EXEC PGM=IKJEFT01,DYNAMNBR=100
+//SYSTSPRT DD SYSOUT=*
+//SYSPRINT DD SYSOUT=*
+//SYSTSIN  DD *
+   DSN SYSTEM(DSN)
+   RUN PROG(ADB2GEN) PLAN(ADB2GEN)
+   END
+/*
+//IN       DD *
+  DB2SYS   = 'DSN',
+  DB2ALOC  = '',
+  DB2SERV  = '',
+  DB2AUTH  = 'NE65U1',
+  DB2REL   = '710',
+  GENSG    = 'N',
+  GENDB    = '',
+  GENTS    = 'Y',
+  GENTABLE = 'Y',
+  GENVIEW  = 'D',
+  GENINDEX = 'Y',
+  GENSYN   = 'Y',
+  GENALIAS = 'Y',
+  GENLABEL = 'Y',
+  GENCOMM  = 'Y',
+  GENRELS  = 'Y',
+  GENTRIG  = 'N',
+  GRANTDB  = '',
+  GRANTTS  = 'Y',
+  GRANTTAB = 'Y',
+  GRANTVW  = 'Y',
+  GRANTSG  = 'N',
+  NEWDB    = '',
+  NEWTSSG  = '',
+  NEWIXSG  = '',
+  NEWSQLID = '',
+  SPCALLOC = 'DEFINED',
+  TGTDB2   = '';
+  DB='NE65D001', TS='NE65SMST', OWN='NE65U1',   TB='';
+/*
+//SQL      DD DSN=SX01I.EV603U.VDM46,DISP=(,CATLG),
+//            SPACE=(TRK,(1,5),RLSE),
+//            DCB=(RECFM=FB,LRECL=80,BLKSIZE=27920)
+

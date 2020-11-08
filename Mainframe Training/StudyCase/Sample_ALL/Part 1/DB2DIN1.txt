@@ -1,0 +1,161 @@
+ IDENTIFICATION DIVISION.
+*
+ PROGRAM-ID.    DB2DIN1.
+*
+ ENVIRONMENT DIVISION.
+*
+ DATA DIVISION.
+*
+ FILE SECTION.
+*
+ WORKING-STORAGE SECTION.
+*
+ 01  SWITCHES.
+*
+     05  VALID-DATA-SW           PIC X   VALUE 'Y'.
+         88  VALID-DATA                  VALUE 'Y'.
+*
+ 01  COMMUNICATION-AREA          PIC X.
+*
+     EXEC SQL
+         INCLUDE CUSTOMER
+     END-EXEC.
+*
+     EXEC SQL
+         INCLUDE SQLCA
+     END-EXEC.
+*
+ COPY DINSET1.
+*
+ COPY DFHAID.
+*
+ LINKAGE SECTION.
+*
+ 01  DFHCOMMAREA                 PIC X.
+*
+ PROCEDURE DIVISION.
+*
+ 0000-PROCESS-CUSTOMER-INQUIRY.
+*
+     EVALUATE TRUE
+
+         WHEN EIBCALEN = ZERO
+             PERFORM 2000-SEND-CUSTOMER-MAP
+
+         WHEN EIBAID = DFHCLEAR
+             PERFORM 2000-SEND-CUSTOMER-MAP
+
+         WHEN EIBAID = DFHPA1 OR DFHPA2 OR DFHPA3
+             CONTINUE
+
+         WHEN EIBAID = DFHPF3 OR DFHPF12
+             EXEC CICS
+                 XCTL PROGRAM('DB2MENU')
+             END-EXEC
+
+         WHEN EIBAID = DFHENTER
+             PERFORM 1000-PROCESS-CUSTOMER-MAP
+
+         WHEN OTHER
+             MOVE 'Invalid key pressed.' TO MESSAGEO
+             PERFORM 1500-SEND-ERROR-MESSAGE
+
+     END-EVALUATE.
+
+     EXEC CICS
+         RETURN TRANSID('DIN1')
+                COMMAREA(COMMUNICATION-AREA)
+     END-EXEC.
+*
+ 1000-PROCESS-CUSTOMER-MAP.
+*
+     PERFORM 1100-RECEIVE-CUSTOMER-MAP.
+     PERFORM 1200-EDIT-CUSTOMER-DATA.
+     IF VALID-DATA
+         PERFORM 1300-GET-CUSTOMER-ROW
+         IF VALID-DATA
+             PERFORM 1400-SEND-CUSTOMER-DATA
+         ELSE
+             PERFORM 1500-SEND-ERROR-MESSAGE
+     ELSE
+         PERFORM 1500-SEND-ERROR-MESSAGE.
+*
+ 1100-RECEIVE-CUSTOMER-MAP.
+*
+     EXEC CICS
+         RECEIVE MAP('DINMAP1')
+                 MAPSET('DINSET1')
+                 INTO(DINMAP1I)
+     END-EXEC.
+*
+ 1200-EDIT-CUSTOMER-DATA.
+*
+     IF       CUSTNOL = ZERO
+           OR CUSTNOI = SPACE
+         MOVE 'N' TO VALID-DATA-SW
+         MOVE 'You must enter a customer number.' TO MESSAGEO.
+*
+ 1300-GET-CUSTOMER-ROW.
+*
+     EXEC SQL
+         SELECT CUSTNO,    FNAME,       LNAME,
+                ADDR,      CITY,        STATE,
+                ZIPCODE
+         INTO  :CUSTNO,       :FNAME,          :LNAME,
+               :ADDR,         :CITY,           :STATE,
+               :ZIPCODE
+         FROM   MM01.CUSTOMER
+             WHERE CUSTNO = :CUSTNOI
+     END-EXEC.
+     IF SQLCODE = 0
+         MOVE LNAME     TO LNAMEO
+         MOVE FNAME     TO FNAMEO
+         MOVE ADDR      TO ADDRO
+         MOVE CITY      TO CITYO
+         MOVE STATE     TO STATEO
+         MOVE ZIPCODE   TO ZIPCODEO
+         MOVE SPACE     TO MESSAGEO
+     ELSE
+         IF SQLCODE = 100
+             MOVE 'N' TO VALID-DATA-SW
+             MOVE 'That customer does not exist.' TO MESSAGEO
+             MOVE SPACE TO LNAMEO
+                           FNAMEO
+                           ADDRO
+                           CITYO
+                           STATEO
+                           ZIPCODEO
+         ELSE
+             EXEC CICS
+                 ABEND
+             END-EXEC.
+*
+ 1400-SEND-CUSTOMER-DATA.
+*
+     EXEC CICS
+         SEND MAP('DINMAP1')
+              MAPSET('DINSET1')
+              FROM(DINMAP1O)
+              DATAONLY
+     END-EXEC.
+*
+ 1500-SEND-ERROR-MESSAGE.
+*
+     EXEC CICS
+         SEND MAP('DINMAP1')
+              MAPSET('DINSET1')
+              FROM(DINMAP1O)
+              DATAONLY
+              ALARM
+     END-EXEC.
+*
+ 2000-SEND-CUSTOMER-MAP.
+*
+     MOVE LOW-VALUE TO DINMAP1O.
+     EXEC CICS
+         SEND MAP('DINMAP1')
+              MAPSET('DINSET1')
+              FROM(DINMAP1O)
+              ERASE
+     END-EXEC.
+*

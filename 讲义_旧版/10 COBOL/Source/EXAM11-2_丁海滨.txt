@@ -1,0 +1,77 @@
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID.   EXAM112.
+       ENVIRONMENT       DIVISION.
+       INPUT-OUTPUT    SECTION.
+       FILE-CONTROL.
+             SELECT  INFILE  ASSIGN TO INFILE.
+             SELECT  SORTFILE  ASSIGN TO SW.
+             SELECT  DAFILE  ASSIGN TO DAFILE.
+             SELECT  OUTFILE   ASSIGN TO OUTFILE.
+       DATA         DIVISION.
+       FILE   SECTION.
+       FD   INFILE  LABEL  RECORD  IS  STANDARD RECORDING MODE IS F
+            DATA  RECORD  IS  INREC.
+       01  INREC.
+           02  WORKER-NUM   PIC  9(6).
+           02  SHOP-NUM     PIC  9(2).
+           02  ACTUAL-HOURS PIC  9(3)V9.
+           02  OVERTIME     PIC  9(3)V9.
+       SD    SORTFILE.
+       01  SORTREC.
+           02  WORKER-NUM   PIC  9(6).
+           02  SHOP-NUM     PIC  9(2).
+           02  ACTUAL-HOURS PIC  9(3)V9.
+           02  OVERTIME     PIC  9(3)V9.
+       FD    DAFILE   LABEL  RECORD  IS  STANDARD RECORDING MODE IS F.
+       01  DAREC.
+           02  WORKER-NUM   PIC  9(6).
+           02  SHOP-NUM     PIC  9(2).
+           02  ACTUAL-HOURS PIC  9(3)V9.
+           02  OVERTIME     PIC  9(3)V9.
+       FD    OUTFILE  LABEL  RECORD  IS  STANDARD RECORDING MODE IS F.
+       01  OUTREC.
+           02  FILLER       PIC  X(4).
+           02  WORKER-NUM   PIC  9(6).
+           02  FILLER       PIC  X(4).
+           02  SHOP-NUM     PIC  9(2).
+           02  FILLER       PIC  X(4).
+           02  ACTUAL-HOURS PIC  Z(3).9.
+           02  FILLER       PIC  X(4).
+           02  OVERTIME     PIC  Z(3).9.
+       PROCEDURE       DIVISION.
+       MAIN-PROC    SECTION.
+       SORT-PROC.
+           SORT  SORTFILE
+                ASCENDING KEY SHOP-NUM OF SORTREC
+                DESCENDING KEY OVERTIME OF SORTREC
+                INPUT PROCEDURE IS RECORD-SELECTION
+                OUTPUT PROCEDURE IS OUT.
+           STOP RUN.
+       RECORD-SELECTION  SECTION.
+       OPEN-INFILE.
+           OPEN INPUT INFILE.
+       SELECTION-PROC.
+           READ INFILE
+                 AT END CLOSE INFILE GO TO SELECTION-END.
+           IF OVERTIME OF INFILE NOT < 20.0
+              MOVE CORR INREC TO SORTREC
+              RELEASE   SORTREC.
+           GO TO SELECTION-PROC.
+       SELECTION-END.
+            EXIT.
+       OUT SECTION.
+       OUT-OPEN.
+            OPEN OUTPUT DAFILE, OUTFILE.
+       RETURN-PROC.
+            RETURN SORTFILE
+               AT END CLOSE DAFILE OUTFILE
+               GO TO LIST-AND-OUT-END.
+           MOVE SPACE TO OUTREC.
+           MOVE CORR SORTREC TO OUTREC.
+           WRITE OUTREC AFTER 2.
+           IF OVERTIME OF SORTREC NOT < 60.0
+              WRITE DAREC FROM SORTREC.
+           GO TO RETURN-PROC.
+       LIST-AND-OUT-END.
+           EXIT.
+

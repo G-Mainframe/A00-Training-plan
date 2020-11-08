@@ -1,0 +1,19 @@
+\MAC ;                                                                    
+        \COMM ** éôì∂ï}ó{éËìñÅ@éÛããé“ÉäÉìÉNèàóù **;                       
+                                                                          
+        \SENDO MSG='** éôì∂ï}ó{éËìñÅ@éÛããé“ÉäÉìÉNèàóù **';                
+        \PRIVLIB PWS@LM001,MEDIA=DK105;                                   
+        \STEP JFU245K;                                                    
+            \DBASSIGN  COMMIT=100;                                        
+            \ASSIGN IND1  ,JFU2351,MEDIA=DK302;                           
+            \DEFINE IND1  ,DVC=DS;                                        
+            \ASSIGN IND2  ,JFUSEIQ;                                       
+            \ASSIGN IND2AP,JFUSEIA1;                                      
+            \ASSIGN IND3  ,JFUJQSK;                                       
+            \ASSIGN IND3AP,JFUJQSA1;                                      
+            \ASSIGN OTD1  ,JFU2451,MEDIA=DK302,AU=CYL,SZ=1,INCSZ=5,       
+                                                           RLS=UNUSE;     
+            \DEFINE OTD1  ,DVC=DS;                                        
+            \ASSIGN PR01  ,@OUT;                                          
+            \DEFINE PR01  ,FORMSET=FXSTD03;                               
+        \ENDSTEP ;                                                        

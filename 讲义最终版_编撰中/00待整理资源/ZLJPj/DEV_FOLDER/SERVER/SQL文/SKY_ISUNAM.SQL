@@ -1,0 +1,10 @@
+CREATE TABLE SKY_ISUNAM
+(
+    ISUTYP                         CHAR(1) NOT NULL,
+    ISUNAM                         VARCHAR2(40)
+)
+/
+CREATE UNIQUE INDEX SKY_ISUNAM
+ON SKY_ISUNAM
+(ISUTYP)
+/

@@ -1,0 +1,38 @@
+DROP TABLE KEI_YOSIN;
+CREATE TABLE KEI_YOSIN
+(
+    契約番号                       CHAR(9) NOT NULL,
+    名寄せコード１                 CHAR(8) NOT NULL,
+    与信先名１                     VARCHAR2(60) NOT NULL,
+    保証担保内容１                 CHAR(2) NOT NULL,
+    保全範囲１                     CHAR(2) NOT NULL,
+    負担割合１                     NUMBER(3,0) NOT NULL,
+    名寄せコード２                 CHAR(8) NOT NULL,
+    与信先名２                     VARCHAR2(60) NOT NULL,
+    保証担保内容２                 CHAR(2) NOT NULL,
+    保全範囲２                     CHAR(2) NOT NULL,
+    負担割合２                     NUMBER(3,0) NOT NULL,
+    名寄せコード３                 CHAR(8) NOT NULL,
+    与信先名３                     VARCHAR2(60) NOT NULL,
+    保証担保内容３                 CHAR(2) NOT NULL,
+    保全範囲３                     CHAR(2) NOT NULL,
+    負担割合３                     NUMBER(3,0) NOT NULL,
+    名寄せコード４                 CHAR(8) NOT NULL,
+    与信先名４                     VARCHAR2(60) NOT NULL,
+    保証担保内容４                 CHAR(2) NOT NULL,
+    保全範囲４                     CHAR(2) NOT NULL,
+    負担割合４                     NUMBER(3,0) NOT NULL,
+    名寄せコード５                 CHAR(8) NOT NULL,
+    与信先名５                     VARCHAR2(60) NOT NULL,
+    保証担保内容５                 CHAR(2) NOT NULL,
+    保全範囲５                     CHAR(2) NOT NULL,
+    負担割合５                     NUMBER(3,0) NOT NULL,
+    登録日                         CHAR(8) NOT NULL,
+    登録時刻                       CHAR(6) NOT NULL,
+    登録担当者コード               CHAR(4) NOT NULL,
+    更新日                         CHAR(8) NOT NULL,
+    更新時刻                       CHAR(6) NOT NULL,
+    更新担当者コード               CHAR(4) NOT NULL,
+    CONSTRAINT PK_KEI_YOSIN PRIMARY KEY (契約番号) USING INDEX
+)
+/

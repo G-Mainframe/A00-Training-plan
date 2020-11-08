@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE root SYSTEM "actionmenufile.dtd"[
+<!ENTITY Menu_Remote_Actions '远程操作'>
+<!ENTITY Action_Assemble '汇编'>
+<!ENTITY Action_C_Compile 'C 编译'>
+<!ENTITY Action_JCL_Submit 'JCL 提交'>
+<!ENTITY Action_CPP_Compile 'C++ 编译'>
+<!ENTITY Action_Make 'Make'>
+<!ENTITY Action_Make_with_target '带有目标的 Make'>
+<!ENTITY Action_Link '链接'>
+<!ENTITY Comment_C_Compile '编译 C 源文件'>
+
+]>
+<root>
+<entity id="1121126094483" includedas="" location="" name="&Menu_Remote_Actions;" type="menu">
+<entity id="1062687906886" includedas="" location="" name="&Action_Assemble;" type="action"/>
+<entity id="1060879093859" includedas="" location="" name="&Action_C_Compile;" type="action"/>
+<entity id="1063131782792" includedas="" location="" name="&Action_JCL_Submit;" type="action"/>
+<entity id="1063829950502" includedas="" location="" name="&Action_CPP_Compile;" type="action"/>
+<entity id="1143742534828" includedas="" location="" name="&Action_Make;" type="action"/>
+<entity id="1144284340032" includedas="" location="" name="&Action_Link;" type="action"/>
+<entity id="1238186085097" includedas="" location="" name="&Action_Make_with_target;" type="action"/>
+</entity>
+<action clearconsole="pref" collectnames="true" comment="&Comment_C_Compile;" eventsfile="" iaction_id="com.ibm.tpf.core.remote.compile.action" id="1060879093859" lengthlimit="" name="&Action_C_Compile;" remotecommand="true" showgeneric="false" userexit="">
+<filetype>*.c</filetype>
+<command cmd="&amp;CC &amp;O '&amp;RN'">
+<headerfile value="bbshtpf.bbs">
+<headervars>'&amp;X' '&amp;RX' '&amp;N'</headervars>
+</headerfile>
+<commandheaderfile value="bbshcmd.bbs"/>
+<commandfooterfile value="bbsfcmd.bbs"/>
+<footerfile value="bbsftpf.bbs"/>
+</command>
+</action>
+<action clearconsole="pref" collectnames="false" comment="" eventsfile="" iaction_id="com.ibm.tpf.core.remote.compile.action" id="1063829950502" lengthlimit="" name="&Action_CPP_Compile;" remotecommand="true" showgeneric="false" userexit="">
+<filetype>*.cpp</filetype>
+<command cmd="&amp;CCP &amp;O '&amp;RN'">
+<headerfile value="bbshtpf.bbs"/>
+<commandheaderfile value="bbshcmd.bbs"/>
+<commandfooterfile value="bbsfcmd.bbs"/>
+<footerfile value="bbsftpf.bbs"/>
+</command>
+</action>
+<action clearconsole="pref" collectnames="false" comment="" eventsfile="" iaction_id="com.ibm.tpf.core.remote.jclsubmit.action" id="1063131782792" lengthlimit="" name="&Action_JCL_Submit;" remotecommand="true" showgeneric="false" userexit="">
+<filetype>*.jcl</filetype>
+<command cmd="BBSSUB '&amp;RN'">
+<headerfile value="bbshtpf.bbs"/>
+<commandheaderfile value="bbshcmd.bbs"/>
+<commandfooterfile value="bbsfcmd.bbs"/>
+<footerfile value="bbsftpf.bbs"/>
+</command>
+</action>
+<action clearconsole="pref" collectnames="false" comment="" eventsfile="" iaction_id="com.ibm.tpf.core.remote.assemble.action" id="1062687906886" lengthlimit="" name="&Action_Assemble;" remotecommand="true" showgeneric="false" userexit="">
+<filetype>*.asm</filetype>
+<filetype>*.s</filetype>
+<command cmd="as &amp;A '&amp;RN'">
+<headerfile value="bbshtpf.bbs">
+<headervars>'&amp;N' '&amp;R' '&amp;RN' '&amp;X' &amp;G</headervars>
+</headerfile>
+<commandheaderfile value="bbshcmd.bbs"/>
+<commandfooterfile value="bbsfcmd.bbs"/>
+<footerfile value="bbsftpf.bbs"/>
+</command>
+</action>
+<action clearconsole="pref" collectnames="false" comment="" eventsfile="" iaction_id="com.ibm.tpf.core.builders.MakeBuildAction" id="1143742534828" lengthlimit="" name="&Action_Make;" remotecommand="true" refresh="project.scope" showgeneric="false" userexit="">
+<filetype>*.mak</filetype>
+<command cmd="make &amp;M -f &amp;RN">
+<headerfile value="bbshtpf.bbs"/>
+<commandheaderfile value="bbshcmd.bbs"/>
+<commandfooterfile value="bbsfcmd.bbs"/>
+<footerfile value="bbsftpf.bbs"/>
+</command>
+</action>
+    <action actionType="ALL" clearconsole="pref" collectnames="false" comment="" eventsfile="" iaction_id="com.ibm.tpf.core.builders.MakeWithTargetBuildAction" id="1238186085097" lengthlimit="" name="&Action_Make_with_target;" outputindialog="false" refresh="project.scope" remotecommand="true" showgeneric="false" userexit="">
+        <filetype>*.mak</filetype>
+        <filetype>*.mk</filetype>
+        <command cmd="make &amp;M -f &amp;RN">
+            <headerfile value="bbshtpf.bbs"/>
+            <commandheaderfile value="bbshcmd.bbs"/>
+            <commandfooterfile value="bbsfcmd.bbs"/>
+            <footerfile value="bbsftpf.bbs"/>
+        </command>
+    </action>
+<action clearconsole="pref" collectnames="true" comment="" eventsfile="" iaction_id="com.ibm.tpf.core.builders.zOSLinkAction" id="1144284340032" lengthlimit="" name="&Action_Link;" remotecommand="true" showgeneric="false" userexit="">
+<filetype>*.o</filetype>
+<filetype>*.obj</filetype>
+<command cmd="xlC -o &amp;LINK_TARGET &amp;L &amp;RN">
+<headerfile value="bbshtpf.bbs"/>
+<commandheaderfile value="bbshcmd.bbs"/>
+<commandfooterfile value="bbsfcmd.bbs"/>
+<footerfile value="bbsftpf.bbs"/>
+</command>
+</action>
+</root>

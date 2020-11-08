@@ -1,0 +1,41 @@
+CREATE TABLE EXT_TAXMST_PL
+(
+    納付先コード                   CHAR(6) NOT NULL,
+    納付先名                       CHAR(20) NOT NULL,
+    銀行コード                     CHAR(4),
+    銀行名                         CHAR(30),
+    銀行名カナ                     CHAR(15),
+    報償金区分                     CHAR(1),
+    納付方法                       CHAR(1),
+    自動引落                       CHAR(1),
+    納付期限１                     CHAR(8),
+    納付期限２                     CHAR(8),
+    納付期限３                     CHAR(8),
+    納付期限４                     CHAR(8),
+    納付日１                       CHAR(8),
+    納付日２                       CHAR(8),
+    納付日３                       CHAR(8),
+    納付日４                       CHAR(8),
+    報償金入金日                   CHAR(8),
+    基準年                         CHAR(4),
+    不動産税区分                   CHAR(1),
+    処理区分                       CHAR(1),
+    作業区分                       CHAR(2),
+    更新標識                       CHAR(1),
+    税率                           NUMBER(4,3) NOT NULL,
+    課税標準額                     NUMBER(13,0) NOT NULL,
+    税額                           NUMBER(13,0) NOT NULL,
+    報償金                         NUMBER(13,0),
+    納付金額１                     NUMBER(13,0),
+    納付金額２                     NUMBER(13,0),
+    納付金額３                     NUMBER(13,0),
+    納付金額４                     NUMBER(13,0),
+    不動産税額                     NUMBER(13,0),
+    不動産税報償金                 NUMBER(13,0),
+    分割納付限度                   NUMBER(13,0)
+)
+/
+CREATE UNIQUE INDEX EXT_TAXMST_PL
+ON EXT_TAXMST_PL
+(納付先コード)
+/

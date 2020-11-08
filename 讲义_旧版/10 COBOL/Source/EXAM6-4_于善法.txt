@@ -1,0 +1,89 @@
+000001 IDENTIFICATION      DIVISION.
+       PROGRAM-ID.    EXAM64.
+       ENVIRONMENT         DIVISION.
+       INPUT-OUTPUT        SECTION.
+       FILE-CONTROL.
+           SELECT LP-FILE ASSIGN TO P-FILE.
+           SELECT INPUT-FILE ASSIGN TO IN-FILE.
+       DATA                DIVISION.
+       FILE                SECTION.
+       FD INPUT-FILE LABEL RECORD IS STANDARD
+           RECORDING MODE IS F.
+       01  IN-RECORD.
+           02  NAME PIC X(20).
+           02  SALEVALUE  PIC 9(5)V99.
+           02  NUMB-OF-MONTHS PIC 99.
+       FD  LP-FILE LABEL RECORD IS STANDARD
+            RECORDING MODE IS F.
+       01  LINEOUT  PIC X(137).
+       WORKING-STORAGE SECTION.
+       77  AMOUNT PIC S9(5)V9(4).
+       77  MONTH PIC S99.
+       77  PAYMENT PIC  S9(4)V99.
+       77  INTEREST  PIC S9(3)V9(4).
+       77  CONSTAN   PIC S9(4)V9(4).
+       77  END-DATA  PIC X(3) VALUE SPACE.
+       01  EDITOR.
+           02  FILLER PIC X.
+           02  ED-MONTH PIC ZZZ9.
+           02  FILLER PIC X(7) VALUE SPACES.
+           02  ED-INTEREST PIC Z(4).99.
+           02  FILLER PIC X(10) VALUE SPACES.
+           02  ED-PAYMENT PIC Z(5).99.
+           02  FILLER PIC X(8) VALUE SPACES.
+           02  BALANCE  PIC -(6).99.
+       01  HEADER-1.
+           02  FILLER PIC X(6) VALUE 'NAME:'.
+           02  HEAD-NAME  PIC X(14) VALUE SPACE.
+           02  TITLE-1 PIC X(25) VALUE 'SCHEDULE OF PAYME NTS'.
+       01  HEADER-2.
+           02  FILLER PIC X(18) VALUE SPACES.
+           02  TITLE-2  PIC X(15) VALUE  'ORIGINAL AMOUNT'.
+           02  FILLER  PIC X(3) VALUE SPACES.
+           02  HEAD-AMOUNT  PIC $$$,$$$.99.
+       01  HEADER-3.
+           02  FILLER PIC X(6) VALUE 'MONTH'.
+           02  FILLER PIC X(6) VALUE SPACES.
+           02  FILLER PIC X(8) VALUE 'INTERST'.
+           02  FILLER PIC X(6) VALUE SPACES.
+           02  FILLER PIC X(13) VALUE 'TOTAL PAYMENT'.
+           02  FILLER PIC X(6)  VALUE SPACES.
+           02  FILLER PIC X(14)  VALUE 'UNPAID BALANCE'.
+       PROCEDURE                 DIVISION.
+       MAIN.
+           PERFORM  A.
+           PERFORM  B THRU C UNTIL END-DATA = 'END'.
+           STOP RUN.
+       A.  OPEN INPUT INPUT-FILE
+                      OUTPUT LP-FILE.
+           READ INPUT-FILE
+                AT END MOVE 'END' TO END-DATA
+                CLOSE INPUT-FILE, LP-FILE.
+       B.
+           MOVE SPACE TO LINEOUT.
+           WRITE LINEOUT AFTER PAGE.
+           MOVE NAME TO HEAD-NAME.
+           MOVE SALEVALUE TO AMOUNT, HEAD-AMOUNT.
+           WRITE LINEOUT FROM HEADER-1 AFTER 1.
+           WRITE LINEOUT FROM HEADER-2 AFTER 1.
+           WRITE LINEOUT FROM HEADER-3 AFTER 1.
+       C.
+           DIVIDE NUMB-OF-MONTHS INTO AMOUNT
+                  GIVING CONSTAN.
+           MOVE 1 TO MONTH.
+           PERFORM D THRU E
+                 UNTIL MONTH > NUMB-OF-MONTHS.
+           READ INPUT-FILE
+                 AT END MOVE 'END' TO END-DATA
+           CLOSE INPUT-FILE, LP-FILE.
+       D.  MULTIPLY 0.012 BY AMOUNT GIVING INTEREST.
+           ADD CONSTAN INTEREST
+              GIVING PAYMENT ROUNDED.
+              SUBTRACT CONSTAN FROM AMOUNT.
+       E.  MOVE MONTH TO ED-MONTH.
+           MOVE INTEREST TO ED-INTEREST.
+           MOVE PAYMENT TO ED-PAYMENT.
+           MOVE AMOUNT TO BALANCE.
+           WRITE LINEOUT FROM EDITOR AFTER 1.
+           ADD 1 TO MONTH.
+

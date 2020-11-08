@@ -1,0 +1,13 @@
+bin\Debug\TestSYAIN.exe
+bin\Debug\TestSYAIN.pdb
+bin\Debug\StockLibrary.dll
+bin\Debug\StockLibrary.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\TestSYAIN.exe
+obj\Debug\TestSYAIN.pdb
+bin\Debug\TestSYAIN.exe.config
+bin\Release\TestSYAIN.exe.config
+bin\Release\TestSYAIN.exe
+bin\Release\StockLibrary.dll
+obj\Release\ResolveAssemblyReference.cache
+obj\Release\TestSYAIN.exe

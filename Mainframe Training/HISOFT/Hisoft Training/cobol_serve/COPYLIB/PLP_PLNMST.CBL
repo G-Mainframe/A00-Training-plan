@@ -1,0 +1,55 @@
+000010************************************************
+000020* (PLP_PLNMST)
+000030************************************************
+000040 01  ()FISYER           PIC  X(2).
+000050 01  ()PRTSEQ           PIC  X(2).
+000060 01  ()BASMON           PIC  X(6).
+000070 01  ()DIVCOD           PIC  X(4).
+000080 01  ()ACCTYP           PIC  X(2).
+000090 01  ()APPAMT           PIC S9(13) COMP-3.
+000100 01  ()APPART           PIC S9(13) COMP-3.
+000110 01  ()APPINT           PIC S9(13) COMP-3.
+000120 01  ()APPCST           PIC S9(13) COMP-3.
+000130 01  ()APPBAL           PIC S9(13) COMP-3.
+000140 01  ()APPPRE           PIC S9(13) COMP-3.
+000150 01  ()COLLEA           PIC S9(13) COMP-3.
+000160 01  ()COLCAP           PIC S9(13) COMP-3.
+000170 01  ()COLCST           PIC S9(13) COMP-3.
+000180 01  ()COLBAL           PIC S9(13) COMP-3.
+000190 01  ()CHGTAX           PIC S9(13) COMP-3.
+000200 01  ()CHGINS           PIC S9(13) COMP-3.
+000210 01  ()CHGMNT           PIC S9(13) COMP-3.
+000220 01  ()CHGOT1           PIC S9(13) COMP-3.
+000230 01  ()CHGOT2           PIC S9(13) COMP-3.
+000240 01  ()BALDEB           PIC S9(13) COMP-3.
+000250 01  ()BALCST           PIC S9(13) COMP-3.
+000260 01  ()BALGRT           PIC S9(13) COMP-3.
+000270 01  ()BALEST           PIC S9(13) COMP-3.
+000280 01  ()BALPRE           PIC S9(13) COMP-3.
+000290 01  ()FNCCAP           PIC S9(13) COMP-3.
+000300 01  ()FNCCOL           PIC S9(13) COMP-3.
+000310 01  ()FNCBAL           PIC S9(13) COMP-3.
+000320 01  ()FNCAVE           PIC S9(13) COMP-3.
+000330 01  ()FNCINT           PIC S9(13) COMP-3.
+000340 01  ()FNCUNP           PIC S9(13) COMP-3.
+000350 01  ()DEFCST           PIC S9(13) COMP-3.
+000360 01  ()DEFPRF           PIC S9(13) COMP-3.
+000370 01  ()DEFBAL           PIC S9(13) COMP-3.
+000380 01  ()RDMLEA           PIC S9(13) COMP-3.
+000390 01  ()RDMAMT           PIC S9(13) COMP-3.
+000400 01  ()RDMPRF           PIC S9(13) COMP-3.
+000410 01  ()RDMUNP           PIC S9(13) COMP-3.
+000420 01  ()RDMCRE           PIC S9(13) COMP-3.
+000430 01  ()RATAPP           PIC S9(13) COMP-3.
+000440 01  ()RATLEA           PIC S9(13) COMP-3.
+000450 01  ()RATCAP           PIC S9(13) COMP-3.
+000460 01  ()RATINT           PIC S9(13) COMP-3.
+000470 01  ()RATDEB           PIC S9(13) COMP-3.
+000480 01  ()RATBAL           PIC S9(13) COMP-3.
+000490 01  ()BIGAVE           PIC S9(13) COMP-3.
+000500 01  ()BIGINT           PIC S9(13) COMP-3.
+000510 01  ()SMLAST           PIC S9(13) COMP-3.
+000520 01  ()SMLBAL           PIC S9(13) COMP-3.
+000530 01  ()MONRDM           PIC S9(13) COMP-3.
+000540 01  ()PAYINT           PIC S9(13) COMP-3.
+000550 01  ()INTRAT           PIC S9(2)V9(4) COMP-3.

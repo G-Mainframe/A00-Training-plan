@@ -1,0 +1,195 @@
+<html>
+
+<head>
+<title>1.1 帳票印刷コントロールとは</title>
+</head>
+
+<body BGCOLOR="#FFFFFF">
+
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">
+  <tr>
+    <td ALIGN="LEFT"><strong>帳票印刷コントロール使用手引書</strong> 
+    </td>
+  </tr>
+  <tr>
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a HREF="pctl0110.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a href="pctl0125.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>       
+  </tr>       
+</table>       
+       
+<hr>       
+       
+<dl>       
+  <dl>       
+    <dt><a HREF="pctl0110.htm"><img SRC="../pctlosrc/up.gif" BORDER="0" ALT="上へ" WIDTH="16" HEIGHT="15">第1章        
+      帳票印刷コントロールを使用して印刷する</a> </dt>       
+  </dl>       
+</dl>       
+       
+<hr>       
+       
+<h2>1.1 帳票印刷コントロールとは</h2>       
+       
+<p>帳票印刷コントロールは、帳票のレイアウトなどを定義した“帳票定義体”(および“オーバレイ定義体”)を使用して帳票の印刷を行うソフトウェアの開発/運用のために提供するコントロール部品の総称です。</p>      
+      
+<p>当コントロールを利用することによる利点には次のようなことが挙げられます。       
+      
+<ul>      
+  <li>“集計表”の印刷処理のように、従来の手続き型のプログラミングでは処理の記述内容が複雑となるような帳票印刷のアプリケーションの開発を容易にし、開発時間を短縮できます。<br>  
+  </li>      
+  <li>当コントロールを利用して顧客に帳票部品       
+    を提供するような用途に使えます。この場合、顧客は帳票部品のオブジェクトに自らが作成した部品のオブジェクトを登録するだけで、加工元の情報を転記する程度の処理の記述で、複雑な帳票印刷の処理を行うようにすることも可能です。<!-- このような利用形態については“<A HREF="prtNNNNN.htm#n.n">利用形態の例</A>”を参照してください。-->       
+  </li>      
+</ul>      
+      
+<p>なお、帳票印刷コントロールを使ったプログラミングは、従来の帳票印刷のプログラミングとは異なり、オブジェクト指向を用いたイベント駆動型のプログラミングを行うことになります。</p>      
+      
+<p>下表に帳票印刷コントロールで利用可能な帳票定義体の種類を挙げます。なお、FORMで作成した帳票定義体(拡張子:SMD)や        
+PowerFORMで作成した“ファイルインタフェース”の帳票定義体(拡張子:PMD)は当コントロールでは利用できません。PowerFORM        
+V4.0L10以前で作成/編集した帳票定義体(拡張子:PMD)はファイルインタフェースの帳票定義体であり、同様に利用できません。“クラスインタフェース”の帳票定義体を新規に作成してください。</p>      
+      
+<p><a name="table.1">■<b>表 利用可能な帳票定義体の種類</b></a></p>     
+     
+<table border="1">     
+<tbody>     
+  <tr>     
+    <th width="150"><nobr>作成ソフトウェア</nobr></th>    
+    <th><nobr>帳票定義体分類</nobr></th>    
+    <th width="180"><nobr>帳票定義体</nobr>形式 <nobr>※1</nobr></th>       
+    <th width="80"><nobr>利用可能</nobr>/<nobr>不可能</nobr></th>       
+    <th width="180"><nobr>帳票定義体</nobr>種別 <nobr>※1</nobr></th>       
+<!-- TH>備考</TH -->       
+  </tr>       
+  <tr>       
+    <td align="middle" rowSpan="10" width="150">     
+      <p align="center">PowerFORM</p>    
+    </td>      
+    <td rowSpan="5" align="center"><nobr>クラスインタフェース※2</nobr>    
+      <p><nobr>(拡張子: PXD)</nobr></p>      
+    </td>       
+    <td width="180">ページ形式</td>       
+    <td width="80"><p align="center">○</td>       
+    <td width="180">ページ形式</td>       
+<!-- TD>特になし</TD -->       
+  </tr>       
+  <tr>       
+    <td width="180">段組み伝票形式</td>      
+    <td width="80"><p align="center">○</td>      
+    <td width="180">段組み伝票形式</td>      
+<!-- TD>〃</TD -->      
+  </tr>      
+  <tr>      
+    <td width="180" rowspan="2">集計表形式</td>      
+    <td width="80"><p align="center">○</td>      
+    <td width="180">集計表形式</td>     
+<!-- TD>〃</TD -->     
+  </tr>     
+  <tr>     
+    <td width="80">    
+      <p align="center">○</td>     
+    <td width="180">段組み集計表形式<nobr>※3</nobr></td>     
+  </tr>     
+  <tr>     
+    <td width="180">タックシール形式</td>     
+    <td width="80"><p align="center">○</td>     
+    <td width="180">タックシール形式</td>     
+<!-- TD>〃</TD -->     
+  </tr>     
+  <tr>     
+    <td rowSpan="5" align="center"><nobr>ファイルインタフェース※2</nobr>    
+      <p><nobr>(拡張子: PMD)</nobr></p>      
+    </td>       
+    <td width="180">自由パーティション形式</td>       
+    <td width="80"><p align="center">×</td>       
+    <td width="180" align="center">－</td>       
+<!-- TD>－</TD -->       
+  </tr>       
+  <tr>       
+    <td width="180">ページ形式</td>       
+    <td width="80"><p align="center">×</td>       
+    <td width="180" align="center">－</td>       
+<!-- TD>－</TD -->       
+  </tr>       
+  <tr>       
+    <td width="180">段組み伝票形式</td>      
+    <td width="80"><p align="center">×</td>      
+    <td width="180" align="center">－</td>      
+<!-- TD>－</TD -->      
+  </tr>      
+  <tr>      
+    <td width="180">集計表形式</td>      
+    <td width="80"><p align="center">×</td>      
+    <td width="180" align="center">－</td>      
+<!-- TD>－</TD -->      
+  </tr>      
+  <tr>      
+    <td width="180">タックシール形式</td>      
+    <td width="80"><p align="center">×</td>      
+    <td width="180" align="center">－</td>      
+<!-- TD>－</TD -->      
+  </tr>      
+  <tr>      
+    <td align="middle" rowSpan="4" width="150">     
+      <p align="center">FORM</p>    
+    </td>     
+    <td rowSpan="4" align="center"><nobr>(拡張子: SMD)</nobr></td>       
+    <td width="180">自由形式</td>       
+    <td width="80"><p align="center">×</td>       
+    <td width="180" align="center">－</td>       
+<!-- TD>－</TD -->       
+  </tr>       
+  <tr>       
+    <td width="180">伝票形式</td>       
+    <td width="80"><p align="center">×</td>       
+    <td width="180" align="center">－</td>       
+<!-- TD>－</TD -->       
+  </tr>       
+  <tr>       
+    <td width="180">自由パーティション形式</td>       
+    <td width="80"><p align="center">×</td>       
+    <td width="180" align="center">－</td>       
+<!-- TD>－</TD -->       
+  </tr>       
+  <tr>       
+    <td width="180">集計表パーティション形式</td>       
+    <td width="80"><p align="center">×</td>       
+    <td width="180" align="center">－</td>       
+<!-- TD>－</TD -->       
+  </tr>       
+</tbody>       
+</table>       
+       
+<p align="left">　　　　　　　　　　　　　　○:     
+帳票印刷コントロールでサポートする帳票定義体です。      
+      
+<p align="left">　　　　　　　　　　　　　　×:     
+帳票印刷コントロールで未サポートの帳票定義体です。      
+      
+<p align="left">　　　　　　　　　　　　　　－: 帳票印刷コントロールが認識しない種別の帳票定義体です。       
+       
+<p>[補足]        
+       
+<ul>       
+  <li>※1: “帳票定義体形式”とは、PowerFORMや FORMで作成/編集できる帳票定義体の種類のことです。<br>     
+    “帳票定義体種別”とは、帳票印刷コントロールが認識する帳票定義体の種類のことです。帳票定義体の分類や種類に依存しない汎用的な呼び名です。<br>    
+    本書では、帳票定義体種別で示した分類を使って説明しています。<br>  
+  </li>      
+  <li>※2: PowerFORMで“ウィザード”を使って帳票定義体を新規に作成する際に、どちらの分類(どのインタフェース)の帳票定義体を作成するか確認されます。<br>  
+  </li>       
+  <li>※3:   
+    本書では、帳票定義体形式が集計表形式で、かつ、帳票定義体のプロパティの段組みタブで｢段組みを行う｣を指定した帳票定義体を、段組み集計表形式と呼びます。</li>    
+</ul>    
+    
+<hr>    
+    
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">    
+  <tr>    
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a HREF="pctl0110.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a href="pctl0125.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>    
+  </tr>    
+</table>    
+    
+<hr>    
+    
+<p align="right">All Rights Reserved, Copyright (C) 富士通株式会社 
+1998-2001</p>    
+</body>    
+</html>    

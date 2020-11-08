@@ -1,0 +1,3 @@
+把SONG123.DAT.PS02的内容追加到SONG123.DAT.PS01的内容尾部。
+
+SONG123.DAT.PS01和SONG123.DAT.PS02都是sequential data set。

@@ -1,0 +1,244 @@
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1                Date 03/28/2014  Time 23:24:12   Page     1                
+0调用参数：
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0生效的选项：
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+     NOCICS                                                                                                                          
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILECOPY  Date 03/28/2014  Time 23:24:12   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0/* FILECOPY                                                                                                                         
+   000001                IDENTIFICATION DIVISION.                                                                                    
+   000002                PROGRAM-ID.   FILECOPY.                                                                                     
+   000003                ENVIRONMENT DIVISION.                                                                                       
+   000004                INPUT-OUTPUT SECTION.                                                                                       
+   000005                FILE-CONTROL.                                                                                               
+   000006                      SELECT IN-SEQ   ASSIGN TO IN01                                      18                                
+   000007                         FILE STATUS  SYS-FILE-STATUS.                                    40                                
+   000008               *                                                                                                            
+   000009                      SELECT IN-INDEX ASSIGN TO IN02                                      25                                
+   000010                      ORGANIZATION IS       INDEXED                                                                         
+   000011                      ACCESS MODE IS RANDOM                                                                                 
+   000012                      RECORD KEY CUSTOMER OF IN-INDEX-REC                                 28 26                             
+   000013                         FILE STATUS  SYS-FILE-STATUS.                                    40                                
+   000014                      SELECT OUT-SEQ   ASSIGN TO OUT01                                    32                                
+   000015                         FILE STATUS  SYS-FILE-STATUS.                                    40                                
+   000016                DATA DIVISION.                                                                                              
+   000017                FILE SECTION.                                                                                               
+   000018                FD IN-SEQ    LABEL RECORD IS STANDARD .                                                                     
+                                                                                                  
+ ==000018==> IGYGR1216-I 对于文件“IN-SEQ”，假定“RECORDING MODE”为“F”。
+                                                                                                  
+   000019                01 IN-SEQ-REC.                                                                                              
+   000020                     COPY RECDEF.                                                                                           
+   000021C                  05  CUSTOMER      PIC  X(4).                                                                             
+   000022C                  05  CUSTOMER-NAME PIC  X(10).                                                                            
+   000023C                  05  CUSTOMER-ADDRESS       PIC  X(20).                                                                   
+   000024C                  05  CUSTOMER-CITY          PIC  X(20).                                                                   
+   000025                FD IN-INDEX LABEL RECORD IS STANDARD .                                                                      
+                                                                                                  
+ ==000025==> IGYGR1213-I “LABEL”子句被当作此文件定义的注释处理。
+                                                                                                  
+   000026                01 IN-INDEX-REC.                                                                                            
+   000027                     COPY RECDEF.                                                                                           
+   000028C                  05  CUSTOMER      PIC  X(4).                                                                             
+   000029C                  05  CUSTOMER-NAME PIC  X(10).                                                                            
+   000030C                  05  CUSTOMER-ADDRESS       PIC  X(20).                                                                   
+   000031C                  05  CUSTOMER-CITY          PIC  X(20).                                                                   
+   000032                FD OUT-SEQ    LABEL RECORD IS STANDARD .                                                                    
+                                                                                                  
+ ==000032==> IGYGR1216-I 对于文件“OUT-SEQ”，假定“RECORDING MODE”为“F”。
+                                                                                                  
+   000033                01 OUT-SEQ-REC.                                                                                             
+   000034                     COPY RECDEF.                                                                                           
+   000035C                  05  CUSTOMER      PIC  X(4).                                                                             
+   000036C                  05  CUSTOMER-NAME PIC  X(10).                                                                            
+   000037C                  05  CUSTOMER-ADDRESS       PIC  X(20).                                                                   
+   000038C                  05  CUSTOMER-CITY          PIC  X(20).                                                                   
+   000039         000191 WORKING-STORAGE SECTION.                                                                                    
+   000040         000192 01 SYS-FILE-STATUS   PIC  X(2)  VALUE "00".                                                                 
+   000041                01 WK-FILE-END       PIC  9     VALUE ZERO.                               IMP                               
+   000042                01 WK-CNT.                                                                                                  
+   000043                   03 WK-CNT-IN-SEQ  PIC 99 VALUE ZERO.                                   IMP                               
+   000044                   03 WK-CNT-IN-INDEX  PIC 99 VALUE ZERO.                                 IMP                               
+   000045                   03 WK-CNT-OUT-SEQ  PIC 99 VALUE ZERO.                                  IMP                               
+   000046                PROCEDURE DIVISION.                                                                                         
+   000047                MAIN-PROCESS        SECTION.                                                                                
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILECOPY  Date 03/28/2014  Time 23:24:12   Page     3                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0  000048                MAIN-START.                                                                                                 
+   000049                    OPEN INPUT IN-SEQ,                                                    18                                
+   000050                         INPUT IN-INDEX,                                                  25                                
+   000051                         OUTPUT OUT-SEQ.                                                  32                                
+   000052                    IF  SYS-FILE-STATUS NOT = "00"                                        40                                
+   000053      1                 DISPLAY "OPEN " , SYS-FILE-STATUS                                 40                                
+   000054      1                 GO TO  MAIN-EMD                                                   60                                
+   000055                    END-IF.                                                                                                 
+   000056                    PERFORM READ-IN-SEQ-RTN.                                              82                                
+   000057               *                                                                                                            
+   000058                    PERFORM MAIN-RTN UNTIL WK-FILE-END = 1.                               64 41                             
+   000059               *                                                                                                            
+   000060                MAIN-EMD.                                                                                                   
+   000061                    CLOSE IN-SEQ , IN-INDEX , OUT-SEQ.                                    18 25 32                          
+   000062                    STOP RUN.                                                                                               
+   000063               *                                                                                                            
+   000064                MAIN-RTN           SECTION.                                                                                 
+   000065                MAIN-RTN-START.                                                                                             
+   000066                    MOVE CUSTOMER OF IN-SEQ-REC TO CUSTOMER OF IN-INDEX-REC.              21 19 28 26                       
+   000067                    PERFORM  READ-IN-INDEX-RTN.                                           94                                
+   000068                    IF SYS-FILE-STATUS = "00"                                             40                                
+   000069      1                 MOVE  IN-INDEX-REC TO OUT-SEQ-REC                                 26 33                             
+   000070      1                 WRITE  OUT-SEQ-REC                                                33                                
+   000071      1                 IF SYS-FILE-STATUS = "00"                                         40                                
+   000072      2                    ADD 1 TO WK-CNT-OUT-SEQ                                        45                                
+   000073      1                 END-IF                                                                                              
+   000074                    ELSE                                                                                                    
+   000075      1                 DISPLAY  "WRITE "  SYS-FILE-STATUS                                40                                
+   000076      1                 MOVE 1 TO WK-FILE-END                                             41                                
+   000077                    END-IF.                                                                                                 
+   000078                                                                                                                            
+   000079                MAIN-RTN-END.                                                                                               
+   000080                    EXIT.                                                                                                   
+   000081               *                                                                                                            
+   000082                READ-IN-SEQ-RTN    SECTION.                                                                                 
+   000083                READ-IN-SEQ-RTN-START.                                                                                      
+   000084                    READ IN-SEQ.                                                          18                                
+   000085                    IF  SYS-FILE-STATUS NOT = "00"                                        40                                
+   000086      1                 DISPLAY "READ IN-SEQ=" ,  SYS-FILE-STATUS                         40                                
+   000087      1                 MOVE 1 TO WK-FILE-END                                             41                                
+   000088                    ELSE                                                                                                    
+   000089      1                 ADD 1 TO WK-CNT-IN-SEQ                                            43                                
+   000090                    END-IF.                                                                                                 
+   000091                READ-IN-SEQ-RTN-END.                                                                                        
+   000092                    EXIT.                                                                                                   
+   000093               *                                                                                                            
+   000094                READ-IN-INDEX-RTN    SECTION.                                                                               
+   000095                READ-IN-INDEX-RTN-START.                                                                                    
+   000096                    READ IN-SEQ.                                                          18                                
+   000097                    IF  SYS-FILE-STATUS NOT = "00"                                        40                                
+   000098      1                 DISPLAY "READ IN-SEQ=" ,  SYS-FILE-STATUS                         40                                
+   000099                    ELSE                                                                                                    
+   000100      1                 ADD 1 TO WK-CNT-IN-INDEX                                          44                                
+   000101                    END-IF.                                                                                                 
+   000102                READ-IN-INDEX-RTN-END.                                                                                      
+   000103                    EXIT.                                                                                                   
+ */ FILECOPY                                                                                                                         
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILECOPY  Date 03/28/2014  Time 23:24:12   Page     4                
+0数据名引用前的“M”指示数据名由此引用修改。
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+       21   CUSTOMER . . . . . . . . . . .  66                                                                                                                               
+       28   CUSTOMER . . . . . . . . . . .  12 M66                                                                                                                           
+       35   CUSTOMER                                                                                                                                                         
+       23   CUSTOMER-ADDRESS                                                                                                                                                 
+       30   CUSTOMER-ADDRESS                                                                                                                                                 
+       37   CUSTOMER-ADDRESS                                                                                                                                                 
+       24   CUSTOMER-CITY                                                                                                                                                    
+       31   CUSTOMER-CITY                                                                                                                                                    
+       38   CUSTOMER-CITY                                                                                                                                                    
+       22   CUSTOMER-NAME                                                                                                                                                    
+       29   CUSTOMER-NAME                                                                                                                                                    
+       36   CUSTOMER-NAME                                                                                                                                                    
+       25   IN-INDEX . . . . . . . . . . .  9 50 61                                                                                                                          
+       26   IN-INDEX-REC . . . . . . . . .  12 66 69                                                                                                                         
+       18   IN-SEQ . . . . . . . . . . . .  6 49 61 84 96                                                                                                                    
+       19   IN-SEQ-REC . . . . . . . . . .  66                                                                                                                               
+       32   OUT-SEQ. . . . . . . . . . . .  14 51 61                                                                                                                         
+       33   OUT-SEQ-REC. . . . . . . . . .  M69 70                                                                                                                           
+       40   SYS-FILE-STATUS. . . . . . . .  7 13 15 52 53 68 71 75 85 86 97 98                                                                                               
+       42   WK-CNT                                                                                                                                                           
+       44   WK-CNT-IN-INDEX. . . . . . . .  M100                                                                                                                             
+       43   WK-CNT-IN-SEQ. . . . . . . . .  M89                                                                                                                              
+       45   WK-CNT-OUT-SEQ . . . . . . . .  M72                                                                                                                              
+       41   WK-FILE-END. . . . . . . . . .  58 M76 M87                                                                                                                       
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILECOPY  Date 03/28/2014  Time 23:24:12   Page     5                
+0上下文用法由过程名引用前的字母指示。
+ 这些字母和它们的含义为：
+     A = ALTER（过程名）
+     D = GO TO（过程名）DEPENDING ON
+     E = 范围（PERFORM）到（过程名）的结束
+     G = GO TO（过程名）
+     P = PERFORM（过程名）
+     T = (ALTER) TO PROCEED TO（过程名）
+     U = USE FOR DEBUGGING（过程名）
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+       60   MAIN-EMD . . . . . . . . . . .  G54                                                                                                                              
+       47   MAIN-PROCESS                                                                                                                                                     
+       64   MAIN-RTN . . . . . . . . . . .  P58                                                                                                                              
+       79   MAIN-RTN-END                                                                                                                                                     
+       65   MAIN-RTN-START                                                                                                                                                   
+       48   MAIN-START                                                                                                                                                       
+       94   READ-IN-INDEX-RTN. . . . . . .  P67                                                                                                                              
+      102   READ-IN-INDEX-RTN-END                                                                                                                                            
+       95   READ-IN-INDEX-RTN-START                                                                                                                                          
+       82   READ-IN-SEQ-RTN. . . . . . . .  P56                                                                                                                              
+       91   READ-IN-SEQ-RTN-END                                                                                                                                              
+       83   READ-IN-SEQ-RTN-START                                                                                                                                            
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILECOPY  Date 03/28/2014  Time 23:24:12   Page     6                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   FILECOPY                                                                                                                                                         
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILECOPY  Date 03/28/2014  Time 23:24:12   Page     7                
+0LineID  Message code  Message text
+                                                                                                                                     
+     18  IGYGR1216-I   对于文件“IN-SEQ”，假定“RECORDING MODE”为“F”。
+                                                                                                                                     
+     25  IGYGR1213-I   “LABEL”子句被当作此文件定义的注释处理。
+                                                                                                                                     
+     32  IGYGR1216-I   对于文件“OUT-SEQ”，假定“RECORDING MODE”为“F”。
+-Messages    Total    Informational    Warning    Error    Severe    Terminating
+0Printed:       3           3                                               
+-* COBOL 程序 FILECOPY 的统计信息：
+ *    源记录 = 103
+ *    数据部分语句 = 21
+ *    过程部分语句 = 29
+0语言环境 = zh_CN.IBM-1386
+0编译 1 结束，程序 FILECOPY，最高级别严重性：参考。
+0返回码 0

@@ -1,0 +1,9 @@
+IMS         OK
+MVS         ok
+CICS    
+JCL ES07    OK
+VSAM        OK
+DB2
+Cobol_trainning  OK
+JCL trainning   OK
+PL1-new-material.rar   ok

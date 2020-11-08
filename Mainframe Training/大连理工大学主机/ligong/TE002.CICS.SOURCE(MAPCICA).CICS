@@ -1,0 +1,59 @@
+000001 IDENTIFICATION DIVISION.                                         00010000
+       PROGRAM-ID MAPCICA.                                              00020004
+       DATA DIVISION.                                                   00030000
+       WORKING-STORAGE SECTION.                                         00040000
+       01 RECL     PIC S9(4) COMP.                                      00050000
+       01 RECKEY   PIC X(6).                                            00060000
+       01 ERR-CODE PIC S9(8) COMP.                                      00070019
+       01 FILEREC.                                                      00080000
+           02   NAMES   PIC X(20).                                      00090000
+           02   STOCKS  PIC S9(6).                                      00100011
+           02   QUANS   PIC S9(10).                                     00110011
+       01 COMSTART.                                                     00120000
+           05 NAMESS PIC X(20).                                         00130001
+             COPY MAPSETA.                                              00140000
+             COPY DFHAID.                                               00150000
+       PROCEDURE DIVISION.                                              00160000
+      *                                                                 00170000
+           EXEC CICS SEND MAP('ORDERM') MAPSET('MAPSETA') MAPONLY       00180006
+                END-EXEC.                                               00190006
+       INPUT1.                                                          00200015
+           EXEC CICS RECEIVE MAP('ORDERM') MAPSET('MAPSETA')            00210021
+                   END-EXEC                                             00220006
+           MOVE 36 TO RECL.                                             00230005
+           IF STOCKL NOT EQUAL 6                                        00240013
+              MOVE 'PLEASE INPUT VALID STOCK NUMBER!' TO MSGO           00250013
+              EXEC CICS SEND MAP('ORDERM') MAPSET('MAPSETA')            00260019
+                                            ERASE                       00270018
+              END-EXEC                                                  00280013
+              GO TO INPUT1                                              00290015
+           ELSE                                                         00300013
+              MOVE STOCKI TO RECKEY                                     00310013
+              EXEC CICS READ FILE('LUKSDS')                             00320013
+                          INTO(FILEREC)                                 00330000
+                          RIDFLD(RECKEY)                                00340000
+                          KEYLENGTH(6)                                  00350029
+                          RESP(ERR-CODE)                                00360019
+                          END-EXEC                                      00370013
+              IF ERR-CODE EQUAL DFHRESP(NOTFND)                         00380019
+                  MOVE 'RECORD NOT FOUND! REENTER AGAIN!' TO MSGO       00390019
+                  EXEC CICS SEND MAP('ORDERM') MAPSET('MAPSETA')        00400019
+                                                ERASE                   00410019
+                  END-EXEC                                              00420019
+                  GO TO INPUT1.                                         00430020
+              IF ERR-CODE EQUAL DFHRESP(NORMAL)                         00440019
+                  MOVE NAMES TO NAMEO                                   00450019
+                  MOVE STOCKS TO STOCKO                                 00460019
+                  MOVE QUANS TO QUANO                                   00470019
+                  MOVE 'RECORD FOUND!' TO MSGO                          00480024
+                  EXEC CICS SEND MAP('ORDERM') MAPSET('MAPSETA') ERASE  00490023
+                  END-EXEC                                              00500019
+              ELSE                                                      00510019
+                  MOVE 'ERROR OCCURS!' TO MSGO                          00520019
+                  EXEC CICS SEND MAP('ORDERM') MAPSET('MAPSETA')        00530019
+                                                ERASE                   00540019
+                  END-EXEC.                                             00550019
+            EXEC CICS RETURN END-EXEC.                                  00560013
+           GOBACK.                                                      00570000
+      *        EXIT.                                                    00580000
+

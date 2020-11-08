@@ -1,0 +1,703 @@
+      ******************************************************************00010036
+      *IDENTIFICATION DIVISION                                         *00020036
+      ******************************************************************00030036
+       IDENTIFICATION              DIVISION.                            00040036
+       PROGRAM-ID.                 PGMTESTA.                            00050036
+      ******************************************************************00060036
+      *|DATE      |AUTHOR  | COMMENT                                   |00070036
+      *|---------------------------------------------------------------|00080036
+      *|2007/11/23|LIGC    | NEW                                       |00090036
+      *|---------------------------------------------------------------|00100036
+      *|          |        |                                           |00110036
+      ******************************************************************00120036
+      *ENVIRONMENT                 DIVISION                            *00130036
+      ******************************************************************00140036
+       ENVIRONMENT                 DIVISION.                            00150036
+       CONFIGURATION               SECTION.                             00160036
+       INPUT-OUTPUT                SECTION.                             00170036
+       FILE-CONTROL.                                                    00180036
+           SELECT  QMSTFILO ASSIGN    TO QMSTFILO                       00190036
+                   ORGANIZATION       IS SEQUENTIAL                     00200036
+                   ACCESS MODE        IS SEQUENTIAL                     00210036
+                   FILE   STATUS      IS QMSTFILO-FILE-STATUS.          00220036
+           SELECT  TSCFILEO ASSIGN    TO TSCFILEO                       00230036
+                   ORGANIZATION       IS SEQUENTIAL                     00240036
+                   ACCESS MODE        IS SEQUENTIAL                     00250036
+                   FILE   STATUS      IS TSCFILEO-FILE-STATUS.          00260036
+           SELECT  ERRFILE  ASSIGN    TO ERRFILE                        00270036
+                   ORGANIZATION       IS SEQUENTIAL                     00280036
+                   ACCESS MODE        IS SEQUENTIAL                     00290036
+                   FILE   STATUS      IS ERRFILE-FILE-STATUS.           00300036
+           SELECT  QMSTFILN ASSIGN    TO QMSTFILN                       00310036
+                   ORGANIZATION       IS SEQUENTIAL                     00320036
+                   ACCESS MODE        IS SEQUENTIAL                     00330036
+                   FILE   STATUS      IS QMSTFILN-FILE-STATUS.          00340036
+           SELECT  MPAYFIL  ASSIGN    TO MPAYFIL                        00350036
+                   ORGANIZATION       IS SEQUENTIAL                     00360036
+                   ACCESS MODE        IS SEQUENTIAL                     00370036
+                   FILE   STATUS      IS MPAYFIL-FILE-STATUS.           00380036
+           SELECT  ARCHFILE ASSIGN    TO ARCHFILE                       00390036
+                   ORGANIZATION       IS SEQUENTIAL                     00400036
+                   ACCESS MODE        IS SEQUENTIAL                     00410036
+                   FILE   STATUS      IS ARCHFILE-FILE-STATUS.          00420036
+           SELECT  SETLILE  ASSIGN    TO SETLILE                        00430036
+                   ORGANIZATION       IS SEQUENTIAL                     00440036
+                   ACCESS MODE        IS SEQUENTIAL                     00450036
+                   FILE   STATUS      IS SETLILE-FILE-STATUS.           00460036
+      ******************************************************************00470036
+      *DATA                        DIVISION                            *00480036
+      ******************************************************************00490036
+       DATA                        DIVISION.                            00500036
+      ******************************************************************00510036
+       FILE                        SECTION.                             00520036
+      *---<INPUT FILE>--------------------------------------------------00530036
+      **** MASTER FILE *************************************************00540036
+       FD  QMSTFILO.                                                    00550036
+       01  QMSTFILO-REC.                                                00560036
+       COPY VMSTFILE.                                                   00570036
+      **** TRANSACTION FILE  *******************************************00580036
+       FD  TSCFILEO.                                                    00590036
+       01  TSCFILEO-REC            PIC X(90).                           00600036
+      *---<OUTPUT FILE>-------------------------------------------------00610036
+      **** ERROR REPORT FILE *******************************************00620036
+       FD  ERRFILE.                                                     00630036
+       01  ERRFILE-REC.                                                 00640036
+       COPY ERRFILEC.                                                   00650036
+      **** QMSTFILN FILE ***********************************************00660036
+       FD  QMSTFILN.                                                    00670036
+       01  QMSTFILN-REC.                                                00680036
+       COPY VMSTFILE.                                                   00690036
+      **** MPAYFIL  FILE ***********************************************00700036
+       FD  MPAYFIL.                                                     00710036
+       01  MPAYFIL-REC.                                                 00720036
+       COPY MPAYFILC.                                                   00730036
+      **** ARCHFILE FILE ***********************************************00740036
+       FD  ARCHFILE.                                                    00750036
+       01  ARCHFILE-REC.                                                00760036
+       COPY ARCHFILC.                                                   00770036
+      **** SETLILE  FILE ***********************************************00780036
+       FD  SETLILE.                                                     00790036
+       01  SETLILE-REC.                                                 00800036
+       COPY SETLILEC.                                                   00810036
+      *-----------------------------------------------------------------00820036
+       WORKING-STORAGE             SECTION.                             00830036
+      ******************************************************************00840036
+       01  WK-TEMP-STR             PIC X(100).                          00850036
+      ***** SYSTEM DATE ************************************************00860036
+       01   WK-DATM.                                                    00870036
+         03 WK-DATM-YYYY           PIC X(04).                           00880036
+         03 WK-DATM-MM             PIC X(02).                           00890036
+         03 WK-DATM-DD             PIC X(02).                           00900036
+      ***** SYSIN  DATE ************************************************00910036
+       01   WK-DATN.                                                    00920036
+         03 WK-DATN-YYYY           PIC X(04).                           00930036
+         03 WK-DATN-MM             PIC X(02).                           00940036
+         03 WK-DATN-DD             PIC X(02).                           00950036
+      **** TRANSACTION FILE FORMAT LIST ********************************00960036
+       COPY TSCFILE.                                                    00970036
+      **** TRANSACTION FILE EMP ID TEMP ********************************00980036
+       01  WK-TEMP-EMPID           PIC X(06).                           00990036
+       01  WK-TEMP-LINE            PIC X(90).                           01000036
+       01  WK-TEMP-FLG             PIC X(01).                           01010036
+      **** PROGRAM ID **************************************************01020036
+       01  WK-PROGRAM-ID           PIC X(08) VALUE "PGMTESTA".          01030036
+      ******************************************************************01040036
+      * ERROR FORMAT                                                   *01050036
+      ******************************************************************01060036
+       COPY DISERROR.                                                   01070036
+      ******************************************************************01080036
+      * FILE INPUT/OUTPUT COUNT TOTAL FORMAT                           *01090036
+      ******************************************************************01100036
+       01    WK-QMSTFILO-I.                                             01110036
+         03  FILLER                PIC X(20) VALUE                      01120036
+             "INPUT FILE QMSTFILO:".                                    01130036
+         03  WK-QMSTFILO-CNT       PIC ZZZZZ9.                          01140036
+         03  FILLER                PIC X(07) VALUE " COUNT.".           01150036
+       01    WK-TSCFILEO-I.                                             01160036
+         03  FILLER                PIC X(20) VALUE                      01170036
+             "INPUT FILE TSCFILEO:".                                    01180036
+         03  WK-TSCFILEO-CNT       PIC ZZZZZ9.                          01190036
+         03  FILLER                PIC X(07) VALUE " COUNT.".           01200036
+       01    WK-QMSTFILN-O.                                             01210036
+         03  FILLER                PIC X(21) VALUE                      01220036
+             "OUTPUT FILE QMSTFILN:".                                   01230036
+         03  WK-QMSTFILN-CNT       PIC ZZZZZ9.                          01240036
+         03  FILLER                PIC X(07) VALUE " COUNT.".           01250036
+       01    WK-ARCHFILE-O.                                             01260036
+         03  FILLER                PIC X(21) VALUE                      01270036
+             "OUTPUT FILE ARCHFILE:".                                   01280036
+         03  WK-ARCHFILE-CNT       PIC ZZZZZ9.                          01290036
+         03  FILLER                PIC X(07) VALUE " COUNT.".           01300036
+       01    WK-ERRFILE-O.                                              01310036
+         03  FILLER                PIC X(21) VALUE                      01320036
+             "OUTPUT FILE ERRFILE :".                                   01330036
+         03  WK-ERRFILE-CNT        PIC ZZZZZ9.                          01340036
+         03  FILLER                PIC X(07) VALUE " COUNT.".           01350036
+       01    WK-MPAYFIL-O.                                              01360036
+         03  FILLER                PIC X(21) VALUE                      01370036
+             "OUTPUT FILE MPAYFIL :".                                   01380036
+         03  WK-MPAYFIL-CNT        PIC ZZZZZ9.                          01390036
+         03  FILLER                PIC X(07) VALUE " COUNT.".           01400036
+       01    WK-SETLILE-O.                                              01410036
+         03  FILLER                PIC X(21) VALUE                      01420036
+             "OUTPUT FILE SETLILE :".                                   01430036
+         03  WK-SETLILE-CNT        PIC ZZZZZ9.                          01440036
+         03  FILLER                PIC X(07) VALUE " COUNT.".           01450036
+       01    WK-FILE-COUNT.                                             01460036
+         03  WK-QMSTFILO-9         PIC 9(06).                           01470036
+         03  WK-TSCFILEO-9         PIC 9(06).                           01480036
+         03  WK-QMSTFILN-9         PIC 9(06).                           01490036
+         03  WK-ARCHFILE-9         PIC 9(06).                           01500036
+         03  WK-ERRFILE-9          PIC 9(06).                           01510036
+         03  WK-MPAYFIL-9          PIC 9(06).                           01520036
+         03  WK-SETLILE-9          PIC 9(06).                           01530036
+      ******************************************************************01540036
+      * FILE STATUS                                                    *01550036
+      ******************************************************************01560036
+       77  QMSTFILO-FILE-STATUS    PIC X(02).                           01570036
+       77  QMSTFILN-FILE-STATUS    PIC X(02).                           01580036
+       77  TSCFILEO-FILE-STATUS    PIC X(02).                           01590036
+       77  ARCHFILE-FILE-STATUS    PIC X(02).                           01600036
+       77  ERRFILE-FILE-STATUS     PIC X(02).                           01610036
+       77  MPAYFIL-FILE-STATUS     PIC X(02).                           01620036
+       77  SETLILE-FILE-STATUS     PIC X(02).                           01630036
+      ******************************************************************01640036
+       PROCEDURE                   DIVISION.                            01650036
+      ******************************************************************01660036
+       PROC-MAIN                   SECTION.                             01670036
+      *                                                                 01680036
+           PERFORM  PROC-INIT.                                          01690036
+      *                                                                 01700036
+           PERFORM  PROC-MAIN1.                                         01710036
+      *                                                                 01720036
+           PERFORM  PROC-END.                                           01730036
+      *                                                                 01740036
+       PROC-MAIN-EXT.                                                   01750036
+           STOP RUN.                                                    01760036
+      ******************************************************************01770036
+       PROC-INIT                   SECTION.                             01780036
+      *                                                                 01790036
+           INITIALIZE              WK-TSC-H                             01800036
+                                   WK-TSC-R                             01810036
+                                   WK-TSC-U                             01820036
+                                   WK-FILE-COUNT.                       01830036
+      *    ACCEPT CURRENT DATE                                          01840036
+           ACCEPT WK-DATM FROM DATE YYYYMMDD.                           01850036
+      *    ACCEPT SYSIN DATE                                            01860036
+           ACCEPT WK-DATN FROM SYSIN.                                   01870036
+           OPEN INPUT  TSCFILEO.                                        01880036
+           IF TSCFILEO-FILE-STATUS NOT = "00"  THEN                     01890036
+              MOVE SPACE           TO WK-ERR                            01900036
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            01910036
+              MOVE TSCFILEO-FILE-STATUS                                 01920036
+                                   TO WK-ERR-CD OF WK-ERR               01930036
+              MOVE "FILE TSCFILEO OPEN ERROR"                           01940036
+                                   TO WK-ERR-MSG OF WK-ERR              01950036
+              DISPLAY WK-ERR                                            01960036
+              STOP RUN                                                  01970036
+           END-IF.                                                      01980036
+           OPEN INPUT  QMSTFILO.                                        01990036
+           IF QMSTFILO-FILE-STATUS NOT = "00"  THEN                     02000036
+              MOVE SPACE           TO WK-ERR                            02010036
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            02020036
+              MOVE QMSTFILO-FILE-STATUS                                 02030036
+                                   TO WK-ERR-CD OF WK-ERR               02040036
+              MOVE "FILE QMSTFILO OPEN ERROR"                           02050036
+                                   TO WK-ERR-MSG OF WK-ERR              02060036
+              DISPLAY WK-ERR                                            02070036
+              CLOSE TSCFILEO                                            02080036
+              STOP RUN                                                  02090036
+           END-IF.                                                      02100036
+           OPEN OUTPUT QMSTFILN.                                        02110036
+           IF QMSTFILN-FILE-STATUS NOT = "00"  THEN                     02120036
+              MOVE SPACE           TO WK-ERR                            02130036
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            02140036
+              MOVE QMSTFILN-FILE-STATUS                                 02150036
+                                   TO WK-ERR-CD OF WK-ERR               02160036
+              MOVE "FILE QMSTFILN OPEN ERROR"                           02170036
+                                   TO WK-ERR-MSG OF WK-ERR              02180036
+              DISPLAY WK-ERR                                            02190036
+              CLOSE TSCFILEO QMSTFILO                                   02200036
+              STOP RUN                                                  02210036
+           END-IF.                                                      02220036
+           OPEN OUTPUT ERRFILE.                                         02230036
+           IF ERRFILE-FILE-STATUS  NOT = "00"  THEN                     02240036
+              MOVE SPACE           TO WK-ERR                            02250036
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            02260036
+              MOVE ERRFILE-FILE-STATUS                                  02270036
+                                   TO WK-ERR-CD OF WK-ERR               02280036
+              MOVE "FILE ERRFILE OPEN ERROR"                            02290036
+                                   TO WK-ERR-MSG OF WK-ERR              02300036
+              DISPLAY WK-ERR                                            02310036
+              CLOSE TSCFILEO QMSTFILO QMSTFILN                          02320036
+              STOP RUN                                                  02330036
+           END-IF.                                                      02340036
+           OPEN OUTPUT MPAYFIL.                                         02350036
+           IF MPAYFIL-FILE-STATUS  NOT = "00"  THEN                     02360036
+              MOVE SPACE           TO WK-ERR                            02370036
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            02380036
+              MOVE MPAYFIL-FILE-STATUS                                  02390036
+                                   TO WK-ERR-CD OF WK-ERR               02400036
+              MOVE "FILE MPAYFIL OPEN ERROR"                            02410036
+                                   TO WK-ERR-MSG OF WK-ERR              02420036
+              DISPLAY WK-ERR                                            02430036
+              CLOSE TSCFILEO QMSTFILO QMSTFILN ERRFILE                  02440036
+              STOP RUN                                                  02450036
+           END-IF.                                                      02460036
+           OPEN OUTPUT ARCHFILE.                                        02470036
+           IF ARCHFILE-FILE-STATUS NOT = "00"  THEN                     02480036
+              MOVE SPACE           TO WK-ERR                            02490036
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            02500036
+              MOVE ARCHFILE-FILE-STATUS                                 02510036
+                                   TO WK-ERR-CD OF WK-ERR               02520036
+              MOVE "FILE ARCHFILE OPEN ERROR"                           02530036
+                                   TO WK-ERR-MSG OF WK-ERR              02540036
+              DISPLAY WK-ERR                                            02550036
+              CLOSE TSCFILEO QMSTFILO QMSTFILN ERRFILE MPAYFIL          02560036
+              STOP RUN                                                  02570036
+           END-IF.                                                      02580036
+           OPEN OUTPUT SETLILE.                                         02590036
+           IF SETLILE-FILE-STATUS  NOT = "00"  THEN                     02600036
+              MOVE SPACE           TO WK-ERR                            02610036
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            02620036
+              MOVE SETLILE-FILE-STATUS                                  02630036
+                                   TO WK-ERR-CD OF WK-ERR               02640036
+              MOVE "FILE SETLILE  OPEN ERROR"                           02650036
+                                   TO WK-ERR-MSG OF WK-ERR              02660036
+              DISPLAY WK-ERR                                            02670036
+              CLOSE TSCFILEO QMSTFILO QMSTFILN ERRFILE MPAYFIL          02680036
+                    ARCHFILE                                            02690036
+              STOP RUN                                                  02700036
+           END-IF.                                                      02710036
+           MOVE SPACE             TO WK-TEMP-EMPID.                     02720036
+           MOVE SPACE             TO WK-TEMP-FLG.                       02730036
+           MOVE SPACE             TO WK-TEMP-LINE.                      02740036
+           MOVE SPACE             TO TSCFILEO-REC.                      02750036
+           PERFORM  PROC-TSC-READ.                                      02760036
+           IF TSCFILEO-FILE-STATUS = "00"    THEN                       02770036
+              MOVE TSCFILEO-REC      TO WK-TEMP-LINE                    02780036
+              MOVE TSCFILEO-REC(2:6) TO WK-TEMP-EMPID                   02790036
+              PERFORM PROC-TSC-READ                                     02800036
+           END-IF.                                                      02810036
+           PERFORM  PROC-QMS-READ.                                      02820036
+      *                                                                 02830036
+       PROC-INIT-EXT.                                                   02840036
+           EXIT.                                                        02850036
+      ******************************************************************02860036
+       PROC-QMS-READ               SECTION.                             02870036
+      *                                                                 02880036
+           READ QMSTFILO.                                               02890036
+           IF QMSTFILO-FILE-STATUS NOT = "00" AND "10" THEN             02900036
+              MOVE SPACE           TO WK-ERR                            02910036
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            02920036
+              MOVE QMSTFILO-FILE-STATUS                                 02930036
+                                   TO WK-ERR-CD OF WK-ERR               02940036
+              MOVE "FILE QMSTFILO READ ERROR"                           02950036
+                                   TO WK-ERR-MSG OF WK-ERR              02960036
+              PERFORM PROC-ERR                                          02970036
+           END-IF.                                                      02980036
+           IF QMSTFILO-FILE-STATUS NOT = "10"          THEN             02990036
+              ADD 1                TO WK-QMSTFILO-9                     03000036
+           END-IF.                                                      03010036
+      *                                                                 03020036
+       PROC-QMS-EXT.                                                    03030036
+           EXIT.                                                        03040036
+      ******************************************************************03050036
+       PROC-TSC-READ               SECTION.                             03060036
+      *                                                                 03070036
+           READ TSCFILEO.                                               03080036
+           IF TSCFILEO-FILE-STATUS NOT = "00" AND "10" THEN             03090036
+              MOVE SPACE           TO WK-ERR                            03100036
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            03110036
+              MOVE TSCFILEO-FILE-STATUS                                 03120036
+                                   TO WK-ERR-CD OF WK-ERR               03130036
+              MOVE "FILE TSCFILEO READ ERROR"                           03140036
+                                   TO WK-ERR-MSG OF WK-ERR              03150036
+              PERFORM PROC-ERR                                          03160036
+           END-IF.                                                      03170036
+           IF TSCFILEO-FILE-STATUS = "00"   THEN                        03180036
+              ADD 1                TO WK-TSCFILEO-9                     03190036
+           ELSE                                                         03200036
+              MOVE SPACE           TO TSCFILEO-REC                      03210036
+           END-IF.                                                      03220036
+      *                                                                 03230036
+       PROC-TSC-EXT.                                                    03240036
+           EXIT.                                                        03250036
+      ******************************************************************03260036
+       PROC-TSC1-SYORI             SECTION.                             03270036
+      *                                                                 03280036
+           EVALUATE WK-TEMP-LINE(1:1)                                   03290036
+              WHEN 'H'                                                  03300036
+                 MOVE SPACE           TO WK-TEMP-STR                    03310036
+                 MOVE WK-TEMP-LINE    TO WK-TSC-H                       03320036
+                 STRING "1 EMP ID:"   DELIMITED BY SIZE                 03330036
+                        WK-EMP-ID OF WK-TSC-H                           03340036
+                                      DELIMITED BY SIZE                 03350036
+                        "  HRS WORKED:"  DELIMITED BY SIZE              03360036
+                        WK-HRS-WORKED OF WK-TSC-H                       03370036
+                                      DELIMITED BY SIZE                 03380036
+                        INTO WK-TEMP-STR                                03390036
+                 MOVE WK-TEMP-STR     TO ERRFILE-REC                    03400036
+                 PERFORM PROC-WRITE-ERRF                                03410036
+              WHEN 'R'                                                  03420036
+                 MOVE SPACE           TO WK-TEMP-STR                    03430036
+                 MOVE WK-TEMP-LINE    TO WK-TSC-R                       03440036
+                 STRING "1 EMP ID:"   DELIMITED BY SIZE                 03450036
+                        WK-EMP-ID OF WK-TSC-R                           03460036
+                                      DELIMITED BY SIZE                 03470036
+                        "  LAST WORK DATE:"  DELIMITED BY SIZE          03480036
+                        WK-LAST-WORK-DATE OF WK-TSC-R                   03490036
+                                      DELIMITED BY SIZE                 03500036
+                        INTO WK-TEMP-STR                                03510036
+                 MOVE WK-TEMP-STR     TO ERRFILE-REC                    03520036
+                 PERFORM PROC-WRITE-ERRF                                03530036
+              WHEN 'U'                                                  03540036
+                 MOVE SPACE           TO WK-TEMP-STR                    03550036
+                 MOVE WK-TEMP-LINE    TO WK-TSC-U                       03560036
+                 STRING "1 EMP ID:"   DELIMITED BY SIZE                 03570036
+                        WK-EMP-ID OF WK-TSC-U                           03580036
+                                      DELIMITED BY SIZE                 03590036
+                        "  EMP NAME:" DELIMITED BY SIZE                 03600036
+                         WK-EMP-NAME  OF WK-TSC-U                       03610036
+                                      DELIMITED BY "  "                 03620036
+                        "  ADDRESS:"  DELIMITED BY SIZE                 03630036
+                        WK-EMP-ADDRESS OF WK-TSC-U                      03640036
+                                      DELIMITED BY "  "                 03650036
+                        "  TEL NO:"   DELIMITED BY SIZE                 03660036
+                        WK-TEL-NO     OF WK-TSC-U                       03670036
+                                      DELIMITED BY "  "                 03680036
+                        INTO WK-TEMP-STR                                03690036
+                 MOVE WK-TEMP-STR     TO ERRFILE-REC                    03700036
+                 PERFORM PROC-WRITE-ERRF                                03710036
+           END-EVALUATE.                                                03720036
+      *                                                                 03730036
+       PROC-TSC1-EXT.                                                   03740036
+           EXIT.                                                        03750036
+      ******************************************************************03760036
+       PROC-MAIN1                  SECTION.                             03770036
+      *                                                                 03780036
+       V11.                                                             03790036
+           IF TSCFILEO-FILE-STATUS = "10"              AND              03800036
+              WK-TEMP-LINE         = SPACE             THEN             03810036
+              GO TO V2                                                  03820036
+           END-IF.                                                      03830036
+           IF WK-TEMP-LINE(2:6) = TSCFILEO-REC(2:6)    THEN             03840036
+              MOVE "1"                TO WK-TEMP-FLG                    03850036
+              PERFORM PROC-TSC1-SYORI                                   03860036
+              MOVE TSCFILEO-REC       TO WK-TEMP-LINE                   03870036
+              IF TSCFILEO-FILE-STATUS = "00"                            03880036
+                 PERFORM PROC-TSC-READ                                  03890036
+              ELSE                                                      03900036
+                 MOVE SPACE           TO TSCFILEO-REC                   03910036
+              END-IF                                                    03920036
+              GO TO V11                                                 03930036
+           ELSE IF WK-TEMP-FLG = "1"            THEN                    03940036
+                   PERFORM PROC-TSC1-SYORI                              03950036
+                   MOVE TSCFILEO-REC  TO WK-TEMP-LINE                   03960036
+                   IF TSCFILEO-FILE-STATUS = "00"                       03970036
+                      PERFORM PROC-TSC-READ                             03980036
+                   ELSE                                                 03990036
+                      MOVE SPACE           TO TSCFILEO-REC              04000036
+                   END-IF                                               04010036
+                   MOVE "0"           TO WK-TEMP-FLG                    04020036
+                   GO TO V11                                            04030036
+                END-IF                                                  04040036
+           END-IF.                                                      04050036
+       V1.                                                              04060036
+           IF QMSTFILO-FILE-STATUS = "10"              THEN             04070036
+              PERFORM PROC-BRACK1                                       04080036
+              IF TSCFILEO-FILE-STATUS = "00"                            04090036
+                 PERFORM PROC-TSC-READ                                  04100036
+              ELSE                                                      04110036
+                 MOVE SPACE           TO TSCFILEO-REC                   04120036
+              END-IF                                                    04130036
+              MOVE TSCFILEO-REC       TO WK-TEMP-LINE                   04140036
+              GO TO V11                                                 04150036
+           END-IF.                                                      04160036
+           IF WK-TEMP-LINE(2:6)  > WK-EMP-ID OF QMSTFILO-REC THEN       04170036
+              MOVE QMSTFILO-REC TO QMSTFILN-REC                         04180036
+              PERFORM PROC-QMS-WRITE                                    04190036
+              PERFORM PROC-QMS-READ                                     04200036
+              GO TO V1                                                  04210036
+           ELSE IF WK-TEMP-LINE(2:6) < WK-EMP-ID OF QMSTFILO-REC THEN   04220036
+                   PERFORM PROC-BRACK1                                  04230036
+                   MOVE TSCFILEO-REC       TO WK-TEMP-LINE              04240036
+                   IF TSCFILEO-FILE-STATUS = "00"                       04250036
+                      PERFORM PROC-TSC-READ                             04260036
+                   ELSE                                                 04270036
+                      MOVE SPACE           TO TSCFILEO-REC              04280036
+                   END-IF                                               04290036
+                   GO TO V11                                            04300036
+                ELSE                                                    04310036
+                   EVALUATE WK-TEMP-LINE(1:1)                           04320036
+                      WHEN 'H'                                          04330036
+                           IF WK-DATM = WK-DATN                         04340036
+                              MOVE WK-TEMP-LINE TO WK-TSC-H             04350036
+                              PERFORM PROC-BRACK2                       04360036
+                           END-IF                                       04400036
+                      WHEN 'R'                                          04410036
+                           MOVE WK-TEMP-LINE TO WK-TSC-R                04420036
+                           IF WK-DATM >= WK-LAST-WORK-DATE              04430036
+                                         OF WK-TSC-R                    04440036
+                              PERFORM PROC-BRACK3                       04450036
+                              PERFORM PROC-QMS-READ                     04460040
+                           END-IF                                       04490036
+                      WHEN 'U'                                          04500036
+                           MOVE WK-TEMP-LINE TO WK-TSC-U                04510036
+                           PERFORM PROC-BRACK4                          04520036
+                   END-EVALUATE                                         04530036
+                   MOVE TSCFILEO-REC       TO WK-TEMP-LINE              04540036
+                   IF TSCFILEO-FILE-STATUS = "00"                       04550036
+                      PERFORM PROC-TSC-READ                             04560036
+                   ELSE                                                 04570036
+                      MOVE SPACE           TO TSCFILEO-REC              04580036
+                   END-IF                                               04590036
+      *            PERFORM PROC-QMS-READ                                04600036
+                   GO TO V11                                            04610036
+                END-IF                                                  04620036
+           END-IF.                                                      04630036
+       V2.                                                              04640036
+           IF QMSTFILO-FILE-STATUS NOT = "10"          THEN             04650036
+              MOVE QMSTFILO-REC TO QMSTFILN-REC                         04660036
+              PERFORM PROC-QMS-WRITE                                    04670036
+              PERFORM PROC-QMS-READ                                     04680036
+              GO TO V2                                                  04690036
+           END-IF.                                                      04700036
+      *                                                                 04710036
+       PROC-MAIN1-EXT.                                                  04720036
+           EXIT.                                                        04730036
+      ******************************************************************04740036
+       PROC-BRACK1                 SECTION.                             04750036
+      *                                                                 04760036
+             EVALUATE WK-TEMP-LINE(1:1)                                 04770036
+             WHEN 'H'                                                   04780036
+             MOVE SPACE               TO WK-TEMP-STR                    04790036
+             MOVE WK-TEMP-LINE        TO WK-TSC-H                       04800036
+             STRING "2 EMP ID:"       DELIMITED BY SIZE                 04810036
+                    WK-EMP-ID OF WK-TSC-H                               04820036
+                                  DELIMITED BY SIZE                     04830036
+                    "  HRS WORKED:"  DELIMITED BY SIZE                  04840036
+                    WK-HRS-WORKED OF WK-TSC-H                           04850036
+                                  DELIMITED BY SIZE                     04860036
+                    INTO WK-TEMP-STR                                    04870036
+             WHEN 'R'                                                   04880036
+             MOVE SPACE               TO WK-TEMP-STR                    04890036
+             MOVE WK-TEMP-LINE        TO WK-TSC-R                       04900036
+             STRING "2 EMP ID:"       DELIMITED BY SIZE                 04910036
+                    WK-EMP-ID OF WK-TSC-R                               04920036
+                                  DELIMITED BY SIZE                     04930036
+                    "  LAST WORK DATE:"  DELIMITED BY SIZE              04940036
+                    WK-LAST-WORK-DATE OF WK-TSC-R                       04950036
+                                  DELIMITED BY SIZE                     04960036
+                    INTO WK-TEMP-STR                                    04970036
+             WHEN 'U'                                                   04980036
+             MOVE SPACE               TO WK-TEMP-STR                    04990036
+             MOVE WK-TEMP-LINE        TO WK-TSC-U                       05000036
+             STRING "2 EMP ID:"       DELIMITED BY SIZE                 05010036
+                    WK-EMP-ID OF WK-TSC-U                               05020036
+                                  DELIMITED BY SIZE                     05030036
+                    "  EMP NAME:" DELIMITED BY SIZE                     05040036
+                     WK-EMP-NAME      OF WK-TSC-U                       05050036
+                                  DELIMITED BY "      "                 05060036
+                    "  ADDRESS:"  DELIMITED BY SIZE                     05070036
+                    WK-EMP-ADDRESS OF WK-TSC-U                          05080036
+                                  DELIMITED BY "      "                 05090036
+                    "  TEL NO:"   DELIMITED BY SIZE                     05100036
+                    WK-TEL-NO         OF WK-TSC-U                       05110036
+                                  DELIMITED BY "      "                 05120036
+                    INTO WK-TEMP-STR                                    05130036
+               END-EVALUATE.                                            05140036
+               MOVE WK-TEMP-STR         TO ERRFILE-REC.                 05150036
+               PERFORM PROC-WRITE-ERRF.                                 05160036
+      *                                                                 05170036
+       PROC-BRACK1-EXT.                                                 05180036
+           EXIT.                                                        05190036
+      ******************************************************************05200036
+       PROC-BRACK2                 SECTION.                             05210036
+      *                                                                 05220036
+           MOVE WK-EMP-ID OF WK-TSC-H                                   05230036
+                                   TO WK-EMP-ID OF MPAYFIL-REC.         05240036
+           COMPUTE WK-SALARY-RATE  OF MPAYFIL-REC =                     05250036
+                   WK-HRS-WORKED   OF WK-TSC-H * WK-SALARY-RATE         05260036
+                                                OF WK-TSC-H.            05270036
+           WRITE MPAYFIL-REC.                                           05280036
+           IF MPAYFIL-FILE-STATUS  NOT = "00"          THEN             05290036
+              MOVE SPACE           TO WK-ERR                            05300036
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            05310036
+              MOVE MPAYFIL-FILE-STATUS                                  05320036
+                                   TO WK-ERR-CD OF WK-ERR               05330036
+              MOVE "FILE MPAYFIL WRITE ERROR"                           05340036
+                                   TO WK-ERR-MSG OF WK-ERR              05350036
+              PERFORM PROC-ERR                                          05360036
+           END-IF.                                                      05370036
+           ADD 1                   TO WK-MPAYFIL-9.                     05380036
+           MOVE ZERO               TO WK-AMT-PAYABLE                    05390036
+                                   OF QMSTFILO-REC.                     05400036
+           MOVE QMSTFILO-REC TO QMSTFILN-REC.                           05410036
+      *                                                                 05420036
+       PROC-BRACK2-EXT.                                                 05430036
+           EXIT.                                                        05440036
+      ******************************************************************05450036
+       PROC-BRACK3                 SECTION.                             05460036
+      *                                                                 05470036
+           MOVE WK-EMP-ID     OF QMSTFILO-REC   TO                      05480036
+                WK-EMP-ID     OF SETLILE-REC.                           05490036
+           MOVE WK-EMP-NAME   OF QMSTFILO-REC   TO                      05500036
+                WK-EMP-NAME   OF SETLILE-REC.                           05510036
+           MOVE WK-EMP-ADDRESS  OF QMSTFILO-REC   TO                    05520036
+                WK-EMP-ADDRESS  OF SETLILE-REC.                         05530036
+           MOVE WK-TEL-NO     OF QMSTFILO-REC   TO                      05540036
+                WK-TEL-NO     OF SETLILE-REC.                           05550036
+           MOVE WK-SALARY-RATE  OF QMSTFILO-REC   TO                    05560036
+                WK-SALARY-RATE  OF SETLILE-REC.                         05570036
+           PERFORM PROC-SEL-WRITE.                                      05580036
+           MOVE WK-EMP-ID     OF QMSTFILO-REC   TO                      05590036
+                WK-EMP-ID     OF ARCHFILE-REC.                          05600036
+           MOVE WK-EMP-NAME   OF QMSTFILO-REC   TO                      05610036
+                WK-EMP-NAME   OF ARCHFILE-REC.                          05620036
+           MOVE WK-EMP-ADDRESS  OF QMSTFILO-REC   TO                    05630036
+                WK-EMP-ADDRESS  OF ARCHFILE-REC.                        05640036
+           MOVE WK-TEL-NO     OF QMSTFILO-REC   TO                      05650036
+                WK-TEL-NO     OF ARCHFILE-REC.                          05660036
+           MOVE WK-SALARY-RATE  OF QMSTFILO-REC   TO                    05670036
+                WK-SALARY-RATE  OF ARCHFILE-REC.                        05680036
+           MOVE WK-AMT-PAYABLE  OF QMSTFILO-REC   TO                    05690036
+                WK-AMT-PAYABLE  OF ARCHFILE-REC.                        05700036
+           MOVE WK-LAST-DATE    OF QMSTFILO-REC   TO                    05710036
+                WK-LAST-DATE    OF ARCHFILE-REC.                        05720036
+           PERFORM PROC-ARC-WRITE.                                      05730036
+      *                                                                 05740036
+       PROC-BRACK3-EXT.                                                 05750036
+           EXIT.                                                        05760036
+      ******************************************************************05770036
+       PROC-BRACK4                 SECTION.                             05780036
+      *                                                                 05790036
+           MOVE WK-EMP-NAME   OF WK-TSC-U       TO                      05800036
+                WK-EMP-NAME   OF QMSTFILO-REC.                          05810036
+           MOVE WK-EMP-ADDRESS  OF WK-TSC-U       TO                    05820036
+                WK-EMP-ADDRESS  OF QMSTFILO-REC.                        05830036
+           MOVE WK-TEL-NO     OF WK-TSC-U       TO                      05840036
+                WK-TEL-NO     OF QMSTFILO-REC.                          05850036
+           MOVE QMSTFILO-REC  TO QMSTFILN-REC.                          05860036
+      *                                                                 05880036
+       PROC-BRACK4-EXT.                                                 05890036
+           EXIT.                                                        05900036
+      ******************************************************************05910036
+       PROC-WRITE-ERRF             SECTION.                             05920036
+      *                                                                 05930036
+           WRITE ERRFILE-REC.                                           05940036
+           IF ERRFILE-FILE-STATUS  NOT = "00"          THEN             05950036
+              MOVE SPACE           TO WK-ERR                            05960036
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            05970036
+              MOVE ERRFILE-FILE-STATUS                                  05980036
+                                   TO WK-ERR-CD OF WK-ERR               05990036
+              MOVE "FILE ERRFILE WRITE ERROR"                           06000036
+                                   TO WK-ERR-MSG OF WK-ERR              06010036
+              PERFORM PROC-ERR                                          06020036
+           END-IF.                                                      06030036
+           ADD 1                   TO WK-ERRFILE-9.                     06040036
+      *                                                                 06050036
+       PROC-WRITE-EXT.                                                  06060036
+           EXIT.                                                        06070036
+      ******************************************************************06080036
+       PROC-QMS-WRITE              SECTION.                             06090036
+      *                                                                 06100036
+           WRITE QMSTFILN-REC.                                          06110036
+           IF QMSTFILN-FILE-STATUS NOT = "00"          THEN             06120036
+              MOVE SPACE           TO WK-ERR                            06130036
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            06140036
+              MOVE QMSTFILN-FILE-STATUS                                 06150036
+                                   TO WK-ERR-CD OF WK-ERR               06160036
+              MOVE "FILE QMSTFILN WRITE ERROR"                          06170036
+                                   TO WK-ERR-MSG OF WK-ERR              06180036
+              PERFORM PROC-ERR                                          06190036
+           END-IF.                                                      06200036
+           ADD 1                   TO WK-QMSTFILN-9.                    06210036
+      *                                                                 06220036
+       PROC-WQMS-EXT.                                                   06230036
+           EXIT.                                                        06240036
+      ******************************************************************06250036
+       PROC-ARC-WRITE              SECTION.                             06260036
+      *                                                                 06270036
+           WRITE ARCHFILE-REC.                                          06280036
+           IF ARCHFILE-FILE-STATUS NOT = "00"          THEN             06290036
+              MOVE SPACE           TO WK-ERR                            06300036
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            06310036
+              MOVE ARCHFILE-FILE-STATUS                                 06320036
+                                   TO WK-ERR-CD OF WK-ERR               06330036
+              MOVE "FILE ARCHFILE WRITE ERROR"                          06340036
+                                   TO WK-ERR-MSG OF WK-ERR              06350036
+              PERFORM PROC-ERR                                          06360036
+           END-IF.                                                      06370036
+           ADD 1                   TO WK-ARCHFILE-9.                    06380036
+      *                                                                 06390036
+       PROC-ARC-EXT.                                                    06400036
+           EXIT.                                                        06410036
+      ******************************************************************06420036
+       PROC-SEL-WRITE              SECTION.                             06430036
+      *                                                                 06440036
+           WRITE SETLILE-REC.                                           06450036
+           IF SETLILE-FILE-STATUS  NOT = "00"          THEN             06460036
+              MOVE SPACE           TO WK-ERR                            06470036
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            06480036
+              MOVE SETLILE-FILE-STATUS                                  06490036
+                                   TO WK-ERR-CD OF WK-ERR               06500036
+              MOVE "FILE SETLILE WRITE ERROR"                           06510036
+                                   TO WK-ERR-MSG OF WK-ERR              06520036
+              PERFORM PROC-ERR                                          06530036
+           END-IF.                                                      06540036
+           ADD 1                   TO WK-SETLILE-9.                     06550036
+      *                                                                 06560036
+       PROC-SEL-EXT.                                                    06570036
+           EXIT.                                                        06580036
+      ******************************************************************06590036
+       PROC-END                    SECTION.                             06600036
+      *                                                                 06610036
+           MOVE WK-QMSTFILO-9     TO WK-QMSTFILO-CNT.                   06620036
+           MOVE WK-TSCFILEO-9     TO WK-TSCFILEO-CNT.                   06630036
+           MOVE WK-QMSTFILN-9     TO WK-QMSTFILN-CNT.                   06640036
+           MOVE WK-ARCHFILE-9     TO WK-ARCHFILE-CNT.                   06650036
+           MOVE WK-ERRFILE-9      TO WK-ERRFILE-CNT.                    06660036
+           MOVE WK-MPAYFIL-9      TO WK-MPAYFIL-CNT.                    06670036
+           MOVE WK-SETLILE-9      TO WK-SETLILE-CNT.                    06680036
+           DISPLAY WK-QMSTFILO-I.                                       06690036
+           DISPLAY WK-TSCFILEO-I.                                       06700036
+           DISPLAY WK-QMSTFILN-O.                                       06710036
+           DISPLAY WK-ARCHFILE-O.                                       06720036
+           DISPLAY WK-ERRFILE-O.                                        06730036
+           DISPLAY WK-MPAYFIL-O.                                        06740036
+           DISPLAY WK-SETLILE-O.                                        06750036
+           CLOSE                   QMSTFILO QMSTFILN                    06760036
+                                   TSCFILEO ARCHFILE                    06770036
+                                   ERRFILE MPAYFIL                      06780036
+                                   SETLILE.                             06790036
+      *                                                                 06800036
+       PROC-END-EXT.                                                    06810036
+           EXIT.                                                        06820036
+      ******************************************************************06830036
+       PROC-ERR                    SECTION.                             06840036
+      *                                                                 06850036
+           MOVE WK-QMSTFILO-9     TO WK-QMSTFILO-CNT.                   06860036
+           MOVE WK-TSCFILEO-9     TO WK-TSCFILEO-CNT.                   06870036
+           MOVE WK-QMSTFILN-9     TO WK-QMSTFILN-CNT.                   06880036
+           MOVE WK-ARCHFILE-9     TO WK-ARCHFILE-CNT.                   06890036
+           MOVE WK-ERRFILE-9      TO WK-ERRFILE-CNT.                    06900036
+           MOVE WK-MPAYFIL-9      TO WK-MPAYFIL-CNT.                    06910036
+           MOVE WK-SETLILE-9      TO WK-SETLILE-CNT.                    06920036
+           DISPLAY WK-QMSTFILO-I.                                       06930036
+           DISPLAY WK-TSCFILEO-I.                                       06940036
+           DISPLAY WK-QMSTFILN-O.                                       06950036
+           DISPLAY WK-ARCHFILE-O.                                       06960036
+           DISPLAY WK-ERRFILE-O.                                        06970036
+           DISPLAY WK-MPAYFIL-O.                                        06980036
+           DISPLAY WK-SETLILE-O.                                        06990036
+           DISPLAY WK-ERR.                                              07000036
+           CLOSE                   QMSTFILO QMSTFILN                    07010036
+                                   TSCFILEO ARCHFILE                    07020036
+                                   ERRFILE MPAYFIL                      07030036
+                                   SETLILE.                             07040036
+           STOP RUN.                                                    07050036
+      *                                                                 07060036
+       PROC-ERR-EXT.                                                    07070036
+           EXIT.                                                        07080036
+

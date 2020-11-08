@@ -1,0 +1,24 @@
+      ******************************************************************
+      * DCLGEN TABLE(GDC232.TAB01)                                     *
+      *        LIBRARY(GDC232.DB2.INCLUDE(DBPRO01))                    *
+      *        ACTION(REPLACE)                                         *
+      *        LANGUAGE(COBOL)                                         *
+      *        STRUCTURE(DBPRO01)                                      *
+      *        QUOTE                                                   *
+      * ... IS THE DCLGEN COMMAND THAT MADE THE FOLLOWING STATEMENTS   *
+      ******************************************************************
+           EXEC SQL DECLARE GDC232.TAB01 TABLE                          
+           ( USERID                         INTEGER NOT NULL,           
+             USERNAME                       VARCHAR(25)                 
+           ) END-EXEC.                                                  
+      ******************************************************************
+      * COBOL DECLARATION FOR TABLE GDC232.TAB01                       *
+      ******************************************************************
+       01  DB01.                                                        
+           10 USERID               PIC S9(9) USAGE COMP.                
+           10 USERNAME.                                                 
+              49 USERNAME-LEN      PIC S9(4) USAGE COMP.                
+              49 USERNAME-TEXT     PIC X(25).                           
+      ******************************************************************
+      * THE NUMBER OF COLUMNS DESCRIBED BY THIS DECLARATION IS 2       *
+      ******************************************************************

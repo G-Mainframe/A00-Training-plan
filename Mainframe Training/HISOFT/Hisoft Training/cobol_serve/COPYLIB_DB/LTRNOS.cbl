@@ -1,0 +1,61 @@
+000010************************************************
+000020* ”[•tæƒ}ƒXƒ^i\î•ñƒŒƒR[ƒh)(LTRNOS)
+000030************************************************
+000040 01  ‚k‚s‚q‚m‚n‚r|”[•tæƒR[ƒh PIC  X(006).
+000050 01  ‚k‚s‚q‚m‚n‚r|”N“x|¢‹I PIC S9(001) COMP-3.
+000060 01  ‚k‚s‚q‚m‚n‚r|”N“x|”N PIC  X(002).
+000070 01  ‚k‚s‚q‚m‚n‚r|‘Ï—p”N”’ZkƒR[ƒh PIC  X(001).
+000080 01  ‚k‚s‚q‚m‚n‚r|‰ÛÅ•W€“Á—á PIC  X(001).
+000090 01  ‚k‚s‚q‚m‚n‚r|ÅŠz PIC S9(013) COMP-3.
+000100 01  ‚k‚s‚q‚m‚n‚r|Œ”‡Œv PIC S9(007) COMP-3.
+000110 01  ‚k‚s‚q‚m‚n‚r|‘O”N‘OŽæ“¾‚P PIC S9(013) COMP-3.
+000120 01  ‚k‚s‚q‚m‚n‚r|‘O”N“xŽæ“¾‚P PIC S9(013) COMP-3.
+000130 01  ‚k‚s‚q‚m‚n‚r|Ž‘ŽYŽí—Þ‡Œv‚P PIC S9(013) COMP-3.
+000140 01  ‚k‚s‚q‚m‚n‚r|‘O”N‘OŽæ“¾‚Q PIC S9(013) COMP-3.
+000150 01  ‚k‚s‚q‚m‚n‚r|‘O”N“xŽæ“¾‚Q PIC S9(013) COMP-3.
+000160 01  ‚k‚s‚q‚m‚n‚r|Ž‘ŽYŽí—Þ‡Œv‚Q PIC S9(013) COMP-3.
+000170 01  ‚k‚s‚q‚m‚n‚r|‘O”N‘OŽæ“¾‚R PIC S9(013) COMP-3.
+000180 01  ‚k‚s‚q‚m‚n‚r|‘O”N“xŽæ“¾‚R PIC S9(013) COMP-3.
+000190 01  ‚k‚s‚q‚m‚n‚r|Ž‘ŽYŽí—Þ‡Œv‚R PIC S9(013) COMP-3.
+000200 01  ‚k‚s‚q‚m‚n‚r|‘O”N‘OŽæ“¾‚S PIC S9(013) COMP-3.
+000210 01  ‚k‚s‚q‚m‚n‚r|‘O”N“xŽæ“¾‚S PIC S9(013) COMP-3.
+000220 01  ‚k‚s‚q‚m‚n‚r|Ž‘ŽYŽí—Þ‡Œv‚S PIC S9(013) COMP-3.
+000230 01  ‚k‚s‚q‚m‚n‚r|‘O”N‘OŽæ“¾‚T PIC S9(013) COMP-3.
+000240 01  ‚k‚s‚q‚m‚n‚r|‘O”N“xŽæ“¾‚T PIC S9(013) COMP-3.
+000250 01  ‚k‚s‚q‚m‚n‚r|Ž‘ŽYŽí—Þ‡Œv‚T PIC S9(013) COMP-3.
+000260 01  ‚k‚s‚q‚m‚n‚r|‘O”N‘OŽæ“¾‚U PIC S9(013) COMP-3.
+000270 01  ‚k‚s‚q‚m‚n‚r|‘O”N“xŽæ“¾‚U PIC S9(013) COMP-3.
+000280 01  ‚k‚s‚q‚m‚n‚r|Ž‘ŽYŽí—Þ‡Œv‚U PIC S9(013) COMP-3.
+000290 01  ‚k‚s‚q‚m‚n‚r|Žæ“¾‰¿Šz‡Œv|‘O”N‘OŽæ“¾ PIC S9(013) COMP-3.
+000300 01  ‚k‚s‚q‚m‚n‚r|Žæ“¾‰¿Šz‡Œv|‘O”N“xŽæ“¾ PIC S9(013) COMP-3.
+000310 01  ‚k‚s‚q‚m‚n‚r|Žæ“¾‰¿Šz‡Œv|Ž‘ŽYŽí—Þ‡Œv PIC S9(013) COMP-3.
+000320 01  ‚k‚s‚q‚m‚n‚r|’ •ë‰¿Šz‚P PIC S9(013) COMP-3.
+000330 01  ‚k‚s‚q‚m‚n‚r|•]‰¿Šz‚P PIC S9(013) COMP-3.
+000340 01  ‚k‚s‚q‚m‚n‚r|‰ÛÅ•W€Šz‚P‚P PIC S9(013) COMP-3.
+000350 01  ‚k‚s‚q‚m‚n‚r|‰ÛÅ•W€Šz‚Q‚P PIC S9(013) COMP-3.
+000360 01  ‚k‚s‚q‚m‚n‚r|’ •ë‰¿Šz‚Q PIC S9(013) COMP-3.
+000370 01  ‚k‚s‚q‚m‚n‚r|•]‰¿Šz‚Q PIC S9(013) COMP-3.
+000380 01  ‚k‚s‚q‚m‚n‚r|‰ÛÅ•W€Šz‚P‚Q PIC S9(013) COMP-3.
+000390 01  ‚k‚s‚q‚m‚n‚r|‰ÛÅ•W€Šz‚Q‚Q PIC S9(013) COMP-3.
+000400 01  ‚k‚s‚q‚m‚n‚r|’ •ë‰¿Šz‚R PIC S9(013) COMP-3.
+000410 01  ‚k‚s‚q‚m‚n‚r|•]‰¿Šz‚R PIC S9(013) COMP-3.
+000420 01  ‚k‚s‚q‚m‚n‚r|‰ÛÅ•W€Šz‚P‚R PIC S9(013) COMP-3.
+000430 01  ‚k‚s‚q‚m‚n‚r|‰ÛÅ•W€Šz‚Q‚R PIC S9(013) COMP-3.
+000440 01  ‚k‚s‚q‚m‚n‚r|’ •ë‰¿Šz‚S PIC S9(013) COMP-3.
+000450 01  ‚k‚s‚q‚m‚n‚r|•]‰¿Šz‚S PIC S9(013) COMP-3.
+000460 01  ‚k‚s‚q‚m‚n‚r|‰ÛÅ•W€Šz‚P‚S PIC S9(013) COMP-3.
+000470 01  ‚k‚s‚q‚m‚n‚r|‰ÛÅ•W€Šz‚Q‚S PIC S9(013) COMP-3.
+000480 01  ‚k‚s‚q‚m‚n‚r|’ •ë‰¿Šz‚T PIC S9(013) COMP-3.
+000490 01  ‚k‚s‚q‚m‚n‚r|•]‰¿Šz‚T PIC S9(013) COMP-3.
+000500 01  ‚k‚s‚q‚m‚n‚r|‰ÛÅ•W€Šz‚P‚T PIC S9(013) COMP-3.
+000510 01  ‚k‚s‚q‚m‚n‚r|‰ÛÅ•W€Šz‚Q‚T PIC S9(013) COMP-3.
+000520 01  ‚k‚s‚q‚m‚n‚r|’ •ë‰¿Šz‚U PIC S9(013) COMP-3.
+000530 01  ‚k‚s‚q‚m‚n‚r|•]‰¿Šz‚U PIC S9(013) COMP-3.
+000540 01  ‚k‚s‚q‚m‚n‚r|‰ÛÅ•W€Šz‚P‚U PIC S9(013) COMP-3.
+000550 01  ‚k‚s‚q‚m‚n‚r|‰ÛÅ•W€Šz‚Q‚U PIC S9(013) COMP-3.
+000560 01  ‚k‚s‚q‚m‚n‚r|•]‰¿Šz‡Œv|’ •ë‰¿Šz PIC S9(013) COMP-3.
+000570 01  ‚k‚s‚q‚m‚n‚r|•]‰¿Šz‡Œv|•]‰¿Šz PIC S9(013) COMP-3.
+000580 01  ‚k‚s‚q‚m‚n‚r|•]‰¿Šz‡Œv|‰ÛÅ•W€Šz‚P PIC S9(013) COMP-3.
+000590 01  ‚k‚s‚q‚m‚n‚r|•]‰¿Šz‡Œv|‰ÛÅ•W€Šz‚Q PIC S9(013) COMP-3.
+000600 01  ‚k‚s‚q‚m‚n‚r|ƒ_ƒ~[‚O‚O‚P PIC  X(082).
+000610 01  ‚k‚s‚q‚m‚n‚r|‹¤’Êî•ñ PIC  X(035).

@@ -1,0 +1,41 @@
+       IDENTIFICATION       DIVISION.
+       PROGRAM-ID.          EXAM11-1.
+       ENVIRONMENT          DIVISION.
+       INPUT-OUTPUT         SECTION.
+       FILE-CONTROL.
+              SELECT  IN-FILE  ASSIGN  TO  IN-FILE.
+              SELECT  SORT-WORK-FILE  ASSIGN  TO  SW.
+              SELECT  SORTED-FILE  ASSIGN  TO  SORT-FILE.
+       DATA                 DIVISION.
+       FILE                 SECTION.
+       FD    IN-FILE LABEL RECORD IS STANDARD
+             DATA RECORD IS INREC.
+       01 INREC.
+          02  YY-MM-DD        PIC 9(6).
+          02  CUSTOMER-NUM    PIC 9(8).
+          02  CUSTOMER-NAME   PIC X(10).
+          02  PRODUCT-CODE    PIC X(6).
+          02  PRODUCT-NAME    PIC X(10).
+          02  QTY             PIC 9(6).
+          02  AMOUNT          PIC 9(8)V99.
+       SD  SORT-WORK-FILE.
+       01  WORKREC.
+              02  YY-MM-DD-S        PIC 9(6).
+              02  CUSTOMER-NUM-S    PIC 9(8).
+              02  CUSTOMER-NAME-S   PIC X(10).
+              02  PRODUCT-CODE-S    PIC X(6).
+              02  PRODUCT-NAME-S    PIC X(10).
+              02  QTY-S             PIC 9(6).
+              02  AMOUNT-S          PIC 9(8)V99.
+       FD  SORTED-FILE  LABEL  RECORD  IS  STANDARD.
+       01  SORTEDREC          PIC  X(80).
+       PROCEDURE              DIVISION.
+                 SORTING.
+                 SORT SORT-WORK-FILE
+                 ON  ASCENDING KEY  CUSTOMER-NUM-S
+                         YY-MM-DD-S
+                 ON  DESCENDING KEY  AMOUNT-S
+                 USING  IN-FILE
+                 GIVING  SORTED-FILE.
+                 STOP RUN.
+

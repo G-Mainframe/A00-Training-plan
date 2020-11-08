@@ -1,0 +1,33 @@
+CREATE TABLE SWP_PRTTMP
+(
+    CTLNUM                         CHAR(4) NOT NULL,
+    BASDAY                         CHAR(8) NOT NULL,
+    CCYCOD                         CHAR(3) NOT NULL,
+    BNKCOD                         CHAR(4),
+    BRCCOD                         CHAR(3),
+    BNKNAM                         CHAR(50),
+    INTBGN                         CHAR(8),
+    PAYDAY                         CHAR(8),
+    DUEDAY                         CHAR(8),
+    DAYCNT                         NUMBER(4,0),
+    UNPDAY                         NUMBER(4,0),
+    CNTCAP                         NUMBER(13,0),
+    BALCAP                         NUMBER(13,0),
+    AVEBAL                         NUMBER(13,0),
+    RCVRAT                         NUMBER(8,6),
+    RCVAVE                         NUMBER(8,6),
+    RCVYLD                         NUMBER(8,6),
+    RCVINT                         NUMBER(15,2),
+    RCVYEN                         NUMBER(13,0),
+    PAYRAT                         NUMBER(8,6),
+    PAYAVE                         NUMBER(8,6),
+    PAYYLD                         NUMBER(8,6),
+    PAYINT                         NUMBER(15,2),
+    PAYYEN                         NUMBER(13,0),
+    MARGIN                         NUMBER(8,6),
+    UNPINT                         NUMBER(15,2),
+    DIFINT                         NUMBER(15,2),
+    CCYRAT                         NUMBER(6,2),
+    DIFYEN                         NUMBER(13,0)
+)
+/

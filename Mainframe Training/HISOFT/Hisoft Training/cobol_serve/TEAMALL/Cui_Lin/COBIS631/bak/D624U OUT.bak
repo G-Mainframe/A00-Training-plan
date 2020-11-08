@@ -1,0 +1,51 @@
+                             
+MOVE  ‚k‚s‚q‚e‚b‚j|Œ_–ñ”Ô†  TO  ‚c‚U‚S‚Q|‘ã•\Œ_–ñ”Ô†       PIC  X(010)
+MOVE  1                       TO  ‚c‚U‚S‚Q|‘©”               PIC S9(003)
+MOVE  ‚v‚r|VŽæˆøæƒR[ƒh 
+                              TO  ‚c‚U‚S‚Q|ŽæˆøæƒR[ƒh       PIC  X(009).
+MOVE  ‚v‚r|Œ_–ñæƒR[ƒh      TO  ‚c‚U‚S‚Q|Œ_–ñæƒR[ƒh       PIC  X(005).
+MOVE  ‚k‚s‚q‚s‚q‚h|Žæˆøæ³Ž®–¼ÌŽæˆøæ–¼ÌŠ¿Žš 
+                              TO  ‚c‚U‚S‚Q|Œ_–ñæ–¼Ì         PIC  X(040).
+MOVE  ‚k‚s‚q‚s‚q‚h|Žæˆøæ³Ž®–¼ÌŽæˆøæ–¼ÌƒJƒi
+                              TO  ‚c‚U‚S‚Q|Œ_–ñæ–¼ÌƒJƒi     PIC  X(040).
+MOVE  ‚k‚s‚q‚e‚b‚j|Ž–‹ÆŠƒR[ƒh
+                              TO  ‚c‚U‚S‚Q|•”“XƒR[ƒh         PIC  X(004).
+MOVE  '8'                     TO  ‚c‚U‚S‚Q|ŽåŒ_–ñ‹æ•ª         PIC  X(001).
+MOVE  '0'                     TO  ‚c‚U‚S‚Q|ŽèŒ`ó‘Ô           PIC  X(001).
+MOVE  ‚k‚s‚q‚e‚b‚j|ŽÀs“ú    TO  ‚c‚U‚S‚Q|Žæˆø“ú             PIC  X(008).
+MOVE  ‚k‚s‚q‚e‚b‚j|ŽÀs“ú    TO  ‚c‚U‚S‚Q|“`•[”­s“ú         PIC  X(008).
+MOVE  ‚k‚s‚q‚e‚b‚s|ŽèŒ`Ží—Þ  TO  ‚c‚U‚S‚Q|ŽèŒ`Ží—Þ           PIC  X(001).
+MOVE  ‚k‚s‚q‚e‚b‚s|—˜‘§Šú“ú  TO  ‚c‚U‚S‚Q|Šú“úŠî€“ú         PIC  X(008).
+MOVE  1                       TO  ‚c‚U‚S‚Q|Šú“úƒTƒCƒNƒ‹       PIC S9(002) 
+MOVE  ‚k‚s‚q‚e‚b‚j|Šz–Ê‹àŠz  TO  ‚c‚U‚S‚Q|‘©‡Œv‹àŠz         PIC S9(013)
+MOVE  1                       TO  ‚c‚U‚S‚Q|ŽèŒ`–‡”           PIC S9(004) 
+MOVE  ‚k‚s‚q‚e‚b‚j|‹âsƒR[ƒh
+                              TO  ‚c‚U‚S‚Q|Žæ—§‹âsƒR[ƒh     PIC  X(007).
+MOVE  ‚k‚s‚q‚e‚b‚s|Žæˆø‹âsƒR[ƒh
+                              TO  ‚c‚U‚S‚Q|Žx•¥‹âsƒR[ƒh     PIC  X(007).
+MOVE  ‚k‚s‚q‚e‚b‚j|Œ_–ñ”Ô†  TO  ‚c‚U‚S‚Q|Œ_–ñ”Ô†‚P         PIC  X(010).
+MOVE  ZERO                    TO  ‚c‚U‚S‚Q|Œ_–ñ”Ô†‚Q         PIC  X(010).
+MOVE  ZERO                    TO  ‚c‚U‚S‚Q|Œ_–ñ”Ô†‚R         PIC  X(010).
+MOVE  ZERO                    TO  ‚c‚U‚S‚Q|Œ_–ñ”Ô†‚S         PIC  X(010).
+MOVE  ZERO                    TO  ‚c‚U‚S‚Q|Œ_–ñ”Ô†‚T         PIC  X(010).
+MOVE  ZERO                    TO  ‚c‚U‚S‚Q|Œ_–ñ”Ô†‚U         PIC  X(010).
+MOVE  ZERO                    TO  ‚c‚U‚S‚Q|Œ_–ñ”Ô†‚V         PIC  X(010).
+MOVE  ZERO                    TO  ‚c‚U‚S‚Q|Œ_–ñ”Ô†‚W         PIC  X(010).
+MOVE  ZERO                    TO  ‚c‚U‚S‚Q|Œ_–ñ”Ô†‚X         PIC  X(010).
+MOVE  ZERO                    TO  ‚c‚U‚S‚Q|Œ_–ñ”Ô†‚P‚O       PIC  X(010).
+MOVE  SPACE                   TO  ‚c‚U‚S‚Q|”õl—“             PIC  X(040).
+MOVE  ZERO                    TO  ‚c‚U‚S‚Q|ŽèŒ`“à—eŽí•Ê       PIC  X(001).
+MOVE  ‚v|ƒVƒXƒeƒ€Žž        TO  ‚c‚U‚S‚Q|“o˜^”NŒŽ“ú         PIC  X(008).
+MOVE  ‚v|ƒVƒXƒeƒ€Žž        TO  ‚c‚U‚S‚Q|“o˜^ŽžŠÔ           PIC  X(008).
+MOVE  ‚v|’S“–ŽÒ              TO  ‚c‚U‚S‚Q|“o˜^’S“–ŽÒ         PIC  X(008).
+MOVE  ‚v|ƒVƒXƒeƒ€“ú•t        TO  ‚c‚U‚S‚Q|XV”NŒŽ“ú         PIC  X(008).
+MOVE  ‚v|ƒVƒXƒeƒ€Žž        TO  ‚c‚U‚S‚Q|XVŽžŠÔ           PIC  X(008).
+MOVE  ‚v|’S“–ŽÒ              TO  ‚c‚U‚S‚Q|XVŽÒ             PIC  X(008).
+MOVE  ‚v|’S“–ŽÒ              TO  ‚c‚U‚S‚Q|“ü—Í’S“–ŽÒƒR[ƒh   PIC  X(008).
+MOVE  ZERO                    TO  ‚c‚U‚S‚Q|”„‹p‘ã‹à‹æ•ª       PIC  X(001).
+MOVE  ‚v‚r|UolŽæˆøæƒR[ƒh
+                              TO  ‚c‚U‚S‚Q|UolŽæˆøæƒR[ƒh PIC  X(009).
+MOVE  ‚v‚r|UolŒ_–ñæƒR[ƒh
+                              TO  ‚c‚U‚S‚Q|UolŒ_–ñæƒR[ƒh PIC  X(005).
+MOVE  ‚k‚s‚q‚e‚b‚s|Žx•¥l–¼  TO  ‚c‚U‚S‚Q|Uol–¼Ì         PIC  X(040).
+MOVE  SPACE                   TO  ‚c‚U‚S‚Q|Uol–¼ÌƒJƒi     PIC  X(040).

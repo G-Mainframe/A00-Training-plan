@@ -1,0 +1,26 @@
++IDI0036W IBM Fault Analyzer RC=4: Compiler listing or side file not available 
++IDI0002I A Data Exception occurred in module EX65 program EX65 at offset X'80C
+         machine instruction                                                   
+IEC217I B14-0C,IGG0201Z,RUNJCL,RUNSTEP,SYS00009,01C6,DMTD03,FAULTANL.V2R1.HIST 
++IDI0047S IBM Fault Analyzer internal abend SB14 U0000                         
+IEF450I RUNJCL RUNSTEP - ABEND=S0C7 U0000 REASON=00000007  953           
+
+
+
+The system detected a data exception (System Completion Code=0C7).             
+From compile unit EX65 at entry point EX65 at compile unit offset +0000080C at 
+address 17D00BAC.                                                              
+The system or user abend SB14  R=0000000C was issued.                          
+From entry point DDfclosw at compile unit offset +000000A0 at entry offset +000
+1 R4.0: Condition processing resulted in the unhandled condition.         07/30
+
+
+A system abend 0C7 occurred in module EX65 program EX65 at offset X'80C'.      
+                                                                               
+A program interruption code 0007 (Data Exception) is associated with this abend
+and indicates that:                                                            
+                                                                               
+  A decimal digit or sign was invalid.                                         
+                                                                               
+The abend was caused by machine instruction DE06D110D118 (EDIT).               
+                                                                                     

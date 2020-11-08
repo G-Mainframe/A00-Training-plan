@@ -1,0 +1,26 @@
+DROP   TABLE  D980CYK_TBL   ;
+CREATE TABLE  D980CYK_TBL  (
+       帳票担当者コード                   CHAR(8)           NOT NULL,
+       帳票ＮＯ                           NUMBER(12,0)      NOT NULL,
+       部課コード                         CHAR(4)           NOT NULL,
+       帳票担当者名                       VARCHAR2(20)      NOT NULL,
+       処理ＩＤ                           VARCHAR2(20)      NOT NULL,
+       帳票名                             VARCHAR2(80)      NOT NULL,
+       件数                               NUMBER(6,0)       NOT NULL,
+       作成日                             CHAR(8)           NOT NULL,
+       作成時刻                           CHAR(8)           NOT NULL,
+       最新印刷日                         CHAR(8)           NOT NULL,
+       最新印刷時刻                       CHAR(8)           NOT NULL,
+       印刷状態                           CHAR(2)           NOT NULL,
+       エラーコード                       CHAR(6)           NOT NULL,
+       エラータイトル                     VARCHAR2(20)      NOT NULL,
+       帳票ＩＤ                           CHAR(8)           NOT NULL,
+       区分                               CHAR(1)           NOT NULL,
+       頁数                               NUMBER(4,0)       NOT NULL,
+       未印刷削除日                       CHAR(8)           NOT NULL,
+       印刷済削除日                       CHAR(8)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+       帳票識別                           CHAR(1)           NOT NULL,
+CONSTRAINT  PK_D980CYK_TBL  PRIMARY KEY (
+       帳票担当者コード,
+       帳票ＮＯ));

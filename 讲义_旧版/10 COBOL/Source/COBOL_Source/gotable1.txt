@@ -1,0 +1,13 @@
+//CN0016A  JOB CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID
+//GOTABLE  EXEC PGM=TABLE1                                     
+//STEPLIB  DD DSN=CN0016.TEST.LOAD,DISP=SHR                    
+//SYSOUT   DD SYSOUT=*                                         
+//SYSPRINT DD SYSOUT=*                                         
+//SORTOUT  DD SYSOUT=*                                         
+//SYSUDUMP DD SYSOUT=*                                         
+//EMPFILE  DD DSN=CN0016.EMPFILE.TEXT,DISP=SHR                 
+//TBLFILE  DD DSN=CN0016.TBLFILE.TEXT,DISP=SHR                 
+//PAYLIST  DD DSN=CN0016.TEST.PAYLIST,DISP=MOD,                
+//            SPACE=(TRK,(1,1)),                               
+//            DCB=(RECFM=FB,LRECL=134,BLKSIZE=1340)            
+//                                                             

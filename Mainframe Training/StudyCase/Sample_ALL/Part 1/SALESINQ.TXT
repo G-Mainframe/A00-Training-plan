@@ -1,0 +1,173 @@
+000100 IDENTIFICATION DIVISION.                                               01
+000200*                                                                       01
+000300 PROGRAM-ID.   SALESINQ.                                                01
+000400*                                                                       01
+000500 ENVIRONMENT DIVISION.                                                  01
+000600*                                                                       01
+000700 INPUT-OUTPUT SECTION.                                                  01
+000800*                                                                       01
+000900 FILE-CONTROL.                                                          01
+001000*                                                                       01
+001100 DATA DIVISION.                                                         01
+001200*                                                                       01
+001300 FILE SECTION.                                                          01
+001400*                                                                       01
+001500 WORKING-STORAGE SECTION.                                               01
+001600*                                                                       01
+001700 01  SWITCHES.                                                          01
+001800*                                                                       01
+001900     05  END-OF-INQUIRIES-SW     PIC X   VALUE 'N'.                     01
+002000         88  END-OF-INQUIRIES            VALUE 'Y'.                     01
+002100     05  CUSTOMER-FOUND-SW       PIC X   VALUE 'Y'.                     01
+002200         88  CUSTOMER-FOUND              VALUE 'Y'.                     01
+002300     05  VALID-CURSOR-SW         PIC X   VALUE 'Y'.                     01
+002400         88  VALID-CURSOR                VALUE 'Y'.                     01
+002500     05  END-OF-INVOICES-SW      PIC X   VALUE 'N'.                     01
+002600         88  END-OF-INVOICES             VALUE 'Y'.                     01
+002700*                                                                       01
+002800 01  INVOICE-TOTAL-FIELDS    COMP-3.                                    01
+002900*                                                                       01
+003000     05  INVOICES-COUNT      PIC S9(5)    VALUE ZERO.                   01
+003100     05  INVOICES-TOTAL      PIC S9(7)V99 VALUE ZERO.                   01
+003200*                                                                       01
+003300 01  EDITED-TOTAL-FIELDS.                                               01
+003400*                                                                       01
+003500     05  EDITED-COUNT        PIC Z(4)9.                                 01
+003600     05  EDITED-TOTAL        PIC Z(6)9.99.                              01
+003700*                                                                       01
+003800     EXEC SQL                                                           01
+003900         INCLUDE CUSTOMER                                               05
+004000     END-EXEC.                                                          01
+004100*                                                                       01
+004200     EXEC SQL                                                           01
+004300         INCLUDE INVOICE                                                05
+004400     END-EXEC.                                                          01
+004500*                                                                       01
+004600     EXEC SQL                                                           01
+004700         INCLUDE SQLCA                                                  01
+004800     END-EXEC.                                                          01
+004900*                                                                       01
+005000     EXEC SQL                                                           01
+005100        DECLARE INVCURS CURSOR FOR                                      01
+005200             SELECT   INVNO, INVDATE, INVTOTAL                          01
+005300                 FROM MM01.INVOICE                                      05
+005400                 WHERE INVCUST = :CUSTNO                                01
+005500     END-EXEC.                                                          01
+005600*                                                                       01
+005700 PROCEDURE DIVISION.                                                    01
+005800*                                                                       01
+005900 000-PROCESS-SALES-INQUIRIES.                                           01
+006000*                                                                       01
+006100     PERFORM 100-PROCESS-SALES-INQUIRY                                  01
+006200         UNTIL END-OF-INQUIRIES.                                        01
+006300     STOP RUN.                                                          01
+006400*                                                                       01
+006500 100-PROCESS-SALES-INQUIRY.                                             01
+006600*                                                                       01
+006700     MOVE 'Y' TO CUSTOMER-FOUND-SW.                                     01
+006800     PERFORM 110-ACCEPT-CUSTOMER-NUMBER.                                01
+006900     IF NOT END-OF-INQUIRIES                                            01
+007000         PERFORM 120-GET-CUSTOMER-ROW                                   01
+007100         PERFORM 130-DISPLAY-CUSTOMER-INFO                              01
+007200         IF CUSTOMER-FOUND                                              01
+007300             PERFORM 140-GET-INVOICES-INFORMATION                       01
+007400             PERFORM 200-DISPLAY-SALES-TOTALS.                          01
+007500*                                                                       01
+007600 110-ACCEPT-CUSTOMER-NUMBER.                                            01
+007700*                                                                       01
+007800     DISPLAY '------------------------------------------------'.        01
+007900     DISPLAY 'KEY IN THE NEXT CUSTOMER NUMBER AND PRESS ENTER,'.        01
+008000     DISPLAY 'OR KEY IN 999999 AND PRESS ENTER TO QUIT.'.               01
+008100     ACCEPT CUSTNO.                                                     01
+008200     IF CUSTNO = '999999'                                               01
+008300         MOVE 'Y' TO END-OF-INQUIRIES-SW.                               01
+008400*                                                                       01
+008500 120-GET-CUSTOMER-ROW.                                                  01
+008600*                                                                       01
+008700     EXEC SQL                                                           01
+008800         SELECT    FNAME,  LNAME                                        01
+008900             INTO :FNAME, :LNAME                                        01
+009000             FROM MM01.CUSTOMER                                         05
+009100                 WHERE CUSTNO = :CUSTNO                                 01
+009200     END-EXEC.                                                          01
+009300     IF SQLCODE NOT = 0                                                 01
+009400         MOVE 'N' TO CUSTOMER-FOUND-SW.                                 01
+009500*                                                                       01
+009600 130-DISPLAY-CUSTOMER-INFO.                                             01
+009700*                                                                       01
+009800     DISPLAY '------------------------------------------------'.        01
+009900     IF CUSTOMER-FOUND                                                  01
+010000         DISPLAY '  CUSTOMER ' CUSTNO ' -- ' FNAME ' ' LNAME            01
+010100         DISPLAY ' '                                                    01
+010200     ELSE                                                               01
+010300         DISPLAY '  CUSTOMER NUMBER ' CUSTNO ' NOT FOUND.'.             01
+010400*                                                                       01
+010500 140-GET-INVOICES-INFORMATION.                                          01
+010600*                                                                       01
+010700     MOVE 'Y' TO VALID-CURSOR-SW.                                       01
+010800     PERFORM 150-OPEN-INVOICE-CURSOR.                                   01
+010900     IF VALID-CURSOR                                                    02
+011000         MOVE 'N' TO END-OF-INVOICES-SW                                 01
+011100         MOVE ZERO TO INVOICES-COUNT                                    01
+011200         MOVE ZERO TO INVOICES-TOTAL                                    02
+011300         PERFORM 160-GET-INVOICE-INFORMATION                            01
+011400             UNTIL END-OF-INVOICES                                      02
+011500         PERFORM 190-CLOSE-INVOICE-CURSOR.                              01
+011600*                                                                       01
+011700 150-OPEN-INVOICE-CURSOR.                                               01
+011800*                                                                       01
+011900     EXEC SQL                                                           01
+012000         OPEN INVCURS                                                   01
+012100     END-EXEC.                                                          01
+012200     IF SQLCODE NOT = 0                                                 01
+012300         MOVE 'N' TO VALID-CURSOR-SW.                                   01
+012400*                                                                       01
+012500 160-GET-INVOICE-INFORMATION.                                           01
+012600*                                                                       01
+012700     PERFORM 170-FETCH-INVOICE-ROW.                                     01
+012800     IF NOT END-OF-INVOICES                                             01
+012900         ADD 1        TO INVOICES-COUNT                                 01
+013000         ADD INVTOTAL TO INVOICES-TOTAL                                 01
+013100         PERFORM 180-DISPLAY-INVOICE-INFO.                              01
+013200*                                                                       01
+013300 170-FETCH-INVOICE-ROW.                                                 01
+013400*                                                                       01
+013500     EXEC SQL                                                           01
+013600         FETCH INVCURS                                                  01
+013700             INTO :INVNO, :INVDATE, :INVTOTAL                           01
+013800     END-EXEC.                                                          01
+013900     IF SQLCODE NOT = 0                                                 01
+014000         MOVE 'Y' TO END-OF-INVOICES-SW                                 01
+014100         IF SQLCODE NOT = 100                                           01
+014200             MOVE 'N' TO VALID-CURSOR-SW.                               01
+014300*                                                                       01
+014400 180-DISPLAY-INVOICE-INFO.                                              01
+014500*                                                                       01
+014600     MOVE INVTOTAL TO EDITED-TOTAL.                                     01
+014700     DISPLAY '  INVOICE ' INVNO ' ' INVDATE ' ' EDITED-TOTAL.           01
+014800*                                                                       01
+014900 190-CLOSE-INVOICE-CURSOR.                                              01
+015000*                                                                       01
+015100     EXEC SQL                                                           01
+015200         CLOSE INVCURS                                                  01
+015300     END-EXEC.                                                          01
+015400     IF SQLCODE NOT = 0                                                 01
+015500         MOVE 'N' TO VALID-CURSOR-SW.                                   01
+015600*                                                                       01
+015700 200-DISPLAY-SALES-TOTALS.                                              01
+015800*                                                                       01
+015900     IF VALID-CURSOR                                                    01
+016000         MOVE INVOICES-TOTAL              TO EDITED-TOTAL               01
+016100         MOVE INVOICES-COUNT              TO EDITED-COUNT               01
+016200         IF INVOICES-TOTAL > 0                                          01
+016300             DISPLAY '                            ------------'         01
+016400         END-IF                                                         01
+016500         DISPLAY '  TOTAL BILLED              '     EDITED-TOTAL        06
+016600         DISPLAY '  INVOICES ISSUED                ' EDITED-COUNT       06
+016700         DISPLAY ' '                                                    01
+016800     ELSE                                                               01
+016900         DISPLAY ' '                                                    01
+017000         DISPLAY '     *** INVOICE RETRIEVAL ERROR   ***'               01
+017100         DISPLAY ' '.                                                   01
+017200*                                                                       01
+

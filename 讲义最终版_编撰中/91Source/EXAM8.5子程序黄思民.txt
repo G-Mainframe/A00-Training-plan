@@ -1,0 +1,12 @@
+       IDENTIFICATION    DIVISION.
+       PROGRAM-ID. SUB.
+       ENVIRONMENT       DIVISION.
+       DATA              DIVISION.
+       LINKAGE           SECTION.
+       77  A PIC 99V99.
+       77  B PIC 99V99.
+       77  H PIC 99V99.
+       77  V PIC 9(6).99.
+       PROCEDURE         DIVISION  USING A B H V.
+       S.  COMPUTE V = A * B * H.
+           EXIT PROGRAM.

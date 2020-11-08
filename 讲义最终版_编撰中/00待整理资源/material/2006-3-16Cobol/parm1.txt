@@ -1,0 +1,43 @@
+000010 IDENTIFICATION DIVISION.                                         00001000
+000020 PROGRAM-ID. parm1.                                               00002000
+000030 ENVIRONMENT DIVISION.                                            00003000
+000040 CONFIGURATION SECTION.                                           00004000
+000050 DATA DIVISION.                                                   00005000
+000060 WORKING-STORAGE SECTION.                                         00006000
+000070 01 BLANK-LINE            PIC X(40) VALUE SPACES.                 00007000
+000080 01 GRID-LINE             PIC X(40)                               00008000
+000090            VALUE "....+....1....+....2....+....3....+....4".     00009000
+000091                                                                  00009101
+000092 01  TEST1                 PIC XX VALUE HIGH-VALUES.              00009201
+000093 01  TEST2                 PIC XX VALUE LOW-VALUES.               00009301
+000094 LINKAGE SECTION.                                                 00009402
+000095 01  LK-PARM.                                                     00009502
+000096     05 FILLER              PIC 99 BINARY.                        00009602
+000097     05 LK-IN               PIC X(5).                             00009703
+000098                                                                  00009802
+000100 PROCEDURE DIVISION USING LK-PARM.                                00010002
+000200 001-MAIN.                                                        00020000
+000300           PERFORM DISPLAY-THE-DATA.                              00030000
+000400*----------------------------------------------------             00040000
+000500* THIS PARAGRAPH IS USED TO DISPLAY High Values, Low-values.
+000600*----------------------------------------------------             00060000
+000700                                                                  00070000
+000800            GOBACK.                                               00080000
+000900                                                                  00090000
+001000 DISPLAY-THE-DATA.                                                00100000
+001100                                                                  00110000
+001200        DISPLAY 'HELLO'.                                          00120000
+001201        DISPLAY 'LK-IN = ' LK-IN.                                 00120102
+001210*        DISPLAY 'TEST1 = ' TEST1.                                 0012100
+1
+001220*        DISPLAY 'TEST2 = ' TEST2.                                 0012200
+1
+001300                                                                  00130000
+001400                                                                  00140000
+001500 DISPLAY-EXIT.                                                    00150000
+001600         EXIT.                                                    00160000
+001700                                                                  00170000
+001800                                                                  00180000
+001900                                                                  00190000
+002000                                                                  00200000
+

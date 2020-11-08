@@ -1,0 +1,20 @@
+000100  TST0007:PROC OPTIONS(MAIN);                                         
+000200         DCL (I) FIXED DEC(10) INIT(1);                               
+000300         DCL (J) FIXED DEC(10) INIT(1);                               
+000400         DCL (K) FIXED DEC(10) INIT(0);                               
+000600         GET LIST(IN);                                                
+000700         IF IN <= 1 THEN                                              
+000800         PUT SKIP LIST('ERROR THE INPUT IN = ' || IN ||'');           
+000900         ELSE                                                         
+001000         CALL LOOP;                                                   
+001100  LOOP:PROC;                                                          
+001200         PUT SKIP LIST(I,J);                                          
+001300         DO WHILE (IN>2);                                             
+001400         IN = IN - 1;                                                 
+001500         K = I + J;                                                   
+001600         PUT LIST(K);                                                 
+001610         I=J;                                                         
+001620         J=K;                                                         
+001700         END;                                                         
+001800  END LOOP;                                                              
+001900  END TST0007;                                                           

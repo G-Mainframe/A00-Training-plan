@@ -1,0 +1,13 @@
+//GDG01    JOB (),'SID0878',NOTIFY=&SYSUID                    
+//STEP1   EXEC PGM=IDCAMS                                     
+//GDGMODEL  DD DSN=SID0878.GDGTEST.GDGMDL,                    
+//             DISP=(NEW,CATLG,DELETE),SPACE=(TRK,(0)),       
+//             DCB=(RECFM=FB,LRECL=80,BLKSIZE=4000)           
+//SYSPRINT  DD SYSOUT=*                                       
+//SYSIN     DD *                                              
+   DEFINE GDG(                         -                      
+                NAME(SID0878.GDGTEST.GDG01) -                 
+                LIMIT(10)               -                     
+                NOEMPTY                 -                     
+                SCRATCH)                                      
+/*                                                            

@@ -1,0 +1,6 @@
+//GDC233 JOB (080912DL510),'COBOL COMP LKED',             
+//    MSGCLASS=O,MSGLEVEL=(1,1),NOTIFY=&SYSUID            
+//BATCOB EXEC IGYWCL,                                     
+//       PGMLIB=GDC233.COB.LOAD,         ;LOAD MODULE     
+//       GOPGM=PGM001                    ;MODULE NAME     
+//COBOL.SYSIN  DD DISP=SHR,DSN=GDC233.TEST.COB(PGM001)    

@@ -1,0 +1,8 @@
+//GDG02    JOB (),'SID0878',NOTIFY=&SYSUID                     
+//STEP1   EXEC PGM=IEBGENER                                    
+//SYSUT1    DD DSN=SID0878.SRC.JCL(JCL01),DISP=SHR             
+//SYSUT2    DD DSN=SID0878.GDGTEST.GDG(+1),                    
+//             DISP=(NEW,CATLG,DELETE),SPACE=(TRK,(5,5)),      
+//             DCB=SID0878.GDGTEST.GDGMDL                      
+//SYSPRINT  DD SYSOUT=*                                        
+//SYSIN     DD DUMMY                                           

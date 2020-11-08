@@ -1,0 +1,87 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200 PROGRAM-ID. HELLOC.                                              00020000
+000300 DATA DIVISION.                                                   00030000
+000400                                                                  00040000
+000500 WORKING-STORAGE SECTION.                                         00050000
+000600 01   COMM-AREA.                                                  00060000
+000700   03 COMM-SEND-MAP-TAG        PIC X.                             00070000
+000800   03 FILLER                   PIC X(2446) VALUE SPACES.          00080000
+000900    77   COMM-AREA-LENGTH    PIC S9(4) COMP VALUE +2448.          00090000
+001000    77   COMM-TRAN-NAME           PIC X(4).                       00100000
+001100    77   UTIME                    PIC S9(15).                     00110000
+001200        COPY DFHBMSCA.                                            00120000
+001300        COPY DFHAID.                                              00130000
+001400        COPY HELLOM.                                              00140000
+001500    PROCEDURE DIVISION.                                           00150000
+001600           EXEC CICS HANDLE ABEND LABEL(RETURN-CICS)              00160000
+001700           END-EXEC.                                              00170000
+001800           MOVE DFHBMASF      TO   CICSNAMA.                      00180000
+001900                   MOVE DFHBMASF      TO   SYSDATEA.              00190000
+002000                   MOVE DFHBMASF      TO   SYSTIMEA.              00200000
+002100                   MOVE DFHBMASF      TO   LOCATTRA.              00210000
+002200                   MOVE DFHBMASF      TO   MESSAGEA.              00220000
+002300                   MOVE DFHBMASF      TO   TERMIDA.               00230000
+002400                   MOVE DFHBMASF      TO   HELLOWDA.              00240000
+002500                   MOVE EIBTRMID      TO   TERMIDO.               00250000
+002600                   MOVE EIBTRNID      TO   COMM-TRAN-NAME.        00260000
+002700                   EXEC CICS ASSIGN APPLID(CICSNAMO)              00270000
+002800           END-EXEC.                                              00280000
+002900                 IF(COMM-SEND-MAP-TAG  = 'N')                     00290000
+003000                    GO TO RECEIVE-MAP                             00300000
+003100                 ELSE                                             00310000
+003200                    MOVE '      '   TO  MESSAGEO                  00320000
+003300                 END-IF.                                          00330000
+003400  SEND-MAP.                                                       00340000
+003500                   EXEC CICS ASKTIME          ABSTIME(UTIME)      00350000
+003600                   END-EXEC.                                      00360000
+003700                   EXEC CICS FORMATTIME       ABSTIME(UTIME)      00370000
+003800                             YYYYMMDD(SYSDATEO)                   00380000
+003900                             TIME(SYSTIMEO)    TIMESEP(':')       00390000
+004000                   END-EXEC.                                      00400000
+004100                   MOVE 'HELLO WORLD, GUYS|' TO HELLOWDO.         00410000
+004200                   EXEC CICS SEND MAP('HELLOM')                   00420000
+004300                   MAPSET('HELLOM')                               00430000
+                                   ERASE                                00440004
+004500                             FREEKB                               00450000
+004600                   END-EXEC.                                      00460000
+004700                   MOVE 'N'  TO  COMM-SEND-MAP-TAG.               00470000
+004800                   EXEC CICS RETURN TRANSID('HELL')               00480001
+004900                             COMMAREA(COMM-AREA)                  00490000
+005000                             LENGTH(COMM-AREA-LENGTH)             00500000
+005100                   END-EXEC.                                      00510000
+005200   RECEIVE-MAP.                                                   00520000
+005300          EXEC CICS IGNORE CONDITION  MAPFAIL                     00530000
+005400          END-EXEC.                                               00540000
+005500          EXEC CICS RECEIVE MAP('HELLOM') MAPSET('HELLOM')        00550000
+005600                            INTO(HELLOMO)                         00560000
+005700          END-EXEC.                                               00570000
+005800          IF EIBAID = DFHENTER THEN                               00580000
+005900             MOVE '            '  TO  MESSAGEO                    00590000
+006000          END-IF.                                                 00600000
+006100          IF EIBAID = DFHPF1   THEN                               00610000
+006200             MOVE '      F1  '    TO  MESSAGEO                    00620000
+006300          END-IF.                                                 00630000
+006400          IF EIBAID = DFHPF3 OR DFHCLEAR  THEN                    00640000
+006500             MOVE '      F3  '    TO  MESSAGEO                    00650000
+006600             PERFORM RETURN-CICS                                  00660000
+006700          END-IF.                                                 00670000
+006800          IF EIBAID = DFHPF6   THEN                               00680000
+006900             MOVE '      F6  '    TO  MESSAGEO                    00690000
+007000          END-IF.                                                 00700000
+007100          IF EIBAID = DFHPF7   THEN                               00710000
+007200             MOVE '      F7  '    TO  MESSAGEO                    00720000
+007300          END-IF.                                                 00730000
+007400          IF EIBAID = DFHPF8   THEN                               00740000
+007500             MOVE '      F8  '    TO  MESSAGEO                    00750000
+007600          END-IF.                                                 00760000
+007700          IF EIBAID = DFHPF5   THEN                               00770000
+007800             MOVE '      F5  '    TO  MESSAGEO                    00780000
+007900          END-IF.                                                 00790000
+008000          PERFORM SEND-MAP.                                       00800000
+008100  RETURN-CICS.                                                    00810000
+008200                   EXEC CICS SEND CONTROL ERASE FREEKB            00820000
+008300                   END-EXEC.                                      00830000
+008400                   EXEC CICS RETURN                               00840000
+008500                   END-EXEC.                                      00850000
+008600                                                                  00860000
+

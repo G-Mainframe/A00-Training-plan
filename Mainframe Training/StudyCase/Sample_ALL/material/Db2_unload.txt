@@ -1,0 +1,27 @@
+Db2_unload
+
+//* ----------------------------------------------------------------- *
+//*    RESET UTILITY STATUS                                           *
+//* ----------------------------------------------------------------- *
+//STEP020 EXEC PGM=IKJEFT01,DYNAMNBR=20,REGION=5M                      
+//STEPLIB  DD  DSN=DSN.DSNLOAD,DISP=SHR                                
+//SYSTSPRT DD  SYSOUT=*                                                
+//SYSPRINT DD  SYSOUT=*                                                
+//SYSUDUMP DD  SYSOUT=*                                                 
+//OUTPUT   DD  SYSOUT=*,DCB=(RECFM=FBA,LRECL=133,BLKSIZE=27930)         
+//SYSTSIN  DD  *                                                        
+ DSN  SYSTEM(DSN)                                                       
+ -TERM UTIL(NE65ECU)                                                    
+ END                                                                    
+//*----------------------------------------------------------------     
+//* UNLOAD TDMTST                                                       
+//*----------------------------------------------------------------     
+//STEP030 EXEC NE65PULD,TN=&TN                                          
+//A.SYSTSIN DD *                                                        
+ DSN SYSTEM(DSN)                                                        
+ RUN  PROGRAM(DSNTIAUL) PLAN(DSNTIAUL) -                                
+      LIB('DSN.RUNLIB.LOAD')                                            
+//A.SYSIN DD *                                                          
+ NE65U1.NE65TDMTST                                                      
+//A.SYSREC00 DD DSN=NE65.DS.ULMTST&TN,DISP=(,CATLG),                    
+//         SPACE=(CYL,(10,1),RLSE)         

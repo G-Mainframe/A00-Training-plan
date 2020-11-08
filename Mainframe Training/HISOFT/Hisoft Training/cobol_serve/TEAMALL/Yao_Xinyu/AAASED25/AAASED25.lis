@@ -1,0 +1,2060 @@
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+ƒtƒ@ƒCƒ‹: C:\COB97\SOC\AAASED25\AAASED25.PCO‚ðƒI[ƒvƒ“
+     1  000010******************************************************************
+     2  000020*         ƒŠC‹P“îŒ(‘å˜A)„                                     *
+     3  000030*      1. ƒvƒƒOƒ‰ƒ€–¼  : ‘OŽó‹àŽó•¥Žc‚ƒtƒ@ƒCƒ‹ì¬             *
+     4  000040*      2. ƒvƒƒOƒ‰ƒ€ID  : AAASED25                               *
+     5  000050*      3. ˆ—ŠT—v      : ‘OŽóî•ñ‚c‚a‚ðƒƒCƒ“‚ÉAƒ}ƒXƒ^‚Æ•\     *
+     6  000060*                         Œ‹‡‚µ‚Ä“Çž‚ÝA‘OŽó‹àŽó•¥Žc‚’†ŠÔ     *
+     7  000070*                         ƒtƒ@ƒCƒ‹‚ðì¬‚·‚éB                   *
+     8  000080*      4. ì¬ŽÒ        : ›L‹Ó‰J                                 *
+     9  000090*      5. ì¬“ú        : 2005.03.26                             *
+    10  000100*                                                                *
+    11  000110******************************************************************
+    12  000120*                                                                 
+    13  000130******************************************************************
+    14  000140*    ‚h‚c‚d‚m‚s‚h‚e‚h‚b‚`‚s‚h‚n‚m  ‚c‚h‚u‚h‚r‚h‚n‚m              *
+    15  000150******************************************************************
+    16  000160 IDENTIFICATION                       DIVISION.                   
+    17  000170*                                                                 
+    18  000180 PROGRAM-ID.                          AAASED25.                   
+    19  000190******************************************************************
+    20  000200*    ‚d‚m‚u‚h‚q‚n‚m‚l‚d‚m‚s        ‚c‚h‚u‚h‚r‚h‚n‚m              *
+    21  000210******************************************************************
+    22  000220 ENVIRONMENT                          DIVISION.                   
+    23  000230******************************************************************
+    24  000240*    ‚h‚m‚o‚t‚s|‚n‚t‚s‚o‚t‚s      ‚r‚d‚b‚s‚h‚n‚m                *
+    25  000250******************************************************************
+    26  000260 INPUT-OUTPUT                         SECTION.                    
+    27  000270*                                                                 
+    28  000280 FILE-CONTROL.                                                    
+    29  000290     SELECT    o—Íƒtƒ@ƒCƒ‹           ASSIGN    TO     U11        
+    30  000300     FILE      STATUS     IS          ‚v|ó‘Ô                    
+    31  000310     ORGANIZATION         IS          LINE      SEQUENTIAL.       
+    32  000320*                                                                 
+    33  000330******************************************************************
+    34  000340*    ‚c‚`‚s‚`                      ‚c‚h‚u‚h‚r‚h‚n‚m              *
+    35  000350******************************************************************
+    36  000360 DATA                                 DIVISION.                   
+    37  000370******************************************************************
+    38  000380*    ‚e‚h‚k‚d                      ‚r‚d‚b‚s‚h‚n‚m                *
+    39  000390******************************************************************
+    40  000400 FILE                                 SECTION.                    
+    41  000410*----------------------------------------------------------------*
+    42  000420*    o—Íƒtƒ@ƒCƒ‹                                                *
+    43  000430*----------------------------------------------------------------*
+    44  000440 FD  o—Íƒtƒ@ƒCƒ‹                                                 
+    45  000450     LABEL     RECORD     IS          STANDARD                    
+    46  000460     BLOCK     CONTAINS   0           RECORDS.                    
+    47  000470*                                                                 
+    48  000480 01  o—Í|ƒŒƒR[ƒh.                                              
+    49  000490     COPY  CPSCE50  REPLACING  ==()==  BY  ==o—Í|==.            
+    50  000500*                                                                 
+    51  000510******************************************************************
+    52  000520*  ‚v‚n‚q‚j‚h‚m‚f|‚r‚s‚n‚q‚`‚f‚d  ‚r‚d‚b‚s‚h‚n‚m                *
+    53  000530******************************************************************
+    54  000540  WORKING-STORAGE                     SECTION.                    
+    55  000550*----------------------------------------------------------------*
+    56  000560*    ƒzƒXƒg•Ï”’è‹`ƒGƒŠƒA                                        *
+    57  000570*----------------------------------------------------------------*
+    58  000580     EXEC  SQL  BEGIN  DECLARE        SECTION  END-EXEC.          
+    59  000590*                                                                 
+    60  000600 01  ‚v‚r|–¼Ì‚P                     PIC  X(060).                
+    61  000610 01  ‚v‚r|–¼Ì‚Q                     PIC  X(060).                
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    62  000620 01  ‚v‚r|ƒR[ƒh‚m‚n‚P               PIC  X(03)  VALUE "038".    
+    63  000630 01  ‚v‚r|ƒR[ƒh‚m‚n‚Q               PIC  X(03)  VALUE "005".    
+    64  000640 01  ‚v‚r|ƒŒƒR[ƒh‹æ•ª              PIC  X(01)  VALUE "1".      
+    65  000650 01  ‚v‚r|‚l‚O‚P|’S•Û‹æ•ª          PIC X(01) VALUE "0".        
+    66  000660 01  ‚v‚r|‚l‚S‚O|‹¦’²‹æ•ª          PIC X(01) VALUE "2".        
+    67  000670*                                                                 
+    68  000680*--< ‚n‚q‚`‚b‚k‚d‹¤’Ê•Ï” >                                       
+    69  000690     EXEC  SQL  INCLUDE  SQLCOM.CBL            END-EXEC.          
+    70  000700*                                                                 
+    71  000710*--< ‚n‚q‚`‚b‚k‚d  ‚r‚p‚kŽÀsî•ñ >                               
+ƒtƒ@ƒCƒ‹: Z:\COB97\COPYLIB_DB\SQLCOM.CBL‚ðƒI[ƒvƒ“
+     1  000010*--ƒ‚r‚p‚k‹¤’Ê•Ï”„
+     2  000030   01  SQLSTATE                      PIC  X(005).
+     3  000040   01  DB-STRING                     PIC  X(020).
+     4  000050   01  USERNAME                      PIC  X(010).
+     5  000060   01  PASSWD                        PIC  X(010).
+     6  000070*
+ƒtƒ@ƒCƒ‹: Z:\COB97\COPYLIB_DB\SQLCOM.CBL‚ðƒNƒ[ƒY
+    72  000720     EXEC  SQL  INCLUDE  SQLCA.COB             END-EXEC.          
+    73  000730*                                                                 
+    74  000740*--< ‘OŽóî•ñ‚c‚a >                                               
+    75  000750     EXEC  SQL  INCLUDE  M40MAB.CBL            END-EXEC.          
+    76  000760*                                                                 
+    77  000770*--< ‹Æ–±ŠÇ—ƒe[ƒuƒ‹ >                                           
+ƒtƒ@ƒCƒ‹: Z:\COB97\COPYLIB_DB\M40MAB.CBL‚ðƒI[ƒvƒ“
+     1  000010************************************************
+     2  000020* ‘OŽóî•ñ(M40MAB)
+     3  000030************************************************
+     4  000040 01  ‚l‚S‚O|ƒŒƒR[ƒh‹æ•ª           PIC  X(1).
+     5  000050 01  ‚l‚S‚O|Œ_–ñ”Ô†               PIC  X(15).
+     6  000060 01  ‚l‚S‚O|ÄƒŠ[ƒX‰ñ”           PIC S9(2) COMP-3.
+     7  000070 01  ‚l‚S‚O|Œ_–ñŽí—Þ               PIC  X(3).
+     8  000080 01  ‚l‚S‚O|‰¼Žó‹à“ü‹à“ú           PIC  X(8).
+     9  000090 01  ‚l‚S‚O|‰¼Žó‹à‚r‚d‚p|‚m‚n     PIC S9(6) COMP-3.
+    10  000100 01  ‚l‚S‚O|‘O•¥‰ñŽû•û–@           PIC  X(1).
+    11  000110 01  ‚l‚S‚O|‘O•¥‰ñŽûƒTƒCƒg         PIC S9(2) COMP-3.
+    12  000120 01  ‚l‚S‚O|‘O•¥‰ñŽû“ú             PIC  X(2).
+    13  000130 01  ‚l‚S‚O|[“–ŠJŽn‰ñ             PIC S9(3) COMP-3.
+    14  000140 01  ‚l‚S‚O|[“–ŒŽ”               PIC S9(3) COMP-3.
+    15  000150 01  ‚l‚S‚O|[“–ŠJŽn”NŒŽ           PIC  X(6).
+    16  000160 01  ‚l‚S‚O|UžŽè”—¿             PIC S9(13) COMP-3.
+    17  000170 01  ‚l‚S‚O|‘O•¥‹àŠz               PIC S9(13) COMP-3.
+    18  000180 01  ‚l‚S‚O|‘O•¥‹àŠzÁ”ïÅ         PIC S9(13) COMP-3.
+    19  000190 01  ‚l‚S‚O|‘¼ŽÐ‘O•¥‹àŠz           PIC S9(13) COMP-3.
+    20  000200 01  ‚l‚S‚O|‘¼ŽÐ‘O•¥‹àŠzÁ”ïÅ     PIC S9(13) COMP-3.
+    21  000210 01  ‚l‚S‚O|‰ð–ñ•ª—¿‹à—ÝŒv         PIC S9(13) COMP-3.
+    22  000220 01  ‚l‚S‚O|‰ð–ñ•ªÁ”ïÅ—ÝŒv       PIC S9(13) COMP-3.
+    23  000230 01  ‚l‚S‚O|‘¼ŽÐ‰ð–ñ•ª—¿‹à—ÝŒv     PIC S9(13) COMP-3.
+    24  000240 01  ‚l‚S‚O|‘¼ŽÐ‰ð–ñ•ªÁ”ïÅ—ÝŒv   PIC S9(13) COMP-3.
+    25  000250 01  ‚l‚S‚O|–¢‰ñŽûŠz               PIC S9(13) COMP-3.
+    26  000260 01  ‚l‚S‚O|‘¼ŽÐ–¢‰ñŽûŠz           PIC S9(13) COMP-3.
+    27  000270 01  ‚l‚S‚O|ó‘ÔƒR[ƒh             PIC  N(2).
+    28  000280 01  ‚l‚S‚O|‹âsƒR[ƒh             PIC  X(4).
+    29  000290 01  ‚l‚S‚O|Žx“XƒR[ƒh             PIC  X(4).
+    30  000300 01  ‚l‚S‚O|UžˆË—Šl–¼           PIC  X(48).
+    31  000310 01  ‚l‚S‚O|‘OŽó‹àŽó•¥Žc‚•\‘ÎÛƒtƒ‰ƒO PIC  X(1).
+    32  000320 01  ‚l‚S‚O|‰¼Žó‹à“à–ó•\‘ÎÛƒtƒ‰ƒO PIC  X(1).
+    33  000330 01  ‚l‚S‚O|‰ïŒv•”–åƒR[ƒh         PIC  X(2).
+    34  000340 01  ‚l‚S‚O|Žd–óƒtƒ‰ƒO|U‘Ö‘OŽóƒŠ[ƒX—¿ PIC  X(1).
+    35  000350 01  ‚l‚S‚O|Žd–óƒtƒ‰ƒO|U‘Ö‘OŽó   PIC  X(1).
+    36  000360 01  ‚l‚S‚O|Žd–óƒtƒ‰ƒO|U‘Ö‰¼Žó   PIC  X(1).
+    37  000370 01  ‚l‚S‚O|Œ_–ñŠJŽn“ú             PIC  X(8).
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    38  000380 01  ‚l‚S‚O|¿‹æŽæˆøæƒR[ƒh     PIC  X(9).
+    39  000390 01  ‚l‚S‚O|ŒÚ‹q‹æ•ª               PIC  X(2).
+    40  000400 01  ‚l‚S‚O|‚s‚`‚r‚rƒR[ƒh         PIC  X(7).
+    41  000410 01  ‚l‚S‚O|‘Ý“|”NŒŽ“ú             PIC  X(8).
+    42  000420 01  ‚l‚S‚O|“Á’èŽæˆøæ‹æ•ª         PIC  X(1).
+    43  000430 01  ‚l‚S‚O|Å‘å“Â‘£‰ñ”           PIC  X(1).
+    44  000440 01  ‚l‚S‚O|¿‹æƒR[ƒh           PIC  X(5).
+    45  000450 01  ‚l‚S‚O|Œ_–ñæŽæˆøæƒR[ƒh     PIC  X(9).
+    46  000460 01  ‚l‚S‚O|Œ_–ñæƒR[ƒh           PIC  X(5).
+    47  000470 01  ‚l‚S‚O|’S“–•”‰ÛƒR[ƒh         PIC  X(4).
+    48  000480 01  ‚l‚S‚O|’S“–ŽÒƒR[ƒh           PIC  X(8).
+    49  000490 01  ‚l‚S‚O|‹¦’²‹æ•ª               PIC  X(1).
+    50  000500 01  ‚l‚S‚O|ŠÇ—ÂŒ ƒŒƒxƒ‹         PIC  X(1).
+    51  000510 01  ‚l‚S‚O|ŽåŒ_–ñ‹æ•ª             PIC  X(1).
+    52  000520 01  ‚l‚S‚O|Œo——pŽåŒ_–ñ‹æ•ª       PIC  X(1).
+    53  000530 01  ‚l‚S‚O|ŽæÁ‹æ•ª               PIC  X(1).
+    54  000540 01  ‚l‚S‚O|‘OŒŽ––Žc‚             PIC S9(13) COMP-3.
+    55  000550 01  ‚l‚S‚O|‘OŒŽ––Žc‚‘¼ŽÐ         PIC S9(13) COMP-3.
+    56  000560 01  ‚l‚S‚O|‘OŒŽ–˜‰ð–ñ•ª—¿‹à—ÝŒv   PIC S9(13) COMP-3.
+    57  000570 01  ‚l‚S‚O|‘OŒŽ–˜‰ð–ñ•ªÁ”ïÅ—ÝŒv PIC S9(13) COMP-3.
+    58  000580 01  ‚l‚S‚O|‘OŒŽ–˜‘¼ŽÐ‰ð–ñ•ª—¿‹à—ÝŒv PIC S9(13) COMP-3.
+    59  000590 01  ‚l‚S‚O|‘OŒŽ–˜‘¼ŽÐ‰ð–ñ•ªÁ”ïÅ—ÝŒv PIC S9(13) COMP-3.
+    60  000600 01  ‚l‚S‚O|‘OŒŽ–˜Á‰»Šz—ÝŒv       PIC S9(13) COMP-3.
+    61  000610 01  ‚l‚S‚O|‘OŒŽ–˜Á‰»Šz—ÝŒv‘¼ŽÐ   PIC S9(13) COMP-3.
+    62  000620 01  ‚l‚S‚O|‘OŒŽ–˜U‘ÖŠz—ÝŒv       PIC S9(13) COMP-3.
+    63  000630 01  ‚l‚S‚O|‘OŒŽ–˜U‘ÖŠz—ÝŒv‘¼ŽÐ   PIC S9(13) COMP-3.
+    64  000640 01  ‚l‚S‚O|“–ŒŽ‰ð–ñ•ª—¿‹à         PIC S9(13) COMP-3.
+    65  000650 01  ‚l‚S‚O|“–ŒŽ‰ð–ñ•ªÁ”ïÅ       PIC S9(13) COMP-3.
+    66  000660 01  ‚l‚S‚O|“–ŒŽ‘¼ŽÐ‰ð–ñ•ª—¿‹à     PIC S9(13) COMP-3.
+    67  000670 01  ‚l‚S‚O|“–ŒŽ‘¼ŽÐ‰ð–ñ•ªÁ”ïÅ   PIC S9(13) COMP-3.
+    68  000680 01  ‚l‚S‚O|‰ñŽûŠz                 PIC S9(13) COMP-3.
+    69  000690 01  ‚l‚S‚O|‘¼ŽÐ‰ñŽûŠz             PIC S9(13) COMP-3.
+    70  000700 01  ‚l‚S‚O|‘¼ŽÐ‰ñŽûŠzÁ”ïÅ       PIC S9(13) COMP-3.
+    71  000710 01  ‚l‚S‚O|“ü‹à“ú                 PIC  X(8).
+    72  000720 01  ‚l‚S‚O|”ï–Ú                   PIC  X(1).
+    73  000730 01  ‚l‚S‚O|“ü‹à‹æ•ª               PIC  X(2).
+    74  000740 01  ‚l‚S‚O|“–ŒŽ‰ñŽûŠz             PIC S9(13) COMP-3.
+    75  000750 01  ‚l‚S‚O|“–ŒŽ‰ñŽûŠz‘¼ŽÐ         PIC S9(13) COMP-3.
+    76  000760 01  ‚l‚S‚O|“–ŒŽÁ‰»Šz             PIC S9(13) COMP-3.
+    77  000770 01  ‚l‚S‚O|“–ŒŽÁ‰»Šz‘¼ŽÐ         PIC S9(13) COMP-3.
+    78  000780 01  ‚l‚S‚O|Á‰»Šz—ÝŒv             PIC S9(13) COMP-3.
+    79  000790 01  ‚l‚S‚O|Á‰»Šz—ÝŒv‘¼ŽÐ         PIC S9(13) COMP-3.
+    80  000800 01  ‚l‚S‚O|Á‰»“ú                 PIC  X(8).
+    81  000810 01  ‚l‚S‚O|“–ŒŽU‘ÖŠz             PIC S9(13) COMP-3.
+    82  000820 01  ‚l‚S‚O|“–ŒŽU‘ÖŠz‘¼ŽÐ         PIC S9(13) COMP-3.
+    83  000830 01  ‚l‚S‚O|U‘Ö“ú                 PIC  X(8).
+    84  000840 01  ‚l‚S‚O|U‘ÖŠz—ÝŒv             PIC S9(13) COMP-3.
+    85  000850 01  ‚l‚S‚O|U‘ÖŠz—ÝŒv‘¼ŽÐ         PIC S9(13) COMP-3.
+    86  000860 01  ‚l‚S‚O|“–ŒŽ––Žc‚             PIC S9(13) COMP-3.
+    87  000870 01  ‚l‚S‚O|“–ŒŽ––Žc‚‘¼ŽÐ         PIC S9(13) COMP-3.
+    88  000880 01  ‚l‚S‚O|Žc‘OŽóŒŽ”             PIC S9(3)V9(2) COMP-3.
+ƒtƒ@ƒCƒ‹: Z:\COB97\COPYLIB_DB\M40MAB.CBL‚ðƒNƒ[ƒY
+    78  000780     EXEC  SQL  INCLUDE  D70GYM.CBL            END-EXEC.          
+    79  000790*                                                                 
+    80  000800*--< Žæˆøæƒ}ƒXƒ^>                                                
+ƒtƒ@ƒCƒ‹: Z:\COB97\COPYLIB_DB\D70GYM.CBL‚ðƒI[ƒvƒ“
+     1  000010************************************************
+     2  000020* ‹Æ–±ŠÇ—(D70GYM)
+     3  000030************************************************
+     4  000040 01  ‚c‚V‚O|‹Æ–±ŠÇ—‚h‚c           PIC  X(8).
+     5  000050 01  ‚c‚V‚O|‹Æ–±”NŒŽ               PIC  X(6).
+     6  000060 01  ‚c‚V‚O|ŠúŽñ”NŒŽ               PIC  X(6).
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+     7  000070 01  ‚c‚V‚O|Šú––”NŒŽ               PIC  X(6).
+     8  000080 01  ‚c‚V‚O|{ˆ—“ú               PIC  X(8).
+     9  000090 01  ‚c‚V‚O|{ŽŸ’÷“ú               PIC  X(8).
+    10  000100 01  ‚c‚V‚O|{ŽŸˆ—“ú             PIC  X(8).
+    11  000110 01  ‚c‚V‚O|ŒûU’÷“ú‚P             PIC  X(2).
+    12  000120 01  ‚c‚V‚O|ŒûU“ú‚P               PIC  X(8).
+    13  000130 01  ‚c‚V‚O|ŒûU‰¼’÷“ú‚P           PIC  X(8).
+    14  000140 01  ‚c‚V‚O|ŒûU–{’÷“ú‚P           PIC  X(8).
+    15  000150 01  ‚c‚V‚O|ŒûU’÷“ú‚Q             PIC  X(2).
+    16  000160 01  ‚c‚V‚O|ŒûU“ú‚Q               PIC  X(8).
+    17  000170 01  ‚c‚V‚O|ŒûU‰¼’÷“ú‚Q           PIC  X(8).
+    18  000180 01  ‚c‚V‚O|ŒûU–{’÷“ú‚Q           PIC  X(8).
+    19  000190 01  ‚c‚V‚O|ŒŽŽŸ’÷“ú               PIC  X(8).
+    20  000200 01  ‚c‚V‚O|ŒŽŽŸˆ—“ú             PIC  X(8).
+    21  000210 01  ‚c‚V‚O|”N––’÷“ú               PIC  X(8).
+    22  000220 01  ‚c‚V‚O|”N––ˆ—“ú             PIC  X(8).
+    23  000230 01  ‚c‚V‚O|Šú––’÷“ú               PIC  X(8).
+    24  000240 01  ‚c‚V‚O|Šú––ˆ—“ú             PIC  X(8).
+    25  000250 01  ‚c‚V‚O|ÅV¿‹‘”Ô†         PIC S9(7) COMP-3.
+    26  000260 01  ‚c‚V‚O|XV”NŒŽ“ú             PIC  X(8).
+    27  000270 01  ‚c‚V‚O|XVŽžŠÔ               PIC  X(8).
+    28  000280 01  ‚c‚V‚O|XVŽÒ                 PIC  X(8).
+    29  000290 01  ‚c‚V‚O|“ü—Í’S“–ŽÒƒR[ƒh       PIC  X(8).
+    30  000300 01  ‚c‚V‚O|ƒoƒbƒ`—p‹Æ–±”NŒŽ       PIC  X(6).
+    31  000310 01  ‚c‚V‚O|ƒoƒbƒ`—pŠúŽñ”NŒŽ       PIC  X(6).
+    32  000320 01  ‚c‚V‚O|ƒoƒbƒ`—pŠú––”NŒŽ       PIC  X(6).
+    33  000330 01  ‚c‚V‚O|“Â‘£ˆ—”NŒŽ“ú         PIC  X(8).
+    34  000340 01  ‚c‚V‚O|ƒ`ƒFƒbƒNƒŠƒXƒgˆ—”NŒŽ“ú PIC  X(8).
+    35  000350 01  ‚c‚V‚O|Å‚Žx•¥ˆË—Š”Ô†       PIC S9(10) COMP-3.
+    36  000360 01  ‚c‚V‚O|ŒŽŽŸˆ—ŠJŽn”NŒŽ“ú     PIC  X(8).
+    37  000370 01  ‚c‚V‚O|ŒŽŽŸˆ—ŠJŽnŽž       PIC  X(8).
+    38  000380 01  ‚c‚V‚O|ŒŽŽŸˆ—I—¹”NŒŽ“ú     PIC  X(8).
+    39  000390 01  ‚c‚V‚O|ŒŽŽŸˆ—I—¹Žž       PIC  X(8).
+    40  000400 01  ‚c‚V‚O|‘O‰ñ“Â‘£ˆ—”NŒŽ“ú     PIC  X(8).
+    41  000410 01  ‚c‚V‚O|ƒoƒbƒ`ˆ—ó‹µƒtƒ‰ƒO   PIC  X(1).
+ƒtƒ@ƒCƒ‹: Z:\COB97\COPYLIB_DB\D70GYM.CBL‚ðƒNƒ[ƒY
+    81  000810     EXEC  SQL  INCLUDE  D01TRS.CBL            END-EXEC.          
+    82  000820*                                                                 
+    83  000830*--< ¿‹æƒ}ƒXƒ^>                                                
+ƒtƒ@ƒCƒ‹: Z:\COB97\COPYLIB_DB\D01TRS.CBL‚ðƒI[ƒvƒ“
+     1        *****************************************************************
+     2        *   Žæˆøæƒ}ƒXƒ^(D01TRS_TBL)
+     3        *****************************************************************
+     4         01  Žæˆøæƒ}ƒXƒ^.
+     5             03  ‚c‚O‚P|ŽæˆøæƒR[ƒh  PIC  X(009).
+     6             03  ‚c‚O‚P|–¼Šñ‚¹ƒR[ƒh  PIC  X(040).
+     7             03  ‚c‚O‚P|Žæˆøæ–¼Ì    PIC  X(080).
+     8             03  ‚c‚O‚P|Žæˆøæ’Z–¼Ì  PIC  X(016).
+     9             03  ‚c‚O‚P|ŽæˆøæƒJƒi–¼Ì
+    10                                       PIC  X(040).
+    11             03  ‚c‚O‚P|—X•Ö”Ô†      PIC  X(007).
+    12             03  ‚c‚O‚P|”[•tæƒR[ƒh  PIC  X(011).
+    13             03  ‚c‚O‚P|ZŠ‚P        PIC  X(060).
+    14             03  ‚c‚O‚P|ZŠ‚Q        PIC  X(060).
+    15             03  ‚c‚O‚P|ZŠ‚R        PIC  X(060).
+    16             03  ‚c‚O‚P|“d˜b”Ô†      PIC  X(015).
+    17             03  ‚c‚O‚P|‹ŒŽÐ–¼        PIC  X(080).
+    18             03  ‚c‚O‚P|Ž‘–{‹à        PIC S9(013) PACKED-DECIMAL.
+    19             03  ‚c‚O‚P|Ý—§”N        PIC S9(004) PACKED-DECIMAL.
+    20             03  ‚c‚O‚P|Ý—§ŒŽ        PIC S9(002) PACKED-DECIMAL.
+    21             03  ‚c‚O‚P|ŒÚ‹q‹æ•ª      PIC  X(002).
+    22             03  ‚c‚O‚P|Šé‹Æ‹æ•ª      PIC  X(001).
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    23             03  ‚c‚O‚P|]‹Æˆõ”      PIC S9(006) PACKED-DECIMAL.
+    24             03  ‚c‚O‚P|‹ÆŽíƒR[ƒh    PIC  X(005).
+    25             03  ‚c‚O‚P|Ši•tƒ‰ƒ“ƒN    PIC  X(003).
+    26             03  ‚c‚O‚P|Œ»’S“–ŽÒ      PIC  X(008).
+    27             03  ‚c‚O‚P|¿‹æÅI”Ô†
+    28                                       PIC S9(005) PACKED-DECIMAL.
+    29             03  ‚c‚O‚P|Žx•¥æÅI”Ô†
+    30                                       PIC S9(005) PACKED-DECIMAL.
+    31             03  ‚c‚O‚P|Žå’S“–•”‰ÛƒR[ƒh
+    32                                       PIC  X(004).
+    33             03  ‚c‚O‚P|Ši•tƒ‰ƒ“ƒN‚Q  PIC  X(003).
+    34             03  ‚c‚O‚P|‘ã•\ŽÒ–¼Ì    PIC  X(020).
+    35             03  ‚c‚O‚P|ƒAƒhƒŒƒX      PIC  X(040).
+    36             03  ‚c‚O‚P|ŒÚ‹qŽg—p•s‰Âƒtƒ‰ƒO
+    37                                       PIC  X(001).
+    38             03  ‚c‚O‚P|—^MŠ‡‚èƒR[ƒh
+    39                                       PIC  X(007).
+    40             03  ‚c‚O‚P|‰‰ñ¿‹˜’u‹æ•ª
+    41                                       PIC  X(001).
+    42             03  ‚c‚O‚P|–ž—¹ˆÄ“à‘—•t‹æ•ª
+    43                                       PIC  X(001).
+    44             03  ‚c‚O‚P|ÄƒŠ[ƒXŽ©“®Œp‘±‹æ•ª
+    45                                       PIC  X(001).
+    46             03  ‚c‚O‚P|“Á’èŽæˆøæ‹æ•ª
+    47                                       PIC  X(001).
+    48             03  ‚c‚O‚P|Ž–‹ÆŠ–¼Ì    PIC  X(080).
+    49             03  ‚c‚O‚P|Ž–‹ÆŠ—X•Ö”Ô†
+    50                                       PIC  X(007).
+    51             03  ‚c‚O‚P|Ž–‹ÆŠZŠƒR[ƒh
+    52                                       PIC  X(011).
+    53             03  ‚c‚O‚P|Ž–‹ÆŠZŠ‚Q  PIC  X(060).
+    54             03  ‚c‚O‚P|Ž–‹ÆŠ“d˜b”Ô†
+    55                                       PIC  X(015).
+    56             03  ‚c‚O‚P|¶”NŒŽ“ú      PIC  X(008).
+    57             03  ‚c‚O‚P|ŠÇ—ÂŒ ƒŒƒxƒ‹
+    58                                       PIC  X(001).
+    59             03  ‚c‚O‚P|‘Ý“|”NŒŽ“ú    PIC  X(008).
+    60             03  ‚c‚O‚P|‘Ý“|‹àŠz      PIC S9(013) PACKED-DECIMAL.
+    61             03  ‚c‚O‚P|‘Ý“|——RƒR[ƒh
+    62                                       PIC  X(002).
+    63             03  ‚c‚O‚P|‘Ý“|ƒRƒƒ“ƒg  PIC  X(100).
+    64             03  ‚c‚O‚P|‘Ý“|\¿”NŒŽ“ú
+    65                                       PIC  X(008).
+    66             03  ‚c‚O‚P|Ž©“®¿‹ƒf[ƒ^ì¬—v”Û
+    67                                       PIC  X(001).
+    68             03  ‚c‚O‚P|ŠJŽ¦’ •[Žæ“¾‰¿Ši‹æ•ª
+    69                                       PIC  X(001).
+    70             03  ‚c‚O‚P|ŽæˆøŠJŽn”NŒŽ  PIC  X(006).
+    71             03  ‚c‚O‚P|‘n‹Æ”NŒŽ      PIC  X(006).
+    72             03  ‚c‚O‚P|Œn—ñ          PIC  X(030).
+    73             03  ‚c‚O‚P|”Ì”„æ        PIC  X(030).
+    74             03  ‚c‚O‚P|Žd“üæ        PIC  X(030).
+    75             03  ‚c‚O‚P|Žå—vŠ”Žå      PIC  X(020).
+    76             03  ‚c‚O‚P|Žå—vŠ”ŽåŽ—¦  PIC S9(003)V9(003) PACKED-DECIMAL.
+    77             03  ‚c‚O‚P|•ÛØlŠÇ—ÂŒ ƒŒƒxƒ‹
+    78                                       PIC  X(001).
+    79             03  ‚c‚O‚P|‰ß‹ŽÅ‚“Â‘£’iŠK
+    80                                       PIC  X(001).
+    81             03  ‚c‚O‚P|‰ß‹ŽÅ‚“Â‘£’iŠKXV“ú
+    82                                       PIC  X(008).
+    83             03  ‚c‚O‚P|Œ»ÝÅ‚“Â‘£’iŠK
+    84                                       PIC  X(001).
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    85             03  ‚c‚O‚P|Œ»ÝÅ‚“Â‘£’iŠKXV“ú
+    86                                       PIC  X(008).
+    87             03  ‚c‚O‚P|”„‹pŒ»ÝÅ‚“Â‘£’iŠK
+    88                                       PIC  X(001).
+    89             03  ‚c‚O‚P|”„‹pŒ»ÝÅ‚“Â‘£’iŠKXV“ú
+    90                                       PIC  X(008).
+    91             03  ‚c‚O‚P|ƒŠ[ƒX“Â‘£ŒðÂo—Íƒtƒ‰ƒO
+    92                                       PIC  X(001).
+    93             03  ‚c‚O‚P|’†“r‰ð–ñ“Â‘£ŒðÂo—Íƒtƒ‰ƒO
+    94                                       PIC  X(001).
+    95             03  ‚c‚O‚P|”„‹p“Â‘£ŒðÂo—Íƒtƒ‰ƒO
+    96                                       PIC  X(001).
+    97             03  ‚c‚O‚P|‹âsƒR[ƒh    PIC  X(004).
+    98             03  ‚c‚O‚P|Žx“XƒR[ƒh    PIC  X(003).
+    99             03  ‚c‚O‚P|‘ã•\ŽÒ–ðE–¼  PIC  X(020).
+   100             03  ‚c‚O‚P|]‹ÆŽí–¼      PIC  X(020).
+   101             03  ‚c‚O‚P|ZŠ–¼ƒJƒi    PIC  X(040).
+   102             03  ‚c‚O‚P|ƒRƒƒ“ƒg—“    PIC  X(120).
+   103             03  ‚c‚O‚P|’é‘ƒR[ƒh    PIC  X(009).
+   104             03  ‚c‚O‚P|Žå—vŠ”ŽåŽŠ””
+   105                                       PIC S9(010) PACKED-DECIMAL.
+   106             03  ‚c‚O‚P|Š”Žå”        PIC S9(010) PACKED-DECIMAL.
+   107             03  ‚c‚O‚P|‘S‘‹ÆŠE‡ˆÊ  PIC S9(007) PACKED-DECIMAL.
+   108             03  ‚c‚O‚P|‘S‘‹ÆŠE‰ïŽÐ”
+   109                                       PIC S9(007) PACKED-DECIMAL.
+   110             03  ‚c‚O‚P|Œ§“à‹ÆŠE‡ˆÊ  PIC S9(007) PACKED-DECIMAL.
+   111             03  ‚c‚O‚P|Œ§“à‹ÆŠE‰ïŽÐ”
+   112                                       PIC S9(007) PACKED-DECIMAL.
+   113             03  ‚c‚O‚P|Ž–‹ÆŠ”      PIC S9(005) PACKED-DECIMAL.
+   114             03  ‚c‚O‚P|Žå—vŽ–‹ÆŠ–¼  PIC  X(120).
+   115             03  ‚c‚O‚P|—˜—pƒŠ[ƒX‰ïŽÐ–¼
+   116                                       PIC  X(040).
+   117             03  ‚c‚O‚P|ƒXƒRƒAƒŠƒ“ƒO•]“_
+   118                                       PIC S9(003) PACKED-DECIMAL.
+   119             03  ‚c‚O‚P|’é‘•]“_      PIC S9(003) PACKED-DECIMAL.
+   120             03  ‚c‚O‚P|Ši•t\¿’†ƒtƒ‰ƒO
+   121                                       PIC  X(001).
+   122             03  ‚c‚O‚P|Ši•t’²®\¿——R
+   123                                       PIC  X(200).
+   124             03  ‚c‚O‚P|Ši•t“ú        PIC  X(008).
+   125             03  ‚c‚O‚P|—^MŒÀ“xŠz“K—p“ú
+   126                                       PIC  X(008).
+   127             03  ‚c‚O‚P|“–ŽÐŽæˆøŠJŽnŒoˆÜ
+   128                                       PIC  X(160).
+   129             03  ‚c‚O‚P|Šé‹Æ–Ú“I      PIC  X(100).
+   130             03  ‚c‚O‚P|•\Ž¦’PˆÊ‹æ•ª  PIC  X(001).
+   131             03  ‚c‚O‚P|‚a‚s‚lŽæˆø‹æ•ª
+   132                                       PIC  X(001).
+   133             03  ‚c‚O‚P|‚a‚s‚l’S“–Žx“XƒR[ƒh
+   134                                       PIC  X(003).
+   135             03  ‚c‚O‚P|î•ñŒðŠ·’Ê’m‹æ•ª
+   136                                       PIC  X(001).
+   137             03  ‚c‚O‚P|î•ñŒðŠ·’Ê’mÝ’è“ú
+   138                                       PIC  X(008).
+   139             03  ‚c‚O‚P|‚a‚s‚l˜AŒ‹‘ÎÛ‹æ•ª
+   140                                       PIC  X(001).
+   141             03  ‚c‚O‚P|‚a‚n‚s‚k˜AŒ‹‘ÎÛ‹æ•ª
+   142                                       PIC  X(001).
+   143             03  ‚c‚O‚P|e–§æ‹æ•ª    PIC  X(001).
+   144             03  ‚c‚O‚P|‚m‚d‚s‚k‚d‚`‚r‚h‚m‚f—˜—p‘ÎÛ‹æ•ª
+   145                                       PIC  X(001).
+   146             03  ‚c‚O‚P|“]ƒŠ[ƒX’ñŒgæƒR[ƒh
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   147                                       PIC  X(003).
+   148             03  ‚c‚O‚P|Ž–‹ÆŠZŠ‚P  PIC  X(060).
+   149             03  ‚c‚O‚P|Ž–‹ÆŠZŠ‚R  PIC  X(060).
+   150             03  ‚c‚O‚P|Šé‹ÆŒˆŽZŒŽ    PIC  X(002).
+   151             03  ‚c‚O‚P|ˆê”Ê‘åŒû‹æ•ª  PIC  X(001).
+   152             03  ‚c‚O‚P|ŽØ“ü‹àŽ¯•Ê‹æ•ª
+   153                                       PIC  X(001).
+   154             03  ‚c‚O‚P|ŽØ“üæŽí•Ê    PIC  X(002).
+   155             03  ‚c‚O‚P|’S•Û·“ü—¦    PIC S9(003) PACKED-DECIMAL.
+   156             03  ‚c‚O‚P|‹Œ–¼Šñ‚¹ƒR[ƒh
+   157                                       PIC  X(008).
+   158             03  ‚c‚O‚P|XV”NŒŽ“ú    PIC  X(008).
+   159             03  ‚c‚O‚P|XVŽžŠÔ      PIC  X(008).
+   160             03  ‚c‚O‚P|XVŽÒ        PIC  X(008).
+   161             03  ‚c‚O‚P|“o˜^”NŒŽ“ú    PIC  X(008).
+   162             03  ‚c‚O‚P|“o˜^ŽžŠÔ      PIC  X(008).
+   163             03  ‚c‚O‚P|“o˜^’S“–ŽÒ    PIC  X(008).
+   164             03  ‚c‚O‚P|“ü—Í’S“–ŽÒƒR[ƒh
+   165                                       PIC  X(008).
+ƒtƒ@ƒCƒ‹: Z:\COB97\COPYLIB_DB\D01TRS.CBL‚ðƒNƒ[ƒY
+    84  000840     EXEC  SQL  INCLUDE  D02SQS.CBL            END-EXEC.          
+    85  000850*                                                                 
+    86  000860*--< €–Ú–¼Ìƒ}ƒXƒ^>                                              
+ƒtƒ@ƒCƒ‹: Z:\COB97\COPYLIB_DB\D02SQS.CBL‚ðƒI[ƒvƒ“
+     1        *****************************************************************
+     2        *   ¿‹æƒ}ƒXƒ^(D02SQS_TBL)
+     3        *****************************************************************
+     4         01  ¿‹æƒ}ƒXƒ^.
+     5             03  ‚c‚O‚Q|ŽæˆøæƒR[ƒh  PIC  X(009).
+     6             03  ‚c‚O‚Q|¿‹æƒR[ƒh  PIC  X(005).
+     7             03  ‚c‚O‚Q|¿‹æ–¼Ì    PIC  X(080).
+     8             03  ‚c‚O‚Q|•”–å–¼Ì      PIC  X(060).
+     9             03  ‚c‚O‚Q|’S“–ŽÒ–¼Ì    PIC  X(020).
+    10             03  ‚c‚O‚Q|¿‹‘•\Ž¦    PIC  X(001).
+    11             03  ‚c‚O‚Q|Užl–¼      PIC  X(040).
+    12             03  ‚c‚O‚Q|—X•Ö”Ô†      PIC  X(007).
+    13             03  ‚c‚O‚Q|”[•tæƒR[ƒh  PIC  X(011).
+    14             03  ‚c‚O‚Q|ZŠ‚Q        PIC  X(060).
+    15             03  ‚c‚O‚Q|ZŠ‚R        PIC  X(060).
+    16             03  ‚c‚O‚Q|“d˜b”Ô†      PIC  X(015).
+    17             03  ‚c‚O‚Q|ˆêŠ‡“ü‹àƒR[ƒh
+    18                                       PIC  X(005).
+    19             03  ‚c‚O‚Q|‘—•tæ–¼Ì    PIC  X(060).
+    20             03  ‚c‚O‚Q|‘—•tæ•”–å    PIC  X(060).
+    21             03  ‚c‚O‚Q|‘—•tæ’S“–ŽÒ  PIC  X(020).
+    22             03  ‚c‚O‚Q|‘—•tæƒJƒi–¼Ì
+    23                                       PIC  X(040).
+    24             03  ‚c‚O‚Q|‘—•tæ—X•Ö”Ô†
+    25                                       PIC  X(007).
+    26             03  ‚c‚O‚Q|‘—•tæŽs’¬‘ºƒR[ƒh
+    27                                       PIC  X(011).
+    28             03  ‚c‚O‚Q|‘—•tæZŠ‚Q  PIC  X(060).
+    29             03  ‚c‚O‚Q|‘—•tæZŠ‚R  PIC  X(060).
+    30             03  ‚c‚O‚Q|‘—•tæ“d˜b”Ô†
+    31                                       PIC  X(015).
+    32             03  ‚c‚O‚Q|Ž©“®ƒ}ƒbƒ`ƒ“ƒO‘ÎÛŠO‹æ•ª
+    33                                       PIC  X(001).
+    34             03  ‚c‚O‚Q|‰ñŽûƒTƒCƒg    PIC S9(002) PACKED-DECIMAL.
+    35             03  ‚c‚O‚Q|‰ñŽû“ú        PIC  X(002).
+    36             03  ‚c‚O‚Q|‰ñŽû•û–@      PIC  X(001).
+    37             03  ‚c‚O‚Q|‰ñŽûŠÔŠu      PIC S9(002) PACKED-DECIMAL.
+    38             03  ‚c‚O‚Q|¿‹ƒTƒCƒg    PIC S9(002) PACKED-DECIMAL.
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    39             03  ‚c‚O‚Q|¿‹’÷“ú      PIC  X(002).
+    40             03  ‚c‚O‚Q|¿‹ŠÔŠu      PIC S9(002) PACKED-DECIMAL.
+    41             03  ‚c‚O‚Q|¿‹Šî€ŒŽ    PIC S9(002) PACKED-DECIMAL.
+    42             03  ‚c‚O‚Q|ì¬’Ê”      PIC S9(002) PACKED-DECIMAL.
+    43             03  ‚c‚O‚Q|ì¬’PˆÊ      PIC  X(001).
+    44             03  ‚c‚O‚Q|¿‹‘ì¬‹æ•ª
+    45                                       PIC  X(001).
+    46             03  ‚c‚O‚Q|¿‹Žw’è—lŽ®‹æ•ª
+    47                                       PIC  X(001).
+    48             03  ‚c‚O‚Q|‘—•t‹æ•ª      PIC  X(001).
+    49             03  ‚c‚O‚Q|ŽóŽæ‘¤‹à—Z‹@ŠÖƒR[ƒh
+    50                                       PIC  X(004).
+    51             03  ‚c‚O‚Q|ŽóŽæ‘¤Žx“XƒR[ƒh
+    52                                       PIC  X(003).
+    53             03  ‚c‚O‚Q|ŽóŽæ‘¤ŒûÀŽí—Þ
+    54                                       PIC  X(001).
+    55             03  ‚c‚O‚Q|ŽóŽæ‘¤ŒûÀ”Ô†
+    56                                       PIC  X(010).
+    57             03  ‚c‚O‚Q|ŒûU‹âsƒR[ƒh
+    58                                       PIC  X(004).
+    59             03  ‚c‚O‚Q|ŒûUŽx“XƒR[ƒh
+    60                                       PIC  X(003).
+    61             03  ‚c‚O‚Q|ŒûUŒûÀŽí—Þ  PIC  X(001).
+    62             03  ‚c‚O‚Q|ŒûUŒûÀ”Ô†  PIC  X(010).
+    63             03  ‚c‚O‚Q|ŒûU–¼‹`l    PIC  X(030).
+    64             03  ‚c‚O‚Q|¿‹ˆ¶–¼ˆóü  PIC  X(001).
+    65             03  ‚c‚O‚Q|¿‹“ú•tˆóü  PIC  X(001).
+    66             03  ‚c‚O‚Q|‰ñŽûŠúŒÀˆóü  PIC  X(001).
+    67             03  ‚c‚O‚Q|Žg—pŒŽˆóü    PIC  X(001).
+    68             03  ‚c‚O‚Q|“à–óˆóü      PIC  X(001).
+    69             03  ‚c‚O‚Q|¿‹”Ô†ˆóü  PIC  X(001).
+    70             03  ‚c‚O‚Q|“E—v—“ˆóü    PIC  X(001).
+    71             03  ‚c‚O‚Q|“E—v—“        PIC  X(060).
+    72             03  ‚c‚O‚Q|”õl—“ˆóü    PIC  X(001).
+    73             03  ‚c‚O‚Q|ŒûU‚²ˆÄ“à‘ì¬‹æ•ª
+    74                                       PIC  X(001).
+    75             03  ‚c‚O‚Q|W–ñ‹æ•ª      PIC  X(001).
+    76             03  ‚c‚O‚Q|XV“úŽž      PIC  X(016).
+    77             03  ‚c‚O‚Q|XVŽÒ        PIC  X(008).
+    78             03  ‚c‚O‚Q|‘—•tæƒR[ƒh  PIC  X(003).
+    79             03  ‚c‚O‚Q|‰¼‘zŒûÀ˜A”Ô  PIC S9(003) PACKED-DECIMAL.
+    80             03  ‚c‚O‚Q|ŒÚ‹qŽg—p•s‰Âƒtƒ‰ƒO
+    81                                       PIC  X(001).
+    82             03  ‚c‚O‚Q|ƒRƒƒ“ƒg—“    PIC  X(060).
+    83             03  ‚c‚O‚Q|“ü—Í’S“–ŽÒƒR[ƒh
+    84                                       PIC  X(008).
+    85             03  ‚c‚O‚Q|•”–åƒJƒi–¼Ì  PIC  X(030).
+    86             03  ‚c‚O‚Q|Œ_–ñæƒR[ƒh  PIC  X(005).
+    87             03  ‚c‚O‚Q|‹¤—Lƒtƒ‰ƒO    PIC  X(001).
+    88             03  ‚c‚O‚Q|ZŠ‚P        PIC  X(060).
+    89             03  ‚c‚O‚Q|ZŠƒJƒi–¼Ì  PIC  X(060).
+    90             03  ‚c‚O‚Q|‚e‚`‚w”Ô†    PIC  X(015).
+    91             03  ‚c‚O‚Q|U‘Ö‹âsƒR[ƒh
+    92                                       PIC  X(004).
+    93             03  ‚c‚O‚Q|Ž©Uˆø—Ž“ú    PIC  X(002).
+    94             03  ‚c‚O‚Q|ŽóŽæ‘¤ŒûÀƒR[ƒh
+    95                                       PIC  X(002).
+    96             03  ‚c‚O‚Q|UžŽè”—¿•‰’S‹æ•ª
+    97                                       PIC  X(001).
+    98             03  ‚c‚O‚Q|Œ»’S“–ŽÒ      PIC  X(008).
+    99             03  ‚c‚O‚Q|Žå’S“–•”‰ÛƒR[ƒh
+   100                                       PIC  X(004).
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   101             03  ‚c‚O‚Q|“o˜^”NŒŽ“ú    PIC  X(008).
+   102             03  ‚c‚O‚Q|“o˜^ŽžŠÔ      PIC  X(008).
+   103             03  ‚c‚O‚Q|“o˜^’S“–ŽÒ    PIC  X(008).
+   104             03  ‚c‚O‚Q|XV”NŒŽ“ú    PIC  X(008).
+   105             03  ‚c‚O‚Q|XVŽžŠÔ      PIC  X(008).
+   106             03  ‚c‚O‚Q|‹Œ¿‹æƒR[ƒh
+   107                                       PIC  X(008).
+   108             03  ‚c‚O‚Q|ŒûÀˆø—ŽˆË—Š‘Žó—Ì“ú
+   109                                       PIC  X(008).
+   110             03  ‚c‚O‚Q|ŒûÀˆø—ŽŠJŽn“ú
+   111                                       PIC  X(008).
+ƒtƒ@ƒCƒ‹: Z:\COB97\COPYLIB_DB\D02SQS.CBL‚ðƒNƒ[ƒY
+    87  000870     EXEC  SQL  INCLUDE  D19MSY.CBL            END-EXEC.          
+    88  000880*                                                                 
+    89  000890*--< ÂŒ î•ñiˆê”Êj‚c‚a>                                        
+ƒtƒ@ƒCƒ‹: Z:\COB97\COPYLIB_DB\D19MSY.CBL‚ðƒI[ƒvƒ“
+     1        *****************************************************************
+     2        *   €–Ú–¼Ìƒ}ƒXƒ^(D19MSY_TBL)
+     3        *****************************************************************
+     4         01  €–Ú–¼Ìƒ}ƒXƒ^.
+     5             03  ‚c‚P‚X|ƒR[ƒh‚m‚n    PIC  X(012).
+     6             03  ‚c‚P‚X|ƒR[ƒh        PIC  X(005).
+     7             03  ‚c‚P‚X|ƒR[ƒh–¼      PIC  X(040).
+     8             03  ‚c‚P‚X|–¼Ì          PIC  X(060).
+     9             03  ‚c‚P‚X|XV“úŽž      PIC  X(016).
+    10             03  ‚c‚P‚X|XVŽÒ        PIC  X(008).
+    11             03  ‚c‚P‚X|ƒfƒtƒHƒ‹ƒg‹æ•ª
+    12                                       PIC  X(001).
+    13             03  ‚c‚P‚X|ƒpƒXƒ[ƒh“ü—Í‹æ•ª
+    14                                       PIC  X(001).
+    15             03  ‚c‚P‚X|ƒ\[ƒg‡      PIC S9(003) PACKED-DECIMAL.
+    16             03  ‚c‚P‚X|“ü—Í’S“–ŽÒƒR[ƒh
+    17                                       PIC  X(008).
+    18             03  ‚c‚P‚X|“o˜^”NŒŽ“ú    PIC  X(008).
+    19             03  ‚c‚P‚X|“o˜^ŽžŠÔ      PIC  X(008).
+    20             03  ‚c‚P‚X|“o˜^’S“–ŽÒ    PIC  X(008).
+    21             03  ‚c‚P‚X|XV”NŒŽ“ú    PIC  X(008).
+    22             03  ‚c‚P‚X|XVŽžŠÔ      PIC  X(008).
+ƒtƒ@ƒCƒ‹: Z:\COB97\COPYLIB_DB\D19MSY.CBL‚ðƒNƒ[ƒY
+    90  000900     EXEC  SQL  INCLUDE  M01SAJ.CBL            END-EXEC.          
+    91  000910*                                                                 
+ƒtƒ@ƒCƒ‹: Z:\COB97\COPYLIB_DB\M01SAJ.CBL‚ðƒI[ƒvƒ“
+     1  000100************************************************
+     2  000200* ÂŒ î•ñ(ˆê”Ê)(M01SAJ)
+     3  000300************************************************
+     4  000400 01  ‚l‚O‚P|ƒŒƒR[ƒh‹æ•ª           PIC  X(1).
+     5  000500 01  ‚l‚O‚P|Œ_–ñ”Ô†               PIC  X(15).
+     6  000600 01  ‚l‚O‚P|ÄƒŠ[ƒX‰ñ”           PIC S9(2) COMP-3.
+     7  000700 01  ‚l‚O‚P|Œ_–ñŽí—Þ               PIC  X(3).
+     8  000800 01  ‚l‚O‚P|˜A”Ô                   PIC S9(3) COMP-3.
+     9  000900 01  ‚l‚O‚P|¿‹‹æ•ª               PIC  X(1).
+    10  001000 01  ‚l‚O‚P|‰ð–ñ”„‹pŽæÁ‹æ•ª       PIC  X(1).
+    11  001100 01  ‚l‚O‚P|ˆ—”NŒŽ               PIC  X(6).
+    12  001200 01  ‚l‚O‚P|¿‹æŽæˆøæƒR[ƒh     PIC  X(9).
+    13  001300 01  ‚l‚O‚P|ŒÚ‹q‹æ•ª               PIC  X(2).
+    14  001400 01  ‚l‚O‚P|‚s‚`‚r‚rƒR[ƒh         PIC  X(7).
+    15  001500 01  ‚l‚O‚P|‘Ý“|”NŒŽ“ú             PIC  X(8).
+    16  001600 01  ‚l‚O‚P|“Á’èŽæˆøæ‹æ•ª         PIC  X(1).
+    17  001700 01  ‚l‚O‚P|Å‘å“Â‘£‰ñ”           PIC  X(1).
+    18  001800 01  ‚l‚O‚P|Œ_–ñ“ú                 PIC  X(8).
+    19  001900 01  ‚l‚O‚P|ˆø“n”NŒŽ“ú             PIC  X(8).
+    20  002000 01  ‚l‚O‚P|Œ_–ñŠJŽn“ú             PIC  X(8).
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    21  002100 01  ‚l‚O‚P|Œ_–ñI—¹“ú             PIC  X(8).
+    22  002200 01  ‚l‚O‚P|ŠúŠÔ                   PIC S9(3) COMP-3.
+    23  002300 01  ‚l‚O‚P|Œ_–ñ‹æ•ª               PIC  X(1).
+    24  002400 01  ‚l‚O‚P|ƒŠ[ƒXŠJŽn‹æ•ª         PIC  X(1).
+    25  002500 01  ‚l‚O‚P|’S“–•”‰ÛƒR[ƒh         PIC  X(4).
+    26  002600 01  ‚l‚O‚P|’S“–ŽÒƒR[ƒh           PIC  X(8).
+    27  002700 01  ‚l‚O‚P|‹¦’²‹æ•ª               PIC  X(1).
+    28  002800 01  ‚l‚O‚P|ó‘Ôƒtƒ‰ƒO             PIC  X(1).
+    29  002900 01  ‚l‚O‚P|ŽåŒ_–ñ‹æ•ª             PIC  X(1).
+    30  003000 01  ‚l‚O‚P|‘k‹yˆ—‹æ•ª           PIC  X(1).
+    31  003100 01  ‚l‚O‚P|‘k‹yˆ—”NŒŽ           PIC  X(6).
+    32  003200 01  ‚l‚O‚P|¬–ñ”NŒŽ               PIC  X(6).
+    33  003300 01  ‚l‚O‚P|¬–ñŽæÁ”NŒŽ           PIC  X(6).
+    34  003400 01  ‚l‚O‚P|ŒŸŽûˆ—”NŒŽ           PIC  X(6).
+    35  003500 01  ‚l‚O‚P|ŒŸŽûŽæÁ“ú             PIC  X(8).
+    36  003600 01  ‚l‚O‚P|ŒŸŽûŽæÁˆ—”NŒŽ       PIC  X(6).
+    37  003700 01  ‚l‚O‚P|ÅV‰ñŽûŠúŠÔ           PIC S9(3) COMP-3.
+    38  003800 01  ‚l‚O‚P|‘‰ñŽû‰ñ”             PIC S9(3) COMP-3.
+    39  003900 01  ‚l‚O‚P|¿‹ŠÔŠu               PIC S9(2) COMP-3.
+    40  004000 01  ‚l‚O‚P|‰ñŽûŠÔŠu               PIC S9(2) COMP-3.
+    41  004100 01  ‚l‚O‚P|§“x“]“o˜^”NŒŽ         PIC  X(6).
+    42  004200 01  ‚l‚O‚P|§“x“]Šm’èƒtƒ‰ƒO       PIC  X(1).
+    43  004300 01  ‚l‚O‚P|‰ñŽûƒTƒCƒg             PIC S9(2) COMP-3.
+    44  004400 01  ‚l‚O‚P|‰ñŽû•û–@               PIC  X(1).
+    45  004500 01  ‚l‚O‚P|ÄƒŠ[ƒX‹æ•ª           PIC  X(1).
+    46  004600 01  ‚l‚O‚P|ŠÇ—ÂŒ ƒŒƒxƒ‹         PIC  X(1).
+    47  004700 01  ‚l‚O‚P|‘O•¥ƒtƒ‰ƒO             PIC  X(1).
+    48  004800 01  ‚l‚O‚P|“Â‘£‰ñ”               PIC S9(1) COMP-3.
+    49  004900 01  ‚l‚O‚P|¿‹æƒR[ƒh           PIC  X(5).
+    50  005000 01  ‚l‚O‚P|Œ_–ñæŽæˆøæƒR[ƒh     PIC  X(9).
+    51  005100 01  ‚l‚O‚P|Œ_–ñæƒR[ƒh           PIC  X(5).
+    52  005200 01  ‚l‚O‚P|Žx•¥ŽæˆøæƒR[ƒh       PIC  X(9).
+    53  005300 01  ‚l‚O‚P|Žx•¥æƒR[ƒh           PIC  X(5).
+    54  005400 01  ‚l‚O‚P|ŽG”ï”Ì‘£”ï             PIC S9(13) COMP-3.
+    55  005500 01  ‚l‚O‚P|ÅVŒŽŠz—¿‹à           PIC S9(13) COMP-3.
+    56  005600 01  ‚l‚O‚P|ÅVÁ”ï—¦             PIC S9(2)V9(7) COMP-3.
+    57  005700 01  ‚l‚O‚P|ÅVÁ”ïÅŠz           PIC S9(13) COMP-3.
+    58  005800 01  ‚l‚O‚P|“–‰Œ_–ñ‘Šz           PIC S9(13) COMP-3.
+    59  005900 01  ‚l‚O‚P|“–‰Á”ïÅ‘Šz         PIC S9(13) COMP-3.
+    60  006000 01  ‚l‚O‚P|ÅVŒ_–ñ‘Šz           PIC S9(13) COMP-3.
+    61  006100 01  ‚l‚O‚P|ÅVÁ”ïÅ‘Šz         PIC S9(13) COMP-3.
+    62  006200 01  ‚l‚O‚P|•ÛŽç–³žŠúŠÔ           PIC S9(3) COMP-3.
+    63  006300 01  ‚l‚O‚P|‰ñŽûŠz                 PIC S9(13) COMP-3.
+    64  006400 01  ‚l‚O‚P|Á”ïÅ‰ñŽûŠz           PIC S9(13) COMP-3.
+    65  006500 01  ‚l‚O‚P|ÅV‰ñŽû“ú             PIC  X(8).
+    66  006600 01  ‚l‚O‚P|Š„•ŠŒ´‰¿‘Šz           PIC S9(13) COMP-3.
+    67  006700 01  ‚l‚O‚P|Š„•Š—˜‰v‘Šz           PIC S9(13) COMP-3.
+    68  006800 01  ‚l‚O‚P|“–‰Žæ“¾‰¿Šz           PIC S9(13) COMP-3.
+    69  006900 01  ‚l‚O‚P|–ž—¹ƒtƒ‰ƒO             PIC  X(1).
+    70  007000 01  ‚l‚O‚P|–ž—¹“ú                 PIC  X(8).
+    71  007100 01  ‚l‚O‚P|Ž‘ŽYŽí—Þ               PIC  X(5).
+    72  007200 01  ‚l‚O‚P|‡ŽZæŒ_–ñŽí—Þ         PIC  X(3).
+    73  007300 01  ‚l‚O‚P|‘Ý•t—˜—¦               PIC S9(2)V9(7) COMP-3.
+    74  007400 01  ‚l‚O‚P|ÄƒŠ[ƒXŽè”—¿         PIC S9(13) COMP-3.
+    75  007500 01  ‚l‚O‚P|ˆÏ‘õ•ÛŽç‹æ•ª           PIC  X(1).
+    76  007600 01  ‚l‚O‚P|ˆÏ‘õ•ÛŽç‘Š“–ŒŽŠz       PIC S9(13) COMP-3.
+    77  007700 01  ‚l‚O‚P|§“x“]Žx•¥ŒŽŠz         PIC S9(13) COMP-3.
+    78  007800 01  ‚l‚O‚P|‘O•¥ŒŽ”               PIC S9(3) COMP-3.
+    79  007900 01  ‚l‚O‚P|‚»‚Ì‘¼Œ_–ñŽí—Þ‹æ•ª     PIC  X(1).
+    80  008000 01  ‚l‚O‚P|Œ_–ñŽí—Þ‹æ•ª           PIC  X(1).
+    81  008100 01  ‚l‚O‚P|Œ_–ñŽí—Þ“à•”ƒR[ƒh     PIC  X(2).
+    82  008200 01  ‚l‚O‚P|Žx•¥—˜‘§               PIC S9(13) COMP-3.
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    83  008300 01  ‚l‚O‚P|Œ´‰¿’²®Šz             PIC S9(13) COMP-3.
+    84  008400 01  ‚l‚O‚P|ŒÅ’èŽ‘ŽYÅ             PIC S9(13) COMP-3.
+    85  008500 01  ‚l‚O‚P|”N—˜‰ñ‚è               PIC S9(2)V9(3) COMP-3.
+    86  008600 01  ‚l‚O‚P|‰^—p—˜‰ñ‚è             PIC S9(2)V9(3) COMP-3.
+    87  008700 01  ‚l‚O‚P|‘e—˜‰vŠz               PIC S9(13) COMP-3.
+    88  008800 01  ‚l‚O‚P|‘e—˜‰vŠz|•\           PIC S9(13) COMP-3.
+    89  008900 01  ‚l‚O‚P|‘e—˜‰vŠz|—            PIC S9(13) COMP-3.
+    90  009000 01  ‚l‚O‚P|‹K’è‘¹ŠQ‹àŠî–{Šz       PIC S9(13) COMP-3.
+    91  009100 01  ‚l‚O‚P|M—p•ÛŒ¯—¿             PIC S9(13) COMP-3.
+    92  009200 01  ‚l‚O‚P|“®ŽY•ÛŒ¯—¿             PIC S9(13) COMP-3.
+    93  009300 01  ‚l‚O‚P|•ÛŽç—¿                 PIC S9(13) COMP-3.
+    94  009400 01  ‚l‚O‚P|‚»‚Ì‘¼ŽG”ï             PIC S9(13) COMP-3.
+    95  009500 01  ‚l‚O‚P|Žè”—¿                 PIC S9(13) COMP-3.
+    96  009600 01  ‚l‚O‚P|ŽèŒ`ŽóŽæ“ú             PIC  X(8).
+    97  009700 01  ‚l‚O‚P|ŽèŒ`–‡”               PIC S9(3) COMP-3.
+    98  009800 01  ‚l‚O‚P|Ši•t‹æ•ª               PIC  X(2).
+    99  009900 01  ‚l‚O‚P|Žæ“¾‰¿Šz               PIC S9(13) COMP-3.
+   100  010000 01  ‚l‚O‚P|Ž©ŽÐ•ªŒŽŠz—¿‹à         PIC S9(13) COMP-3.
+   101  010100 01  ‚l‚O‚P|Ž©ŽÐ•ªŒŽŠzÁ”ïÅ       PIC S9(13) COMP-3.
+   102  010200 01  ‚l‚O‚P|Ž©ŽÐ•ªŒ_–ñ‘Šz         PIC S9(13) COMP-3.
+   103  010300 01  ‚l‚O‚P|Ž©ŽÐ•ªÁ”ïÅ‘Šz       PIC S9(13) COMP-3.
+   104  010400 01  ‚l‚O‚P|‘¼ŽÐw“üŠz             PIC S9(13) COMP-3.
+   105  010500 01  ‚l‚O‚P|Žc‰¿Ý’èŠz             PIC S9(13) COMP-3.
+   106  010600 01  ‚l‚O‚P|‘¼ŽÐŽc‰¿Ý’èŠz         PIC S9(13) COMP-3.
+   107  010700 01  ‚l‚O‚P|‘¼ŽÐ‰ñŽûŠz             PIC S9(13) COMP-3.
+   108  010800 01  ‚l‚O‚P|‘¼ŽÐ‰ñŽûŠzÁ”ïÅ       PIC S9(13) COMP-3.
+   109  010900 01  ‚l‚O‚P|‘¼ŽÐŠ„•ŠŒ´‰¿‘Šz       PIC S9(13) COMP-3.
+   110  011000 01  ‚l‚O‚P|‘¼ŽÐŠ„•Š—˜‰v‘Šz       PIC S9(13) COMP-3.
+   111  011100 01  ‚l‚O‚P|‰ð–ñƒtƒ‰ƒO             PIC  X(1).
+   112  011200 01  ‚l‚O‚P|‰ð–ñ“ú                 PIC  X(8).
+   113  011300 01  ‚l‚O‚P|‰ð–ñ‰ñ”               PIC S9(3) COMP-3.
+   114  011400 01  ‚l‚O‚P|‰ð–ñ‹æ•ª               PIC  X(1).
+   115  011500 01  ‚l‚O‚P|‰ð–ñ——R               PIC  X(2).
+   116  011600 01  ‚l‚O‚P|‰ð–ñˆ—”NŒŽ           PIC  X(6).
+   117  011700 01  ‚l‚O‚P|ŽæÁ‹æ•ª               PIC  X(1).
+   118  011800 01  ‚l‚O‚P|‰ð–ñŽæÁˆ—”NŒŽ       PIC  X(6).
+   119  011900 01  ‚l‚O‚P|‰ð–ñ”NŒŽ               PIC  X(6).
+   120  012000 01  ‚l‚O‚P|‰ð–ñŒŽ”               PIC S9(3) COMP-3.
+   121  012100 01  ‚l‚O‚P|‘OŒŽÂŒ ‘Šz           PIC S9(13) COMP-3.
+   122  012200 01  ‚l‚O‚P|‘OŒŽ”„ã‘Šz           PIC S9(13) COMP-3.
+   123  012300 01  ‚l‚O‚P|‘OŒŽ”„ã‘Šz‘¼ŽÐ       PIC S9(13) COMP-3.
+   124  012400 01  ‚l‚O‚P|‘OŒŽÁ”ïÅ‘Šz         PIC S9(13) COMP-3.
+   125  012500 01  ‚l‚O‚P|‘OŒŽÁ”ïÅ‘Šz‘¼ŽÐ     PIC S9(13) COMP-3.
+   126  012600 01  ‚l‚O‚P|”„ã‘Šz               PIC S9(13) COMP-3.
+   127  012700 01  ‚l‚O‚P|”„ã‘Šz‘¼ŽÐ           PIC S9(13) COMP-3.
+   128  012800 01  ‚l‚O‚P|”„ãÁ”ïÅ‘Šz         PIC S9(13) COMP-3.
+   129  012900 01  ‚l‚O‚P|”„ãÁ”ïÅ‘Šz‘¼ŽÐ     PIC S9(13) COMP-3.
+   130  013000 01  ‚l‚O‚P|‘OŠú–––¢ŽÀŒ»Žc‚       PIC S9(13) COMP-3.
+   131  013100 01  ‚l‚O‚P|‘OŠú–––¢ŽÀŒ»Žc‚‘¼ŽÐ   PIC S9(13) COMP-3.
+   132  013200 01  ‚l‚O‚P|‘OŠú–˜”„ãŠz—ÝŒv       PIC S9(13) COMP-3.
+   133  013300 01  ‚l‚O‚P|‘OŠú–˜”„ãŠz—ÝŒv‘¼ŽÐ   PIC S9(13) COMP-3.
+   134  013400 01  ‚l‚O‚P|‘OŠú–˜Á”ïÅŠz—ÝŒv     PIC S9(13) COMP-3.
+   135  013500 01  ‚l‚O‚P|‘OŠú–˜Á”ïÅŠz—ÝŒv‘¼ŽÐ PIC S9(13) COMP-3.
+   136  013600 01  ‚l‚O‚P|“–ŒŽ”„ãŠz             PIC S9(13) COMP-3.
+   137  013700 01  ‚l‚O‚P|“–ŒŽ”„ãŠz‚Q           PIC S9(13) COMP-3.
+   138  013800 01  ‚l‚O‚P|“–ŒŽ”„ãŠz‘¼ŽÐ         PIC S9(13) COMP-3.
+   139  013900 01  ‚l‚O‚P|“–ŒŽÁ”ïÅ‘Š“–Šz       PIC S9(13) COMP-3.
+   140  014000 01  ‚l‚O‚P|“–ŒŽÁ”ïÅ‘Š“–Šz‚Q     PIC S9(13) COMP-3.
+   141  014100 01  ‚l‚O‚P|“–ŒŽÁ”ïÅ‘Š“–Šz‘¼ŽÐ   PIC S9(13) COMP-3.
+   142  014200 01  ‚l‚O‚P|“–ŒŽÁ”ïÅ—¦           PIC S9(2)V9(7) COMP-3.
+   143  014300 01  ‚l‚O‚P|“–ŒŽÁ”ïÅ—¦‚Q         PIC S9(2)V9(7) COMP-3.
+   144  014400 01  ‚l‚O‚P|“–ŒŽÁ”ïÅ—¦‘¼ŽÐ       PIC S9(2)V9(7) COMP-3.
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   145  014500 01  ‚l‚O‚P|“–ŒŽ–˜”„ãŠz—ÝŒv       PIC S9(13) COMP-3.
+   146  014600 01  ‚l‚O‚P|“–ŒŽ–˜”„ãŠz—ÝŒv‘¼ŽÐ   PIC S9(13) COMP-3.
+   147  014700 01  ‚l‚O‚P|“–ŒŽ–˜Á”ïÅŠz—ÝŒv     PIC S9(13) COMP-3.
+   148  014800 01  ‚l‚O‚P|“–ŒŽ–˜Á”ïÅŠz—ÝŒv‘¼ŽÐ PIC S9(13) COMP-3.
+   149  014900 01  ‚l‚O‚P|“–Šú”„ãŠz—ÝŒv         PIC S9(13) COMP-3.
+   150  015000 01  ‚l‚O‚P|“–Šú”„ãŠz—ÝŒv‘¼ŽÐ     PIC S9(13) COMP-3.
+   151  015100 01  ‚l‚O‚P|“–ŒŽ–––¢ŽÀŒ»Žc‚       PIC S9(13) COMP-3.
+   152  015200 01  ‚l‚O‚P|“–ŒŽ–––¢ŽÀŒ»Žc‚‘¼ŽÐ   PIC S9(13) COMP-3.
+   153  015300 01  ‚l‚O‚P|“–ŒŽ”„ã‘‰ÁŠz         PIC S9(13) COMP-3.
+   154  015400 01  ‚l‚O‚P|“–ŒŽ”„ã‘‰ÁŠz‘¼ŽÐ     PIC S9(13) COMP-3.
+   155  015500 01  ‚l‚O‚P|“–ŒŽÁ”ïÅ‘‰ÁŠz       PIC S9(13) COMP-3.
+   156  015600 01  ‚l‚O‚P|“–ŒŽÁ”ïÅ‘‰ÁŠz‘¼ŽÐ   PIC S9(13) COMP-3.
+   157  015700 01  ‚l‚O‚P|“–ŒŽ”„ãŒ¸­Šz         PIC S9(13) COMP-3.
+   158  015800 01  ‚l‚O‚P|“–ŒŽ”„ãŒ¸­Šz‘¼ŽÐ     PIC S9(13) COMP-3.
+   159  015900 01  ‚l‚O‚P|“–ŒŽÁ”ïÅŒ¸­Šz       PIC S9(13) COMP-3.
+   160  016000 01  ‚l‚O‚P|“–ŒŽÁ”ïÅŒ¸­Šz‘¼ŽÐ   PIC S9(13) COMP-3.
+   161  016100 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ª‘‰ÁŽ©”„ã”NŒŽ PIC  X(6).
+   162  016200 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ª‘‰ÁŽŠ”„ã”NŒŽ PIC  X(6).
+   163  016300 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ª”„ã‘‰ÁŠz   PIC S9(13) COMP-3.
+   164  016400 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ª”„ã‘‰ÁŠz‚Q PIC S9(13) COMP-3.
+   165  016500 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ª”„ã‘‰ÁŠz‘¼ŽÐ PIC S9(13) COMP-3.
+   166  016600 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ªÁ”ïÅ‘‰ÁŠz PIC S9(13) COMP-3.
+   167  016700 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ªÁ”ïÅ‘‰ÁŠz‚Q PIC S9(13) COMP-3.
+   168  016800 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ªÁ”ïÅ‘‰ÁŠz‘¼ŽÐ PIC S9(13) COMP-3.
+   169  016900 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ªŒ¸­Ž©”„ã”NŒŽ PIC  X(6).
+   170  017000 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ªŒ¸­ŽŠ”„ã”NŒŽ PIC  X(6).
+   171  017100 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ª”„ãŒ¸­Šz   PIC S9(13) COMP-3.
+   172  017200 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ª”„ãŒ¸­Šz‚Q PIC S9(13) COMP-3.
+   173  017300 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ª”„ãŒ¸­Šz‘¼ŽÐ PIC S9(13) COMP-3.
+   174  017400 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ªÁ”ïÅŒ¸­Šz PIC S9(13) COMP-3.
+   175  017500 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ªÁ”ïÅŒ¸­Šz‚Q PIC S9(13) COMP-3.
+   176  017600 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ªÁ”ïÅŒ¸­Šz‘¼ŽÐ PIC S9(13) COMP-3.
+   177  017700 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ªÁ”ïÅ—¦     PIC S9(2)V9(7) COMP-3.
+   178  017800 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ªÁ”ïÅ—¦‚Q   PIC S9(2)V9(7) COMP-3.
+   179  017900 01  ‚l‚O‚P|‘OŒŽ”„ãŠz             PIC S9(13) COMP-3.
+   180  018000 01  ‚l‚O‚P|‘OŒŽ”„ãŠz‚Q           PIC S9(13) COMP-3.
+   181  018100 01  ‚l‚O‚P|‘OŒŽ”„ãŠz‘¼ŽÐ         PIC S9(13) COMP-3.
+   182  018200 01  ‚l‚O‚P|‘OŒŽÁ”ïÅ‘Š“–Šz       PIC S9(13) COMP-3.
+   183  018300 01  ‚l‚O‚P|‘OŒŽÁ”ïÅ‘Š“–Šz‚Q     PIC S9(13) COMP-3.
+   184  018400 01  ‚l‚O‚P|‘OŒŽÁ”ïÅ‘Š“–Šz‘¼ŽÐ   PIC S9(13) COMP-3.
+   185  018500 01  ‚l‚O‚P|‘OŒŽ–˜”„ãŠz—ÝŒv       PIC S9(13) COMP-3.
+   186  018600 01  ‚l‚O‚P|‘OŒŽ–˜”„ãŠz—ÝŒv‘¼ŽÐ   PIC S9(13) COMP-3.
+   187  018700 01  ‚l‚O‚P|‘OŒŽ–˜Á”ïÅŠz—ÝŒv     PIC S9(13) COMP-3.
+   188  018800 01  ‚l‚O‚P|‘OŒŽ–˜Á”ïÅŠz—ÝŒv‘¼ŽÐ PIC S9(13) COMP-3.
+   189  018900 01  ‚l‚O‚P|‘OŠú––Œ³–{Žc‚         PIC S9(13) COMP-3.
+   190  019000 01  ‚l‚O‚P|‘OŠú––—˜‘§Žc‚         PIC S9(13) COMP-3.
+   191  019100 01  ‚l‚O‚P|‘OŒŽ–˜Œ³–{‰ñŽûŠz—ÝŒv   PIC S9(13) COMP-3.
+   192  019200 01  ‚l‚O‚P|‘OŒŽ–˜—˜‘§‰ñŽûŠz—ÝŒv   PIC S9(13) COMP-3.
+   193  019300 01  ‚l‚O‚P|‘OŒŽ––Œ³–{Žc‚         PIC S9(13) COMP-3.
+   194  019400 01  ‚l‚O‚P|‘OŒŽ––—˜‘§Žc‚         PIC S9(13) COMP-3.
+   195  019500 01  ‚l‚O‚P|V‹K‘‰Á•ªŒ³–{Šz       PIC S9(13) COMP-3.
+   196  019600 01  ‚l‚O‚P|V‹K‘‰Á•ª—˜‘§Šz       PIC S9(13) COMP-3.
+   197  019700 01  ‚l‚O‚P|“–ŒŽŒ³–{“ü‹àŠz         PIC S9(13) COMP-3.
+   198  019800 01  ‚l‚O‚P|“–ŒŽ—˜‘§“ü‹àŠz         PIC S9(13) COMP-3.
+   199  019900 01  ‚l‚O‚P|“–ŒŽ––Œ³–{Žc‚         PIC S9(13) COMP-3.
+   200  020000 01  ‚l‚O‚P|“–ŒŽ––—˜‘§Žc‚         PIC S9(13) COMP-3.
+   201  020100 01  ‚l‚O‚P|“–ŒŽ–˜Œ³–{Žû“ü—\’èŠz—ÝŒv PIC S9(13) COMP-3.
+   202  020200 01  ‚l‚O‚P|“–ŒŽ–˜—˜‘§Žû“ü—\’èŠz—ÝŒv PIC S9(13) COMP-3.
+   203  020300 01  ‚l‚O‚P|“–ŒŽ–˜Œ³–{‰ñŽûŠz—ÝŒv   PIC S9(13) COMP-3.
+   204  020400 01  ‚l‚O‚P|“–ŒŽ–˜—˜‘§‰ñŽûŠz—ÝŒv   PIC S9(13) COMP-3.
+   205  020500 01  ‚l‚O‚P|“–ŒŽ–˜Œ³–{‰ñŽûŠz—ÝŒv‘¼ŽÐ PIC S9(13) COMP-3.
+   206  020600 01  ‚l‚O‚P|“–ŒŽ–˜—˜‘§‰ñŽûŠz—ÝŒv‘¼ŽÐ PIC S9(13) COMP-3.
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   207  020700 01  ‚l‚O‚P|“–ŒŽ‰ñŽû—\’èŠz         PIC S9(13) COMP-3.
+   208  020800 01  ‚l‚O‚P|Œ³–{–¢Œo‰ßƒŠ[ƒX—¿     PIC S9(13) COMP-3.
+   209  020900 01  ‚l‚O‚P|—˜‘§–¢Œo‰ßƒŠ[ƒX—¿     PIC S9(13) COMP-3.
+   210  021000 01  ‚l‚O‚P|Œ³–{–¢ŽûƒŠ[ƒX—¿       PIC S9(13) COMP-3.
+   211  021100 01  ‚l‚O‚P|—˜‘§–¢ŽûƒŠ[ƒX—¿       PIC S9(13) COMP-3.
+   212  021200 01  ‚l‚O‚P|“–ŒŽ‘OŽóƒŠ[ƒX—¿“ü‹àŠz PIC S9(13) COMP-3.
+   213  021300 01  ‚l‚O‚P|“–ŒŽ–˜‘OŽóƒŠ[ƒX—¿“ü‹àŠz PIC S9(13) COMP-3.
+   214  021400 01  ‚l‚O‚P|“–ŒŽ‘OŽóƒŠ[ƒX—¿Á‰»Šz PIC S9(13) COMP-3.
+   215  021500 01  ‚l‚O‚P|“–ŒŽ‘OŽó‹àÁ‰»Šz       PIC S9(13) COMP-3.
+   216  021600 01  ‚l‚O‚P|Œ³–{‘OŽó‹à             PIC S9(13) COMP-3.
+   217  021700 01  ‚l‚O‚P|—˜‘§‘OŽó‹à             PIC S9(13) COMP-3.
+   218  021800 01  ‚l‚O‚P|“–ŒŽ––‘OŽóƒŠ[ƒX—¿Žc‚ PIC S9(13) COMP-3.
+   219  021900 01  ‚l‚O‚P|‘Ý“|‘¹Ž¸Šz             PIC S9(13) COMP-3.
+   220  022000 01  ‚l‚O‚P|Œ»Ý•ë‰¿               PIC S9(13) COMP-3.
+   221  022100 01  ‚l‚O‚P|‘Ï—p”N”               PIC S9(2) COMP-3.
+   222  022200 01  ‚l‚O‚P|•ÛŒ¯—¿—¦               PIC S9(2) COMP-3.
+   223  022300 01  ‚l‚O‚P|S‘©ŠúŠÔŒã“–ŒŽƒŒƒ“ƒ^ƒ‹—¿ PIC S9(13) COMP-3.
+   224  022400 01  ‚l‚O‚P|“–ŒŽ”„ã‘ÎÛƒtƒ‰ƒO     PIC  X(1).
+   225  022500 01  ‚l‚O‚P|VŒ_–ñ”Ô†             PIC  X(15).
+   226  022600 01  ‚l‚O‚P|“–ŒŽ”„ã’²®ƒtƒ‰ƒO     PIC  X(1).
+   227  022700 01  ‚l‚O‚P|“–ŒŽðŒ•ÏXƒtƒ‰ƒO     PIC  X(1).
+   228  022800 01  ‚l‚O‚P|‰c‹ÆŠT—vŒ_–ñ’Šoƒtƒ‰ƒO PIC  X(1).
+   229  022900 01  ‚l‚O‚P|‰c‹ÆŠT—vŒŸŽû’Šoƒtƒ‰ƒO PIC  X(1).
+   230  023000 01  ‚l‚O‚P|‰c‹ÆŠ‹æ•ª             PIC  X(1).
+   231  023100 01  ‚l‚O‚P|Œ_–ñ“à—eŒ_–ñŒ–¼       PIC  N(20).
+   232  023200 01  ‚l‚O‚P|ÂŒ Œ_–ñŒ–¼           PIC  N(20).
+   233  023300 01  ‚l‚O‚P|¬–ñ“ú                 PIC  X(8).
+   234  023400 01  ‚l‚O‚P|ŽÐ“à‹à—˜               PIC S9(2)V9(3) COMP-3.
+   235  023500 01  ‚l‚O‚P|”N‘e—˜—¦               PIC S9(2)V9(3) COMP-3.
+   236  023600 01  ‚l‚O‚P|”Ì”„‘£i”ï             PIC S9(13) COMP-3.
+   237  023700 01  ‚l‚O‚P|ŽG”ï                   PIC S9(13) COMP-3.
+   238  023800 01  ‚l‚O‚P|ÅI‰ñŽû—\’è“ú         PIC  X(8).
+   239  023900 01  ‚l‚O‚P|‰ïŒv•”–åƒR[ƒh         PIC  X(2).
+   240  024000 01  ‚l‚O‚P|–ž—¹”„‹pƒtƒ‰ƒO         PIC  X(1).
+   241  024100 01  ‚l‚O‚P|ÂŒ ÷“nŽx•¥Šz         PIC S9(13) COMP-3.
+   242  024200 01  ‚l‚O‚P|Žd–óƒtƒ‰ƒO|”„ã       PIC  X(1).
+   243  024300 01  ‚l‚O‚P|Žd–óƒtƒ‰ƒO|ŒŸŽû       PIC  X(1).
+   244  024400 01  ‚l‚O‚P|ÄƒŠ[ƒXŽæÁƒGƒ“ƒgƒŠ“ú PIC  X(8).
+   245  024500 01  ‚l‚O‚P|Á”ïÅ‹æ•ª             PIC  X(2).
+   246  024600 01  ‚l‚O‚P|“–‰‘¼ŽÐw“üŠz         PIC S9(13) COMP-3.
+   247  024700 01  ‚l‚O‚P|‘¼ŽÐÅVŒ_–ñ‘Šz       PIC S9(13) COMP-3.
+   248  024800 01  ‚l‚O‚P|‘¼ŽÐÅVÁ”ïÅ‘Šz     PIC S9(13) COMP-3.
+   249  024900 01  ‚l‚O‚P|‘¼ŽÐŒ_–ñ‘Šz           PIC S9(13) COMP-3.
+   250  025000 01  ‚l‚O‚P|¬–ñŽæÁƒGƒ“ƒgƒŠ“ú     PIC  X(8).
+   251  025100 01  ‚l‚O‚P|”„”pƒtƒ‰ƒO             PIC  X(1).
+   252  025200 01  ‚l‚O‚P|ÄƒŠ[ƒXˆ—”NŒŽ       PIC  X(6).
+   253  025300 01  ‚l‚O‚P|ÄƒŠ[ƒXŽ©“®Œp‘±‹æ•ª   PIC  X(1).
+   254  025400 01  ‚l‚O‚P|ÄƒŠ[ƒX\¿‘—L–³‹æ•ª PIC  X(1).
+   255  025500 01  ‚l‚O‚P|ÄƒŠ[ƒX\¿ƒtƒ‰ƒO     PIC  X(1).
+   256  025600 01  ‚l‚O‚P|‰ð–ñ\¿ƒtƒ‰ƒO         PIC  X(1).
+   257  025700 01  ‚l‚O‚P|Ž©“®¿‹‹æ•ª           PIC  X(1).
+   258  025800 01  ‚l‚O‚P|‘OŒŽŠ„•ŠŒ´‰¿‘Šz       PIC S9(13) COMP-3.
+   259  025900 01  ‚l‚O‚P|‘OŒŽ‘¼ŽÐŠ„•ŠŒ´‰¿‘Šz   PIC S9(13) COMP-3.
+   260  026000 01  ‚l‚O‚P|“ª‹à‹æ•ª               PIC  X(1).
+   261  026100 01  ‚l‚O‚P|ƒRƒ“ƒX[ƒ}–@l‹æ•ª     PIC  X(1).
+   262  026200 01  ‚l‚O‚P|\¿˜A”Ô               PIC S9(4) COMP-3.
+   263  026300 01  ‚l‚O‚P|–¢ŽûŽc‚‘ÎÛŠOƒtƒ‰ƒO   PIC  X(1).
+   264  026400 01  ‚l‚O‚P|‘OŒŽó‘Ôƒtƒ‰ƒO         PIC  X(1).
+   265  026500 01  ‚l‚O‚P|“ü‹à‰ñ”               PIC S9(3) COMP-3.
+   266  026600 01  ‚l‚O‚P|ŽÀŒ»‰ñ”               PIC S9(3) COMP-3.
+   267  026700 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ª‘‰ÁŽ©”„ã”NŒŽ‚Q PIC  X(6).
+   268  026800 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ª‘‰ÁŽŠ”„ã”NŒŽ‚Q PIC  X(6).
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   269  026900 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ªŒ¸­Ž©”„ã”NŒŽ‚Q PIC  X(6).
+   270  027000 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ªŒ¸­ŽŠ”„ã”NŒŽ‚Q PIC  X(6).
+   271  027100 01  ‚l‚O‚P|‰‰ñ‰ñŽû—\’è“ú         PIC  X(8).
+   272  027200 01  ‚l‚O‚P|‘OŒŽ–˜Œ³–{Žû“ü—\’èŠz—ÝŒv PIC S9(13) COMP-3.
+   273  027300 01  ‚l‚O‚P|‘OŒŽ–˜—˜‘§Žû“ü—\’èŠz—ÝŒv PIC S9(13) COMP-3.
+   274  027400 01  ‚l‚O‚P|ÅV‘ÎŠOŒ_–ñ”Ô†       PIC  X(15).
+   275  027500 01  ‚l‚O‚P|Š„•Š“ª‹à               PIC S9(13) COMP-3.
+   276  027600 01  ‚l‚O‚P|Š„•Š“ª‹à‘¼ŽÐ           PIC S9(13) COMP-3.
+   277  027700 01  ‚l‚O‚P|Š„•Š“ª‹àÁ”ïÅ         PIC S9(13) COMP-3.
+   278  027800 01  ‚l‚O‚P|Š„•Š“ª‹àÁ”ïÅ‘¼ŽÐ     PIC S9(13) COMP-3.
+   279  027900 01  ‚l‚O‚P|‘OŒŽ‘¼ŽÐÅVŒ_–ñ‘Šz   PIC S9(13) COMP-3.
+   280  028000 01  ‚l‚O‚P|‘OŒŽ‘¼ŽÐÅVÁ”ïÅ‘Šz PIC S9(13) COMP-3.
+   281  028100 01  ‚l‚O‚P|‘OŠú––Œ³–{Žc‚‘¼ŽÐ     PIC S9(13) COMP-3.
+   282  028200 01  ‚l‚O‚P|‘OŠú––—˜‘§Žc‚‘¼ŽÐ     PIC S9(13) COMP-3.
+   283  028300 01  ‚l‚O‚P|‘OŒŽ–˜Œ³–{‰ñŽûŠz—ÝŒv‘¼ŽÐ PIC S9(13) COMP-3.
+   284  028400 01  ‚l‚O‚P|‘OŒŽ–˜—˜‘§‰ñŽûŠz—ÝŒv‘¼ŽÐ PIC S9(13) COMP-3.
+   285  028500 01  ‚l‚O‚P|‘OŒŽ––Œ³–{Žc‚‘¼ŽÐ     PIC S9(13) COMP-3.
+   286  028600 01  ‚l‚O‚P|‘OŒŽ––—˜‘§Žc‚‘¼ŽÐ     PIC S9(13) COMP-3.
+   287  028700 01  ‚l‚O‚P|V‹K‘‰Á•ªŒ³–{Šz‘¼ŽÐ   PIC S9(13) COMP-3.
+   288  028800 01  ‚l‚O‚P|V‹K‘‰Á•ª—˜‘§Šz‘¼ŽÐ   PIC S9(13) COMP-3.
+   289  028900 01  ‚l‚O‚P|“–ŒŽŒ³–{“ü‹àŠz‘¼ŽÐ     PIC S9(13) COMP-3.
+   290  029000 01  ‚l‚O‚P|“–ŒŽ—˜‘§“ü‹àŠz‘¼ŽÐ     PIC S9(13) COMP-3.
+   291  029100 01  ‚l‚O‚P|“–ŒŽ––Œ³–{Žc‚‘¼ŽÐ     PIC S9(13) COMP-3.
+   292  029200 01  ‚l‚O‚P|“–ŒŽ––—˜‘§Žc‚‘¼ŽÐ     PIC S9(13) COMP-3.
+   293  029300 01  ‚l‚O‚P|“–ŒŽ–˜Œ³–{Žû“ü—\’èŠz—ÝŒv‘¼ŽÐ PIC S9(13) COMP-3.
+   294  029400 01  ‚l‚O‚P|“–ŒŽ–˜—˜‘§Žû“ü—\’èŠz—ÝŒv‘¼ŽÐ PIC S9(13) COMP-3.
+   295  029500 01  ‚l‚O‚P|“–ŒŽ‰ñŽû—\’èŠz‘¼ŽÐ     PIC S9(13) COMP-3.
+   296  029600 01  ‚l‚O‚P|Œ³–{–¢Œo‰ßƒŠ[ƒX—¿‘¼ŽÐ PIC S9(13) COMP-3.
+   297  029700 01  ‚l‚O‚P|—˜‘§–¢Œo‰ßƒŠ[ƒX—¿‘¼ŽÐ PIC S9(13) COMP-3.
+   298  029800 01  ‚l‚O‚P|Œ³–{–¢ŽûƒŠ[ƒX—¿‘¼ŽÐ   PIC S9(13) COMP-3.
+   299  029900 01  ‚l‚O‚P|—˜‘§–¢ŽûƒŠ[ƒX—¿‘¼ŽÐ   PIC S9(13) COMP-3.
+   300  030000 01  ‚l‚O‚P|“–ŒŽ‘OŽóƒŠ[ƒX—¿“ü‹àŠz‘¼ŽÐ PIC S9(13) COMP-3.
+   301  030100 01  ‚l‚O‚P|“–ŒŽ–˜‘OŽóƒŠ[ƒX—¿“ü‹àŠz‘¼ŽÐ PIC S9(13) COMP-3.
+   302  030200 01  ‚l‚O‚P|Œ³–{‘OŽó‹à‘¼ŽÐ         PIC S9(13) COMP-3.
+   303  030300 01  ‚l‚O‚P|—˜‘§‘OŽó‹à‘¼ŽÐ         PIC S9(13) COMP-3.
+   304  030400 01  ‚l‚O‚P|ŒŸŽûƒGƒ“ƒgƒŠ“ú         PIC  X(8).
+   305  030500 01  ‚l‚O‚P|‘OŒŽ”„ã‘ŠzÄƒŠ[ƒX   PIC S9(13) COMP-3.
+   306  030600 01  ‚l‚O‚P|”„ã‘ŠzÄƒŠ[ƒX       PIC S9(13) COMP-3.
+   307  030700 01  ‚l‚O‚P|‘OŠú–˜”„ãŠz—ÝŒvÄƒŠ[ƒX PIC S9(13) COMP-3.
+   308  030800 01  ‚l‚O‚P|“–ŒŽ”„ãŠzÄƒŠ[ƒX     PIC S9(13) COMP-3.
+   309  030900 01  ‚l‚O‚P|“–ŒŽ–˜”„ãŠz—ÝŒvÄƒŠ[ƒX PIC S9(13) COMP-3.
+   310  031000 01  ‚l‚O‚P|“–Šú”„ãŠz—ÝŒvÄƒŠ[ƒX PIC S9(13) COMP-3.
+   311  031100 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ª”„ã‘‰ÁŠzÄƒŠ[ƒX PIC S9(13) COMP-3.
+   312  031200 01  ‚l‚O‚P|“–ŒŽ‘k‹y•ª”„ãŒ¸­ŠzÄƒŠ[ƒX PIC S9(13) COMP-3.
+   313  031300 01  ‚l‚O‚P|‘OŒŽ–˜”„ãŠz—ÝŒvÄƒŠ[ƒX PIC S9(13) COMP-3.
+   314  031400 01  ‚l‚O‚P|¡‰ñÄƒŠ[ƒX—¿‹à‹æ•ª   PIC  X(1).
+   315  031500 01  ‚l‚O‚P|“–ŒŽ–––¢ŽÀŒ»Žc‚ÄƒŠ[ƒX PIC S9(13) COMP-3.
+   316  031600 01  ‚l‚O‚P|‘OŠú–––¢ŽÀŒ»Žc‚ÄƒŠ[ƒX PIC S9(13) COMP-3.
+   317  031700 01  ‚l‚O‚P|‘OŒŽÂŒ Á”ïÅ‘Šz     PIC S9(13) COMP-3.
+   318  031800 01  ‚l‚O‚P|“–ŒŽ‘OŽóƒŠ[ƒX—¿Á‰»Šz‘¼ŽÐ PIC S9(13) COMP-3.
+   319  031900 01  ‚l‚O‚P|“–ŒŽ‘OŽó‹àÁ‰»Šz‘¼ŽÐ   PIC S9(13) COMP-3.
+   320  032000 01  ‚l‚O‚P|“–ŒŽ––‘OŽóƒŠ[ƒX—¿Žc‚‘¼ŽÐ PIC S9(13) COMP-3.
+   321  032100 01  ‚l‚O‚P|‘Ý“|‘¹Ž¸Šz—˜‘§‘Š“–Šz   PIC S9(13) COMP-3.
+   322  032200 01  ‚l‚O‚P|Œo——pŽåŒ_–ñ‹æ•ª       PIC  X(1).
+   323  032300 01  ‚l‚O‚P|ˆá–ñ‹à•ªŠ„‰ñŽû”„ãŠz   PIC S9(13) COMP-3.
+   324  032400 01  ‚l‚O‚P|ˆá–ñ‹à•ªŠ„‰ñŽû”„ãŠzÁ”ïÅ PIC S9(13) COMP-3.
+   325  032500 01  ‚l‚O‚P|ŒŸŽûŽæÁƒGƒ“ƒgƒŠ“ú     PIC  X(8).
+   326  032600 01  ‚l‚O‚P|“–ŒŽ‘OŽó‹à“ü‹àŠz       PIC S9(13) COMP-3.
+   327  032700 01  ‚l‚O‚P|“–ŒŽ‘OŽó‹à“ü‹àŠz‘¼ŽÐ   PIC S9(13) COMP-3.
+   328  032800 01  ‚l‚O‚P|“–ŒŽ––‘OŽó‹àŽc‚       PIC S9(13) COMP-3.
+   329  032900 01  ‚l‚O‚P|“–ŒŽ––‘OŽó‹àŽc‚‘¼ŽÐ   PIC S9(13) COMP-3.
+   330  033000 01  ‚l‚O‚P|ŒŸŽûƒGƒ“ƒgƒŠˆ—”NŒŽ   PIC  X(6).
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   331  033100 01  ‚l‚O‚P|‘ä’ |“–ŒŽ“ü‹à‰ñŽûŠz     PIC S9(13) COMP-3.
+   332  033200 01  ‚l‚O‚P|‘ä’ |“–ŒŽ“ü‹à‰ñŽûŠz‘¼ŽÐ PIC S9(13) COMP-3.
+   333  033300 01  ‚l‚O‚P|‘ä’ |“–ŒŽ“ü‹à‘OŽóŠz     PIC S9(13) COMP-3.
+   334  033400 01  ‚l‚O‚P|‘ä’ |“–ŒŽ“ü‹à‘OŽóŠz‘¼ŽÐ PIC S9(13) COMP-3.
+   335  033500 01  ‚l‚O‚P|’S•Û‹æ•ª               PIC  X(1).
+   336  033600 01  ‚l‚O‚P|“ª‹à‰ñŽûƒTƒCƒg         PIC S9(02) COMP-3.
+   337  033700 01  ‚l‚O‚P|“ª‹àŒvã”NŒŽ“ú         PIC  X(8).
+   338  033800 01  ‚l‚O‚P|Œ_–ñ“à—e|‰ð–ñˆ—”NŒŽ PIC  X(6).
+   339  033900 01  ‚l‚O‚P|ÂŒ |‰ð–ñˆ—”NŒŽ     PIC  X(6).
+   340  034000 01  ‚l‚O‚P|‰ð–ñ—š—ð|‘Ý“|‘¹Ž¸Šz   PIC  S9(13) COMP-3.
+   341  034100 01  ‚l‚O‚P|‰ð–ñ—š—ð|‘Ý“|‘¹Ž¸Šz—˜‰v‘Š“–Šz PIC S9(13) COMP-3.
+   342  034200 01  ‚l‚O‚P|Š„•Š“ª‹àÁ”ïÅ—¦       PIC S9(2)V9(7) COMP-3.
+ƒtƒ@ƒCƒ‹: Z:\COB97\COPYLIB_DB\M01SAJ.CBL‚ðƒNƒ[ƒY
+    92  000920     EXEC  SQL  END  DECLARE          SECTION  END-EXEC.          
+    93  000930*----------------------------------------------------------------*
+    94  000940*    ‚v‚n‚q‚jƒGƒŠƒA                                              *
+    95  000950*----------------------------------------------------------------*
+    96  000960 01  ‚v‚n‚q‚j|ƒGƒŠƒA.                                            
+    97  000970*                                                                 
+    98  000980*--< ƒtƒ@ƒCƒ‹ó‘Ô >                                               
+    99  000990     03  ‚v|ó‘ÔƒGƒŠƒA.                                          
+   100  001000         05  ‚v|ó‘Ô                 PIC  X(02).                 
+   101  001010*--< ƒGƒ‰[”»’è—p >                                               
+   102  001020     03  ‚v|ƒGƒ‰[ƒR[ƒh             PIC S9(04).                 
+   103  001030*                                                                 
+   104  001040*--< ƒtƒ‰ƒOƒAƒŠƒA >                                               
+   105  001050     03  ƒtƒ‰ƒOƒAƒŠƒA.                                            
+   106  001060         05  ‚v|I—¹|ƒtƒ‰ƒO         PIC  X(01).                 
+   107  001070         05  ‚v|ˆÙíI—¹|ƒtƒ‰ƒO     PIC  X(01).                 
+   108  001080*                                                                 
+   109  001090*--< Œ”ƒGƒŠƒA >                                                 
+   110  001100     03  Œ”ƒGƒŠƒA.                                              
+   111  001110         05  ‚v|“ü—Í|Œ”           PIC  9(09).                 
+   112  001120         05  ‚v|o—Í|Œ”           PIC  9(09).                 
+   113  001130*                                                                 
+   114  001140*--< ‹¤’Êî•ñ >                                                   
+   115  001150 01  ‚v|‹¤’Êî•ñ.                                                
+   116  001160     03  ‚v|ƒVƒXƒeƒ€“ú•t.                                        
+   117  001170         05  ‚v|¢‹I                 PIC  X(02) VALUE  "20".     
+   118  001180         05  ‚v|”NŒŽ“ú               PIC  X(06).                 
+   119  001190     03  ‚v|ƒVƒXƒeƒ€Žž             PIC  X(08).                 
+   120  001200     03  ‚v|’S“–ŽÒ                   PIC  X(08) VALUE "IKOPG   ".
+   121  001210*                                                                 
+   122  001220*----------------------------------------------------------------*
+   123  001230*    ƒTƒuƒ‹[ƒ`ƒ“–¼                                              *
+   124  001240*----------------------------------------------------------------*
+   125  001250 01  CALL-AREA.                                                   
+   126  001260*--< ‹¤’ÊƒƒOƒTƒuƒ‹[ƒ`ƒ“ >                                       
+   127  001270     03  CLOCO001                     PIC  X(08) VALUE "CLOCO001".
+   128  001280     03  COBCO001                     PIC  X(08) VALUE "COBCO001".
+   129  001290*                                                                 
+   130  001300*----------------------------------------------------------------*
+   131  001310*    ‚b‚n‚o‚x—Ìˆæ                                                *
+   132  001320*----------------------------------------------------------------*
+   133  001330*--< ‹¤’ÊƒƒO—pƒpƒ‰ƒ[ƒ^ >                                       
+   134  001340 01  IF-CHOCO001.                                                 
+   135  001350     COPY  CHOCO001  REPLACING  ==()==  BY  ==‹¤‚P|==.           
+   136  001360*                                                                 
+   137  001370*----------------------------------------------------------------*
+   138  001380*    ‚h‚m‚hƒtƒ@ƒCƒ‹“ÇžƒTƒuƒ‹[ƒ`ƒ“—pƒpƒ‰ƒƒ^—Ìˆæ                *
+   139  001390*----------------------------------------------------------------*
+   140  001400 01  PARA-AREA.                                                   
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   141  001410     COPY CPBCO001.                                               
+   142  001420******************************************************************
+   143  001430*    ’è”—pƒf[ƒ^’è‹`ƒGƒŠƒA                                      *
+   144  001440******************************************************************
+   145  001450 CONSTANT                             SECTION.                    
+   146  001460 01  ’è”—Ìˆæ.                                                    
+   147  001470     03  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c         PIC  X(08) VALUE "AAASED25".
+   148  001480     03  ’è”|ƒvƒƒOƒ‰ƒ€–¼           PIC  X(80)                  
+   149  001490                              VALUE  "‘OŽó‹àŽó•¥Žc‚ƒtƒ@ƒCƒ‹ì¬".
+   150  001500     03  ’è”|‚r‚p‚k‚n‚j             PIC S9(04)  VALUE  ZERO.    
+   151  001510     03  ’è”|‚r‚p‚k‚d‚m‚c           PIC S9(04)  VALUE  0100.    
+   152  001520     03  ’è”|³íó‘Ô               PIC S9(04)  VALUE  ZERO.    
+   153  001530     03  ’è”|ˆÙíó‘Ô               PIC S9(04)  VALUE  0009.    
+   154  001540******************************************************************
+   155  001550*    ‚o‚q‚n‚b‚d‚c‚t‚q‚d            ‚c‚h‚u‚h‚r‚h‚n‚m              *
+   156  001560******************************************************************
+   157  001570 PROCEDURE                            DIVISION.                   
+   158  001580*                                                                 
+   159  001590     PERFORM  ‰Šúˆ—.                                           
+   160  001600*                                                                 
+   161  001610     PERFORM  Žåˆ—  UNTIL  ‚v|I—¹|ƒtƒ‰ƒO  =  "Y".            
+   162  001620*                                                                 
+   163  001630     PERFORM  I—¹ˆ—.                                           
+   164  001640*                                                                 
+   165  001650     STOP     RUN.                                                
+   166  001660*                                                                 
+   167  001670******************************************************************
+   168  001680*    ‰Šúˆ—                                                    *
+   169  001690*******************************************************************                                                   
+                      
+   170  001700 ‰Šúˆ—                             SECTION.                    
+   171  001710 ‰Šúˆ—|‚r‚s‚`‚q‚s.                                            
+   172  001720*                                                                 
+   173  001730*----------------------------------------------------------------*
+   174  001740*    ŠJŽnƒƒbƒZ[ƒWo—Íˆ—                                      *
+   175  001750*----------------------------------------------------------------*
+   176  001760     INITIALIZE                       IF-CHOCO001.                
+   177  001770     MOVE  "3"                        TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê.     
+   178  001780     MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c       TO  ‹¤‚P|ƒ\[ƒX‚h‚c.       
+   179  001790     MOVE  "0"                        TO  ‹¤‚P|•œ‹AƒR[ƒh.       
+   180  001800     MOVE  "START"                    TO  ‹¤‚P|ˆ—Ž¯•Ê.         
+   181  001810     MOVE  ’è”|ƒvƒƒOƒ‰ƒ€–¼         TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW. 
+   182  001820     CALL  CLOCO001                USING  IF-CHOCO001.            
+   183  001830*                                                                 
+   184  001840*----------------------------------------------------------------*
+   185  001850*    ì‹Æ—Ìˆæ‚Ì‰Šú’lˆ—                                        *
+   186  001860*----------------------------------------------------------------*
+   187  001870     MOVE  SPACE                      TO  ‚v‚n‚q‚j|ƒGƒŠƒA.       
+   188  001880     INITIALIZE                           ‚v‚n‚q‚j|ƒGƒŠƒA.       
+   189  001890*                                                                 
+   190  001900*--< ‚b‚o‚t“ú•t‚ðŽæ“¾ >                                           
+   191  001910     ACCEPT  ‚v|”NŒŽ“ú               FROM  DATE.                 
+   192  001920*                                                                 
+   193  001930*--< ‚b‚o‚tŽž‚ðŽæ“¾ >                                           
+   194  001940     ACCEPT  ‚v|ƒVƒXƒeƒ€Žž         FROM  TIME.                 
+   195  001950*----------------------------------------------------------------*
+   196  001960*    ‚n‚q‚`‚b‚k‚dÚ‘±                                            *
+   197  001970*----------------------------------------------------------------*
+   198  001980     PERFORM   ‚n‚q‚`‚b‚k‚dÚ‘±.                                  
+   199  001990*----------------------------------------------------------------*
+   200  002000*    ‹Æ–±ŠÇ—ƒe[ƒuƒ‹“Çž                                        *
+   201  002010*----------------------------------------------------------------*
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   202  002020     PERFORM    ‹Æ–±ŠÇ—ƒe[ƒuƒ‹“Çž.                             
+   203  002030*----------------------------------------------------------------*
+   204  002040*    Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹’è‹`                                    *
+   205  002050*----------------------------------------------------------------*
+   206  002060     PERFORM  Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹’è‹`.                           
+   207  002070*----------------------------------------------------------------*
+   208  002080*    ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“                                            *
+   209  002090*----------------------------------------------------------------*
+   210  002100     PERFORM  ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“.                                   
+   211  002110*----------------------------------------------------------------*
+   212  002120*    Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹“Çž                                    *
+   213  002130*----------------------------------------------------------------*
+   214  002140     PERFORM Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹“Çž.                            
+   215  002150*                                                                 
+   216  002160 ‰Šúˆ—|‚d‚w‚h‚s.                                              
+   217  002170     EXIT.                                                        
+   218  002180******************************************************************
+   219  002190*    ‚n‚q‚`‚b‚k‚dÚ‘±                                            *
+   220  002200******************************************************************
+   221  002210 ‚n‚q‚`‚b‚k‚dÚ‘±                     SECTION.                    
+   222  002220 ‚n‚q‚`‚b‚k‚dÚ‘±|‚r‚s‚`‚q‚s.                                    
+   223  002230*                                                                 
+   224  002240*--< ‚c‚aÚ‘±—pî•ñ‚ðŽæ“¾ˆ— >                                   
+   225  002250     CALL  COBCO001                USING  PARA-AREA.              
+   226  002260*                                                                 
+   227  002270     MOVE  PARA-DBSTRING              TO  DB-STRING.              
+   228  002280     MOVE  PARA-USERNAME              TO  USERNAME.               
+   229  002290     MOVE  PARA-PASSWORD              TO  PASSWD.                 
+   230  002300*                                                                 
+   231  002310*----------------------------------------------------------------*
+   232  002320*    ŠJŽnÚ‘±                                                    *
+   233  002330*----------------------------------------------------------------*
+   234  002340     IF    DB-STRING  =  SPACE                                    
+   235  002350        EXEC SQL                                                  
+   236  002360           CONNECT  :USERNAME IDENTIFIED BY :PASSWD               
+   237  002370        END-EXEC                                                  
+   238  002380     ELSE                                                         
+   239  002390        EXEC SQL                                                  
+   240  002400           CONNECT  :USERNAME IDENTIFIED BY :PASSWD               
+   241  002410             USING  :DB-STRING                                    
+   242  002420        END-EXEC                                                  
+   243  002430     END-IF.                                                      
+   244  002440*                                                                 
+   245  002450*----------------------------------------------------------------*
+   246  002460*    Ú‘±Šm”F                                                    *
+   247  002470*----------------------------------------------------------------*
+   248  002480     EVALUATE  SQLCODE                                            
+   249  002490        WHEN   ’è”|‚r‚p‚k‚n‚j                                   
+   250  002500           CONTINUE                                               
+   251  002510        WHEN   OTHER                                              
+   252  002520*--< Ú‘±ƒGƒ‰[ >                                           
+   253  002530           MOVE     -1                TO  ‚v|ƒGƒ‰[ƒR[ƒh        
+   254  002540           PERFORM  ƒGƒ‰[ˆ—                                    
+   255  002550     END-EVALUATE.                                                
+   256  002560*                                                                 
+   257  002570 ‚n‚q‚`‚b‚k‚dÚ‘±|‚d‚w‚h‚s.                                      
+   258  002580     EXIT.                                                        
+   259  002590******************************************************************
+   260  002600*    ‹Æ–±ŠÇ—ƒe[ƒuƒ‹“Çž                                        *
+   261  002610******************************************************************
+   262  002620 ‹Æ–±ŠÇ—ƒe[ƒuƒ‹“Çž                 SECTION.                    
+   263  002630 ‹Æ–±ŠÇ—ƒe[ƒuƒ‹“Çž|‚r‚s‚`‚q‚s.                                
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   264  002640*                                                                 
+   265  002650*----------------------------------------------------------------*
+   266  002660*    ‹Æ–±ŠÇ—ƒe[ƒuƒ‹“Çž                                        *
+   267  002670*----------------------------------------------------------------*
+   268  002680     EXEC SQL                                                     
+   269  002690        SELECT  ƒoƒbƒ`—p‹Æ–±”NŒŽ                                  
+   270  002700          INTO :‚c‚V‚O|ƒoƒbƒ`—p‹Æ–±”NŒŽ                          
+   271  002710          FROM  D70GYM_TBL                                        
+   272  002720         WHERE  ‹Æ–±ŠÇ—‚h‚c = 'GYMKNRRC'                         
+   273  002730     END-EXEC.                                                    
+   274  002740*----------------------------------------------------------------*
+   275  002750*    ‹Æ–±ŠÇ—ƒe[ƒuƒ‹ŒŸõ‚ðŠm”F                                  *
+   276  002760*----------------------------------------------------------------*
+   277  002770     EVALUATE   SQLCODE                                           
+   278  002780        WHEN   ’è”|‚r‚p‚k‚n‚j                                   
+   279  002790*--< ³í‚ÌŽž >                                                   
+   280  002800           CONTINUE                                               
+   281  002810        WHEN   OTHER                                              
+   282  002820*--< ‘¶Ý‚µ‚È‚¢ >                                                 
+   283  002830           MOVE     -2                TO  ‚v|ƒGƒ‰[ƒR[ƒh        
+   284  002840           MOVE     "Y"               TO  ‚v|ˆÙíI—¹|ƒtƒ‰ƒO    
+   285  002850           PERFORM  ƒGƒ‰[ˆ—                                    
+   286  002860     END-EVALUATE.                                                
+   287  002870*                                                                 
+   288  002880 ‹Æ–±ŠÇ—ƒe[ƒuƒ‹“Çž|‚d‚w‚h‚s.                                  
+   289  002890     EXIT.                                                        
+   290  002900******************************************************************
+   291  002910*        Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹’è‹`                                *
+   292  002920******************************************************************
+   293  002930 Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹’è‹`             SECTION.                    
+   294  002940 Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹’è‹`|‚r‚s‚`‚q‚s.                            
+   295  002950*                                                                 
+   296  002960*----------------------------------------------------------------*
+   297  002970*    ƒJ[ƒ\ƒ‹’è‹`ˆ—                                            *
+   298  002980*----------------------------------------------------------------*
+   299  002990     EXEC SQL                                                     
+   300  003000        DECLARE CUR1  CURSOR FOR                                  
+   301  003010           SELECT  M40MAB_TBL.ƒŒƒR[ƒh‹æ•ª                        
+   302  003020                  ,M40MAB_TBL.Œo——pŽåŒ_–ñ‹æ•ª                    
+   303  003030                  ,M40MAB_TBL.ŒÚ‹q‹æ•ª                            
+   304  003040                  ,NVL(D01TRS_TBL.–¼Šñ‚¹ƒR[ƒh,' ')               
+   305  003050                  ,M40MAB_TBL.¿‹æŽæˆøæƒR[ƒh                  
+   306  003060                  ,M40MAB_TBL.¿‹æƒR[ƒh                        
+   307  003070                  ,M40MAB_TBL.Œ_–ñ”Ô†                            
+   308  003080                  ,M40MAB_TBL.Œ_–ñŽí—Þ                            
+   309  003090                  ,M40MAB_TBL.’S“–•”‰ÛƒR[ƒh                      
+   310  003100                  ,M40MAB_TBL.ÄƒŠ[ƒX‰ñ”                        
+   311  003110                  ,M40MAB_TBL.[“–ŠJŽn”NŒŽ                        
+   312  003120                  ,M40MAB_TBL.[“–ŒŽ”                            
+   313  003130                  ,M40MAB_TBL.‘O•¥‰ñŽû•û–@                        
+   314  003140                  ,M40MAB_TBL.“ü‹à“ú                              
+   315  003150                  ,M40MAB_TBL.“ü‹à‹æ•ª                            
+   316  003160                  ,D01TRS_TBL.Žæˆøæ–¼Ì                          
+   317  003170                  ,D02SQS_TBL.¿‹æ–¼Ì                          
+   318  003180                  ,M40MAB_TBL.‘OŒŽ––Žc‚                          
+   319  003190                  ,M40MAB_TBL.“–ŒŽ‰ñŽûŠz                          
+   320  003200                  ,M40MAB_TBL.“–ŒŽÁ‰»Šz                          
+   321  003210                  ,M40MAB_TBL.“–ŒŽ––Žc‚                          
+   322  003220                  ,M40MAB_TBL.‹¦’²‹æ•ª                            
+   323  003230                  ,M40MAB_TBL.‘OŒŽ––Žc‚‘¼ŽÐ                      
+   324  003240                  ,M40MAB_TBL.“–ŒŽ‰ñŽûŠz‘¼ŽÐ                      
+   325  003250                  ,M40MAB_TBL.“–ŒŽÁ‰»Šz‘¼ŽÐ                      
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   326  003260                  ,M40MAB_TBL.“–ŒŽ‘¼ŽÐ‰ð–ñ•ª—¿‹à                  
+   327  003270                  ,M40MAB_TBL.“–ŒŽ‘¼ŽÐ‰ð–ñ•ªÁ”ïÅ                
+   328  003280                  ,M40MAB_TBL.“–ŒŽ––Žc‚‘¼ŽÐ                      
+   329  003290             FROM  M40MAB_TBL                                     
+   330  003300                  ,D01TRS_TBL                                     
+   331  003310                  ,D02SQS_TBL                                     
+   332  003320            WHERE  M40MAB_TBL.‘OŽó‹àŽó•¥Žc‚•\‘ÎÛƒtƒ‰ƒO  =  '1'  
+   333  003330              AND  M40MAB_TBL.¿‹æŽæˆøæƒR[ƒh =                
+   334  003340                                    D01TRS_TBL.ŽæˆøæƒR[ƒh ( + ) 
+   335  003350              AND  M40MAB_TBL.¿‹æŽæˆøæƒR[ƒh =                
+   336  003360                                    D02SQS_TBL.ŽæˆøæƒR[ƒh ( + ) 
+   337  003370              AND  M40MAB_TBL.¿‹æƒR[ƒh =                      
+   338  003380                                    D02SQS_TBL.¿‹æƒR[ƒh ( + ) 
+   339  003390         ORDER BY  M40MAB_TBL.ƒŒƒR[ƒh‹æ•ª                        
+   340  003400                  ,M40MAB_TBL.Œ_–ñ”Ô†                            
+   341  003410     END-EXEC.                                                    
+   342  003420*                                                                 
+   343  003430*----------------------------------------------------------------*
+   344  003440*    ƒJ[ƒ\ƒ‹‚n‚o‚d‚mˆ—                                        *
+   345  003450*----------------------------------------------------------------*
+   346  003460     EXEC  SQL                                                    
+   347  003470        OPEN  CUR1                                                
+   348  003480     END-EXEC.                                                    
+   349  003490*                                                                 
+   350  003500*----------------------------------------------------------------*
+   351  003510*    ƒJ[ƒ\ƒ‹‚n‚o‚d‚mŠm”F                                        *
+   352  003520*----------------------------------------------------------------*
+   353  003530     EVALUATE  SQLCODE                                            
+   354  003540        WHEN  ’è”|‚r‚p‚k‚n‚j                                    
+   355  003550*--< ³í >                                                       
+   356  003560           CONTINUE                                               
+   357  003570        WHEN  OTHER                                               
+   358  003580*--< ƒJ[ƒ\ƒ‹‚n‚o‚d‚mƒGƒ‰[ >                                     
+   359  003590           MOVE -3                    TO  ‚v|ƒGƒ‰[ƒR[ƒh        
+   360  003600           PERFORM  ƒGƒ‰[ˆ—                                    
+   361  003610     END-EVALUATE.                                                
+   362  003620*                                                                 
+   363  003630 Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹’è‹`|‚d‚w‚h‚s.                              
+   364  003640     EXIT.                                                        
+   365  003650******************************************************************
+   366  003660*    ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“                                            *
+   367  003670******************************************************************
+   368  003680 ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“                     SECTION.                    
+   369  003690 ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“|‚r‚s‚`‚q‚s.                                    
+   370  003700*                                                                 
+   371  003710*----------------------------------------------------------------*
+   372  003720*    ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹‚ÌƒI[ƒvƒ“                        *
+   373  003730*----------------------------------------------------------------*
+   374  003740     OPEN  OUTPUT   o—Íƒtƒ@ƒCƒ‹.                                 
+   375  003750*                                                                 
+   376  003760*--< ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“‚Ìó‘Ô”»’è >                                 
+   377  003770     EVALUATE  ‚v|ó‘Ô                                           
+   378  003780        WHEN  ZERO                                                
+   379  003790           CONTINUE                                               
+   380  003800        WHEN  OTHER                                               
+   381  003810*--<ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒGƒ‰[ >                                      
+   382  003820           MOVE     -4                TO  ‚v|ƒGƒ‰[ƒR[ƒh        
+   383  003830           PERFORM  ƒGƒ‰[ˆ—                                    
+   384  003840     END-EVALUATE.                                                
+   385  003850*                                                                 
+   386  003860 ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“|‚d‚w‚h‚s.                                      
+   387  003870     EXIT.                                                        
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   388  003880******************************************************************
+   389  003890*    Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹“Çž                                    *
+   390  003900******************************************************************
+   391  003910 Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹“Çž             SECTION.                    
+   392  003920 Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹“Çž|‚r‚s‚`‚q‚s.                            
+   393  003930*                                                                 
+   394  003940*--< Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹“Çž >                                   
+   395  003950     EXEC SQL                                                     
+   396  003960         FETCH   CUR1                                             
+   397  003970          INTO   :‚l‚S‚O|ƒŒƒR[ƒh‹æ•ª                            
+   398  003980                ,:‚l‚S‚O|Œo——pŽåŒ_–ñ‹æ•ª                        
+   399  003990                ,:‚l‚S‚O|ŒÚ‹q‹æ•ª                                
+   400  004000                ,:‚c‚O‚P|–¼Šñ‚¹ƒR[ƒh                            
+   401  004010                ,:‚l‚S‚O|¿‹æŽæˆøæƒR[ƒh                      
+   402  004020                ,:‚l‚S‚O|¿‹æƒR[ƒh                            
+   403  004030                ,:‚l‚S‚O|Œ_–ñ”Ô†                                
+   404  004040                ,:‚l‚S‚O|Œ_–ñŽí—Þ                                
+   405  004050                ,:‚l‚S‚O|’S“–•”‰ÛƒR[ƒh                          
+   406  004060                ,:‚l‚S‚O|ÄƒŠ[ƒX‰ñ”                            
+   407  004070                ,:‚l‚S‚O|[“–ŠJŽn”NŒŽ                            
+   408  004080                ,:‚l‚S‚O|[“–ŒŽ”                                
+   409  004090                ,:‚l‚S‚O|‘O•¥‰ñŽû•û–@                            
+   410  004100                ,:‚l‚S‚O|“ü‹à“ú                                  
+   411  004110                ,:‚l‚S‚O|“ü‹à‹æ•ª                                
+   412  004120                ,:‚c‚O‚P|Žæˆøæ–¼Ì                              
+   413  004130                ,:‚c‚O‚Q|¿‹æ–¼Ì                              
+   414  004140                ,:‚l‚S‚O|‘OŒŽ––Žc‚                              
+   415  004150                ,:‚l‚S‚O|“–ŒŽ‰ñŽûŠz                              
+   416  004160                ,:‚l‚S‚O|“–ŒŽÁ‰»Šz                              
+   417  004170                ,:‚l‚S‚O|“–ŒŽ––Žc‚                              
+   418  004180                ,:‚l‚S‚O|‹¦’²‹æ•ª                                
+   419  004190                ,:‚l‚S‚O|‘OŒŽ––Žc‚‘¼ŽÐ                          
+   420  004200                ,:‚l‚S‚O|“–ŒŽ‰ñŽûŠz‘¼ŽÐ                          
+   421  004210                ,:‚l‚S‚O|“–ŒŽÁ‰»Šz‘¼ŽÐ                          
+   422  004220                ,:‚l‚S‚O|“–ŒŽ‘¼ŽÐ‰ð–ñ•ª—¿‹à                      
+   423  004230                ,:‚l‚S‚O|“–ŒŽ‘¼ŽÐ‰ð–ñ•ªÁ”ïÅ                    
+   424  004240                ,:‚l‚S‚O|“–ŒŽ––Žc‚‘¼ŽÐ                          
+   425  004250     END-EXEC.                                                    
+   426  004260*                                                                 
+   427  004270*----------------------------------------------------------------*
+   428  004280*    Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹“Çž‚ðŠm”F                              *
+   429  004290*----------------------------------------------------------------*
+   430  004300     EVALUATE   SQLCODE                                           
+   431  004310        WHEN   ’è”|‚r‚p‚k‚n‚j                                   
+   432  004320*--< ³í >                                                       
+   433  004330           COMPUTE  ‚v|“ü—Í|Œ”  =  ‚v|“ü—Í|Œ”  +  1       
+   434  004340        WHEN   ’è”|‚r‚p‚k‚d‚m‚c                                 
+   435  004350*--< “ÇžI—¹ >                                                   
+   436  004360           MOVE  "Y"                  TO  ‚v|I—¹|ƒtƒ‰ƒO        
+   437  004370        WHEN   OTHER                                              
+   438  004380*--<  “ÇžƒGƒ‰[ >                                                
+   439  004390           MOVE     -5                TO  ‚v|ƒGƒ‰[ƒR[ƒh        
+   440  004400           PERFORM  ƒGƒ‰[ˆ—                                    
+   441  004410     END-EVALUATE.                                                
+   442  004420*                                                                 
+   443  004430 Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹“Çž|‚d‚w‚h‚s.                              
+   444  004440     EXIT.                                                        
+   445  004450******************************************************************
+   446  004460*    Žåˆ—                                                      *
+   447  004470******************************************************************
+   448  004480 Žåˆ—                               SECTION.                    
+   449  004490 Žåˆ—|‚r‚s‚`‚q‚s.                                              
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   450  004500*----------------------------------------------------------------*
+   451  004510*    €–Ú–¼Ìƒ}ƒXƒ^‚æ‚è€–Ú‚Ì’Šoˆ—                            *
+   452  004520*----------------------------------------------------------------*
+   453  004530     PERFORM  €–Ú–¼Ìƒ}ƒXƒ^’Šoˆ—.                             
+   454  004540*----------------------------------------------------------------*
+   455  004550*    ÂŒ î•ñiˆê”Êj‚c‚a‚æ‚è€–Ú‚Ì’Šoˆ—                      *
+   456  004560*----------------------------------------------------------------*
+   457  004570     PERFORM  ÂŒ î•ñ‚c‚a’Šoˆ—.                               
+   458  004580*----------------------------------------------------------------*
+   459  004590*    ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹o—Í”»’èˆ—                      *
+   460  004600*----------------------------------------------------------------*
+   461  004610     IF  ‚l‚O‚P|’S•Û‹æ•ª  NOT = "1"                              
+   462  004620*--<     ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹€–Ú•ÒWAo—Íˆ—>            
+   463  004630        PERFORM  ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹•ÒWo—Í               
+   464  004640     END-IF.                                                      
+   465  004650*----------------------------------------------------------------*
+   466  004660*    Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹“Çži‚QŒ–ÚˆÈ~j                      *
+   467  004670*----------------------------------------------------------------*
+   468  004680     PERFORM  Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹“Çž.                           
+   469  004690*                                                                 
+   470  004700 Žåˆ—|‚d‚w‚h‚s.                                                
+   471  004710     EXIT.                                                        
+   472  004720******************************************************************
+   473  004730*    €–Ú–¼Ìƒ}ƒXƒ^‚æ‚è€–Ú‚Ì’Šoˆ—                            *
+   474  004740******************************************************************
+   475  004750 €–Ú–¼Ìƒ}ƒXƒ^’Šoˆ—               SECTION.                    
+   476  004760 €–Ú–¼Ìƒ}ƒXƒ^’Šoˆ—|‚r‚s‚`‚q‚s.                              
+   477  004770******************************************************************
+   478  004780*€–Ú–¼Ìƒ}ƒXƒ^‚æ‚èŽåŒ_–ñ‹æ•ª–¼Ì‚Ì’Šoˆ—                       
+   479  004790******************************************************************
+   480  004800*----------------------------------------------------------------*
+   481  004810*    €–Ú–¼Ìƒ}ƒXƒ^“Çž                                          *
+   482  004820*----------------------------------------------------------------*
+   483  004830     EXEC SQL                                                     
+   484  004840        SELECT  –¼Ì                                              
+   485  004850          INTO :‚v‚r|–¼Ì‚P                                      
+   486  004860          FROM  D19MSY_TBL                                        
+   487  004870         WHERE  ƒR[ƒh‚m‚n = :‚v‚r|ƒR[ƒh‚m‚n‚P                   
+   488  004880           AND  SUBSTR(ƒR[ƒh,1,1) = :‚l‚S‚O|Œo——pŽåŒ_–ñ‹æ•ª    
+   489  004890     END-EXEC.                                                    
+   490  004900*----------------------------------------------------------------*
+   491  004910*    €–Ú–¼Ìƒ}ƒXƒ^ŒŸõ‚ðŠm”F                                    *
+   492  004920*----------------------------------------------------------------*
+   493  004930     EVALUATE   SQLCODE                                           
+   494  004940        WHEN   ’è”|‚r‚p‚k‚n‚j                                   
+   495  004950*--< ³í‚ÌŽž >                                                   
+   496  004960           CONTINUE                                               
+   497  004970        WHEN   OTHER                                              
+   498  004980*--< ‘¶Ý‚µ‚È‚¢ >                                                 
+   499  004990           MOVE     SPACE             TO  ‚v‚r|–¼Ì‚P            
+   500  005000           MOVE     -6                TO  ‚v|ƒGƒ‰[ƒR[ƒh        
+   501  005010           PERFORM  ƒGƒ‰[ˆ—                                    
+   502  005020     END-EVALUATE.                                                
+   503  005030*                                                                 
+   504  005040*€–Ú–¼Ìƒ}ƒXƒ^‚æ‚èŒÚ‹q‹æ•ª–¼Ì‚Ì’Šoˆ—                         
+   505  005050*----------------------------------------------------------------*
+   506  005060*    €–Ú–¼Ìƒ}ƒXƒ^“Çž                                          *
+   507  005070*----------------------------------------------------------------*
+   508  005080     EXEC SQL                                                     
+   509  005090        SELECT  –¼Ì                                              
+   510  005100          INTO :‚v‚r|–¼Ì‚Q                                      
+   511  005110          FROM  D19MSY_TBL                                        
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   512  005120         WHERE  ƒR[ƒh‚m‚n =: ‚v‚r|ƒR[ƒh‚m‚n‚Q                  
+   513  005130           AND  SUBSTR(ƒR[ƒh,1,2) = :‚l‚S‚O|ŒÚ‹q‹æ•ª            
+   514  005140     END-EXEC.                                                    
+   515  005150*----------------------------------------------------------------*
+   516  005160*    €–Ú–¼Ìƒ}ƒXƒ^ŒŸõ‚ðŠm”F                                    *
+   517  005170*----------------------------------------------------------------*
+   518  005180     EVALUATE   SQLCODE                                           
+   519  005190        WHEN   ’è”|‚r‚p‚k‚n‚j                                   
+   520  005200*--< ³í‚ÌŽž >                                                   
+   521  005210           CONTINUE                                               
+   522  005220        WHEN   OTHER                                              
+   523  005230*--< ‘¶Ý‚µ‚È‚¢ >                                                 
+   524  005240           MOVE     SPACE             TO  ‚v‚r|–¼Ì‚Q            
+   525  005250           MOVE     -6                TO  ‚v|ƒGƒ‰[ƒR[ƒh        
+   526  005260           PERFORM  ƒGƒ‰[ˆ—                                    
+   527  005270     END-EVALUATE.                                                
+   528  005280*                                                                 
+   529  005290 €–Ú–¼Ìƒ}ƒXƒ^’Šoˆ—|‚d‚w‚h‚s.                                
+   530  005300     EXIT.                                                        
+   531  005310******************************************************************
+   532  005320*    ÂŒ î•ñiˆê”Êj‚c‚a‚æ‚è€–Ú‚Ì’Šoˆ—                      *
+   533  005330******************************************************************
+   534  005340 ÂŒ î•ñ‚c‚a’Šoˆ—                 SECTION.                    
+   535  005350 ÂŒ î•ñ‚c‚a’Šoˆ—|‚r‚s‚`‚q‚s.                                
+   536  005360*                                                                 
+   537  005370*----------------------------------------------------------------*
+   538  005380*    ÂŒ î•ñ‚c‚a“Çž                                            *
+   539  005390*----------------------------------------------------------------*
+   540  005400     EXEC SQL                                                     
+   541  005410        SELECT  ó‘Ôƒtƒ‰ƒO                                        
+   542  005420               ,ÂŒ Œ_–ñŒ–¼                                      
+   543  005430               ,’S•Û‹æ•ª                                          
+   544  005440          INTO :‚l‚O‚P|ó‘Ôƒtƒ‰ƒO                                
+   545  005450              ,:‚l‚O‚P|ÂŒ Œ_–ñŒ–¼                              
+   546  005460              ,:‚l‚O‚P|’S•Û‹æ•ª                                  
+   547  005470          FROM  M01SAJ_TBL                                        
+   548  005480         WHERE  ƒŒƒR[ƒh‹æ•ª =  :‚v‚r|ƒŒƒR[ƒh‹æ•ª               
+   549  005490           AND  Œ_–ñ”Ô† = :‚l‚S‚O|Œ_–ñ”Ô†                      
+   550  005500           AND  ÄƒŠ[ƒX‰ñ” = :‚l‚S‚O|ÄƒŠ[ƒX‰ñ”              
+   551  005510           AND  Œ_–ñŽí—Þ = :‚l‚S‚O|Œ_–ñŽí—Þ                      
+   552  005520     END-EXEC.                                                    
+   553  005530*----------------------------------------------------------------*
+   554  005540*    ÂŒ î•ñ‚c‚aŒŸõ‚ðŠm”F                                      *
+   555  005550*----------------------------------------------------------------*
+   556  005560     EVALUATE   SQLCODE                                           
+   557  005570        WHEN   ’è”|‚r‚p‚k‚n‚j                                   
+   558  005580*--< ³í‚ÌŽž >                                                   
+   559  005590           CONTINUE                                               
+   560  005600        WHEN   OTHER                                              
+   561  005610*--< ‘¶Ý‚µ‚È‚¢ >                                                 
+   562  005620           MOVE     SPACE             TO  ‚l‚O‚P|ó‘Ôƒtƒ‰ƒO      
+   563  005630           MOVE     SPACE             TO  ‚l‚O‚P|ÂŒ Œ_–ñŒ–¼    
+   564  005640           MOVE     ‚v‚r|‚l‚O‚P|’S•Û‹æ•ª     TO  ‚l‚O‚P|’S•Û‹æ•ª        
+   565  005650           MOVE     -7                TO  ‚v|ƒGƒ‰[ƒR[ƒh        
+   566  005660           PERFORM  ƒGƒ‰[ˆ—                                    
+   567  005670     END-EVALUATE.                                                
+   568  005680*                                                                 
+   569  005690 ÂŒ î•ñ‚c‚a’Šoˆ—|‚d‚w‚h‚s.                                  
+   570  005700     EXIT.                                                        
+   571  005710******************************************************************
+   572  005720*    ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹€–Ú•ÒWAo—Íˆ—                *
+   573  005730******************************************************************
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   574  005740 ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹•ÒWo—Í   SECTION.                    
+   575  005750 ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹•ÒWo—Í|‚r‚s‚`‚q‚s.                  
+   576  005760*                                                                 
+   577  005770*--< o—ÍƒŒƒR[ƒh‚Ì‰Šú‰»ˆ— >                                   
+   578  005780     MOVE  SPACE                      TO  o—Í|ƒŒƒR[ƒh.         
+   579  005790     INITIALIZE                           o—Í|ƒŒƒR[ƒh.         
+   580  005800*--< Ž©ŽÐ•ªŒÂ•Ê‚Ì•ÒW >                                           
+   581  005810     PERFORM  Ž©ŽÐ•ª•ÒW.                                         
+   582  005820*--< Ž©ŽÐ•ªo—Í”»’è >                                             
+   583  005830     IF      o—Í|‘OŒŽ––Žc‚  NOT  =  0                          
+   584  005840         OR  o—Í|“–ŒŽ“ü‹àŠz  NOT  =  0                          
+   585  005850         OR  o—Í|“–ŒŽÁ‰»Šz  NOT  =  0                          
+   586  005860         OR  o—Í|“–ŒŽ––Žc‚  NOT  =  0                          
+   587  005870         PERFORM  ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹o—Íˆ—.             
+   588  005880*--< ‘¼ŽÐ•ªŒÂ•Ê‚Ì•ÒW >                                           
+   589  005890     IF  ‚l‚S‚O|‹¦’²‹æ•ª = ‚v‚r|‚l‚S‚O|‹¦’²‹æ•ª                             
+   590  005900        PERFORM  ‘¼ŽÐ•ª•ÒWo—Í.                                  
+   591  005910*                                                                 
+   592  005920 ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹•ÒWo—Í|‚d‚w‚h‚s.                    
+   593  005930     EXIT.                                                        
+   594  005940******************************************************************
+   595  005950*    Ž©ŽÐ•ª•ÒW                                                  *
+   596  005960******************************************************************
+   597  005970 Ž©ŽÐ•ª•ÒW                             SECTION.                  
+   598  005980 Ž©ŽÐ•ª•ÒW|‚r‚s‚`‚q‚s.                                          
+   599  005990*                                                                 
+   600  006000*--< No.1 >                                                       
+   601  006010     IF  ‚l‚O‚P|ó‘Ôƒtƒ‰ƒO < 3                                   
+   602  006020        MOVE  3                       TO  o—Í|Ž©‘¼ŽÐ‹æ•ª        
+   603  006030     ELSE                                                         
+   604  006040        MOVE  1                       TO  o—Í|Ž©‘¼ŽÐ‹æ•ª        
+   605  006050     END-IF.                                                      
+   606  006060*--< No.2 >                                                       
+   607  006070     MOVE  ‚l‚S‚O|ƒŒƒR[ƒh‹æ•ª       TO  o—Í|‘OŽó‹æ•ª.         
+   608  006080*--< No.3 >                                                       
+   609  006090     MOVE  ‚l‚S‚O|Œo——pŽåŒ_–ñ‹æ•ª   TO  o—Í|ŽåŒ_–ñ‹æ•ª.       
+   610  006100*--< No.4 >                                                       
+   611  006110     MOVE  ‚l‚S‚O|ŒÚ‹q‹æ•ª           TO  o—Í|˜AŒ‹‹æ•ª.         
+   612  006120*--< No.5 >                                                       
+   613  006130     MOVE  ‚c‚O‚P|–¼Šñ‚¹ƒR[ƒh       TO  o—Í|–¼Šñ‚¹ƒR[ƒh.     
+   614  006140*--< No.6 >                                                       
+   615  006150     MOVE  ‚l‚S‚O|¿‹æŽæˆøæƒR[ƒh TO  o—Í|ŽæˆøæƒR[ƒh.     
+   616  006160*--< No.7 >                                                       
+   617  006170     MOVE  ‚l‚S‚O|¿‹æƒR[ƒh       TO  o—Í|¿‹æƒR[ƒh.     
+   618  006180*--< No.8 >                                                       
+   619  006190     MOVE  ‚l‚S‚O|Œ_–ñ”Ô†           TO  o—Í|Œ_–ñ”Ô†.         
+   620  006200*--< No.9 >                                                       
+   621  006210     MOVE  ‚l‚S‚O|Œ_–ñŽí—Þ           TO  o—Í|Œ_–ñŽí—Þ.         
+   622  006220*--< No.10 >                                                      
+   623  006230     MOVE  ‚c‚V‚O|ƒoƒbƒ`—p‹Æ–±”NŒŽ   TO  o—Í|‹Æ–±”NŒŽ.         
+   624  006240*--< No.11 >                                                      
+   625  006250     MOVE  ‚l‚S‚O|’S“–•”‰ÛƒR[ƒh     TO  o—Í|’S“–•”‰ÛƒR[ƒh.   
+   626  006260*--< No.12 >                                                      
+   627  006270     MOVE  ‚l‚O‚P|ÂŒ Œ_–ñŒ–¼       TO  o—Í|Œ_–ñŒ–¼.         
+   628  006280*--< No.13 >                                                      
+   629  006290     MOVE  ‚l‚S‚O|ÄƒŠ[ƒX‰ñ”       TO  o—Í|ÄƒŠ[ƒX‰ñ”.     
+   630  006300*--< No.14 >                                                      
+   631  006310     MOVE  ‚l‚S‚O|[“–ŠJŽn”NŒŽ       TO  o—Í|[“–ŠJŽn”NŒŽ.     
+   632  006320*--< No.15 >                                                      
+   633  006330     MOVE  ‚l‚S‚O|[“–ŒŽ”           TO  o—Í|[“–ŒŽ”.         
+   634  006340*--< No.16 >                                                      
+   635  006350     MOVE  ‚l‚S‚O|‘O•¥‰ñŽû•û–@       TO  o—Í|‘O•¥‰ñŽû•û–@.     
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   636  006360*--< No.17 >                                                      
+   637  006370     MOVE  ‚l‚S‚O|“ü‹à“ú             TO  o—Í|“ü‹à“ú.           
+   638  006380*--< No.18 >                                                      
+   639  006390     MOVE  ‚l‚S‚O|“ü‹à‹æ•ª           TO  o—Í|“ü‹à‹æ•ª.         
+   640  006400*--< No.19 >                                                      
+   641  006410     MOVE  ‚c‚O‚P|Žæˆøæ–¼Ì         TO  o—Í|Žæˆøæ–¼Ì.       
+   642  006420*--< No.20 >                                                      
+   643  006430     MOVE  ‚c‚O‚Q|¿‹æ–¼Ì         TO  o—Í|¿‹æ–¼Ì.       
+   644  006440*--< No.21 >                                                      
+   645  006450     MOVE  ‚v‚r|–¼Ì‚P               TO  o—Í|ŽåŒ_–ñ‹æ•ª–¼Ì.   
+   646  006460*--< No.22 >                                                      
+   647  006470     MOVE  ‚v‚r|–¼Ì‚Q               TO  o—Í|˜AŒ‹‹æ•ª–¼Ì.     
+   648  006480*--< No.23 >                                                      
+   649  006490     MOVE  ‚l‚S‚O|‘OŒŽ––Žc‚         TO  o—Í|‘OŒŽ––Žc‚.       
+   650  006500*--< No.24 >                                                      
+   651  006510     MOVE  ‚l‚S‚O|“–ŒŽ‰ñŽûŠz         TO  o—Í|“–ŒŽ“ü‹àŠz.       
+   652  006520*--< No.25 >                                                      
+   653  006530     MOVE  ‚l‚S‚O|“–ŒŽÁ‰»Šz         TO  o—Í|“–ŒŽÁ‰»Šz.       
+   654  006540*--< No.26 >                                                      
+   655  006550     MOVE  ‚l‚S‚O|“–ŒŽ––Žc‚         TO  o—Í|“–ŒŽ––Žc‚.       
+   656  006560*                                                                 
+   657  006570 Ž©ŽÐ•ª•ÒW|‚d‚w‚h‚s.                                            
+   658  006580     EXIT.                                                        
+   659  006590******************************************************************
+   660  006600*    ‘¼ŽÐ•ªŒÂ•Ê•”•ª‚Ì•ÒWo—Í                                    *
+   661  006610******************************************************************
+   662  006620 ‘¼ŽÐ•ª•ÒWo—Í                       SECTION.                    
+   663  006630 ‘¼ŽÐ•ª•ÒWo—Í|‚r‚s‚`‚q‚s.                                      
+   664  006640*                                                                 
+   665  006650*--< ‘¼ŽÐ•ª•ÒW >                                                 
+   666  006660*--< No.1 >                                                       
+   667  006670     IF  ‚l‚O‚P|ó‘Ôƒtƒ‰ƒO < 3                                   
+   668  006680        MOVE  4                       TO  o—Í|Ž©‘¼ŽÐ‹æ•ª        
+   669  006690     ELSE                                                         
+   670  006700        MOVE  2                       TO  o—Í|Ž©‘¼ŽÐ‹æ•ª        
+   671  006710     END-IF.                                                      
+   672  006720*--< No.23 >                                                      
+   673  006730     MOVE  ‚l‚S‚O|‘OŒŽ––Žc‚‘¼ŽÐ     TO  o—Í|‘OŒŽ––Žc‚.       
+   674  006740*--< No.24 >                                                      
+   675  006750     MOVE  ‚l‚S‚O|“–ŒŽ‰ñŽûŠz‘¼ŽÐ     TO  o—Í|“–ŒŽ“ü‹àŠz.       
+   676  006760*--< No.25 >                                                      
+   677  006770     COMPUTE  o—Í|“–ŒŽÁ‰»Šz  =  ‚l‚S‚O|“–ŒŽÁ‰»Šz‘¼ŽÐ         
+   678  006780                                +  ‚l‚S‚O|“–ŒŽ‘¼ŽÐ‰ð–ñ•ª—¿‹à     
+   679  006790                                +  ‚l‚S‚O|“–ŒŽ‘¼ŽÐ‰ð–ñ•ªÁ”ïÅ.  
+   680  006800*--< No.26 >                                                      
+   681  006810     COMPUTE  o—Í|“–ŒŽ––Žc‚  =  ‚l‚S‚O|“–ŒŽ––Žc‚‘¼ŽÐ         
+   682  006820                                -  ‚l‚S‚O|“–ŒŽ‘¼ŽÐ‰ð–ñ•ª—¿‹à     
+   683  006830                                -  ‚l‚S‚O|“–ŒŽ‘¼ŽÐ‰ð–ñ•ªÁ”ïÅ.  
+   684  006840*--< ‘¼ŽÐ•ªo—Í”»’è >                                             
+   685  006850     IF      o—Í|‘OŒŽ––Žc‚  NOT  =  0                          
+   686  006860         OR  o—Í|“–ŒŽ“ü‹àŠz  NOT  =  0                          
+   687  006870         OR  o—Í|“–ŒŽÁ‰»Šz  NOT  =  0                          
+   688  006880         OR  o—Í|“–ŒŽ––Žc‚  NOT  =  0                          
+   689  006890         PERFORM  ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹o—Íˆ—.             
+   690  006900*                                                                 
+   691  006910 ‘¼ŽÐ•ª•ÒWo—Í|‚d‚w‚h‚s.                                        
+   692  006920     EXIT.                                                        
+   693  006930******************************************************************
+   694  006940*    ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹o—Íˆ—                          *
+   695  006950******************************************************************
+   696  006960 ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹o—Íˆ—   SECTION.                    
+   697  006970 ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹o—Íˆ—|‚r‚s‚`‚q‚s.                  
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   698  006980*                                                                 
+   699  006990     WRITE  o—Í|ƒŒƒR[ƒh.                                       
+   700  007000*                                                                 
+   701  007010*--< ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹o—Í‚Ìó‘Ô”»’è >                   
+   702  007020     EVALUATE  ‚v|ó‘Ô                                           
+   703  007030        WHEN  ZERO                                                
+   704  007040*--< ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹o—ÍŒ”‚Ì‰ÁŽZ >                   
+   705  007050           COMPUTE  ‚v|o—Í|Œ” =  ‚v|o—Í|Œ” + 1          
+   706  007060        WHEN  OTHER                                               
+   707  007070*--< ƒtƒ@ƒCƒ‹o—ÍƒGƒ‰[ >                                         
+   708  007080           MOVE     -8                TO  ‚v|ƒGƒ‰[ƒR[ƒh        
+   709  007090           PERFORM  ƒGƒ‰[ˆ—                                    
+   710  007100     END-EVALUATE.                                                
+   711  007110*                                                                 
+   712  007120 ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹o—Íˆ—|‚d‚w‚h‚s.                    
+   713  007130     EXIT.                                                        
+   714  007140******************************************************************
+   715  007150*    I—¹ˆ—                                                    *
+   716  007160******************************************************************
+   717  007170 I—¹ˆ—                             SECTION.                    
+   718  007180 I—¹ˆ—|‚r‚s‚`‚q‚s.                                            
+   719  007190*                                                                 
+   720  007200*----------------------------------------------------------------*
+   721  007210*    ‚c‚aƒNƒ[ƒY                                                *
+   722  007220*----------------------------------------------------------------*
+   723  007230     EXEC SQL                                                     
+   724  007240        CLOSE  CUR1                                               
+   725  007250     END-EXEC.                                                    
+   726  007260*----------------------------------------------------------------*
+   727  007270*    ƒtƒ@ƒCƒ‹ƒNƒ[ƒY                                            *
+   728  007280*----------------------------------------------------------------*
+   729  007290     CLOSE  o—Íƒtƒ@ƒCƒ‹.                                         
+   730  007300*----------------------------------------------------------------*
+   731  007310*    Œ”ƒƒbƒZ[ƒWo—Í                                          *
+   732  007320*----------------------------------------------------------------*
+   733  007330     PERFORM  Œ”ƒƒbƒZ[ƒWo—Íˆ—.                             
+   734  007340*----------------------------------------------------------------*
+   735  007350*    I—¹ƒƒbƒZ[ƒWo—Í                                          *
+   736  007360*----------------------------------------------------------------*
+   737  007370     PERFORM  I—¹ƒƒbƒZ[ƒWo—Í.                                 
+   738  007380*--< ƒvƒƒOƒ‰ƒ€³íI—¹ >                                         
+   739  007390     MOVE  ’è”|³íó‘Ô             TO  PROGRAM-STATUS.         
+   740  007400*                                                                 
+   741  007410 I—¹ˆ—|‚d‚w‚h‚s.                                              
+   742  007420     EXIT.                                                        
+   743  007430******************************************************************
+   744  007440*    I—¹ƒƒbƒZ[ƒWo—Íˆ—                                      *
+   745  007450******************************************************************
+   746  007460 I—¹ƒƒbƒZ[ƒWo—Í                   SECTION.                    
+   747  007470 I—¹ƒƒbƒZ[ƒWo—Í|‚r‚s‚`‚q‚s.                                  
+   748  007480*                                                                 
+   749  007490     INITIALIZE                       IF-CHOCO001.                
+   750  007500     MOVE  "3"                        TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê.     
+   751  007510     MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c       TO  ‹¤‚P|ƒ\[ƒX‚h‚c.       
+   752  007520     MOVE  "0"                        TO  ‹¤‚P|•œ‹AƒR[ƒh.       
+   753  007530     MOVE  "END"                      TO  ‹¤‚P|ˆ—Ž¯•Ê.         
+   754  007540     MOVE  ’è”|ƒvƒƒOƒ‰ƒ€–¼         TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW. 
+   755  007550     CALL  CLOCO001                USING  IF-CHOCO001.            
+   756  007560*                                                                 
+   757  007570 I—¹ƒƒbƒZ[ƒWo—Í|‚d‚w‚h‚s.                                    
+   758  007580     EXIT.                                                        
+   759  007590******************************************************************
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   760  007600*    Œ”ƒƒbƒZ[ƒWo—Íˆ—                                      *
+   761  007610******************************************************************
+   762  007620 Œ”ƒƒbƒZ[ƒWo—Íˆ—               SECTION.                    
+   763  007630 Œ”ƒƒbƒZ[ƒWo—Íˆ—|‚r‚s‚`‚q‚s.                              
+   764  007640*                                                                 
+   765  007650     INITIALIZE                       IF-CHOCO001.                
+   766  007660     MOVE  "3"                        TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê.     
+   767  007670     MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c       TO  ‹¤‚P|ƒ\[ƒX‚h‚c.       
+   768  007680     MOVE  "0"                        TO  ‹¤‚P|•œ‹AƒR[ƒh.       
+   769  007690     MOVE  "M40MAB"                   TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c. 
+   770  007700     MOVE  "COUNT"                    TO  ‹¤‚P|ˆ—Ž¯•Ê.         
+   771  007710     MOVE  ‚v|“ü—Í|Œ”             TO  ‹¤‚P|ƒf[ƒ^“à—e.       
+   772  007720     MOVE  "‘OŽóî•ñ‚c‚a“ü—ÍŒ”"     TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW. 
+   773  007730     CALL  CLOCO001                USING  IF-CHOCO001.            
+   774  007740*                                                                 
+   775  007750     INITIALIZE                       IF-CHOCO001.                
+   776  007760     MOVE  "3"                        TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê.     
+   777  007770     MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c       TO  ‹¤‚P|ƒ\[ƒX‚h‚c.       
+   778  007780     MOVE  "0"                        TO  ‹¤‚P|•œ‹AƒR[ƒh.       
+   779  007790     MOVE  "SFHSED25"                 TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c. 
+   780  007800     MOVE  "COUNT"                    TO  ‹¤‚P|ˆ—Ž¯•Ê.         
+   781  007810     MOVE  ‚v|o—Í|Œ”             TO  ‹¤‚P|ƒf[ƒ^“à—e.       
+   782  007820     MOVE  "‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹o—ÍŒ”"                   
+   783  007830                                      TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW. 
+   784  007840     CALL  CLOCO001                USING  IF-CHOCO001.            
+   785  007850*                                                                 
+   786  007860 Œ”ƒƒbƒZ[ƒWo—Íˆ—|‚d‚w‚h‚s.                                
+   787  007870     EXIT.                                                        
+   788  007880******************************************************************
+   789  007890*    ƒGƒ‰[ˆ—                                                  *
+   790  007900******************************************************************
+   791  007910 ƒGƒ‰[ˆ—                           SECTION.                    
+   792  007920 ƒGƒ‰[ˆ—|‚r‚s‚`‚q‚s.                                          
+   793  007930*                                                                 
+   794  007940     MOVE  "Y"                        TO ‚v|ˆÙíI—¹|ƒtƒ‰ƒO.    
+   795  007950     INITIALIZE                           IF-CHOCO001.            
+   796  007960*                                                                 
+   797  007970     EVALUATE  ‚v|ƒGƒ‰[ƒR[ƒh                                   
+   798  007980        WHEN  -1                                                  
+   799  007990*--< ‚n‚q‚`‚b‚k‚dÚ‘±Ž¸”s >                                       
+   800  008000           MOVE  "1"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+   801  008010           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+   802  008020           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+   803  008030           MOVE  "CONNECT"            TO  ‹¤‚P|ˆ—Ž¯•Ê          
+   804  008040           MOVE  SQLCODE              TO  ‹¤‚P|ƒf[ƒ^“à—e        
+   805  008050           MOVE  SQLERRMC             TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+   806  008060           CALL  CLOCO001          USING  IF-CHOCO001             
+   807  008070*                                                                 
+   808  008080        WHEN  -2                                                  
+   809  008090*--< ‹Æ–±ŠÇ—ƒe[ƒuƒ‹ƒI[ƒvƒ“ƒGƒ‰[ >                             
+   810  008100           MOVE  "1"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+   811  008110           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+   812  008120           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+   813  008130           MOVE  "D70GYM"             TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c  
+   814  008140           MOVE  "SELECT"             TO  ‹¤‚P|ˆ—Ž¯•Ê          
+   815  008150           MOVE  SQLCODE              TO  ‹¤‚P|ƒf[ƒ^“à—e        
+   816  008160           MOVE  SQLERRMC             TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+   817  008170           CALL  CLOCO001          USING  IF-CHOCO001             
+   818  008180*                                                                 
+   819  008190        WHEN  -3                                                  
+   820  008200*--< Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹ƒI[ƒvƒ“Ž¸”s >                           
+   821  008210           MOVE  "1"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   822  008220           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+   823  008230           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+   824  008240           MOVE  "M40MAB"             TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c  
+   825  008250           MOVE  "SELECT"             TO  ‹¤‚P|ˆ—Ž¯•Ê          
+   826  008260           MOVE  SQLCODE              TO  ‹¤‚P|ƒf[ƒ^“à—e        
+   827  008270           MOVE  SQLERRMC             TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+   828  008280           CALL  CLOCO001          USING  IF-CHOCO001             
+   829  008290*                                                                 
+   830  008300        WHEN  -4                                                  
+   831  008310*--< ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒGƒ‰[ >                   
+   832  008320           MOVE  "1"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+   833  008330           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+   834  008340           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+   835  008350           MOVE  "SFHSED25"           TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c  
+   836  008360           MOVE  "OPEN"               TO  ‹¤‚P|ˆ—Ž¯•Ê          
+   837  008370           MOVE  SQLCODE              TO  ‹¤‚P|ƒf[ƒ^“à—e        
+   838  008380           MOVE  "‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒGƒ‰["       
+   839  008390                                      TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+   840  008400           CALL  CLOCO001          USING  IF-CHOCO001             
+   841  008410*                                                                 
+   842  008420        WHEN  -5                                                  
+   843  008430*--< Œ‹‡ƒe[ƒuƒ‹“ÇžŽ¸”s >                                       
+   844  008440           MOVE  "1"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+   845  008450           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+   846  008460           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+   847  008470           MOVE  "M40MAB"             TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c  
+   848  008480           MOVE  "FETCH"              TO  ‹¤‚P|ˆ—Ž¯•Ê          
+   849  008490           MOVE  SQLCODE              TO  ‹¤‚P|ƒf[ƒ^“à—e        
+   850  008500           MOVE  SQLERRMC             TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+   851  008510           CALL  CLOCO001          USING  IF-CHOCO001             
+   852  008520*                                                                 
+   853  008530        WHEN  -6                                                  
+   854  008540*--< €–Ú–¼Ìƒ}ƒXƒ^ƒI[ƒvƒ“ƒGƒ‰[ >                               
+   855  008550           MOVE  "1"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+   856  008560           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+   857  008570           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+   858  008580           MOVE  "D19MSY"             TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c  
+   859  008590           MOVE  "SELECT"             TO  ‹¤‚P|ˆ—Ž¯•Ê          
+   860  008600           MOVE  SQLCODE              TO  ‹¤‚P|ƒf[ƒ^“à—e        
+   861  008610           MOVE  SQLERRMC             TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+   862  008620           CALL  CLOCO001          USING  IF-CHOCO001             
+   863  008630*                                                                 
+   864  008640        WHEN  -7                                                  
+   865  008650*--< ÂŒ î•ñiˆê”Êj‚c‚aƒI[ƒvƒ“ƒGƒ‰[ >                         
+   866  008660           MOVE  "1"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+   867  008670           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+   868  008680           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+   869  008690           MOVE  "M01SAJ"             TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c  
+   870  008700           MOVE  "SELECT"             TO  ‹¤‚P|ˆ—Ž¯•Ê          
+   871  008710           MOVE  SQLCODE              TO  ‹¤‚P|ƒf[ƒ^“à—e        
+   872  008720           MOVE  SQLERRMC             TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+   873  008730           CALL  CLOCO001          USING  IF-CHOCO001             
+   874  008740*                                                                 
+   875  008750        WHEN  -8                                                  
+   876  008760*--< ‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹o—ÍƒGƒ‰[ >                       
+   877  008770           MOVE  "1"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+   878  008780           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+   879  008790           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+   880  008800           MOVE  "SFHSED25"           TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c  
+   881  008810           MOVE  "WRITE"              TO  ‹¤‚P|ˆ—Ž¯•Ê          
+   882  008820           MOVE  ‚v|ó‘Ô             TO  ‹¤‚P|ƒf[ƒ^“à—e        
+   883  008830           MOVE  "‘OŽó‹àŽó•¥Žc‚’†ŠÔƒtƒ@ƒCƒ‹o—ÍƒGƒ‰[ "          
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   884  008840                                      TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+   885  008850           CALL  CLOCO001          USING  IF-CHOCO001             
+   886  008860*                                                                 
+   887  008870        WHEN  OTHER                                               
+   888  008880           MOVE  "N"                  TO ‚v|ˆÙíI—¹|ƒtƒ‰ƒO     
+   889  008890     END-EVALUATE.                                                
+   890  008900*                                                                 
+   891  008910 ƒGƒ‰[ˆ—|‚d‚w‚h‚s.                                            
+   892  008920     EXIT.                                                        
+   893  008930******************************************************************
+   894  008940*                  END OF PROGRAM                                *
+   895  008950******************************************************************
+ƒtƒ@ƒCƒ‹: C:\COB97\SOC\AAASED25\AAASED25.PCO‚ðƒNƒ[ƒY
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+ƒzƒXƒg•Ï”
+--------------
+
+01  DB-STRING                                           Charf(20)
+  Z:\COB97\COPYLIB_DB\SQLCOM.CBL      3
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    241
+
+01  PASSWD                                              Charf(10)
+  Z:\COB97\COPYLIB_DB\SQLCOM.CBL      5
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    236    240
+
+01  SQLSTATE                                            Charf(5)
+  Z:\COB97\COPYLIB_DB\SQLCOM.CBL      2
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    235    239    268    346    395    483    508    540    723
+
+01  USERNAME                                            Charf(10)
+  Z:\COB97\COPYLIB_DB\SQLCOM.CBL      4
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    236    240
+
+03  ‚c‚O‚P|Žæˆøæ–¼Ì OF Žæˆøæƒ}ƒXƒ^                  Charf(80)
+  Z:\COB97\COPYLIB_DB\D01TRS.CBL      7
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    412
+
+03  ‚c‚O‚P|–¼Šñ‚¹ƒR[ƒh OF Žæˆøæƒ}ƒXƒ^                Charf(40)
+  Z:\COB97\COPYLIB_DB\D01TRS.CBL      6
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    400
+
+03  ‚c‚O‚Q|¿‹æ–¼Ì OF ¿‹æƒ}ƒXƒ^                  Charf(80)
+  Z:\COB97\COPYLIB_DB\D02SQS.CBL      7
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    413
+
+01  ‚c‚V‚O|ƒoƒbƒ`—p‹Æ–±”NŒŽ                            Charf(6)
+  Z:\COB97\COPYLIB_DB\D70GYM.CBL     30
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    270
+
+01  ‚l‚O‚P|ÂŒ Œ_–ñŒ–¼                                Multibyte Charf(40)
+  Z:\COB97\COPYLIB_DB\M01SAJ.CBL    232
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    545
+
+01  ‚l‚O‚P|ó‘Ôƒtƒ‰ƒO                                  Charf(1)
+  Z:\COB97\COPYLIB_DB\M01SAJ.CBL     28
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    544
+
+01  ‚l‚O‚P|’S•Û‹æ•ª                                    Charf(1)
+  Z:\COB97\COPYLIB_DB\M01SAJ.CBL    335
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    546
+
+01  ‚l‚S‚O|ƒŒƒR[ƒh‹æ•ª                                Charf(1)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL      4
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    397
+
+01  ‚l‚S‚O|‹¦’²‹æ•ª                                    Charf(1)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     49
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    418
+
+01  ‚l‚S‚O|Œ_–ñŽí—Þ                                    Charf(3)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL      7
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    404    551
+
+01  ‚l‚S‚O|Œ_–ñ”Ô†                                    Charf(15)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL      5
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    403    549
+
+01  ‚l‚S‚O|Œo——pŽåŒ_–ñ‹æ•ª                            Charf(1)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     52
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    398    488
+
+01  ‚l‚S‚O|ŒÚ‹q‹æ•ª                                    Charf(2)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     39
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    399    513
+
+01  ‚l‚S‚O|ÄƒŠ[ƒX‰ñ”                                Decimal(2,0)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL      6
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    406    550
+
+01  ‚l‚S‚O|[“–ŠJŽn”NŒŽ                                Charf(6)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     15
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    407
+
+01  ‚l‚S‚O|[“–ŒŽ”                                    Decimal(3,0)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     14
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    408
+
+01  ‚l‚S‚O|¿‹æƒR[ƒh                                Charf(5)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     44
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    402
+
+01  ‚l‚S‚O|¿‹æŽæˆøæƒR[ƒh                          Charf(9)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     38
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    401
+
+01  ‚l‚S‚O|‘OŒŽ––Žc‚                                  Decimal(13,0)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     54
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    414
+
+01  ‚l‚S‚O|‘OŒŽ––Žc‚‘¼ŽÐ                              Decimal(13,0)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     55
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    419
+
+01  ‚l‚S‚O|‘O•¥‰ñŽû•û–@                                Charf(1)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     10
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    409
+
+01  ‚l‚S‚O|’S“–•”‰ÛƒR[ƒh                              Charf(4)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     47
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    405
+
+01  ‚l‚S‚O|“–ŒŽ‰ñŽûŠz                                  Decimal(13,0)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     74
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    415
+
+01  ‚l‚S‚O|“–ŒŽ‰ñŽûŠz‘¼ŽÐ                              Decimal(13,0)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     75
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    420
+
+01  ‚l‚S‚O|“–ŒŽÁ‰»Šz                                  Decimal(13,0)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     76
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    416
+
+01  ‚l‚S‚O|“–ŒŽÁ‰»Šz‘¼ŽÐ                              Decimal(13,0)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     77
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    421
+
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+01  ‚l‚S‚O|“–ŒŽ‘¼ŽÐ‰ð–ñ•ªÁ”ïÅ                        Decimal(13,0)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     67
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    423
+
+01  ‚l‚S‚O|“–ŒŽ‘¼ŽÐ‰ð–ñ•ª—¿‹à                          Decimal(13,0)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     66
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    422
+
+01  ‚l‚S‚O|“–ŒŽ––Žc‚                                  Decimal(13,0)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     86
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    417
+
+01  ‚l‚S‚O|“–ŒŽ––Žc‚‘¼ŽÐ                              Decimal(13,0)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     87
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    424
+
+01  ‚l‚S‚O|“ü‹à‹æ•ª                                    Charf(2)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     73
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    411
+
+01  ‚l‚S‚O|“ü‹à“ú                                      Charf(8)
+  Z:\COB97\COPYLIB_DB\M40MAB.CBL     71
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    410
+
+01  ‚v‚r|ƒR[ƒh‚m‚n‚P                                  Charf(3)
+  C:\COB97\SOC\AAASED25\AAASED25.PCO     62    487
+
+01  ‚v‚r|ƒR[ƒh‚m‚n‚Q                                  Charf(3)
+  C:\COB97\SOC\AAASED25\AAASED25.PCO     63    512
+
+01  ‚v‚r|ƒŒƒR[ƒh‹æ•ª                                  Charf(1)
+  C:\COB97\SOC\AAASED25\AAASED25.PCO     64    548
+
+01  ‚v‚r|–¼Ì‚P                                        Charf(60)
+  C:\COB97\SOC\AAASED25\AAASED25.PCO     60    485
+
+01  ‚v‚r|–¼Ì‚Q                                        Charf(60)
+  C:\COB97\SOC\AAASED25\AAASED25.PCO     61    510
+
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+SQLŽ¯•ÊŽq
+---------------
+
+CUR1                  CURSOR                        
+  C:\COB97\SOC\AAASED25\AAASED25.PCO    300    347    396    724    300
+
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+
+                              ƒvƒŠƒRƒ“ƒpƒCƒ‰EƒIƒvƒVƒ‡ƒ“
+-------------------------------------------------------------------------------
+ƒIƒvƒVƒ‡ƒ“–¼   Œ»Ý‚ÌÝ’è’l         Ý’èæ
+-------------------------------------------------------------------------------
+asacc             no                ƒfƒtƒHƒ‹ƒg                                  
+assume_sqlcode    no                ƒfƒtƒHƒ‹ƒg                                  
+auto_connect      no                ƒfƒtƒHƒ‹ƒg                                  
+close_on_commit   yes               mode                                        
+comp5             yes               D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+config            default config    ƒfƒtƒHƒ‹ƒg                                  
+date_format       local             ƒfƒtƒHƒ‹ƒg                                  
+dbms              native            ƒfƒtƒHƒ‹ƒg                                  
+declare_section   yes               mode                                        
+define            *‚È‚µ*            ƒfƒtƒHƒ‹ƒg                                  
+dynamic           ansi              mode                                        
+end_of_fetch      100               mode                                        
+eol_padding       yes               ƒfƒtƒHƒ‹ƒg                                  
+errors            yes               ƒfƒtƒHƒ‹ƒg                                  
+fips              no                ƒfƒtƒHƒ‹ƒg                                  
+format            ansi              ƒfƒtƒHƒ‹ƒg                                  
+hold_cursor       no                ƒfƒtƒHƒ‹ƒg                                  
+host              cobol             ƒfƒtƒHƒ‹ƒg                                  
+iname             C:\COB97\SOC\AAASEƒRƒ}ƒ“ƒhƒ‰ƒCƒ“CO                            
+include           Z:\COB97\COPYLIB  D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+                  Z:\COB97\COPYLIB_DD:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+                  *‚È‚µ*            D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+ireclen           132               D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+litdelim          quote             ƒfƒtƒHƒ‹ƒg                                  
+lname             *‚È‚µ*            ƒfƒtƒHƒ‹ƒg                                  
+lreclen           132               ƒfƒtƒHƒ‹ƒg                                  
+ltype             long              ƒfƒtƒHƒ‹ƒg                                  
+maxliteral        160               D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+maxopencursors    10                ƒfƒtƒHƒ‹ƒg                                  
+mode              ANSI              D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+nested            yes               ƒfƒtƒHƒ‹ƒg                                  
+nls_local         yes               D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+oname             AASED25.COB       ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“                              
+oraca             no                ƒfƒtƒHƒ‹ƒg                                  
+oreclen           80                ƒfƒtƒHƒ‹ƒg                                  
+pagelen           66                ƒfƒtƒHƒ‹ƒg                                  
+picx              charf             ƒfƒtƒHƒ‹ƒg                                  
+prefetch          1                 ƒfƒtƒHƒ‹ƒg                                  
+release_cursor    no                ƒfƒtƒHƒ‹ƒg                                  
+select_error      yes               ƒfƒtƒHƒ‹ƒg                                  
+sqlcheck          FULL              D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+threads           no                ƒfƒtƒHƒ‹ƒg                                  
+type_code         ansi              mode                                        
+unsafe_null       no                ƒfƒtƒHƒ‹ƒg                                  
+userid            yaoxinyu/yxy@FIP  D:\oracle\ora90\precomp\admin\pcbcfg.cfg    
+varchar           no                ƒfƒtƒHƒ‹ƒg                                  
+xref              yes               ƒfƒtƒHƒ‹ƒg                                  
+Pro*COBOL: Release 9.2.0.1.0 - Production on ‹à Apr 1 14:20:21 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+“Œv•\Ž¦
+----------
+
+ƒŠƒ^[ƒ“EƒR[ƒh: 0
+d—v« I‚Å‚ÌƒƒbƒZ[ƒW”: 0
+d—v« W‚Å‚ÌƒƒbƒZ[ƒW”: 0
+d—v« E‚Å‚ÌƒƒbƒZ[ƒW”: 0
+d—v« F‚Å‚ÌƒƒbƒZ[ƒW”: 0
+“ü—Íƒ‰ƒCƒ“‚Ì”: 1670
+éŒ¾‚³‚ê‚½ƒzƒXƒg•Ï”‚Ì”: 687
+ƒJ[ƒ\ƒ‹–¼‚Ì”: 1
+•¶–¼‚Ì”: 0
+Žg—p‚³‚ê‚éÅ‘åƒƒ‚ƒŠ[(ƒoƒCƒg): 674308

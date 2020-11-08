@@ -1,0 +1,624 @@
+      ******************************************************************00010029
+      *IDENTIFICATION DIVISION                                         *00020029
+      ******************************************************************00030029
+       IDENTIFICATION              DIVISION.                            00040029
+       PROGRAM-ID.                 PGMTESTB.                            00050029
+      ******************************************************************00060029
+      *|DATE      |AUTHOR  | COMMENT                                   |00070029
+      *|---------------------------------------------------------------|00080029
+      *|2007/11/26|LIGC    | NEW                                       |00090029
+      *|---------------------------------------------------------------|00100029
+      *|          |        |                                           |00110029
+      ******************************************************************00120029
+      *ENVIRONMENT                 DIVISION                            *00130029
+      ******************************************************************00140029
+       ENVIRONMENT                 DIVISION.                            00150029
+       CONFIGURATION               SECTION.                             00160029
+       INPUT-OUTPUT                SECTION.                             00170029
+       FILE-CONTROL.                                                    00180029
+           SELECT  ERRFILE  ASSIGN    TO ERRFILE                        00190029
+                   ORGANIZATION       IS SEQUENTIAL                     00200029
+                   ACCESS MODE        IS SEQUENTIAL                     00210029
+                   FILE   STATUS      IS ERRFILE-FILE-STATUS.           00220029
+           SELECT  ERRFILEP ASSIGN    TO PRINTERR                       00230029
+                   ORGANIZATION       IS SEQUENTIAL                     00240029
+                   ACCESS MODE        IS SEQUENTIAL                     00250029
+                   FILE   STATUS      IS ERRFILEP-FILE-STATUS.          00260029
+           SELECT  MPAYFIL  ASSIGN    TO MPAYFIL                        00270029
+                   ORGANIZATION       IS SEQUENTIAL                     00280029
+                   ACCESS MODE        IS SEQUENTIAL                     00290029
+                   FILE   STATUS      IS MPAYFIL-FILE-STATUS.           00300029
+           SELECT  MPAYFILP ASSIGN    TO PRINTMPA                       00310029
+                   ORGANIZATION       IS SEQUENTIAL                     00320029
+                   ACCESS MODE        IS SEQUENTIAL                     00330029
+                   FILE   STATUS      IS MPAYFILP-FILE-STATUS.          00340029
+           SELECT  SETLILE  ASSIGN    TO SETLILE                        00350029
+                   ORGANIZATION       IS SEQUENTIAL                     00360029
+                   ACCESS MODE        IS SEQUENTIAL                     00370029
+                   FILE   STATUS      IS SETLILE-FILE-STATUS.           00380029
+           SELECT  SETLILEP ASSIGN    TO PRINTSET                       00390029
+                   ORGANIZATION       IS SEQUENTIAL                     00400029
+                   ACCESS MODE        IS SEQUENTIAL                     00410029
+                   FILE   STATUS      IS SETLILEP-FILE-STATUS.          00420029
+      ******************************************************************00430029
+      *DATA                        DIVISION                            *00440029
+      ******************************************************************00450029
+       DATA                        DIVISION.                            00460029
+      ******************************************************************00470029
+       FILE                        SECTION.                             00480029
+      *---<INPUT FILE>--------------------------------------------------00490029
+      **** ERROR REPORT FILE *******************************************00500029
+       FD  ERRFILE.                                                     00510029
+       01  ERRFILE-REC             PIC X(98).                           00520029
+      **** MPAYFIL  FILE ***********************************************00530029
+       FD  MPAYFIL.                                                     00540029
+       01  MPAYFIL-REC.                                                 00550029
+       COPY MPAYFILC.                                                   00560029
+      **** SETLILE  FILE ***********************************************00570029
+       FD  SETLILE.                                                     00580029
+       01  SETLILE-REC.                                                 00590029
+       COPY SETLILEC.                                                   00600029
+      *---<PRINT FILE>--------------------------------------------------00610029
+       FD  ERRFILEP                                                     00620029
+           LABEL      RECORD   IS  OMITTED                              00630029
+           DATA       RECORD       ERRFILEP-REC.                        00640029
+       01  ERRFILEP-REC            PIC X(132).                          00650029
+       FD  MPAYFILP                                                     00660029
+           LABEL      RECORD   IS  OMITTED                              00670029
+           DATA       RECORD       MPAYFILP-REC.                        00680029
+       01  MPAYFILP-REC            PIC X(132).                          00690029
+       FD  SETLILEP                                                     00700029
+           LABEL      RECORD   IS  OMITTED                              00710029
+           DATA       RECORD       SETLILEP-REC.                        00720029
+       01  SETLILEP-REC            PIC X(132).                          00730029
+      *-----------------------------------------------------------------00740029
+       WORKING-STORAGE             SECTION.                             00750029
+      ******************************************************************00760029
+       01  WK-TEMP-STR             PIC X(100).                          00770029
+      ***** SYSTEM DATE ************************************************00780029
+       01   WK-DATM.                                                    00790029
+         03 WK-DATM-YYYY           PIC X(04).                           00800029
+         03 WK-DATM-MM             PIC X(02).                           00810029
+         03 WK-DATM-DD             PIC X(02).                           00820029
+       01   WK-DATM-O.                                                  00830029
+         03 WK-DATM-YYYY           PIC X(04).                           00840029
+         03 FILLER                 PIC X(01) VALUE "/".                 00850029
+         03 WK-DATM-MM             PIC X(02).                           00860029
+         03 FILLER                 PIC X(01) VALUE "/".                 00870029
+         03 WK-DATM-DD             PIC X(02).                           00880029
+      **** PROGRAM ID **************************************************00890029
+       01  WK-PROGRAM-ID           PIC X(08) VALUE "PGMTESTB".          00900029
+      **** PRINT FILE LINE/PAGE COUNT **********************************00910029
+       01  WK-ERR-LINE-CNT         PIC 9(4).                            00920029
+       01  WK-ERR-PAGE-CNT         PIC 9(4).                            00930029
+       01  WK-MPA-LINE-CNT         PIC 9(4).                            00940029
+       01  WK-MPA-PAGE-CNT         PIC 9(4).                            00950029
+       01  WK-SET-LINE-CNT         PIC 9(4).                            00960029
+       01  WK-SET-PAGE-CNT         PIC 9(4).                            00970029
+      **** WK TEMP *****************************************************00980029
+       01  WK-PEOPLE-TEMP          PIC 9(02).                           00990029
+       01  WK-SALARY-TEMP          PIC 9(10)V9(02).                     01000029
+       01  WK-PEOPLE-TEMP-END      PIC 9(06).                           01010029
+       01  WK-SALARY-TEMP-END      PIC 9(11)V9(02).                     01020029
+      ******************************************************************01030029
+      * ERROR REPORT FORMAT                                            *01040029
+      ******************************************************************01050029
+       01  WK-ERRFILEP.                                                 01060029
+         COPY ERRFILER.                                                 01070029
+      ******************************************************************01080029
+      * PAYMENT REPORT FORMAT                                          *01090029
+      ******************************************************************01100029
+       01  WK-MPAYFILP.                                                 01110029
+         COPY MPAYFILR.                                                 01120029
+      ******************************************************************01130029
+      * SETTLEMENT REPORT FORMAT                                       *01140029
+      ******************************************************************01150029
+       01  WK-SETLILEP.                                                 01160029
+         COPY SETLILER.                                                 01170029
+      ******************************************************************01180029
+      * ERROR FORMAT                                                   *01190029
+      ******************************************************************01200029
+       COPY DISERROR.                                                   01210029
+      ******************************************************************01220029
+      * FILE INPUT COUNT TOTAL FORMAT                                  *01230029
+      ******************************************************************01240029
+       01    WK-ERRFILE-I.                                              01250029
+         03  FILLER                PIC X(20) VALUE                      01260029
+             "INPUT FILE ERRFILE :".                                    01270029
+         03  WK-ERRFILE-CNT        PIC ZZZZZ9.                          01280029
+         03  FILLER                PIC X(07) VALUE " COUNT.".           01290029
+       01    WK-MPAYFIL-I.                                              01300029
+         03  FILLER                PIC X(20) VALUE                      01310029
+             "INPUT FILE MPAYFIL :".                                    01320029
+         03  WK-MPAYFIL-CNT        PIC ZZZZZ9.                          01330029
+         03  FILLER                PIC X(07) VALUE " COUNT.".           01340029
+       01    WK-SETLILE-I.                                              01350029
+         03  FILLER                PIC X(20) VALUE                      01360029
+             "INPUT FILE SETLILE :".                                    01370029
+         03  WK-SETLILE-CNT        PIC ZZZZZ9.                          01380029
+         03  FILLER                PIC X(07) VALUE " COUNT.".           01390029
+       01    WK-FILE-COUNT.                                             01400029
+         03  WK-ERRFILE-9          PIC 9(06).                           01410029
+         03  WK-MPAYFIL-9          PIC 9(06).                           01420029
+         03  WK-SETLILE-9          PIC 9(06).                           01430029
+      ******************************************************************01440029
+      * FILE STATUS                                                    *01450029
+      ******************************************************************01460029
+       77  ERRFILE-FILE-STATUS     PIC X(02).                           01470029
+       77  MPAYFIL-FILE-STATUS     PIC X(02).                           01480029
+       77  SETLILE-FILE-STATUS     PIC X(02).                           01490029
+       77  ERRFILEP-FILE-STATUS    PIC X(02).                           01500029
+       77  MPAYFILP-FILE-STATUS    PIC X(02).                           01510029
+       77  SETLILEP-FILE-STATUS    PIC X(02).                           01520029
+      ******************************************************************01530029
+       PROCEDURE                   DIVISION.                            01540029
+      ******************************************************************01550029
+       PROC-MAIN                   SECTION.                             01560029
+      *                                                                 01570029
+           PERFORM  PROC-INIT.                                          01580029
+      *                                                                 01590029
+           PERFORM  PROC-ERRF-READ.                                     01600029
+           PERFORM  PROC-MAIN1 UNTIL ERRFILE-FILE-STATUS NOT = "00".    01610029
+      *                                                                 01620029
+           PERFORM  PROC-MPAF-READ.                                     01630029
+           PERFORM  PROC-MAIN2 UNTIL MPAYFIL-FILE-STATUS NOT = "00".    01640029
+      *                                                                 01650029
+           PERFORM  PROC-SETF-READ.                                     01660029
+           PERFORM  PROC-MAIN3 UNTIL SETLILE-FILE-STATUS NOT = "00".    01670029
+      *                                                                 01680029
+           PERFORM  PROC-END.                                           01690029
+      *                                                                 01700029
+       PROC-MAIN-EXT.                                                   01710029
+           STOP RUN.                                                    01720029
+      ******************************************************************01730029
+       PROC-INIT                   SECTION.                             01740029
+      *                                                                 01750029
+           INITIALIZE             WK-ERR-LINE-CNT                       01760029
+                                  WK-ERR-PAGE-CNT                       01770029
+                                  WK-MPA-LINE-CNT                       01780029
+                                  WK-MPA-PAGE-CNT                       01790029
+                                  WK-SET-LINE-CNT                       01800029
+                                  WK-SET-PAGE-CNT                       01810029
+                                  WK-FILE-COUNT.                        01820029
+      *    ACCEPT CURRENT DATE                                          01830029
+           ACCEPT WK-DATM FROM DATE YYYYMMDD.                           01840029
+           MOVE WK-DATM-YYYY OF WK-DATM TO                              01850029
+                WK-DATM-YYYY OF WK-DATM-O.                              01860029
+           MOVE WK-DATM-MM   OF WK-DATM TO                              01870029
+                WK-DATM-MM   OF WK-DATM-O.                              01880029
+           MOVE WK-DATM-DD   OF WK-DATM TO                              01890029
+                WK-DATM-DD   OF WK-DATM-O.                              01900029
+           OPEN INPUT  ERRFILE.                                         01910029
+           IF ERRFILE-FILE-STATUS  NOT = "00"  THEN                     01920029
+              MOVE SPACE           TO WK-ERR                            01930029
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            01940029
+              MOVE ERRFILE-FILE-STATUS                                  01950029
+                                   TO WK-ERR-CD OF WK-ERR               01960029
+              MOVE "FILE ERRFILE OPEN ERROR"                            01970029
+                                   TO WK-ERR-MSG OF WK-ERR              01980029
+              DISPLAY WK-ERR                                            01990029
+              STOP RUN                                                  02000029
+           END-IF.                                                      02010029
+           OPEN OUTPUT ERRFILEP.                                        02020029
+           IF ERRFILEP-FILE-STATUS NOT = "00"  THEN                     02030029
+              MOVE SPACE           TO WK-ERR                            02040029
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            02050029
+              MOVE ERRFILEP-FILE-STATUS                                 02060029
+                                   TO WK-ERR-CD OF WK-ERR               02070029
+              MOVE "FILE ERRFILEP OPEN ERROR"                           02080029
+                                   TO WK-ERR-MSG OF WK-ERR              02090029
+              DISPLAY WK-ERR                                            02100029
+              CLOSE ERRFILE                                             02110029
+              STOP RUN                                                  02120029
+           END-IF.                                                      02130029
+           OPEN INPUT  MPAYFIL.                                         02140029
+           IF MPAYFIL-FILE-STATUS  NOT = "00"  THEN                     02150029
+              MOVE SPACE           TO WK-ERR                            02160029
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            02170029
+              MOVE MPAYFIL-FILE-STATUS                                  02180029
+                                   TO WK-ERR-CD OF WK-ERR               02190029
+              MOVE "FILE MPAYFIL OPEN ERROR"                            02200029
+                                   TO WK-ERR-MSG OF WK-ERR              02210029
+              DISPLAY WK-ERR                                            02220029
+              CLOSE ERRFILE ERRFILEP                                    02230029
+              STOP RUN                                                  02240029
+           END-IF.                                                      02250029
+           OPEN OUTPUT MPAYFILP.                                        02260029
+           IF MPAYFILP-FILE-STATUS NOT = "00"  THEN                     02270029
+              MOVE SPACE           TO WK-ERR                            02280029
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            02290029
+              MOVE MPAYFILP-FILE-STATUS                                 02300029
+                                   TO WK-ERR-CD OF WK-ERR               02310029
+              MOVE "FILE MPAYFILP OPEN ERROR"                           02320029
+                                   TO WK-ERR-MSG OF WK-ERR              02330029
+              DISPLAY WK-ERR                                            02340029
+              CLOSE ERRFILE ERRFILEP MPAYFIL                            02350029
+              STOP RUN                                                  02360029
+           END-IF.                                                      02370029
+           OPEN INPUT  SETLILE.                                         02380029
+           IF SETLILE-FILE-STATUS  NOT = "00"  THEN                     02390029
+              MOVE SPACE           TO WK-ERR                            02400029
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            02410029
+              MOVE SETLILE-FILE-STATUS                                  02420029
+                                   TO WK-ERR-CD OF WK-ERR               02430029
+              MOVE "FILE SETLILE  OPEN ERROR"                           02440029
+                                   TO WK-ERR-MSG OF WK-ERR              02450029
+              DISPLAY WK-ERR                                            02460029
+              CLOSE ERRFILE ERRFILEP MPAYFIL MPAYFILP                   02470029
+              STOP RUN                                                  02480029
+           END-IF.                                                      02490029
+           OPEN OUTPUT SETLILEP.                                        02500029
+           IF SETLILEP-FILE-STATUS NOT = "00"  THEN                     02510029
+              MOVE SPACE           TO WK-ERR                            02520029
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            02530029
+              MOVE SETLILEP-FILE-STATUS                                 02540029
+                                   TO WK-ERR-CD OF WK-ERR               02550029
+              MOVE "FILE SETLILEP OPEN ERROR"                           02560029
+                                   TO WK-ERR-MSG OF WK-ERR              02570029
+              DISPLAY WK-ERR                                            02580029
+              CLOSE ERRFILE ERRFILEP MPAYFIL MPAYFILP SETLILE           02590029
+              STOP RUN                                                  02600029
+           END-IF.                                                      02610029
+           MOVE 1                  TO WK-ERR-PAGE-CNT.                  02620029
+           MOVE 1                  TO WK-MPA-PAGE-CNT.                  02630029
+           MOVE 1                  TO WK-SET-PAGE-CNT.                  02640029
+           MOVE ZERO               TO WK-PEOPLE-TEMP.                   02650029
+           MOVE ZERO               TO WK-SALARY-TEMP.                   02660029
+           MOVE ZERO               TO WK-PEOPLE-TEMP-END.               02670029
+           MOVE ZERO               TO WK-SALARY-TEMP-END.               02680029
+      *                                                                 02690029
+       PROC-INIT-EXT.                                                   02700029
+           EXIT.                                                        02710029
+      ******************************************************************02720029
+       PROC-ERRF-READ              SECTION.                             02730029
+      *                                                                 02740029
+           READ ERRFILE.                                                02750029
+           IF ERRFILE-FILE-STATUS  NOT = "00" AND "10" THEN             02760029
+              MOVE SPACE           TO WK-ERR                            02770029
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            02780029
+              MOVE ERRFILE-FILE-STATUS                                  02790029
+                                   TO WK-ERR-CD OF WK-ERR               02800029
+              MOVE "FILE ERRFILE READ ERROR"                            02810029
+                                   TO WK-ERR-MSG OF WK-ERR              02820029
+              PERFORM PROC-ERR                                          02830029
+           END-IF.                                                      02840029
+           IF ERRFILE-FILE-STATUS  NOT = "10"          THEN             02850029
+              ADD 1                TO WK-ERRFILE-9                      02860029
+           END-IF.                                                      02870029
+      *                                                                 02880029
+       PROC-ERRF-EXT.                                                   02890029
+           EXIT.                                                        02900029
+      ******************************************************************02910029
+       PROC-MPAF-READ              SECTION.                             02920029
+      *                                                                 02930029
+           READ MPAYFIL.                                                02940029
+           IF MPAYFIL-FILE-STATUS  NOT = "00" AND "10" THEN             02950029
+              MOVE SPACE           TO WK-ERR                            02960029
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            02970029
+              MOVE MPAYFIL-FILE-STATUS                                  02980029
+                                   TO WK-ERR-CD OF WK-ERR               02990029
+              MOVE "FILE MPAYFIL READ ERROR"                            03000029
+                                   TO WK-ERR-MSG OF WK-ERR              03010029
+              PERFORM PROC-ERR                                          03020029
+           END-IF.                                                      03030029
+           IF MPAYFIL-FILE-STATUS  NOT = "10"          THEN             03040029
+              ADD 1                TO WK-MPAYFIL-9                      03050029
+           END-IF.                                                      03060029
+      *                                                                 03070029
+       PROC-MPAF-EXT.                                                   03080029
+           EXIT.                                                        03090029
+      ******************************************************************03100029
+       PROC-SETF-READ              SECTION.                             03110029
+      *                                                                 03120029
+           READ SETLILE.                                                03130029
+           IF SETLILE-FILE-STATUS  NOT = "00" AND "10" THEN             03140029
+              MOVE SPACE           TO WK-ERR                            03150029
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            03160029
+              MOVE SETLILE-FILE-STATUS                                  03170029
+                                   TO WK-ERR-CD OF WK-ERR               03180029
+              MOVE "FILE SETLILE READ ERROR"                            03190029
+                                   TO WK-ERR-MSG OF WK-ERR              03200029
+              PERFORM PROC-ERR                                          03210029
+           END-IF.                                                      03220029
+           IF SETLILE-FILE-STATUS  NOT = "10"          THEN             03230029
+              ADD 1                TO WK-SETLILE-9                      03240029
+           END-IF.                                                      03250029
+      *                                                                 03260029
+       PROC-SETF-EXT.                                                   03270029
+           EXIT.                                                        03280029
+      ******************************************************************03290029
+       PROC-MAIN1                  SECTION.                             03300029
+      *                                                                 03310029
+           IF WK-ERR-LINE-CNT      = 0   THEN                           03320029
+              MOVE WK-DATM-O       TO WK-DATE OF WK-ERRFILEP            03330029
+              MOVE WK-ERR-PAGE-CNT TO WK-PAGE OF WK-ERRFILEP            03340029
+              MOVE WK-LINE1 OF WK-ERRFILEP                              03350029
+                                   TO ERRFILEP-REC                      03360029
+              PERFORM PROC-ERRP-WRITE                                   03370029
+              MOVE WK-LINE2 OF WK-ERRFILEP                              03380029
+                                   TO ERRFILEP-REC                      03390029
+              PERFORM PROC-ERRP-WRITE                                   03400029
+              MOVE WK-LINE3 OF WK-ERRFILEP                              03410029
+                                   TO ERRFILEP-REC                      03420029
+              PERFORM PROC-ERRP-WRITE                                   03430029
+              MOVE WK-LINE4 OF WK-ERRFILEP                              03440029
+                                   TO ERRFILEP-REC                      03450029
+              PERFORM PROC-ERRP-WRITE                                   03460029
+              MOVE WK-LINE5 OF WK-ERRFILEP                              03470029
+                                   TO ERRFILEP-REC                      03480029
+              PERFORM PROC-ERRP-WRITE                                   03490029
+              MOVE WK-LINE6 OF WK-ERRFILEP                              03500029
+                                   TO ERRFILEP-REC                      03510029
+              PERFORM PROC-ERRP-WRITE                                   03520029
+           END-IF.                                                      03530029
+           MOVE SPACE              TO ERRFILEP-REC.                     03540029
+           MOVE ERRFILE-REC        TO WK-LIST-STR OF WK-ERRFILEP.       03550029
+           MOVE WK-LIST     OF WK-ERRFILEP                              03560029
+                                   TO ERRFILEP-REC.                     03570029
+           PERFORM PROC-ERRP-WRITE.                                     03580029
+           PERFORM PROC-ERRF-READ.                                      03590029
+      *                                                                 03600029
+       PROC-MAIN1-EXT.                                                  03610029
+           EXIT.                                                        03620029
+      ******************************************************************03630029
+       PROC-MAIN2                  SECTION.                             03640029
+      *                                                                 03650029
+           IF WK-MPA-LINE-CNT      = 0   THEN                           03660029
+              MOVE WK-DATM-O       TO WK-DATE OF WK-MPAYFILP            03670029
+              MOVE WK-MPA-PAGE-CNT TO WK-PAGE OF WK-MPAYFILP            03680030
+              MOVE WK-LINE1 OF WK-MPAYFILP                              03690029
+                                   TO MPAYFILP-REC                      03700029
+              PERFORM PROC-MPAP-WRITE                                   03710029
+              MOVE WK-LINE2 OF WK-MPAYFILP                              03720029
+                                   TO MPAYFILP-REC                      03730029
+              PERFORM PROC-MPAP-WRITE                                   03740029
+              MOVE WK-LINE3 OF WK-MPAYFILP                              03750029
+                                   TO MPAYFILP-REC                      03760029
+              PERFORM PROC-MPAP-WRITE                                   03770029
+           END-IF.                                                      03780029
+           MOVE WK-EMP-ID          OF MPAYFIL-REC                       03790029
+                              TO WK-LIST1-EMP-ID OF WK-MPAYFILP.        03800029
+           MOVE WK-SALARY-RATE     OF MPAYFIL-REC                       03810029
+                              TO WK-LIST1-RATE   OF WK-MPAYFILP.        03820029
+           MOVE WK-LIST1 OF WK-MPAYFILP                                 03830029
+                                   TO MPAYFILP-REC.                     03840029
+           ADD 1                   TO WK-PEOPLE-TEMP.                   03850029
+           COMPUTE WK-SALARY-TEMP  = WK-SALARY-TEMP  +                  03860029
+                                     WK-SALARY-RATE OF MPAYFIL-REC.     03870029
+           PERFORM PROC-MPAP-WRITE.                                     03880029
+           PERFORM PROC-MPAF-READ.                                      03890029
+           IF WK-MPA-LINE-CNT < 40 AND WK-MPA-LINE-CNT > 0 AND          03900029
+              MPAYFIL-FILE-STATUS  = "10"              THEN             03910029
+              COMPUTE WK-PEOPLE-TEMP-END = WK-PEOPLE-TEMP +             03920029
+                                      WK-PEOPLE-TEMP-END                03930029
+              COMPUTE WK-SALARY-TEMP-END = WK-SALARY-TEMP +             03940029
+                                      WK-SALARY-TEMP-END                03950029
+              MOVE SPACE           TO MPAYFILP-REC                      03960029
+              WRITE MPAYFILP-REC AFTER 0                                03970029
+              IF MPAYFILP-FILE-STATUS NOT = "00"       THEN             03980029
+                 MOVE SPACE           TO WK-ERR                         03990029
+                 MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR         04000029
+                 MOVE MPAYFILP-FILE-STATUS                              04010029
+                                   TO WK-ERR-CD OF WK-ERR               04020029
+                 MOVE "FILE MPAYFILP WRITE ERROR"                       04030029
+                                   TO WK-ERR-MSG OF WK-ERR              04040029
+                 PERFORM PROC-ERR                                       04050029
+              END-IF                                                    04060029
+              MOVE WK-PEOPLE-TEMP  TO WK-PEOPLES OF WK-MPAYFILP         04070029
+              MOVE WK-SALARY-TEMP  TO WK-END-TOTAL OF WK-MPAYFILP       04080029
+              MOVE WK-END1 OF WK-MPAYFILP TO MPAYFILP-REC               04090029
+              WRITE MPAYFILP-REC AFTER 0                                04100029
+              IF MPAYFILP-FILE-STATUS NOT = "00"       THEN             04110029
+                 MOVE SPACE           TO WK-ERR                         04120029
+                 MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR         04130029
+                 MOVE MPAYFILP-FILE-STATUS                              04140029
+                                   TO WK-ERR-CD OF WK-ERR               04150029
+                 MOVE "FILE MPAYFILP WRITE ERROR"                       04160029
+                                   TO WK-ERR-MSG OF WK-ERR              04170029
+                 PERFORM PROC-ERR                                       04180029
+              END-IF                                                    04190029
+           END-IF.                                                      04200029
+           IF MPAYFIL-FILE-STATUS  = "10"        THEN                   04210029
+              MOVE WK-PEOPLE-TEMP-END TO WK-TOTAL-PEOPLE                04220029
+                                      OF WK-MPAYFILP                    04230029
+              MOVE WK-SALARY-TEMP-END TO WK-TOTAL-SALARY                04240029
+                                      OF WK-MPAYFILP                    04250029
+              MOVE WK-END2 OF WK-MPAYFILP TO MPAYFILP-REC               04260029
+              WRITE MPAYFILP-REC AFTER 0                                04270029
+              IF MPAYFILP-FILE-STATUS NOT = "00"       THEN             04280029
+                 MOVE SPACE           TO WK-ERR                         04290029
+                 MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR         04300029
+                 MOVE MPAYFILP-FILE-STATUS                              04310029
+                                   TO WK-ERR-CD OF WK-ERR               04320029
+                 MOVE "FILE MPAYFILP WRITE ERROR"                       04330029
+                                   TO WK-ERR-MSG OF WK-ERR              04340029
+                 PERFORM PROC-ERR                                       04350029
+              END-IF                                                    04360029
+           END-IF.                                                      04370029
+      *                                                                 04380029
+       PROC-MAIN2-EXT.                                                  04390029
+           EXIT.                                                        04400029
+      ******************************************************************04410029
+       PROC-MAIN3                  SECTION.                             04420029
+      *                                                                 04430029
+           IF WK-SET-LINE-CNT      = 0   THEN                           04440029
+              MOVE WK-DATM-O       TO WK-DATE OF WK-SETLILEP            04450029
+              MOVE WK-SET-PAGE-CNT TO WK-PAGE OF WK-SETLILEP            04460030
+              MOVE WK-LINE1 OF WK-SETLILEP                              04470029
+                                   TO SETLILEP-REC                      04480029
+              PERFORM PROC-SETP-WRITE                                   04490029
+              MOVE WK-LINE2 OF WK-SETLILEP                              04500029
+                                   TO SETLILEP-REC                      04510029
+              PERFORM PROC-SETP-WRITE                                   04520029
+              MOVE WK-LINE3 OF WK-SETLILEP                              04530029
+                                   TO SETLILEP-REC                      04540029
+              PERFORM PROC-SETP-WRITE                                   04550029
+           END-IF.                                                      04560029
+           MOVE SPACE              TO SETLILEP-REC.                     04570029
+           MOVE WK-EMP-ID        OF SETLILE-REC  TO                     04580029
+                WK-LIST1-EMP-ID  OF WK-SETLILEP.                        04590029
+           MOVE WK-EMP-NAME      OF SETLILE-REC  TO                     04600029
+                WK-LIST1-NAME    OF WK-SETLILEP.                        04610029
+           MOVE WK-EMP-ADDRESS   OF SETLILE-REC  TO                     04620029
+                WK-LIST1-ADDRESS OF WK-SETLILEP.                        04630029
+           MOVE WK-TEL-NO        OF SETLILE-REC  TO                     04640029
+                WK-LIST1-TEL-NO  OF WK-SETLILEP.                        04650029
+           MOVE WK-LIST1    OF WK-SETLILEP                              04660029
+                                   TO SETLILEP-REC.                     04670029
+           PERFORM PROC-SETP-WRITE.                                     04680029
+           MOVE SPACE              TO SETLILEP-REC.                     04690029
+           MOVE WK-SALARY-RATE   OF SETLILE-REC  TO                     04700029
+                WK-LIST2-RATE    OF WK-SETLILEP.                        04710029
+           MOVE WK-LIST2    OF WK-SETLILEP                              04720029
+                                   TO SETLILEP-REC.                     04730029
+           PERFORM PROC-SETP-WRITE.                                     04740029
+           PERFORM PROC-SETF-READ.                                      04750029
+      *                                                                 04760029
+       PROC-MAIN3-EXT.                                                  04770029
+           EXIT.                                                        04780029
+      ******************************************************************04790029
+       PROC-ERRP-WRITE             SECTION.                             04800029
+      *                                                                 04810029
+           WRITE ERRFILEP-REC AFTER 0.                                  04820029
+           IF ERRFILEP-FILE-STATUS NOT = "00"          THEN             04830029
+              MOVE SPACE           TO WK-ERR                            04840029
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            04850029
+              MOVE ERRFILEP-FILE-STATUS                                 04860029
+                                   TO WK-ERR-CD OF WK-ERR               04870029
+              MOVE "FILE ERRFILEP WRITE ERROR"                          04880029
+                                   TO WK-ERR-MSG OF WK-ERR              04890029
+              PERFORM PROC-ERR                                          04900029
+           END-IF.                                                      04910029
+           ADD 1                   TO WK-ERR-LINE-CNT.                  04920029
+           IF WK-ERR-LINE-CNT > 42                                      04930029
+              MOVE SPACE           TO ERRFILEP-REC                      04940029
+              WRITE ERRFILEP-REC AFTER PAGE                             04950029
+              IF ERRFILEP-FILE-STATUS NOT = "00"       THEN             04960029
+                 MOVE SPACE           TO WK-ERR                         04970029
+                 MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR         04980029
+                 MOVE ERRFILEP-FILE-STATUS                              04990029
+                                   TO WK-ERR-CD OF WK-ERR               05000029
+                 MOVE "FILE ERRFILEP WRITE ERROR"                       05010029
+                                   TO WK-ERR-MSG OF WK-ERR              05020029
+                 PERFORM PROC-ERR                                       05030029
+              END-IF                                                    05040029
+              MOVE ZERO            TO WK-ERR-LINE-CNT                   05050029
+              ADD 1                TO WK-ERR-PAGE-CNT                   05060029
+           END-IF.                                                      05070029
+      *                                                                 05080029
+       PROC-ERRP-EXT.                                                   05090029
+           EXIT.                                                        05100029
+      ******************************************************************05110029
+       PROC-MPAP-WRITE             SECTION.                             05120029
+      *                                                                 05130029
+           WRITE MPAYFILP-REC AFTER 0.                                  05140029
+           IF MPAYFILP-FILE-STATUS NOT = "00"          THEN             05150029
+              MOVE SPACE           TO WK-ERR                            05160029
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            05170029
+              MOVE MPAYFILP-FILE-STATUS                                 05180029
+                                   TO WK-ERR-CD OF WK-ERR               05190029
+              MOVE "FILE MPAYFILP WRITE ERROR"                          05200029
+                                   TO WK-ERR-MSG OF WK-ERR              05210029
+              PERFORM PROC-ERR                                          05220029
+           END-IF.                                                      05230029
+           ADD 1                   TO WK-MPA-LINE-CNT.                  05240029
+           IF WK-MPA-LINE-CNT > 40                                      05250029
+              MOVE SPACE           TO MPAYFILP-REC                      05260029
+              WRITE MPAYFILP-REC AFTER 0                                05270029
+              IF MPAYFILP-FILE-STATUS NOT = "00"       THEN             05280029
+                 MOVE SPACE           TO WK-ERR                         05290029
+                 MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR         05300029
+                 MOVE MPAYFILP-FILE-STATUS                              05310029
+                                   TO WK-ERR-CD OF WK-ERR               05320029
+                 MOVE "FILE MPAYFILP WRITE ERROR"                       05330029
+                                   TO WK-ERR-MSG OF WK-ERR              05340029
+                 PERFORM PROC-ERR                                       05350029
+              END-IF                                                    05360029
+              COMPUTE WK-PEOPLE-TEMP-END = WK-PEOPLE-TEMP +             05370029
+                                      WK-PEOPLE-TEMP-END                05380029
+              COMPUTE WK-SALARY-TEMP-END = WK-SALARY-TEMP +             05390029
+                                      WK-SALARY-TEMP-END                05400029
+              MOVE WK-PEOPLE-TEMP  TO WK-PEOPLES OF WK-MPAYFILP         05410029
+              MOVE ZERO            TO WK-PEOPLE-TEMP                    05420029
+              MOVE WK-SALARY-TEMP  TO WK-END-TOTAL OF WK-MPAYFILP       05430029
+              MOVE ZERO            TO WK-SALARY-TEMP                    05440029
+              MOVE WK-END1 OF WK-MPAYFILP TO MPAYFILP-REC               05450029
+              WRITE MPAYFILP-REC AFTER 0                                05460029
+              IF MPAYFILP-FILE-STATUS NOT = "00"       THEN             05470029
+                 MOVE SPACE           TO WK-ERR                         05480029
+                 MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR         05490029
+                 MOVE MPAYFILP-FILE-STATUS                              05500029
+                                   TO WK-ERR-CD OF WK-ERR               05510029
+                 MOVE "FILE MPAYFILP WRITE ERROR"                       05520029
+                                   TO WK-ERR-MSG OF WK-ERR              05530029
+                 PERFORM PROC-ERR                                       05540029
+              END-IF                                                    05550029
+              MOVE ZERO            TO WK-MPA-LINE-CNT                   05560029
+              ADD 1                TO WK-MPA-PAGE-CNT                   05570029
+           END-IF.                                                      05580029
+      *                                                                 05590029
+       PROC-MPAP-EXT.                                                   05600029
+           EXIT.                                                        05610029
+      ******************************************************************05620029
+       PROC-SETP-WRITE             SECTION.                             05630029
+      *                                                                 05640029
+           WRITE SETLILEP-REC AFTER 0.                                  05650029
+           IF SETLILEP-FILE-STATUS NOT = "00"          THEN             05660029
+              MOVE SPACE           TO WK-ERR                            05670029
+              MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR            05680029
+              MOVE SETLILEP-FILE-STATUS                                 05690029
+                                   TO WK-ERR-CD OF WK-ERR               05700029
+              MOVE "FILE SETLILEP WRITE ERROR"                          05710029
+                                   TO WK-ERR-MSG OF WK-ERR              05720029
+              PERFORM PROC-ERR                                          05730029
+           END-IF.                                                      05740029
+           ADD 1                   TO WK-SET-LINE-CNT.                  05750029
+           IF WK-SET-LINE-CNT > 42                                      05760029
+              MOVE SPACE           TO SETLILEP-REC                      05770029
+              WRITE SETLILEP-REC AFTER PAGE                             05780029
+              IF SETLILEP-FILE-STATUS NOT = "00"       THEN             05790029
+                 MOVE SPACE           TO WK-ERR                         05800029
+                 MOVE WK-PROGRAM-ID   TO WK-ERR-PGMID OF WK-ERR         05810029
+                 MOVE SETLILEP-FILE-STATUS                              05820029
+                                   TO WK-ERR-CD OF WK-ERR               05830029
+                 MOVE "FILE SETLILEP WRITE ERROR"                       05840029
+                                   TO WK-ERR-MSG OF WK-ERR              05850029
+                 PERFORM PROC-ERR                                       05860029
+              END-IF                                                    05870029
+              MOVE ZERO            TO WK-SET-LINE-CNT                   05880029
+              ADD 1                TO WK-SET-PAGE-CNT                   05890029
+           END-IF.                                                      05900029
+      *                                                                 05910029
+       PROC-SETP-EXT.                                                   05920029
+           EXIT.                                                        05930029
+      ******************************************************************05940029
+       PROC-END                    SECTION.                             05950029
+      *                                                                 05960029
+           MOVE WK-ERRFILE-9      TO WK-ERRFILE-CNT.                    05970029
+           MOVE WK-MPAYFIL-9      TO WK-MPAYFIL-CNT.                    05980029
+           MOVE WK-SETLILE-9      TO WK-SETLILE-CNT.                    05990029
+           DISPLAY WK-ERRFILE-I.                                        06000029
+           DISPLAY WK-MPAYFIL-I.                                        06010029
+           DISPLAY WK-SETLILE-I.                                        06020029
+           CLOSE   ERRFILE  MPAYFIL  SETLILE                            06030029
+                   ERRFILEP MPAYFILP SETLILEP.                          06040029
+      *                                                                 06050029
+       PROC-END-EXT.                                                    06060029
+           EXIT.                                                        06070029
+      ******************************************************************06080029
+       PROC-ERR                    SECTION.                             06090029
+      *                                                                 06100029
+           MOVE WK-ERRFILE-9      TO WK-ERRFILE-CNT.                    06110029
+           MOVE WK-MPAYFIL-9      TO WK-MPAYFIL-CNT.                    06120029
+           MOVE WK-SETLILE-9      TO WK-SETLILE-CNT.                    06130029
+           DISPLAY WK-ERRFILE-I.                                        06140029
+           DISPLAY WK-MPAYFIL-I.                                        06150029
+           DISPLAY WK-SETLILE-I.                                        06160029
+           DISPLAY WK-ERR.                                              06170029
+           CLOSE   ERRFILE  MPAYFIL  SETLILE                            06180029
+                   ERRFILEP MPAYFILP SETLILEP.                          06190029
+           STOP RUN.                                                    06200029
+      *                                                                 06210029
+       PROC-ERR-EXT.                                                    06220029
+           EXIT.                                                        06230029
+

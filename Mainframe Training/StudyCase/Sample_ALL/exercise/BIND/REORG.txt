@@ -1,0 +1,50 @@
+//EV603UT2  JOB (F9500B,IG80X,32,                                       00010016
+//      'TM=03,TY=6,TD=15,TN=15'),CFTS,                                 00020009
+//       NOTIFY=EV603U,REGION=4M,                                       00030016
+//       CLASS=M,MSGCLASS=R                                             00040016
+//*                                                                     00080000
+//* ----------------------------------------------------------------- * 00640000
+//*    RESET UTILITY STATUS                                           * 00650000
+//* ----------------------------------------------------------------- * 00660000
+//RESETUTL EXEC  PGM=IKJEFT01,DYNAMNBR=20                               00670000
+//STEPLIB  DD  DSN=DSN.DSNLOAD,DISP=SHR                                 00680000
+//SYSTSPRT DD  SYSOUT=*                                                 00690000
+//SYSPRINT DD  SYSOUT=*                                                 00700000
+//SYSUDUMP DD  SYSOUT=*                                                 00710000
+//OUTPUT   DD  SYSOUT=*,DCB=(RECFM=FBA,LRECL=133,BLKSIZE=665)           00720000
+//SYSTSIN  DD  *                                                        00730013
+  DSN SYSTEM(DSN)                                                       00731012
+  -TERM UTIL(IG80.REORG)                                                00732012
+/*                                                                      00740011
+//* -----------------------------------------------------------------   00830000
+//REORGNO1 EXEC DSNUPROC,                                               00840000
+//         SYSTEM=DSN,UID='IG80.REORG',UTPROC='',REGION=6M              00850012
+//SYSREC   DD UNIT=3390,SPACE=(CYL,(500,200),RLSE),VOL=SER=EBI015       00860015
+//SYSUT1   DD UNIT=3390,SPACE=(CYL,(500,200),RLSE),VOL=SER=EBI015       00870015
+//SORTOUT  DD UNIT=3390,SPACE=(CYL,(500,200),RLSE),VOL=SER=EBI015       00880015
+//SYSIN    DD *                                                         00890012
+ REORG TABLESPACE IG80D001.LABORPTS LOG NO SORTDEVT SYSDA               00900012
+/*                                                                      00910012
+//* ----------------------------------------------------------------- * 00920016
+//*    RESET UTILITY STATUS                                           * 00930016
+//* ----------------------------------------------------------------- * 00940016
+//RESETUTL EXEC  PGM=IKJEFT01,DYNAMNBR=20                               00950016
+//STEPLIB  DD  DSN=DSN.DSNLOAD,DISP=SHR                                 00960016
+//SYSTSPRT DD  SYSOUT=*                                                 00970016
+//SYSPRINT DD  SYSOUT=*                                                 00980016
+//SYSUDUMP DD  SYSOUT=*                                                 00990016
+//OUTPUT   DD  SYSOUT=*,DCB=(RECFM=FBA,LRECL=133,BLKSIZE=665)           01000016
+//SYSTSIN  DD  *                                                        01010016
+  DSN SYSTEM(DSN)                                                       01020016
+  -TERM UTIL(IG80.REPAIR)                                               01030016
+/*                                                                      01040016
+//* ----------------------------------------------------------------- * 02560000
+//*             REPAIR COPY PENDING                                     02570012
+//* ----------------------------------------------------------------- * 02580000
+//REPAIR EXEC DSNUPROC,SYSTEM=DSN,UID='IG80.REPAIR'                     02590014
+//SYSIN    DD  *                                                        02600012
+ REPAIR SET TABLESPACE IG80D001.LABORPTS  NOCOPYPEND                    02601012
+/*                                                                      02602012
+//*-----------------------------------------------------------------    02610000
+//ABEND EXEC ABTRAP,RETCD=8                                             02620000
+

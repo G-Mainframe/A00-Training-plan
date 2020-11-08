@@ -1,0 +1,54 @@
+       IDENTIFICATION      DIVISION.
+       PROGRAM-ID.         EXAM63.
+       ENVIRONMENT         DIVISION.
+       INPUT-OUTPUT        SECTION.
+       FILE-CONTROL.
+           SELECT  INPUT-FILE   ASSIGN  TO FILE1.
+           SELECT  OUTPUT-FILE  ASSIGN  TO PFILE.
+       DATA                DIVISION.
+       FILE                SECTION.
+       FD  INPUT-FILE  LABEL RECORD IS STANDARD.
+       01 IN-REC.
+          02 DATEE         PIC  9(6).
+          02 PRODUCT-CODE  PIC  9(6).
+          02 CUSTOMER-CODE PIC  9(4).
+          02 QUANTITY      PIC  9(4).
+          02 UNIT-PRICE    PIC  9(4).
+       FD  OUTPUT-FILE LABEL RECORD IS STANDARD.
+       01 OUT-REC.
+          02  FILLER         PIC  X.
+          02  DATEE          PIC  99B99B99.
+          02  FILLER         PIC  X(5).
+          02  PRODUCT-CODE   PIC  9(6).
+          02  FILLER         PIC  X(5).
+          02  CUSTOMER-CODE  PIC  9(4).
+          02  FILLER         PIC  X(5).
+          02  QUANTITY       PIC  ZZZ9.
+          02  FILLER         PIC  X(5).
+          02  UNIT-PRICE     PIC  $(5).
+          02  FILLER         PIC  X(5).
+          02  SALES-VALUE    PIC  $(8).
+       PROCEDURE              DIVISION.
+       MAIN.
+           PERFORM    PREPARATION.
+           PERFORM    RECORD-PROCESSING
+                      UNTIL CUSTOMER-CODE OF IN-REC = 9999.
+           PERFORM    WINDING-UP.
+           STOP RUN.
+       PREPARATION.
+           OPEN INPUT  INPUT-FILE
+                OUTPUT OUTPUT-FILE.
+           READ  INPUT-FILE
+                 AT END DISPLAY 'NOTHING READ'
+                    MOVE  9999  TO CUSTOMER-CODE OF IN-REC.
+       RECORD-PROCESSING.
+           MOVE  SPACES  TO OUT-REC.
+           MOVE  CORR  IN-REC  TO OUT-REC.
+           COMPUTE   SALES-VALUE =
+                  QUANTITY OF IN-REC * UNIT-PRICE OF IN-REC.
+           WRITE OUT-REC AFTER 1.
+           READ INPUT-FILE
+                  AT END MOVE 9999 TO CUSTOMER-CODE OF IN-REC.
+       WINDING-UP.
+           CLOSE INPUT-FILE, OUTPUT-FILE.
+

@@ -1,0 +1,466 @@
+<html>
+
+<head>
+<title>2.1.2 帳票形式</title>
+</head>
+
+<body BGCOLOR="#FFFFFF">
+
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">
+  <tr>
+    <td ALIGN="LEFT"><strong>帳票印刷コントロール使用手引書</strong>  
+    </td> 
+  </tr> 
+  <tr> 
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a HREF="pctl0230.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a HREF="pctl0250.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>            
+  </tr>            
+</table>            
+            
+<hr>            
+            
+<dl>            
+  <dl>            
+    <dt><a HREF="pctl0210.htm"><img SRC="../pctlosrc/up.gif" BORDER="0" ALT="上へ" WIDTH="16" HEIGHT="15">第2章             
+      帳票定義体を作成する</a> </dt>            
+    <dl>            
+      <dt><a HREF="pctl0220.htm"><img SRC="../pctlosrc/up.gif" BORDER="0" ALT="上へ" WIDTH="16" HEIGHT="15">2.1             
+        帳票定義体を編集する</a> </dt>            
+    </dl>            
+  </dl>            
+</dl>            
+            
+<hr>            
+            
+<h3>2.1.2 帳票形式</h3>            
+            
+<p>PowerFORMでは、以下の形式の帳票を作成することができます。             
+            
+<ul>            
+  <li>ページ形式　：<br>           
+    台帳などを印刷するのに適した形式です。１つの固定区画から構成されています。<br>    
+  </li>           
+  <li>段組み伝票形式　：<br>
+    矩形の繰返し部分が含まれる帳票を印刷するのに適した形式です。3つの区画から構成されています。<br>
+  </li>
+  <li>タックシール形式　：<br>
+    タックシール専用のプレプリント用紙に印刷するのに適した形式です。矩形の繰返し部分だけで構成されています。<br>
+  </li>
+  <li>集計表形式　：<br>
+    一覧表などを印刷するのに適した形式です。複数の区画から構成されています。<br>
+  </li>
+  <li>段組み集計表形式　：<br>
+    段組み形式の一覧表などを印刷するのに適した形式です。複数の区画から構成されています。<br>
+    集計表形式の帳票定義体で、帳票定義体のプロパティの段組みタブで｢段組みを行う｣を指定することで、作成することができます。</li>
+</ul>
+
+<h3><a NAME="aIDH_U00_08_09_01_00_00_001_1"><br>
+■ページ形式の</a>帳票定義体</h3>
+
+<p>ページ形式の帳票定義体では、帳票定義体上に項目を自由に配置することができます。</p>
+
+<p>ページ形式の帳票定義体の例を、下図に示します。</p>
+
+<h4>[ページ形式の帳票定義体の例]</h4>
+
+<table BORDER="1" WIDTH="74%">
+  <tr>
+    <td>会員データ<br>
+    <br>
+    会員番号： 0001234<br>            
+    <br>            
+    名前 ： 富士通 太郎<br>            
+    <br>            
+    郵便番号： ０００－００<br>            
+    <br>            
+    住所 ： 東京都・・・・・・・・・・・<br>            
+    <br>            
+    電話番号： ０３－・・・・－・・・・</td>            
+  </tr>            
+</table>            
+            
+<h3><a NAME="aIDH_U00_08_09_01_00_00_002_1"><br>     
+■段組み伝票形式の</a>帳票定義体</h3>           
+           
+<p>段組み伝票形式の帳票定義体の例を、下図に示します。</p>           
+           
+<h4>[段組み伝票形式の帳票定義体の例]</h4>           
+           
+<p><img SRC="../pctlosrc/im1usrj2.gif" ALT="image" WIDTH="646" HEIGHT="343"></p>           
+           
+<p>段組み伝票形式の帳票定義体は、以下の部分から構成されます。            
+           
+<ul>           
+  <li>ヘッド<a NAME="HELTUDOBU">部</a> </li>           
+  <li>ボディ<a NAME="BODELIBU">部</a> </li>           
+  <li>テイル<a NAME="TEIRUBU">部</a></li>           
+</ul>           
+           
+<h4>◆段組み伝票形式の帳票定義体の指定内<a NAME="DENNPILYOUKEISHIKINOCHILYOUHILYOUFULO_815bMUNOSHITEINAIYOU">容</a></h4>           
+           
+<p>以下に、段組み伝票形式の帳票定義体で指定する内容を示します。            
+           
+<ul>           
+  <li>ボディ部の開始位置： ボディの先頭の位置 </li>           
+  <li>ボディ部の縦幅：            
+    ボディ部全体の縦幅ではなく、１つのボディの縦幅 </li>           
+  <li>ボディの繰り返し数： ボディの個数</li>           
+</ul>           
+           
+<p><img SRC="../pctlosrc/boxchuui.gif" ALT="image" WIDTH="47" HEIGHT="31"></p>           
+           
+<blockquote>           
+  <p>ボディ部を2つ指定することはできません。</p>           
+</blockquote>           
+           
+<p><img SRC="../pctlosrc/boxchuui.gif" ALT="image" WIDTH="47" HEIGHT="31"> <b>罫<a NAME="KEISENN">線</a>と網が<a NAME="AMIKAKE">け</a>の注意事項</b></p>           
+           
+<blockquote>           
+  <p>ボディ部に定義されている罫線と網がけは、ボディ部にデータを出力しない場合、出力が抑止されます。データ未出力時でも罫線と網がけを出力したい場合は、オーバレイ定義体に定義する必要があります。</p>          
+</blockquote>          
+          
+<h3><a NAME="aIDH_U00_08_09_01_00_00_001_1"><br>     
+■タックシール形式の</a>帳票定義体</h3>          
+          
+<p>タックシール形式の帳票定義体の例を、下図に示します。</p>          
+          
+<h4>[タックシール形式の帳票定義体の例]</h4>          
+          
+<p><img SRC="../pctlosrc/im1usrv7.gif" ALT="image" width="365" height="171"></p>          
+          
+<h3><a NAME="aIDH_U00_08_09_01_00_00_003_1"><br>     
+■集計表形式、および、段組み集計表形式の</a>帳票定義体</h3>    
+    
+<p>集計表形式の帳票定義体の例を、下図に示します。</p>    
+    
+<h4>[集計表形式の帳票定義体の例]</h4>    
+    
+<table BORDER="1" WIDTH="74%">    
+  <tr>    
+    <td><pre>**  1998年05月**********************************
+
+**  得意先コード: 001021  **********************
+**  得意先名    :  (株) ○○○○○商会  ********
+伝票番号  売上日        売上金額
+00001001  1998-05-05      10,000
+00001005  1998-05-12      18,000
+00001021  1998-05-19      23,000
+************  05月合計    51,000  **************
+
+**  得意先コード: 001032  **********************
+**  得意先名    :  (株) ○○○○○商事  ********
+伝票番号  売上日        売上金額
+00001002  1998-05-06      24,000
+00001003  1998-05-09      13,000
+00001029  1998-05-26      32,000
+00001033  1998-05-30      10,000
+************  05月合計    79,000  **************
+
+      ～
+**  1998年05月合計  321,000  *******************
+
+**  1998年06月**********************************
+
+**  得意先コード: 001021  **********************
+**  得意先名    :  (株) ○○○○○商会  ********
+伝票番号  売上日        売上金額
+00001213  1998-06-01      24,000
+00001229  1998-06-14      13,000
+00001231  1998-06-15      17,000
+************  06月合計    54,000  **************
+</pre>    
+    </td>    
+  </tr>    
+</table>    
+    
+<p><br>    
+段組み集計表形式の帳票定義体の例を、下図に示します。</p>    
+    
+<h4>[段組み集計表形式の帳票定義体の例]</h4>    
+    
+<table BORDER="1" WIDTH="710">    
+  <tr>    
+    <td width="700"><pre>**  1998年05月**********************************  **  1998年06月**********************************
+
+**  得意先コード: 001021  **********************  **  得意先コード: 001032  **********************
+**  得意先名    :  (株) ○○○○○商会  ********   **  得意先名    :  (株) ○○○○○商事  ********
+伝票番号  売上日        売上金額                   伝票番号  売上日        売上金額
+00001001  1998-05-05      10,000                  00001201  1998-06-01     10,000
+00001005  1998-05-12      18,000                  ************  06月合計    10,000  **************
+00001021  1998-05-19      23,000                        ～
+************  05月合計    51,000  **************  **  1998年06月合計  221,000  *******************
+
+**  得意先コード: 001032  **********************
+**  得意先名    :  (株) ○○○○○商事  ********
+伝票番号  売上日        売上金額
+00001002  1998-05-06      24,000
+00001003  1998-05-09      13,000
+00001029  1998-05-26      32,000
+00001033  1998-05-30      10,000
+************  05月合計    79,000  **************
+
+      ～
+**  1998年05月合計  321,000  *******************
+
+**  1998年06月**********************************
+
+**  得意先コード: 001021  **********************
+**  得意先名    :  (株) ○○○○○商会  ********
+伝票番号  売上日        売上金額
+00001213  1998-06-01      24,000
+00001229  1998-06-14      13,000
+00001231  1998-06-15      17,000
+************  06月合計    54,000  **************
+</pre>    
+    </td>    
+  </tr>    
+</table>    
+    
+<p>集計表形式、および、段組み集計表形式の帳票定義体は、以下のパーティションから構成されます。     
+    
+<ul>    
+  <li>明細 <ul>    
+      <li><a HREF="pctl0240.htm#aIDH_U00_08_09_01_00_00_004_1">明細の定義</a></li>    
+    </ul>    
+  </li>    
+  <li>制御頭書き <ul>    
+      <li><a HREF="pctl0240.htm#aIDH_U00_08_09_01_00_00_005_1">制御頭書きと制御脚書きの定義</a></li>    
+    </ul>    
+  </li>    
+  <li>制御脚書き <ul>    
+      <li><a HREF="pctl0240.htm#aIDH_U00_08_09_01_00_00_005_1">制御頭書きと制御脚書きの定義</a>     
+      </li>    
+    </ul>    
+  </li>    
+  <li>ページ頭書き </li>    
+  <li>ページ脚書き </li>    
+  <li>報告書頭書き</li>    
+  <li>報告書脚書き </li>    
+</ul>    
+    
+<p>集計表形式、および、段組み集計表形式の帳票定義体の印刷では、これらのパーティションが組み合わせることができます。</p>    
+    
+<p>明細、制御頭書き、制御脚書きのパーティションは、１つの帳票定義体に複数作成することができます。他のパーティションは、１つの帳票定義体に１個だけ作成することができます。</p>    
+    
+<h4><a NAME="aIDH_U00_08_09_01_00_00_003_2">◆集計表形式、および、段組み集計表形式の帳票定義体の指</a><a NAME="SHILYUUKEIHILYOUKEISHIKIDENOSHITEI">定</a>内容</h4>    
+    
+<p>下表に、集計表形式、および、段組み集計表形式の帳票定義体で指定できる内容を示します。これらの指定に従って、各パーティションが印刷されます。</p>    
+    
+<h4>[集計表形式、および、段組み集計表形式の帳票定義体で指定する内容]</h4>    
+    
+<table BORDER="1">    
+  <tr>    
+    <td rowspan="2" width="200"><pre><b>指定する内容</b></pre>    
+    </td>    
+    <td colspan="6" width="268"><pre><b>パーティションの種類</b></pre>    
+    </td>    
+  </tr>    
+  <tr>    
+    <td width="44"><pre><b>明細</b></pre>    
+    </td>    
+    <td width="44"><pre><b>報告書
+頭書き</b></pre>    
+    </td>    
+    <td width="42"><pre><b>報告書
+脚書き</b></pre>    
+    </td>    
+    <td width="42"><pre><b>ページ
+頭書き</b></pre>    
+    </td>    
+    <td width="42"><pre><b>ページ
+脚書き</b></pre>    
+    </td>    
+    <td width="42"><pre><b>制御
+頭書き</b></pre>    
+    </td>    
+    <td width="55"><pre><b>制御
+脚書き</b></pre>    
+    </td>    
+  </tr>    
+  <tr>    
+    <td width="200">開始位置</td>    
+    <td width="44" align="center">○</td>    
+    <td width="44" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="55" align="center">－</td>    
+  </tr>    
+  <tr>    
+    <td width="200">終了位置</td>    
+    <td width="44" align="center">○</td>    
+    <td width="44" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="55" align="center">○</td>    
+  </tr>    
+  <tr>    
+    <td width="200">縦幅</td>    
+    <td width="44" align="center">○</td>    
+    <td width="44" align="center">○</td>    
+    <td width="42" align="center">○</td>    
+    <td width="42" align="center">○</td>    
+    <td width="42" align="center">○</td>    
+    <td width="42" align="center">○</td>    
+    <td width="55" align="center">○</td>    
+  </tr>    
+  <tr>    
+    <td width="200">印刷前の改行数</td>    
+    <td width="44" align="center">○</td>    
+    <td width="44" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">○</td>    
+    <td width="55" align="center">△※１</td>    
+  </tr>    
+  <tr>    
+    <td width="200">印刷前の改ページ</td>    
+    <td width="44" align="center">－</td>    
+    <td width="44" align="center">－</td>    
+    <td width="42" align="center">○</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="55" align="center">－</td>    
+  </tr>    
+  <tr>    
+    <td width="200">印刷の開始位置</td>    
+    <td width="44" align="center">－</td>    
+    <td width="44" align="center">－</td>    
+    <td width="42" align="center">○</td>    
+    <td width="42" align="center">○</td>    
+    <td width="42" align="center">○</td>    
+    <td width="42" align="center">－</td>    
+    <td width="55" align="center">△※２</td>    
+  </tr>    
+  <tr>    
+    <td width="200">印刷後の改行数</td>    
+    <td width="44" align="center">－</td>    
+    <td width="44" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">○</td>    
+    <td width="55" align="center">○</td>    
+  </tr>    
+  <tr>    
+    <td width="200">印刷後に改ページ</td>    
+    <td width="44" align="center">－</td>    
+    <td width="44" align="center">○</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="55" align="center">○</td>    
+  </tr>    
+  <tr>    
+    <td width="200">改ページ/改ブロック時出力</td>    
+    <td width="44" align="center">－</td>    
+    <td width="44" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">○</td>    
+    <td width="55" align="center">－</td>    
+  </tr>    
+  <tr>    
+    <td width="200">対応するブレーク項目</td>    
+    <td width="44" align="center">－</td>    
+    <td width="44" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">－</td>    
+    <td width="42" align="center">○</td>    
+    <td width="55" align="center">○</td>    
+  </tr>    
+</table>    
+    
+<pre>○：  指定できます。
+－：  指定できません。
+△：  指定できる場合と指定できない場合があります。詳細は以下のとおりです。
+　　　※１：制御脚書きの形式が浮動の時に指定できます。制御脚書きの形式が固定の時は指定できません。
+　　　※２：制御脚書きの形式が浮動の時は指定できません。制御脚書きの形式が固定の時に指定できます。</pre>    
+    
+<p>明細開始位<a NAME="MEISAIKAISHIGILYOUICHI">置</a>、明細最終位<a NAME="MEISAISAISHILYUUGILYOUICHI">置</a>、制御頭書き最終位<a NAME="SEIGILYOATAMAGAKISAISHILYUUGILYOUICHI">置</a>、および、制御脚書き最終位<a NAME="SEIGILYOASHIGAKISAISHILYUUGILYOUICHI">置</a>は、以下の範囲内で指定する必要があります。</p>    
+    
+<table BORDER="1" WIDTH="74%">    
+  <tr>    
+    <td><pre>
+１  ≦  明細開始位置  ≦  制御頭書き最終位置
+                        ≦  明細最終位置  ≦  制御脚書き最終行位置
+                                            ≦  帳票定義体縦サイズ
+                                                                 
+　</pre>    
+    </td>    
+  </tr>    
+</table>    
+    
+<p>また、各パーティションの縦幅は、以下の範囲内で指定する必要があります。</p>    
+    
+<table BORDER="1" WIDTH="74%">    
+  <tr>    
+    <td><pre>
+
+明細開始位置  ＋  各明細の縦幅  ≦  明細最終位置
+明細開始位置  ＋  各制御頭書きの縦幅  －  １  ≦  制御頭書き最終位置
+明細開始位置  ＋  各制御脚書きの縦幅  －  １  ≦  制御頭書き最終位置
+
+明細開始位置  ≦  制御脚書き印刷位置
+                ≦  制御脚書き印刷位置  ＋  制御脚書きの縦幅
+                ≦  制御脚書き最終位置
+</pre>    
+    <p>　</td>    
+  </tr>    
+</table>    
+    
+<h4>○<a NAME="aIDH_U00_08_09_01_00_00_004_1">明細の定</a><a NAME="MEISAINOTEIGI">義</a></h4>    
+    
+<p>明<a NAME="MEISAI">細</a>は、１つの集計表形式の帳票定義体に、99個まで定義することができます。明細には、明細名を定義します。明細名は、30文字以内の日本語名、または、英語名です。</p>    
+    
+<p>複数の明細を定義した場合、どの明細を使って印刷するかを、「明細名（DEName）」プロパティを使って、レコード読込イベントなどの処理で記述する必要があります。「明細名（DEName）」プロパティには、使用する明細名を指定します。</p>    
+    
+<h4>○<a NAME="aIDH_U00_08_09_01_00_00_005_1">制御頭書</a><a NAME="SEIGILYOATAMAGAKI">き</a><a NAME="___I_RE_KO_86">と制御脚書</a><a NAME="SEIGILYOASHIGAKI">き</a><a NAME="___I_RE_KO_87">の定義</a></h4>    
+    
+<p>制御頭書き、および、制御脚書きは、１つの集計表形式の帳票定義体に、それぞれ16個まで定義することができます。</p>    
+    
+<p>集計表形式の帳票定義体を印刷する時、レコード読込みで値が変わった時に対応する制御頭書き（CBHead)イベント、制御脚書き(CBFoot)イベントを発生させる項目を、<b>ブレーク項目</b>といいます。</p>    
+    
+<h4>[ブレーク項目の指定]</h4>    
+    
+<p>ブレーク項目を定義するには、ブレーク属性を設定したい項目のブレーク情報の設定画面で、関連付ける制御頭書き、および、制御脚書きを指定する必要があります。</p>    
+    
+<h4>[ブレークの順<a NAME="BURE_815bKUNOJILYUNNJILYO">序</a>]</h4>    
+    
+<p>複数の制御頭書き、または、制御脚書きがある場合、制御頭書きの順序、制御脚書きの順序を指定する必要があります。</p>    
+    
+<p>高いレベルのブレークが発生すると、それより低いレベルのブレークも発生します。</p>    
+    
+<h4><br>    
+◆段組み集計表形式の帳票定義体の指定内<a NAME="DENNPILYOUKEISHIKINOCHILYOUHILYOUFULO_815bMUNOSHITEINAIYOU">容</a></h4>          
+          
+<p>以下に、段組み集計表形式の帳票定義体で指定する内容を示します。段組み集計表形式の帳票定義体で指定する内容は、集計表形式の帳票定義体で、帳票定義体のプロパティの段組みタブで｢段組みを行う｣を指定した場合に指定することができます。           
+          
+<ul>          
+  <li>段数： 段の個数</li>          
+  <li>段の開始位置： 印刷する段の開始位置 </li>          
+  <li>段の幅：     
+    １つの段の横幅。すべての段の幅を同じにすることもできる </li>          
+</ul>          
+          
+<hr>          
+          
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">          
+  <tr>          
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a HREF="pctl0230.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a HREF="pctl0250.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>          
+  </tr>          
+</table>          
+          
+<hr>          
+          
+<p align="right">All Rights Reserved, Copyright (C) 富士通株式会社 
+1998-2001</p>          
+</body>          
+</html>          

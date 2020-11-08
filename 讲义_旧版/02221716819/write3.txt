@@ -1,0 +1,61 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200*                                                                 00020000
+000300 PROGRAM-ID. WRITE1.                                              00030000
+000400*                                                                 00040000
+000500 ENVIRONMENT DIVISION.                                            00050000
+000600*                                                                 00060000
+000700 INPUT-OUTPUT SECTION.                                            00070000
+000800*                                                                 00080000
+000900 FILE-CONTROL.                                                    00090000
+001000*                                                                 00100000
+001001      SELECT CUSTMAS-IN  ASSIGN TO UT-S-INVIN.                    00100100
+001002*                                                                 00100200
+001003      SELECT CUSTMAS-OUT  ASSIGN TO INVOUT ORGANIZATION INDEXED   00100300
+001004                            ACCESS IS DYNAMIC                     00100400
+001005                            RECORD KEY CUSTMAS-KEY.               00100500
+001006*                                                                 00100600
+001007 DATA DIVISION.                                                   00100700
+001008*                                                                 00100800
+001009 FILE SECTION.                                                    00100900
+001010 FD  CUSTMAS-IN.                                                  00101000
+001020*                                                                 00102000
+001030 01  CUSTMAS-IN-REC.                                              00103000
+001040     05  FILLER                  PIC X(118).                      00104000
+001050                                                                  00105000
+001060 FD  CUSTMAS-OUT.                                                 00106000
+001070*                                                                 00107000
+001080 01  CUSTMAS-OUT-REC.                                             00108000
+001090     05  CUSTMAS-KEY             PIC X(6).                        00109000
+001100     05  FILLER                  PIC X(112).                      00110000
+001110                                                                  00111000
+001120*                                                                 00112000
+001130 WORKING-STORAGE SECTION.                                         00113000
+001140*                                                                 00114000
+001150 01  SWITCHES.                                                    00115000
+001160     05  PRODMAST-EOF-SWITCH     PIC X    VALUE "N".              00116000
+001170                                                                  00117000
+001180     COPY CUSTMAS.                                                00118000
+001190*                                                                 00119000
+001200 PROCEDURE DIVISION.                                              00120000
+001300*                                                                 00130000
+001400 000-CONTROL.                                                     00140000
+001500*                                                                 00150000
+001600     OPEN INPUT CUSTMAS-IN                                        00160000
+001700          OUTPUT CUSTMAS-OUT.                                     00170000
+001800                                                                  00180000
+001900     PERFORM 100-READ                                             00190000
+002000                UNTIL PRODMAST-EOF-SWITCH = "Y".                  00200000
+002100                                                                  00210000
+002200     CLOSE CUSTMAS-IN CUSTMAS-OUT.                                00220000
+002300                                                                  00230000
+002400     STOP RUN.                                                    00240000
+002500                                                                  00250000
+002600 100-READ.                                                        00260000
+002700        READ CUSTMAS-IN INTO CUSTOMER-MASTER-RECORD AT END        00270000
+002800             MOVE 'Y' TO PRODMAST-EOF-SWITCH.                     00280000
+002900                                                                  00290000
+003000        IF PRODMAST-EOF-SWITCH = 'N'                              00300000
+003100           WRITE CUSTMAS-OUT-REC FROM CUSTOMER-MASTER-RECORD.     00310000
+003200                                                                  00320000
+003300                                                                  00330000
+

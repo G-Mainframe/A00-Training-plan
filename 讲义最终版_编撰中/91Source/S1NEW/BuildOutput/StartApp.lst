@@ -1,0 +1,134 @@
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2                Date 11/15/2010  Time 10:06:35   Page     1                
+0Invocation parameters:
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0Options in effect:
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      STARTAPP  Date 11/15/2010  Time 10:06:35   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8  Map and Cross Reference          
+0/* STARTAPP                                                                                                                         
+   000001               * ---------------------------------------------------                                                        
+   000002               *    IDE Sample Program                                                                                      
+   000003               * ---------------------------------------------------                                                        
+   000004                Identification Division.                                                                                    
+   000005                Program-ID.  StartApp.                                                                                      
+   000006                                                                                                                            
+   000007                Data Division.                                                                                              
+   000008                Working-Storage Section.                                                                                    
+   000009                                                                                                                            
+   000010                01 Program-pass-fields.                                                                                     
+   000011                   05 Temp-name         Pic x(30).                                                                          
+   000012                                                                                                                            
+   000013                01 Program-other-fields.                                                                                    
+   000014                   05 Input-name         Pic x(30).                                                                         
+   000015                   05 Char-count         Pic 99 Value ZEROS.                               IMP                              
+   000016                                                                                                                            
+   000017                01 Program-flags.                                                                                           
+   000018                   05 Loop-flag          Pic 9(01).                                                                         
+   000019                      88 Loop-done       Value 1.                                                                           
+   000020                01 PGMID                 PIC X(8) VALUE ALL SPACE.                         IMP                              
+   000021                Procedure Division.                                                                                         
+   000022                                                                                                                            
+   000023                    Initialize Program-pass-fields                                         10                               
+   000024                               Program-other-fields                                        13                               
+   000025                               Program-flags.                                              17                               
+   000026                                                                                                                            
+   000027                    Perform until Loop-done                                                19                               
+   000028      1                 Display " "                                                                                         
+   000029      1                 Display "Enter a name or Q to quit:"                                                                
+   000030      1                 Move Spaces to Input-name                                          IMP 14                           
+   000031      1                 Accept Input-name                                                  14                               
+   000032      1                 IF Input-name = Spaces                                             14 IMP                           
+   000033      2                   Move "Q" to Input-name                                           14                               
+   000034      1                 End-IF                                                                                              
+   000035                                                                                                                            
+   000036      1                 Move 1 to Char-count                                               15                               
+   000037      1                 Inspect Input-name Tallying Char-count For Leading Spaces          14 15 IMP                        
+   000038      1                 Move Input-name(Char-count: 30 - Char-count) to Temp-name          14 15 15 11                      
+   000039                                                                                                                            
+   000040      1                 If function upper-case (Temp-name) = "Q"                           IFN 11                           
+   000041      1                       or Temp-name = Spaces                                        11 IMP                           
+   000042      2                    Set Loop-done to true                                           19                               
+   000043      1                 Else                                                                                                
+   000044      2                    MOVE  'PrintApp'    TO PGMID                                    20                               
+   000045      2                    Call PGMID using Program-pass-fields                            20 10                            
+   000046      1                 End-if                                                                                              
+   000047                    End-perform.                                                                                            
+   000048                                                                                                                            
+   000049                    Goback.                                                                                                 
+   000050                                                                                                                            
+   000051                                                                                                                            
+   000052                                                                                                                            
+   000053                                                                                                                            
+   000054                                                                                                                            
+   000055                                                                                                                            
+ */ STARTAPP                                                                                                                         
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      STARTAPP  Date 11/15/2010  Time 10:06:35   Page     3                
+0An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+       15   CHAR-COUNT . . . . . . . . . .  M36 M37 38 38                                                                                                                    
+       14   INPUT-NAME . . . . . . . . . .  M30 M31 32 M33 37 38                                                                                                             
+       19   LOOP-DONE. . . . . . . . . . .  27 M42                                                                                                                           
+       18   LOOP-FLAG                                                                                                                                                        
+       20   PGMID. . . . . . . . . . . . .  M44 45                                                                                                                           
+       17   PROGRAM-FLAGS. . . . . . . . .  M25                                                                                                                              
+       13   PROGRAM-OTHER-FIELDS . . . . .  M24                                                                                                                              
+       10   PROGRAM-PASS-FIELDS. . . . . .  M23 45                                                                                                                           
+       11   TEMP-NAME. . . . . . . . . . .  M38 40 41                                                                                                                        
+1PP 5724-L44 IBM COBOL for Windows                   6.0.2      STARTAPP  Date 11/15/2010  Time 10:06:35   Page     4                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        5   STARTAPP                                                                                                                                                         
+-* Statistics for COBOL program STARTAPP:
+ *    Source records = 55
+ *    Data Division statements = 9
+ *    Procedure Division statements = 16
+0Locale = en_US.IBM-1252
+0End of compilation 1,  program STARTAPP,  no statements flagged.
+0Return code 0

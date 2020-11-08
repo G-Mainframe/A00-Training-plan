@@ -1,0 +1,49 @@
+DROP         TABLESPACE     NE65D001.NE65SKIT;                        
+COMMIT WORK ;                                                         
+                                                                      
+CREATE       TABLESPACE     NE65SKIT                                  
+             IN             NE65D001                                  
+             USING STOGROUP NE65G001                                  
+             PRIQTY         300                                       
+             SECQTY         300                                       
+             COMPRESS       YES                                       
+             FREEPAGE       10                                        
+             PCTFREE        10                                        
+             BUFFERPOOL     BP0                                       
+             CLOSE          NO                                        
+             LOCKSIZE       ANY ;                                     
+COMMIT       WORK;                                                    
+                                                                      
+
+CREATE       TABLE          NE65U1.NE65TDKIT                          
+            (CFLBL          CHAR(04)       NOT NULL,                  
+             DRXAS          DATE           NOT NULL,                  
+             TLCLS          CHAR(04)       NOT NULL,                  
+             USEQN          CHAR(02)       NOT NULL,                  
+             IOCLS          CHAR(06)       NOT NULL,                  
+             UPKBM          CHAR(01)       NOT NULL,                  
+             TFLAD          CHAR(22)       NOT NULL,                  
+             QUBBM          DECIMAL(15,0)  NOT NULL,                  
+             VSRXA          DECIMAL(15,1)  NOT NULL,                  
+             VLSAY          DECIMAL(15,0)  NOT NULL,                  
+             UQUBB          CHAR(01)       NOT NULL,                  
+             UVSRX          CHAR(01)       NOT NULL,                  
+             UVLSA          CHAR(01)       NOT NULL)                  
+             IN             NE65D001.NE65SASC ;                       
+COMMIT       WORK;                                                    
+                                                                      
+CREATE       UNIQUE INDEX   NE65UXDASC                                
+             ON             NE65U1.NE65TDASC                          
+            (CFLBL          ASC,                                      
+             DRXAS          ASC,                                      
+             TLCLS          ASC,                                      
+             USEQN          ASC)                                      
+             USING STOGROUP NE65G001                                  
+             PRIQTY         50                                        
+             SECQTY         50                                        
+             FREEPAGE       10                                        
+             PCTFREE        10                                        
+             CLUSTER                                                  
+             BUFFERPOOL     BP0                                       
+             CLOSE          NO ;                                      
+COMMIT       WORK;                                                    

@@ -1,0 +1,8 @@
+
+
+CEDA DEF MAPSET(JS01SET) G(JWS)
+CEDA DEF PROG(JS01) G(JWS)
+CEDA DEF TRANS(JS01) PROG(JS01) G(JWS)
+CEDA E G(JWS)   用‘i’把这三个进行安装。
+
+在最初画面输入 js01 进行测试

@@ -1,0 +1,24 @@
+\MAC ;                                                                    
+        \COMM ** 児童扶養手当年齢到達者一覧（１８歳）出力 **;             
+                                                                          
+        \SENDO MSG='************************************************';    
+        \SENDO MSG='* 児童扶養手当１８歳年齢到達者一覧処理   START *';    
+        \SENDO MSG='************************************************';    
+                                                                          
+        \DCV    UCDATE1 ,CHAR ,LEN=7 ;                                    
+                                                                          
+        \REPORT LEVEL=JOB;                                                
+        \EXEC  JFU2301;                                                   
+        \EXEC  JFU2351;                                                   
+        \EXEC  JFU2401;                                                   
+        \EXEC  JFU2451;                                                   
+        \EXEC  JFU2501;                                                   
+        \EXEC  JFU2551;                                                   
+                                                                          
+        \DEALLOC FILE=JFU2301 ,MEDIA=DK302,UNABORT ;                      
+        \DEALLOC FILE=JFU2351 ,MEDIA=DK302,UNABORT ;                      
+        \DEALLOC FILE=JFU2451 ,MEDIA=DK302,UNABORT ;                      
+                                                                          
+        \SENDO MSG='************************************************';    
+        \SENDO MSG='* 児童扶養手当１８歳年齢到達者一覧処理    END  *';    
+        \SENDO MSG='************************************************';    

@@ -1,0 +1,51 @@
+//ST002ABC JOB ,T.DAVIS,CLASS=A,MSGLEVEL=A,NOTIFY=ST002,           
+
+//  TYPRUN=SCAN                                                        
+
+//ST002DEF JOB ('ABC&123','ABC"123'),ST002,CLASS=A,MSGCLASS=A,     
+
+//  NOTIFY=ST002,REGION=100K  
+
+NUMBER1
+
+//*-------------------------------------------------------------------//
+
+//*      PRINT TO TERMINAL                                            //
+
+//*-------------------------------------------------------------------//
+
+//ST002ABC JOB ,T.DAVIS,CLASS=A,MSGLEVEL=(1,1),NOTIFY=ST002,            
+
+//  TYPRUN=SCAN                                                         
+
+//PRINT     EXEC  PGM=IEBGENER                                          
+
+//SYSPRINT  DD    SYSOUT=*                                              
+
+//SYSUT1    DD    DSN=ST088.TEST.DATA.REC,DISP=SHR                      
+
+//SYSUT2    DD    SYSOUT=*                                              
+
+//SYSIN     DD    *    
+
+NUMBER2
+
+//*-------------------------------------------------------------------//
+
+//*      PRINT TO TERMINAL                                            //
+
+//*-------------------------------------------------------------------//
+
+//ST002DEF JOB ('ABC&123','ABC"123'),ST002,CLASS=A,MSGCLASS=A,     
+
+//  NOTIFY=ST002,REGION=100K                                                       
+
+//PRINT     EXEC  PGM=IEBGENER                                          
+
+//SYSPRINT  DD    SYSOUT=*                                              
+
+//SYSUT1    DD    DSN=ST088.TEST.DATA.REC,DISP=SHR                      
+
+//SYSUT2    DD    SYSOUT=*                                              
+
+//SYSIN     DD    *                                                                                                                                              

@@ -1,0 +1,22 @@
+//SP003T01 JOB  (TESTING),'SP003',CLASS=A,
+// MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID
+//*******************************************************************//
+//*                                                                 *//
+//* JCL OF RUNNING PLI BATCH PROGRAM                                *//
+//*                                                                 *//
+//*                                         2005.12.28              *//
+//*                                             L.Y.P               *//
+//*******************************************************************//
+//*
+//JOBLIB   DD DSN=SP003.TEST.LOAD2,DISP=SHR
+//*------------------------------------------------
+//*    RUN PLI TEST0001
+//*------------------------------------------------
+//ST001   EXEC PGM=DEPREC
+//SYSPRINT DD SYSOUT=*
+//SYSOUT   DD SYSOUT=*
+//SYSIN    DD *
+    PRICE=1000,      AMORT=25,     AGE=11;
+/*
+//
+

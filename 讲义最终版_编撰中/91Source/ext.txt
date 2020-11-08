@@ -1,0 +1,33 @@
+  /*    THIS TRAINING PROGRAM DEMO :                           */
+  /*        1. THE INTERNAL SUBROUTINE.                        */
+  /*                                                           */
+  /*        2. BUILTIN KEYWORD.                                */
+  /*                                                           */
+  /*                                                           */
+  EXT:PROC OPTIONS(MAIN);
+      DCL(A,B,SQRT,C) FIXED(8,4);
+      GET LIST(A,B,SQRT);
+      PUT SKIP LIST('BEFORE INT1');
+      PUT SKIP LIST(A,B,SQRT);
+
+      CALL INT1;
+      PUT SKIP LIST('BEFORE INT2');
+      PUT SKIP LIST(A,B,SQRT,C);
+
+      CALL INT2;
+      PUT SKIP LIST(A,B,SQRT,C);
+
+         INT1: PROC;
+               C=A+B+2*SQRT;
+               END INT1;
+         INT2: PROC;
+               DCL SQRT BUILTIN;
+               C=C+0.7*SQRT(C);
+               END INT2;
+  END EXT;
+
+
+
+
+
+

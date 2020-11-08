@@ -1,0 +1,8 @@
+FTP UpLoad
+
+EATSO FOR EXAMPLE:
+‡@
+cmd->
+ftp adm.nankoh.japan.ibm.com
+‡Aenter userid and password
+‡Bput d:\ev63260a.txt 'ne65i.b601dl.jclm(ev63260a)'

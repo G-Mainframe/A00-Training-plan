@@ -1,0 +1,9 @@
+
+
+	01  A.
+
+	  02  A1  PIC  9999.
+
+	  02  A2  PIC  AAAA.
+
+	  02  A3  PIC  XXXX.

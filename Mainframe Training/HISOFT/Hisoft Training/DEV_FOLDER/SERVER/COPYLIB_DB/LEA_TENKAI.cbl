@@ -1,0 +1,13 @@
+000010************************************************
+000020* (LEA_TENKAI)
+000030************************************************
+000040 01  LEA_TENKAI-KEY PIC  X(001).
+000050 01  LEA_TENKAI-連番 PIC S9(003) COMP-3.
+000060 01  LEA_TENKAI-展開ﾘｰｽ料 PIC S9(013) COMP-3.
+000070 01  LEA_TENKAI-回数 PIC S9(003) COMP-3.
+000080 01  LEA_TENKAI-登録日 PIC  X(008).
+000090 01  LEA_TENKAI-登録時刻 PIC  X(006).
+000100 01  LEA_TENKAI-登録担当者ｺｰﾄﾞ PIC  X(004).
+000110 01  LEA_TENKAI-更新日 PIC  X(008).
+000120 01  LEA_TENKAI-更新時刻 PIC  X(006).
+000130 01  LEA_TENKAI-更新担当者ｺｰﾄﾞ PIC  X(004).

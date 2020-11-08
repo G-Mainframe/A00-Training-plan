@@ -1,0 +1,33 @@
+CREATE TABLE MAN_HOSHU
+(
+    契約番号                       CHAR(9) NOT NULL,
+    物件ＮＯ                       CHAR(3) NOT NULL,
+    勘定処理コード                 CHAR(2) NOT NULL,
+    処理日                         CHAR(8) NOT NULL,
+    請求開始日                     CHAR(8) NOT NULL,
+    請求期間                       NUMBER(3,0) NOT NULL,
+    請求金額合計                   NUMBER(13,0) NOT NULL,
+    請求先コード                   CHAR(8) NOT NULL,
+    回収方式１                     CHAR(1) NOT NULL,
+    回収方式２                     CHAR(1) NOT NULL,
+    請求サイクル                   NUMBER(2,0) NOT NULL,
+    支払回数                       NUMBER(3,0) NOT NULL,
+    ＢＥＧＩＮ回数                 CHAR(1) NOT NULL,
+    計算方式                       CHAR(1) NOT NULL,
+    銀行コード                     CHAR(7) NOT NULL,
+    口座番号                       CHAR(7) NOT NULL,
+    預金種類                       CHAR(1) NOT NULL,
+    入金日                         CHAR(2) NOT NULL,
+    第１回入金日                   CHAR(8) NOT NULL,
+    再リースコード                 CHAR(1) NOT NULL,
+    消費税率                       NUMBER(3,1) NOT NULL,
+    手数料請求名称                 VARCHAR2(30) NOT NULL,
+    登録日                         CHAR(8) NOT NULL,
+    登録時刻                       CHAR(6) NOT NULL,
+    登録担当者コード               CHAR(4) NOT NULL,
+    更新日                         CHAR(8) NOT NULL,
+    更新時刻                       CHAR(6) NOT NULL,
+    更新担当者コード               CHAR(4) NOT NULL,
+    CONSTRAINT P_MAN_HOSHU PRIMARY KEY (契約番号, 物件ＮＯ) USING INDEX
+)
+/

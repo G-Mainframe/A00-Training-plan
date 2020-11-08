@@ -1,0 +1,27 @@
+\MAC ;                                                                    
+        \COMM ** 児童扶養手当支払明細、口座依頼処理 **;                   
+                                                                          
+        \SENDO MSG='********************************************';        
+        \SENDO MSG='* 児童扶養手当支払明細書プリント処理 START *';        
+        \SENDO MSG='********************************************';        
+                                                                          
+        \REPORT LEVEL=JOB;                                                
+        \EXEC  JFU5501;                                                   
+        \EXEC  JFU5551;                                                   
+        \EXEC  JFU5601A;                                                  
+        \EXEC  JFU5601B;                                                  
+        \EXEC  JFU5601C;                                                  
+                                                                          
+        \DCV KOZ,CHAR,LEN=1;                                              
+        \SENDOR MSG='口座依頼ＭＴ作成しますか？ YES=1,NO=2',RPY=KOZ;      
+        \WHEN KOZ,=,'2',JUMP=END;                                         
+        \EXEC  JFU5651;                                                   
+        \SENDO MSG='** 口座依頼ＭＴ（正）作成 START **';                  
+        \EXEC  JFU5701;                                                   
+        \SENDO MSG='** 口座依頼ＭＴ（副）作成 START **';                  
+        \EXEC  JFU5701;                                                   
+        \DEALLOC FILE=JFU5651,MEDIA=DK302;                                
+                                                                          
+END     \SENDO MSG='********************************************';        
+        \SENDO MSG='* 児童扶養手当支払明細書プリント処理  END  *';        
+        \SENDO MSG='********************************************';        

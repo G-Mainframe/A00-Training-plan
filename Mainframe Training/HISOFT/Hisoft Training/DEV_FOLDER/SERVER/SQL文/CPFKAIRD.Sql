@@ -1,0 +1,20 @@
+CREATE TABLE  CPFKAIRD  (
+       契約ＮＯ                           CHAR(9)           NOT NULL,
+       物件ＮＯ                           NUMBER(3,0)       NOT NULL,
+       解約区分                           CHAR(1)           NOT NULL,
+       解約日＿世紀                       CHAR(1)           NOT NULL,
+       解約日＿年月日                     CHAR(6)           NOT NULL,
+       請求コード                         NUMBER(2,0)       NOT NULL,
+       再リースコード                     NUMBER(1,0)       NOT NULL,
+       レコード区分                       CHAR(2)           NOT NULL,
+       データ１                           CHAR(200)         NOT NULL,
+       データ２                           CHAR(1000)        NOT NULL,
+CONSTRAINT  PK_CPFKAIRD  PRIMARY KEY (
+       契約ＮＯ,
+       物件ＮＯ,
+       解約区分,
+       解約日＿世紀,
+       解約日＿年月日,
+       請求コード,
+       再リースコード,
+       レコード区分));

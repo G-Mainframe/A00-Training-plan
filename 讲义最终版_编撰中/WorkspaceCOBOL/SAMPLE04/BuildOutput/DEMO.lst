@@ -1,0 +1,168 @@
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1                Date 03/21/2014  Time 01:05:02   Page     1                
+0调用参数：
+ TEST,ADATA,EXIT(ADEXIT(FTTFDBKW))
+0生效的选项：
+       ADATA                                                                                                                         
+       QUOTE                                                                                                                         
+       ARITH(COMPAT)                                                                                                                 
+       BINARY(NATIVE)                                                                                                                
+       CALLINT(SYSTEM,NODESCRIPTOR)                                                                                                  
+       CHAR(NATIVE)                                                                                                                  
+     NOCICS                                                                                                                          
+       COLLSEQ(BINARY)                                                                                                               
+     NOCOMPILE(S)                                                                                                                    
+     NOCURRENCY                                                                                                                      
+     NODATEPROC                                                                                                                      
+     NODIAGTRUNC                                                                                                                     
+     NODYNAM                                                                                                                         
+       ENTRYINT(SYSTEM)                                                                                                              
+       EXIT(NOINEXIT,NOPRTEXIT,NOLIBEXIT,ADEXIT(FTTFDBKW))                                                                           
+       FLAG(I,I)                                                                                                                     
+     NOFLAGSTD                                                                                                                       
+       FLOAT(NATIVE)                                                                                                                 
+       LIB                                                                                                                           
+       LINECOUNT(60)                                                                                                                 
+     NOLIST                                                                                                                          
+       LSTFILE(LOCALE)                                                                                                               
+     NOMAP                                                                                                                           
+     NOMDECK                                                                                                                         
+       NCOLLSEQ(BINARY)                                                                                                              
+       NSYMBOL(NATIONAL)                                                                                                             
+     NONUMBER                                                                                                                        
+     NOOPTIMIZE                                                                                                                      
+       PGMNAME(LONGUPPER)                                                                                                            
+       PROBE                                                                                                                         
+       SEPOBJ                                                                                                                        
+       SEQUENCE                                                                                                                      
+       SIZE(8388608)                                                                                                                 
+     NOSOSI                                                                                                                          
+       SOURCE                                                                                                                        
+       SPACE(1)                                                                                                                      
+     NOSQL                                                                                                                           
+     NOSSRANGE                                                                                                                       
+       TERM                                                                                                                          
+       TEST                                                                                                                          
+     NOTHREAD                                                                                                                        
+       TRUNC(STD)                                                                                                                    
+     NOVBREF                                                                                                                         
+     NOWSCLEAR                                                                                                                       
+       XREF(FULL)                                                                                                                    
+       YEARWINDOW(1900)                                                                                                              
+       ZWB                                                                                                                           
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILECOPY  Date 03/21/2014  Time 01:05:02   Page     2                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0/* FILECOPY                                                                                                                         
+   000001                IDENTIFICATION DIVISION.                                                                                    
+   000002                PROGRAM-ID.   FILECOPY.                                                                                     
+   000003                ENVIRONMENT DIVISION.                                                                                       
+   000004                INPUT-OUTPUT SECTION.                                                                                       
+   000005                FILE-CONTROL.                                                                                               
+   000006                      SELECT IN-FILE ASSIGN TO IN01                                       12                                
+   000007                         FILE STATUS  SYS-FILE-STATUS.                                    31                                
+   000008                      SELECT OUT-FILE ASSIGN TO OUT01                                     21                                
+   000009                         FILE STATUS  SYS-FILE-STATUS.                                    31                                
+   000010                DATA DIVISION.                                                                                              
+   000011                FILE SECTION.                                                                                               
+   000012                FD IN-FILE LABEL RECORD IS STANDARD .                                                                       
+                                                                                                  
+ ==000012==> IGYGR1216-I 对于文件“IN-FILE”，假定“RECORDING MODE”为“F”。
+                                                                                                  
+   000013                01 IN-RECORD.                                                                                               
+   000014                   02  IN-DATE.                                                                                             
+   000015                     03  IN-YEAR     PIC  9(4).                                                                             
+   000016                     03  IN-MONTH    PIC  99.                                                                               
+   000017                     03  IN-DAY      PIC  99.                                                                               
+   000018                   02  PRODUCT-CODE  PIC  9(4).                                                                             
+   000019                   02  QUANTITY      PIC  9(6).                                                                             
+   000020                   02  UNIT-PRICE    PIC  9(6).                                                                             
+   000021                FD OUT-FILE LABEL RECORD IS STANDARD .                                                                      
+                                                                                                  
+ ==000021==> IGYGR1216-I 对于文件“OUT-FILE”，假定“RECORDING MODE”为“F”。
+                                                                                                  
+   000022                01 OUT-RECORD.                                                                                              
+   000023                   02  IN-DATE.                                                                                             
+   000024                     03  IN-YEAR     PIC  9(4).                                                                             
+   000025                     03  IN-MONTH    PIC  99.                                                                               
+   000026                     03  IN-DAY      PIC  99.                                                                               
+   000027                   02  PRODUCT-CODE  PIC  9(4).                                                                             
+   000028                   02  QUANTITY      PIC  9(6).                                                                             
+   000029                   02  UNIT-PRICE    PIC  9(6).                                                                             
+   000030         000191 WORKING-STORAGE SECTION.                                                                                    
+   000031         000192 01 SYS-FILE-STATUS   PIC  X(2) VALUE "00".                                                                  
+   000032                01 END-FLG           PIC  X    VALUE "0".                                                                   
+   000033                PROCEDURE DIVISION.                                                                                         
+   000034                MAIN.                                                                                                       
+   000035                    OPEN INPUT  IN-FILE ,                                                 12                                
+   000036                         OUTPUT OUT-FILE.                                                 21                                
+   000037                    DISPLAY "1" , SYS-FILE-STATUS.                                        31                                
+   000038                    READ IN-FILE.                                                         12                                
+   000039                    STOP 1.                                                                                                 
+   000040               *                                                                                                            
+   000041                    PERFORM L100 UNTIL  END-FLG = "1".                                    45 32                             
+   000042               *                                                                                                            
+   000043                    CLOSE IN-FILE , OUT-FILE.                                             12 21                             
+   000044                    STOP RUN.                                                                                               
+   000045                L100.                                                                                                       
+   000046                    MOVE IN-RECORD TO OUT-RECORD.                                         13 22                             
+   000047                    WRITE  OUT-RECORD.                                                    22                                
+   000048                    READ IN-FILE AT END  MOVE "1" TO END-FLG.                             12 32                             
+ */ FILECOPY                                                                                                                         
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILECOPY  Date 03/21/2014  Time 01:05:02   Page     3                
+0数据名引用前的“M”指示数据名由此引用修改。
+  
+  Defined   Cross-reference of data names   References                                                                               
+  
+       32   END-FLG. . . . . . . . . . . .  41 M48                                                                                                                           
+       14   IN-DATE                                                                                                                                                          
+       23   IN-DATE                                                                                                                                                          
+       17   IN-DAY                                                                                                                                                           
+       26   IN-DAY                                                                                                                                                           
+       12   IN-FILE. . . . . . . . . . . .  6 35 38 43 48                                                                                                                    
+       16   IN-MONTH                                                                                                                                                         
+       25   IN-MONTH                                                                                                                                                         
+       13   IN-RECORD. . . . . . . . . . .  46                                                                                                                               
+       15   IN-YEAR                                                                                                                                                          
+       24   IN-YEAR                                                                                                                                                          
+       21   OUT-FILE . . . . . . . . . . .  8 36 43                                                                                                                          
+       22   OUT-RECORD . . . . . . . . . .  M46 47                                                                                                                           
+       18   PRODUCT-CODE                                                                                                                                                     
+       27   PRODUCT-CODE                                                                                                                                                     
+       19   QUANTITY                                                                                                                                                         
+       28   QUANTITY                                                                                                                                                         
+       31   SYS-FILE-STATUS. . . . . . . .  7 9 37                                                                                                                           
+       20   UNIT-PRICE                                                                                                                                                       
+       29   UNIT-PRICE                                                                                                                                                       
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILECOPY  Date 03/21/2014  Time 01:05:02   Page     4                
+0上下文用法由过程名引用前的字母指示。
+ 这些字母和它们的含义为：
+     A = ALTER（过程名）
+     D = GO TO（过程名）DEPENDING ON
+     E = 范围（PERFORM）到（过程名）的结束
+     G = GO TO（过程名）
+     P = PERFORM（过程名）
+     T = (ALTER) TO PROCEED TO（过程名）
+     U = USE FOR DEBUGGING（过程名）
+  
+  Defined   Cross-reference of procedures   References                                                                               
+  
+       45   L100 . . . . . . . . . . . . .  P41                                                                                                                              
+       34   MAIN                                                                                                                                                             
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILECOPY  Date 03/21/2014  Time 01:05:02   Page     5                
+0 Defined   Cross-reference of programs     References                                                                               
+  
+        2   FILECOPY                                                                                                                                                         
+1PP 5725-B74 IBM COBOL for Windows                   7.6.1      FILECOPY  Date 03/21/2014  Time 01:05:02   Page     6                
+0LineID  Message code  Message text
+                                                                                                                                     
+     12  IGYGR1216-I   对于文件“IN-FILE”，假定“RECORDING MODE”为“F”。
+                                                                                                                                     
+     21  IGYGR1216-I   对于文件“OUT-FILE”，假定“RECORDING MODE”为“F”。
+-Messages    Total    Informational    Warning    Error    Severe    Terminating
+0Printed:       2           2                                               
+-* COBOL 程序 FILECOPY 的统计信息：
+ *    源记录 = 48
+ *    数据部分语句 = 18
+ *    过程部分语句 = 11
+0语言环境 = zh_CN.IBM-1386
+0编译 1 结束，程序 FILECOPY，最高级别严重性：参考。
+0返回码 0

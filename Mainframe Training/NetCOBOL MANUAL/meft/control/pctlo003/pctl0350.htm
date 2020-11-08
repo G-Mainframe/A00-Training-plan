@@ -1,0 +1,210 @@
+<html>
+
+<head>
+<title>3.4 項目を操作する</title>
+</head>
+
+<body BGCOLOR="#FFFFFF">
+
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">
+  <tr>
+    <td ALIGN="LEFT"><strong>帳票印刷コントロール使用手引書</strong> 
+    </td>
+  </tr>
+  <tr>
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a HREF="pctl0340.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a href="../pctlo004/pctl0400.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a></td>      
+  </tr>      
+</table>      
+      
+<hr>      
+      
+<dl>      
+  <dl>      
+    <dt><a HREF="../pctlo002/pctl0210.htm"><img SRC="../pctlosrc/up.gif" BORDER="0" ALT="上へ" WIDTH="16" HEIGHT="15">第3章       
+      </a><a HREF="pctl0310.htm" TARGET="fmain">帳票印刷コントロールの処理を記述する</a>       
+    </dt>      
+  </dl>      
+</dl>      
+      
+<hr>      
+      
+<h2>3.4 項目を操作する</h2>      
+      
+<p>帳票印刷コントロールを利用して印刷する項目のレコード操作を行う方法について、簡単な帳票印刷コントロールを利用したサンプルをもとに説明します。</p>     
+     
+<p>なお、コントロールのプロパティ、メソッド、イベントの説明は、コントロールヘルプを参照してください。</p>     
+     
+<p><b>例:</b></p>     
+     
+<p>CommandButtonのClickイベントで、同じフォームモジュールに貼り付けた帳票印刷コントロール「PowerFormReport1」の「帳票印刷(PrintControl)」メソッドを起動します。帳票印刷コントロールの帳票開設(OpenReport)イベントで帳票定義体名を設定し、レコード読込み(ReadRecord)イベントでレコードを設定して印刷します。明細件数はデータベースからの読込みがEOFになるまで行います。</p>     
+     
+<h4>[Microsoft(R) VisualBasic(R)の記述例]</h4>      
+      
+<table BORDER="1" WIDTH="74%">      
+  <tr>      
+    <td><pre><font color="#008000">'標準モジュール</font>
+Public DaoWS As Workspace
+ 
+<font color="#008000">'外部定義変数</font>
+Dim DaoDB1
+Dim DaoRec1
+
+<font color="#008000">'CommandButtonのClickイベント                                                </font><font color="#FF0000">                                  ◆(1)</font>
+Private Sub Command1_Click()
+    <font color="#008000">'コマンドボタンを選択不可にする</font>
+    Command1.Enabled = False
+
+    <font color="#008000">'帳票印刷メソッドの実行</font>
+    PowerFormReport1.PrintControl (0)
+
+    <font color="#008000">'コマンドボタンを選択可能にする</font>
+    Command1.Enabled = True
+End Sub
+
+
+<font color="#008000">'帳票印刷コントロールの帳票閉鎖(CloreReport)イベント</font>
+Private Sub PowerFormReport1_CloseReport()
+    <font color="#008000">'印刷で利用したデータベースのクローズ</font>　
+    DaoRec1.Close
+    DaoDB1.Close
+End Sub
+
+
+<font color="#008000">'帳票印刷コントロールの帳票開設(OpenReport)イベント                       </font><font color="#FF0000">                                     ◆(2)</font>
+Private Sub PowerFormReport1_OpenReport()
+    <font color="#008000">'印刷で利用するデータベースのオープン
+    'データベース名は、データファイルディレクトリ配下のデータファイル.mdb
+    'クエリー名は、貸出返却処理</font>
+    Set DaoDB1 = DaoWS.OpenDatabase((App.Path &amp; &quot;\データファイル\データファイル.mdb&quot;), False)
+    Set DaoRec1 = DaoDB1.OpenRecordset(&quot;SELECT * FROM 貸出返却処理&quot;)
+    DaoRec1.MoveFirst
+
+    <font color="#008000">'帳票定義体名、ディレクトリ名を帳票コントロール
+    'のプロパティ、「FormName」、「FormDirectory」に設定します。
+    'ディレクトリは、アプリ実行配下の帳票定義体の格納ディレクトリとします。</font>
+    PowerFormReport1.FormDirectory = App.Path &amp; &quot;\帳票フォーム&quot;
+    PowerFormReport1.FormName = &quot;Rentalrp.pxd&quot;
+
+ End Sub
+
+
+<font color="#008000">'帳票印刷コントロールの明細出力(PrintDE)イベント                       </font><font color="#FF0000">                                        ◆(3)</font>
+Private Sub PowerFormReport1_PrintDE(ByVal record As Long)
+<font color="#008000">    '前払金額合計と精算金額合計を集計します。</font>
+    PowerFormReport1.FieldText(&quot;前払金額合計&quot;, -1, 0, 0) = Val(PowerFormReport1.FieldText(&quot;前払金額合計&quot;, -1, 0, 0)) + Val(PowerFormReport1.FieldText(&quot;前払金額&quot;, -1, 0, 0))
+    PowerFormReport1.FieldText(&quot;精算金額合計&quot;, -1, 0, 0) = Val(PowerFormReport1.FieldText(&quot;精算金額合計&quot;, -1, 0, 0)) + Val(PowerFormReport1.FieldText(&quot;精算金額&quot;, -1, 0, 0))
+
+End Sub
+
+
+<font color="#008000">'帳票印刷コントロールのレコード読込み(ReadRecord)イベント</font>
+Private Sub PowerFormReport1_ReadRecord(ByVal PrintRecord As Long)
+    Dim Cnt
+<font color="#008000">    'レコードの処理回数を参照します。</font>
+    Cnt = PowerFormReport1.RecordCount<font color="#008000">                       </font><font color="#FF0000">                                                  ◆(4)</font>
+
+    If Cnt = 1 Then
+        <font color="#008000">'内部変数に、伝票番号の値を転記</font>
+        Denpyou = DaoRec1.Fields(&quot;伝票番号&quot;)
+    Else
+        <font color="#008000">'２件目以降のレコードを使用するため、次レコードに移動</font>
+       DaoRec1.MoveNext
+    End If
+
+    If DaoRec1.EOF Then<font color="#008000">                       </font><font color="#FF0000">                                                                 ◆(5)</font>
+       <font color="#008000"> '最終レコードまで処理したのでＥＯＦ設定</font>
+        PowerFormReport1.RecordEOF = True
+        GoTo EndSub:
+    ElseIf Denpyou &lt;&gt; DaoRec1.Fields(&quot;伝票番号&quot;) Then
+       <font color="#008000"> '伝票番号が変更になったので、改ページメソッド(PageFeed)を呼び出す</font>
+        Denpyou = DaoRec1.Fields(&quot;伝票番号&quot;)
+        PowerFormReport1.PageFeed<font color="#008000">                   </font><font color="#FF0000">                                                           ◆(6)</font>
+    End If
+
+    <font color="#008000">'データベースの対応する項目からデータを転記する</font>
+    PowerFormReport1.FieldText(&quot;伝票番号&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;伝票番号&quot;)
+    PowerFormReport1.FieldText(&quot;明細番号&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;明細番号&quot;)
+    PowerFormReport1.FieldText(&quot;貸出日付&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;貸出日付&quot;)
+    PowerFormReport1.FieldText(&quot;氏名&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;氏名&quot;)
+    PowerFormReport1.FieldText(&quot;会員種別&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;会員種別&quot;)
+    PowerFormReport1.FieldText(&quot;ビデオコード&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;ビデオコード&quot;)
+    PowerFormReport1.FieldText(&quot;返却日付&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;返却日付&quot;)
+    PowerFormReport1.FieldText(&quot;基本日数&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;基本日数&quot;)
+    PowerFormReport1.FieldText(&quot;超過日数&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;超過日数&quot;)
+    PowerFormReport1.FieldText(&quot;前払金額&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;前払金額&quot;)
+    PowerFormReport1.FieldText(&quot;精算金額&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;精算金額&quot;)
+    PowerFormReport1.FieldText(&quot;タイトル&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;タイトル&quot;)
+    PowerFormReport1.FieldText(&quot;ビデオ種別&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;ビデオ種別&quot;)
+    PowerFormReport1.FieldText(&quot;基本料金&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;基本料金&quot;)
+    PowerFormReport1.FieldText(&quot;超過料金&quot;, -1, 0, 0) = DaoRec1.Fields(&quot;超過料金&quot;)
+
+EndSub:
+
+End Sub
+
+
+<font color="#008000">'フォームモジュールのロードイベント</font>
+Private Sub Form_Load()
+    <font color="#008000">'ＤＡＯワークスペースのオープン</font>
+    Set DaoWS = DBEngine.Workspaces(0)
+    <font color="#008000">'カレントディレクトリの変更</font>
+    ChDir (App.Path &amp; &quot;\データファイル&quot;)
+
+End Sub
+
+
+<font color="#008000">'フォームモジュールの終了イベント</font>
+Private Sub Form_Terminate()
+   <font color="#008000"> 'ＤＡＯワークスペースのクローズ</font>
+    DaoWS.Close
+End Sub
+
+</pre>      
+    </td>      
+  </tr>      
+</table>      
+      
+<h4>◆(1)</h4>      
+      
+<p>'CommandButtonのClickイベントで、帳票印刷コントロールの「帳票印刷(PrintControl)」メソッドを呼び出して、帳票印刷を開始します。</p>    
+    
+<h4>◆(2)</h4>    
+    
+<p>帳票開設(OpenReport)イベントで、帳票印刷コントロールの「帳票フォーム名(FormName)」プロパティ、および、「帳票フォーム格納ディレクトリ(FormDirectory)」プロパティに、それぞれ印刷で使用する帳票定義体名、および、そのフォームの格納先ディレクトリを指定します。</p>    
+    
+<h4>◆(3)</h4>    
+    
+<p>帳票印刷コントロールの明細出力(PrintDE)イベントで、印刷レコードデータの集計を行います。</p>    
+    
+<h4>◆(4)</h4>    
+    
+<p>帳票印刷コントロールの「レコード回数(RecordCount)」プロパティを参照して、処理したレコード件数を獲得します。<br>    
+処理したレコード件数は、帳票印刷コントロールのレコード読込み(ReadRecord)イベント呼出しごとに更新されます。</p>    
+    
+<h4>◆(5)</h4>    
+    
+<p>データベースが最終レコードまで処理した場合に、「レコードEOF(RecordEOF)」プロパティに「true:処理対象レコードなし」を設定して、帳票印刷コントロールに対して、処理の終了を通知します。<br>    
+帳票印刷コントロールでは、「レコードEOF(RecordEOF)」プロパティに｢true       
+：処理対象ﾚｺｰﾄﾞなし｣が設定されるまで、処理を続行します。</p>      
+      
+<h4>◆(6)</h4>      
+      
+<p>帳票印刷コントロールは印刷可能範囲をチェックし、自動的に改ページします。<br>     
+帳票印刷処理中に、印刷処理で改ページが必要となった場合は、改ページメソッド(PageFeed)を利用して改ページすることが可能です。</p>     
+     
+<p><a href="../pctlosrc/sample/video.exe">サンプルプログラムのダウンロード</a></p>     
+     
+<hr>     
+     
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">     
+  <tr>     
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a HREF="pctl0340.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a href="../pctlo004/pctl0400.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>      
+  </tr>      
+</table>      
+      
+<hr>      
+      
+<p align="right">All Rights Reserved, Copyright (C) 富士通株式会社 
+1998-2001</p>    
+</body>    
+</html>    

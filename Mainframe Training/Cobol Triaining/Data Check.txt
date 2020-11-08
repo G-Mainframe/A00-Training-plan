@@ -1,0 +1,30 @@
+Data Check
+
+/*-------------------------------------------------------------------*/
+ /*  DATA CHECK                                                       */
+ /*-------------------------------------------------------------------*/
+  CHK_RTN : PROC                                   ; /* CHK_RTN       */
+                                                     /*TRAN CODE CHECK*/
+     IF IN_FINP1.TRXCD y= 'A'                        /* TRXD y= 'A'   */
+      & IN_FINP1.TRXCD y= 'U'                        /* TRXD y= 'U'   */
+      & IN_FINP1.TRXCD y= 'D'                        /* TRXD y= 'D'   */
+       THEN DO                                     ; /* DO            */
+         CHECK_FLG  =  'N'                         ; /* SET CHK_FLG   */
+       END                                         ; /* END DO        */
+     ELSE DO                                       ; /* ELSE          */
+       IF SUBSTR(IN_FINP1.CMAXA,1,1) = '@'           /* CMAXA = '@'   */
+        | SUBSTR(IN_FINP1.CMAXA,1,1) = '#'           /* CMAXA = '#'   */
+        | IN_FINP1.CMAXA = ' '                       /* CMAXA = ' '   */
+         THEN DO                                   ; /* DO            */
+           CHECK_FLG  =  'N'                       ; /* SET NG        */
+         END                                       ; /* END DO        */
+       ELSE DO                                     ; /* ELSE          */
+         IF SUBSTR(IN_FINP1.CMMXA,1,1) = '@'         /* CMMXA = '@'   */
+          | SUBSTR(IN_FINP1.CMMXA,1,1) = '#'         /* CMMXA = '#'   */
+          | IN_FINP1.CMMXA = ' '                     /* CMMXA = ' '   */
+           THEN DO                                 ; /* DO            */
+             CHECK_FLG  =  'N'                     ; /* SET NG        */
+           END                                     ; /* END DO        */
+       END                                         ; /* END ELSE      */
+     END                                           ; /* END ELSE      */
+  END CHK_RTN                                      ; /* END CHK_RTN   */

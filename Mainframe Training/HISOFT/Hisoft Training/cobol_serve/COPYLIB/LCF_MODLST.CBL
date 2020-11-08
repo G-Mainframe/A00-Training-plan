@@ -1,0 +1,127 @@
+000010************************************************
+000020* (LCF_MODLST)
+000030************************************************
+000040 01  ()JOBTYP           PIC  X(1).
+000050 01  ()REGTIM           PIC  X(6).
+000060 01  ()CTLNUM           PIC  X(6).
+000070 01  ()CLTCOD           PIC  X(7).
+000080 01  ()CLTNAM           PIC  N(20).
+000090 01  ()REFNUM           PIC  X(10).
+000100 01  ()BRDNAM           PIC  X(40).
+000110 01  ()RATTYP           PIC  X(20).
+000120 01  ()CNTDAY           PIC  X(8).
+000130 01  ()BORDAY           PIC  X(8).
+000140 01  ()DUEDAY           PIC  X(8).
+000150 01  ()PAYCYC           PIC  X(2).
+000160 01  ()BORTYP           PIC  X(1).
+000170 01  ()TRMTYP           PIC  X(1).
+000180 01  ()FIXFLT           PIC  X(1).
+000190 01  ()BEFAFT           PIC  X(1).
+000200 01  ()YERDAY           PIC  X(1).
+000210 01  ()DAYBAS           PIC  X(1).
+000220 01  ()FRATYP           PIC  X(1).
+000230 01  ()SALTYP           PIC  X(1).
+000240 01  ()OBJTYP           PIC  X(1).
+000250 01  ()HOLSFT           PIC  X(1).
+000260 01  ()GAPTYP           PIC  X(1).
+000270 01  ()CREDEP           PIC  X(1).
+000280 01  ()CRENUM           PIC  X(7).
+000290 01  ()DEBBNK           PIC  X(4).
+000300 01  ()DEBBRC           PIC  X(3).
+000310 01  ()DEBDEP           PIC  X(1).
+000320 01  ()DEBNUM           PIC  X(7).
+000330 01  ()DAYCNT           PIC S9(4) COMP-3.
+000340 01  ()FSTCAP           PIC S9(13) COMP-3.
+000350 01  ()SECCAP           PIC S9(13) COMP-3.
+000360 01  ()CAPTOT           PIC S9(13) COMP-3.
+000370 01  ()CREAMT           PIC S9(13) COMP-3.
+000380 01  ()FSTRAT           PIC S9(2)V9(6) COMP-3.
+000390 01  ()SECRAT           PIC S9(2)V9(6) COMP-3.
+000400 01  ()SUPRAT           PIC S9(2)V9(6) COMP-3.
+000410 01  ()FSTINT           PIC S9(13) COMP-3.
+000420 01  ()SECINT           PIC S9(13) COMP-3.
+000430 01  ()REWRAT           PIC S9(2)V9(6) COMP-3.
+000440 01  ()REWAMT           PIC S9(13) COMP-3.
+000450 01  ()REWTAX           PIC S9(13) COMP-3.
+000460 01  ()CHGRAT           PIC S9(2)V9(6) COMP-3.
+000470 01  ()CHGAMT           PIC S9(13) COMP-3.
+000480 01  ()CHGTAX           PIC S9(13) COMP-3.
+000490 01  ()BKIRAT           PIC S9(2)V9(6) COMP-3.
+000500 01  ()BKIAMT           PIC S9(13) COMP-3.
+000510 01  ()BKITAX           PIC S9(13) COMP-3.
+000520 01  ()CLTCOD_O       PIC  X(7).
+000530 01  ()CLTNAM_O       PIC  N(20).
+000540 01  ()REFNUM_O       PIC  X(10).
+000550 01  ()BRDNAM_O       PIC  X(40).
+000560 01  ()RATTYP_O       PIC  X(20).
+000570 01  ()CNTDAY_O       PIC  X(8).
+000580 01  ()BORDAY_O       PIC  X(8).
+000590 01  ()DUEDAY_O       PIC  X(8).
+000600 01  ()PAYCYC_O       PIC  X(2).
+000610 01  ()BORTYP_O       PIC  X(1).
+000620 01  ()TRMTYP_O       PIC  X(1).
+000630 01  ()FIXFLT_O       PIC  X(1).
+000640 01  ()BEFAFT_O       PIC  X(1).
+000650 01  ()YERDAY_O       PIC  X(1).
+000660 01  ()DAYBAS_O       PIC  X(1).
+000670 01  ()FRATYP_O       PIC  X(1).
+000680 01  ()SALTYP_O       PIC  X(1).
+000690 01  ()OBJTYP_O       PIC  X(1).
+000700 01  ()HOLSFT_O       PIC  X(1).
+000710 01  ()DAYCNT_O       PIC S9(4) COMP-3.
+000720 01  ()FSTCAP_O       PIC S9(13) COMP-3.
+000730 01  ()SECCAP_O       PIC S9(13) COMP-3.
+000740 01  ()CAPTOT_O       PIC S9(13) COMP-3.
+000750 01  ()CREAMT_O       PIC S9(13) COMP-3.
+000760 01  ()FSTRAT_O       PIC S9(2)V9(6) COMP-3.
+000770 01  ()SECRAT_O       PIC S9(2)V9(6) COMP-3.
+000780 01  ()SUPRAT_O       PIC S9(2)V9(6) COMP-3.
+000790 01  ()FSTINT_O       PIC S9(13) COMP-3.
+000800 01  ()SECINT_O       PIC S9(13) COMP-3.
+000810 01  ()REWRAT_O       PIC S9(2)V9(6) COMP-3.
+000820 01  ()REWAMT_O       PIC S9(13) COMP-3.
+000830 01  ()REWTAX_O       PIC S9(13) COMP-3.
+000840 01  ()CHGRAT_O       PIC S9(2)V9(6) COMP-3.
+000850 01  ()CHGAMT_O       PIC S9(13) COMP-3.
+000860 01  ()CHGTAX_O       PIC S9(13) COMP-3.
+000870 01  ()BKIRAT_O       PIC S9(2)V9(6) COMP-3.
+000880 01  ()BKIAMT_O       PIC S9(13) COMP-3.
+000890 01  ()BKITAX_O       PIC S9(13) COMP-3.
+000900 01  ()CLTCOD_M       PIC  X(1).
+000910 01  ()CLTNAM_M       PIC  X(1).
+000920 01  ()REFNUM_M       PIC  X(1).
+000930 01  ()BRDNAM_M       PIC  X(1).
+000940 01  ()RATTYP_M       PIC  X(1).
+000950 01  ()CNTDAY_M       PIC  X(1).
+000960 01  ()BORDAY_M       PIC  X(1).
+000970 01  ()DUEDAY_M       PIC  X(1).
+000980 01  ()PAYCYC_M       PIC  X(1).
+000990 01  ()BORTYP_M       PIC  X(1).
+001000 01  ()TRMTYP_M       PIC  X(1).
+001010 01  ()FIXFLT_M       PIC  X(1).
+001020 01  ()BEFAFT_M       PIC  X(1).
+001030 01  ()YERDAY_M       PIC  X(1).
+001040 01  ()DAYBAS_M       PIC  X(1).
+001050 01  ()FRATYP_M       PIC  X(1).
+001060 01  ()SALTYP_M       PIC  X(1).
+001070 01  ()OBJTYP_M       PIC  X(1).
+001080 01  ()HOLSFT_M       PIC  X(1).
+001090 01  ()DAYCNT_M       PIC  X(1).
+001100 01  ()FSTCAP_M       PIC  X(1).
+001110 01  ()SECCAP_M       PIC  X(1).
+001120 01  ()CAPTOT_M       PIC  X(1).
+001130 01  ()CREAMT_M       PIC  X(1).
+001140 01  ()FSTRAT_M       PIC  X(1).
+001150 01  ()SECRAT_M       PIC  X(1).
+001160 01  ()SUPRAT_M       PIC  X(1).
+001170 01  ()FSTINT_M       PIC  X(1).
+001180 01  ()SECINT_M       PIC  X(1).
+001190 01  ()REWRAT_M       PIC  X(1).
+001200 01  ()REWAMT_M       PIC  X(1).
+001210 01  ()REWTAX_M       PIC  X(1).
+001220 01  ()CHGRAT_M       PIC  X(1).
+001230 01  ()CHGAMT_M       PIC  X(1).
+001240 01  ()CHGTAX_M       PIC  X(1).
+001250 01  ()BKIRAT_M       PIC  X(1).
+001260 01  ()BKIAMT_M       PIC  X(1).
+001270 01  ()BKITAX_M       PIC  X(1).

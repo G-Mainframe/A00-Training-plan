@@ -1,0 +1,29 @@
+       IDENTIFICATION  DIVISION.                                        00010000
+       PROGRAM-ID    EXAN25.                                            00020002
+       ENVIRONMENT     DIVISION.                                        00030000
+       INPUT-OUTPUT    SECTION.                                         00040000
+       FILE-CONTROL.                                                    00050000
+                 SELECT OUTPUT-FILE ASSIGN TO  PRINTER.                 00060010
+       DATA    DIVISION.                                                00070006
+       FILE            SECTION.                                         00080000
+       FD        OUTPUT-FILE    LABEL RECORD IS OMITTED.                00090000
+       01        OUTPUT-RECORD.                                         00100000
+         02      FILLER    PIC  X.                                      00110000
+         02      OUT-REC   PIC  X(120).                                 00120000
+       WORKING-STORAGE   SECTION.                                       00130000
+       77 T PIC 9999.                                                   00140000
+       01  A.                                                           00150007
+         02 A1 PIC 9(4).                                                00160000
+         02 A2 PIC 9(4).                                                00170000
+         02 A3 PIC 9(4).                                                00180000
+        PROCEDURE        DIVISION.                                      00190000
+                 OPEN OUTPUT OUTPUT-FILE.                               00200007
+                 ACCEPT A.                                              00210007
+                 COMPUTE T = (A1 + A2) / A3.                            00220007
+                 MOVE A TO OUT-REC.                                     00230007
+                 WRITE OUTPUT-RECORD AFTER 1.                           00240007
+                 MOVE T TO OUT-REC.                                     00250007
+                 WRITE OUTPUT-RECORD AFTER 1.                           00260007
+                 CLOSE OUTPUT-FILE.                                     00270004
+                 STOP RUN.                                              00280003
+

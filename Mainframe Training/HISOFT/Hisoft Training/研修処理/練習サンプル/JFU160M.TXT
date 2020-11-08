@@ -1,0 +1,25 @@
+\MAC ;                                                                    
+        \COMM ** éôì∂ï}ó{éËìñéëäiëré∏é“àÍóóÉvÉäÉìÉgèàóù **;               
+                                                                          
+        \SENDO MSG='************************************************';    
+        \SENDO MSG='* éôì∂ï}ó{éËìñéëäiëré∏é“àÍóóÉvÉäÉìÉgèàóù START   *';  
+        \SENDO MSG='************************************************';    
+                                                                          
+        \REPORT LEVEL=JOB;                                                
+                                                                          
+        \DCV    UCDATE1 ,CHAR ,LEN=7 ;                                    
+        \DCV    UCDATE2 ,CHAR ,LEN=7 ;                                    
+                                                                          
+        \EXEC  JFU1601;                                                   
+                                                                          
+        \EXEC  JFU1651;                                                   
+                                                                          
+        \EXEC  JFU1104;                                                   
+                                                                          
+        \EXEC  JFU1701;                                                   
+        \DEALLOC FILE=JFUSNTDS,MEDIA=NS12 ;                               
+        \DEALLOC FILE=JFU1601,MEDIA=NS12 ;                                
+                                                                          
+        \SENDO MSG='************************************************';    
+        \SENDO MSG='* éôì∂ï}ó{éËìñéëäiëré∏é“àÍóóÉvÉäÉìÉgèàóù  END    *';  
+        \SENDO MSG='************************************************';    

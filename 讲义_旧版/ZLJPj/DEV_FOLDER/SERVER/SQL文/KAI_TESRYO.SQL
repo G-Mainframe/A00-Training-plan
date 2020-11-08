@@ -1,0 +1,30 @@
+CREATE TABLE KAI_TESRYO
+(
+    契約番号                       CHAR(9) NOT NULL,
+    対象区分                       CHAR(1) NOT NULL,
+    解約日                         CHAR(8) NOT NULL,
+    ＳＦＣ判定区分                 CHAR(1) NOT NULL,
+    規定損害金消費税率             NUMBER(3,1) NOT NULL,
+    勘定処理コード                 CHAR(2) NOT NULL,
+    手数料請求コード               CHAR(2) NOT NULL,
+    規定損害金合計                 NUMBER(13,0) NOT NULL,
+    解約仕訳コード                 CHAR(3) NOT NULL,
+    規定損害金入金フラグ           CHAR(1) NOT NULL,
+    解約入金日                     CHAR(8) NOT NULL,
+    前受分内訳                     CHAR(1) NOT NULL,
+    計算方式                       CHAR(1) NOT NULL,
+    消費税率                       NUMBER(3,1) NOT NULL,
+    規損金_売却代金充当金額        NUMBER(13,0) NOT NULL,
+    規損金第三者支払先名カナ       CHAR(30) NOT NULL,
+    第三者規損金額                 NUMBER(13,0) NOT NULL,
+    規損金回収方法                 CHAR(1) NOT NULL,
+    物件代金相殺区分               CHAR(1) NOT NULL,
+    登録日                         CHAR(8) NOT NULL,
+    登録時刻                       CHAR(6) NOT NULL,
+    登録担当者コード               CHAR(4) NOT NULL,
+    更新日                         CHAR(8) NOT NULL,
+    更新時刻                       CHAR(6) NOT NULL,
+    更新担当者コード               CHAR(4) NOT NULL,
+    CONSTRAINT PK_KAI_TESRYO PRIMARY KEY (契約番号) USING INDEX
+)
+/

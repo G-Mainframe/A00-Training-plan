@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<buildresults name="">
+  <commandoutput>
+    <command id="id" name="java com.ibm.ftt.core.compilers.Link" parms="*LINKDELIMITER0*&quot;\&quot;E:\workspace\cobol\BOOKSHOP1\BuildOutput\CUSTOMER.OBJ\&quot; \&quot;E:\workspace\cobol\BOOKSHOP1\BuildOutput\MAIN.OBJ\&quot; \&quot;E:\workspace\cobol\BOOKSHOP1\BuildOutput\ORDER.OBJ\&quot; &quot;*LINKDELIMITER0END**LINKDELIMITER1*/de db2api.lib*LINKDELIMITER1END**LINKDELIMITER2*C:\SQLLIB\lib*LINKDELIMITER2END**LINKDELIMITER3*MAIN*LINKDELIMITER3END**LINKDELIMITER4*cobol*LINKDELIMITER4END**LINKDELIMITER5*exe*LINKDELIMITER5END**LINKDELIMITER6*MAIN*LINKDELIMITER6END*" depends="" buildCondition="EQ" buildReturnCode="0" prefix="">
+    <env name="COBPATH" value="%COBPATH%;C:\RDSP\wdz\eclipse\plugins\com.ibm.ftt.ui.views.navigator_6.0.1.1\" />
+    <env name="SYSLIB" value="%SYSLIB%;C:\SQLLIB\include\cobol_a;E:\workspace\cobol\BOOKSHOP1;E:\workspace\cobol\BOOKSHOP1" />
+    <buildlocation name="E:/workspace/cobol/BOOKSHOP1/BuildOutput" clean="no" />
+    </command>
+    <generatedcommand><![CDATA[cmd /c  java com.ibm.ftt.core.compilers.Link *LINKDELIMITER0*"\"E:\workspace\cobol\BOOKSHOP1\BuildOutput\CUSTOMER.OBJ\" \"E:\workspace\cobol\BOOKSHOP1\BuildOutput\MAIN.OBJ\" \"E:\workspace\cobol\BOOKSHOP1\BuildOutput\ORDER.OBJ\" "*LINKDELIMITER0END**LINKDELIMITER1*/de db2api.lib*LINKDELIMITER1END**LINKDELIMITER2*C:\SQLLIB\lib*LINKDELIMITER2END**LINKDELIMITER3*MAIN*LINKDELIMITER3END**LINKDELIMITER4*cobol*LINKDELIMITER4END**LINKDELIMITER5*exe*LINKDELIMITER5END**LINKDELIMITER6*MAIN*LINKDELIMITER6END*]]></generatedcommand>
+    <stdout><![CDATA[Argument 1, Filename == &quot;E:\workspace\cobol\BOOKSHOP1\BuildOutput\CUSTOMER.OBJ&quot; &quot;E:\workspace\cobol\BOOKSHOP1\BuildOutput\MAIN.OBJ&quot; &quot;E:\workspace\cobol\BOOKSHOP1\BuildOutput\ORDER.OBJ&quot; 
+Argument 2, Link Parms == /de db2api.lib
+Argument 3, Lib Parms == C:\SQLLIB\lib
+Argument 4, Main Parms == -main:MAIN
+Argument 5, DLL Parms == 
+Argument 6, LANG - COBOL == true
+Link Command == cob2.exe -b/de db2api.lib -main:MAIN &quot;E:\workspace\cobol\BOOKSHOP1\BuildOutput\CUSTOMER.OBJ&quot; &quot;E:\workspace\cobol\BOOKSHOP1\BuildOutput\MAIN.OBJ&quot; &quot;E:\workspace\cobol\BOOKSHOP1\BuildOutput\ORDER.OBJ&quot;
+Link Output Msg == 
+Link Error Msg == 
+Link Return Code == 0
+Result Array == Success
+======LINK=======LINK===================LINK=========
+Link :: LINK Std Output == Success
+======LINK=======LINK===================LINK=========
+Link -- highest return code == 0
+]]></stdout>
+    <stderr><![CDATA[]]></stderr>
+    <returncode>0</returncode>
+  </commandoutput>
+</buildresults>

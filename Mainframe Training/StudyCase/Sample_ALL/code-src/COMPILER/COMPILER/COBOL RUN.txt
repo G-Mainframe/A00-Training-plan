@@ -1,0 +1,6 @@
+//GDC233   JOB (080912DL510),'RUN COBOL PROGRM',        
+//             MSGCLASS=O,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//RUNCOB  EXEC PGM=PGM001                               
+//STEPLIB   DD DSN=GDC233.COB.LOAD,DISP=SHR             
+//SYSPRINT  DD SYSOUT=*                                 
+//                                                      

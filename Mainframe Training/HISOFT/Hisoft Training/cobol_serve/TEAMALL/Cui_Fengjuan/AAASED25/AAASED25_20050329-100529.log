@@ -1,0 +1,557 @@
+COBOL97 診断機能
+
+<<要約>>
+ ｱﾌﾟﾘｹｰｼｮﾝｴﾗｰが発生しました:
+  ｱﾌﾟﾘｹｰｼｮﾝ  : C:\COB97\SOC\AAASED25\AAASED25.EXE(PID=0000031C)
+  例外種別   : EXCEPTION_ACCESS_VIOLATION(C0000005)
+  発生時間   : 2005/03/29(10:05:29)
+  発生ﾓｼﾞｭｰﾙ : C:\COB97\SOC\AAASED25\AAASED25.EXE
+  作成時間   : 2005/03/29(10:03:50)
+  ﾌｧｲﾙｻｲｽﾞ   : 145552bytes
+
+<<問題箇所>>
+  ｽﾚｯﾄﾞID  : 00000428
+  ﾚｼﾞｽﾀ    : EAX=0040D431  EBX=7FFDF000  ECX=00000030  EDX=00000000  ESI=00417048
+           : EDI=00000000  EIP=0040CFD8  ESP=0012FC7C  EBP=0012FF74  EFL=00000293
+           : CS=001B  SS=0023  DS=0023  ES=0023  FS=0038  GS=0000
+  ｽﾀｯｸｺﾐｯﾄ : 00010000 (ﾄｯﾌﾟ:00130000, ﾍﾞｰｽ:00120000)
+  命令     :  ｱﾄﾞﾚｽ   +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +a +b +c +d +e +f
+             0040CFC8 00 A0 10 93 41 00 3C 33 73 0B 8B 3D 60 70 41 00
+     ﾌｫｰﾙﾄ ->0040CFD8 C6 07 33 EB 09 8B 3D 60 70 41 00 C6 07 31 A0 20
+
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\COB97\SOC\AAASED25\AAASED25.EXE
+  ｾｸｼｮﾝ相対位置 : .text+0000BFD8
+  ｼﾝﾎﾞﾙ相対位置 : AAASED25+0000BFD8
+  翻訳情報 : ShiftJIS, ｼﾝｸﾞﾙｽﾚｯﾄﾞ, NOOPTIMIZE
+  外部ﾌﾟﾛｸﾞﾗﾑ/ｸﾗｽ : AAASED25
+  ｿｰｽﾌｧｲﾙ : AAASED25.COB
+  文位置 : 2361
+
+ <呼出経路>
+[  1]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\COB97\SOC\AAASED25\AAASED25.EXE
+  ｾｸｼｮﾝ相対位置 : .text+0000000A
+  ｼﾝﾎﾞﾙ相対位置 : AAASED25+0000000A
+[  2]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\COB97\SOC\AAASED25\AAASED25.EXE
+  ｾｸｼｮﾝ相対位置 : .text+00010371
+  ｼﾝﾎﾞﾙ相対位置 : _mainCRTStartup+000000B4
+[  3]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : E:\WINNT\system32\KERNEL32.dll
+  ｾｸｼｮﾝ相対位置 : .text+000077F5
+  EXPORT相対位置 : DosDateTimeToFileTime+00000C64
+
+<<ｼｽﾃﾑ情報>>
+  ｺﾝﾋﾟｭｰﾀ名      : YAQIEDU-222
+  ﾕｰｻﾞｰ名        : Administrator
+  Windowsﾊﾞｰｼﾞｮﾝ : Microsoft Windows 2000
+  ﾊﾞｰｼﾞｮﾝﾅﾝﾊﾞｰ   : 5.0.2195
+  ｻｰﾋﾞｽﾊﾟｯｸ      : Service Pack 4
+
+<<ｺﾏﾝﾄﾞﾗｲﾝ>>
+  "AAASED25.EXE"
+
+<<環境変数>>
+  @AllFileExclusive=NO
+  @CnslBufLine=100
+  @CnslWinSize=(80,24)
+  @EnvSetWindow=UNUSE
+  @IconName=COB85EXE
+  @MessOutFile=C:\COB97\SOC\AAASED25\AAASED25_SYS.LOG
+  @NoMessage=YES
+  @ScrnSize=(80,24)
+  @WinCloseMsg=ON
+  ALLUSERSPROFILE=E:\Documents and Settings\All Users
+  APPDATA=E:\Documents and Settings\Administrator\Application Data
+  CommonProgramFiles=E:\Program Files\Common Files
+  COMPUTERNAME=YAQIEDU-222
+  ComSpec=E:\WINNT\system32\cmd.exe
+  DBMSACS=C:\COB97\SOC\DBMSACS.INI
+  HOMEDRIVE=E:
+  HOMEPATH=\
+  Include=E:\Program Files\PCOB97\INCLUDE;E:\Program Files\Microsoft Visual Studio\VC98\include;E:\Program Files\Microsoft Visual Studio\Common\MsDev\include;
+  Lib=E:\Program Files\PCOB97\LIB;E:\Program Files\PCOB97;E:\PROGRA~1\Ocf21\OBJPTN~1\lib;E:\PROGRA~1\Ocf21\cbl85pro\lib;E:\Program Files\Microsoft Visual Studio\VC98\lib;E:\Program Files\Microsoft Visual Studio\Common\MsDev\lib;
+  LOGFILE=C:\COB97\SOC\AAASED25\AAASED25.LOG
+  LOGONSERVER=\\YAQIEDU-222
+  NUMBER_OF_PROCESSORS=1
+  OS=Windows_NT
+  Os2LibPath=E:\WINNT\system32\os2\dll;
+  Path=D:\ORACLE\ORA90\bin;E:\Program Files\Oracle\jre\1.1.8\bin;E:\Program Files\PCOB97\DBALIB\BIN;E:\Program Files\PCOB97\CLASSCOB\BIN;E:\Program Files\PCOB97;E:\Program Files\PCOB97\MEFTWEB;E:\PROGRA~1\Ocf21\OBJPTN~1\bin;E:\PROGRA~1\Ocf21\SORTKIT;E:\PROGRA~1\Ocf21\cbl85pro\bin;E:\Program Files\Microsoft Visual Studio\VC98\bin;E:\Program Files\Microsoft Visual Studio\Common\MsDev\bin;E:\WINNT\system32;E:\WINNT;E:\WINNT\System32\Wbem
+  PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH
+  PROCESSOR_ARCHITECTURE=x86
+  PROCESSOR_IDENTIFIER=x86 Family 6 Model 4 Stepping 2, AuthenticAMD
+  PROCESSOR_LEVEL=6
+  PROCESSOR_REVISION=0402
+  ProgramFiles=E:\Program Files
+  SystemDrive=E:
+  SystemRoot=E:\WINNT
+  TEMP=E:\DOCUME~1\ADMINI~1\LOCALS~1\Temp
+  TMP=E:\DOCUME~1\ADMINI~1\LOCALS~1\Temp
+  U11=C:\COB97\SOC\AAASED25\SFHSED25.U11
+  USERDOMAIN=YAQIEDU-222
+  USERNAME=Administrator
+  USERPROFILE=E:\Documents and Settings\Administrator
+  WF_RESOURCES=D:\ORACLE\ORA90\WF\RES\WFja.RES
+  windir=E:\WINNT
+
+<<実行環境情報>>
+  実行ﾓｰﾄﾞ   : ShiftJIS, ｼﾝｸﾞﾙｽﾚｯﾄﾞ
+  ﾌﾟﾛｸﾞﾗﾑ名  : AAASED25
+  初期化ﾌｧｲﾙ : C:\COB97\SOC\AAASED25\COBOL85.CBR
+    [AAASED25.ENTRY]
+    CLOCO001=Z:\COB97\DLL\CLOCO001.DLL
+    COBCO001=Z:\COB97\DLL\COBCO001.DLL
+    [AAASED25]
+    @IconName=COB85EXE
+    @ScrnSize=(80,24)
+    @CnslWinSize=(80,24)
+    @CnslBufLine=100
+    @WinCloseMsg=ON
+    @EnvSetWindow=UNUSE
+    @AllFileExclusive=NO
+    @NoMessage=YES
+    @MessOutFile=C:\COB97\SOC\AAASED25\AAASED25_SYS.LOG
+    DBMSACS=C:\COB97\SOC\DBMSACS.INI
+    U11=C:\COB97\SOC\AAASED25\SFHSED25.U11
+    LOGFILE=C:\COB97\SOC\AAASED25\AAASED25.LOG
+    [EOF]
+
+<<STACK/HEAP情報>>
+  ｽﾀｯｸ : 00100000
+  ﾋｰﾌﾟ : 00100000
+
+<<ﾀｽｸﾘｽﾄ>>
+       0 Idle.exe
+       8 System.exe
+      88 smss.exe
+      A0 csrss.exe
+      9C winlogon.exe
+      D0 services.exe
+      DC lsass.exe
+     194 svchost.exe
+     1AC spoolsv.exe
+     1C8 COBATSVC.exe
+     1DC svchost.exe
+     1EC KVSrvXP.exe
+     21C regsvc.exe
+     234 MSTask.exe
+     2A4 WinMgmt.exe
+     2C0 svchost.exe
+     388 Explorer.exe
+     44C ctfmon.exe
+     488 CWV7hook.exe
+     498 ipmsg.exe
+     524 F3BXVFRM.exe
+     268 F3BXMSRV.exe
+     468 F3BXTF00.exe
+     3CC conime.exe
+     450 mdm.exe
+     3E8 EXCEL.exe
+     51C AcroRd32.exe
+     3D4 mmc.exe
+     31C AAASED25.exe
+     258 COBSNAP.exe
+       0 _Total.exe
+
+<<ﾓｼﾞｭｰﾙﾘｽﾄ>>
+  00400000 - 0041F000  C:\COB97\SOC\AAASED25\AAASED25.EXE
+                         2005/03/29(10:03:50)
+  77F80000 - 77FFB000  E:\WINNT\system32\ntdll.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6685
+                         2003/06/19(12:05:04)
+  62600000 - 62675000  D:\ORACLE\ORA90\bin\orasql9.dll
+                         2002/04/26(18:56:32)
+  610A0000 - 6113F000  D:\ORACLE\ORA90\bin\oracore9.dll
+                         2002/05/14(17:18:16)
+  612A0000 - 61319000  D:\ORACLE\ORA90\bin\oranls9.dll
+                         2002/04/25(14:03:24)
+  613A0000 - 613B1000  D:\ORACLE\ORA90\bin\oraunls9.dll
+                         2002/04/25(14:03:26)
+  78000000 - 78045000  E:\WINNT\system32\MSVCRT.dll
+                         Microsoft Corporation, Microsoft (R) Visual C++, 6.10.9844.0
+                         2003/06/19(12:05:04)
+  77E50000 - 77F38000  E:\WINNT\system32\KERNEL32.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6688
+                         2003/06/19(12:05:04)
+  74FB0000 - 74FBA000  E:\WINNT\system32\WSOCK32.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6603
+                         2003/06/19(12:05:04)
+  74F90000 - 74FA4000  E:\WINNT\system32\WS2_32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6601
+                         2003/06/19(12:05:04)
+  79480000 - 794E2000  E:\WINNT\system32\ADVAPI32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6710
+                         2003/06/19(12:05:04)
+  78780000 - 787F1000  E:\WINNT\system32\RPCRT4.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6701
+                         2003/06/19(12:05:04)
+  74F80000 - 74F88000  E:\WINNT\system32\WS2HELP.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2134.1
+                         1999/12/17(20:00:00)
+  77A20000 - 77B17000  E:\WINNT\system32\ole32.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6692
+                         2003/06/19(12:05:04)
+  77F40000 - 77F7C000  E:\WINNT\system32\GDI32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6660
+                         2003/06/19(12:05:04)
+  77DE0000 - 77E45000  E:\WINNT\system32\USER32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6688
+                         2003/06/19(12:05:04)
+  77520000 - 77550000  E:\WINNT\system32\WINMM.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2161.1
+                         1999/12/17(20:00:00)
+  60600000 - 60784000  D:\ORACLE\ORA90\bin\oraclient9.dll
+                         2002/04/28(16:13:48)
+  60800000 - 60806000  D:\ORACLE\ORA90\bin\oravsn9.dll
+                         2002/04/28(16:13:50)
+  60500000 - 60590000  D:\ORACLE\ORA90\bin\oracommon9.dll
+                         2002/04/28(16:12:16)
+  00420000 - 00677000  D:\ORACLE\ORA90\bin\orageneric9.dll
+                         2002/05/05(17:23:26)
+  62FC0000 - 6303D000  D:\ORACLE\ORA90\bin\oraxml9.dll
+                         2002/04/27(17:50:02)
+  780A0000 - 780B2000  E:\WINNT\system32\MSVCIRT.dll
+                         Microsoft Corporation, Microsoft (R) Visual C++, 6.10.8637.0
+                         1999/12/17(20:00:00)
+  630F0000 - 63110000  D:\ORACLE\ORA90\bin\oraxsd9.dll
+                         2002/04/27(17:50:14)
+  615A0000 - 61629000  D:\ORACLE\ORA90\bin\orannzsbb9.dll
+                         2002/05/04(23:00:36)
+  61480000 - 61534000  D:\ORACLE\ORA90\bin\oran9.dll
+                         2002/04/26(19:31:10)
+  61400000 - 6142C000  D:\ORACLE\ORA90\bin\oranl9.dll
+                         2002/04/26(19:30:18)
+  61960000 - 61971000  D:\ORACLE\ORA90\bin\oranldap9.dll
+                         2002/04/26(19:31:06)
+  62000000 - 62024000  D:\ORACLE\ORA90\bin\oraldapclnt9.dll
+                         2002/04/26(21:19:42)
+  616B0000 - 616C7000  D:\ORACLE\ORA90\bin\orancrypt9.dll
+                         2002/04/26(19:37:34)
+  77980000 - 77A1B000  E:\WINNT\system32\OLEAUT32.dll
+                         2003/06/19(12:05:04)
+  62300000 - 6233E000  D:\ORACLE\ORA90\bin\ORATRACE9.dll
+                         2002/04/29(14:04:08)
+  61730000 - 61766000  D:\ORACLE\ORA90\bin\oranro9.dll
+                         2002/04/26(19:30:14)
+  617C0000 - 617C6000  D:\ORACLE\ORA90\bin\oranhost9.dll
+                         2002/04/26(19:31:02)
+  617D0000 - 617D6000  D:\ORACLE\ORA90\bin\oranoname9.dll
+                         2002/04/26(19:31:04)
+  616A0000 - 616A6000  D:\ORACLE\ORA90\bin\orancds9.dll
+                         2002/04/26(19:31:24)
+  61820000 - 61827000  D:\ORACLE\ORA90\bin\orantns9.dll
+                         2002/04/26(19:30:58)
+  64000000 - 64007000  D:\ORACLE\ORA90\bin\oranms.dll
+                         2002/04/26(17:29:30)
+  64020000 - 64030000  D:\ORACLE\ORA90\bin\oranmsp.dll
+                         2002/04/26(17:29:30)
+  60A00000 - 60D13000  D:\ORACLE\ORA90\bin\orapls9.dll
+                         2002/04/28(10:45:02)
+  62500000 - 62507000  D:\ORACLE\ORA90\bin\oraslax9.dll
+                         2002/04/26(17:18:00)
+  61350000 - 61360000  D:\ORACLE\ORA90\bin\orasnls9.dll
+                         2002/04/25(14:03:28)
+  60810000 - 60816000  D:\ORACLE\ORA90\bin\orawtc9.dll
+                         2002/04/28(16:13:52)
+  1C000000 - 1C04B000  E:\Program Files\PCOB97\F3BIPRCT.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/13(10:06:24)
+  00680000 - 006BD000  E:\Program Files\PCOB97\F3BISCRN.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/03(19:24:58)
+  10000000 - 10015000  E:\Program Files\PCOB97\F3BKATCH.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/25(14:02:52)
+  76AE0000 - 76B1E000  E:\WINNT\system32\comdlg32.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.3700.6693
+                         2003/06/19(12:05:04)
+  77C40000 - 77C8A000  E:\WINNT\system32\SHLWAPI.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.3502.6601
+                         2003/06/19(12:05:04)
+  77B20000 - 77BA9000  E:\WINNT\system32\COMCTL32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.3502.6601
+                         2003/06/19(12:05:04)
+  73CC0000 - 73F08000  E:\WINNT\system32\SHELL32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.3700.6705
+                         2003/06/19(12:05:04)
+  777D0000 - 777D7000  E:\WINNT\system32\VERSION.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6623
+                         2003/06/19(12:05:04)
+  75940000 - 75946000  E:\WINNT\system32\LZ32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6611
+                         2003/06/19(12:05:04)
+  006C0000 - 006F4000  E:\Program Files\PCOB97\F3BILPIO.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/04(13:51:38)
+  00700000 - 00705000  E:\Program Files\PCOB97\F3BIOVLD.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/16(20:06:28)
+  777B0000 - 777CE000  E:\WINNT\system32\WINSPOOL.DRV
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6659
+                         2003/06/19(12:05:04)
+  798F0000 - 79901000  E:\WINNT\system32\MPR.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6611
+                         2003/06/19(12:05:04)
+  2C000000 - 2C034000  E:\Program Files\PCOB97\F3BIIO.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/06(10:49:56)
+  3C000000 - 3C03B000  E:\Program Files\PCOB97\F3BIFRM.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/05(16:06:40)
+  00710000 - 00726000  E:\Program Files\PCOB97\F3BIDBG.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/18(11:09:12)
+  75DF0000 - 75E0A000  E:\WINNT\system32\IMM32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6655
+                         2003/06/19(12:05:04)
+  012A0000 - 012A5000  E:\Program Files\PCOB97\F3BIPRSJ.DLL
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/03(20:10:44)
+  012B0000 - 012B4000  E:\Program Files\PCOB97\F3BIODSJ.DLL
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/06(19:11:34)
+  012C0000 - 012CA000  E:\Program Files\PCOB97\F3BIMSGJ.DLL
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/03(20:31:54)
+  01330000 - 0133D000  E:\Program Files\PCOB97\F3BILANP.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/05/22(20:09:36)
+  60000000 - 6004B000  E:\WINNT\system32\MSCTF.dll
+                         Microsoft Corporation, Microsoft(R) Windows NT(R) Operating System, 1.00.2409.34
+                         2003/05/21(22:49:06)
+  3A600000 - 3A676000  E:\WINNT\system32\IMJP9.IME
+                         Microsoft Corporation, Microsoft IME 2003, 9.0.5516.0
+                         2003/07/23(22:40:04)
+  3A690000 - 3A760000  E:\WINNT\system32\imjp9k.dll
+                         Microsoft Corporation, Microsoft IME 2003, 9.0.5510.0
+                         2003/07/14(23:03:54)
+  014C0000 - 014CE000  Z:\COB97\DLL\CLOCO001.DLL
+                         2004/06/07(13:38:24)
+  015E0000 - 015EC000  Z:\COB97\DLL\COBCO001.DLL
+                         2004/06/07(13:40:06)
+  61910000 - 6191C000  D:\ORACLE\ORA90\bin\orantcp9.dll
+                         2002/04/26(19:30:22)
+  40000000 - 40029000  E:\WINNT\system32\KvWspXp.dll
+                         JiangMin Ltd., JiangMin Ltd. KVWspXP, 9, 0, 0, 504
+                         2005/03/16(16:54:38)
+  68250000 - 6826D000  E:\WINNT\system32\NTMARTA.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6666
+                         2003/06/19(12:05:04)
+  77920000 - 7794A000  E:\WINNT\system32\WLDAP32.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6666
+                         2003/06/19(12:05:04)
+  750C0000 - 750CF000  E:\WINNT\system32\SAMLIB.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6666
+                         2003/06/19(12:05:04)
+  77BC0000 - 77BD1000  E:\WINNT\system32\NTDSAPI.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6666
+                         2003/06/19(12:05:04)
+  77950000 - 77974000  E:\WINNT\system32\DNSAPI.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6680
+                         2003/06/19(12:05:04)
+  750E0000 - 7512F000  E:\WINNT\system32\NETAPI32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6601
+                         2003/06/19(12:05:04)
+  79560000 - 7956F000  E:\WINNT\system32\SECUR32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6695
+                         2003/06/19(12:05:04)
+  75130000 - 75136000  E:\WINNT\system32\NETRAP.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2134.1
+                         1999/12/17(20:00:00)
+  74F30000 - 74F4E000  E:\WINNT\system32\msafd.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6602
+                         2003/06/19(12:05:04)
+  772F0000 - 77303000  E:\WINNT\system32\Iphlpapi.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6602
+                         2003/06/19(12:05:04)
+  774D0000 - 774D5000  E:\WINNT\system32\ICMP.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2134.1
+                         1999/12/17(20:00:00)
+  772D0000 - 772E7000  E:\WINNT\system32\MPRAPI.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2181.1
+                         1999/12/17(20:00:00)
+  77360000 - 7738F000  E:\WINNT\system32\ACTIVEDS.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6601
+                         2003/06/19(12:05:04)
+  77330000 - 77353000  E:\WINNT\system32\ADSLDPC.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6701
+                         2003/06/19(12:05:04)
+  777E0000 - 777EE000  E:\WINNT\system32\RTUTILS.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2168.1
+                         1999/12/17(20:00:00)
+  78310000 - 783BE000  E:\WINNT\system32\SETUPAPI.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6622
+                         2003/06/19(12:05:04)
+  79280000 - 792E2000  E:\WINNT\system32\USERENV.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6711
+                         2003/06/19(12:05:04)
+  77490000 - 774C3000  E:\WINNT\system32\RASAPI32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6625
+                         2003/06/19(12:05:04)
+  77470000 - 77481000  E:\WINNT\system32\RASMAN.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6604
+                         2003/06/19(12:05:04)
+  774E0000 - 77502000  E:\WINNT\system32\TAPI32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6664
+                         2003/06/19(12:05:04)
+  77310000 - 77329000  E:\WINNT\system32\DHCPCSVC.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6685
+                         2003/06/19(12:05:04)
+  74F70000 - 74F77000  E:\WINNT\System32\wshtcpip.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6601
+                         2003/06/19(12:05:04)
+  61890000 - 6189D000  D:\ORACLE\ORA90\bin\orannts9.dll
+                         2002/04/26(19:30:54)
+  75470000 - 75474000  E:\WINNT\system32\security.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2154.1
+                         1999/12/17(20:00:00)
+  782D0000 - 782EF000  E:\WINNT\system32\msv1_0.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6680
+                         2003/06/19(12:05:04)
+  773F0000 - 77468000  E:\WINNT\system32\CRYPT32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.131.2195.6661
+                         2003/06/19(12:05:04)
+  773E0000 - 773F0000  E:\WINNT\system32\MSASN1.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6666
+                         2003/06/19(12:05:04)
+
+<<ｽﾀｯｸｻﾏﾘ>>
+  FramePtr RetAddr  Param-01 Param-02 Param-03 Param-04 Param-05 Param-06 Param-07 Param-08 Module:Program
+  0012FF74 0040100A 00000000 0012FFC0 00411371 00000001 012F0DF0 012F0E18 00000000 001605BC AAASED25.EXE:AAASED25
+  0012FF80 00411371 00000001 012F0DF0 012F0E18 00000000 001605BC 7FFDF000 C0000005 00000000 AAASED25.EXE:AAASED25
+  0012FFC0 77E587F5 00000000 001605BC 7FFDF000 C0000005 0012FFC8 0012F8C8 FFFFFFFF 77E6F0B4 AAASED25.EXE:_mainCRTStartup
+  0012FFF0 00000000 004112BD 00000000 000000C8 00000100 EEFFEEFF 00000002 00000000 0000FE00 KERNEL32.dll:DosDateTimeToFileTime
+
+<<ｽﾀｯｸﾀﾞﾝﾌﾟ>>
+  0012FC70  B8 8B 58 F8 2C 5F 4A 80 - C8 F4 32 81 08 55 56 57  ..X.,_J...2..UVW
+  0012FC80  58 59 5A 5B 5C 5D 5E 5F - 60 41 42 43 44 45 46 47  XYZ[\]^_`ABCDEFG
+  0012FC90  48 49 4A 4B 4C 4D 4E 4F - 50 51 52 53 54 55 56 57  HIJKLMNOPQRSTUVW
+  0012FCA0  58 59 5A 7B 7C 7D 7E 7F - 80 20 20 20 20 20 20 20  XYZ{|}~..       
+  0012FCB0  20 20 20 20 20 20 20 20 - 20 20 20 20 20 20 20 20                  
+  0012FCC0  20 20 20 20 20 20 20 20 - A0 A1 A2 A3 A4 A5 A6 A7          ........
+  0012FCD0  A8 A9 AA AB AC AD AE AF - 00 00 00 00 00 00 00 00  ................
+  0012FCE0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012FCF0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012FD00  00 00 00 00 00 00 00 00 - 00 00 00 00 7C FC 12 00  ............|...
+  0012FD10  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FD20  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FD30  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FD40  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FD50  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FD60  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FD70  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FD80  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FD90  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FDA0  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FDB0  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FDC0  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FDD0  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FDE0  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FDF0  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FE00  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FE10  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FE20  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FE30  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FE40  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FE50  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FE60  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FE70  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FE80  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FE90  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FEA0  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FEB0  7C FC 12 00 7C FC 12 00 - 7C FC 12 00 7C FC 12 00  |...|...|...|...
+  0012FEC0  7C FC 12 00 7C FC 12 00 - 00 00 00 00 00 00 00 00  |...|...........
+  0012FED0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012FEE0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012FEF0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012FF00  7C FC 12 00 7C FC 12 00 - 30 4C 49 56 08 71 41 00  |...|...0LIV.qA.
+  0012FF10  84 71 41 00 00 00 00 00 - 00 00 00 00 00 00 00 00  .qA.............
+  0012FF20  00 00 00 00 00 00 00 00 - 00 00 00 00 74 FF 12 00  ............t...
+  0012FF30  00 00 00 00 00 00 00 00 - 50 07 2F 01 01 FF 12 00  ........P./.....
+  0012FF40  91 81 F9 77 CC FE 12 00 - CB 0D 2F 01 B0 FF 12 00  ...w....../.....
+  0012FF50  91 81 F9 77 50 96 F8 77 - FF FF FF FF 78 FF 12 00  ...wP..w....x...
+  0012FF60  00 00 00 00 BC 05 16 00 - 00 F0 FD 7F 08 71 41 00  .............qA.
+  0012FF70  43 42 4C 20 80 FF 12 00 - 0A 10 40 00 00 00 00 00  CBL ......@.....
+  0012FF80  C0 FF 12 00 71 13 41 00 - 01 00 00 00 F0 0D 2F 01  ....q.A......./.
+  0012FF90  18 0E 2F 01 00 00 00 00 - BC 05 16 00 00 F0 FD 7F  ../.............
+  0012FFA0  05 00 00 C0 00 00 00 00 - 94 FF 12 00 C8 F8 12 00  ................
+  0012FFB0  E0 FF 12 00 04 20 41 00 - 78 61 41 00 00 00 00 00  ..... A.xaA.....
+  0012FFC0  F0 FF 12 00 F5 87 E5 77 - 00 00 00 00 BC 05 16 00  .......w........
+  0012FFD0  00 F0 FD 7F 05 00 00 C0 - C8 FF 12 00 C8 F8 12 00  ................
+  0012FFE0  FF FF FF FF B4 F0 E6 77 - C8 8E E5 77 00 00 00 00  .......w...w....
+  0012FFF0  00 00 00 00 00 00 00 00 - BD 12 41 00 00 00 00 00  ..........A.....
+
+<<ｽﾚｯﾄﾞ情報>>
+  ｽﾚｯﾄﾞID  : 00000198
+  ﾚｼﾞｽﾀ    : EAX=777E21FE  EBX=00000003  ECX=0000004C  EDX=00000000  ESI=77F93233
+           : EDI=00000003  EIP=77F9323E  ESP=0184FD24  EBP=0184FD70  EFL=00000246
+           : CS=001B  SS=0023  DS=0023  ES=0023  FS=0038  GS=0000
+  ｽﾀｯｸｺﾐｯﾄ : 00001000 (ﾄｯﾌﾟ:01850000, ﾍﾞｰｽ:0184F000)
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : E:\WINNT\system32\ntdll.dll
+  ｾｸｼｮﾝ相対位置 : .text+0001223E
+  EXPORT相対位置 : ZwWaitForMultipleObjects+0000000B
+
+ <呼出経路>
+[  1]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : E:\WINNT\system32\KERNEL32.dll
+  ｾｸｼｮﾝ相対位置 : .text+00019BFB
+  EXPORT相対位置 : WaitForMultipleObjects+00000017
+[  2]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : E:\WINNT\system32\KERNEL32.dll
+  ｾｸｼｮﾝ相対位置 : .text+0000887C
+  EXPORT相対位置 : SetThreadExecutionState+00000227
+
+<<ｽﾀｯｸｻﾏﾘ>>
+  FramePtr RetAddr  Param-01 Param-02 Param-03 Param-04 Param-05 Param-06 Param-07 Param-08 Module:Program
+  0184FD70 77E6ABFB 0184FD48 00000001 00000000 00000000 00000000 777E22B2 00000003 0184FEB0 ntdll.dll:ZwWaitForMultipleObjects
+  0184FFB4 77E5987C 00000004 000B000A 794802A7 00187708 7FFDD000 0000004C 0184FFC0 0000004C KERNEL32.dll:WaitForMultipleObjects
+  0184FFEC 00000000 777E21FE 00187708 00000000 000000C8 00000100 EEFFEEFF 00001002 00000000 KERNEL32.dll:SetThreadExecutionState
+
+<<ｽﾀｯｸﾀﾞﾝﾌﾟ>>
+  0184FD20  D3 15 FA 77 D7 BD E5 77 - 03 00 00 00 48 FD 84 01  ...w...w....H...
+  0184FD30  01 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0184FD40  08 77 18 00 01 00 00 00 - 38 02 00 00 3C 02 00 00  .w......8...<...
+  0184FD50  4C 02 00 00 44 0D 88 ED - 8C 0B 46 80 90 2F 40 80  L...D.....F../@.
+  0184FD60  FF FF FF FF D0 0A 88 ED - 3D 16 45 80 30 77 84 81  ........=.E.0w..
+  0184FD70  B4 FF 84 01 FB AB E6 77 - 48 FD 84 01 01 00 00 00  .......wH.......
+  0184FD80  00 00 00 00 00 00 00 00 - 00 00 00 00 B2 22 7E 77  ............."~w
+  0184FD90  03 00 00 00 B0 FE 84 01 - 00 00 00 00 FF FF FF FF  ................
+  0184FDA0  08 77 18 00 A7 02 48 79 - 0A 00 0B 00 74 69 0D 81  .w....Hy....ti..
+  0184FDB0  10 0B 88 ED 18 77 84 81 - 00 00 00 00 00 00 00 00  .....w..........
+  0184FDC0  38 00 00 00 23 00 00 00 - 23 00 00 00 0A 00 0B 00  8...#...#.......
+  0184FDD0  A7 02 48 79 08 77 18 00 - 68 02 48 79 4C 00 00 00  ..Hy.w..h.HyL...
+  0184FDE0  FE 21 7E 77 F8 EB FD 7F - 24 98 E5 77 1B 00 00 00  .!~w....$..w....
+  0184FDF0  00 02 00 00 FC FF 84 01 - 23 00 00 00 0C 0B 88 ED  ........#.......
+  0184FE00  05 00 00 00 67 F5 40 80 - 98 00 00 00 F8 00 00 00  ....g.@.........
+  0184FE10  98 00 00 00 00 0B 88 ED - 05 00 00 00 24 F0 00 E1  ............$...
+  0184FE20  05 00 00 00 FE FF F8 00 - F8 69 0D 81 34 00 00 C0  .........i..4...
+  0184FE30  48 E1 AE E2 02 00 00 00 - 49 03 00 00 48 E1 AE E2  H.......I...H...
+  0184FE40  5C 0B 88 ED 10 E8 85 81 - B4 0B 88 ED 3D 16 45 80  \...........=.E.
+  0184FE50  08 20 01 E1 E0 A9 85 81 - 00 E4 46 80 A8 E7 85 81  . ........F.....
+  0184FE60  B0 0C 88 ED 18 73 00 E1 - 00 00 00 00 00 00 00 00  .....s..........
+  0184FE70  B4 0B 88 ED 1B 1A 45 80 - 01 00 00 00 E0 A9 85 81  ......E.........
+  0184FE80  00 00 00 00 10 00 F8 00 - 6A 69 0D 81 7C 00 F8 00  ........ji..|...
+  0184FE90  7A 69 0D 81 F4 0B 88 ED - 18 73 00 E1 A8 E7 85 81  zi.......s......
+  0184FEA0  30 73 00 E1 00 00 00 00 - 1F 00 00 00 00 00 00 00  0s..............
+  0184FEB0  38 02 00 00 3C 02 00 00 - 4C 02 00 00 10 0C 88 ED  8...<...L.......
+  0184FEC0  00 00 00 00 18 03 8A E2 - D4 0B 88 ED 00 00 00 00  ................
+  0184FED0  63 53 41 80 30 E9 85 81 - E0 A9 85 81 C4 0C 88 ED  cSA.0...........
+  0184FEE0  7A 0D 45 80 04 00 00 00 - 68 69 0D 81 24 4F 4A 80  z.E.....hi..$OJ.
+  0184FEF0  80 F3 12 00 00 00 00 00 - 48 F3 12 00 01 E4 0E 00  ........H.......
+  0184FF00  00 00 00 00 00 00 00 00 - C0 37 50 C0 F2 00 00 00  .........7P.....
+  0184FF10  00 20 50 C0 19 00 02 00 - 00 00 00 00 46 04 00 00  . P.........F...
+  0184FF20  C0 37 50 C0 01 00 00 00 - 00 20 50 C0 20 B9 33 81  .7P...... P. .3.
+  0184FF30  E0 CB 0D 81 00 00 00 00 - 70 CD 0D 81 60 0C 88 ED  ........p...`...
+  0184FF40  46 02 00 00 F2 DE 42 80 - 10 2F 06 80 40 CD 0D 81  F.....B../..@...
+  0184FF50  E0 CB 0D 81 70 0C 88 ED - 28 11 F4 77 00 20 50 C0  ....p...(..w. P.
+  0184FF60  A0 5A 90 81 00 00 00 00 - AC 0C 88 ED 00 00 00 00  .Z..............
+  0184FF70  70 CD 0D 81 05 00 00 00 - 00 00 00 00 00 00 00 00  p...............
+  0184FF80  00 00 00 00 D6 11 43 80 - 00 00 00 00 97 02 00 00  ......C.........
+  0184FF90  0F 12 43 80 20 B9 33 81 - E0 CB 0D 81 FF FF FF FF  ..C. .3.........
+  0184FFA0  8F 13 43 80 00 00 00 00 - 00 00 00 00 00 00 7E 77  ..C...........~w
+  0184FFB0  48 78 18 00 EC FF 84 01 - 7C 98 E5 77 04 00 00 00  Hx......|..w....
+  0184FFC0  0A 00 0B 00 A7 02 48 79 - 08 77 18 00 00 D0 FD 7F  ......Hy.w......
+  0184FFD0  4C 00 00 00 C0 FF 84 01 - 4C 00 00 00 FF FF FF FF  L.......L.......
+  0184FFE0  B4 F0 E6 77 60 D3 E5 77 - 00 00 00 00 00 00 00 00  ...w`..w........
+  0184FFF0  00 00 00 00 FE 21 7E 77 - 08 77 18 00 00 00 00 00  .....!~w.w......
+

@@ -1,0 +1,58 @@
+       01   TR232MAI.                        
+           02 FILLER    PIC X(12).           
+           02 T-ID-ML   COMP PIC S9(4).      
+           02 T-ID-MF   PIC X.               
+           02 T-ID-MI   PIC X(8).            
+           02 DATE-ML   COMP PIC S9(4).      
+           02 DATE-MF   PIC X.               
+           02 DATE-MI   PIC X(12).           
+           02 TIME-ML   COMP PIC S9(4).      
+           02 TIME-MF   PIC X.               
+           02 TIME-MI   PIC X(15).           
+           02 FUNC-ML   COMP PIC S9(4).      
+           02 FUNC-MF   PIC X.               
+           02 FUNC-MI   PIC X.               
+           02 ID-ML     COMP PIC S9(4).      
+           02 ID-MF     PIC X.               
+           02 ID-MI     PIC X(9).            
+           02 NAME-ML   COMP PIC S9(4).      
+           02 NAME-MF   PIC X.               
+           02 NAME-MI   PIC X(19).           
+           02 DPT-ML    COMP PIC S9(4).      
+           02 DPT-MF    PIC X.               
+           02 DPT-MI    PIC X(19).           
+           02 BIRTH-ML  COMP PIC S9(4).      
+           02 BIRTH-MF  PIC X.               
+           02 BIRTH-MI  PIC X(19).           
+           02 SAL-ML    COMP PIC S9(4).      
+           02 SAL-MF    PIC X.               
+           02 SAL-MI    PIC X(19).           
+       01   TR232MAO REDEFINES TR232MAI.     
+           02 FILLER    PIC X(12).           
+           02 FILLER    PIC X(2).            
+           02 T-ID-MA   PIC X.               
+           02 T-ID-MO   PIC X(8).            
+           02 FILLER    PIC X(2).            
+           02 DATE-MA   PIC X.        
+           02 DATE-MO   PIC X(12).    
+           02 FILLER    PIC X(2).     
+           02 TIME-MA   PIC X.        
+           02 TIME-MO   PIC X(15).    
+           02 FILLER    PIC X(2).     
+           02 FUNC-MA   PIC X.        
+           02 FUNC-MO   PIC X.        
+           02 FILLER    PIC X(2).     
+           02 ID-MA     PIC X.        
+           02 ID-MO     PIC X(9).     
+           02 FILLER    PIC X(2).     
+           02 NAME-MA   PIC X.        
+           02 NAME-MO   PIC X(19).    
+           02 FILLER    PIC X(2).     
+           02 DPT-MA    PIC X.        
+           02 DPT-MO    PIC X(19).    
+           02 FILLER    PIC X(2).     
+           02 BIRTH-MA  PIC X.        
+           02 BIRTH-MO  PIC X(19).    
+           02 FILLER    PIC X(2).     
+           02 SAL-MA    PIC X.        
+           02 SAL-MO    PIC X(19).               

@@ -1,0 +1,17 @@
+\MAC ;                                                                    
+        \COMM ** 児童扶養手当申請届出マスタ抽出 **;                       
+                                                                          
+        \SENDO MSG='** 児童扶養手当申請届出マスタ抽出 **';                
+        \PRIVLIB PWS@LM001,MEDIA=DK105;                                   
+        \STEP JFU290J;                                                    
+            \DBASSIGN COMMIT=100;                                         
+            \ASSIGN IND1    ,JFU2501 ,MEDIA=DK302;                        
+            \DEFINE IND1    ,DVC=DS;                                      
+            \ASSIGN IND2    ,JFUSNTD;                                     
+            \ASSIGN IND2AP  ,JFUSNTA1;                                    
+            \ASSIGN OTD1    ,JFU2901 ,MEDIA=DK302,AU=CYL,SZ=1,INCSZ=5,    
+                                                             RLS=UNUSE;   
+            \DEFINE OTD1    ,DVC=DS;                                      
+            \ASSIGN PR01    ,@OUT;                                        
+            \DEFINE PR01    ,FORMSET=FXSTD03;                             
+        \ENDSTEP ;                                                        

@@ -1,0 +1,17 @@
+\MAC ;                                                                    
+        \COMM ** 児童扶養手当認定請求者データに請求者情報リンク **;       
+                                                                          
+        \SENDO MSG='**児童扶養認定請求者に請求者情報リンク**';            
+        \PRIVLIB PWS@LM001,MEDIA=DK105;                                   
+        \STEP JFU110K;                                                    
+            \DBASSIGN COMMIT=100;                                         
+            \ASSIGN IND1  ,JFU1001,MEDIA=DK302;                           
+            \DEFINE IND1  ,DVC=DS;                                        
+            \ASSIGN IND2  ,JFUSEIQ;                                       
+            \ASSIGN IND2AP,JFUSEIA1;                                      
+            \ASSIGN OTD1  ,JFU1101,MEDIA=DK302,AU=CYL,SZ=1,INCSZ=5,       
+                                                           RLS=UNUSE;     
+            \DEFINE OTD1  ,DVC=DS;                                        
+            \ASSIGN PR01  ,@OUT;                                          
+            \DEFINE PR01  ,FORMSET=FXSTD03;                               
+        \ENDSTEP ;                                                        

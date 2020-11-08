@@ -1,0 +1,246 @@
+      *****************************************************************
+      *程序ID         ：SUB21
+      *程序名         ：学生成绩信息录入
+      *处理概要       ：新生入学时将学生信息录入到系统中
+      *
+      *
+      *变量           IO       变量名
+      *
+      *
+      *
+      *日期           作成者             概要
+      *2007/03/29     张丽娟             作成
+      *
+      *****************************************************************
+      *
+      *****************************************************************
+      * 环境部
+      *****************************************************************
+000010 IDENTIFICATION                               DIVISION.
+000020 PROGRAM-ID.  Sub21.
+000030 ENVIRONMENT                                  DIVISION.
+000040 DATA                                         DIVISION.
+000050 WORKING-STORAGE                              SECTION.
+      *
+      *----------------------------------------------------------------
+      *数据库用数据定义
+      *----------------------------------------------------------------
+000051     EXEC  SQL  BEGIN  DECLARE        SECTION  END-EXEC.
+000052     EXEC  SQL  INCLUDE  SQLCOM.CBL            END-EXEC.
+000055     EXEC  SQL  INCLUDE  SQLCA.CBL             END-EXEC.
+      *
+000055     EXEC  SQL  INCLUDE  STSCORE.CBL           END-EXEC.
+      *
+           EXEC  SQL  INCLUDE  SQLWK.CBL             END-EXEC.
+      *
+000056     EXEC  SQL  END      DECLARE      SECTION  END-EXEC.
+      *
+      *----------------------------------------------------------------
+      *WORKAREA
+      *----------------------------------------------------------------
+      *屏幕线型定义
+       COPY WKSCRLINE.
+      *
+       COPY WKAREA.
+
+000060*
+000070 LINKAGE                                      SECTION.
+      *
+000080 SCREEN                                       SECTION.
+      *画面头
+000090 COPY SCRHEAD.
+      *学生成绩信息画面
+000090 COPY SCRSCORE.
+      *画面底
+       COPY SCRFLOOR.
+      *公用提示画面
+       COPY SCRPUB.
+      *
+      *****************************************************************
+      *过程部
+      *****************************************************************
+000120 PROCEDURE                                    DIVISION.
+000130 MAINPROCESSRTN                               SECTION.
+000160*初期处理
+           PERFORM STARTRTN.
+      *主处理
+           PERFORM MAINRTN.
+
+      *终了处理
+000180     PERFORM ENDRTN.
+      *
+000180 MAINPROCESSEXIT.
+000190     EXIT PROGRAM .
+      *****************************************************************
+      *初期处理
+      *
+      *****************************************************************
+       STARTRTN                                     SECTION.
+      *    初始化WORK变量
+           INITIALIZE STSCORE, WKAREA.
+
+      *
+       STARTEXIT.
+           EXIT.
+      *****************************************************************
+      *主处理
+      *
+      *****************************************************************
+       MAINRTN                                      SECTION.
+      *    显示屏幕
+           DISPLAY SCRHEAD.
+           MOVE "请输入新录入的成绩信息,然后输入I并按回车键确认" TO WKCLUE.
+           DISPLAY SCRSCORE.
+           MOVE "输入I并按回车键确认,输入其它字符返回主菜单" TO WKCLUE.
+           DISPLAY SCRFLOOR.
+      *    数据输入
+           ACCEPT  SCRSCORE.
+      *
+           IF WKTURN = "I"
+           THEN
+      *        判断该课程成绩是否存在,存在则提示是否更新
+               PERFORM CHACKDATARTN
+      *
+           ELSE
+               GO TO MAINEXIT
+           END-IF.
+      * 
+      *    
+           IF DATACHACKFLAG = 1
+           THEN
+      *       判断该生该课程成绩是否存在
+      *       查询记录数量
+              EXEC  SQL
+                 SELECT  COUNT(*)
+                 INTO  :SQLCOUNT
+                 FROM  STUDENTSCORE
+                 WHERE (NO = :SNO) AND (COURSE = :SCOURSE)
+              END-EXEC
+
+              EVALUATE   SQLCODE
+              WHEN  0
+      *          查询记录条数正常
+                 DISPLAY  "查询记录条数正常sqlcode=", SQLCODE
+                 CONTINUE
+              WHEN OTHER
+      *          查询记录条数失败
+                 DISPLAY  "查询记录条数失败sqlcode=", SQLCODE
+                 MOVE SQLCODE TO EMSGSQLCD
+      *          错误处理
+                 CALL "ERRORMSG" USING ERRORKEY
+                 GO TO MAINEXIT
+              END-EVALUATE
+
+           ELSE
+               CONTINUE
+           END-IF
+      *    判断数据是否存在
+           IF (DATACHACKFLAG = 1) AND (SQLCOUNT = 0)
+           THEN
+      *       数据不存在，插入新数据
+              PERFORM DBUPRTN
+           ELSE
+      *        显示输入信息已经存在提示画面
+               DISPLAY SCRHEAD
+               MOVE "您输入的学生该门课程成绩已存在！" TO WKCLUE
+               MOVE SPACE TO WKTURN
+               DISPLAY SCRPUB
+               MOVE "您输入的学生该门课程成绩已存在！" TO WKCLUE
+               DISPLAY SCRFLOOR
+               ACCEPT SCRPUB
+      *
+           END-IF.
+
+
+       MAINEXIT.
+           EXIT.
+      *
+      *----------------------------------------------------------------
+      *校验数据
+      *    数据不合格则设置FLAG为0
+      *----------------------------------------------------------------
+       CHACKDATARTN                                 SECTION.
+      *    CHACKFLAG置1
+           MOVE 1                       TO  DATACHACKFLAG.
+
+      *    录入的数据不为空
+           IF (SNO     NOT = 0)     AND
+              (Scourse NOT = 0)     AND
+              (SScore  NOT = 0)
+           THEN
+              CONTINUE
+           ELSE
+      *        显示未录入数据画面
+               DISPLAY SCRHEAD
+               MOVE "请录入数据！" TO WKCLUE
+               MOVE SPACE TO WKTURN
+               DISPLAY SCRPUB
+               MOVE "请录入数据！" TO WKCLUE
+               DISPLAY SCRFLOOR
+               ACCEPT SCRPUB
+              GO TO MAINEXIT
+           END-IF.
+
+       CHACKDATAEXIT.
+           EXIT.
+      *
+      *----------------------------------------------------------------
+      *插入新数据
+      *----------------------------------------------------------------
+       DBUPRTN                                      SECTION.
+      *
+      *    数据插入操作
+           EXEC SQL
+               INSERT INTO STUDENTSCORE( NO
+                                        ,COURSE
+                                        ,SCORE
+                                      )
+               VALUES ( :SNO
+                       ,:SCOURSE 
+                       ,:SSCORE  
+                      )
+           END-EXEC.
+      *
+      *    数据库返回码判断
+           EVALUATE SQLCODE
+           WHEN 0
+      *        返回码为“0”数据插入正常
+      *        数据提交
+               DISPLAY  "录入学生成绩成功sqlCODE=", SQLCODE
+               EXEC SQL
+                   COMMIT WORK RELEASE
+               END-EXEC
+      *
+      *        显示插入成功画面
+               DISPLAY SCRHEAD
+               MOVE "录入学生成绩成功！" TO WKCLUE
+               MOVE SPACE TO WKTURN
+               DISPLAY SCRPUB
+               MOVE "录入学生成绩成功！" TO WKCLUE
+               DISPLAY SCRFLOOR
+               ACCEPT SCRPUB
+      *
+           WHEN OTHER
+      *        数据库返回码非“0”，数据插入失败，设定错误码
+               MOVE 211 TO ERRPOINT
+               MOVE SQLCODE TO EMSGSQLCD
+      *        错误处理
+               CALL "ERRORMSG" USING ERRORKEY
+           END-EVALUATE.
+      *
+       DBUPEXIT.
+           EXIT.
+      *
+      *****************************************************************
+      *终了处理
+      *
+      *****************************************************************
+       ENDRTN                                       SECTION.
+      *    调试信息
+           DISPLAY "SUB21 END-PROGRAM OK".
+      *
+       ENDEXIT.
+           EXIT.
+      *****************************************************************
+       END PROGRAM SUB21.
+      *****************************************************************

@@ -1,0 +1,32 @@
+CREATE TABLE SSF_KEI_SEIKYU
+(
+    契約番号                       CHAR(9) NOT NULL,
+    請求先コード                   CHAR(8) NOT NULL,
+    請求先名                       VARCHAR2(60) NOT NULL,
+    請求先郵便番号                 CHAR(7) NOT NULL,
+    請求先住所                     VARCHAR2(100) NOT NULL,
+    請求先電話番号                 VARCHAR2(15) NOT NULL,
+    請求先部門名称                 VARCHAR2(40) NOT NULL,
+    請求区分１                     CHAR(1) NOT NULL,
+    請求区分２                     CHAR(1) NOT NULL,
+    第１回リース料受取り条件       VARCHAR2(20) NOT NULL,
+    第２回目以降リース料受取り条件   VARCHAR2(20) NOT NULL,
+    手形枚数                       NUMBER(3,0) NOT NULL,
+    入金基準日                     CHAR(2) NOT NULL,
+    預金種類                       CHAR(1) NOT NULL,
+    銀行コード                     CHAR(7) NOT NULL,
+    口座番号                       CHAR(7) NOT NULL,
+    第１回リース料入金日           CHAR(8) NOT NULL,
+    第２回リース料入金日           CHAR(8) NOT NULL,
+    前受リース料入金日             CHAR(8) NOT NULL,
+    残価回収日                     CHAR(8) NOT NULL,
+    銀行短縮コード                 CHAR(2) NOT NULL,
+    登録日                         CHAR(8) NOT NULL,
+    登録時刻                       CHAR(6) NOT NULL,
+    登録担当者コード               CHAR(4) NOT NULL,
+    更新日                         CHAR(8) NOT NULL,
+    更新時刻                       CHAR(6) NOT NULL,
+    更新担当者コード               CHAR(4) NOT NULL,
+    CONSTRAINT SYS_C009841 PRIMARY KEY (契約番号) USING INDEX
+)
+/

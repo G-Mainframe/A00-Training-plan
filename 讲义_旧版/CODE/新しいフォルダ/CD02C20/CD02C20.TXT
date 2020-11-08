@@ -1,0 +1,196 @@
+1/* CD02C20 : DELTA SELECTION PROGRAM           IBM INTERNAL USE ONLY */00000100
+0CD02C20: PROC        OPTIONS(MAIN);                                    00000200
+ /* ----------------------------------------------------------------- */
+ /*       SECURITY CLASS      --- IBM INTERNAL USE ONLY               */
+ /*       PROJECT NAME        --- ATLAS APNORTH SUPPORT               */
+ /*       PROJECT NO.         --- CG48                                */
+ /*       MODULE GROUP NAME   ---                                     */
+ /*       MODULE NAME         --- CD02C20                             */
+ /*       PROGRAM DESCRIPTION --- DELTA SELECTION PROGRAM             */
+ /*       PROGRAMMER NAME     --- MSS                                 */
+ /*       WRITTEN DATE        --- 98/10/15                            */
+ /*       REVISED DATE        --- YY/MM/DD                            */
+ /* ----------------------------------------------------------------- */
+1/*-------------------------------------------------------------------*/00003900
+ /*           FILE DECLARE                                            */00004000
+ /*-------------------------------------------------------------------*/00004100
+ DCL INF1               FILE RECORD INPUT;       /* TODAY     FILE    */00004800
+ DCL INF2               FILE RECORD INPUT;       /* YESTERDAY FILE    */00004900
+ DCL OUTF1              FILE RECORD OUTPUT;      /* DELTA     FILE    */00005000
+ DCL SYSPRINT           STREAM OUTPUT;           /* SYSPRINT          */00005400
+1/*-------------------------------------------------------------------*/00005500
+ /*           INPUT AREA( TODAY    FILE )                             */00005600
+ /*-------------------------------------------------------------------*/00005700
+ DCL 1 IN_AREA1,                                                        00005800
+       %INCLUDE CD03A6;                                                 00005900
+1/*-------------------------------------------------------------------*/00005500
+ /*           INPUT AREA( YESTERDAY FILE )                            */00005600
+ /*-------------------------------------------------------------------*/00005700
+ DCL 1 IN_AREA2,                                                        00005800
+       %INCLUDE CD03A6;                                                 00005900
+1/*-------------------------------------------------------------------*/00006000
+ /*           OUPUT AREA( DEITA  FLIE  )                              */00006100
+ /*-------------------------------------------------------------------*/00006200
+ DCL 1 OUT_AREA,                                                        00006300
+       %INCLUDE CD03A6;                                                 00006400
+1/*-------------------------------------------------------------------*/00390001
+ /*      %INCLUDE  SYSLIB2(SMONERR1)                                  */00400001
+ /*-------------------------------------------------------------------*/00410001
+ %INCLUDE  SYSLIB2(SMONERR1);                                           00420001
+1/*-------------------------------------------------------------------*/00810001
+ /*      END  OF  FILE  SWITCH                                        */00820001
+ /*-------------------------------------------------------------------*/00830001
+ DCL  SW_EOF_INF1       BIT(1)  INIT('0'B); /*                        */00840001
+                                            /* IF ON THEN             */00850001
+                                            /* INF1 FILE ENDED        */00860001
+ DCL  SW_EOF_INF2       BIT(1)  INIT('0'B); /*                        */00870001
+                                            /* IF ON THEN             */00880001
+                                            /* INF2 FILE ENDED        */00890001
+0/*-------------------------------------------------------------------*/00930001
+ /*      I/O  COUNTERS                                                */00940001
+ /*-------------------------------------------------------------------*/00950001
+ DCL 1 COUNT           STATIC,              /* COUNTER                */00960001
+       2 (                                  /*                        */00970001
+         INPUT_INF1,                        /* IN  TODAY     COUNT    */00980001
+         INPUT_INF2,                        /* IN  YESTERDAY COUNT    */00990001
+         OUTPUT_FOUT1,                      /* OUT DAELTA    COUNT    */01010001
+         MATCH_INF_R,                       /*   MATCH READ    CNT    */01020001
+         MATCH_INF_W,                       /*   MATCH WRITE   CNT    */01020001
+         UNMATCH_INF1,                      /* TODAY     ONLY    CNT  */01030001
+         UNMATCH_INF2)                      /* YESTERDAY ONLY    CNT  */01030001
+                     FIXED  BIN(31,0)  INIT(0);                         01070001
+0/*-------------------------------------------------------------------*/01090001
+ /*      BUILTIN  FUNCTION                                            */01100001
+ /*-------------------------------------------------------------------*/01110001
+ DCL  HIGH           BUILTIN;               /* BUILTIN  FUNCTION      */01130001
+ DCL  ADDR           BUILTIN;               /* BUILTIN  FUNCTION      */01130001
+ DCL  PLIDUMP        BUILTIN;               /* BUILTIN  FUNCTION      */01140001
+ DCL  SUBSTR         BUILTIN;               /* BUILTIN  FUNCTION      */01160001
+0/*-------------------------------------------------------------------*/01190001
+ /*      ON  CONDITION                                                */01200001
+ /*-------------------------------------------------------------------*/01210001
+ ON  ENDFILE(INF1)      BEGIN;              /* FILE END CONDITION     */01220001
+   SW_EOF_INF1    =  '1'B;                  /*  SET  FILE END  SWITCH */01270001
+   KEY_INF1 = HIGH(10);
+ END;                                       /* ON END                 */01290001
+                                            /*                        */01300001
+ ON  ENDFILE(INF2)      BEGIN;              /* FILE END CONDITION     */01310001
+   SW_EOF_INF2    =  '1'B;                  /*  SET  FILE END  SWITCH */01360001
+   KEY_INF2 = HIGH(10);
+ END;                                       /* ON END                 */01380001
+                                            /*                        */01390001
+1/*-------------------------------------------------------------------*/01410001
+ /*      WORK  AREA                                                   */01420001
+ /*-------------------------------------------------------------------*/01430001
+ DCL   KEY_INF1        CHAR(10) INIT('');   /*  TODAY     FILE KEY    */01440001
+ DCL   KEY_INF2        CHAR(10) INIT('');   /*  YESTERDAY FILE KEY    */01450001
+                                            /*                        */01660001
+1/*-------------------------------------------------------------------*/02030001
+ /*           OPEN                                                    */02040001
+ /*-------------------------------------------------------------------*/02050001
+   OPEN FILE (INF1) ;                       /* OPEN  TODAY       FILE */02060001
+   OPEN FILE (INF2) ;                       /* OPEN  YESTERDAY   FILE */02070001
+   OPEN FILE (OUTF1);                       /* OPEN  DELTA       FILE */02090001
+1/*-------------------------------------------------------------------*/02740001
+ /*      MAIN PROCEDURE                                               */02750001
+ /*-------------------------------------------------------------------*/02760001
+   CALL INF1_READ ;                         /* READ TODAY      FILE   */02770001
+   CALL INF2_READ ;                         /* READ YESTERDAY  FILE   */02770001
+                                            /* DO LOOP (UNTIL FILE END*/02800001
+   DO  WHILE(SW_EOF_INF1 = '0'B | SW_EOF_INF2 = '0'B);                  03010001
+     SELECT;                                /* MATCHING KEY           */03020001
+                                            /* WHEN                   */03030001
+       WHEN(KEY_INF1    <  KEY_INF2) DO;         /* WHEN  TODAY ONLY  */03040001
+         UNMATCH_INF1    = UNMATCH_INF1 + 1;     /* COUNT TODAY ONLY  */03110001
+         OUT_AREA = IN_AREA1 ;
+         WRITE FILE(OUTF1) FROM(OUT_AREA);       /* OUT FILE WRITE    */05389301
+         OUTPUT_FOUT1   =  OUTPUT_FOUT1   +  1;                         05390001
+         CALL  INF1_READ;                        /* READ TODAY FILE   */03120001
+       END;                                      /* WHEN END          */03140001
+                                                 /*                   */03150001
+       WHEN(KEY_INF1    >  KEY_INF2) DO;         /*WHEN YESTERDAY ONLY*/03160001
+         UNMATCH_INF2 = UNMATCH_INF2 + 1;        /* CNT YESTERDAY ONLY*/03180001
+         CALL  INF2_READ;                        /*READ YESTERDAY FLIE*/03190001
+       END;                                      /* WHEN END          */03200001
+                                                 /*                   */03210001
+       WHEN(KEY_INF1    =  KEY_INF2) DO;         /* WHEN MATCH        */03220001
+         IF (IN_AREA1.MACHTYPE = IN_AREA2.MACHTYPE &
+             IN_AREA1.MACHSER  = IN_AREA2.MACHSER  &
+             IN_AREA1.MACHST   = IN_AREA2.MACHST   &
+             IN_AREA1.MACHORG  = IN_AREA2.MACHORG  &
+             IN_AREA1.CUSTNUM  = IN_AREA2.CUSTNUM )
+         THEN
+           MATCH_INF_R = MATCH_INF_R + 1 ;       /* MACH READ  CNT    */
+
+         ELSE DO ;
+           MATCH_INF_W = MATCH_INF_W + 1 ;       /* MACH WRITE CNT    */
+           OUT_AREA = IN_AREA1;
+           WRITE FILE(OUTF1) FROM(OUT_AREA);     /* OUTPUT WRITE      */05389301
+           OUTPUT_FOUT1   =  OUTPUT_FOUT1  +  1; /* OUTPUT CNT        */05390001
+         END;
+         CALL  INF1_READ;                        /* READ TODAY   FILE */03261001
+         CALL  INF2_READ;                        /* READ YESTERD FILE */03261001
+       END;                                      /* WHEN END          */03270001
+     END;                                        /* SELECT END        */03280001
+   END;                                          /* DO END            */03290001
+                                                 /*                   */03300001
+   CLOSE FILE  (INF1) ;                          /* CLOSE TODAY FLIE  */03310001
+   CLOSE FILE  (INF2) ;                          /* CLOSE YESTERDAY FL*/03320001
+   CLOSE FILE  (OUTF1);                          /* CLOSE DELTA FLIE  */03330001
+1/*-------------------------------------------------------------------*/03340001
+ /*      SUBROUTINE(INF1_READ)                                        */03350001
+ /*-------------------------------------------------------------------*/03360001
+ INF1_READ: PROC;                           /* TODAY   FILE READ PROC */03370001
+
+   IN_AREA1 = '';                           /* IN AREA CLAER          */
+   READ FILE(INF1)INTO(IN_AREA1) ;          /* READ TODAY  FILE       */
+
+   IF  SW_EOF_INF1    =  '0'B               /* IF END OF FILE         */
+   THEN DO;
+     INPUT_INF1 = INPUT_INF1 + 1;           /* COUNT TODA FILE        */03450001
+
+     KEY_INF1 = IN_AREA1.CTRYNUMB || IN_AREA1.CALLNUM;     /* KEY SET */
+
+   END;
+
+ END  INF1_READ;                            /* END INF1 READ PROC     */03530001
+1/*-------------------------------------------------------------------*/03340001
+ /*      SUBROUTINE(INF2_READ)                                        */03350001
+ /*-------------------------------------------------------------------*/03360001
+ INF2_READ: PROC;                           /* YESTRDAY FL READ PROC  */03370001
+
+   IN_AREA2 = '';                           /* IN AREA CLAER          */
+   READ FILE(INF2)INTO(IN_AREA2) ;          /* READ YEATERDAY FILE    */
+
+   IF  SW_EOF_INF2    =  '0'B               /* IF END OF FILE         */
+   THEN DO;
+     INPUT_INF2 = INPUT_INF2 + 1;           /* COUNT AR FILE          */03450001
+
+     KEY_INF2 = IN_AREA2.CTRYNUMB || IN_AREA2.CALLNUM;     /* KEY SET */
+
+   END;
+
+ END  INF2_READ;                            /* END INF2 READ PROC     */03530001
+1/*-------------------------------------------------------------------*/05901001
+ /*      END  OF  PROGRAM                                             */05910001
+ /*-------------------------------------------------------------------*/05920001
+1/* ***************************************************************** */
+ /* PROGRAM END BLOCK                                                 */
+ /* ***************************************************************** */
+0   %INCLUDE SYSLIB2(SMHEAD3);
+    XDESC = 'CD02C20 : DELTA SELECTION PROGRAM';
+    XPGMR = 'MSS';
+    %INCLUDE SYSLIB2(SMCTIME1);
+    %INCLUDE SYSLIB2(SMCHECK5);
+    SMCOUNT4(
+ INPUT_INF1,
+ INPUT_INF2,
+ OUTPUT_FOUT1,
+ MATCH_INF_R,
+ MATCH_INF_W,
+ UNMATCH_INF1,
+ UNMATCH_INF2,END);
+    %XTWOWAY=3;
+    SMEND7(END);
+0END CD02C20;
+

@@ -1,0 +1,138 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200*                                                                 00020000
+000300 PROGRAM-ID.    UPDTHST1.                                         00030000
+000400*                                                                 00040000
+000500 ENVIRONMENT DIVISION.                                            00050000
+000600*                                                                 00060000
+000700 DATA DIVISION.                                                   00070000
+000800*                                                                 00080000
+000900 WORKING-STORAGE SECTION.                                         00090000
+001000*                                                                 00100000
+001100 01  SWITCH.                                                      00110000
+001200*                                                                 00120000
+001300     05  UPDATE-SUCCESSFUL-SW     PIC X    VALUE 'Y'.             00130000
+001400         88  UPDATE-SUCCESSFUL             VALUE 'Y'.             00140000
+001500*                                                                 00150000
+001600     EXEC SQL                                                     00160000
+001700         INCLUDE SQLCA                                            00170000
+001800     END-EXEC.                                                    00180000
+001900*                                                                 00190000
+002000 PROCEDURE DIVISION.                                              00200000
+002100*                                                                 00210000
+002200 000-UPDATE-HISTORY-TABLES.                                       00220000
+002300*                                                                 00230000
+002400     PERFORM 100-CLEAR-WORK-TABLE.                                00240000
+002500     IF UPDATE-SUCCESSFUL                                         00250000
+002600         PERFORM 200-LOAD-WORK-TABLE.                             00260000
+002700     IF UPDATE-SUCCESSFUL                                         00270000
+002800         PERFORM 300-MOVE-INVOICES.                               00280000
+002900     IF UPDATE-SUCCESSFUL                                         00290000
+003000         PERFORM 400-MOVE-LINE-ITEMS.                             00300000
+003100     IF UPDATE-SUCCESSFUL                                         00310000
+003200         PERFORM 500-MOVE-PAYMENT-ITEMS.                          00320000
+003300     IF UPDATE-SUCCESSFUL                                         00330000
+003400         DISPLAY 'UPDATE COMPLETED SUCCESSFULLY.'.                00340000
+003500     STOP RUN.                                                    00350000
+003600*                                                                 00360000
+003700 100-CLEAR-WORK-TABLE.                                            00370000
+003800*                                                                 00380000
+003900     EXEC SQL                                                     00390000
+004000         DELETE FROM MM01.WORKTABLE                               00400000
+004100     END-EXEC.                                                    00410000
+004200     IF SQLCODE < 0                                               00420000
+004300         DISPLAY 'DELETE IN MODULE 100 FAILED.'                   00430000
+004400         DISPLAY 'SQLCODE = ' SQLCODE                             00440000
+004500         MOVE 'N' TO UPDATE-SUCCESSFUL-SW.                        00450000
+004600*                                                                 00460000
+004700 200-LOAD-WORK-TABLE.                                             00470000
+004800*                                                                 00480000
+004900     EXEC SQL                                                     00490000
+005000         INSERT INTO MM01.WORKTABLE                               00500000
+005100             SELECT *                                             00510000
+005200                 FROM  MM01.INVOICE A                             00520000
+005300                 WHERE INVTOTAL =                                 00530000
+005400                     (SELECT SUM(PAYAMT)                          00540000
+005500                          FROM MM01.PAYMENT                       00550000
+005600                          WHERE PAYINVNO = A.INVNO)               00560000
+005700     END-EXEC.                                                    00570000
+005800     IF SQLCODE < 0                                               00580000
+005900         DISPLAY 'INSERT IN MODULE 200 FAILED.'                   00590000
+006000         DISPLAY 'SQLCODE = ' SQLCODE                             00600000
+006100         MOVE 'N' TO UPDATE-SUCCESSFUL-SW.                        00610000
+006200*                                                                 00620000
+006300 300-MOVE-INVOICES.                                               00630000
+006400*                                                                 00640000
+006500     EXEC SQL                                                     00650000
+006600         INSERT INTO MM01.INVHIST                                 00660000
+006700             SELECT *                                             00670000
+006800                 FROM  MM01.WORKTABLE                             00680000
+006900     END-EXEC.                                                    00690000
+007000     IF SQLCODE < 0                                               00700000
+007100         DISPLAY 'INSERT IN MODULE 300 FAILED.'                   00710000
+007200         DISPLAY 'SQLCODE = ' SQLCODE                             00720000
+007300         MOVE 'N' TO UPDATE-SUCCESSFUL-SW                         00730000
+007400     ELSE                                                         00740000
+007500         EXEC SQL                                                 00750000
+007600             DELETE FROM MM01.INVOICE                             00760000
+007700                 WHERE INVNO IN                                   00770000
+007800                     (SELECT INVNO                                00780000
+007900                          FROM MM01.WORKTABLE)                    00790000
+008000         END-EXEC                                                 00800000
+008100         IF SQLCODE < 0                                           00810000
+008200             DISPLAY 'DELETE IN MODULE 300 FAILED.'               00820000
+008300             DISPLAY 'SQLCODE = ' SQLCODE                         00830000
+008400             MOVE 'N' TO UPDATE-SUCCESSFUL-SW.                    00840000
+008500*                                                                 00850000
+008600 400-MOVE-LINE-ITEMS.                                             00860000
+008700*                                                                 00870000
+008800     EXEC SQL                                                     00880000
+008900         INSERT INTO MM01.LIHIST                                  00890000
+009000             SELECT *                                             00900000
+009100                 FROM  MM01.LINEITEM                              00910000
+009200                 WHERE LIINVNO IN                                 00920000
+009300                     (SELECT INVNO                                00930000
+009400                          FROM MM01.WORKTABLE)                    00940000
+009500     END-EXEC.                                                    00950000
+009600     IF SQLCODE < 0                                               00960000
+009700         DISPLAY 'INSERT IN MODULE 400 FAILED.'                   00970000
+009800         DISPLAY 'SQLCODE = ' SQLCODE                             00980000
+009900         MOVE 'N' TO UPDATE-SUCCESSFUL-SW                         00990000
+010000     ELSE                                                         01000000
+010100         EXEC SQL                                                 01010000
+010200             DELETE FROM MM01.LINEITEM                            01020000
+010300                 WHERE LIINVNO IN                                 01030000
+010400                     (SELECT INVNO                                01040000
+010500                          FROM MM01.WORKTABLE)                    01050000
+010600         END-EXEC                                                 01060000
+010700         IF SQLCODE < 0                                           01070000
+010800             DISPLAY 'DELETE IN MODULE 400 FAILED.'               01080000
+010900             DISPLAY 'SQLCODE = ' SQLCODE                         01090000
+011000             MOVE 'N' TO UPDATE-SUCCESSFUL-SW.                    01100000
+011100*                                                                 01110000
+011200 500-MOVE-PAYMENT-ITEMS.                                          01120000
+011300*                                                                 01130000
+011400     EXEC SQL                                                     01140000
+011500         INSERT INTO MM01.PAYHIST                                 01150000
+011600             SELECT *                                             01160000
+011700                 FROM  MM01.PAYMENT                               01170000
+011800                 WHERE PAYINVNO IN                                01180000
+011900                     (SELECT INVNO                                01190000
+012000                          FROM MM01.WORKTABLE)                    01200000
+012100     END-EXEC.                                                    01210000
+012200     IF SQLCODE < 0                                               01220000
+012300         DISPLAY 'INSERT IN MODULE 500 FAILED.'                   01230000
+012400         DISPLAY 'SQLCODE = ' SQLCODE                             01240000
+012500         MOVE 'N' TO UPDATE-SUCCESSFUL-SW                         01250000
+012600     ELSE                                                         01260000
+012700         EXEC SQL                                                 01270000
+012800             DELETE FROM MM01.PAYMENT                             01280000
+012900                 WHERE PAYINVNO IN                                01290000
+013000                     (SELECT INVNO                                01300000
+013100                          FROM MM01.WORKTABLE)                    01310000
+013200         END-EXEC                                                 01320000
+013300         IF SQLCODE < 0                                           01330000
+013400             DISPLAY 'DELETE IN MODULE 500 FAILED.'               01340000
+013500             DISPLAY 'SQLCODE = ' SQLCODE                         01350000
+013600             MOVE 'N' TO UPDATE-SUCCESSFUL-SW.                    01360000
+013700*                                                                 01370000
+013800                                                                  01380000

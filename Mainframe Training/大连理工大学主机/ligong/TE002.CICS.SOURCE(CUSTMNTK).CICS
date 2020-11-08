@@ -1,0 +1,465 @@
+       IDENTIFICATION DIVISION.                                         00010000
+      *                                                                 00020000
+       PROGRAM-ID.  CUSTMNTK.                                           00030001
+      *                                                                 00040000
+       ENVIRONMENT DIVISION.                                            00050000
+      *                                                                 00060000
+       DATA DIVISION.                                                   00070000
+      *                                                                 00080000
+       WORKING-STORAGE SECTION.                                         00090000
+      *                                                                 00100000
+       01  SWITCHES.                                                    00110000
+      *                                                                 00120000
+           05  VALID-DATA-SW                 PIC X  VALUE 'Y'.          00130000
+               88  VALID-DATA                       VALUE 'Y'.          00140000
+      *                                                                 00150000
+       01  FLAGS.                                                       00160000
+      *                                                                 00170000
+           05  SEND-FLAG                     PIC X.                     00180000
+               88  SEND-ERASE                       VALUE '1'.          00190000
+               88  SEND-ERASE-ALARM                 VALUE '2'.          00200000
+               88  SEND-DATAONLY                    VALUE '3'.          00210000
+               88  SEND-DATAONLY-ALARM              VALUE '4'.          00220000
+      *                                                                 00230000
+       01  WORK-FIELDS.                                                 00240000
+      *                                                                 00250000
+           05  RESPONSE-CODE                 PIC S9(8) COMP.            00260000
+      *                                                                 00270000
+       01  USER-INSTRUCTIONS.                                           00280000
+      *                                                                 00290000
+           05  ADD-INSTRUCTION                 PIC X(79) VALUE          00300000
+               'Type information for new customer.  Then Press Enter.'. 00310000
+           05  CHANGE-INSTRUCTION              PIC X(79) VALUE          00320000
+               'Type changes.  Then press Enter.'.                      00330000
+           05  DELETE-INSTRUCTION              PIC X(79) VALUE          00340000
+               'Press Enter to delete this customer or press F12 to canc00350000
+      -        'el.'.                                                   00360000
+      *                                                                 00370000
+       01  COMMUNICATION-AREA.                                          00380000
+      *                                                                 00390000
+           05  CA-CONTEXT-FLAG               PIC X.                     00400000
+               88  PROCESS-KEY-MAP                  VALUE '1'.          00410000
+               88  PROCESS-ADD-CUSTOMER             VALUE '2'.          00420000
+               88  PROCESS-CHANGE-CUSTOMER          VALUE '3'.          00430000
+               88  PROCESS-DELETE-CUSTOMER          VALUE '4'.          00440000
+           05  CA-CUSTOMER-RECORD.                                      00450000
+               10  CA-CUSTOMER-NUMBER        PIC X(6).                  00460000
+               10  FILLER                    PIC X(112).                00470000
+      *                                                                 00480000
+       COPY CUSTMAS.                                                    00490002
+      *                                                                 00500000
+       COPY MNTSETK.                                                    00510001
+      *                                                                 00520000
+       COPY DFHAID.                                                     00530000
+      *                                                                 00540000
+       COPY ATTR.                                                       00550000
+      *                                                                 00560000
+       LINKAGE SECTION.                                                 00570000
+      *                                                                 00580000
+       01  DFHCOMMAREA                       PIC X(119).                00590000
+      *                                                                 00600000
+       PROCEDURE DIVISION.                                              00610000
+      *                                                                 00620000
+       0000-PROCESS-CUSTOMER-MAINT.                                     00630000
+      *                                                                 00640000
+           IF EIBCALEN > ZERO                                           00650000
+               MOVE DFHCOMMAREA TO COMMUNICATION-AREA                   00660000
+           END-IF.                                                      00670000
+      *                                                                 00680000
+           EVALUATE TRUE                                                00690000
+      *                                                                 00700000
+               WHEN EIBCALEN = ZERO                                     00710000
+                   MOVE LOW-VALUE TO MNTMAP1O                           00720000
+                   SET SEND-ERASE TO TRUE                               00730000
+                   MOVE -1 TO CUSTNO1L                                  00740000
+                   PERFORM 1500-SEND-KEY-MAP                            00750000
+                   SET PROCESS-KEY-MAP TO TRUE                          00760000
+      *                                                                 00770000
+               WHEN EIBAID = DFHPF3                                     00780000
+                   EXEC CICS                                            00790000
+                       XCTL PROGRAM('INVMENUK')                         00800003
+                   END-EXEC                                             00810000
+      *                                                                 00820000
+               WHEN EIBAID = DFHPF12                                    00830000
+                   IF PROCESS-KEY-MAP                                   00840000
+                       EXEC CICS                                        00850000
+                           XCTL PROGRAM('INVMENUK')                     00860003
+                       END-EXEC                                         00870000
+                   ELSE                                                 00880000
+                       MOVE LOW-VALUE TO MNTMAP1O                       00890000
+                       MOVE -1 TO CUSTNO1L                              00900000
+                       SET SEND-ERASE TO TRUE                           00910000
+                       PERFORM 1500-SEND-KEY-MAP                        00920000
+                       SET PROCESS-KEY-MAP TO TRUE                      00930000
+                   END-IF                                               00940000
+      *                                                                 00950000
+               WHEN EIBAID = DFHCLEAR                                   00960000
+                   IF PROCESS-KEY-MAP                                   00970000
+                       MOVE LOW-VALUE TO MNTMAP1O                       00980000
+                       MOVE -1 TO CUSTNO1L                              00990000
+                       SET SEND-ERASE TO TRUE                           01000000
+                       PERFORM 1500-SEND-KEY-MAP                        01010000
+                   ELSE                                                 01020000
+                       MOVE LOW-VALUE TO MNTMAP2O                       01030000
+                       MOVE CA-CUSTOMER-NUMBER TO CUSTNO2O              01040000
+                       EVALUATE TRUE                                    01050000
+                           WHEN PROCESS-ADD-CUSTOMER                    01060000
+                               MOVE ADD-INSTRUCTION    TO INSTR2O       01070000
+                           WHEN PROCESS-CHANGE-CUSTOMER                 01080000
+                               MOVE CHANGE-INSTRUCTION TO INSTR2O       01090000
+                           WHEN PROCESS-DELETE-CUSTOMER                 01100000
+                               MOVE DELETE-INSTRUCTION TO INSTR2O       01110000
+                       END-EVALUATE                                     01120000
+                       MOVE -1 TO LNAMEL                                01130000
+                       SET SEND-ERASE TO TRUE                           01140000
+                       PERFORM 1400-SEND-DATA-MAP                       01150000
+                   END-IF                                               01160000
+      *                                                                 01170000
+               WHEN EIBAID = DFHPA1 OR DFHPA2 OR DFHPA3                 01180000
+                   CONTINUE                                             01190000
+      *                                                                 01200000
+               WHEN EIBAID = DFHENTER                                   01210000
+                   EVALUATE TRUE                                        01220000
+                       WHEN PROCESS-KEY-MAP                             01230000
+                           PERFORM 1000-PROCESS-KEY-MAP                 01240000
+                       WHEN PROCESS-ADD-CUSTOMER                        01250000
+                           PERFORM 2000-PROCESS-ADD-CUSTOMER            01260000
+                       WHEN PROCESS-CHANGE-CUSTOMER                     01270000
+                           PERFORM 3000-PROCESS-CHANGE-CUSTOMER         01280000
+                       WHEN PROCESS-DELETE-CUSTOMER                     01290000
+                           PERFORM 4000-PROCESS-DELETE-CUSTOMER         01300000
+                   END-EVALUATE                                         01310000
+      *                                                                 01320000
+               WHEN OTHER                                               01330000
+                   IF PROCESS-KEY-MAP                                   01340000
+                       MOVE LOW-VALUE TO MNTMAP1O                       01350000
+                       MOVE 'That key is unassigned.' TO MSG1O          01360000
+                       MOVE -1 TO CUSTNO1L                              01370000
+                       SET SEND-DATAONLY-ALARM TO TRUE                  01380000
+                       PERFORM 1500-SEND-KEY-MAP                        01390000
+                   ELSE                                                 01400000
+                       MOVE LOW-VALUE TO MNTMAP2O                       01410000
+                       MOVE -1 TO LNAMEL                                01420000
+                       MOVE 'That key is unassigned.' TO MSG2O          01430000
+                       SET SEND-DATAONLY-ALARM TO TRUE                  01440000
+                       PERFORM 1400-SEND-DATA-MAP                       01450000
+                   END-IF                                               01460000
+      *                                                                 01470000
+           END-EVALUATE.                                                01480000
+      *                                                                 01490000
+           EXEC CICS                                                    01500000
+               RETURN TRANSID('MNTK')                                   01510001
+                      COMMAREA(COMMUNICATION-AREA)                      01520000
+           END-EXEC.                                                    01530000
+      *                                                                 01540000
+       1000-PROCESS-KEY-MAP.                                            01550000
+      *                                                                 01560000
+           PERFORM 1100-RECEIVE-KEY-MAP.                                01570000
+           PERFORM 1200-EDIT-KEY-DATA.                                  01580000
+           IF VALID-DATA                                                01590000
+               MOVE CUSTNO1I      TO CUSTNO2O                           01600000
+               MOVE CM-LAST-NAME  TO LNAMEO                             01610000
+               MOVE CM-FIRST-NAME TO FNAMEO                             01620000
+               MOVE CM-ADDRESS    TO ADDRO                              01630000
+               MOVE CM-CITY       TO CITYO                              01640000
+               MOVE CM-STATE      TO STATEO                             01650000
+               MOVE CM-ZIP-CODE   TO ZIPCODEO                           01660000
+               MOVE -1            TO LNAMEL                             01670000
+               SET SEND-ERASE TO TRUE                                   01680000
+               PERFORM 1400-SEND-DATA-MAP                               01690000
+           ELSE                                                         01700000
+               MOVE LOW-VALUE TO CUSTNO1O                               01710000
+                                 ACTIONO                                01720000
+               SET SEND-DATAONLY-ALARM TO TRUE                          01730000
+               PERFORM 1500-SEND-KEY-MAP                                01740000
+           END-IF.                                                      01750000
+      *                                                                 01760000
+       1100-RECEIVE-KEY-MAP.                                            01770000
+      *                                                                 01780000
+           EXEC CICS                                                    01790000
+               RECEIVE MAP('MNTMAP1')                                   01800000
+                       MAPSET('MNTSETK')                                01810001
+                       INTO(MNTMAP1I)                                   01820000
+           END-EXEC.                                                    01830000
+      *                                                                 01840000
+       1200-EDIT-KEY-DATA.                                              01850000
+      *                                                                 01860000
+           IF ACTIONI NOT = '1' AND '2' AND '3'                         01870000
+               MOVE -1 TO ACTIONL                                       01880000
+               MOVE 'Action must be 1, 2, or 3.' TO MSG1O               01890000
+               MOVE 'N' TO VALID-DATA-SW                                01900000
+           END-IF.                                                      01910000
+      *                                                                 01920000
+           IF       CUSTNO1L = ZERO                                     01930000
+                 OR CUSTNO1I = SPACE                                    01940000
+               MOVE -1 TO CUSTNO1L                                      01950000
+               MOVE 'You must enter a customer number.' TO MSG1O        01960000
+               MOVE 'N' TO VALID-DATA-SW                                01970000
+           END-IF.                                                      01980000
+      *                                                                 01990000
+           IF VALID-DATA                                                02000000
+               MOVE LOW-VALUE TO MNTMAP2O                               02010000
+               EVALUATE ACTIONI                                         02020000
+                   WHEN '1'                                             02030000
+                       PERFORM 1300-READ-CUSTOMER-RECORD                02040000
+                       IF RESPONSE-CODE = DFHRESP(NOTFND)               02050000
+                           MOVE ADD-INSTRUCTION TO INSTR2O              02060000
+                           SET PROCESS-ADD-CUSTOMER TO TRUE             02070000
+                           MOVE SPACE TO CUSTOMER-MASTER-RECORD         02080000
+                       ELSE                                             02090000
+                           IF RESPONSE-CODE = DFHRESP(NORMAL)           02100000
+                               MOVE 'That customer already exists.'     02110000
+                                   TO MSG1O                             02120000
+                               MOVE 'N' TO VALID-DATA-SW                02130000
+                           END-IF                                       02140000
+                       END-IF                                           02150000
+                   WHEN '2'                                             02160000
+                       PERFORM 1300-READ-CUSTOMER-RECORD                02170000
+                       IF RESPONSE-CODE = DFHRESP(NORMAL)               02180000
+                           MOVE CUSTOMER-MASTER-RECORD TO               02190000
+                                CA-CUSTOMER-RECORD                      02200000
+                           MOVE CHANGE-INSTRUCTION TO INSTR2O           02210000
+                           SET PROCESS-CHANGE-CUSTOMER TO TRUE          02220000
+                       ELSE                                             02230000
+                           IF RESPONSE-CODE = DFHRESP(NOTFND)           02240000
+                               MOVE 'That customer does not exist.'     02250000
+                                   TO MSG1O                             02260000
+                               MOVE 'N' TO VALID-DATA-SW                02270000
+                           END-IF                                       02280000
+                       END-IF                                           02290000
+                   WHEN '3'                                             02300000
+                       PERFORM 1300-READ-CUSTOMER-RECORD                02310000
+                       IF RESPONSE-CODE = DFHRESP(NORMAL)               02320000
+                           MOVE CUSTOMER-MASTER-RECORD TO               02330000
+                                CA-CUSTOMER-RECORD                      02340000
+                           MOVE DELETE-INSTRUCTION TO INSTR2O           02350000
+                           SET PROCESS-DELETE-CUSTOMER TO TRUE          02360000
+                           MOVE ATTR-PROT TO LNAMEA                     02370000
+                                             FNAMEA                     02380000
+                                             ADDRA                      02390000
+                                             CITYA                      02400000
+                                             STATEA                     02410000
+                                             ZIPCODEA                   02420000
+                       ELSE                                             02430000
+                           IF RESPONSE-CODE = DFHRESP(NOTFND)           02440000
+                               MOVE 'That customer does not exist.'     02450000
+                                   TO MSG1O                             02460000
+                               MOVE 'N' TO VALID-DATA-SW                02470000
+                           END-IF                                       02480000
+                       END-IF                                           02490000
+               END-EVALUATE.                                            02500000
+      *                                                                 02510000
+       1300-READ-CUSTOMER-RECORD.                                       02520000
+      *                                                                 02530000
+           EXEC CICS                                                    02540000
+               READ FILE('CUSTLUK')                                     02550001
+                    INTO(CUSTOMER-MASTER-RECORD)                        02560000
+                    RIDFLD(CUSTNO1I)                                    02570000
+                    RESP(RESPONSE-CODE)                                 02580000
+           END-EXEC.                                                    02590000
+           IF      RESPONSE-CODE NOT = DFHRESP(NORMAL)                  02600000
+               AND RESPONSE-CODE NOT = DFHRESP(NOTFND)                  02610000
+               PERFORM 9999-TERMINATE-PROGRAM                           02620000
+           END-IF.                                                      02630000
+      *                                                                 02640000
+       1400-SEND-DATA-MAP.                                              02650000
+      *                                                                 02660000
+           MOVE 'MNT1' TO TRANID2O.                                     02670000
+      *                                                                 02680000
+           EVALUATE TRUE                                                02690000
+               WHEN SEND-ERASE                                          02700000
+                   EXEC CICS                                            02710000
+                       SEND MAP('MNTMAP2')                              02720000
+                            MAPSET('MNTSETK')                           02730001
+                            FROM(MNTMAP2O)                              02740000
+                            ERASE                                       02750000
+                            CURSOR                                      02760000
+                   END-EXEC                                             02770000
+               WHEN SEND-DATAONLY-ALARM                                 02780000
+                   EXEC CICS                                            02790000
+                       SEND MAP('MNTMAP2')                              02800000
+                            MAPSET('MNTSETK')                           02810001
+                            FROM(MNTMAP2O)                              02820000
+                            DATAONLY                                    02830000
+                            ALARM                                       02840000
+                            CURSOR                                      02850000
+               END-EXEC                                                 02860000
+           END-EVALUATE.                                                02870000
+      *                                                                 02880000
+       1500-SEND-KEY-MAP.                                               02890000
+      *                                                                 02900000
+           MOVE 'MNTK' TO TRANID1O.                                     02910001
+      *                                                                 02920000
+           EVALUATE TRUE                                                02930000
+               WHEN SEND-ERASE                                          02940000
+                   EXEC CICS                                            02950000
+                       SEND MAP('MNTMAP1')                              02960000
+                            MAPSET('MNTSETK')                           02970001
+                            FROM(MNTMAP1O)                              02980000
+                            ERASE                                       02990000
+                            CURSOR                                      03000000
+                   END-EXEC                                             03010000
+               WHEN SEND-ERASE-ALARM                                    03020000
+                   EXEC CICS                                            03030000
+                       SEND MAP('MNTMAP1')                              03040000
+                            MAPSET('MNTSETK')                           03050001
+                            FROM(MNTMAP1O)                              03060000
+                            ERASE                                       03070000
+                            ALARM                                       03080000
+                            CURSOR                                      03090000
+                   END-EXEC                                             03100000
+               WHEN SEND-DATAONLY-ALARM                                 03110000
+                   EXEC CICS                                            03120000
+                       SEND MAP('MNTMAP1')                              03130000
+                            MAPSET('MNTSETK')                           03140001
+                            FROM(MNTMAP1O)                              03150000
+                            DATAONLY                                    03160000
+                            ALARM                                       03170000
+                            CURSOR                                      03180000
+               END-EXEC                                                 03190000
+           END-EVALUATE.                                                03200000
+      *                                                                 03210000
+       2000-PROCESS-ADD-CUSTOMER.                                       03220000
+      *                                                                 03230000
+           PERFORM 2100-RECEIVE-DATA-MAP.                               03240000
+           PERFORM 2300-WRITE-CUSTOMER-RECORD.                          03250000
+           IF RESPONSE-CODE = DFHRESP(NORMAL)                           03260000
+               MOVE 'Customer record added.' TO MSG1O                   03270000
+               SET SEND-ERASE TO TRUE                                   03280000
+           ELSE                                                         03290000
+               IF RESPONSE-CODE = DFHRESP(DUPREC)                       03300000
+                   MOVE 'Another user has added a record with that custo03310000
+      -             'mer number.' TO MSG1O                              03320000
+                   SET SEND-ERASE-ALARM TO TRUE                         03330000
+               END-IF                                                   03340000
+           END-IF.                                                      03350000
+           MOVE -1 TO CUSTNO1L.                                         03360000
+           PERFORM 1500-SEND-KEY-MAP.                                   03370000
+           SET PROCESS-KEY-MAP TO TRUE.                                 03380000
+      *                                                                 03390000
+       2100-RECEIVE-DATA-MAP.                                           03400000
+      *                                                                 03410000
+           EXEC CICS                                                    03420000
+               RECEIVE MAP('MNTMAP2')                                   03430000
+                       MAPSET('MNTSETK')                                03440001
+                       INTO(MNTMAP2I)                                   03450000
+           END-EXEC.                                                    03460000
+      *                                                                 03470000
+       2300-WRITE-CUSTOMER-RECORD.                                      03480000
+      *                                                                 03490000
+           MOVE CUSTNO2I TO CM-CUSTOMER-NUMBER.                         03500000
+           MOVE LNAMEI   TO CM-LAST-NAME.                               03510000
+           MOVE FNAMEI   TO CM-FIRST-NAME.                              03520000
+           MOVE ADDRI    TO CM-ADDRESS.                                 03530000
+           MOVE CITYI    TO CM-CITY.                                    03540000
+           MOVE STATEI   TO CM-STATE.                                   03550000
+           MOVE ZIPCODEI TO CM-ZIP-CODE.                                03560000
+           EXEC CICS                                                    03570000
+               WRITE FILE('CUSTLUK')                                    03580001
+                     FROM(CUSTOMER-MASTER-RECORD)                       03590000
+                     RIDFLD(CM-CUSTOMER-NUMBER)                         03600000
+                     RESP(RESPONSE-CODE)                                03610000
+           END-EXEC.                                                    03620000
+           IF      RESPONSE-CODE NOT = DFHRESP(NORMAL)                  03630000
+               AND RESPONSE-CODE NOT = DFHRESP(DUPREC)                  03640000
+               PERFORM 9999-TERMINATE-PROGRAM                           03650000
+           END-IF.                                                      03660000
+      *                                                                 03670000
+       3000-PROCESS-CHANGE-CUSTOMER.                                    03680000
+      *                                                                 03690000
+           PERFORM 2100-RECEIVE-DATA-MAP.                               03700000
+           MOVE CUSTNO2I TO CM-CUSTOMER-NUMBER.                         03710000
+           PERFORM 3100-READ-CUSTOMER-FOR-UPDATE.                       03720000
+           IF RESPONSE-CODE = DFHRESP(NORMAL)                           03730000
+               IF CUSTOMER-MASTER-RECORD = CA-CUSTOMER-RECORD           03740000
+                   PERFORM 3200-REWRITE-CUSTOMER-RECORD                 03750000
+                   MOVE 'Customer record updated.' TO MSG1O             03760000
+                   SET SEND-ERASE TO TRUE                               03770000
+               ELSE                                                     03780000
+                   MOVE 'Another user has updated the record.  Try again03790000
+      -                 '.' TO MSG1O                                    03800000
+                   SET SEND-ERASE-ALARM TO TRUE                         03810000
+               END-IF                                                   03820000
+           ELSE                                                         03830000
+               IF RESPONSE-CODE = DFHRESP(NOTFND)                       03840000
+                   MOVE 'Another user has deleted the record.'          03850000
+                       TO MSG1O                                         03860000
+                   SET SEND-ERASE-ALARM TO TRUE                         03870000
+               END-IF                                                   03880000
+           END-IF.                                                      03890000
+           MOVE -1 TO CUSTNO1L.                                         03900000
+           PERFORM 1500-SEND-KEY-MAP.                                   03910000
+           SET PROCESS-KEY-MAP TO TRUE.                                 03920000
+      *                                                                 03930000
+       3100-READ-CUSTOMER-FOR-UPDATE.                                   03940000
+      *                                                                 03950000
+           EXEC CICS                                                    03960000
+               READ FILE('CUSTLUK')                                     03970001
+                    INTO(CUSTOMER-MASTER-RECORD)                        03980000
+                    RIDFLD(CM-CUSTOMER-NUMBER)                          03990000
+                    UPDATE                                              04000000
+                    RESP(RESPONSE-CODE)                                 04010000
+           END-EXEC.                                                    04020000
+           IF      RESPONSE-CODE NOT = DFHRESP(NORMAL)                  04030000
+               AND RESPONSE-CODE NOT = DFHRESP(NOTFND)                  04040000
+               PERFORM 9999-TERMINATE-PROGRAM                           04050000
+           END-IF.                                                      04060000
+      *                                                                 04070000
+       3200-REWRITE-CUSTOMER-RECORD.                                    04080000
+      *                                                                 04090000
+           MOVE LNAMEI   TO CM-LAST-NAME.                               04100000
+           MOVE FNAMEI   TO CM-FIRST-NAME.                              04110000
+           MOVE ADDRI    TO CM-ADDRESS.                                 04120000
+           MOVE CITYI    TO CM-CITY.                                    04130000
+           MOVE STATEI   TO CM-STATE.                                   04140000
+           MOVE ZIPCODEI TO CM-ZIP-CODE.                                04150000
+           EXEC CICS                                                    04160000
+               REWRITE FILE('CUSTLUK')                                  04170001
+                       FROM(CUSTOMER-MASTER-RECORD)                     04180000
+                       RESP(RESPONSE-CODE)                              04190000
+           END-EXEC.                                                    04200000
+           IF RESPONSE-CODE NOT = DFHRESP(NORMAL)                       04210000
+               PERFORM 9999-TERMINATE-PROGRAM                           04220000
+           END-IF.                                                      04230000
+      *                                                                 04240000
+       4000-PROCESS-DELETE-CUSTOMER.                                    04250000
+      *                                                                 04260000
+           MOVE CA-CUSTOMER-NUMBER TO CM-CUSTOMER-NUMBER.               04270000
+           PERFORM 3100-READ-CUSTOMER-FOR-UPDATE.                       04280000
+           IF RESPONSE-CODE = DFHRESP(NORMAL)                           04290000
+               IF CUSTOMER-MASTER-RECORD = CA-CUSTOMER-RECORD           04300000
+                   PERFORM 4100-DELETE-CUSTOMER-RECORD                  04310000
+                   MOVE 'Customer deleted.' TO MSG1O                    04320000
+                   SET SEND-ERASE TO TRUE                               04330000
+               ELSE                                                     04340000
+                   MOVE 'Another user has updated the record.  Try again04350000
+      -                 '.' TO MSG1O                                    04360000
+                   SET SEND-ERASE-ALARM TO TRUE                         04370000
+               END-IF                                                   04380000
+           ELSE                                                         04390000
+               IF RESPONSE-CODE = DFHRESP(NOTFND)                       04400000
+                   MOVE 'Another user has deleted the record.'          04410000
+                       TO MSG1O                                         04420000
+                   SET SEND-ERASE-ALARM TO TRUE                         04430000
+               END-IF                                                   04440000
+           END-IF.                                                      04450000
+           MOVE -1 TO CUSTNO1L.                                         04460000
+           PERFORM 1500-SEND-KEY-MAP.                                   04470000
+           SET PROCESS-KEY-MAP TO TRUE.                                 04480000
+      *                                                                 04490000
+       4100-DELETE-CUSTOMER-RECORD.                                     04500000
+      *                                                                 04510000
+           EXEC CICS                                                    04520000
+               DELETE FILE('CUSTLUK')                                   04530001
+                      RESP(RESPONSE-CODE)                               04540000
+           END-EXEC.                                                    04550000
+           IF  RESPONSE-CODE NOT = DFHRESP(NORMAL)                      04560000
+               PERFORM 9999-TERMINATE-PROGRAM                           04570000
+           END-IF.                                                      04580000
+      *                                                                 04590000
+       9999-TERMINATE-PROGRAM.                                          04600000
+      *                                                                 04610000
+           EXEC CICS                                                    04620000
+               ABEND                                                    04630000
+           END-EXEC.                                                    04640000
+

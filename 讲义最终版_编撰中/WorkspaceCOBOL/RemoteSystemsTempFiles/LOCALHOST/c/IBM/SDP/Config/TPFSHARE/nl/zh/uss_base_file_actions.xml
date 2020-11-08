@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE root SYSTEM "actionmenufile.dtd"[
+<!ENTITY Menu_USS_Base_File_Actions 'zOS UNIX 基本文件操作'>
+<!ENTITY Separator '--------------'>
+<!ENTITY Action_Copy '复制'>
+<!ENTITY Action_Paste '粘贴'>
+<!ENTITY Action_Delete '删除'>
+<!ENTITY Action_Move '移动...'>
+<!ENTITY Action_Rename '重命名'>
+<!ENTITY Action_Import '导入'>
+<!ENTITY Action_Export '导出'>
+<!ENTITY Action_Search '搜索'>
+<!ENTITY Action_Compare '比较'>
+<!ENTITY Action_Add_to_build_list '添加到构建列表'>
+<!ENTITY Action_Refresh '刷新'>
+<!ENTITY Comment_Copy '将所选文件复制到剪贴板'>
+<!ENTITY Comment_Delete '从所选文件的物理位置删除那些文件'>
+<!ENTITY Comment_Move '将所选文件移至新过滤器或物理位置'>
+<!ENTITY Comment_Rename '将所选文件重命名'>
+<!ENTITY Comment_Import '打开导入向导'>
+<!ENTITY Comment_Export '打开导出向导'>
+<!ENTITY Comment_Search '搜索所选文件'>
+<!ENTITY Comment_Compare '对两个所选文件的内容进行比较'>
+<!ENTITY Comment_Add_to_build_list '添加到构建列表'>
+]>
+<root>
+    <entity id="1061470982752" includedas="" location="" name="&Menu_USS_Base_File_Actions;" type="menu">
+        <entity id="com.ibm.tpf.core.ui.dynamicGroups.OpenWithDynamicGroup" includedas="" location="" name="com.ibm.tpf.core.ui.dynamicGroups.OpenWithDynamicGroup" type="dynamicGroup"/>
+        <entity id="" includedas="" location="" name="&Separator;" type="separator"/>
+        <entity id="1061470982736" includedas="" location="" name="&Action_Copy;" type="action"/>
+        <entity id="1061470982738" includedas="" location="" name="&Action_Paste;" type="action"/>
+        <entity id="1061470982740" includedas="" location="" name="&Action_Delete;" type="action"/>
+        <entity id="1061470982742" includedas="" location="" name="&Action_Move;" type="action"/>
+        <entity id="1061470982744" includedas="" location="" name="&Action_Rename;" type="action"/>
+        <entity id="" includedas="" location="" name="&Separator;" type="separator"/>
+        <entity id="1061470982746" includedas="" location="" name="&Action_Import;" type="action"/>
+        <entity id="1061470982748" includedas="" location="" name="&Action_Export;" type="action"/>
+        <entity id="" includedas="" location="" name="&Separator;" type="separator"/>
+        <entity id="1061470982750" includedas="" location="" name="&Action_Search;" type="action"/>
+        <entity id="1094565161128" includedas="" location="" name="&Action_Compare;" type="action"/>
+        <entity id="1062708229529" includedas="" location="" name="&Action_Add_to_build_list;" type="action"/>
+        <entity id="" includedas="" location="" name="&Separator;" type="separator"/>
+        <entity id="1062708229527" includedas="" location="" name="&Action_Refresh;" type="action"/>
+    </entity>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Delete;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.delete" id="1061470982740" lengthlimit="" name="&Action_Delete;" remotecommand="false" showgeneric="false" userexit="">
+        <filetype>*.*</filetype>
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.refresh" id="1062708229527" lengthlimit="" name="&Action_Refresh;" remotecommand="false" showgeneric="false" userexit="">
+        <filetype>*.*</filetype>
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Rename;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.rename" id="1061470982744" lengthlimit="" name="&Action_Rename;" remotecommand="false" showgeneric="false" userexit="">
+        <filetype>*.*</filetype>
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Compare;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.CompareFilesAction" id="1094565161128" lengthlimit="" name="&Action_Compare;" remotecommand="false" showgeneric="false" userexit="">
+        <filetype>*.*</filetype>
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.paste" id="1061470982738" lengthlimit="" name="&Action_Paste;" remotecommand="false" showgeneric="false" userexit="">
+        <filetype>*.*</filetype>
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Export;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.export" id="1061470982748" lengthlimit="" name="&Action_Export;" remotecommand="false" showgeneric="false" userexit="">
+        <filetype>*.*</filetype>
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.addToBuildList" id="1062708229529" lengthlimit="" name="&Action_Add_to_build_list;" remotecommand="false" showgeneric="false" userexit="">
+        <filetype>*.*</filetype>
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Import;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.import" id="1061470982746" lengthlimit="" name="&Action_Import;" remotecommand="false" showgeneric="false" userexit="">
+        <filetype>*.*</filetype>
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Search;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.search" id="1061470982750" lengthlimit="" name="&Action_Search;" remotecommand="false" showgeneric="false" userexit="">
+        <filetype>*.*</filetype>
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Move;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.move" id="1061470982742" lengthlimit="" name="&Action_Move;" remotecommand="false" showgeneric="false" userexit="">
+        <filetype>*.*</filetype>
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Copy;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.copy" id="1061470982736" lengthlimit="" name="&Action_Copy;" remotecommand="false" showgeneric="false" userexit="">
+        <filetype>*.*</filetype>
+        <command cmd=""/>
+    </action>
+</root>

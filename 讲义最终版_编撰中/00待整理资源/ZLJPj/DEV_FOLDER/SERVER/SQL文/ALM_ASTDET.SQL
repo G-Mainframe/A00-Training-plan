@@ -1,0 +1,10 @@
+CREATE TABLE ALM_ASTDET
+(
+    ALMDET                         CHAR(2) NOT NULL,
+    DETNAM                         VARCHAR2(32) NOT NULL
+)
+/
+CREATE UNIQUE INDEX ASM_ASTDET
+ON ALM_ASTDET
+(ALMDET)
+/

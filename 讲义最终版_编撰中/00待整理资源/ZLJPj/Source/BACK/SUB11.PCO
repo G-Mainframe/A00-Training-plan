@@ -1,0 +1,274 @@
+000010 IDENTIFICATION                               DIVISION.
+000020 PROGRAM-ID.  Sub11.
+      *****************************************************************
+      *程序ID         ：Sub11
+      *程序名         ：学生学籍信息录入
+      *处理概要       ：新生入学时将学生信息录入到系统中
+      *
+      *
+      *变量           IO       变量名
+      *
+      *
+      *
+      *日期           作成者            概要
+      *2007/03/18     张丽娟            作成
+      *
+      *
+      *
+      *****************************************************************
+
+      *****************************************************************
+      *
+      *****************************************************************
+000030 ENVIRONMENT                                  DIVISION.
+
+
+
+
+      *****************************************************************
+      *
+      *****************************************************************
+000040 DATA                                         DIVISION.
+      *----------------------------------------------------------------
+      *
+      *----------------------------------------------------------------
+       FILE                                         SECTION.
+
+
+
+
+
+
+
+000050 WORKING-STORAGE                              SECTION.
+      *全局变量定义
+      *用户姓名，权限（如果要做的话）
+      *
+      *数据库连接定义
+000051     EXEC  SQL  BEGIN  DECLARE        SECTION  END-EXEC.
+      *    Oracle 共通函数
+000052     EXEC  SQL  INCLUDE  SQLCOM.CBL            END-EXEC.
+      *    Oracle SQL实行情报
+000055     EXEC  SQL  INCLUDE  SQLCA.CBL             END-EXEC.
+           EXEC  SQL  INCLUDE  STUDENTINFO.cbl       END-EXEC.
+       01 NAMEX PIC X(10).
+
+      *
+000056     EXEC  SQL  END    DECLARE        SECTION  END-EXEC.
+      *----------------------------------------------------------------
+      *WORKAREA
+      *----------------------------------------------------------------
+
+      *屏幕线型定义
+       COPY WKSCRLine.
+      *
+      *Work用学生信息
+       COPY  StudentInfo  REPLACING  ==()==  BY  ==WK==.
+      *
+       01 WkFlag.
+           03 DataChackFlag             PIC 9  VALUE 0.
+           03 SQLRcFlag                 PIC 99 VALUE 99.
+      *
+      *DB用学生信息
+       COPY  StudentInfo  REPLACING  ==()==  BY  ==DB==.
+      *
+
+
+      *----------------------------------------------------------------
+      *    SUB
+      *----------------------------------------------------------------
+       01  CALL-AREA.
+      *    共通
+           03  CLOCO001                 PIC  X(08) VALUE "CLOCO001".
+           03  COBCO001                 PIC  X(08) VALUE "COBCO001".
+      * 01  IF-CHOCO001.                                             
+      *     COPY  CHOCO001  REPLACING  ==()==  BY  ==CL-==.       
+      * 
+       01  PARA-AREA.      
+           COPY CPBCO001.  
+
+
+      *----------------------------------------------------------------
+      *
+      *----------------------------------------------------------------
+
+
+000070 LINKAGE                                      SECTION.
+      *----------------------------------------------------------------
+      *
+      *----------------------------------------------------------------
+000080 SCREEN                                       SECTION.
+      *
+000090 COPY SCRHead.
+000090 COPY SUB11SCR.
+      *****************************************************************
+      *
+      *****************************************************************
+000120 PROCEDURE                                    DIVISION.
+000130 MainProcess                                  SECTION.
+      *初期处理
+           PERFORM StartRTN.
+      *
+      *主处理
+           DISPLAY  "OK".
+      *    显示屏幕
+           DISPLAY SCRHead.
+           DISPLAY Sub11SCR.
+      *    数据输入
+           ACCEPT  SUB11SCR.
+      *    数据校验
+           PERFORM ChackDataRTN.
+      *    
+           IF DataChackFlag = 1
+           THEN
+      *        更新数据库
+               PERFORM DBUPRTN
+           ELSE 
+               CONTINUE
+           END-IF.
+      *
+      *终了处理
+000180     PERFORM EndRTN.
+      *
+000190 MainProcessExit.
+           EXIT PROGRAM.
+      *
+      *****************************************************************
+      *初期处理
+      *
+      *****************************************************************
+       StartRTN                                     SECTION.
+      *    初始化Work变量
+           INITIALIZE WKStudentInfo.
+      *
+      *    Oracle连接
+           PERFORM OracleLink.
+       StartExit.
+           EXIT.
+      *****************************************************************
+      *Oracle连接
+      *****************************************************************
+       OracleLink                                   SECTION.
+      *     CALL COBCO001 USING PARA-AREA.
+           MOVE 'cobol'       TO DB-STRING.
+           MOVE 'system'      TO USERNAME.
+           MOVE 'zaq12wsx'    TO PASSWD.
+           IF DB-STRING = SPACE
+               EXEC SQL
+                   CONNECT :USERNAME IDENTIFIED BY :PASSWD
+               END-EXEC
+           ELSE
+               EXEC SQL
+                   CONNECT :USERNAME IDENTIFIED BY :PASSWD
+                   USING :DB-STRING
+               END-EXEC
+           END-IF.
+
+
+           EVALUATE SQLCODE
+           WHEN 0
+      *        连接正常
+               CONTINUE
+           WHEN OTHER
+      *        连接错误
+      *        MOVE -10 TO ErrorCD
+      *        CALL ErrorMsg UNSIN  ErrorCD
+               DISPLAY  "连接 sqlcode"   , sqlcode
+           END-EVALUATE.
+
+       OracleLinkExit.
+           Exit.
+      *****************************************************************
+      *主处理
+      *
+      *****************************************************************
+      *----------------------------------------------------------------
+      *校验数据
+      *    数据不合格则该项目清空，并设置flag为0
+      *----------------------------------------------------------------
+       ChackDataRTN                                 SECTION.
+      *    ChackFlag置1
+           MOVE 1                       TO  DataChackFlag.
+      *
+      *    去除姓名前后空格
+           IF WKSName NOT = SPACE
+           THEN
+               CONTINUE
+           ELSE
+               MOVE 0                   TO  DataChackFlag
+           END-IF.
+      *
+      *    性别确认，男或者女
+      *    IF  = "男" OR = "女"
+      *    THEN
+      *        CONTINUE
+      *    ELSE
+      *        MOVE 0                       TO  DataChackFlag
+      *        MOVE ""                      TO  性别变量
+      *    END-IF.
+      *
+      *    年龄确认，小于7或者大于25都非法
+      *     IF > 7 AND < 25
+      *     THEN
+      *         CONTINUE
+      *     ELSE
+      *         MOVE 0                       TO  DataChackFlag
+      *         MOVE 0                      TO  年龄变量
+      *     END-IF.
+      *    假设画面所有项目校验成功
+           IF DataChackFlag = 1
+           THEN
+               DISPLAY "SUB11 CHACKDATA ok"
+           ELSE
+               CONTINUE
+           END-IF.
+                                                                       
+       ChackDataExit.
+           EXIT.
+      *
+      *****************************************************************
+      *插入新数据
+      *****************************************************************
+       DBUPRTN                                      SECTION.
+
+      *    屏幕数据传递
+           MOVE WKSName  TO NAMEX.
+      *
+      *    数据插入操作
+           EXEC SQL
+               INSERT INTO STUDENTINFO(NAME)
+               VALUES (:NAMEX)
+           END-EXEC.
+      *
+      *    数据库返回码判断
+           EVALUATE SQLCODE
+           WHEN 0
+      *        返回码为“0”数据插入正常
+               DISPLAY  "insert sqlcode ok " , sqlcode                
+      *        数据提交
+               EXEC SQL
+                   COMMIT WORK RELEASE
+               END-EXEC
+           WHEN OTHER
+      *        数据库返回码非“0”，数据插入失败，设定错误码
+      *        MOVE -10 TO ErrorCD
+      *        错误处理
+      *        CALL ErrorMsg UNSIN  ErrorCD
+               DISPLAY  "insert sqlcode   " , sqlcode
+           END-EVALUATE.
+      *
+       DBUPExit.
+           EXIT.
+      *
+      *****************************************************************
+      *终了处理
+      *
+      *****************************************************************
+       EndRTN                                       SECTION.
+           display "sub11 end-program ok".
+      *    关闭数据库连接
+
+      *
+       EndExit.
+           EXIT.
+       END PROGRAM Sub11.

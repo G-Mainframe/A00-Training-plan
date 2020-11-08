@@ -1,0 +1,71 @@
+//ST***DD JOB (012),ZHAO,CLASS=A,MSGCLASS=Q,                            
+
+// MSGLEVEL=(1,1),NOTIFY=ST***                                          
+
+//*-------------------------------------------------------------------//
+
+//*      CARD TO DISK                                                 //
+
+//*-------------------------------------------------------------------//
+
+//BUILD     EXEC  PGM=IEBGENER                                          
+
+//SYSPRINT  DD    SYSOUT=*                                              
+
+//SYSUT1    DD    *                                                     
+
+  JONES     FRED  53AF  87  8701  NINE MILE ROAD                        
+
+  VNDERSON  DON   78AF  32  320   WESTFHIMER #219                       
+
+//SYSUT2    DD    1                                                     
+
+//                                                                      
+
+//                                                                      
+
+//SYSIN     DD    DUMMY                                                 
+
+//*-------------------------------------------------------------------//
+
+//*      CARD TO DISK                                                 //
+
+//*-------------------------------------------------------------------//
+
+//BUILD     EXEC  PGM=IEBGENER                                          
+
+//SYSPRINT  DD    SYSOUT=*                                              
+
+//SYSUT1    DD    *                                                     
+
+  ZZNES     FRED  53AF  87  8701  NINE MILE ROAD                        
+
+  ANDERSON  DON   78AF  32  320   WESTFHIMER #219                       
+
+  EEEEEED   LIN   589F   85 1258  DONSETER  #23                         
+
+//SYSUT2    DD    2                                                     
+
+//                                                                      
+
+//                                                                      
+
+//SYSIN     DD    DUMMY                                                 
+
+//*-------------------------------------------------------------------//
+
+//*      SORT                                                         //
+
+//*-------------------------------------------------------------------//
+
+//SORT      EXEC PGM=ICEMAN,COND=(0,NE,BUILD)                           
+
+//SYSOUT    DD   SYSOUT=*                                               
+
+//SORTIN    DD   3                                                      
+
+//SORTOUT   DD   4                                                      
+
+//SYSIN     DD   *                                                      
+
+ SORT FIELDS=(3,10,CH,A,13,10,CH,A)                                     

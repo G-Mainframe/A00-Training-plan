@@ -1,0 +1,54 @@
+Db2_load
+
+//********************************************************************  
+//*        COPY CONSTANT DSN                                         *  
+//********************************************************************  
+//STEP01 EXEC DCPVV1,TN=&TN                                             
+//AAAAAO   DD DSN=NE65.DS.MTMTSH&TN,DISP=SHR                            
+//AAAAAN   DD DSN=&&MTSH,DISP=(,PASS),                                  
+//            SPACE=(CYL,(10,1),RLSE),                                  
+//            DCB=(RECFM=FB,LRECL=444,BLKSIZE=27972)                    
+//*-------------------------------------------------------------------- 
+//*    RESET UTILITY STATUS                                             
+//*-------------------------------------------------------------------- 
+//RESET1  EXEC PGM=IKJEFT01,DYNAMNBR=20                                 
+//STEPLIB  DD  DSN=DSN.DSNLOAD,DISP=SHR                                 
+//SYSTSPRT DD  SYSOUT=*                                                 
+//SYSPRINT DD  SYSOUT=*                                                 
+//SYSUDUMP DD  SYSOUT=*                                                 
+//OUTPUT   DD  SYSOUT=*,DCB=(RECFM=FBA,LRECL=133,BLKSIZE=665)           
+//SYSTSIN  DD  *                                                        
+ DSN  SYSTEM(DSN)                                                       
+ -TERM UTIL(NE65ECH)                                                    
+ -DIS  UTIL(NE65TDMTSH)                                                 
+ END                                                                    
+/*                                                                      
+//*------------------------------------------------------------------   
+//*    LOAD TO DB2 (NE65TMTSH)                                          
+//*------------------------------------------------------------------   
+//LOAD    EXEC NE65LOAD,UID=NE65ECH,SP=100,WSP=100                      
+//A.SYSIN    DD  DSN=NE65.DS.DDLLIB(LOADMTSH),DISP=SHR                  
+//A.SYSREC00 DD  DSN=&&MTSH,DISP=(OLD,DELETE)                           
+//*                                                                     
+//*-------------------------------------------------------------------- 
+//*    RESET UTILITY STATUS                                             
+ //*-------------------------------------------------------------------- 
+ //RESET2  EXEC PGM=IKJEFT01,DYNAMNBR=20,COND=EVEN                       
+ //STEPLIB  DD  DSN=DSN.DSNLOAD,DISP=SHR                                 
+ //SYSTSPRT DD  SYSOUT=*                                                 
+ //SYSPRINT DD  SYSOUT=*                                                 
+ //SYSUDUMP DD  SYSOUT=*                                                 
+ //OUTPUT   DD  SYSOUT=*,DCB=(RECFM=FBA,LRECL=133,BLKSIZE=665)           
+ //SYSTSIN  DD  *                                                        
+  DSN  SYSTEM(DSN)                                                       
+  -TERM UTIL(NE65ECH)                                                    
+  END                                                                    
+ /*                                                                      
+ //*-------------------------------------------------------------------- 
+ //*    REPAIR                                                           
+ //*-------------------------------------------------------------------- 
+ //REPAIR  EXEC NE65RPIR,SP=100                                          
+ //R.SYSIN    DD  *                                                      
+   MODIFY RECOVERY TABLESPACE NE65D001.NE65SMSH       DELETE DATE(*)     
+   REPAIR SET TABLESPACE NE65D001.NE65SMSH            NOCOPYPEND         
+   REPAIR SET TABLESPACE NE65D001.NE65SMSH            NORCVRPEND    

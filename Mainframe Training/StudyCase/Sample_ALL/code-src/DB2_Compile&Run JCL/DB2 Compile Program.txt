@@ -1,0 +1,74 @@
+//GDC233P JOB (ACCT#),'WYL',CLASS=A,NOTIFY=GDC233                      
+//        SET  MEMBER=PGM002                                                 --------------> Change the member name
+//******************************************************************** 
+//*        DSNHICOB  - DB2 precompile, IBM COBOL compile, pre-link,  * 
+//*                    and link edit a DB2 SQL program.              * 
+//*        Precompile the IBM COBOL program                          * 
+//******************************************************************** 
+//PC     EXEC  PGM=DSNHPC,PARM='HOST(IBMCOB)'                               first step  --------------> Precompiler          
+//DBRMLIB  DD  DISP=SHR,                                               
+//             DSN=GDC233.TEST.DBRM(&MEMBER)                                 --------------> DBRM library(Please create a new PDS for yourself)
+//STEPLIB  DD  DISP=SHR,DSN=DB2.V8R1.DSNB.SDSNEXIT                     
+//         DD  DISP=SHR,DSN=DB2.V8R1.SDSNLOAD                          
+//SYSCIN   DD  DSN=&&DSNHOUT,DISP=(MOD,PASS),UNIT=SYSDA,               
+//             SPACE=(800,(500,500))                                   
+//SYSLIB   DD  DISP=SHR,DSN=GDC233.TEST.INCLUDE                              --------------> Used to store your Host Variable(Please create a new PDS for yourself)
+//SYSPRINT DD  SYSOUT=*                                                
+//SYSTERM  DD  SYSOUT=*                                                
+//SYSUDUMP DD  SYSOUT=*                                                
+//SYSUT1   DD  SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                
+//SYSUT2   DD  SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                
+//SYSIN    DD  DSN=GDC233.DB2.COB(&MEMBER),DISP=SHR                          --------------> your program path
+//******************************************************************** 
+//*        Compile the IBM COBOL program if the precompile           * 
+//*        return code is 4 or less.                                 * 
+//******************************************************************** 
+//COB    EXEC  PGM=IGYCRCTL,COND=(4,LT,PC)                                  second step ----------> compiler cobol
+//STEPLIB  DD  DSN=COBOL.V3R4.SIGYCOMP,DISP=SHR                        
+//SYSPRINT DD  SYSOUT=*                                                
+//SYSTERM  DD  SYSOUT=*                                                
+//SYSLIN   DD  DSN=&&LOADSET,DISP=(MOD,PASS),UNIT=SYSDA,               
+//             SPACE=(800,(500,500))                                   
+//SYSLIB   DD  DSNAME=GDC233.TEST.INCLUDE,                                   -------------->your host variable path 
+//             DISP=SHR                                                
+//SYSIN    DD  DSN=&&DSNHOUT,DISP=(OLD,DELETE)                         
+//SYSUT1   DD  SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                
+//SYSUT2   DD  SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                
+//SYSUT3   DD  SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                
+//SYSUT4   DD  SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                
+//SYSUT5   DD  SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                
+//SYSUT6   DD  SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                
+//SYSUT7   DD  SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                
+//******************************************************************** 
+//*        Linkedit if the precompile and compile                    * 
+//*        return codes are 4 or less.                               * 
+//******************************************************************** 
+//LKED   EXEC  PGM=IEWL,PARM='XREF',COND=((4,LT,PC),(4,LT,COB))            3rd step -------------> Linked
+//SYSLIB   DD  DISP=SHR,DSN=CEE.SCEELKED                               
+//         DD  DISP=SHR,DSN=DB2.V8R1.SDSNLOAD                          
+//         DD  DISP=SHR,DSN=IMS.V9R1.SDFSRESL                          
+//         DD  DISP=SHR,DSN=CICSTS.V3R1.CICS.SDFHLOAD              
+//         DD  DISP=SHR,DSN=ISP.SISPLOAD                           
+//         DD  DISP=SHR,DSN=GDDM.SADMMOD                           
+//SYSLIN   DD  DSN=&&LOADSET,DISP=(OLD,DELETE)                     
+//         DD  DDNAME=SYSIN                                        
+//SYSLMOD  DD  DSN=GDC233.DB2.LOAD(&MEMBER),                                -----------------> load library (Please change it for yourself)
+//             DISP=SHR                                            
+//SYSPRINT DD  SYSOUT=*                                            
+//SYSUT1   DD  SPACE=(1024,(50,50)),UNIT=SYSDA                     
+//SYSIN    DD  DUMMY                                               
+//************************************************************     
+//* BIND DSNACCOR                                                  
+//************************************************************     
+//BIND     EXEC PGM=IKJEFT01                                                4th step ------------> Bind 
+//STEPLIB  DD DSN=DB2.V8R1.SDSNLOAD,DISP=SHR                       
+//DBRMLIB  DD DSN=GDC233.TEST.DBRM,DISP=SHR                                 ------------------> DBRM Lib
+//SYSTSPRT DD SYSOUT=*                                             
+//SYSPRINT DD SYSOUT=*                            
+//SYSIN    DD DUMMY                               
+//SYSTSIN  DD *                                   
+   DSN SYSTEM(DSNB)                               
+     BIND PLAN(PGM002) MEMBER(PGM002)                                       -------------------> your program and plan name
+   END                                                                                           the plan name was difined by yourself   
+/*                                                
+//                                                

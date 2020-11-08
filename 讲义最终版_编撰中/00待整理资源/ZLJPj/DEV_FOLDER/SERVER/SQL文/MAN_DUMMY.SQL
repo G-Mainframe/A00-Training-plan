@@ -1,0 +1,6 @@
+CREATE TABLE MAN_DUMMY
+(
+    ナンバー                       NUMBER(2,0) NOT NULL,
+    CONSTRAINT P_DUMMY PRIMARY KEY (ナンバー) USING INDEX
+)
+/

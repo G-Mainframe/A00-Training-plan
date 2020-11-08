@@ -1,0 +1,16 @@
+\MAC ;                                                                    
+        \COMM ** 児童扶養手当認定請求者データ SORT **;                    
+                                                                          
+        \SENDO MSG='** 児童扶養手当認定請求者データ SORT **';             
+                                                                          
+        \SORT                                                             
+            INFILE=(FILE=JFU1001,MEDIA=DK302,RSZ=100,BSZ=1000),           
+           OUTFILE=(INFILE),                                              
+            WKFILE=(FILE=SWK,MEDIA=DK103,AU=CYL,SZ=2,INCSZ=10,TEMP);      
+                                                                          
+        \OPTION ;                                                         
+            FUNCTION: DUPREC=FIFO                                         
+            RECORD:                                                       
+                KEYS=(33 5) (4 7)                                         
+            ENDSORT:                                                      
+        \ENDOPTION ;                                                      

@@ -1,0 +1,33 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200 PROGRAM-ID.  SEQFILE2.                                           00020001
+000210 ENVIRONMENT DIVISION.                                            00021000
+000220 INPUT-OUTPUT SECTION.                                            00022000
+000230 FILE-CONTROL.                                                    00023000
+000240       SELECT STUDENTFILE ASSIGN TO STUDENTS.                     00024004
+000250 DATA DIVISION.                                                   00025000
+000260 FILE SECTION.                                                    00026000
+000270 FD StudentFile.                                                  00027000
+000280 01 StudentDetails.                                               00028000
+000290    02  StudentId       PIC 9(7).                                 00029000
+000300    02  STUDENTNAME     PIC X(12).                                00030000
+000310    02  DateOfBirth.                                              00031000
+000320        03 YOBirth      PIC 9(2).                                 00032000
+000330        03 MOBirth      PIC 9(2).                                 00033000
+000340        03 DOBirth      PIC 9(2).                                 00034000
+000350    02  CourseCode      PIC X(4).                                 00035000
+000360    02  Gender          PIC X.                                    00036000
+000370 WORKING-STORAGE SECTION.                                         00037000
+000380 PROCEDURE DIVISION.                                              00038000
+000390 BEGIN.                                                           00039000
+000400     OPEN OUTPUT STUDENTFILE                                      00040000
+000500     DISPLAY "ENTER STUDENT DETAILS:".                            00050000
+000600     PERFORM GETSTUDENTDETAILS                                    00060000
+000700     PERFORM UNTIL STUDENTDETAILS = SPACES                        00070000
+000800        WRITE STUDENTDETAILS                                      00080007
+000900        PERFORM   GETSTUDENTDETAILS                               00090000
+001000     END-PERFORM.                                                 00100000
+001100     CLOSE STUDENTFILE.                                           00110000
+001200     STOP RUN.                                                    00120000
+001300 GETSTUDENTDETAILS.                                               00130000
+001400     ACCEPT STUDENTDETAILS.                                       00140000
+

@@ -1,0 +1,10 @@
+CREATE TABLE ALM_LIADET
+(
+    ALMDET                         CHAR(2) NOT NULL,
+    DETNAM                         VARCHAR2(32) NOT NULL
+)
+/
+CREATE UNIQUE INDEX ALM_LIADET
+ON ALM_LIADET
+(ALMDET)
+/

@@ -1,0 +1,20 @@
+//ST002A JOB (36512),'R MENENDEZ',NOTIFY=ST002,                         
+//    MSGCLASS=X,MSGLEVEL=(1,1),TYPRUN=SCAN                             
+//INV3000 PROC                                                          
+//INV3010 EXEC PGM=INV3010                                              
+//SYSOUT DD SYSOUT=*                                                    
+//INVMAST DD DSNAME=MMA2.INVENTRY.MASTER,DISP=SHR                       
+//INVSEL DD DSNAME=&&INVSEL,DISP=(NEW,PASS),                            
+// UNIT=SYSDA,SPACE=(CYL,(20,10))                                       
+//SELCTL DD DUMMY                                                       
+//INV3020 EXEC PGM=INV3020                                              
+//SYSOUT DD SYSOUT=*                                                    
+//INVMAST DD DSNAME=&&INVSEL,DISP=(OLD,DELETE)                          
+//INVSLST DD SYSOUT=*                                                   
+// PEND                                                                 
+//STEPA EXEC PGM=INV1000                                                
+//INVMAST DD DSNAME=MMA2.INVENTRY.MASTER,DISP=SHR                       
+//INVLIST DD SYSOUT=*                                                   
+//STEPB1 EXEC INV3000                                                   
+//STEPB2 EXEC INV3000                                                   
+//                                                                      

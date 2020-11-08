@@ -1,0 +1,36 @@
+2006-6-12.
+
+       1. Hello.
+
+       2. Input.  from file.
+
+       3. Output.  to file.
+
+       4.  output for zoned decimal. comp-3 and comp.
+
+2006-6-13.
+
+        1. copy book.
+
+        2. accept.-- compute.
+
+        3. Parm input. 
+
+        4. High-values. Low-values.  
+
+
+        5.  IF  ------ ELSE
+
+        6.  PERFORM
+
+            PERFORM THRU
+
+            PERFORM UNTIL
+
+            PERFORM VARYING
+
+        7.  EVALUATE.
+
+        8.  ACCEPT  DATE
+
+            ACCEPT  DAY      

@@ -1,0 +1,9 @@
+000100 //CN0007A JOB (PLI1),CLASS=A,MSGCLASS=H,MSGLEVEL=(1,1),         
+000110 //        NOTIFY=&SYSUID                                        
+000120 //*                                                             
+000130 //COMP  EXEC IBMZCPL,PARM.PLI='OBJECT,SOURCE,OPTIONS',          
+000140 // SRCLIB='CN0007.AA.PLI',                                      
+000150 // SRC='TST0007',                                               
+000160 // PGMLIB='CN0007.TEST.LOADLIB',                                
+000170 // GOPGM='TST0007'                                              
+000180 /*                                                              

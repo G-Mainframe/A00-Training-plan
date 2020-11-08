@@ -1,0 +1,20 @@
+	identification division.
+	program-id.  exam1.
+
+	environment division.
+
+	data division.
+	WORKING-STORAGE SECTION.
+	77 i  pic  99.
+	77 j  pic  99.
+	77 s  pic  zz.
+
+	procedure division.
+	a. 	
+		perform b varying i from  1  by  1 until i > 9
+			    after j from  1  by  1 until j > 9
+
+		stop run.
+
+	b.	compute  s = i * j.
+		display i, '*', j, '=', s.

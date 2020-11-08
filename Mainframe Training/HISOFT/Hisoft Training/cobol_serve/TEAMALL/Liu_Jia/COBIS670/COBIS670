@@ -1,0 +1,1846 @@
+000010
+000020******************************************************************
+000030*         ƒŠC‹P“îŒ(‘å˜A)„                                     *
+000040*      1. ƒvƒƒOƒ‰ƒ€–¼    FŠÇ——^M“WŠJˆÚsˆ—                 *
+000050*      2. ƒvƒƒOƒ‰ƒ€ID    FCOBIS670                             *
+000060*      3. ˆ—ŠT—v        FFOCUS.—^M(“WŠJ)‚ðŽå‘Ì‚É‘SŒ‘ÎÛ     *
+000070*                           ‚Æ‚µ‚ÄAŠÇ——^M“WŠJ‚ðì¬‚·‚éB     *
+000080*                                                                *
+000090*      4. ì¬ŽÒ          F—«‰À                                 *
+000100*      5. ì¬“ú          F2005.04.02                           *
+000110******************************************************************
+000120*                                                                *
+000130******************************************************************
+000140*    ‚h‚c‚d‚m‚s‚h‚e‚h‚b‚`‚s‚h‚n‚m  ‚c‚h‚u‚h‚r‚h‚n‚m              *
+000150******************************************************************
+000160 IDENTIFICATION                       DIVISION.                   
+000170*                                                                 
+000180 PROGRAM-ID.                          COBIS670.                   
+000190******************************************************************
+000200*    ‚d‚m‚u‚h‚q‚n‚m‚l‚d‚m‚s        ‚c‚h‚u‚h‚r‚h‚n‚m              *
+000210******************************************************************
+000220 ENVIRONMENT                          DIVISION.                   
+000230******************************************************************
+000240*    ‚h‚m‚o‚t‚s|‚n‚t‚s‚o‚t‚s      ‚r‚d‚b‚s‚h‚n‚m                *
+000250******************************************************************
+000260 INPUT-OUTPUT                         SECTION.                    
+000270 FILE-CONTROL.                                                    
+000280*                                                                 
+000290     SELECT    o—Íƒtƒ@ƒCƒ‹           ASSIGN    TO     U11        
+000300     FILE      STATUS     IS          ‚v|ó‘Ô                    
+000310     ORGANIZATION         IS          LINE      SEQUENTIAL.       
+000320*                                                                 
+000330******************************************************************
+000340*    ‚c‚`‚s‚`                      ‚c‚h‚u‚h‚r‚h‚n‚m              *
+000350******************************************************************
+000360 DATA                                 DIVISION.                   
+000370******************************************************************
+000380*    ‚e‚h‚k‚d                      ‚r‚d‚b‚s‚h‚n‚m                *
+000390******************************************************************
+000400 FILE                                 SECTION.                    
+000410*----------------------------------------------------------------*
+000420*    o—Íƒtƒ@ƒCƒ‹                                                *
+000430*----------------------------------------------------------------*
+000440 FD  o—Íƒtƒ@ƒCƒ‹                                                 
+000450     LABEL     RECORD     IS          STANDARD                    
+000460     BLOCK     CONTAINS   0           RECORDS.                    
+000470*                                                                 
+000480 01  o—Í|ƒŒƒR[ƒh.                                              
+000490     COPY  CISUF670  REPLACING  ==()==  BY  ==oƒJ|==.           
+000500*                                                                 
+000510******************************************************************
+000520*  ‚v‚n‚q‚j‚h‚m‚f|‚r‚s‚n‚q‚`‚f‚d  ‚r‚d‚b‚s‚h‚n‚m                *
+000530******************************************************************
+000540 WORKING-STORAGE                      SECTION.                    
+000550*----------------------------------------------------------------*
+000560*    ƒzƒXƒg•Ï”’è‹`ƒGƒŠƒA                                        *
+000570*----------------------------------------------------------------*
+000580     
+       01  SQLFPN GLOBAL.
+           02  SQLFPN-FILE-LEN PIC S9(4) COMP-5 VALUE +12.
+           02  SQLFPN-FILENAME PIC X(12) VALUE "COBIS670.PCO".
+
+       01  SQ0002 GLOBAL.
+           02  FILLER PIC X(109) VALUE "select VŽæˆøæƒR[ƒh  ,ŽæˆøæƒR
+      -    "[ƒh   into :b1,:b2  from IKOTBL001 where (ŽæˆøæƒR[ƒh=:b3 
+      -    "and –Ú“I‚b‚c='2')".
+
+       01  SQ0003 GLOBAL.
+           02  FILLER PIC X(70) VALUE "select max(ÄƒŠ[ƒX‰ñ”)   into :
+      -    "b1  from IKOTBL002 where Œ_–ñ‚m‚n=:b2".
+
+       01  SQ0004 GLOBAL.
+           02  FILLER PIC X(70) VALUE "select min(Œ_–ñŽí—Þ)   into :b1  
+      -    "from IKOTBL002 where ÄƒŠ[ƒX‰ñ”=:b2".
+
+       01  SQLCTX GLOBAL PIC S9(9) COMP-5 VALUE +288101.
+
+
+       01  SQLEXD GLOBAL.
+           02  SQL-SQLVSN   PIC S9(9) COMP-5 VALUE +10.
+           02  SQL-ARRSIZ   PIC S9(9) COMP-5 VALUE +14.
+           02  SQL-ITERS    PIC S9(9) COMP-5.
+           02  SQL-OFFSET   PIC S9(9) COMP-5.
+           02  SQL-SELERR   PIC S9(4) COMP-5.
+           02  SQL-SQLETY   PIC S9(4) COMP-5.
+           02  SQL-OCCURS   PIC S9(9) COMP-5.
+           02  SQL-CUD      PIC S9(9) COMP-5.
+           02  SQL-SQLEST   PIC S9(9) COMP-5.
+           02  SQL-STMT     PIC S9(9) COMP-5.
+           02  SQL-SQLADTP  PIC S9(9) COMP-5 VALUE 0.
+           02  SQL-SQLTDSP  PIC S9(9) COMP-5 VALUE 0.
+           02  SQL-SQPHSV   PIC S9(9) COMP-5.
+           02  SQL-SQPHSL   PIC S9(9) COMP-5.
+           02  SQL-SQPHSS   PIC S9(9) COMP-5.
+           02  SQL-SQPIND   PIC S9(9) COMP-5.
+           02  SQL-SQPINS   PIC S9(9) COMP-5.
+           02  SQL-SQPARM   PIC S9(9) COMP-5.
+           02  SQL-SQPARC   PIC S9(9) COMP-5.
+           02  SQL-SQPADTO  PIC S9(9) COMP-5.
+           02  SQL-SQPTDSO  PIC S9(9) COMP-5.
+           02  SQL-SQHSTV   PIC S9(9) COMP-5 OCCURS 14 TIMES.
+           02  SQL-SQHSTL   PIC S9(9) COMP-5 OCCURS 14 TIMES.
+           02  SQL-SQHSTS   PIC S9(9) COMP-5 OCCURS 14 TIMES.
+           02  SQL-SQINDV   PIC S9(9) COMP-5 OCCURS 14 TIMES.
+           02  SQL-SQINDS   PIC S9(9) COMP-5 OCCURS 14 TIMES.
+           02  SQL-SQHARM   PIC S9(9) COMP-5 OCCURS 14 TIMES.
+           02  SQL-SQHARC   PIC S9(9) COMP-5 OCCURS 14 TIMES.
+           02  SQL-SQADTO   PIC S9(4) COMP-5 OCCURS 14 TIMES.
+           02  SQL-SQTDSO   PIC S9(4) COMP-5 OCCURS 14 TIMES.
+
+
+       01  SQ0001 GLOBAL.
+           02  FILLER PIC X(160) VALUE "select YOSHINMEISAI.ŠÇ——^MæƒR
+      -    "[ƒh  ,YOSHINTENKAI.Œ_–ñ‚m‚n  ,YOSHINTENKAI.“WŠJ”NŒŽ  ,YOSHI
+      -    "NTENKAI.“WŠJ“ú•t  ,YOSHINTENKAI.“ü‹àƒtƒ‰ƒO  ,YOSHINTENKAI.“W
+      -    "ŠJŽx•¥‰ñ".
+
+           02  FILLER PIC X(160) VALUE "”  ,YOSHINTENKAI.ŽÀƒŠ[ƒX—¿  ,Y
+      -    "OSHINTENKAI.—˜‘§Šz  ,YOSHINTENKAI.Œ³–{“à“ü  ,YOSHINTENKAI.Œ³
+      -    "–{Žc  ,YOSHINTENKAI.ÂŒ Žc  ,YOSHINTENKAI.””ï—p  ,YOSHINTEN
+      -    "KAI.–ñ’è".
+
+           02  FILLER PIC X(159) VALUE "—˜—¦  ,YOSHINTENKAI.Ž–ŒÌŒã“ü‹à  
+      -     " from YOSHINTENKAI ,YOSHINMEISAI where (((((YOSHINTENKAI.ŠÇ
+      -    "——^MæƒR[ƒh=YOSHINMEISAI.ŠÇ——^MæƒR[ƒh and YOSHINTENKA
+      -     "I.ŠÇ——^".
+
+           02  FILLER PIC X(159) VALUE "M‹æ•ª=YOSHINMEISAI.ŠÇ——^M‹æ•ª
+      -    ") and YOSHINTENKAI.Ž©“®—^M‹æ•ª=YOSHINMEISAI.Ž©“®—^M‹æ•ª) a
+      -    "nd YOSHINTENKAI.Ž–ŒÌ“ú=YOSHINMEISAI.Ž–ŒÌ“ú) and YOSHINTENKAI
+      -    ".Œ_–ñ‚m".
+
+           02  FILLER PIC X(89) VALUE "‚n=YOSHINMEISAI.Œ_–ñ‚m‚n) and YOS
+      -    "HINTENKAI.Š¨’èƒR[ƒh=YOSHINMEISAI.Š¨’èƒR[ƒh)           ".
+
+       01  SQL-RUNTIME-VARS.
+           02  SQL-IAPXIT-SUCCESS  PIC S9(9) COMP-5 VALUE    +0.
+           02  SQL-IAPXIT-FAILURE  PIC S9(9) COMP-5 VALUE +1403.
+           02  SQL-IAPXIT-FATALERR PIC S9(9) COMP-5 VALUE  +535.
+
+       01  SQLCUD GLOBAL.
+           02     FILLER PIC S9(4) COMP-5 VALUE +10.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4192.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +27.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +5.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +27.
+           02     FILLER PIC S9(4) COMP-5 VALUE +282.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +10.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +10.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +36.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +27.
+           02     FILLER PIC S9(4) COMP-5 VALUE +286.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +10.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +67.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +727.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +9.
+           02     FILLER PIC S9(4) COMP-5 VALUE +353.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +82.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +13.
+           02     FILLER PIC S9(4) COMP-5 VALUE +402.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +14.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +7.
+           02     FILLER PIC S9(4) COMP-5 VALUE +13.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +7.
+           02     FILLER PIC S9(4) COMP-5 VALUE +13.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +7.
+           02     FILLER PIC S9(4) COMP-5 VALUE +13.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +7.
+           02     FILLER PIC S9(4) COMP-5 VALUE +13.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +7.
+           02     FILLER PIC S9(4) COMP-5 VALUE +13.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +7.
+           02     FILLER PIC S9(4) COMP-5 VALUE +13.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +7.
+           02     FILLER PIC S9(4) COMP-5 VALUE +11.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +7.
+           02     FILLER PIC S9(4) COMP-5 VALUE +13.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +153.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +109.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+           02     FILLER PIC S9(4) COMP-5 VALUE +577.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +3.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +180.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +3.
+           02     FILLER PIC S9(4) COMP-5 VALUE +70.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+           02     FILLER PIC S9(4) COMP-5 VALUE +615.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +7.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +203.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+           02     FILLER PIC S9(4) COMP-5 VALUE +70.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+           02     FILLER PIC S9(4) COMP-5 VALUE +644.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +7.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +226.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +15.
+           02     FILLER PIC S9(4) COMP-5 VALUE +711.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+      *    EXEC  SQL  BEGIN  DECLARE        SECTION  END-EXEC.
+000590 01  ‚v‚r|ŠÇ——^MæƒR[ƒh           PIC  X(08).                 
+000600*--< ‚n‚q‚`‚b‚k‚d‹¤’Ê•Ï” >                                       
+000610     
+      *    EXEC  SQL  INCLUDE  SQLCOM.CBL            END-EXEC.
+000620*                                                                 
+000630*--< ‚n‚q‚`‚b‚k‚d  ‚r‚p‚kŽÀsî•ñ >                               
+000010*--ƒ‚r‚p‚k‹¤’Ê•Ï”„
+000030   01  SQLSTATE                      PIC  X(005).
+       01  SQLSTATEA REDEFINES SQLSTATE.
+           05  SQLSTATEB OCCURS 5 TIMES PIC X.
+000040   01  DB-STRING                     PIC  X(020).
+000050   01  USERNAME                      PIC  X(010).
+000060   01  PASSWD                        PIC  X(010).
+000070*
+000640     
+      *    EXEC  SQL  INCLUDE  SQLCA.COB             END-EXEC.
+       01  SQLCA GLOBAL.
+           05  SQLCAID               PIC X(8).
+           05  SQLCABC               PIC S9(9) COMP-5.
+           05  SQLCODE               PIC S9(9) COMP-5.
+           05  SQLERRM.
+               49 SQLERRML           PIC S9(4) COMP-5.
+               49 SQLERRMC           PIC X(70).
+           05  SQLERRP               PIC X(8).
+           05  SQLERRD OCCURS 6 TIMES
+                                     PIC S9(9) COMP-5.
+           05  SQLWARN.
+               10 SQLWARN0           PIC X(1).
+               10 SQLWARN1           PIC X(1).
+               10 SQLWARN2           PIC X(1).
+               10 SQLWARN3           PIC X(1).
+               10 SQLWARN4           PIC X(1).
+               10 SQLWARN5           PIC X(1).
+               10 SQLWARN6           PIC X(1).
+               10 SQLWARN7           PIC X(1).
+           05  SQLEXT                PIC X(8).
+000650*                                                                 
+000660*--< •ÏŠ·ƒe[ƒuƒ‹ >                                               
+000670     
+      *    EXEC  SQL  INCLUDE  IKOTBL001.CBL         END-EXEC.
+000680*                                                                 
+000690*--< •ÏŠ·ƒe[ƒuƒ‹ >                                               
+000010************************************************
+000020* •ÏŠ·ƒe[ƒuƒ‹(IKOTBL001)
+000030************************************************
+000040 01  ‚h‚j‚n‚O‚O‚P|ŽæˆøæƒR[ƒh PIC  X(008).
+000050 01  ‚h‚j‚n‚O‚O‚P|–Ú“I‚b‚c PIC  X(001).
+000060 01  ‚h‚j‚n‚O‚O‚P|VŽæˆøæƒR[ƒh PIC  X(007).
+000070 01  ‚h‚j‚n‚O‚O‚P|Ž}”Ô PIC  X(003).
+000080 01  ‚h‚j‚n‚O‚O‚P|—^MŠ‡‚èƒR[ƒh PIC  X(007).
+000090 01  ‚h‚j‚n‚O‚O‚P|–¼Šñ‚¹ƒR[ƒh PIC  X(008).
+000100 01  ‚h‚j‚n‚O‚O‚P|ƒ†[ƒUƒR[ƒh PIC  X(008).
+000110 01  ‚h‚j‚n‚O‚O‚P|Ž¯•Ê‚b‚c PIC  X(001).
+000700     
+      *    EXEC  SQL  INCLUDE  IKOTBL002.CBL         END-EXEC.
+000710*                                                                 
+000720*--< —^M(–¾×) >                                                 
+000010************************************************
+000020* Œ_–ñŽí—Þ“™•ÏŠ·ƒe[ƒuƒ‹(IKOTBL002)
+000030************************************************
+000040 01  ‚h‚j‚n‚O‚O‚Q|Œ_–ñ‚m‚n PIC  X(009).
+000050 01  ‚h‚j‚n‚O‚O‚Q|ÄƒŠ[ƒXƒR[ƒh PIC S9(001) COMP-3.
+000060 01  ‚h‚j‚n‚O‚O‚Q|‹ŒÂŒ Š¨’èˆ—ƒR[ƒh PIC S9(002) COMP-3.
+000070 01  ‚h‚j‚n‚O‚O‚Q|‹ŒÂ–±Š¨’èˆ—ƒR[ƒh PIC S9(002) COMP-3.
+000080 01  ‚h‚j‚n‚O‚O‚Q|ÄƒŠ[ƒX‰ñ” PIC S9(002) COMP-3.
+000090 01  ‚h‚j‚n‚O‚O‚Q|ÂŒ Š¨’èˆ—ƒR[ƒh PIC S9(002) COMP-3.
+000100 01  ‚h‚j‚n‚O‚O‚Q|Â–±Š¨’èˆ—ƒR[ƒh PIC S9(002) COMP-3.
+000110 01  ‚h‚j‚n‚O‚O‚Q|Œ_–ñŽí—Þ PIC  X(003).
+000120 01  ‚h‚j‚n‚O‚O‚Q|ŽåŒ_–ñ‹æ•ª PIC  X(001).
+000130 01  ‚h‚j‚n‚O‚O‚Q|‰ñŽûŽè‡ PIC  X(001).
+000730     
+      *    EXEC  SQL  INCLUDE  YOSHINMEISAI.CBL      END-EXEC.
+000740*                                                                 
+000750*--< —^M(“WŠJ) >                                                 
+000010************************************************
+000020* —^M(–¾×)(YOSHINMEISAI)
+000030************************************************
+000040 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ŠÇ——^MæƒR[ƒh  PIC  X(008).
+000050 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ŠÇ——^M‹æ•ª  PIC  X(001).
+000060 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|Ž©“®—^M‹æ•ª  PIC  X(001).
+000070 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|Ž–ŒÌ“ú  PIC  X(008).
+000080 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|Œ_–ñ‚m‚n  PIC  X(009).
+000090 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|Š¨’èƒR[ƒh  PIC  X(002).
+000100 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|Ž–‹ÆŠƒR[ƒh  PIC  X(004).
+000110 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|Ž•”²‚¯ƒtƒ‰ƒO‚P  PIC  X(002).
+000120 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|Ž•”²‚¯ƒtƒ‰ƒO‚Q  PIC  X(002).
+000130 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|•¨Œ–¼  PIC  X(060).
+000140 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|Œ_–ñ“ú  PIC  X(008).
+000150 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ŒŸŽû“ú  PIC  X(008).
+000160 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|–ž—¹“ú  PIC  X(008).
+000170 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|‰„‘ØŠJŽn“ú  PIC  X(008).
+000180 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|‘Ý•t‹à•ÊŒû  PIC S9(013) COMP-3.
+000190 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|”ñ‰Ò“®Ž‘ŽY  PIC S9(013) COMP-3.
+000200 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|’™‘ •i  PIC S9(013) COMP-3.
+000210 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|M—p•ÛŒ¯•t•Û‹æ•ª  PIC  X(001).
+000220 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|M—p•ÛŒ¯‹ž  PIC S9(013) 
+000230                                                     COMP-3.
+000240 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|Œ_–ñ‹àŠz  PIC S9(013) COMP-3.
+000250 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|Žc‰¿Šz  PIC S9(013) COMP-3.
+000260 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|“ü‹à“ú  PIC  X(002).
+000270 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ŠJŽn‰ñ”  PIC  X(001).
+000280 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|–¾×Žx•¥‰ñ”  PIC  X(003).
+000290 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ŒvŽZ•ûŽ®  PIC  X(001).
+000300 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|¿‹ƒTƒCƒNƒ‹  PIC  X(002).
+000310 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ŒŽŠ„‚k—¿  PIC S9(013) COMP-3.
+000320 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ƒ„ƒNƒxƒ“‹æ•ª  PIC  X(001).
+000330 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|Ž–ŒÌÂŒ Žc  PIC S9(013) COMP-3.
+000340 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|Ž–ŒÌŒ³–{Žc  PIC S9(013) COMP-3.
+000350 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|“–ÂŒ Žc  PIC S9(013) COMP-3.
+000360 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|“–Œ³–{Žc  PIC S9(013) COMP-3.
+000370 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|‚m“–ÂŒ Žc  PIC S9(013) COMP-3.
+000380 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|‚m“–Œ³–{Žc  PIC S9(013) COMP-3.
+000390 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|–¢ŽûŒ³–{  PIC S9(013) COMP-3.
+000400 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|–¢Žû—˜‘§  PIC S9(013) COMP-3.
+000410 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|–¢’¥Žû‹à  PIC S9(013) COMP-3.
+000420 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|‚a–¢’¥Žû‹à  PIC S9(013) COMP-3.
+000430 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|”„‹p‹àŠz  PIC S9(013) COMP-3.
+000440 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|XV“ú•t  PIC  X(008).
+000450 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ŒÅ’è—˜—¦  PIC S9(003)V9(8) 
+000460                                                    COMP-3.
+000470 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|‹à—˜•Ï“®‹æ•ª  PIC  X(001).
+000480 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ƒXƒvƒŒƒbƒh  PIC S9(003)V9(8) 
+000490                                                    COMP-3.
+000500 01  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|˜A“®‹à—˜‹æ•ª  PIC  X(001).
+000760     
+      *    EXEC  SQL  INCLUDE  YOSHINTENKAI.CBL      END-EXEC.
+000770*                                                                 
+000010************************************************
+000020* —^M(“WŠJ)(YOSHINTENKAI)
+000030************************************************
+000040 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|ŠÇ——^MæƒR[ƒh  PIC  X(008).
+000050 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|ŠÇ——^M‹æ•ª  PIC  X(001).
+000060 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Ž©“®—^M‹æ•ª  PIC  X(001).
+000070 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Ž–ŒÌ“ú  PIC  X(008).
+000080 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Œ_–ñ‚m‚n  PIC  X(009).
+000090 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Š¨’èƒR[ƒh  PIC  X(002).
+000100 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“WŠJ”NŒŽ  PIC  X(006).
+000110 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“WŠJ“ú•t  PIC  X(002).
+000120 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“ü‹àƒtƒ‰ƒO  PIC  X(002).
+000130 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“WŠJŽx•¥‰ñ”  PIC  X(003).
+000140 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|ŽÀƒŠ[ƒX—¿  PIC S9(013) COMP-3.
+000150 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|—˜‘§Šz  PIC S9(013) COMP-3.
+000160 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Œ³–{“à“ü  PIC S9(013) COMP-3.
+000170 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Œ³–{Žc  PIC S9(013) COMP-3.
+000180 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|ÂŒ Žc  PIC S9(013) COMP-3.
+000190 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|””ï—p  PIC S9(013) COMP-3.
+000200 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|–ñ’è—˜—¦  PIC S9(011) COMP-3.
+000210 01  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Ž–ŒÌŒã“ü‹à  PIC S9(013) COMP-3.
+000780     
+      *    EXEC  SQL  END      DECLARE      SECTION  END-EXEC.
+000790*----------------------------------------------------------------*
+000800*   ì‹Æ—Ìˆæ’è‹`                                                 *
+000810*----------------------------------------------------------------*
+000820 01  ‚v‚n‚q‚j|ƒGƒŠƒA.                                            
+000830*--< ƒGƒ‰[ƒR[ƒh >                                               
+000840     03  ‚v|ƒGƒ‰[ƒR[ƒh             PIC S9(04).                 
+000850*                                                                 
+000860*--< ƒtƒ@ƒCƒ‹ó‘Ô >                                               
+000870     03 ‚v|ó‘Ô                      PIC  X(02).                 
+000880     03 ‚v|ŠÇ——^Mó‘Ô              PIC  X(02).                 
+000890*                                                                 
+000900*--< Œ”ƒGƒŠƒA >                                                 
+000910     03 Œ”ƒGƒŠƒA.                                               
+000920        05  ‚v|“ü—Í|Œ”‚P          PIC  9(09).                 
+000930        05  ‚v|“ü—Í|Œ”‚Q          PIC  9(09).                 
+000940        05  ‚v|o—Í|Œ”            PIC  9(09).                 
+000950*                                                                 
+000960*--< ƒtƒ‰ƒOƒAƒŠƒA >                                               
+000970     03 ƒtƒ‰ƒO|ƒGƒŠƒA.                                           
+000980        05  ‚v|I—¹|ƒtƒ‰ƒO          PIC  X(01).                 
+000990        05  ˆÙíI—¹|ƒtƒ‰ƒO          PIC  X(01).                 
+001000*                                                                 
+001010*--< ƒL[ƒGƒŠƒA >                                                 
+001020     03  ‚j‚d‚x|ƒGƒŠƒA.                                          
+001030        05  ‚m‚d‚vƒL[.                                           
+001040            07 ‚v‚m|—^MŠÇ—æƒR[ƒh PIC  X(09).                 
+001050            07 ‚v‚m|Œ_–ñ”Ô†         PIC  X(10).                 
+001060            07 ‚v‚m|ÄƒŠ[ƒX‰ñ”     PIC S9(02).                 
+001070            07 ‚v‚m|Œ_–ñŽí—Þ         PIC  X(03).                 
+001080        05  ‚n‚k‚cƒL[.                                           
+001090            07 ‚v‚n|—^MŠÇ—æƒR[ƒh PIC  X(09).                 
+001100            07 ‚v‚n|Œ_–ñ”Ô†         PIC  X(10).                 
+001110            07 ‚v‚n|ÄƒŠ[ƒX‰ñ”     PIC S9(02).                 
+001120            07 ‚v‚n|Œ_–ñŽí—Þ         PIC  X(03).                 
+001130*                                                                 
+001140*--< ˜A”Ô >                                                       
+001150     03 ‚v|˜A”Ô                      PIC  9(03).                 
+001160*                                                                 
+001170*----------------------------------------------------------------*
+001180*   ˆ—ŽžŠÔ’è‹`                                                 *
+001190*----------------------------------------------------------------*
+001200*--< ‹¤’Êî•ñ >                                                   
+001210 01  ‚v|‹¤’Êî•ñ.                                                
+001220     03  ‚v|ƒVƒXƒeƒ€“ú•t.                                        
+001230         05  ‚v|¢‹I                 PIC  X(02) VALUE  "20".     
+001240         05  ‚v|”NŒŽ“ú               PIC  X(06).                 
+001250     03  ‚v|ƒVƒXƒeƒ€Žž             PIC  X(08).                 
+001260     03  ‚v|’S“–ŽÒ                   PIC  X(08) VALUE "IKOPG   ".
+001270*----------------------------------------------------------------*
+001280*    ƒTƒuƒ‹[ƒ`ƒ“–¼                                              *
+001290*----------------------------------------------------------------*
+001300 01  CALL-AREA.                                                   
+001310*--< ‹¤’ÊƒƒOƒTƒuƒ‹[ƒ`ƒ“ >                                       
+001320     03  CLOCO001                     PIC  X(08) VALUE "CLOCO001".
+001330     03  COBCO001                     PIC  X(08) VALUE "COBCO001".
+001340*----------------------------------------------------------------*
+001350*    ‚b‚n‚o‚x—Ìˆæ                                                *
+001360*----------------------------------------------------------------*
+001370*--< ‹¤’ÊƒƒO—pƒpƒ‰ƒ[ƒ^ >                                       
+001380 01  IF-CHOCO001.                                                 
+001390     COPY  CHOCO001  REPLACING  ==()==  BY  ==‹¤‚P|==.           
+001400*                                                                 
+001410*----------------------------------------------------------------*
+001420*    ‚h‚m‚hƒtƒ@ƒCƒ‹“ÇžƒTƒuƒ‹[ƒ`ƒ“—pƒpƒ‰ƒƒ^—Ìˆæ                *
+001430*----------------------------------------------------------------*
+001440 01  PARA-AREA.                                                   
+001450     COPY CPBCO001.                                               
+001460******************************************************************
+001470*    ’è”—pƒf[ƒ^’è‹`ƒGƒŠƒA                                      *
+001480******************************************************************
+001490 CONSTANT                             SECTION.                    
+001500 01  ’è”—Ìˆæ.                                                    
+001510     03  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c         PIC  X(08) VALUE "COBIS670".
+001520     03  ’è”|ƒvƒƒOƒ‰ƒ€–¼           PIC  X(80)                  
+001530                                    VALUE  "ŠÇ——^M“WŠJˆÚsˆ—".
+001540     03  ’è”|‚r‚p‚k‚n‚j             PIC  9(04)  VALUE  ZERO.    
+001550     03  ’è”|‚r‚p‚k‚d‚m‚c           PIC  9(04)  VALUE  0100.    
+001560     03  ’è”|³íó‘Ô               PIC  9(04)  VALUE  ZERO.    
+001570     03  ’è”|ˆÙíó‘Ô               PIC  9(04)  VALUE  0009.    
+001580******************************************************************
+001590*    ‚o‚q‚n‚b‚d‚c‚t‚q‚d            ‚c‚h‚u‚h‚r‚h‚n‚m              *
+001600******************************************************************
+001610 PROCEDURE                            DIVISION.                   
+001620*                                                                 
+001630     PERFORM   ‰Šúˆ—.                                          
+001640*                                                                 
+001650     PERFORM   Žåˆ—  UNTIL  ‚v|I—¹|ƒtƒ‰ƒO  =  "Y".           
+001660*                                                                 
+001670     PERFORM   I—¹ˆ—.                                          
+001680*                                                                 
+001690     STOP RUN.                                                    
+001700*                                                                 
+001710******************************************************************
+001720*    ‰Šúˆ—                                            <1.0>   *
+001730******************************************************************
+001740 ‰Šúˆ—                             SECTION.                    
+001750 ‰Šúˆ—|‚r‚s‚`‚q‚s.                                            
+001760*                                                                 
+001770*----------------------------------------------------------------*
+001780*    ŠJŽnƒƒbƒZ[ƒWo—Í                                          *
+001790*----------------------------------------------------------------*
+001800     INITIALIZE                       IF-CHOCO001.                
+001810     MOVE  "3"                        TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê.     
+001820     MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c       TO  ‹¤‚P|ƒ\[ƒX‚h‚c.       
+001830     MOVE  "ZERO"                     TO  ‹¤‚P|•œ‹AƒR[ƒh.       
+001840     MOVE  "START"                    TO  ‹¤‚P|ˆ—Ž¯•Ê.         
+001850     MOVE  ’è”|ƒvƒƒOƒ‰ƒ€–¼         TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW. 
+001860     CALL  CLOCO001                USING  IF-CHOCO001.            
+001870*                                                                 
+001880*----------------------------------------------------------------*
+001890*    ì‹Æ—Ìˆæ‚Ì‰Šú’lÝ’è                                        *
+001900*----------------------------------------------------------------*
+001910     MOVE  SPACE                      TO  ‚v‚n‚q‚j|ƒGƒŠƒA.       
+001920     INITIALIZE                           ‚v‚n‚q‚j|ƒGƒŠƒA.       
+001930*                                                                 
+001940*--< ‚b‚o‚t“ú•t‚ðŽæ“¾ >                                           
+001950     ACCEPT  ‚v|”NŒŽ“ú               FROM  DATE.                 
+001960*                                                                 
+001970*--< ‚b‚o‚tŽž‚ðŽæ“¾ >                                           
+001980     ACCEPT  ‚v|ƒVƒXƒeƒ€Žž         FROM  TIME.                 
+001990*----------------------------------------------------------------*
+002000*    ‚n‚q‚`‚b‚k‚dÚ‘±                                    <1.1>   *
+002010*----------------------------------------------------------------*
+002020     PERFORM  ‚n‚q‚`‚b‚k‚dÚ‘±.                                   
+002030*                                                                 
+002040*----------------------------------------------------------------*
+002050*    Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹éŒ¾                            <1.2>   *
+002060*----------------------------------------------------------------*
+002070     PERFORM  ƒJ[ƒ\ƒ‹éŒ¾.                                       
+002080*                                                                 
+002090*----------------------------------------------------------------*
+002100*    ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“                                    <1.3>   *
+002110*----------------------------------------------------------------*
+002120     PERFORM  ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“.                                   
+002130*                                                                 
+002140*----------------------------------------------------------------*
+002150*    Œ‹‡ƒe[ƒuƒ‹“Çži‚PŒ–Új                          <C.1>   *
+002160*----------------------------------------------------------------*
+002170     PERFORM  Œ‹‡ƒe[ƒuƒ‹“Çž.                                   
+002180*                                                                 
+002190******************************************************************
+002200*    Žåˆ—                                              <2.0>   *
+002210******************************************************************
+002220 Žåˆ—                               SECTION.                    
+002230 Žåˆ—|‚r‚s‚`‚q‚s.                                              
+002240*----------------------------------------------------------------*
+002250*    •ÒWˆ—                                            <2.1>   *
+002260*----------------------------------------------------------------*
+002270     PERFORM  •ÒWˆ—.                                           
+002280*                                                                 
+002290*----------------------------------------------------------------*
+002300*    ŠÇ——^M“WŠJo—Íˆ—                                <2.2>   *
+002310*----------------------------------------------------------------*
+002320     PERFORM  ŠÇ——^M“WŠJo—Íˆ—.                               
+002330*                                                                 
+002340*----------------------------------------------------------------*
+002350*    Œ‹‡ƒe[ƒuƒ‹“Çž. (‚QŒ–ÚˆÈ~)                      <C.1>   *
+002360*----------------------------------------------------------------*
+002370     PERFORM   Œ‹‡ƒe[ƒuƒ‹“Çž.                                  
+002380*                                                                 
+002390 Žåˆ—|‚d‚w‚h‚s.                                                
+002400     EXIT.                                                        
+002410******************************************************************
+002420*    I—¹ˆ—                                            <3.0>   *
+002430******************************************************************
+002440 I—¹ˆ—                             SECTION.                    
+002450 I—¹ˆ—|‚r‚s‚`‚q‚s.                                            
+002460*                                                                 
+002470*----------------------------------------------------------------*
+002480*    ‚c‚aƒNƒ[ƒY                                        <3.1>   *
+002490*----------------------------------------------------------------*
+002500     PERFORM   ‚c‚aƒNƒ[ƒY.                                      
+002510*                                                                 
+002520*--< ƒtƒ@ƒCƒ‹ƒNƒ[ƒY >                                           
+002530     CLOSE  o—Íƒtƒ@ƒCƒ‹.                                         
+002540*                                                                 
+002550*----------------------------------------------------------------*
+002560*    I—¹ƒƒbƒZ[ƒWo—Íˆ—                              <C.3>   *
+002570*----------------------------------------------------------------*
+002580     PERFORM  I—¹ƒƒbƒZ[ƒWo—Í.                                 
+002590*                                                                 
+002600*--< ƒvƒƒOƒ‰ƒ€³íI—¹ >                                         
+002610     MOVE  ’è”|³íó‘Ô             TO  PROGRAM-STATUS.         
+002620*                                                                 
+002630 I—¹ˆ—|‚d‚w‚h‚s.                                              
+002640     EXIT.                                                        
+002650******************************************************************
+002660*    ‚n‚q‚`‚b‚k‚dÚ‘±                                    <1.1>   *
+002670******************************************************************
+002680 ‚n‚q‚`‚b‚k‚dÚ‘±                     SECTION.                    
+002690 ‚n‚q‚`‚b‚k‚dÚ‘±|‚r‚s‚`‚q‚s.                                    
+002700*                                                                 
+002710*--< ‚h‚m‚hƒtƒ@ƒCƒ‹“ÇžƒTƒuƒ‹[ƒ`ƒ“ŒÄ‚Ño‚µ >                     
+002720     CALL  COBCO001                USING  PARA-AREA.              
+002730*                                                                 
+002740     MOVE  PARA-DBSTRING              TO  DB-STRING.              
+002750     MOVE  PARA-USERNAME              TO  USERNAME.               
+002760     MOVE  PARA-PASSWORD              TO  PASSWD.                 
+002770*                                                                 
+002780*----------------------------------------------------------------*
+002790*    ŠJŽnÚ‘±                                                    *
+002800*----------------------------------------------------------------*
+002810     IF  DB-STRING  =  SPACE                                      
+002820        
+      *       EXEC  SQL                                                 
+002830*          CONNECT  :USERNAME  IDENTIFIED  BY  :PASSWD            
+002840*       END-EXEC 
+              CALL "ORASQL8"
+              MOVE 10 TO SQL-ITERS
+              MOVE 5 TO SQL-OFFSET
+              MOVE 0 TO SQL-OCCURS
+              CALL "SQLADR" USING
+                  SQLCUD
+                  SQL-CUD
+              CALL "SQLADR" USING
+                  SQLCA
+                  SQL-SQLEST
+              MOVE 256 TO SQL-SQLETY
+              CALL "SQLADR" USING
+                  USERNAME
+                  SQL-SQHSTV(1)
+              MOVE 10 TO SQL-SQHSTL(1)
+              MOVE 0 TO SQL-SQHSTS(1)
+              MOVE 0 TO SQL-SQINDV(1)
+              MOVE 0 TO SQL-SQINDS(1)
+              MOVE 0 TO SQL-SQHARM(1)
+              CALL "SQLADR" USING
+                  PASSWD
+                  SQL-SQHSTV(2)
+              MOVE 10 TO SQL-SQHSTL(2)
+              MOVE 0 TO SQL-SQHSTS(2)
+              MOVE 0 TO SQL-SQINDV(2)
+              MOVE 0 TO SQL-SQINDS(2)
+              MOVE 0 TO SQL-SQHARM(2)
+              CALL "SQLADR" USING
+                  SQL-SQHSTV(1)
+                  SQL-SQPHSV
+              CALL "SQLADR" USING
+                  SQL-SQHSTL(1)
+                  SQL-SQPHSL
+              CALL "SQLADR" USING
+                  SQL-SQHSTS(1)
+                  SQL-SQPHSS
+              CALL "SQLADR" USING
+                  SQL-SQINDV(1)
+                  SQL-SQPIND
+              CALL "SQLADR" USING
+                  SQL-SQINDS(1)
+                  SQL-SQPINS
+              CALL "SQLADR" USING
+                  SQL-SQHARM(1)
+                  SQL-SQPARM
+              CALL "SQLADR" USING
+                  SQL-SQHARC(1)
+                  SQL-SQPARC
+
+              CALL "SQLBEX" USING
+                  SQLCTX
+                  SQLEXD
+                  SQLFPN
+
+              CALL "SQLGSS" USING
+                 SQLSTATE
+002850     ELSE                                                         
+002860        
+      *       EXEC  SQL                                                 
+002870*          CONNECT  :USERNAME  IDENTIFIED  BY  :PASSWD            
+002880*            USING  :DB-STRING                                    
+002890*       END-EXEC 
+              CALL "ORASQL8"
+              MOVE 10 TO SQL-ITERS
+              MOVE 36 TO SQL-OFFSET
+              MOVE 0 TO SQL-OCCURS
+              CALL "SQLADR" USING
+                  SQLCUD
+                  SQL-CUD
+              CALL "SQLADR" USING
+                  SQLCA
+                  SQL-SQLEST
+              MOVE 256 TO SQL-SQLETY
+              CALL "SQLADR" USING
+                  USERNAME
+                  SQL-SQHSTV(1)
+              MOVE 10 TO SQL-SQHSTL(1)
+              MOVE 0 TO SQL-SQHSTS(1)
+              MOVE 0 TO SQL-SQINDV(1)
+              MOVE 0 TO SQL-SQINDS(1)
+              MOVE 0 TO SQL-SQHARM(1)
+              CALL "SQLADR" USING
+                  PASSWD
+                  SQL-SQHSTV(2)
+              MOVE 10 TO SQL-SQHSTL(2)
+              MOVE 0 TO SQL-SQHSTS(2)
+              MOVE 0 TO SQL-SQINDV(2)
+              MOVE 0 TO SQL-SQINDS(2)
+              MOVE 0 TO SQL-SQHARM(2)
+              CALL "SQLADR" USING
+                  DB-STRING
+                  SQL-SQHSTV(3)
+              MOVE 20 TO SQL-SQHSTL(3)
+              MOVE 0 TO SQL-SQHSTS(3)
+              MOVE 0 TO SQL-SQINDV(3)
+              MOVE 0 TO SQL-SQINDS(3)
+              MOVE 0 TO SQL-SQHARM(3)
+              CALL "SQLADR" USING
+                  SQL-SQHSTV(1)
+                  SQL-SQPHSV
+              CALL "SQLADR" USING
+                  SQL-SQHSTL(1)
+                  SQL-SQPHSL
+              CALL "SQLADR" USING
+                  SQL-SQHSTS(1)
+                  SQL-SQPHSS
+              CALL "SQLADR" USING
+                  SQL-SQINDV(1)
+                  SQL-SQPIND
+              CALL "SQLADR" USING
+                  SQL-SQINDS(1)
+                  SQL-SQPINS
+              CALL "SQLADR" USING
+                  SQL-SQHARM(1)
+                  SQL-SQPARM
+              CALL "SQLADR" USING
+                  SQL-SQHARC(1)
+                  SQL-SQPARC
+
+              CALL "SQLBEX" USING
+                  SQLCTX
+                  SQLEXD
+                  SQLFPN
+
+              CALL "SQLGSS" USING
+                 SQLSTATE
+002900     END-IF.                                                      
+002910*                                                                 
+002920*----------------------------------------------------------------*
+002930*    Ú‘±ó‘Ô”»’è                                                *
+002940*----------------------------------------------------------------*
+002950     EVALUATE  SQLCODE                                            
+002960        WHEN  ’è”|‚r‚p‚k‚n‚j                                    
+002970*--<       Ú‘±³í >                                             
+002980           CONTINUE                                               
+002990        WHEN  OTHER                                               
+003000*--<       Ú‘±ƒGƒ‰[ >                                           
+003010           MOVE     -10               TO  ‚v|ƒGƒ‰[ƒR[ƒh        
+003020           PERFORM  ƒGƒ‰[ˆ—                                    
+003030     END-EVALUATE.                                                
+003040*                                                                 
+003050 ‚n‚q‚`‚b‚k‚dÚ‘±|‚d‚w‚h‚s.                                      
+003060     EXIT.                                                        
+003070******************************************************************
+003080*    Œ‹‡ƒe[ƒuƒ‹ƒJ[ƒ\ƒ‹éŒ¾                            <1.2>   *
+003090******************************************************************
+003100*                                                                 
+003110 ƒJ[ƒ\ƒ‹éŒ¾                         SECTION.                    
+003120 ƒJ[ƒ\ƒ‹éŒ¾|‚r‚s‚`‚q‚s.                                        
+003130*                                                                 
+003140*----------------------------------------------------------------*
+003150*    ƒJ[ƒ\ƒ‹éŒ¾                                                *
+003160*----------------------------------------------------------------*
+003170     
+      *    EXEC  SQL                                                    
+003180*       DECLARE  CUR1  CURSOR  FOR                                
+003190*          SELECT  YOSHINMEISAI.ŠÇ——^MæƒR[ƒh                  
+003200* 		,YOSHINTENKAI.Œ_–ñ‚m‚n                          
+003210*                 ,YOSHINTENKAI.“WŠJ”NŒŽ                          
+003220*                 ,YOSHINTENKAI.“WŠJ“ú•t                          
+003230*                 ,YOSHINTENKAI.“ü‹àƒtƒ‰ƒO                        
+003240*                 ,YOSHINTENKAI.“WŠJŽx•¥‰ñ”                      
+003250*                 ,YOSHINTENKAI.ŽÀƒŠ[ƒX—¿                        
+003260*                 ,YOSHINTENKAI.—˜‘§Šz                            
+003270*                 ,YOSHINTENKAI.Œ³–{“à“ü                          
+003280*                 ,YOSHINTENKAI.Œ³–{Žc                            
+003290*                 ,YOSHINTENKAI.ÂŒ Žc                            
+003300*                 ,YOSHINTENKAI.””ï—p                            
+003310*                 ,YOSHINTENKAI.–ñ’è—˜—¦                          
+003320*                 ,YOSHINTENKAI.Ž–ŒÌŒã“ü‹à                        
+003330*            FROM  YOSHINTENKAI                                   
+003340*                 ,YOSHINMEISAI                                   
+003350*           WHERE  YOSHINTENKAI.ŠÇ——^MæƒR[ƒh =                
+003360*                           YOSHINMEISAI.ŠÇ——^MæƒR[ƒh         
+003370*             AND  YOSHINTENKAI.ŠÇ——^M‹æ•ª  =                   
+003380*                           YOSHINMEISAI.ŠÇ——^M‹æ•ª  	        
+003390* 	    AND  YOSHINTENKAI.Ž©“®—^M‹æ•ª  =                   
+003400*                           YOSHINMEISAI.Ž©“®—^M‹æ•ª  	        
+003410*             AND  YOSHINTENKAI.Ž–ŒÌ“ú =                          
+003420*                           YOSHINMEISAI.Ž–ŒÌ“ú  	                
+003430*             AND  YOSHINTENKAI.Œ_–ñ‚m‚n =                        
+003440*                           YOSHINMEISAI.Œ_–ñ‚m‚n  	        
+003450*             AND  YOSHINTENKAI.Š¨’èƒR[ƒh =                      
+003460*                           YOSHINMEISAI.Š¨’èƒR[ƒh   	        
+003470*                                                                 
+003480*    END-EXEC.
+003490*                                                                 
+003500*----------------------------------------------------------------*
+003510*    ƒJ[ƒ\ƒ‹ƒI[ƒvƒ“                                            *
+003520*----------------------------------------------------------------*
+003530     
+      *    EXEC  SQL                                                    
+003540*       OPEN  CUR1                                                
+003550*    END-EXEC.
+           CALL "SQLADR" USING SQ0001 SQL-STMT
+           MOVE 1 TO SQL-ITERS
+           MOVE 67 TO SQL-OFFSET
+           MOVE 0 TO SQL-OCCURS
+           MOVE 1 TO SQL-SELERR
+           CALL "SQLADR" USING
+               SQLCUD
+               SQL-CUD
+           CALL "SQLADR" USING
+               SQLCA
+               SQL-SQLEST
+           MOVE 256 TO SQL-SQLETY
+
+           CALL "SQLBEX" USING
+               SQLCTX
+               SQLEXD
+               SQLFPN
+
+           CALL "SQLGSS" USING
+              SQLSTATE
+               .
+003560*                                                                 
+003570*----------------------------------------------------------------*
+003580*    ƒJ[ƒ\ƒ‹ƒI[ƒvƒ“‚ðŠm”F                                      *
+003590*----------------------------------------------------------------*
+003600     EVALUATE   SQLCODE                                           
+003610        WHEN   ’è”|‚r‚p‚k‚n‚j                                   
+003620*--<       ³í >                                                 
+003630           CONTINUE                                               
+003640        WHEN   OTHER                                              
+003650*--<       ƒJ[ƒ\ƒ‹ƒI[ƒvƒ“Ž¸”sAƒvƒƒOƒ‰ƒ€‚ªˆÙíI—¹ >           
+003660           MOVE      -20              TO  ‚v|ƒGƒ‰[ƒR[ƒh        
+003670           PERFORM   ƒGƒ‰[ˆ—                                   
+003680     END-EVALUATE.                                                
+003690*                                                                 
+003700 ƒJ[ƒ\ƒ‹éŒ¾|‚d‚w‚h‚s.                                          
+003710     EXIT.                                                        
+003720*                                                                 
+003730******************************************************************
+003740*    o—Íƒtƒ@ƒCƒ‹‚n‚o‚d‚m                                <1.3>   *
+003750******************************************************************
+003760 ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“                     SECTION.                    
+003770 ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“|‚r‚s‚`‚q‚s.                                    
+003780     OPEN             OUTPUT          o—Íƒtƒ@ƒCƒ‹.               
+003790*----------------------------------------------------------------*
+003800*    ŠÇ——^M“WŠJƒtƒ@ƒCƒ‹ƒI[ƒvƒ“Šm”F                            *
+003810*----------------------------------------------------------------*
+003820     EVALUATE  ‚v|ó‘Ô                                           
+003830        WHEN  ZERO                                                
+003840*--<       ³í >                                                 
+003850           CONTINUE                                               
+003860        WHEN  OTHER                                               
+003870*--<       ŠÇ——^M“WŠJƒtƒ@ƒCƒ‹‚n‚o‚d‚mƒGƒ‰[ >                   
+003880           MOVE -30                   TO  ‚v|ƒGƒ‰[ƒR[ƒh        
+003890           PERFORM  ƒGƒ‰[ˆ—                                    
+003900     END-EVALUATE.                                                
+003910*                                                                 
+003920 ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“|‚d‚w‚h‚s.                                      
+003930     EXIT.                                                        
+003940*                                                                 
+003950******************************************************************
+003960*    Œ‹‡ƒe[ƒuƒ‹“Çž                                    <C.1>   *
+003970******************************************************************
+003980 Œ‹‡ƒe[ƒuƒ‹“Çž                     SECTION.                    
+003990 Œ‹‡ƒe[ƒuƒ‹“Çž|‚r‚s‚`‚q‚s.                                    
+004000*                                                                 
+004010*--< Œ‹‡ƒe[ƒuƒ‹“Çž >                                           
+004020     
+      *    EXEC SQL                                                     
+004030*        FETCH  CUR1                                              
+004040*         INTO     :‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ŠÇ——^MæƒR[ƒh    
+004050*                 ,:‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Œ_–ñ‚m‚n            
+004060*                 ,:‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“WŠJ”NŒŽ 	        
+004070*                 ,:‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“WŠJ“ú•t            
+004080*                 ,:‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“ü‹àƒtƒ‰ƒO 	        
+004090* 		,:‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“WŠJŽx•¥‰ñ”        
+004100*                 ,:‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|ŽÀƒŠ[ƒX—¿          
+004110*                 ,:‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|—˜‘§Šz              
+004120* 		,:‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Œ³–{“à“ü            
+004130*                 ,:‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Œ³–{Žc              
+004140*                 ,:‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|ÂŒ Žc	        
+004150*                 ,:‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|””ï—p	        
+004160*                 ,:‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|–ñ’è—˜—¦	        
+004170*                 ,:‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Ž–ŒÌŒã“ü‹à          
+004180*    END-EXEC.
+           MOVE 1 TO SQL-ITERS
+           MOVE 82 TO SQL-OFFSET
+           MOVE 0 TO SQL-OCCURS
+           MOVE 1 TO SQL-SELERR
+           CALL "SQLADR" USING
+               SQLCUD
+               SQL-CUD
+           CALL "SQLADR" USING
+               SQLCA
+               SQL-SQLEST
+           MOVE 256 TO SQL-SQLETY
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ŠÇ——^MæƒR[ƒh
+               SQL-SQHSTV(1)
+           MOVE 8 TO SQL-SQHSTL(1)
+           MOVE 0 TO SQL-SQHSTS(1)
+           MOVE 0 TO SQL-SQINDV(1)
+           MOVE 0 TO SQL-SQINDS(1)
+           MOVE 0 TO SQL-SQHARM(1)
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Œ_–ñ‚m‚n
+               SQL-SQHSTV(2)
+           MOVE 9 TO SQL-SQHSTL(2)
+           MOVE 0 TO SQL-SQHSTS(2)
+           MOVE 0 TO SQL-SQINDV(2)
+           MOVE 0 TO SQL-SQINDS(2)
+           MOVE 0 TO SQL-SQHARM(2)
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“WŠJ”NŒŽ
+               SQL-SQHSTV(3)
+           MOVE 6 TO SQL-SQHSTL(3)
+           MOVE 0 TO SQL-SQHSTS(3)
+           MOVE 0 TO SQL-SQINDV(3)
+           MOVE 0 TO SQL-SQINDS(3)
+           MOVE 0 TO SQL-SQHARM(3)
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“WŠJ“ú•t
+               SQL-SQHSTV(4)
+           MOVE 2 TO SQL-SQHSTL(4)
+           MOVE 0 TO SQL-SQHSTS(4)
+           MOVE 0 TO SQL-SQINDV(4)
+           MOVE 0 TO SQL-SQINDS(4)
+           MOVE 0 TO SQL-SQHARM(4)
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“ü‹àƒtƒ‰ƒO
+               SQL-SQHSTV(5)
+           MOVE 2 TO SQL-SQHSTL(5)
+           MOVE 0 TO SQL-SQHSTS(5)
+           MOVE 0 TO SQL-SQINDV(5)
+           MOVE 0 TO SQL-SQINDS(5)
+           MOVE 0 TO SQL-SQHARM(5)
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“WŠJŽx•¥‰ñ”
+               SQL-SQHSTV(6)
+           MOVE 3 TO SQL-SQHSTL(6)
+           MOVE 0 TO SQL-SQHSTS(6)
+           MOVE 0 TO SQL-SQINDV(6)
+           MOVE 0 TO SQL-SQINDS(6)
+           MOVE 0 TO SQL-SQHARM(6)
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|ŽÀƒŠ[ƒX—¿
+               SQL-SQHSTV(7)
+           MOVE 7 TO SQL-SQHSTL(7)
+           MOVE 0 TO SQL-SQHSTS(7)
+           MOVE 0 TO SQL-SQINDV(7)
+           MOVE 0 TO SQL-SQINDS(7)
+           MOVE 0 TO SQL-SQHARM(7)
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|—˜‘§Šz
+               SQL-SQHSTV(8)
+           MOVE 7 TO SQL-SQHSTL(8)
+           MOVE 0 TO SQL-SQHSTS(8)
+           MOVE 0 TO SQL-SQINDV(8)
+           MOVE 0 TO SQL-SQINDS(8)
+           MOVE 0 TO SQL-SQHARM(8)
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Œ³–{“à“ü
+               SQL-SQHSTV(9)
+           MOVE 7 TO SQL-SQHSTL(9)
+           MOVE 0 TO SQL-SQHSTS(9)
+           MOVE 0 TO SQL-SQINDV(9)
+           MOVE 0 TO SQL-SQINDS(9)
+           MOVE 0 TO SQL-SQHARM(9)
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Œ³–{Žc
+               SQL-SQHSTV(10)
+           MOVE 7 TO SQL-SQHSTL(10)
+           MOVE 0 TO SQL-SQHSTS(10)
+           MOVE 0 TO SQL-SQINDV(10)
+           MOVE 0 TO SQL-SQINDS(10)
+           MOVE 0 TO SQL-SQHARM(10)
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|ÂŒ Žc
+               SQL-SQHSTV(11)
+           MOVE 7 TO SQL-SQHSTL(11)
+           MOVE 0 TO SQL-SQHSTS(11)
+           MOVE 0 TO SQL-SQINDV(11)
+           MOVE 0 TO SQL-SQINDS(11)
+           MOVE 0 TO SQL-SQHARM(11)
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|””ï—p
+               SQL-SQHSTV(12)
+           MOVE 7 TO SQL-SQHSTL(12)
+           MOVE 0 TO SQL-SQHSTS(12)
+           MOVE 0 TO SQL-SQINDV(12)
+           MOVE 0 TO SQL-SQINDS(12)
+           MOVE 0 TO SQL-SQHARM(12)
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|–ñ’è—˜—¦
+               SQL-SQHSTV(13)
+           MOVE 6 TO SQL-SQHSTL(13)
+           MOVE 0 TO SQL-SQHSTS(13)
+           MOVE 0 TO SQL-SQINDV(13)
+           MOVE 0 TO SQL-SQINDS(13)
+           MOVE 0 TO SQL-SQHARM(13)
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Ž–ŒÌŒã“ü‹à
+               SQL-SQHSTV(14)
+           MOVE 7 TO SQL-SQHSTL(14)
+           MOVE 0 TO SQL-SQHSTS(14)
+           MOVE 0 TO SQL-SQINDV(14)
+           MOVE 0 TO SQL-SQINDS(14)
+           MOVE 0 TO SQL-SQHARM(14)
+           CALL "SQLADR" USING
+               SQL-SQHSTV(1)
+               SQL-SQPHSV
+           CALL "SQLADR" USING
+               SQL-SQHSTL(1)
+               SQL-SQPHSL
+           CALL "SQLADR" USING
+               SQL-SQHSTS(1)
+               SQL-SQPHSS
+           CALL "SQLADR" USING
+               SQL-SQINDV(1)
+               SQL-SQPIND
+           CALL "SQLADR" USING
+               SQL-SQINDS(1)
+               SQL-SQPINS
+           CALL "SQLADR" USING
+               SQL-SQHARM(1)
+               SQL-SQPARM
+           CALL "SQLADR" USING
+               SQL-SQHARC(1)
+               SQL-SQPARC
+
+           CALL "SQLBEX" USING
+               SQLCTX
+               SQLEXD
+               SQLFPN
+
+           CALL "SQLGSS" USING
+              SQLSTATE
+               .
+004190*                                                                 
+004200*----------------------------------------------------------------*
+004210*    Œ‹‡ƒe[ƒuƒ‹“Çž‚ðŠm”F                                      *
+004220*----------------------------------------------------------------*
+004230     EVALUATE   SQLCODE                                           
+004240        WHEN   ’è”|‚r‚p‚k‚n‚j                                   
+004250*--<       ³í   >                                               
+004260           COMPUTE  ‚v|“ü—Í|Œ”‚P  =  ‚v|“ü—Í|Œ”‚P  +  1   
+004270           COMPUTE  ‚v|“ü—Í|Œ”‚Q  =  ‚v|“ü—Í|Œ”‚Q  +  1   
+004280        WHEN   ’è”|‚r‚p‚k‚d‚m‚c                                 
+004290*--<       “ÇžI—¹   >                                           
+004300           MOVE  "Y"                  TO  ‚v|I—¹|ƒtƒ‰ƒO        
+004310        WHEN   OTHER                                              
+004320*--<       Œ‹‡ƒe[ƒuƒ‹“ÇžƒGƒ‰[   >                             
+004330           MOVE     -40               TO  ‚v|ƒGƒ‰[ƒR[ƒh        
+004340           PERFORM  ƒGƒ‰[ˆ—                                    
+004350     END-EVALUATE.                                                
+004360*                                                                 
+004370 Œ‹‡ƒe[ƒuƒ‹“Çž|‚d‚w‚h‚s.                                      
+004380     EXIT.                                                        
+004390******************************************************************
+004400*    •ÒWˆ—                                            <2.1>   *
+004410******************************************************************
+004420 •ÒWˆ—                             SECTION.                    
+004430 •ÒWˆ—|‚r‚s‚`‚q‚s.                                            
+004440*                                                                 
+004450*--< o—ÍƒŒƒR[ƒh‚ð‰Šú‰» >                                       
+004460*                                                                 
+004470     MOVE  SPACE                      TO  o—Í|ƒŒƒR[ƒh.         
+004480     INITIALIZE                           o—Í|ƒŒƒR[ƒh.         
+004490*                                                                 
+004500*----------------------------------------------------------------*
+004510*    •ÒWˆ—                                                    *
+004520*----------------------------------------------------------------*
+004530*--< No.01 >                                                      
+004540     PERFORM  ŠÇ——^MæƒR[ƒh.                                   
+004550     IF ‚v|ŠÇ——^Mó‘Ô = "Y"                                    
+004560        PERFORM  Œ‹‡ƒe[ƒuƒ‹“Çž                                 
+004570        PERFORM  ŠÇ——^MæƒR[ƒh                                 
+004580     END-IF.                                                      
+004590     MOVE     ‚v‚r|ŠÇ——^MæƒR[ƒh                              
+004600                                      TO  oƒJ|—^MŠÇ—æƒR[ƒh. 
+004610*                                                                 
+004620*--< No.02 >                                                      
+004630     MOVE     ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Œ_–ñ‚m‚n                  
+004640                                      TO  oƒJ|Œ_–ñ”Ô†.         
+004650*                                                                 
+004660*--< No.03 >                                                      
+004670     PERFORM  ÄƒŠ[ƒX‰ñ”ˆ—.                                   
+004680     MOVE     ‚h‚j‚n‚O‚O‚Q|ÄƒŠ[ƒX‰ñ”                          
+004690                                      TO  oƒJ|ÄƒŠ[ƒX‰ñ”.     
+004700*                                                                 
+004710*--< No.04 >                                                      
+004720     PERFORM  Œ_–ñŽí—Þˆ—.                                       
+004730     MOVE    ‚h‚j‚n‚O‚O‚Q|Œ_–ñŽí—Þ   TO  oƒJ|Œ_–ñŽí—Þ.         
+004740*                                                                 
+004750*--< No.05 >                                                      
+004760     PERFORM  ˜A”Ôˆ—.                                           
+004770     MOVE     ‚v|˜A”Ô                TO  oƒJ|˜A”Ô.             
+004780*                                                                 
+004790*--< No.06 >                                                      
+004800     MOVE  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“WŠJ”NŒŽ                     
+004810                                      TO  oƒJ|“WŠJ”NŒŽ.         
+004820*                                                                 
+004830*--< No.07 >                                                      
+004840     MOVE  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“WŠJ“ú•t                     
+004850                                      TO  oƒJ|“WŠJ“ú•t.         
+004860*                                                                 
+004870*--< No.08 >                                                      
+004880     MOVE  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“ü‹àƒtƒ‰ƒO                   
+004890                                      TO  oƒJ|“ü‹àƒtƒ‰ƒO.       
+004900*                                                                 
+004910*--< No.09 >                                                      
+004920     MOVE  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|“WŠJŽx•¥‰ñ”                 
+004930                                      TO  oƒJ|“WŠJŽx•¥‰ñ”.     
+004940*                                                                 
+004950*--< No.10 >                                                      
+004960     MOVE  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|ŽÀƒŠ[ƒX—¿                   
+004970                                      TO  oƒJ|ŽÀƒŠ[ƒX—¿.       
+004980*                                                                 
+004990*--< No.11 >                                                      
+005000     MOVE  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|—˜‘§Šz                       
+005010                                      TO  oƒJ|—˜‘§Šz.           
+005020*                                                                 
+005030*--< No.12 >                                                      
+005040     MOVE  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Œ³–{“à“ü                     
+005050                                      TO  oƒJ|Œ³–{“à“ü.         
+005060*                                                                 
+005070*--< No.13 >                                                      
+005080     MOVE  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Œ³–{Žc                       
+005090                                      TO  oƒJ|Œ³–{Žc.           
+005100*                                                                 
+005110*--< No.14 >                                                      
+005120     MOVE  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|ÂŒ Žc                       
+005130                                      TO  oƒJ|ÂŒ Žc.           
+005140*                                                                 
+005150*--< No.15 >                                                      
+005160     MOVE  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|””ï—p                       
+005170                                      TO  oƒJ|””ï—p.           
+005180*                                                                 
+005190*--< No.16 >                                                      
+005200     MOVE  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|–ñ’è—˜—¦                     
+005210                                      TO  oƒJ|–ñ’è—˜—¦.         
+005220*                                                                 
+005230*--< No.17 >                                                      
+005240     MOVE  ‚x‚n‚r‚g‚h‚m‚s‚d‚m‚j‚`‚h|Ž–ŒÌŒã“ü‹à                   
+005250                                      TO  oƒJ|Ž–ŒÌŒã“ü‹à.       
+005260*                                                                 
+005270*--< No.18 >                                                      
+005280     MOVE  ‚v|ƒVƒXƒeƒ€“ú•t           TO  oƒJ|“o˜^”NŒŽ“ú.       
+005290*                                                                 
+005300*--< No.19 >                                                      
+005310     MOVE  ‚v|ƒVƒXƒeƒ€Žž           TO  oƒJ|“o˜^ŽžŠÔ.         
+005320*                                                                 
+005330*--< No.20 >                                                      
+005340     MOVE  ‚v|’S“–ŽÒ                 TO  oƒJ|“o˜^’S“–ŽÒ.       
+005350*                                                                 
+005360*--< No.21 >                                                      
+005370     MOVE  ‚v|ƒVƒXƒeƒ€“ú•t           TO  oƒJ|XV”NŒŽ“ú.       
+005380*                                                                 
+005390*--< No.22 >                                                      
+005400     MOVE  ‚v|ƒVƒXƒeƒ€Žž           TO  oƒJ|XVŽžŠÔ.         
+005410*                                                                 
+005420*--< No.23 >                                                      
+005430     MOVE  ‚v|’S“–ŽÒ                 TO  oƒJ|XVŽÒ.           
+005440*                                                                 
+005450*--< No.24 >                                                      
+005460     MOVE  ‚v|’S“–ŽÒ                 TO                          
+005470                                      oƒJ|“ü—Í’S“–ŽÒƒR[ƒh.     
+005480*                                                                 
+005490 •ÒWˆ—|‚d‚w‚h‚s.                                              
+005500     EXIT.                                                        
+005510******************************************************************
+005520*    ŠÇ——^MæƒR[ƒhˆ—                                <No.01> *
+005530******************************************************************
+005540 ŠÇ——^MæƒR[ƒh                     SECTION.                    
+005550 ŠÇ——^MæƒR[ƒh|‚r‚s‚`‚q‚s.                                    
+005551  	 MOVE "N" TO  ‚v|ŠÇ——^Mó‘Ô                          
+005560     EVALUATE  ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ŠÇ——^MæƒR[ƒh         
+005570        WHEN     "02683250"                                       
+005580           MOVE  "02683233"           TO                          
+005590                       ‚v‚r|ŠÇ——^MæƒR[ƒh                     
+005600        WHEN     "T2677944"                                       
+005610           MOVE  "T2672500"           TO                          
+005620                       ‚v‚r|ŠÇ——^MæƒR[ƒh                     
+005630        WHEN     "S1519455"                                       
+005640           MOVE  "S1519684"           TO                          
+005650                       ‚v‚r|ŠÇ——^MæƒR[ƒh                     
+005660	      WHEN OTHER                                                
+005670	      PERFORM  •ÏŠ·ƒe[ƒuƒ‹ˆ—                                 
+005680     END-EVALUATE.                                                
+005690 ŠÇ——^MæƒR[ƒh|‚d‚w‚h‚s.                                      
+005700     EXIT.                                                        
+005710******************************************************************
+005720*    •ÏŠ·ƒe[ƒuƒ‹ˆ—                                            *
+005730******************************************************************
+005740 •ÏŠ·ƒe[ƒuƒ‹ˆ—                     SECTION.                    
+005750 •ÏŠ·ƒe[ƒuƒ‹ˆ—|‚r‚s‚`‚q‚s.                                    
+005760     
+      *    EXEC SQL                                                     
+005770*       SELECT VŽæˆøæƒR[ƒh                                     
+005780*             ,ŽæˆøæƒR[ƒh                                       
+005790*         INTO :‚h‚j‚n‚O‚O‚P|VŽæˆøæƒR[ƒh                      
+005800*             ,:‚h‚j‚n‚O‚O‚P|ŽæˆøæƒR[ƒh                        
+005810*         FROM IKOTBL001                                          
+005820*        WHERE ŽæˆøæƒR[ƒh =                                     
+005830*                     :‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ŠÇ——^MæƒR[ƒh 
+005840*          AND –Ú“I‚b‚c = '2'                                     
+005850*    END-EXEC.
+           CALL "SQLADR" USING SQ0002 SQL-STMT
+           MOVE 1 TO SQL-ITERS
+           MOVE 153 TO SQL-OFFSET
+           MOVE 0 TO SQL-OCCURS
+           MOVE 1 TO SQL-SELERR
+           CALL "SQLADR" USING
+               SQLCUD
+               SQL-CUD
+           CALL "SQLADR" USING
+               SQLCA
+               SQL-SQLEST
+           MOVE 256 TO SQL-SQLETY
+           CALL "SQLADR" USING
+               ‚h‚j‚n‚O‚O‚P|VŽæˆøæƒR[ƒh
+               SQL-SQHSTV(1)
+           MOVE 7 TO SQL-SQHSTL(1)
+           MOVE 0 TO SQL-SQHSTS(1)
+           MOVE 0 TO SQL-SQINDV(1)
+           MOVE 0 TO SQL-SQINDS(1)
+           MOVE 0 TO SQL-SQHARM(1)
+           CALL "SQLADR" USING
+               ‚h‚j‚n‚O‚O‚P|ŽæˆøæƒR[ƒh
+               SQL-SQHSTV(2)
+           MOVE 8 TO SQL-SQHSTL(2)
+           MOVE 0 TO SQL-SQHSTS(2)
+           MOVE 0 TO SQL-SQINDV(2)
+           MOVE 0 TO SQL-SQINDS(2)
+           MOVE 0 TO SQL-SQHARM(2)
+           CALL "SQLADR" USING
+               ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ŠÇ——^MæƒR[ƒh
+               SQL-SQHSTV(3)
+           MOVE 8 TO SQL-SQHSTL(3)
+           MOVE 0 TO SQL-SQHSTS(3)
+           MOVE 0 TO SQL-SQINDV(3)
+           MOVE 0 TO SQL-SQINDS(3)
+           MOVE 0 TO SQL-SQHARM(3)
+           CALL "SQLADR" USING
+               SQL-SQHSTV(1)
+               SQL-SQPHSV
+           CALL "SQLADR" USING
+               SQL-SQHSTL(1)
+               SQL-SQPHSL
+           CALL "SQLADR" USING
+               SQL-SQHSTS(1)
+               SQL-SQPHSS
+           CALL "SQLADR" USING
+               SQL-SQINDV(1)
+               SQL-SQPIND
+           CALL "SQLADR" USING
+               SQL-SQINDS(1)
+               SQL-SQPINS
+           CALL "SQLADR" USING
+               SQL-SQHARM(1)
+               SQL-SQPARM
+           CALL "SQLADR" USING
+               SQL-SQHARC(1)
+               SQL-SQPARC
+
+           CALL "SQLBEX" USING
+               SQLCTX
+               SQLEXD
+               SQLFPN
+
+           CALL "SQLGSS" USING
+              SQLSTATE
+               .
+005860*----------------------------------------------------------------*
+005870*    •ÏŠ·ƒe[ƒuƒ‹ˆ—Šm”F                                        *
+005880*----------------------------------------------------------------*
+005890     EVALUATE   SQLCODE                                           
+005900        WHEN   ’è”|‚r‚p‚k‚n‚j                                   
+005910*--<       ³í   >                                               
+005920           MOVE  ‚h‚j‚n‚O‚O‚P|VŽæˆøæƒR[ƒh  TO                 
+005930                 ‚v‚r|ŠÇ——^MæƒR[ƒh                                      CONTINUE                                               
+005960        WHEN   OTHER                                              
+005970*--<       •ÏŠ·ƒe[ƒuƒ‹“ÇžƒGƒ‰[   >                             
+005980           DISPLAY                                                
+005990               "—^MŠÇ—æƒR[ƒh•ÏŠ·ƒGƒ‰[‚Æ‚µ‚ÄŠÇ——^MæƒR[ƒh" 
+006000		 DISPLAY                                                
+006010               ‚h‚j‚n‚O‚O‚P|ŽæˆøæƒR[ƒh "="                     
+006020	             ‚x‚n‚r‚g‚h‚m‚l‚d‚h‚r‚`‚h|ŠÇ——^MæƒR[ƒh         
+006030            DISPLAY  "–Ú“I‚b‚c = '2'"                             
+006040  	  MOVE "Y" TO  ‚v|ŠÇ——^Mó‘Ô                         
+006050     END-EVALUATE.                                                
+006060*                                                                 
+006070 •ÏŠ·ƒe[ƒuƒ‹ˆ—|‚d‚w‚h‚s.                                      
+006080     EXIT.                                                        
+006090*                                                                 
+006100******************************************************************
+006110*    ÄƒŠ[ƒX‰ñ”ˆ—                                    <No.03> *
+006120******************************************************************
+006130 ÄƒŠ[ƒX‰ñ”ˆ—                     SECTION.                    
+006140 ÄƒŠ[ƒX‰ñ”ˆ—|‚r‚s‚`‚q‚s.                                    
+006141     MOVE oƒJ|Œ_–ñ”Ô†     TO   ‚h‚j‚n‚O‚O‚Q|Œ_–ñ‚m‚n.         
+006150     
+      *    EXEC SQL                                                     
+006160*       SELECT MAX(ÄƒŠ[ƒX‰ñ”)                                  
+006170*         INTO :‚h‚j‚n‚O‚O‚Q|ÄƒŠ[ƒX‰ñ”                        
+006180*         FROM IKOTBL002                                          
+006190*        WHERE Œ_–ñ‚m‚n = :‚h‚j‚n‚O‚O‚Q|Œ_–ñ‚m‚n                 
+006200*    END-EXEC.
+           CALL "SQLADR" USING SQ0003 SQL-STMT
+           MOVE 1 TO SQL-ITERS
+           MOVE 180 TO SQL-OFFSET
+           MOVE 0 TO SQL-OCCURS
+           MOVE 1 TO SQL-SELERR
+           CALL "SQLADR" USING
+               SQLCUD
+               SQL-CUD
+           CALL "SQLADR" USING
+               SQLCA
+               SQL-SQLEST
+           MOVE 256 TO SQL-SQLETY
+           CALL "SQLADR" USING
+               ‚h‚j‚n‚O‚O‚Q|ÄƒŠ[ƒX‰ñ”
+               SQL-SQHSTV(1)
+           MOVE 2 TO SQL-SQHSTL(1)
+           MOVE 0 TO SQL-SQHSTS(1)
+           MOVE 0 TO SQL-SQINDV(1)
+           MOVE 0 TO SQL-SQINDS(1)
+           MOVE 0 TO SQL-SQHARM(1)
+           CALL "SQLADR" USING
+               ‚h‚j‚n‚O‚O‚Q|Œ_–ñ‚m‚n
+               SQL-SQHSTV(2)
+           MOVE 9 TO SQL-SQHSTL(2)
+           MOVE 0 TO SQL-SQHSTS(2)
+           MOVE 0 TO SQL-SQINDV(2)
+           MOVE 0 TO SQL-SQINDS(2)
+           MOVE 0 TO SQL-SQHARM(2)
+           CALL "SQLADR" USING
+               SQL-SQHSTV(1)
+               SQL-SQPHSV
+           CALL "SQLADR" USING
+               SQL-SQHSTL(1)
+               SQL-SQPHSL
+           CALL "SQLADR" USING
+               SQL-SQHSTS(1)
+               SQL-SQPHSS
+           CALL "SQLADR" USING
+               SQL-SQINDV(1)
+               SQL-SQPIND
+           CALL "SQLADR" USING
+               SQL-SQINDS(1)
+               SQL-SQPINS
+           CALL "SQLADR" USING
+               SQL-SQHARM(1)
+               SQL-SQPARM
+           CALL "SQLADR" USING
+               SQL-SQHARC(1)
+               SQL-SQPARC
+
+           CALL "SQLBEX" USING
+               SQLCTX
+               SQLEXD
+               SQLFPN
+
+           CALL "SQLGSS" USING
+              SQLSTATE
+               .
+006210*----------------------------------------------------------------*
+006220*    ÄƒŠ[ƒX‰ñ”ˆ—Šm”F                                        *
+006230*----------------------------------------------------------------*
+006240     EVALUATE   SQLCODE                                           
+006250        WHEN   ’è”|‚r‚p‚k‚n‚j                                   
+006260*--<       ³í   >                                               
+006270           CONTINUE                                               
+006280        WHEN   OTHER                                              
+006290*--<       ÄƒŠ[ƒX‰ñ”“ÇžƒGƒ‰[   >                             
+006300           MOVE       -50           TO    ‚v|ƒGƒ‰[ƒR[ƒh        
+006310           PERFORM  ƒGƒ‰[ˆ—                                    
+006320           MOVE       ZERO          TO    oƒJ|ÄƒŠ[ƒX‰ñ”      
+006330     END-EVALUATE.                                                
+006340*                                                                 
+006350 ÄƒŠ[ƒX‰ñ”ˆ—|‚d‚w‚h‚s.                                      
+006360     EXIT.                                                        
+006370*                                                                 
+006380******************************************************************
+006390*    Œ_–ñŽí—Þˆ—                                        <No.04> *
+006400******************************************************************
+006410 Œ_–ñŽí—Þˆ—                         SECTION.                    
+006420 Œ_–ñŽí—Þˆ—|‚r‚s‚`‚q‚s.                                        
+006421     MOVE oƒJ|ÄƒŠ[ƒX‰ñ”    TO   ‚h‚j‚n‚O‚O‚Q|ÄƒŠ[ƒX‰ñ”.  
+006430     
+      *    EXEC SQL                                                     
+006440*       SELECT MIN(Œ_–ñŽí—Þ)                                      
+006450*         INTO :‚h‚j‚n‚O‚O‚Q|Œ_–ñŽí—Þ                            
+006460*         FROM IKOTBL002                                          
+006470*        WHERE ÄƒŠ[ƒX‰ñ” = :‚h‚j‚n‚O‚O‚Q|ÄƒŠ[ƒX‰ñ”         
+006480*    END-EXEC.
+           CALL "SQLADR" USING SQ0004 SQL-STMT
+           MOVE 1 TO SQL-ITERS
+           MOVE 203 TO SQL-OFFSET
+           MOVE 0 TO SQL-OCCURS
+           MOVE 1 TO SQL-SELERR
+           CALL "SQLADR" USING
+               SQLCUD
+               SQL-CUD
+           CALL "SQLADR" USING
+               SQLCA
+               SQL-SQLEST
+           MOVE 256 TO SQL-SQLETY
+           CALL "SQLADR" USING
+               ‚h‚j‚n‚O‚O‚Q|Œ_–ñŽí—Þ
+               SQL-SQHSTV(1)
+           MOVE 3 TO SQL-SQHSTL(1)
+           MOVE 0 TO SQL-SQHSTS(1)
+           MOVE 0 TO SQL-SQINDV(1)
+           MOVE 0 TO SQL-SQINDS(1)
+           MOVE 0 TO SQL-SQHARM(1)
+           CALL "SQLADR" USING
+               ‚h‚j‚n‚O‚O‚Q|ÄƒŠ[ƒX‰ñ”
+               SQL-SQHSTV(2)
+           MOVE 2 TO SQL-SQHSTL(2)
+           MOVE 0 TO SQL-SQHSTS(2)
+           MOVE 0 TO SQL-SQINDV(2)
+           MOVE 0 TO SQL-SQINDS(2)
+           MOVE 0 TO SQL-SQHARM(2)
+           CALL "SQLADR" USING
+               SQL-SQHSTV(1)
+               SQL-SQPHSV
+           CALL "SQLADR" USING
+               SQL-SQHSTL(1)
+               SQL-SQPHSL
+           CALL "SQLADR" USING
+               SQL-SQHSTS(1)
+               SQL-SQPHSS
+           CALL "SQLADR" USING
+               SQL-SQINDV(1)
+               SQL-SQPIND
+           CALL "SQLADR" USING
+               SQL-SQINDS(1)
+               SQL-SQPINS
+           CALL "SQLADR" USING
+               SQL-SQHARM(1)
+               SQL-SQPARM
+           CALL "SQLADR" USING
+               SQL-SQHARC(1)
+               SQL-SQPARC
+
+           CALL "SQLBEX" USING
+               SQLCTX
+               SQLEXD
+               SQLFPN
+
+           CALL "SQLGSS" USING
+              SQLSTATE
+               .
+006490*----------------------------------------------------------------*
+006500*    Œ_–ñŽí—Þˆ—Šm”F                                            *
+006510*----------------------------------------------------------------*
+006520     EVALUATE   SQLCODE                                           
+006530        WHEN   ’è”|‚r‚p‚k‚n‚j                                   
+006540*--<       ³í   >                                               
+006550            CONTINUE  
+006560        WHEN   OTHER                                              
+006570*--<       Œ_–ñŽí—Þ“ÇžƒGƒ‰[   >                                 
+006580           MOVE       -60           TO    ‚v|ƒGƒ‰[ƒR[ƒh        
+006590           PERFORM  ƒGƒ‰[ˆ—                                    
+006600     END-EVALUATE.                                                
+006610*                                                                 
+006620 Œ_–ñŽí—Þˆ—|‚d‚w‚h‚s.                                          
+006630     EXIT.                                                        
+006640******************************************************************
+006650*    ˜A”Ôˆ—                                            <No.05> *
+006660******************************************************************
+006670 ˜A”Ôˆ—                             SECTION.                    
+006680 ˜A”Ôˆ—|‚r‚s‚`‚q‚s.                                            
+006690     MOVE ‚v‚r|ŠÇ——^MæƒR[ƒh                                  
+006700                                      TO ‚v‚m|—^MŠÇ—æƒR[ƒh   
+006710     MOVE ‚v‚r|ŠÇ——^MæƒR[ƒh                                  
+006720                                      TO ‚v‚m|Œ_–ñ”Ô†           
+006730     MOVE ‚h‚j‚n‚O‚O‚Q|ÄƒŠ[ƒX‰ñ”  TO ‚v‚m|ÄƒŠ[ƒX‰ñ”       
+006740     MOVE ‚h‚j‚n‚O‚O‚Q|Œ_–ñŽí—Þ      TO ‚v‚m|Œ_–ñŽí—Þ           
+006750     IF ‚m‚d‚vƒL[    NOT   =   ‚n‚k‚cƒL[                        
+006760	      MOVE          1               TO ‚v|˜A”Ô                 
+006770	      MOVE     ‚m‚d‚vƒL[           TO ‚n‚k‚cƒL[               
+006780	   ELSE                                                         
+006790        COMPUTE  ‚v|˜A”Ô  =  ‚v|˜A”Ô  +  1.                     
+006800*                                                                 
+006810 ˜A”Ôˆ—|‚d‚w‚h‚s.                                              
+006820     EXIT.                                                        
+006830******************************************************************
+006840*    ŠÇ——^M“WŠJo—Íˆ—	                                <2.2>  *
+006850******************************************************************
+006860 ŠÇ——^M“WŠJo—Íˆ—                 SECTION.                    
+006870 ŠÇ——^M“WŠJ|‚r‚s‚`‚q‚s.                                        
+006880*                                                                 
+006890     WRITE  o—Í|ƒŒƒR[ƒh.                                       
+006900*                                                                 
+006910*--< o—Íˆ—‚Ìó‘Ô”»’è >                                         
+006920     EVALUATE  ‚v|ó‘Ô                                           
+006930        WHEN  ZERO                                                
+006940*--<       o—Íˆ—‚Ì‰ÁŽZ >                                       
+006950           COMPUTE   ‚v|o—Í|Œ”  =  ‚v|o—Í|Œ”  + 1       
+006960        WHEN  OTHER                                               
+006970*--<       ƒtƒ@ƒCƒ‹o—ÍƒGƒ‰[ >                                   
+006980           MOVE     -70                TO  ‚v|ƒGƒ‰[ƒR[ƒh       
+006990           PERFORM  ƒGƒ‰[ˆ—                                    
+007000     END-EVALUATE.                                                
+007010 ŠÇ——^M“WŠJ|‚d‚w‚h‚s.                                          
+007020     EXIT.                                                        
+007030******************************************************************
+007040*    ‚c‚aƒNƒ[ƒY                                        <3.1>   *
+007050******************************************************************
+007060 ‚c‚aƒNƒ[ƒY                         SECTION.                    
+007070 ‚c‚aƒNƒ[ƒY|‚r‚s‚`‚q‚s.                                        
+007080*                                                                 
+007090*--< ƒJ[ƒ\ƒ‹‚ÌƒNƒ[ƒY >                                         
+007100     
+      *    EXEC  SQL                                                    
+007110*       CLOSE  CUR1                                               
+007120*    END-EXEC.
+           MOVE 1 TO SQL-ITERS
+           MOVE 226 TO SQL-OFFSET
+           MOVE 0 TO SQL-OCCURS
+           CALL "SQLADR" USING
+               SQLCUD
+               SQL-CUD
+           CALL "SQLADR" USING
+               SQLCA
+               SQL-SQLEST
+           MOVE 256 TO SQL-SQLETY
+
+           CALL "SQLBEX" USING
+               SQLCTX
+               SQLEXD
+               SQLFPN
+
+           CALL "SQLGSS" USING
+              SQLSTATE
+               .
+007130*                                                                 
+007140 ‚c‚aƒNƒ[ƒY|‚d‚w‚h‚s.                                          
+007150     EXIT.                                                        
+007160*                                                                 
+007170******************************************************************
+007180*    I—¹ƒƒbƒZ[ƒWo—Í                                  <C.3>   *
+007190******************************************************************
+007200  I—¹ƒƒbƒZ[ƒWo—Í                  SECTION.                    
+007210  I—¹ƒƒbƒZ[ƒWo—Í|‚r‚s‚`‚q‚s.                                 
+007220*                                                                 
+007230*----------------------------------------------------------------*
+007240*    —^M(–¾×)ƒtƒ@ƒCƒ‹“ü—ÍŒ”                                  *
+007250*----------------------------------------------------------------*
+007260     INITIALIZE                       IF-CHOCO001.                
+007270     MOVE  "3"                        TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê.     
+007280     MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c       TO  ‹¤‚P|ƒ\[ƒX‚h‚c.       
+007290     MOVE  "0"                        TO  ‹¤‚P|•œ‹AƒR[ƒh.       
+007300     MOVE  "YOSHINME"                 TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c. 
+007310     MOVE  "COUNT"                    TO  ‹¤‚P|ˆ—Ž¯•Ê.         
+007320     MOVE  ‚v|“ü—Í|Œ”‚P           TO  ‹¤‚P|ƒf[ƒ^“à—e.       
+007330     MOVE  "—^M(–¾×)“ÇžŒ”"       TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW. 
+007340     CALL  CLOCO001                USING  IF-CHOCO001.            
+007350*                                                                 
+007360*----------------------------------------------------------------*
+007370*    —^M(“WŠJ)ƒtƒ@ƒCƒ‹“ü—ÍŒ”                                  *
+007380*----------------------------------------------------------------*
+007390     INITIALIZE                       IF-CHOCO001.                
+007400     MOVE  "3"                        TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê.     
+007410     MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c       TO  ‹¤‚P|ƒ\[ƒX‚h‚c.       
+007420     MOVE  "0"                        TO  ‹¤‚P|•œ‹AƒR[ƒh.       
+007430     MOVE  "YOSHINTE"                 TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c. 
+007440     MOVE  "COUNT"                    TO  ‹¤‚P|ˆ—Ž¯•Ê.         
+007450     MOVE  ‚v|“ü—Í|Œ”‚Q           TO  ‹¤‚P|ƒf[ƒ^“à—e.       
+007460     MOVE  "—^M(“WŠJ)“ÇžŒ”"       TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW. 
+007470     CALL  CLOCO001                USING  IF-CHOCO001.            
+007480*                                                                 
+007490*----------------------------------------------------------------*
+007500*    ŠÇ——^M“WŠJƒ}ƒXƒ^o—ÍŒ”                                  *
+007510*----------------------------------------------------------------*
+007520     INITIALIZE                       IF-CHOCO001.                
+007530     MOVE  "3"                        TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê.     
+007540     MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c       TO  ‹¤‚P|ƒ\[ƒX‚h‚c.       
+007550     MOVE  "0"                        TO  ‹¤‚P|•œ‹AƒR[ƒh.       
+007560     MOVE  "FFUSI670"                 TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c. 
+007570     MOVE  "COUNT"                    TO  ‹¤‚P|ˆ—Ž¯•Ê.         
+007580     MOVE  ‚v|o—Í|Œ”             TO  ‹¤‚P|ƒf[ƒ^“à—e.       
+007590     MOVE  "ŠÇ——^M“WŠJo—ÍŒ”"     TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW. 
+007600     CALL  CLOCO001                USING  IF-CHOCO001.            
+007610*                                                                 
+007620*----------------------------------------------------------------*
+007630*    I—¹ƒƒbƒZ[ƒW o—Í                                         *
+007640*----------------------------------------------------------------*
+007650     INITIALIZE                       IF-CHOCO001.                
+007660     MOVE  "3"                        TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê.     
+007670     MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c       TO  ‹¤‚P|ƒ\[ƒX‚h‚c.       
+007680     MOVE  "0"                        TO  ‹¤‚P|•œ‹AƒR[ƒh.       
+007690     MOVE  "END"                      TO  ‹¤‚P|ˆ—Ž¯•Ê.         
+007700     MOVE  ’è”|ƒvƒƒOƒ‰ƒ€–¼         TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW. 
+007710     CALL  CLOCO001                USING  IF-CHOCO001.            
+007720*                                                                 
+007730 I—¹ƒƒbƒZ[ƒWo—Í|‚d‚w‚h‚s.                                    
+007740     EXIT.                                                        
+007750******************************************************************
+007760*    ƒGƒ‰[ˆ—                                          <4.0>   *
+007770******************************************************************
+007780 ƒGƒ‰[ˆ—                           SECTION.                    
+007790 ƒGƒ‰[ˆ—|‚r‚s‚`‚q‚s.                                          
+007800*                                                                 
+007810     MOVE  "Y"                        TO  ˆÙíI—¹|ƒtƒ‰ƒO.       
+007820     INITIALIZE                       IF-CHOCO001.                
+007830*                                                                 
+007840     EVALUATE  ‚v|ƒGƒ‰[ƒR[ƒh                                   
+007850*                                                                 
+007860*                                                                 
+007870        WHEN  -10                                                 
+007880*--<       ‚n‚q‚`‚b‚k‚dÚ‘±Ž¸”s >                                 
+007890           MOVE  "1"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+007900           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+007910           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+007920           MOVE  "CONNECT"            TO  ‹¤‚P|ˆ—Ž¯•Ê          
+007930           MOVE  SQLCODE              TO  ‹¤‚P|ƒf[ƒ^“à—e        
+007940           MOVE  SQLERRMC             TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+007950           CALL  CLOCO001          USING  IF-CHOCO001             
+007960*                                                                 
+007970        WHEN  -20                                                 
+007980*--<       ƒJ[ƒ\ƒ‹ƒI[ƒvƒ“Ž¸”s >                                 
+007990           MOVE  "1"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+008000           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+008010           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+008020           MOVE  "YOSHINTE"           TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c  
+008030           MOVE  "OPEN"               TO  ‹¤‚P|ˆ—Ž¯•Ê          
+008040           MOVE  SQLCODE              TO  ‹¤‚P|ƒf[ƒ^“à—e        
+008050           MOVE  SQLERRMC             TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+008060           CALL  CLOCO001          USING  IF-CHOCO001             
+008070*                                                                 
+008080        WHEN  -30                                                 
+008090*--<       ŠÇ——^M“WŠJƒtƒ@ƒCƒ‹‚n‚o‚d‚mŽ¸”s >                     
+008100           MOVE  "1"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+008110           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+008120           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+008130           MOVE  "CISUF670"           TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c  
+008140           MOVE  "OPEN"               TO  ‹¤‚P|ˆ—Ž¯•Ê          
+008150           MOVE  ‚v|ó‘Ô         TO  ‹¤‚P|ƒf[ƒ^“à—e            
+008160           MOVE  "ŠÇ——^M“WŠJƒtƒ@ƒCƒ‹ƒI[ƒvƒ“Ž¸”s"               
+008170                                      TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+008180           CALL  CLOCO001          USING  IF-CHOCO001             
+008190*                                                                 
+008200        WHEN  -40                                                 
+008210*--<       Œ‹‡ƒe[ƒuƒ‹“ÇžŽ¸”s >                                 
+008220           MOVE  "1"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+008230           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+008240           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+008250           MOVE  "YOSHINTE"           TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c  
+008260           MOVE  "FETCH"              TO  ‹¤‚P|ˆ—Ž¯•Ê          
+008270           MOVE  SQLCODE              TO  ‹¤‚P|ƒf[ƒ^“à—e        
+008280           MOVE  SQLERRMC             TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+008290           CALL  CLOCO001          USING  IF-CHOCO001             
+008300*                                                                 
+008310        WHEN  -50                                                 
+008320*--<       ÄƒŠ[ƒX‰ñ”“ÇžŽ¸”s >                                 
+008330           MOVE  "2"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+008340           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+008350           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+008360           MOVE  "IKO002"             TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c  
+008370           MOVE  "SELECT"             TO  ‹¤‚P|ˆ—Ž¯•Ê          
+008380           MOVE  SQLCODE              TO  ‹¤‚P|ƒf[ƒ^“à—e        
+008390           MOVE  SQLERRMC             TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+008400           CALL  CLOCO001          USING  IF-CHOCO001             
+008410           MOVE  "N"                  TO  ˆÙíI—¹|ƒtƒ‰ƒO        
+008420*                                                                 
+008430        WHEN  -60                                                 
+008440*--<       Œ_–ñŽí—Þ“ÇžŽ¸”s >                                     
+008450           MOVE  "2"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+008460           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+008470           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+008480           MOVE  "IKO002"             TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c  
+008490           MOVE  "SELECT"             TO  ‹¤‚P|ˆ—Ž¯•Ê          
+008500           MOVE  SQLCODE              TO  ‹¤‚P|ƒf[ƒ^“à—e        
+008510           MOVE  SQLERRMC             TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+008520           CALL  CLOCO001          USING  IF-CHOCO001             
+008530           MOVE  "N"                  TO  ˆÙíI—¹|ƒtƒ‰ƒO        
+008540*                                                                 
+008550        WHEN  -70                                                 
+008560*--<       ŠÇ——^M“WŠJƒtƒ@ƒCƒ‹o—Íˆ—Ž¸”s >                     
+008570           MOVE  "1"                  TO  ‹¤‚P|ƒCƒxƒ“ƒgŽí•Ê      
+008580           MOVE  ’è”|ƒvƒƒOƒ‰ƒ€‚h‚c TO  ‹¤‚P|ƒ\[ƒX‚h‚c        
+008590           MOVE  "9"                  TO  ‹¤‚P|•œ‹AƒR[ƒh        
+008600           MOVE  "FFUSI670"           TO  ‹¤‚P|ˆ—ƒe[ƒuƒ‹‚h‚c  
+008610           MOVE  "WRITE"              TO  ‹¤‚P|ˆ—Ž¯•Ê          
+008620           MOVE  ‚v|ó‘Ô         TO  ‹¤‚P|ƒf[ƒ^“à—e            
+008630           MOVE  "ŠÇ——^M“WŠJƒtƒ@ƒCƒ‹o—Íˆ—Ž¸”s"               
+008640                                      TO  ‹¤‚P|‚»‚Ì‘¼ƒƒbƒZ[ƒW  
+008650           CALL  CLOCO001          USING  IF-CHOCO001             
+008660*                                                                 
+008670        WHEN  OTHER                                               
+008680           MOVE  "N"                  TO  ˆÙíI—¹|ƒtƒ‰ƒO        
+008690     END-EVALUATE.                                                
+008700*                                                                 
+008710     IF  ˆÙíI—¹|ƒtƒ‰ƒO  =  "Y"                                 
+008720*----------------------------------------------------------------*
+008730*    I—¹o—Íˆ—                                                *
+008740*----------------------------------------------------------------*
+008750        PERFORM  I—¹ƒƒbƒZ[ƒWo—Í                               
+008760*                                                                 
+008770*--<    ƒvƒƒOƒ‰ƒ€ƒŠƒ^[ƒ“ƒR[ƒh >                                
+008780        MOVE  ’è”|ˆÙíó‘Ô          TO  PROGRAM-STATUS          
+008790        EXIT  PROGRAM                                             
+008800     END-IF.                                                      
+008810*                                                                 
+008820 ƒGƒ‰[ˆ—|‚d‚w‚h‚s.                                            
+008830      EXIT.                                                       
+008840******************************************************************
+008850*                  END OF PROGRAM                                *
+008860******************************************************************

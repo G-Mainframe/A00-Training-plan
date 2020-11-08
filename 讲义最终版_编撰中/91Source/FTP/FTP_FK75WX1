@@ -1,0 +1,444 @@
+//FK75WX1   JOB  (F9500B,FK75,41,
+//         'TM=XX,TD=XX,LD=XX'),
+//          09500,CLASS=A,MSGCLASS=R,USER=FK75U1,
+//          REGION=6000K
+//**
+//JOBLIB    DD DSN=IMSVS.SDFSRESL,DISP=SHR
+//          DD DSN=FN0001A.LMOD,DISP=SHR
+//          DD DSN=DSNT.SDSNLOAD,DISP=SHR
+//**********************************************************
+//*****    JOB_GROUP   : FK75WDX                       *****
+//*****    JOB_NAME    : FK75WX1                       *****
+//**********************************************************
+//*****    STEP1 : DATE CARD CREATE                    *****
+//*****    STEP2 : KOGAISYA SEND(T520)                 *****
+//*****          : IE/EX                    EXA        *****
+//*****          : PARTNER CONNECT          KSC,JIT    *****
+//**********************************************************
+//********************************************************************
+//* STEP1 : DATE CARD CREATE
+//********************************************************************
+//*
+//SCRA10  EXEC MSSSCR2,SYM='TM=&TM,TD=&TD'
+ DSN=FK75.DS.DATE.WX1&TM&TD
+//*
+//********************************************************************
+//*
+//*      BATCH INPUT FACILITY
+//*
+//********************************************************************
+//*
+//*-----------  DATE FILE  CREATE  ------------------------------------
+//STA10    EXEC SYMCHK2,
+// SYM='TY=X,TM=&TM,TN=YY,LN=ZZ,B1=-,B2=**,D=DT,OP=&TD'
+//SYSINX  DD DSN=&&DATE,DISP=(,PASS),
+//           UNIT=(DISK2),SPACE=(TRK,1),
+//           DCB=(RECFM=F,LRECL=80)
+//SYSIN DD *
+&D&TN&LN&B2&HY&TY&B1&TM&B1&TD&HY&TY&B1&TM&B1&OP&B2&A&B2&YY&B1&MM&B1&DD
+//*
+//FK75DATE PROC SOUT='*'
+//FK75DATE EXEC PGM=FK75DATE,PARM='ISA(10K),R'
+//SYSPRINT  DD SYSOUT=&SOUT,DCB=(RECFM=VBA,LRECL=137,BLKSIZE=689)
+//PLIDUMP   DD SYSOUT=&SOUT
+//SFKDTI    DD DSN=&&DATE,DISP=(OLD,DELETE)
+//SFKDTO    DD DSN=FK75.DS.DATE.WX1&TM&TD,
+//             SPACE=(TRK,1),DISP=(,CATLG),
+//             MGMTCLAS=LMONTH,
+//             DCB=(RECFM=F,LRECL=80)
+//*
+//      PEND
+//*
+//STA20  EXEC  FK75DATE,TM=&TM,TD=&TD
+//********************************************************************
+//* STEP2 : KOGAISYA SEND(T520)
+//********************************************************************
+//WX1#    PROC  SOUT='*'
+//**
+//SORT01  EXEC  NEWSORT,SP=30
+//SORTIN   DD  DSN=FK75.DS.T520S.SELLC&LC..L&LD,DISP=SHR
+//SORTOUT  DD  DSN=&&LCWKL,
+//             DISP=(,PASS),SPACE=(CYL,(5,5),RLSE),
+//             UNIT=(DISK2,3)
+//SYSIN  DD DSN=FK75.DS.CNTL(WX1SORT1),DISP=SHR
+//*
+//SORT02  EXEC  NEWSORT,SP=50
+//SORTIN   DD  DSN=FK75.DS.T520S,DISP=SHR
+//SORTOUT  DD  DSN=&&LCWK,
+//             DISP=(,PASS),SPACE=(CYL,(5,5),RLSE),
+//             UNIT=(DISK2,4)
+//SYSIN  DD DSN=FK75.DS.CNTL(WX1A&LC),DISP=SHR
+//*
+//STEPM1   EXEC CM91MAT3
+//STEPLIB  DD  DSN=DMS001A.LMOD,DISP=SHR
+//FILE1    DD  DSN=&&LCWK,DISP=(OLD,DELETE)
+//FILE2    DD  DSN=&&LCWKL,DISP=(OLD,DELETE)
+//FILEO    DD  DUMMY,
+//        DCB=(RECFM=FB,LRECL=170,BLKSIZE=27880)
+//UNMATF1  DD  DSN=&&LCWKM,DISP=(,PASS),
+//        SPACE=(CYL,(1,1),RLSE),
+//        DCB=(RECFM=FB,LRECL=170,BLKSIZE=27880)
+//UNMATF2  DD  DUMMY,
+//        DCB=(RECFM=FB,LRECL=170,BLKSIZE=27880)
+//SYSIN  DD DSN=FK75.DS.CNTL(WX1MAT3),DISP=SHR
+//*
+//*--------------------------------------------------------*
+//* SELECTION & CREATE TRAILER RECORD
+//*--------------------------------------------------------*
+//SORT2    EXEC PGM=SORT
+//SYSIN  DD DSN=FK75.DS.CNTL(WX1B&LC),DISP=SHR
+//*
+//SYSOUT   DD SYSOUT=*
+//SORTIN   DD DSN=&&LCWKM,DISP=(OLD,DELETE)
+//SORTOUT  DD DSN=NULLFILE,
+//         DISP=(,PASS),
+//         DCB=(RECFM=FBA,LRECL=171),
+//         UNIT=(DISK2,3),SPACE=(CYL,(5,5),RLSE)
+//OUT1     DD DSN=&&TMP1,
+//         DISP=(,PASS),
+//         DCB=(RECFM=FBA,LRECL=171),
+//         UNIT=(DISK2,8),SPACE=(CYL,(50,5),RLSE)
+//*--------------------------------------------------------*
+//* STRIP THE ASA CHAR GENERATED DURING CONTROL RECORD PROCESSING.
+//*--------------------------------------------------------*
+//SORT3    EXEC PGM=SORT
+//SYSOUT   DD SYSOUT=*
+//SORTIN   DD DSN=&&TMP1,DISP=(OLD,DELETE)
+//SORTOUT  DD DSN=FK75.DS.T520S.SELLC&LC..D&TD,
+//         DISP=(,CATLG),MGMTCLAS=LMONTH,
+//         DCB=(RECFM=FB,LRECL=170),
+//         SPACE=(CYL,(50,5),RLSE)
+//SYSIN  DD DSN=FK75.DS.CNTL(WX1SORT3),DISP=SHR
+//*
+//*--------------------------------------------------------*
+//* SELECTION & CREATE TRAILER RECORD
+//*--------------------------------------------------------*
+//SORT4    EXEC PGM=SORT
+//SYSIN  DD DSN=FK75.DS.CNTL(WX1C&LC),DISP=SHR
+//*
+//SYSOUT   DD SYSOUT=*
+//SORTIN   DD DSN=FK75.DS.T520S,DISP=SHR
+//SORTOUT  DD DSN=NULLFILE,
+//         DISP=(,PASS),
+//         DCB=(RECFM=FBA,LRECL=171),
+//         UNIT=(DISK2,3),SPACE=(CYL,(5,5),RLSE)
+//OUT1     DD DSN=&&TMP1,
+//         DISP=(,PASS),
+//         DCB=(RECFM=FBA,LRECL=171),
+//         UNIT=(DISK2,8),SPACE=(CYL,(50,5),RLSE)
+//*--------------------------------------------------------*
+//* STRIP THE ASA CHAR GENERATED DURING CONTROL RECORD PROCESSING.
+//*--------------------------------------------------------*
+//SORT5    EXEC PGM=SORT
+//SYSOUT   DD SYSOUT=*
+//SORTIN   DD DSN=&&TMP1,DISP=(OLD,DELETE)
+//SORTOUT  DD DSN=FK75.DS.T520S.SELLC&LC..L&TD,
+//         DISP=(,CATLG),MGMTCLAS=LMONTH,
+//         DCB=(RECFM=FB,LRECL=170),
+//         SPACE=(CYL,(50,5),RLSE)
+//SYSIN  DD DSN=FK75.DS.CNTL(WX1SORT5),DISP=SHR
+//*
+//        PEND
+//**
+//**********************************************************
+//* 1. SELECT LC=41 DATA FROM T520                         *
+//* 1. SEND FILE TO IE/EX MAILBOX                          *
+//**********************************************************
+//*--------------------------------------------------------*
+//* DATA SCRATCH
+//*--------------------------------------------------------*
+//SCR01    EXEC MSSSCR2,SYM='TD=&TD,LC=41'
+  DSN=FK75.DS.T520S.SELLC&LC..D&TD
+  DSN=FK75.DS.T520S.SELLC&LC..L&TD
+/*
+//**
+//WX1#1  EXEC WX1#,TD=&TD,LD=&LD,LC=41
+//**
+//**********************************************************
+//* 2. SELECT LC=43 DATA FROM T520                         *
+//* 2. SEND FILE TO IE/EX MAILBOX                          *
+//**********************************************************
+//*--------------------------------------------------------*
+//* DATA SCRATCH
+//*--------------------------------------------------------*
+//SCR01    EXEC MSSSCR2,SYM='TD=&TD,LC=43'
+  DSN=FK75.DS.T520S.SELLC&LC..D&TD
+  DSN=FK75.DS.T520S.SELLC&LC..L&TD
+/*
+//**
+//WX1#2  EXEC WX1#,TD=&TD,LD=&LD,LC=43
+//**
+//**********************************************************
+//* 3. SELECT LC=44 DATA FROM T520                         *
+//* 3. SEND FILE TO IE/EX MAILBOX                          *
+//**********************************************************
+//*--------------------------------------------------------*
+//* DATA SCRATCH
+//*--------------------------------------------------------*
+//SCR01    EXEC MSSSCR2,SYM='TD=&TD,LC=44'
+  DSN=FK75.DS.T520S.SELLC&LC..D&TD
+  DSN=FK75.DS.T520S.SELLC&LC..L&TD
+  DSN=FK75.DS.T520S.SELLC&LC..X&TD
+/*
+//**
+//WX1#3  EXEC WX1#,TD=&TD,LD=&LD,LC=44
+//**
+//*********************************************************************
+//*     FK75ASC1 T520 TRLR CREATE
+//*********************************************************************
+//SCRX1    EXEC MSSSCR2,SYM='TD=&TD'
+  DSN=FK75.DS.CYCLE.KSC&TD
+/*
+//**
+//FK75ASC1 PROC
+//STEP060  EXEC PGM=FK75ASC1
+//SFKF01I  DD DISP=SHR,DSN=FK75.DS.T520S.SELLC&LC..D&TD   <=DAILY
+//SFKDTI   DD DISP=SHR,DSN=FK75.DS.DATE.WX1&TM&TD
+//SFKCYCI  DD DISP=SHR,DSN=FK75.DS.CYCLE.KSC&LD
+//SFKF01O  DD DSN=FK75.DS.T520S.SELLC&LC..X&TD,
+//            DISP=(,CATLG),MGMTCLAS=LMONTH,
+//            SPACE=(CYL,(3,3),RLSE),
+//            DCB=(RECFM=FB,LRECL=170,BLKSIZE=0)
+//SFKCYCO  DD DSN=FK75.DS.CYCLE.KSC&TD,
+//            DISP=(,CATLG),MGMTCLAS=LMONTH,
+//            SPACE=(TRK,(1,1),RLSE),
+//            DCB=(RECFM=FB,LRECL=80,BLKSIZE=0)
+//SYSPRINT DD SYSOUT=*
+//        PEND
+//STEP010  EXEC FK75ASC1,TM=&TM,TD=&TD,LD=&LD,LC=44
+//*********************************************************************
+//**
+//SCR010  EXEC MSSSCR2,SYM='LC=41'
+ DSN=FK75.DS.T520S.SELLC&LC..COMP
+//*--------------------------------------------------------*
+//*          : COMPRESS T520 D/S FOR EXA
+//*--------------------------------------------------------*
+//DPC41  PROC TD=
+//STEP1  EXEC PGM=DCPFIX
+//STEPLIB DD DSN=DCP.DCPFIX.LOADLIB,DISP=SHR
+//SYSOUT  DD SYSOUT=*
+//DD01    DD DSN=FK75.DS.T520S.SELLC41.D&TD,DISP=SHR
+//DD02    DD DSN=FK75.DS.T520S.SELLC41.COMP,
+//             DISP=(,CATLG),
+//             SPACE=(TRK,(10,10),RLSE),
+//             DCB=(RECFM=FB,LRECL=170,BLKSIZE=27880)
+//SYSIN   DD DUMMY
+//  PEND
+//ST041 EXEC DPC41,TD=&TD
+//SYSIN   DD *
+LRECL=00170,00170,BLK-FAC=27880,27880
+/*
+//*-------------------------------------------------------------------
+//*    FTP SERVER SEND PROC
+//*-------------------------------------------------------------------
+//FTPSEN   PROC
+//DMY      EXEC PGM=IEBGENER
+//SYSIN    DD  DUMMY
+//SYSPRINT DD  SYSOUT=*
+//SYSUT1   DD  DUMMY,DCB=(RECFM=FB,LRECL=170,BLKSIZE=27880)
+//SYSUT2   DD  DSN=FK75.DS.T520S.SELLC&LC..DMY,DISP=(,CATLG),
+//             DCB=(RECFM=FB,LRECL=170,BLKSIZE=27880),
+//             SPACE=(TRK,(1,1),RLSE)
+//*
+//SEN      EXEC PGM=FTP,
+//             PARM='JPNFTP01.YAMATO.IBM.COM (TIMEOUT 40 EXIT'
+//INPUT    DD  DUMMY
+//OUTPUT   DD  SYSOUT=*
+//SYSPRINT DD  SYSOUT=*
+//         PEND
+//*-------------------------------------------------------------------
+//*    DATA SCRATCH
+//*-------------------------------------------------------------------
+//SCR030   EXEC MSSSCR2,SYM='LC=41'
+  DSN=FK75.DS.T520S.SELLC&LC..FTP
+  DSN=FK75.DS.T520S.SELLC&LC..DMY
+/*
+//*-------------------------------------------------------------------
+//*    SA00DEC1
+//*-------------------------------------------------------------------
+//SA00DE3  EXEC SA00DEC1
+//IN1.AAAAAO  DD DSN=FK75.DS.PARTNER.FTP.CTRL(IBMFE05),DISP=SHR
+//IN2.BBBBBO  DD DSN=FK75.DS.PARTNER.IBMFE05.LABEL,DISP=SHR
+//OT1.CCCCCN  DD DSN=&&IBMFE05,DISP=(,PASS),
+//            DCB=(RECFM=FB,LRECL=80,BLKSIZE=27920),
+//            SPACE=(CYL,(1,1),RLSE)
+//*-------------------------------------------------------------------
+//*    EXA FTP FILE COPY
+//*-------------------------------------------------------------------
+//COPYEXA  PROC
+//CPY      EXEC PGM=IEBGENER
+//SYSIN    DD  DUMMY
+//SYSPRINT DD  SYSOUT=*
+//SYSUT1   DD  DSN=FK75.DS.T520S.SELLC&LC..COMP,DISP=SHR
+//SYSUT2   DD  DSN=FK75.DS.T520S.SELLC&LC..FTP,DISP=(,CATLG),
+//             DCB=(RECFM=FB,LRECL=170,BLKSIZE=27880),
+//             SPACE=(CYL,(1,1),RLSE)
+//         PEND
+//COPYEXA  EXEC COPYEXA,LC=41
+//*-------------------------------------------------------------------
+//*    EXA FTP SERVER SEND
+//*-------------------------------------------------------------------
+//FTPEXA   EXEC FTPSEN,LC=41
+//SEN.INPUT DD  DSN=FK75.DS.PARTNER.FTP.CTRL(EXAID),DISP=SHR
+//          DD  DSN=&&IBMFE05,DISP=(OLD,DELETE)
+//          DD  DSN=FK75.DS.PARTNER.FTP.CTRL(ZRT520),DISP=SHR
+//*
+//UABEND  EXEC PGM=UABEND,
+//             COND=(0,EQ,FTPEXA.SEN)
+//STEPLIB  DD  DSN=SYS1.LINKLIBX,DISP=SHR
+//*
+//*--------------------------------------------------------*
+//SCR020  EXEC MSSSCR2,SYM='LC=43'
+ DSN=FK75.DS.T520S.SELLC&LC..ICNV
+//*-------------------------------------------------------------------
+//*      FILL BLANK & CHECK DBCS BETWEEN SO/SI
+//*-------------------------------------------------------------------
+//FK75CHK PROC
+//STEP20  EXEC PGM=FK75CHKW,PARM='/0104,0030'
+//STEPLIB  DD  DSN=FN0001A.LMOD,DISP=SHR
+//         DD  DSN=FK75.DS.CICSTBL,DISP=SHR
+//SYSPRINT DD  SYSOUT=*
+//PLIDUMP  DD  SYSOUT=*
+//SFKSCI   DD  DSN=FK75.DS.T520S.SELLC&LC..D&TD,DISP=SHR
+//SFKSCO   DD  DSN=&&CHK,DISP=(,PASS),
+//             SPACE=(CYL,(5,5),RLSE),UNIT=(DISK2,2)
+//   PEND
+//FK75CHK EXEC FK75CHK,TD=&TD,LC=43
+//*******************************************************************
+//* STEP2 :   2..4 CONV AND CHECKSUM
+//*******************************************************************
+//*******************************************************************
+//** **************************************************************** *
+//**  STEP2:EBCIC -> S-JIS CONV   EBCDI:IBM-939  SJIS:IBM-932
+//**                IBM-939 EBCDIC EXTEND ENG  IBM-932 PC (SJIS)
+//**                IBM-930 EBCDIC EXTEND KANA IBM-850 PC Latin1 (ASCII
+//**                IBM-037 EBCDIC Latin1      IBM-eucJP EUC Japanese
+//** **************************************************************** *
+//ICONV   PROC
+//ICONVX  EXEC PGM=EDCICONV,
+//             PARM='FROMCODE(IBM-939),TOCODE(IBM-932)'
+//*----------------- HOST IBM CODE ---------- PC,6000 CODE ------------
+//STEPLIB  DD  DSN=SYS1.SCEERUN,DISP=SHR
+//SYSPRINT DD  SYSOUT=*
+//SYSUT1   DD  DUMMY
+//SYSUT2   DD  DUMMY
+//SYSIN    DD  DUMMY
+//     PEND
+//********************************************************************
+//*   STEP2-1:ICONV
+//********************************************************************
+//ICONVJ  EXEC ICONV,LC=43
+//SYSUT1   DD  DSN=&&CHK,DISP=(OLD,DELETE)
+//SYSUT2   DD  DSN=FK75.DS.T520S.SELLC&LC..ICNV,DISP=(,CATLG),
+//             SPACE=(CYL,(1,1),RLSE),MGMTCLAS=LMONTH,
+//             DCB=(RECFM=VB,LRECL=200,BLKSIZE=29800)
+//SYSIN    DD  DUMMY
+//*--------------------------------------------------------------------
+//ABND010 EXEC PGM=UABEND,COND=(4,GE,ICONVJ.ICONVX)
+//*---- Z003 JIT PARTNER CONNECT START
+//*-------------------------------------------------------------------
+//*    DATA SCRATCH
+//*-------------------------------------------------------------------
+//SCR030   EXEC MSSSCR2,SYM='LC=43'
+  DSN=FK75.DS.T520S.SELLC&LC..FTP
+  DSN=FK75.DS.T520S.SELLC&LC..DMY
+/*
+//*-------------------------------------------------------------------
+//*    SA00DEC1
+//*-------------------------------------------------------------------
+//SA00DE3  EXEC SA00DEC1
+//IN1.AAAAAO  DD DSN=FK75.DS.PARTNER.FTP.CTRL(IBMFJ05),DISP=SHR
+//IN2.BBBBBO  DD DSN=FK75.DS.PARTNER.IBMFJ05.LABEL,DISP=SHR
+//OT1.CCCCCN  DD DSN=&&IBMFJ05,DISP=(,PASS),
+//            DCB=(RECFM=FB,LRECL=80,BLKSIZE=27920),
+//            SPACE=(CYL,(1,1),RLSE)
+//*-------------------------------------------------------------------
+//*    JIT FTP FILE COPY
+//*-------------------------------------------------------------------
+//COPYJIT  PROC
+//CPY      EXEC PGM=IEBGENER
+//SYSIN    DD  DUMMY
+//SYSPRINT DD  SYSOUT=*
+//SYSUT1   DD  DSN=FK75.DS.T520S.SELLC&LC..ICNV,DISP=SHR
+//SYSUT2   DD  DSN=FK75.DS.T520S.SELLC&LC..FTP,DISP=(,CATLG),
+//             DCB=(RECFM=VB,LRECL=200,BLKSIZE=29800),
+//             SPACE=(CYL,(1,1),RLSE)
+//         PEND
+//COPYJIT  EXEC COPYJIT,LC=43
+//*-------------------------------------------------------------------
+//*    JIT FTP SERVER SEND
+//*-------------------------------------------------------------------
+//FTPJIT   EXEC FTPSEN,LC=43
+//SEN.INPUT DD  DSN=FK75.DS.PARTNER.FTP.CTRL(JITID),DISP=SHR
+//          DD  DSN=&&IBMFJ05,DISP=(OLD,DELETE)
+//          DD  DSN=FK75.DS.PARTNER.FTP.CTRL(CJ0001),DISP=SHR
+//*
+//UABEND  EXEC PGM=UABEND,
+//             COND=(0,EQ,FTPJIT.SEN)
+//STEPLIB  DD  DSN=SYS1.LINKLIBX,DISP=SHR
+//*
+//*---- Z003 JIT PARTNER CONNECT END
+//*-------------------------------------------------------------------
+//*    DATA SCRATCH
+//*-------------------------------------------------------------------
+//SCR030   EXEC MSSSCR2,SYM='LC=44'
+  DSN=FK75.DS.T520S.SELLC&LC..FTP
+  DSN=FK75.DS.T520S.SELLC&LC..DMY
+/*
+//*-------------------------------------------------------------------
+//*    SA00DEC1
+//*-------------------------------------------------------------------
+//SA00DE3  EXEC SA00DEC1
+//IN1.AAAAAO  DD DSN=FK75.DS.PARTNER.FTP.CTRL(IBMFK05),DISP=SHR
+//IN2.BBBBBO  DD DSN=FK75.DS.PARTNER.IBMFK05.LABEL,DISP=SHR
+//OT1.CCCCCN  DD DSN=&&IBMFK05,DISP=(,PASS),
+//            DCB=(RECFM=FB,LRECL=80,BLKSIZE=27920),
+//            SPACE=(CYL,(1,1),RLSE)
+//*
+//*-------------------------------------------------------------------
+//*    KSC FTP FILE COPY
+//*-------------------------------------------------------------------
+//COPYKSC  PROC
+//CPY      EXEC PGM=IEBGENER
+//SYSIN    DD  DUMMY
+//SYSPRINT DD  SYSOUT=*
+//SYSUT1   DD  DSN=FK75.DS.T520S.SELLC&LC..X&TD,DISP=SHR
+//SYSUT2   DD  DSN=FK75.DS.T520S.SELLC&LC..FTP,DISP=(,CATLG),
+//             DCB=(RECFM=FB,LRECL=170,BLKSIZE=27880),
+//             SPACE=(CYL,(50,5),RLSE)
+//         PEND
+//COPYKSC  EXEC COPYKSC,LC=44,TD=&TD
+//*
+//*-------------------------------------------------------------------
+//*    KSC FTP SERVER SEND
+//*-------------------------------------------------------------------
+//FTPKSC   EXEC FTPSEN,LC=44
+//SEN.INPUT DD  DSN=FK75.DS.PARTNER.FTP.CTRL(KSCID),DISP=SHR
+//          DD  DSN=&&IBMFK05,DISP=(OLD,DELETE)
+//          DD  DSN=FK75.DS.PARTNER.FTP.CTRL(KSCD),DISP=SHR
+//*
+//UABEND  EXEC PGM=UABEND,
+//             COND=(0,EQ,FTPKSC.SEN)
+//STEPLIB  DD  DSN=SYS1.LINKLIBX,DISP=SHR
+//*
+//*-------------------------------------------------------------------
+//**
+//** *************************************************************** **
+//** **  J. C. L.   C H A N G E    L O G  ** ( FK75WX1  )  ********* **
+//** 01/08/02: E23235: BV20 SUB-CLS/FDW FOR EXA                      **
+//** 02/04/25: E22237: FK75E027 T520 UNMATCH STEP ADD                **
+//** 02/05/09: E29519: IE/EX PASSWORD FILE USED                      **
+//** 02/10/15: EV6142: BW44 MULTI-COMPANY                            **
+//** 03/01/09: E22237: FK75E049 KSC IEEX SEND NO1                    **
+//** 03/02/25: E22237: FK75E050 JIT IEEX SEND NO2                    **
+//** 03/06/11: E32007: ADD COMPRESSION STEP FOR EXA                  **
+//** 03/10/14: E29519: IEEX USES CTRL CARDS                          **
+//** 04/01/27: EV6190: ADD MGMTCLAS=LMONTH                           **
+//** 05/01/18: EV6007: FK75E144 ICSF ADD                             **
+//** 05/06/06: EV6007: FK75E156 IE/EX SNA -> TCP/IP                  **
+//** 05/10/14: EV6007: SA11 : KSC IE/EX -> PARTNER CONNECT           **
+//** 06/02/16: E27037: FK75E945 KSC PARTNER CONNECT CYCLE ADD        **
+//** 06/03/02: E27037: FK75E945 CYCLE DATASET NAME CHANGE            **
+//** 06/05/16: E31825: Z003 : JIT IE/EX -> PARTNER CONNECT           **
+//** 06/08/09: EV6216: Z004 : EXA IE/EX -> PARTNER CONNECT           **
+//** *************************************************************** **

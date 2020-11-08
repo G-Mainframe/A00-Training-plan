@@ -1,0 +1,270 @@
+000010 IDENTIFICATION                               DIVISION.
+000020 PROGRAM-ID.  Sub12.
+      *****************************************************************
+      *程序ID         ：Sub12
+      *程序名         ：学生学籍信息查询修改
+      *处理概要       ：对学生学籍信息进行查询更新处理
+      *
+      *
+      *变量           IO       变量名
+      *
+      *
+      *
+      *日期           作成者            概要
+      *2007/03/18     张丽娟            作成
+      *
+      *
+      *
+      *****************************************************************
+000030 ENVIRONMENT                                  DIVISION.
+      *****************************************************************
+      *
+      *****************************************************************
+000040 DATA                                         DIVISION.
+000050 WORKING-STORAGE                              SECTION.           
+      *----------------------------------------------------------------
+      *    数据库用数据定义
+      *----------------------------------------------------------------
+000051     EXEC  SQL  BEGIN    DECLARE      SECTION  END-EXEC.
+000052     EXEC  SQL  INCLUDE  SQLCOM.CBL            END-EXEC.
+000055     EXEC  SQL  INCLUDE  SQLCA.CBL             END-EXEC.
+      *    学生信息表
+           EXEC  SQL  INCLUDE  STINFO.CBL            END-EXEC.
+      *    SQL WORK AREA
+           EXEC  SQL  INCLUDE  SQLWK.CBL            END-EXEC.
+      *
+000056     EXEC  SQL  END      DECLARE      SECTION  END-EXEC.
+      *----------------------------------------------------------------
+      *屏幕线型定义
+      *----------------------------------------------------------------
+       COPY WKSCRLine.
+      *----------------------------------------------------------------
+      *WORK变量
+      *----------------------------------------------------------------
+       COPY WKAREA.
+      *
+      *****************************************************************
+      *
+      *****************************************************************
+000070 LINKAGE                                      SECTION.
+      *----------------------------------------------------------------
+      *
+      *----------------------------------------------------------------
+000080 SCREEN                                       SECTION.
+      *画面头
+000090 COPY SCRHead.
+      *学生信息
+000090 COPY SCRSINFO.
+      *检索画面
+000090 COPY SUB12SCS.
+      *画面底
+       COPY SCRFLOOR.
+      *公共信息提示
+       COPY SCRPUB.
+
+      *
+000120 PROCEDURE                                    DIVISION.
+000130 MAIN-PROCESS                                 SECTION.
+      *初期处理
+           PERFORM StartRTN.
+      *
+      *主处理
+           PERFORM MAINRTN.
+      *                      
+      *终了处理
+000180     PERFORM EndRTN.
+      *
+000180 END-PROGRAM.
+000190     EXIT PROGRAM .
+      *****************************************************************
+      *初期处理
+      *
+      *****************************************************************
+       StartRTN                                     SECTION.
+      *    初始化Work变量
+           INITIALIZE STINFO.
+      *
+       StartExit.
+           EXIT.
+      *
+      *****************************************************************
+      *主处理
+      *
+      *****************************************************************
+       MAINRTN                                      SECTION.
+
+      *    显示查询屏幕
+           DISPLAY SCRHead.
+           DISPLAY SUB12SCS.
+           MOVE "请输入您要查询的学号"    TO WKCLUE.
+           DISPLAY SCRFLOOR.
+           ACCEPT  SUB12SCS.
+      *
+      *    是否存在判断
+           PERFORM STINFOCHECKRTN.
+      *    按输入条件进行查询
+           IF SQLCOUNT = 0
+           THEN
+      *        显示不存在画面
+               DISPLAY SCRHEAD
+               MOVE "您输入的学号不存在！" TO WKCLUE
+               MOVE SPACE TO WKTURN
+               DISPLAY SCRPUB
+               MOVE "您输入的学号不存在！" TO WKCLUE
+               DISPLAY SCRFLOOR
+               ACCEPT SCRPUB
+           ELSE
+              PERFORM STINFOSELECTRTN
+           END-IF.
+      *
+      *    判断是否进行更新处理
+           IF WKTURN = "U"
+           THEN
+      *        进行数据更新
+               PERFORM STUDENTINFOUPDATARTN
+           ELSE
+      *        不进行数据更新
+               CONTINUE
+           END-IF.
+      *
+       MAINEXIT.
+           EXIT.
+      *----------------------------------------------------------------
+      *是否存在检查
+      *----------------------------------------------------------------
+       STINFOcheckRTN                              SECTION.
+
+      *    查询记录数量
+           EXEC  SQL
+              SELECT  COUNT(*)
+              INTO :SQLCOUNT
+              FROM  STUDENTINFO
+              WHERE NO = :SNO
+           END-EXEC
+
+           EVALUATE   SQLCODE
+           WHEN  0
+      *       查询记录条数正常
+              DISPLAY  "查询记录条数正常sqlcode=", SQLCODE
+              CONTINUE
+           WHEN OTHER
+      *       查询记录条数失败
+              DISPLAY  "查询记录条数失败sqlcode=", SQLCODE
+              MOVE SQLCODE TO EMSGSQLCD
+      *       错误处理
+              CALL "ERRORMSG" USING ERRORKEY
+              GO TO MAINEXIT
+           END-EVALUATE.
+
+       STINFOcheckexit.
+           exit.
+      *----------------------------------------------------------------
+      *查询学生信息
+      *----------------------------------------------------------------
+       STINFOSELECTRTN                              SECTION.
+      * 
+      *    数据查询操作
+           DISPLAY  "SNO=", SNO.
+      *     MOVE SNO TO SQLSNO.
+           EXEC SQL
+               SELECT  NO
+                      ,COLLEGIAN
+                      ,NAME
+                      ,SEX
+                      ,AGE
+               INTO    :SNO
+                      ,:SCOLLEGIAN
+                      ,:SNAME
+                      ,:SSEX
+                      ,:SAGE
+               FROM STUDENTINFO
+               WHERE  NO = :SNO
+           END-EXEC.
+      *    
+      *    数据库返回码判断
+           EVALUATE SQLCODE
+           WHEN 0
+      *        返回码为“0”数据查询正常
+               DISPLAY  "查询学生成功sqlcode=", SQLCODE
+      *        显示被查询学生信息画面
+               DISPLAY SCRHEAD
+               MOVE "如修改该学生信息，更正相关内容后，键入U并回车确认"
+                                        TO WKCLUE
+               MOVE SPACE TO WKTURN
+               DISPLAY SCRSINFO
+               MOVE "查询成功！学号不能修改,键入U并回车确认修改"
+                                                       TO WKCLUE
+               DISPLAY SCRFLOOR
+      *
+               ACCEPT SCRSINFO
+      *
+           WHEN OTHER
+      *        数据库返回码非“0”，数据插入失败，设定错误码
+               MOVE 121 TO ERRPOINT
+               MOVE SQLCODE TO EMSGSQLCD
+      *        错误处理
+               CALL "ERRORMSG" USING ERRORKEY
+               GO TO MAINEXIT
+           END-EVALUATE.
+      *
+       STINFOSELECTEXIT.
+           EXIT.
+      *
+      *----------------------------------------------------------------
+      *更新学生信息
+      *----------------------------------------------------------------
+       STUDENTINFOUPDATARTN                              SECTION.
+
+      *    数据查询操作
+           EXEC SQL 
+               UPDATE STUDENTINFO
+               SET  NO        = :SNO 
+                   ,COLLEGIAN = :SCOLLEGIAN
+                   ,NAME      = :SNAME
+                   ,SEX       = :SSEX
+                   ,AGE       = :SAGE
+               WHERE NO = :SNO
+           END-EXEC.
+      *    
+      *    数据库返回码判断
+           EVALUATE SQLCODE
+           WHEN 0
+      *       返回码为“0”数据更新正常
+              DISPLAY  "更新学生信息sqlok=", SQLCODE
+              EXEC SQL
+                  COMMIT WORK RELEASE
+              END-EXEC
+      *
+              DISPLAY SCRHEAD
+              MOVE "学生信息更新成功，按回车返回主菜单"
+                                       TO WKCLUE
+              MOVE SPACE TO WKTURN
+      *       显示被更新学生信息画面
+              DISPLAY SCRPUB
+              MOVE "更新学生信息成功！按回车返回主菜单" 
+                                       TO WKCLUE
+              DISPLAY SCRFLOOR
+              ACCEPT SCRPUB
+      *
+           WHEN OTHER
+      *       数据库返回码非“0”，数据更新失败，设定错误码
+              MOVE 122 TO ERRPOINT
+              MOVE SQLCODE TO EMSGSQLCD
+      *       错误处理
+              CALL "ERRORMSG" USING ERRORKEY
+           END-EVALUATE.
+       STUDENTINFOUPDATAEXIT.
+           EXIT.
+      *
+      *****************************************************************
+      *终了处理
+      *
+      *****************************************************************
+       EndRTN                                       SECTION.
+      *    调试信息
+           DISPLAY "SUB12 END-PROGRAM OK".
+       EndExit.
+           EXIT.
+      *****************************************************************
+       END PROGRAM Sub12.
+      *****************************************************************

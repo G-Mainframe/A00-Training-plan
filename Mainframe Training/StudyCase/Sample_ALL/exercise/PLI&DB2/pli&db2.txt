@@ -1,0 +1,959 @@
+ /* NE65G11 : PCS CUBE  UPDATE INVENTORY2 ( WARNTY PERIOD/STATUS )    */00010012
+ NE65G11: PROC  OPTIONS(MAIN);                                          00020012
+ /*-------------------------------------------------------------------*/00030000
+ /*   PROJECT NAME             --- PCS CUBE                           */00040000
+ /*   PROJECT NO.              --- NE65                               */00050000
+ /*   MODULE GROUP NAME        --- NE65GCX                            */00060000
+ /*   MODULE NO.               --- NE65G11                            */00070000
+ /*   PROGRAM DESCRIPTION      --- UPDATE INV2 (WARNTY PERIOD/STATUS) */00080000
+ /*   SENSITIVE                --- (NO)                               */00090000
+ /*   PROGRAMMER NAME          --- Y.ARIGA                            */00100000
+ /*   WRITTEN DATE             --- 2004/11/26                         */00110000
+ /*----------------- FUNCTION NARRATIVE ------------------------------*/00120000
+ /*   NARRATIVE DESCRIPTION OF FUNCTION                               */00130000
+ /*                                                                   */00140000
+ /*----------------- INPUT FILE DESCRIPTION --------------------------*/00150000
+ /*   (DDNAME)    (PLINCLE)        (FILE DESCRIPTION)                 */00160001
+ /*    FINP1       NONE            VALID SLC RULE TABLE               */00170015
+ /*    FINP2       NONE            AS OF DATE FILE (SYMBOLIC)         */00180044
+ /*    DB2-TBL     NE65DIV2        INVENTORY-2 TABLE                  */00190015
+ /*    DB2-TBL     NE65DSSL        SLC INFO TABLE                     */00200015
+ /*    DB2-TBL     NE65DVLD        VALID SLC RULE TABLE               */00210015
+ /*                                                                   */00220000
+ /*----------------- UPDATE DB2  DESCRIPTION -------------------------*/00230001
+ /*   (DDNAME)    (PLINCLE)        (FILE DESCRIPTION)                 */00240001
+ /*    DB2-TBL     NE65DIV2        INVENTORY-2 TABLE                  */00250001
+ /*                                                                   */00260001
+ /*----------------- OUTPUT FILE DESCRIPTION -------------------------*/00270000
+ /*   (DDNAME)    (PLINCLE)        (FILE DESCRIPTION)                 */00280001
+ /*                                                                   */00290000
+ /*----------------- CHANGE ACTIVITY ---------------------------------*/00300000
+ /*   (SEARCH KEY) (PROGRAMMER)    (DATE)   (DESCRIPTION)             */00310000
+ /*                EXXXXX NAME     YY/MM/DD                           */00320000
+ /*                                                                   */00330000
+ /*-------------------------------------------------------------------*/00340000
+ /*********************************************************************/00350000
+ /* OS FILE DECLARATION                                               */00360000
+ /*********************************************************************/00370000
+      %INCLUDE DCPENV ;                                                 00380001
+                                                                        00390019
+      DCPCXCB(FINP1C,FINP1) ;                                           00400019
+      DCPCXCB(FINP2C,FINP2) ;                                           00410044
+                                                                        00420019
+ DCL  FINP1    FILE RECORD INPUT ,                                      00430019
+      FINP2    FILE RECORD INPUT ,                                      00440044
+      SYSPRINT FILE OUTPUT PRINT ;                                      00450015
+                                                                        00460000
+ /*********************************************************************/00470000
+ /*     BUILTIN DECLARATION                                           */00480000
+ /*********************************************************************/00490000
+ DCL  DATETIME     BUILTIN ,                                            00500000
+      SUBSTR       BUILTIN ,                                            00510000
+      STRING       BUILTIN ,                                            00520000
+      ADDR         BUILTIN ,                                            00530000
+      NULL         BUILTIN ,                                            00540014
+      TRANSLATE    BUILTIN ,                                            00550031
+      HIGH         BUILTIN ,                                            00560031
+      PLIDUMP      BUILTIN ;                                            00570014
+                                                                        00580000
+ /*********************************************************************/00590015
+ /*     INPUT/OUTPUT AREA                                             */00600015
+ /*********************************************************************/00610015
+ DCL                                                                    00620015
+     1 IN_FINP1         STATIC ,                                        00630015
+        2 SEOCD         CHAR(03)      INIT(' ')  ,                      00640029
+        2 FIL01         CHAR(02)      INIT(' ')  ,                      00650028
+        2 WG1FG         CHAR(01)      INIT(' ')  ,                      00660029
+        2 WG2FG         CHAR(01)      INIT(' ')  ,                      00670029
+        2 WG9FG         CHAR(01)      INIT(' ')  ,                      00680047
+        2 MG1FG         CHAR(01)      INIT(' ')  ,                      00690029
+        2 FIL02         CHAR(01)      INIT(' ')  ,                      00700029
+        2 PRITY         CHAR(02)      INIT(' ')  ,                      00710030
+        2 FIL99         CHAR(68)      INIT(' ')  ;                      00720028
+                                                                        00730015
+ DCL                                                                    00740044
+     1 IN_FINP2         STATIC ,                                        00750044
+        2 SYMBY1        CHAR(01)      INIT(' ')  ,                      00760045
+        2 SYMBMM        CHAR(02)      INIT(' ')  ,                      00770045
+        2 SYMBDD        CHAR(02)      INIT(' ')  ,                      00780045
+        2 FIL99         CHAR(75)      INIT(' ')  ;                      00790044
+                                                                        00800044
+ /*********************************************************************/00810000
+ /*     WORK AREA DECLARATION                                         */00820000
+ /*********************************************************************/00830000
+ DCL  WK_CMAXA          STATIC  CHAR(04) INIT(' ') ;                    00840005
+ DCL  WK_CMMXA          STATIC  CHAR(03) INIT(' ') ;                    00850005
+ DCL  WK_RMAXA          STATIC  CHAR(09) INIT(' ') ;                    00860006
+                                                                        00870006
+ DCL  WK_SEOCD          STATIC  CHAR(03) INIT(' ') ;                    00880006
+ DCL  WK_SVLCD          STATIC  CHAR(03) INIT(' ') ;                    00890029
+ DCL  WK_SVLCD2         STATIC  CHAR(02) INIT(' ') ;                    00900030
+ DCL  WK_LSTCD          STATIC  CHAR(01) INIT(' ') ;                    00910029
+ DCL  WK_PSTCD          STATIC  CHAR(01) INIT(' ') ;                    00920006
+ DCL  WK_WTYOP          STATIC  CHAR(01) INIT(' ') ;                    00930006
+ DCL  WK_USECD          STATIC  CHAR(03) INIT(' ') ;                    00940006
+ DCL  WK_SSTDT          STATIC  CHAR(10) INIT(' ') ;                    00950006
+ DCL  WK_SEDDT          STATIC  CHAR(10) INIT(' ') ;                    00960006
+ DCL  WK_LTUDT          STATIC  CHAR(26) INIT(' ') ;                    00970029
+ DCL  WK_LTUDT2         STATIC  CHAR(12) INIT(' ') ;                    00980061
+                                                                        00990000
+ DCL  WK_USOPR          STATIC  CHAR(02) INIT(' ') ;                    01000042
+ DCL  WK_SLCPR          STATIC  CHAR(02) INIT(' ') ;                    01010042
+ DCL  WK_LTUPR          STATIC  CHAR(12) INIT(' ') ;                    01020061
+                                                                        01030042
+ DCL  VALID_LSTCD       STATIC  CHAR(01) INIT(' ') ;                    01040014
+ DCL  VALID_PSTCD       STATIC  CHAR(01) INIT(' ') ;                    01050014
+ DCL  VALID_WTYOP       STATIC  CHAR(01) INIT(' ') ;                    01060014
+ DCL  VALID_SSTDT       STATIC  CHAR(10) INIT(' ') ;                    01070014
+ DCL  VALID_SEDDT       STATIC  CHAR(10) INIT(' ') ;                    01080014
+                                                                        01090014
+ DCL 1 VALTBL  (50)     STATIC ,                                        01100029
+        2 SEOCD         CHAR(03)      INIT(' ')  ,                      01110029
+        2 WG1FG         CHAR(01)      INIT(' ')  ,                      01120029
+        2 WG2FG         CHAR(01)      INIT(' ')  ,                      01130029
+        2 WG9FG         CHAR(01)      INIT(' ')  ,                      01140047
+        2 MG1FG         CHAR(01)      INIT(' ')  ,                      01150029
+        2 PRITY         CHAR(02)      INIT(' ')  ;                      01160029
+                                                                        01170018
+ DCL 1 SLCWG1  (20)     STATIC ,                                        01180029
+        2 LSTCD         CHAR(01)      INIT(' ')  ,                      01190037
+        2 PSTCD         CHAR(01)      INIT(' ')  ,                      01200037
+        2 WTYOP         CHAR(01)      INIT(' ')  ,                      01210037
+        2 SSTDT         CHAR(10)      INIT(' ')  ,                      01220037
+        2 SEDDT         CHAR(10)      INIT(' ')  ,                      01230037
+        2 USOPR         CHAR(02)      INIT(' ')  ,                      01240029
+        2 SOCPR         CHAR(02)      INIT(' ')  ,                      01250029
+        2 SLCPR         CHAR(02)      INIT(' ')  ,                      01260029
+        2 LTUPR         CHAR(12)      INIT(' ')  ;                      01270061
+                                                                        01280029
+ DCL 1 SLCWG2  (20)     STATIC ,                                        01290029
+        2 LSTCD         CHAR(01)      INIT(' ')  ,                      01300037
+        2 PSTCD         CHAR(01)      INIT(' ')  ,                      01310037
+        2 WTYOP         CHAR(01)      INIT(' ')  ,                      01320037
+        2 SSTDT         CHAR(10)      INIT(' ')  ,                      01330037
+        2 SEDDT         CHAR(10)      INIT(' ')  ,                      01340037
+        2 USOPR         CHAR(02)      INIT(' ')  ,                      01350029
+        2 SOCPR         CHAR(02)      INIT(' ')  ,                      01360029
+        2 SLCPR         CHAR(02)      INIT(' ')  ,                      01370029
+        2 LTUPR         CHAR(12)      INIT(' ')  ;                      01380061
+                                                                        01390029
+ DCL 1 SLCWG9  (20)     STATIC ,                                        01400047
+        2 LSTCD         CHAR(01)      INIT(' ')  ,                      01410047
+        2 PSTCD         CHAR(01)      INIT(' ')  ,                      01420047
+        2 WTYOP         CHAR(01)      INIT(' ')  ,                      01430047
+        2 SSTDT         CHAR(10)      INIT(' ')  ,                      01440047
+        2 SEDDT         CHAR(10)      INIT(' ')  ,                      01450047
+        2 USOPR         CHAR(02)      INIT(' ')  ,                      01460047
+        2 SOCPR         CHAR(02)      INIT(' ')  ,                      01470047
+        2 SLCPR         CHAR(02)      INIT(' ')  ,                      01480047
+        2 LTUPR         CHAR(12)      INIT(' ')  ;                      01490061
+                                                                        01500047
+ DCL 1 SLCMG1  (20)     STATIC ,                                        01510029
+        2 LSTCD         CHAR(01)      INIT(' ')  ,                      01520037
+        2 PSTCD         CHAR(01)      INIT(' ')  ,                      01530037
+        2 WTYOP         CHAR(01)      INIT(' ')  ,                      01540037
+        2 SSTDT         CHAR(10)      INIT(' ')  ,                      01550037
+        2 SEDDT         CHAR(10)      INIT(' ')  ,                      01560037
+        2 USOPR         CHAR(02)      INIT(' ')  ,                      01570029
+        2 SOCPR         CHAR(02)      INIT(' ')  ,                      01580029
+        2 SLCPR         CHAR(02)      INIT(' ')  ,                      01590029
+        2 LTUPR         CHAR(12)      INIT(' ')  ;                      01600061
+                                                                        01610029
+ DCL  WK_PRITY          STATIC  CHAR(18) INIT(' ') ;                    01620061
+ DCL  STRONG_PRITY      STATIC  CHAR(18) INIT(' ') ;                    01630061
+                                                                        01640035
+ DCL  SLC_FRCHR         STATIC  CHAR(36)                                01650031
+                          INIT('ZYXWVUTSRQPONMLKJIHGFEDCBA9876543210'); 01660031
+ DCL  SLC_TOCHR         STATIC  CHAR(36)                                01670031
+                          INIT('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'); 01680031
+ DCL  LTU_FRCHR         STATIC  CHAR(10) INIT('9876543210') ;           01690033
+ DCL  LTU_TOCHR         STATIC  CHAR(10) INIT('0123456789') ;           01700031
+                                                                        01710031
+ DCL  WK_YYYY_CHR       CHAR(04)      INIT('0000')          ,           01720050
+      WK_YYYY_PIC       PIC'9999'     DEF WK_YYYY_CHR       ;           01730050
+                                                                        01740044
+ DCL  WK_SYMBOLIC       CHAR(10)      INIT(' ')             ;           01750045
+                                                                        01760044
+ /*********************************************************************/01770044
+ /*     SWITH AND COUNT DECLARATION                                   */01780044
+ /*********************************************************************/01790044
+ DCL  ON                BIT(1)        INIT('1'B) ,                      01800044
+      OFF               BIT(1)        INIT('0'B) ;                      01810044
+                                                                        01820044
+ DCL  EOF_FINP1         BIT(1)        INIT('0'B) ;                      01830044
+ DCL  EOF_FINP2         BIT(1)        INIT('0'B) ;                      01840044
+ DCL  EOF_NE65TDIV2     BIT(1)        INIT('0'B) ;                      01850044
+ DCL  EOF_NE65TDSSL     BIT(1)        INIT('0'B) ;                      01860044
+                                                                        01870044
+ DCL  SW_WG1_EXIST      BIT(1)        INIT('0'B) ;                      01880044
+ DCL  SW_WG1_FOUND      BIT(1)        INIT('0'B) ;                      01890066
+ DCL  SW_WG2_EXIST      BIT(1)        INIT('0'B) ;                      01900044
+ DCL  SW_WG2_FOUND      BIT(1)        INIT('0'B) ;                      01910044
+ DCL  SW_WG9_EXIST      BIT(1)        INIT('0'B) ;                      01920047
+ DCL  SW_WG9_FOUND      BIT(1)        INIT('0'B) ;                      01930047
+ DCL  SW_MG1_FOUND      BIT(1)        INIT('0'B) ;                      01940044
+                                                                        01950044
+ DCL  CNT_FINP1         FIXED BIN(31) INIT( 0 )  ;                      01960044
+ DCL  CNT_FINP2         FIXED BIN(31) INIT( 0 )  ;                      01970044
+ DCL  CNT_FETCH_TDINV2  FIXED BIN(31) INIT( 0 )  ;                      01980044
+ DCL  CNT_UPDATE_TDINV2 FIXED BIN(31) INIT( 0 )  ;                      01990044
+ DCL  CNT_FETCH_TDSSL   FIXED BIN(31) INIT( 0 )  ;                      02000044
+                                                                        02010044
+ DCL  II                FIXED BIN(31) INIT( 0 )  ;                      02020048
+ DCL  JJ                FIXED BIN(31) INIT( 0 )  ;                      02030048
+ DCL  KK                FIXED BIN(31) INIT( 0 )  ;                      02040048
+ DCL  LL                FIXED BIN(31) INIT( 0 )  ;                      02050044
+ DCL  NN                FIXED BIN(31) INIT( 0 )  ;                      02060044
+ DCL  STRGIDX           FIXED BIN(31) INIT( 1 )  ;                      02070048
+                                                                        02080044
+ DCL  CNT_VALTBL        FIXED BIN(31) INIT( 0 )  ;                      02090044
+ DCL  CNT_SLCWG1        FIXED BIN(31) INIT( 0 )  ;                      02100044
+ DCL  CNT_SLCWG2        FIXED BIN(31) INIT( 0 )  ;                      02110044
+ DCL  CNT_SLCWG9        FIXED BIN(31) INIT( 0 )  ;                      02120047
+ DCL  CNT_SLCMG1        FIXED BIN(31) INIT( 0 )  ;                      02130044
+                                                                        02140044
+ DCL  WG1FOUND          FIXED BIN(31) INIT( 0 )  ;                      02150069
+ DCL  WG1PCALL          FIXED BIN(31) INIT( 0 )  ;                      02160069
+ DCL  WG2FOUND          FIXED BIN(31) INIT( 0 )  ;                      02170069
+ DCL  WG9FOUND          FIXED BIN(31) INIT( 0 )  ;                      02180069
+ DCL  WG9MG1FD          FIXED BIN(31) INIT( 0 )  ;                      02190069
+ DCL  WG9MG1PC          FIXED BIN(31) INIT( 0 )  ;                      02200069
+ DCL  MG1FOUND          FIXED BIN(31) INIT( 0 )  ;                      02210069
+ DCL  NOSLC             FIXED BIN(31) INIT( 0 )  ;                      02220067
+                                                                        02230044
+ /*********************************************************************/02240029
+ /*     SQL DECLARATION                                               */02250013
+ /*********************************************************************/02260013
+      EXEC SQL INCLUDE SQLCA;                                           02270013
+      SQLCA  = '' ;                                                     02280013
+                                                                        02290013
+      EXEC SQL INCLUDE NE65DIV2;                                        02300013
+      NE65TDIV2 = '' ;                                                  02310013
+                                                                        02320013
+      EXEC SQL INCLUDE NE65DSSL;                                        02330013
+      NE65TDSSL = '' ;                                                  02340013
+                                                                        02350013
+      EXEC SQL DECLARE  CUR1_NE65TDINV2  CURSOR FOR                     02360013
+           SELECT CMAXA ,                                               02370013
+                  CMMXA ,                                               02380013
+                  RMAXA                                                 02390013
+           FROM   NE65U1.NE65TDINV2                                     02400013
+           FOR UPDATE OF  PNTDT ,                                       02410013
+                          PRHSE ,                                       02420013
+                          LSTCD ,                                       02430013
+                          PSTCD ,                                       02440013
+                          WTYOP ;                                       02450013
+                                                                        02460013
+      EXEC SQL DECLARE  CUR2_NE65TDSSL   CURSOR FOR                     02470013
+           SELECT SEOCD,                                                02480013
+                  SVLCD,                                                02490029
+                  LSTCD,                                                02500029
+                  PSTCD,                                                02510013
+                  WTYOP,                                                02520013
+                  USECD,                                                02530013
+                  SSTDT,                                                02540013
+                  SEDDT,                                                02550050
+                  LTUDT                                                 02560050
+           FROM   NE65U1.NE65TDSSL                                      02570013
+           WHERE  CMAXA = :WK_CMAXA  AND                                02580013
+                  CMMXA = :WK_CMMXA  AND                                02590013
+                  RMAXA = :WK_RMAXA    ;                                02600023
+                                                                        02610013
+ /*********************************************************************/02620000
+ /*     %INCLUDE SYSLIB2(SMONERR1)                                    */02630000
+ /*********************************************************************/02640000
+      %INCLUDE SYSLIB2(SMONERR1) ;                                      02650000
+                                                                        02660000
+ /*********************************************************************/02670000
+ /*     ON END CONDITION                                              */02680000
+ /*********************************************************************/02690000
+      ON ENDFILE(FINP1) BEGIN ;                                         02700003
+         EOF_FINP1 = ON ;                                               02710000
+      END;                                                              02720000
+                                                                        02730000
+      ON ENDFILE(FINP2) BEGIN ;                                         02740044
+         EOF_FINP2 = ON ;                                               02750044
+      END;                                                              02760044
+                                                                        02770044
+ /*********************************************************************/02780003
+ /*     INIT PROCESS                                                  */02790003
+ /*********************************************************************/02800003
+                                                                        02810015
+      CALL OPENCX (FINP1C,'IN') ;                                       02820015
+      CALL OPENCX (FINP2C,'IN') ;                                       02830044
+                                                                        02840044
+      CALL READ_FINP2 ;                       /* READ ASOF DATE FILE */ 02850044
+      WK_YYYY_CHR = SUBSTR (DATETIME,1,4) ;                             02860050
+                                                                        02870044
+      IF SUBSTR (WK_YYYY_CHR,04,01) = IN_FINP2.SYMBY1  THEN             02880050
+         ;                                                              02890045
+      ELSE                                                              02900044
+         WK_YYYY_PIC =   WK_YYYY_PIC - 1 ;                              02910050
+                                                                        02920045
+      WK_SYMBOLIC = WK_YYYY_CHR || '-' || SYMBMM || '-' || SYMBDD ;     02930050
+      PUT DATA (WK_SYMBOLIC) ;                                          02940045
+                                                                        02950044
+      CALL OPEN_NE65TDINV2   ;                                          02960068
+                                                                        02970044
+ /*********************************************************************/02980000
+ /*     MAIN PROCESS                                                  */02990000
+ /*********************************************************************/03000000
+                                                                        03010000
+      CALL SETUP_VALRULE    ;                                           03020022
+                                                                        03030015
+      CALL FETCH_NE65TDINV2 ;                                           03040015
+      DO WHILE( EOF_NE65TDIV2 = OFF ) ;                                 03050021
+                                                                        03060004
+         CALL STORE_SLCTBL      ;                                       03070024
+         CALL SELECT_VALID_SLC  ;                                       03080023
+  /*     CALL UPDATE_NE65TDINV2 ;              *** FOR TEST ***  */     03090055
+                                                                        03100003
+         CALL FETCH_NE65TDINV2  ;                                       03110015
+                                                                        03120004
+      END;                                                              03130003
+                                                                        03140000
+ /*********************************************************************/03150019
+ /*     SETUP RULE TABLE FOR SELECT VALID SLC INFO                    */03160022
+ /*********************************************************************/03170019
+ SETUP_VALRULE: PROC ;                                                  03180022
+                                                                        03190019
+      NN   = 0          ;                                               03200048
+                                                                        03210019
+      CALL READ_FINP1   ;                                               03220020
+      DO WHILE ( EOF_FINP1 = OFF  &  NN < 50 ) ;                        03230048
+                                                                        03240029
+         NN  =  NN + 1 ;                                                03250048
+         VALTBL(NN).SEOCD     = IN_FINP1.SEOCD   ;                      03260048
+         VALTBL(NN).WG1FG     = IN_FINP1.WG1FG   ;                      03270048
+         VALTBL(NN).WG2FG     = IN_FINP1.WG2FG   ;                      03280048
+         VALTBL(NN).WG9FG     = IN_FINP1.WG9FG   ;                      03290048
+         VALTBL(NN).MG1FG     = IN_FINP1.MG1FG   ;                      03300048
+         VALTBL(NN).PRITY     = IN_FINP1.PRITY   ;                      03310048
+         CALL READ_FINP1       ;                                        03320019
+                                                                        03330029
+      END;                                                              03340019
+                                                                        03350019
+      CNT_VALTBL = NN ;                                                 03360048
+                                                                        03370019
+      IF CNT_VALTBL >= 50  THEN                                         03380029
+         DO ;                                                           03390019
+            PUT EDIT('CNT_VALTBL  = ',CNT_VALTBL )(A) SKIP;             03400032
+            SMCONST2(*** PGM NE65G11 ABEND  VAL-RULE TBL OVER-FLOW ***);03410032
+         END;                                                           03420019
+      ELSE ;                                                            03430019
+                                                                        03440019
+ END SETUP_VALRULE ;                                                    03450022
+                                                                        03460019
+ /*********************************************************************/03470006
+ /*     SETUP SLC INFO TABLE FOR MTM-SERIAL                           */03480022
+ /*********************************************************************/03490006
+ STORE_SLCTBL: PROC ;                                                   03500024
+                                                                        03510006
+      II   = 0             ;                                            03520032
+      JJ   = 0             ;                                            03530032
+      KK   = 0             ;                                            03540032
+      LL   = 0             ;                                            03550032
+      EOF_NE65TDSSL = OFF  ;                                            03560021
+                                                                        03570021
+      CALL OPEN_NE65TDSSL  ;                                            03580017
+                                                                        03590017
+      CALL FETCH_NE65TDSSL ;                                            03600006
+      DO WHILE( EOF_NE65TDSSL = OFF ) ;                                 03610029
+                                                                        03620029
+         WK_USOPR = '99' ;                                              03630029
+         DO NN = 1  TO  CNT_VALTBL ;                                    03640030
+            IF WK_USECD = VALTBL(NN).SEOCD  THEN                        03650030
+               DO ;                                                     03660029
+                  WK_USOPR = VALTBL(NN).PRITY ;                         03670030
+                  NN       = CNT_VALTBL       ;                         03680030
+               END;                                                     03690029
+            ELSE;                                                       03700029
+         END;                                                           03710030
+                                                                        03720029
+         WK_SVLCD2 = SUBSTR (WK_SVLCD,02,02)           ;                03730030
+         WK_SLCPR  = TRANSLATE (WK_SVLCD2, SLC_TOCHR, SLC_FRCHR) ;      03740031
+                                                                        03750030
+         WK_LTUDT2 = SUBSTR (WK_LTUDT,01,04)          ||                03760061
+                     SUBSTR (WK_LTUDT,06,02)          ||                03770030
+                     SUBSTR (WK_LTUDT,09,02)          ||                03780061
+                     SUBSTR (WK_LTUDT,12,02)          ||                03790061
+                     SUBSTR (WK_LTUDT,15,02)           ;                03800061
+         WK_LTUPR  = TRANSLATE (WK_LTUDT2, LTU_TOCHR, LTU_FRCHR) ;      03810061
+                                                                        03820031
+                                                                        03830030
+         DO NN = 1  TO  CNT_VALTBL ;                                    03840030
+                                                                        03850030
+            IF WK_SEOCD = VALTBL(NN).SEOCD  THEN                        03860030
+               DO ;                                                     03870030
+                  IF VALTBL(NN).WG1FG = '*'  THEN                       03880030
+                     DO ;                                               03890030
+                        II = II + 1 ;                                   03900048
+                        SLCWG1(II).LSTCD = WK_LSTCD         ;           03910048
+                        SLCWG1(II).PSTCD = WK_PSTCD         ;           03920048
+                        SLCWG1(II).WTYOP = WK_WTYOP         ;           03930048
+                        SLCWG1(II).SSTDT = WK_SSTDT         ;           03940048
+                        SLCWG1(II).SEDDT = WK_SEDDT         ;           03950048
+                        SLCWG1(II).USOPR = WK_USOPR         ;           03960048
+                        SLCWG1(II).SOCPR = VALTBL(NN).PRITY ;           03970048
+                        SLCWG1(II).SLCPR = WK_SLCPR         ;           03980048
+                        SLCWG1(II).LTUPR = WK_LTUPR         ;           03990048
+                     END;                                               04000030
+                  ELSE;                                                 04010057
+                                                                        04020030
+                  IF VALTBL(NN).WG2FG = '*'  THEN                       04030030
+                     DO ;                                               04040030
+                        JJ = JJ + 1 ;                                   04050048
+                        SLCWG2(JJ).LSTCD = WK_LSTCD         ;           04060048
+                        SLCWG2(JJ).PSTCD = WK_PSTCD         ;           04070048
+                        SLCWG2(JJ).WTYOP = WK_WTYOP         ;           04080048
+                        SLCWG2(JJ).SSTDT = WK_SSTDT         ;           04090048
+                        SLCWG2(JJ).SEDDT = WK_SEDDT         ;           04100048
+                        SLCWG2(JJ).USOPR = WK_USOPR         ;           04110048
+                        SLCWG2(JJ).SOCPR = VALTBL(NN).PRITY ;           04120048
+                        SLCWG2(JJ).SLCPR = WK_SLCPR         ;           04130048
+                        SLCWG2(JJ).LTUPR = WK_LTUPR         ;           04140048
+                     END;                                               04150030
+                  ELSE;                                                 04160057
+                                                                        04170030
+                  IF VALTBL(NN).WG9FG = '*'  THEN                       04180048
+                     DO ;                                               04190048
+                        KK = KK + 1 ;                                   04200048
+                        SLCWG9(KK).LSTCD = WK_LSTCD         ;           04210048
+                        SLCWG9(KK).PSTCD = WK_PSTCD         ;           04220048
+                        SLCWG9(KK).WTYOP = WK_WTYOP         ;           04230048
+                        SLCWG9(KK).SSTDT = WK_SSTDT         ;           04240048
+                        SLCWG9(KK).SEDDT = WK_SEDDT         ;           04250048
+                        SLCWG9(KK).USOPR = WK_USOPR         ;           04260048
+                        SLCWG9(KK).SOCPR = VALTBL(NN).PRITY ;           04270048
+                        SLCWG9(KK).SLCPR = WK_SLCPR         ;           04280048
+                        SLCWG9(KK).LTUPR = WK_LTUPR         ;           04290048
+                     END;                                               04300048
+                  ELSE;                                                 04310057
+                                                                        04320048
+                  IF VALTBL(NN).MG1FG = '*'  THEN                       04330030
+                     DO ;                                               04340030
+                        LL = LL + 1 ;                                   04350030
+                        SLCMG1(LL).LSTCD = WK_LSTCD         ;           04360037
+                        SLCMG1(LL).PSTCD = WK_PSTCD         ;           04370037
+                        SLCMG1(LL).WTYOP = WK_WTYOP         ;           04380037
+                        SLCMG1(LL).SSTDT = WK_SSTDT         ;           04390037
+                        SLCMG1(LL).SEDDT = WK_SEDDT         ;           04400037
+                        SLCMG1(LL).USOPR = WK_USOPR         ;           04410037
+                        SLCMG1(LL).SOCPR = VALTBL(NN).PRITY ;           04420030
+                        SLCMG1(LL).SLCPR = WK_SLCPR         ;           04430030
+                        SLCMG1(LL).LTUPR = WK_LTUPR         ;           04440030
+                     END;                                               04450030
+                  ELSE;                                                 04460057
+                                                                        04470030
+                  NN = CNT_VALTBL ;                                     04480030
+               END;                /* IF WK_SEOCD = VALTBL(NN).SEOCD */ 04490043
+            ELSE;                  /* IF WK_SEOCD = VALTBL(NN).SEOCD */ 04500043
+         END;                      /* DO NN = 1 TO CNT_VALTBL  END   */ 04510043
+         CALL FETCH_NE65TDSSL ;    /*                                */ 04520043
+      END;                         /* DO WHILE END                   */ 04530048
+                                                                        04540043
+      CNT_SLCWG1 = II ;                                                 04550048
+      CNT_SLCWG2 = JJ ;                                                 04560048
+      CNT_SLCWG9 = KK ;                                                 04570048
+      CNT_SLCMG1 = LL ;                                                 04580034
+                                                                        04590017
+      IF CNT_SLCWG9 >= 20  THEN                                         04600047
+         DO ;                                                           04610017
+            PUT EDIT('CNT_SLCWG9  = ',CNT_SLCWG9 )(A) SKIP;             04620047
+            SMCONST2(*** PGM NE65G11 ABEND  TBL:SLCWG9 OVER-FLOW  ***); 04630047
+         END;                                                           04640017
+      ELSE ;                                                            04650017
+                                                                        04660017
+      IF CNT_SLCMG1 >= 20  THEN                                         04670035
+         DO ;                                                           04680035
+            PUT EDIT('CNT_SLCMG1  = ',CNT_SLCMG1 )(A) SKIP;             04690035
+            SMCONST2(*** PGM NE65G11 ABEND  TBL:SLCMG1 OVER-FLOW  ***); 04700035
+         END;                                                           04710035
+      ELSE ;                                                            04720035
+                                                                        04730035
+      CALL CLOSE_NE65TDSSL ;                                            04740035
+                                                                        04750017
+ END STORE_SLCTBL ;                                                     04760024
+                                                                        04770006
+ /*********************************************************************/04780006
+ /*     SET VALID SLC                                                 */04790006
+ /*********************************************************************/04800006
+ SELECT_VALID_SLC: PROC ;                                               04810023
+                                                                        04820006
+      CALL SELECT_SLCWG9 ;                                              04830047
+                                                                        04840025
+      IF SW_WG9_FOUND = ON    THEN                                      04850067
+         DO ;                                                           04860067
+            WG9FOUND = WG9FOUND + 1 ;                                   04870069
+            RETURN ;                                                    04880067
+         END;                                                           04890067
+      ELSE                                                              04900053
+         DO ;                                                           04910053
+            IF SW_WG9_EXIST = ON  THEN                                  04920067
+               DO ;                               /* SPEC-USOC EXIST */ 04930067
+                  CALL SELECT_SLCMG1 ;                                  04940067
+                  IF SW_MG1_FOUND = ON   THEN                           04950067
+                     WG9MG1FD = WG9MG1FD + 1 ;    /* SET FROM SLCMG1 */ 04960069
+                  ELSE                                                  04970067
+                     WG9MG1PC = WG9MG1PC + 1 ;    /* PER-CALL SLCWG9 */ 04980069
+                  RETURN ;                                              04990067
+               END;                                                     05000067
+            ELSE ;      /* SPECL-USOC NOT EXIST -> GOTO NEXT PROCESS */ 05010067
+         END;                                                           05020053
+                                                                        05030053
+                                                                        05040067
+      CALL SELECT_SLCMG1 ;                                              05050025
+                                                                        05060054
+      IF SW_MG1_FOUND = ON   THEN                                       05070067
+         DO ;                                                           05080067
+            MG1FOUND = MG1FOUND + 1 ;                                   05090069
+            RETURN ;                                                    05100067
+         END;                                                           05110067
+      ELSE ;                                                            05120025
+                                                                        05130025
+                                                                        05140067
+      CALL SELECT_SLCWG2 ;                                              05150054
+                                                                        05160054
+      IF SW_WG2_FOUND = ON   THEN                                       05170067
+         DO ;                                                           05180067
+            WG2FOUND = WG2FOUND + 1 ;                                   05190069
+            RETURN ;                                                    05200067
+         END;                                                           05210067
+      ELSE ;                                                            05220026
+                                                                        05230026
+                                                                        05240067
+      CALL SELECT_SLCWG1 ;                                              05250026
+                                                                        05260054
+      IF SW_WG1_EXIST = ON   THEN                                       05270067
+         DO ;                                                           05280067
+            IF SW_WG1_FOUND = ON  THEN                                  05290067
+               WG1FOUND = WG1FOUND + 1 ;                                05300069
+            ELSE                                                        05310067
+               WG1PCALL = WG1PCALL + 1 ;                                05320069
+            RETURN ;                                                    05330067
+         END;                                                           05340067
+      ELSE;                                                             05350067
+                                                                        05360067
+      NOSLC        = NOSLC + 1    ;                                     05370067
+      VALID_SSTDT  = '0001-01-01' ;                                     05380067
+      VALID_SEDDT  = '0001-01-01' ;                                     05390067
+      VALID_LSTCD  = '3'          ;                                     05400067
+      VALID_PSTCD  = '3'          ;                                     05410067
+      VALID_WTYOP  = ' '          ;                                     05420067
+                                                                        05430026
+ END SELECT_VALID_SLC ;                                                 05440023
+                                                                        05450006
+ /*********************************************************************/05460026
+ /*     SELECT VALID SLC FROM WORKING GROUP1                          */05470026
+ /*********************************************************************/05480026
+ SELECT_SLCWG1: PROC ;                                                  05490026
+                                                                        05500026
+      SW_WG1_EXIST = OFF ;                                              05510027
+      SW_WG1_FOUND = OFF ;                                              05520066
+      STRONG_PRITY = HIGH (18) ;                                        05530061
+                                                                        05540027
+      DO NN = 1  TO  CNT_SLCWG1 ;                                       05550027
+                                                                        05560036
+         WK_PRITY = SLCWG1(NN).USOPR  ||                                05570036
+                    SLCWG1(NN).SOCPR  ||                                05580036
+                    SLCWG1(NN).SLCPR  ||                                05590036
+                    SLCWG1(NN).LTUPR   ;                                05600036
+                                                                        05610036
+         IF WK_PRITY < STRONG_PRITY  THEN                               05620037
+            DO ;                                                        05630026
+               STRONG_PRITY = WK_PRITY ;                                05640036
+               STRGIDX      = NN ;                                      05650026
+               SW_WG1_EXIST = ON ;                                      05660027
+            END;                                                        05670026
+         ELSE ;                                                         05680026
+      END;                                                              05690026
+                                                                        05700026
+      IF SW_WG1_EXIST = ON  THEN                                        05710059
+         DO ;                                                           05720059
+            IF SLCWG1(STRGIDX).SSTDT <= WK_SYMBOLIC     &               05730059
+               SLCWG1(STRGIDX).SEDDT >= WK_SYMBOLIC  THEN               05740059
+               DO ;                                                     05750059
+                  VALID_SSTDT  = SLCWG1(STRGIDX).SSTDT ;                05760059
+                  VALID_SEDDT  = SLCWG1(STRGIDX).SEDDT ;                05770059
+                  VALID_LSTCD  = SLCWG1(STRGIDX).LSTCD ;                05780059
+                  VALID_PSTCD  = SLCWG1(STRGIDX).PSTCD ;                05790059
+                  VALID_WTYOP  = SLCWG1(STRGIDX).WTYOP ;                05800059
+                  SW_WG1_FOUND = ON ;                                   05810066
+               END;                                                     05820059
+            ELSE                                                        05830059
+              DO ;                                                      05840059
+                  VALID_SSTDT  = SLCWG1(STRGIDX).SSTDT ;                05850059
+                  VALID_SEDDT  = SLCWG1(STRGIDX).SEDDT ;                05860059
+                  VALID_LSTCD  = '3'                   ;                05870059
+                  VALID_PSTCD  = '3'                   ;                05880059
+                  VALID_WTYOP  = SLCWG1(STRGIDX).WTYOP ;                05890059
+              END;                                                      05900059
+                                                                        05910059
+         END;                                                           05920059
+      ELSE;                                                             05930059
+                                                                        05940059
+ END SELECT_SLCWG1 ;                                                    05950027
+                                                                        05960027
+ /*********************************************************************/05970027
+ /*     SELECT VALID SLC FROM WORKING GROUP2                          */05980027
+ /*********************************************************************/05990027
+ SELECT_SLCWG2: PROC ;                                                  06000027
+                                                                        06010027
+      SW_WG2_EXIST = OFF ;                                              06020027
+      SW_WG2_FOUND = OFF ;                                              06030027
+      STRONG_PRITY = HIGH (18) ;                                        06040061
+                                                                        06050027
+      DO NN = 1  TO  CNT_SLCWG2 ;                                       06060027
+                                                                        06070036
+         WK_PRITY = SLCWG2(NN).USOPR  ||                                06080036
+                    SLCWG2(NN).SOCPR  ||                                06090036
+                    SLCWG2(NN).SLCPR  ||                                06100036
+                    SLCWG2(NN).LTUPR   ;                                06110036
+                                                                        06120036
+         IF WK_PRITY < STRONG_PRITY  THEN                               06130037
+            DO ;                                                        06140027
+               STRONG_PRITY = WK_PRITY ;                                06150036
+               STRGIDX      = NN ;                                      06160027
+               SW_WG2_EXIST = ON ;                                      06170027
+            END;                                                        06180027
+         ELSE ;                                                         06190027
+      END;                                                              06200027
+                                                                        06210027
+      IF SW_WG2_EXIST           = ON              &                     06220040
+         SLCWG2(STRGIDX).SSTDT <= WK_SYMBOLIC     &                     06230040
+         SLCWG2(STRGIDX).SEDDT >= WK_SYMBOLIC  THEN                     06240040
+         DO ;                                                           06250027
+            VALID_SSTDT  = SLCWG2(STRGIDX).SSTDT ;                      06260027
+            VALID_SEDDT  = SLCWG2(STRGIDX).SEDDT ;                      06270027
+            VALID_LSTCD  = SLCWG2(STRGIDX).LSTCD ;                      06280027
+            VALID_PSTCD  = SLCWG2(STRGIDX).PSTCD ;                      06290027
+            VALID_WTYOP  = SLCWG2(STRGIDX).WTYOP ;                      06300027
+            SW_WG2_FOUND = ON ;                                         06310027
+         END;                                                           06320027
+      ELSE;                                                             06330027
+                                                                        06340027
+ END SELECT_SLCWG2 ;                                                    06350027
+                                                                        06360027
+ /*********************************************************************/06370048
+ /*     SELECT VALID SLC FROM WG9 ( SPECIAL USOC - MST/CLM )          */06380048
+ /*********************************************************************/06390048
+ SELECT_SLCWG9: PROC ;                                                  06400048
+                                                                        06410048
+      SW_WG9_EXIST = OFF ;                                              06420048
+      SW_WG9_FOUND = OFF ;                                              06430048
+      STRONG_PRITY = HIGH (18) ;                                        06440061
+                                                                        06450048
+      DO NN = 1  TO  CNT_SLCWG9 ;                                       06460048
+                                                                        06470048
+         WK_PRITY = SLCWG9(NN).USOPR  ||                                06480048
+                    SLCWG9(NN).SOCPR  ||                                06490048
+                    SLCWG9(NN).SLCPR  ||                                06500048
+                    SLCWG9(NN).LTUPR   ;                                06510048
+                                                                        06520048
+         IF WK_PRITY < STRONG_PRITY  THEN                               06530048
+            DO ;                                                        06540048
+               STRONG_PRITY = WK_PRITY ;                                06550048
+               STRGIDX      = NN       ;                                06560048
+               IF SUBSTR(STRONG_PRITY,1,1) = '*'  THEN                  06570048
+                  SW_WG9_EXIST = ON    ;                                06580048
+               ELSE ;                                                   06590048
+            END;                                                        06600048
+         ELSE ;                                                         06610048
+      END;                                                              06620048
+                                                                        06630048
+      IF SW_WG9_EXIST = ON  THEN                                        06640048
+         DO ;                                                           06650048
+            IF SLCWG9(STRGIDX).SSTDT <= WK_SYMBOLIC     &               06660048
+               SLCWG9(STRGIDX).SEDDT >= WK_SYMBOLIC  THEN               06670048
+               DO ;                                                     06680048
+                  VALID_SSTDT  = SLCWG9(STRGIDX).SSTDT ;                06690048
+                  VALID_SEDDT  = SLCWG9(STRGIDX).SEDDT ;                06700048
+                  VALID_LSTCD  = SLCWG9(STRGIDX).LSTCD ;                06710048
+                  VALID_PSTCD  = SLCWG9(STRGIDX).PSTCD ;                06720048
+                  VALID_WTYOP  = SLCWG9(STRGIDX).WTYOP ;                06730048
+                  SW_WG9_FOUND = ON ;                                   06740048
+               END;                                                     06750048
+            ELSE      /* THESE VALUES ARE USED WHEN SLCMG1 NOT FOUND */ 06760067
+               DO ;                                                     06770048
+                  VALID_SSTDT  = SLCWG9(STRGIDX).SSTDT ;                06780048
+                  VALID_SEDDT  = SLCWG9(STRGIDX).SEDDT ;                06790048
+                  VALID_LSTCD  = '3'                   ;                06800057
+                  VALID_PSTCD  = '3'                   ;                06810057
+                  VALID_WTYOP  = SLCWG9(STRGIDX).WTYOP ;                06820048
+               END;                                                     06830048
+         END;                                                           06840048
+      ELSE;                                                             06850048
+                                                                        06860048
+ END SELECT_SLCWG9 ;                                                    06870048
+                                                                        06880048
+ /*********************************************************************/06890036
+ /*     SELECT VALID SLC FROM MAINT GROUP                             */06900036
+ /*********************************************************************/06910036
+ SELECT_SLCMG1: PROC ;                                                  06920036
+                                                                        06930036
+      SW_MG1_FOUND = OFF ;                                              06940036
+      STRONG_PRITY = HIGH (18) ;                                        06950061
+                                                                        06960036
+      DO NN = 1  TO  CNT_SLCMG1 ;                                       06970036
+                                                                        06980036
+         WK_PRITY = SLCMG1(NN).USOPR  ||                                06990036
+                    SLCMG1(NN).SOCPR  ||                                07000036
+                    SLCMG1(NN).SLCPR  ||                                07010036
+                    SLCMG1(NN).LTUPR   ;                                07020036
+                                                                        07030036
+         IF WK_PRITY         <  STRONG_PRITY    &                       07040040
+            SLCMG1(NN).SSTDT <= WK_SYMBOLIC     &                       07050038
+            SLCMG1(NN).SEDDT >= WK_SYMBOLIC  THEN                       07060038
+            DO ;                                                        07070036
+               STRONG_PRITY = WK_PRITY ;                                07080036
+               STRGIDX      = NN ;                                      07090036
+               SW_MG1_FOUND = ON ;                                      07100036
+            END;                                                        07110036
+         ELSE ;                                                         07120036
+      END;                                                              07130036
+                                                                        07140036
+      IF SW_MG1_FOUND = ON   THEN                                       07150036
+         DO ;                                                           07160036
+            VALID_SSTDT  = SLCMG1(STRGIDX).SSTDT ;                      07170036
+            VALID_SEDDT  = SLCMG1(STRGIDX).SEDDT ;                      07180036
+            VALID_LSTCD  = SLCMG1(STRGIDX).LSTCD ;                      07190036
+            VALID_PSTCD  = SLCMG1(STRGIDX).PSTCD ;                      07200036
+            VALID_WTYOP  = SLCMG1(STRGIDX).WTYOP ;                      07210036
+         END;                                                           07220036
+      ELSE;                                                             07230036
+                                                                        07240036
+ END SELECT_SLCMG1 ;                                                    07250036
+                                                                        07260036
+ /*********************************************************************/07270027
+ /*     READ FINP1  (VALID RULE FOR SLC SELECTION)                    */07280027
+ /*********************************************************************/07290027
+ READ_FINP1: PROC;                                                      07300027
+                                                                        07310027
+      CALL READX (FINP1C,IN_FINP1,RETCD1) ;                             07320027
+                                                                        07330027
+      IF RETCD1 = 'EOF' THEN                                            07340027
+         DO ;                                                           07350027
+            SIGNAL ENDFILE (FINP1) ;                                    07360027
+         END;                                                           07370027
+      ELSE                                                              07380027
+         DO ;                                                           07390027
+            CNT_FINP1 = CNT_FINP1 + 1 ;                                 07400027
+         END;                                                           07410027
+                                                                        07420027
+ END READ_FINP1;                                                        07430027
+                                                                        07440027
+ /*********************************************************************/07450045
+ /*     READ FINP2  (AS-OF-DATE RECORD)                               */07460045
+ /*********************************************************************/07470045
+ READ_FINP2: PROC;                                                      07480045
+                                                                        07490045
+      CALL READX (FINP2C,IN_FINP2,RETCD2) ;                             07500045
+                                                                        07510045
+      IF RETCD2 = 'EOF' THEN                                            07520045
+         DO ;                                                           07530045
+            PUT EDIT('RETCD2  = ',RETCD2  )(A) SKIP;                    07540045
+            SMCONST2(*** PGM NE65G11 ABEND  AS-OF-DATE RECORD NOTF ***);07550045
+         END;                                                           07560045
+      ELSE                                                              07570045
+         DO ;                                                           07580045
+            CNT_FINP2 = CNT_FINP2 + 1 ;                                 07590045
+         END;                                                           07600045
+                                                                        07610045
+ END READ_FINP2;                                                        07620045
+                                                                        07630045
+ /*********************************************************************/07640027
+ /*     OPEN NE65TDINV2                                               */07650027
+ /*********************************************************************/07660004
+ OPEN_NE65TDINV2: PROC ;                                                07670004
+                                                                        07680004
+      EXEC SQL OPEN CUR1_NE65TDINV2 ;                                   07690008
+                                                                        07700005
+      SELECT (SQLCODE) ;                                                07710009
+         WHEN (0) ;                                                     07720009
+         OTHERWISE                                                      07730009
+            DO ;                                                        07740009
+               PUT EDIT('SQLCODE  = ',SQLCODE )(A) SKIP;                07750009
+               SMCONST2(*** PGM NE65G11 ABEND  AT OPEN_NE65TDINV2 ***); 07760009
+            END;                                                        07770009
+      END;                                                              07780009
+                                                                        07790004
+ END OPEN_NE65TDINV2 ;                                                  07800004
+                                                                        07810004
+ /*********************************************************************/07820004
+ /*     FETCH NE65TDINV2                                              */07830005
+ /*********************************************************************/07840004
+ FETCH_NE65TDINV2: PROC ;                                               07850004
+                                                                        07860004
+      EXEC SQL FETCH CUR1_NE65TDINV2                                    07870005
+               INTO  :WK_CMAXA ,                                        07880008
+                     :WK_CMMXA ,                                        07890008
+                     :WK_RMAXA ;                                        07900009
+                                                                        07910009
+      SELECT (SQLCODE) ;                                                07920009
+         WHEN (0)                                                       07930009
+            DO ;                                                        07940005
+               CNT_FETCH_TDINV2 = CNT_FETCH_TDINV2 + 1 ;                07950005
+            END;                                                        07960005
+         WHEN (100)                                                     07970009
+            DO ;                                                        07980005
+               EOF_NE65TDIV2 = ON;                                      07990021
+            END;                                                        08000005
+         OTHERWISE                                                      08010005
+            DO ;                                                        08020005
+               PUT EDIT('SQLCODE  = ',SQLCODE )(A) SKIP;                08030005
+               SMCONST2(*** PGM NE65G11 ABEND  AT FETCH_NE65TDINV2 ***);08040005
+            END;                                                        08050005
+      END;                                                              08060005
+                                                                        08070006
+ END FETCH_NE65TDINV2 ;                                                 08080004
+                                                                        08090004
+ /*********************************************************************/08100008
+ /*     UPDATE NE65TDINV2                                             */08110008
+ /*********************************************************************/08120008
+ UPDATE_NE65TDINV2: PROC ;                                              08130008
+                                                                        08140008
+      EXEC SQL UPDATE NE65U1.NE65TDINV2                                 08150008
+               SET    PNTDT  = :VALID_SSTDT ,                           08160026
+                      PRHSE  = :VALID_SEDDT ,                           08170026
+                      LSTCD  = :VALID_LSTCD ,                           08180026
+                      PSTCD  = :VALID_PSTCD ,                           08190026
+                      WTYOP  = :VALID_WTYOP                             08200026
+               WHERE  CURRENT OF CUR1_NE65TDINV2 ;                      08210009
+                                                                        08220009
+      SELECT (SQLCODE) ;                                                08230009
+         WHEN (0)                                                       08240009
+            DO ;                                                        08250008
+               CNT_UPDATE_TDINV2 = CNT_UPDATE_TDINV2 + 1 ;              08260008
+            END;                                                        08270008
+         OTHERWISE                                                      08280008
+            DO ;                                                        08290008
+               PUT EDIT('SQLCODE  = ',SQLCODE )(A) SKIP;                08300008
+               SMCONST2(*** PGM NE65G11 ABEND AT UPDATE_NE65TDINV2 ***);08310008
+            END;                                                        08320008
+      END;                                                              08330008
+                                                                        08340008
+ END UPDATE_NE65TDINV2 ;                                                08350008
+                                                                        08360008
+ /*********************************************************************/08370008
+ /*     CLOSE NE65TDINV2                                              */08380006
+ /*********************************************************************/08390006
+ CLOSE_NE65TDINV2: PROC ;                                               08400006
+                                                                        08410006
+      EXEC SQL CLOSE CUR1_NE65TDINV2 ;                                  08420008
+                                                                        08430006
+      SELECT (SQLCODE) ;                                                08440009
+         WHEN (0) ;                                                     08450009
+         OTHERWISE                                                      08460009
+            DO ;                                                        08470009
+               PUT EDIT('SQLCODE  = ',SQLCODE )(A) SKIP;                08480009
+               SMCONST2(*** PGM NE65G11 ABEND  AT CLOSE_NE65TDINV2 ***);08490009
+            END;                                                        08500009
+      END;                                                              08510009
+                                                                        08520006
+ END CLOSE_NE65TDINV2 ;                                                 08530006
+                                                                        08540006
+ /*********************************************************************/08550006
+ /*     OPEN NE65TDSSL                                                */08560006
+ /*********************************************************************/08570006
+ OPEN_NE65TDSSL: PROC ;                                                 08580006
+                                                                        08590006
+      EXEC SQL OPEN CUR2_NE65TDSSL ;                                    08600009
+                                                                        08610006
+      SELECT (SQLCODE) ;                                                08620009
+         WHEN (0) ;                                                     08630009
+         OTHERWISE                                                      08640009
+            DO ;                                                        08650009
+               PUT EDIT('SQLCODE  = ',SQLCODE )(A) SKIP;                08660009
+               SMCONST2(*** PGM NE65G11 ABEND  AT OPEN_NE65TDSSL ***);  08670009
+            END;                                                        08680009
+      END;                                                              08690009
+                                                                        08700006
+ END OPEN_NE65TDSSL ;                                                   08710006
+                                                                        08720006
+ /*********************************************************************/08730006
+ /*     FETCH NE65TDSSL                                               */08740006
+ /*********************************************************************/08750006
+ FETCH_NE65TDSSL: PROC ;                                                08760006
+                                                                        08770006
+      EXEC SQL FETCH  CUR2_NE65TDSSL                                    08780006
+               INTO  :WK_SEOCD ,                                        08790009
+                     :WK_SVLCD ,                                        08800029
+                     :WK_LSTCD ,                                        08810029
+                     :WK_PSTCD ,                                        08820009
+                     :WK_WTYOP ,                                        08830009
+                     :WK_USECD ,                                        08840009
+                     :WK_SSTDT ,                                        08850009
+                     :WK_SEDDT ,                                        08860029
+                     :WK_LTUDT ;                                        08870029
+                                                                        08880006
+      SELECT (SQLCODE) ;                                                08890009
+         WHEN (0)                                                       08900009
+            DO ;                                                        08910006
+               CNT_FETCH_TDSSL  = CNT_FETCH_TDSSL  + 1 ;                08920006
+            END;                                                        08930006
+         WHEN (100)                                                     08940009
+            DO ;                                                        08950006
+               EOF_NE65TDSSL  = ON;                                     08960006
+            END;                                                        08970006
+         OTHERWISE                                                      08980006
+            DO ;                                                        08990006
+               PUT EDIT('SQLCODE  = ',SQLCODE )(A) SKIP;                09000006
+               SMCONST2(*** PGM NE65G11 ABEND  AT FETCH_NE65TDSSL  ***);09010006
+            END;                                                        09020006
+      END;                                                              09030006
+                                                                        09040006
+ END FETCH_NE65TDSSL ;                                                  09050006
+                                                                        09060006
+ /*********************************************************************/09070006
+ /*     CLOSE NE65TDSSL                                               */09080006
+ /*********************************************************************/09090006
+ CLOSE_NE65TDSSL: PROC ;                                                09100006
+                                                                        09110006
+      EXEC SQL CLOSE CUR2_NE65TDSSL;                                    09120006
+                                                                        09130006
+      SELECT (SQLCODE) ;                                                09140009
+         WHEN (0) ;                                                     09150009
+         OTHERWISE                                                      09160009
+            DO ;                                                        09170009
+               PUT EDIT('SQLCODE  = ',SQLCODE )(A) SKIP;                09180009
+               SMCONST2(*** PGM NE65G11 ABEND  AT CLOSE_NE65TDSSL ***); 09190009
+            END;                                                        09200009
+      END;                                                              09210009
+                                                                        09220006
+ END CLOSE_NE65TDSSL ;                                                  09230006
+                                                                        09240006
+ /*********************************************************************/09250000
+ /*     PROGRAM END PROCESS                                           */09260002
+ /*********************************************************************/09270000
+                                                                        09280046
+   CALL CLOSECX (FINP1C) ;                                              09290015
+   CALL CLOSECX (FINP2C) ;                                              09300045
+   CALL CLOSE_NE65TDINV2 ;                                              09310004
+                                                                        09320004
+   %INCLUDE SYSLIB2(SMHEAD3) ;                                          09330004
+                                                                        09340004
+   PUT LIST('** PGM NE65G11  COUNT LIST **********************')SKIP(3);09350004
+   PUT LIST('VALID RULE FOR SLC   RECORD =',CNT_FINP1        ) SKIP;    09360068
+   PUT LIST('INVENTORY-2 FETCH    RECORD =',CNT_FETCH_TDINV2 ) SKIP;    09370068
+   PUT LIST('INVENTORY-2 UPDATE   RECORD =',CNT_UPDATE_TDINV2) SKIP;    09380068
+   PUT LIST(' VALD SET FROM WKGP9        =',WG9FOUND         ) SKIP;    09390069
+   PUT LIST(' VALD SET FROM WKGP9->MNTGP =',WG9MG1FD         ) SKIP;    09400069
+   PUT LIST(' VALD SET FROM WKGP9 PR-CAL =',WG9MG1PC         ) SKIP;    09410069
+   PUT LIST(' VALD SET FROM MNTGP        =',MG1FOUND         ) SKIP;    09420069
+   PUT LIST(' VALD SET FROM WKGP2        =',WG2FOUND         ) SKIP;    09430069
+   PUT LIST(' VALD SET FROM WKGP1        =',WG1FOUND         ) SKIP;    09440069
+   PUT LIST(' VALD SET FROM WKGP1 PR-CAL =',WG1PCALL         ) SKIP;    09450069
+   PUT LIST(' SET DEFAULT (NO-SLC)       =',NOSLC            ) SKIP;    09460068
+   PUT LIST('SLC INFO    FETCH    RECORD =',CNT_FETCH_TDSSL  ) SKIP(1); 09470006
+                                                                        09480004
+   %INCLUDE SYSLIB2(SMCHECK5);                                          09490004
+   %XTWOWAY=3;                                                          09500004
+   SMEND7(END);                                                         09510004
+                                                                        09520002
+ END NE65G11;   /* PROGRAM END */                                       09530002
+ /*-------------------------------------------------------------------*/09540000
+ /*         +==============+                                          */09550000
+ /*         | END NE65G11  |                                          */09560000
+ /*         +==============+                                          */09570000
+ /*-------------------------------------------------------------------*/09580000
+

@@ -1,0 +1,13 @@
+//GDG03    JOB (),'SID0878',NOTIFY=&SYSUID        
+//STEP3   EXEC PGM=IDCAMS                         
+//SYSPRINT  DD SYSOUT=*                           
+//SYSIN     DD *                                  
+    DELETE SID0878.GDGTEST.GDG.*                  
+    DELETE SID0878.GDGTEST.GDGMDL                 
+IF MAXCC = 8 THEN SET MAXCC = 0                   
+/*                                                
+//STEP4   EXEC PGM=IDCAMS,COND=(0,NE)             
+//SYSPRINT  DD SYSOUT=*                           
+//SYSIN     DD *                                  
+    DELETE SID0878.GDGTEST.GDG                    
+/*                                                

@@ -1,0 +1,221 @@
+ /*********************************************************************/
+ /****  %INCLUDE                                       '97/06/19  *****/
+ /****       DCL NAME     :  CD02CAW                              *****/
+ /****       APPLICATION  :  CD02 (RCMS-CALL)                     *****/
+ /****       DESCRIPTION  :  RCMS  CALL WORK MASTER               *****/
+ /****       LENGTH       :  1120                                 *****/
+ /****       CREATE BY    :  A.S.T(YAMADA)                        *****/
+ /****       UPDATE BY    :  A.S.T(NAKAKURA)  ALRT  ADD 96/07/19  *****/
+ /****       UPDATE BY    :  YAMAGUCHI        RSC   ADD 97/06/19  *****/
+ /*********************************************************************/
+ /*-------------------------------------------------------------------*/
+ /*  CALL RECORD (BASE)'S SUB FIELD ELEMENT                           */
+ /*-------------------------------------------------------------------*/
+  2  EDQCL0S  ,                     /*   1. CALL  RECORD              */
+    3  SEDQRST      CHAR(1),        /*   1. RCMS RECORD STATUS        */
+    3  SEDQRID      CHAR(3),        /*   2. RCMS RECORD ID            */
+    3  DDBSLUP      CHAR(6),        /*   5. DATE OF LAST UPDATE       */
+    3  DDBSTLU      CHAR(6),        /*  11. TIME OF LAST UPDATE       */
+    3  IUSRUUL      CHAR(7),        /*  17. LAST UPDATE USER ID       */
+    3  SEDQK52  ,                   /*    . PRIMARY KEY               */
+      5  SEDQKPR    CHAR(4),        /*  24. VSAM KEY PREFIX           */
+      5  IFLTRCM    CHAR(7),        /*  28. INCIDENT NUMBER RCMS      */
+    3  SEDQPMH      CHAR(1),        /*  35. PMH INCIDENT CODE         */
+    3  SEDQK12  ,                   /*    . SECONDARY KEY             */
+      5  IFLTPMH    CHAR(5),        /*  36. INCIDENT NUMBER(PMH)      */
+      5  SEDQBOR    CHAR(3),        /*  41. CE BO (RETAIN)            */
+      5  SEDQRGR    CHAR(2),        /*  44. CE REGION (RETAIN)        */
+      5  SEDQTER    CHAR(3),        /*  46. CE TERRITORY(RETAIN)      */
+    3  SEDQPMS      CHAR(1),        /*  49. PMS INCIDENT CODE (RETAIN)*/
+    3  SEDQK1A   ,                  /*    . SECONDARY KEY(RETAIN DATA)*/
+      5  ISWFNBR    CHAR(5),        /*  50. INCIDENT NUMBER   (RETAIN)*/
+      5  SEDQBOR    CHAR(3),        /*  55. CE BO             (RETAIN)*/
+      5  SEDQRGR    CHAR(2),        /*  58. CE REGION         (RETAIN)*/
+      5  SEDQTER    CHAR(3),        /*  60. CE TERRITORY      (RETAIN)*/
+    3  CFLTHSI      CHAR(1),        /*  63. INCIDENT CLASS.CODE       */
+    3  FILL_G42     CHAR(9),        /*  64. FILLER                    */
+    3  SEDQRQ1      CHAR(4),        /*  73. REQUEST TO CALL MANG -1   */
+    3  SEDQRQ2      CHAR(2),        /*  77. REQUEST TO CALL MANG -2   */
+    3  SEDQSTA      CHAR(4),        /*  79. ACTION FLAGS ARRAY        */
+    3  SEDQIFL      CHAR(2),        /*  83. INCIDENT FLAGS ARRAY      */
+    3  SEDQODI  ,                   /*    . OWNER DEST. INFO.         */
+      5  IFLTDEX    CHAR(6),        /*  85. INCIDENT REC. DEST.       */
+      5  SEDQDET    CHAR(2),        /*  91. DESTINATION TYPE          */
+      5  IFLTADX    CHAR(6),        /*  93. INCIDNT REC ACT DEST      */
+    3  SEDQSSY      CHAR(2),        /*  99. NEW OWNER SYSTEM ID       */
+    3  SEDQADC      CHAR(2),        /* 101. DISTRIB. LIST CODE        */
+    3  SEDQISV      CHAR(1),        /* 103. INIT SEVERITY OF INC      */
+    3  CFLTSEV      CHAR(1),        /* 104. SEVERITY OF INCIDENT      */
+    3  SEDQPVC  ,                   /*    . PREV CON OF INCIDENT      */
+      5  CFLTTYP    CHAR(3),        /* 105. INC REC REASON CODE       */
+      5  CFLTSTS    CHAR(3),        /* 108. STATUS OF INC RECORD      */
+    3  CFLTTYP      CHAR(3),        /* 111. INC REC REASON CODE       */
+    3  CFLTSTS      CHAR(3),        /* 114. STATUS OF INC RECORD      */
+    3  SEDQICI  ,                   /*    . INC CREATION INFO         */
+      5  IUSRIDY    CHAR(7),        /* 117. USER IDENTITY             */
+      5  DFLTCRT    CHAR(10),       /* 124. INC CREATE DATE TIME      */
+    3  DFLTUPD      CHAR(10),       /* 134. INC REC LST CHG DATE      */
+    3  DFLTTST      CHAR(10),       /* 144. INC REC REASON/STATS      */
+    3  DFLTDLY      CHAR(10),       /* 154. INC REC ACTIVE DELAY      */
+    3  SEDQEAT      CHAR(10),       /* 164. EXPECTD ARRIVAL TIME      */
+    3  SEDQQEX      FIXED DEC(3,0), /* 174. TOTAL NUM.OF EXTTION      */
+    3  SEDQNLC      FIXED DEC(3,0), /* 176. NEXT ADD TEXT LINE        */
+    3  UDBSSPD      CHAR(230),      /* 178. SCRATCH PAD               */
+ /*-------------------------------------------------------------------*/
+ /* CALL RECORD (H/W)'S SUB FIELD ELEMENT  .                          */
+ /*-------------------------------------------------------------------*/
+  2  EDQCH0S  ,                     /*    . CALL HW RECORD            */
+    3  SEDQK02  ,                   /*    . SECONDARY KEY             */
+      5  SEDQMJB  ,                 /*    . MAJOR BU IN COUNTRY       */
+        7  CODPDIV  CHAR(1),        /* 408. BU DIVISION               */
+        7  CODPBUC  CHAR(7),        /* 409. CE BU                     */
+      5  IODPDBU  ,                 /*    . CE BU IN COUNTRY          */
+        7  CODPDIV  CHAR(1),        /* 416. BU DIVISION               */
+        7  CODPBUC  CHAR(7),        /* 417. CE BU                     */
+    3  SEDQK03  ,                   /*    . SECONDARY KEY             */
+      5  ICUSHWU    CHAR(8),        /* 424. USER CUST ACC NO          */
+      5  SEDQCSX    CHAR(8),        /* 432. CUSTOMER/BU SUFFIX        */
+      5  ICUSANO    CHAR(3),        /* 440. ADDRESS NUMBER            */
+    3  NCUSABB      CHAR(22),       /* 443. CUST.NAME          (KANJI)*/
+    3  NCUSSTR      CHAR(30),       /* 465. CUST.ADDRESS/STREET(KANJI)*/
+    3  ICUSCTY      CHAR(30),       /* 495. CUST.CITY          (KANJI)*/
+    3  ICUSGZC      CHAR(8),        /* 525. CUST.ZIP CD(YUBIN) (KANJI)*/
+    3  NCUSCON      CHAR(24),       /* 533. CUST.CONTACT NAME  (KANJI)*/
+    3  SEDQTEL      CHAR(30),       /* 557. CUST.TEL NO               */
+    3  QCESPCM      PIC'9999',      /* 587. QTY OF CUST PER CALL      */
+    3  NEMPABB      CHAR(30),       /* 591. IBM EMPL. NAME     (KANJI)*/
+    3  IEMPNBR      CHAR(7),        /* 621. IBM EMPLOYEE NO.          */
+    3  SEDQE43      CHAR(2),        /* 628. ACTIVE MEDIA TYPE         */
+    3  IEMPRAD      CHAR(5),        /* 630. EMPLOYEE RADIO NO.        */
+    3  IEMPPAG      CHAR(12),       /* 635. EMPLOYEE PAGER ID         */
+    3  IHSITOS  ,                   /*    . MACHINE TOS               */
+      5  CSLMTYP    CHAR(4),        /* 647. MACHINE TYPE              */
+      5  IHSIMID  ,                 /*    . MACHINE SERIAL NO.        */
+        7  IOLCPLM  CHAR(2),        /* 651. PLANT OF MANUFACTURE      */
+        7  IHSINBR  CHAR(7),        /* 643. MACHINE SEQUENCE NO.      */
+    3  CSLMMOD      CHAR(3),        /* 660. MACHINE MODEL             */
+    3  ISLMCPU      CHAR(4),        /* 663. ASSOCIATED CPU TYPE       */
+    3  SEDQCMD  ,                   /*    . INVENTORY CURRENT         */
+      5  ICUSHWU    CHAR(8),        /* 667. USER CUST. ACC. NO.       */
+      5  IODPDBU  ,                 /*    . CE BU IN COUNTRY          */
+        7  CODPDIV  CHAR(1),        /* 675. BU DIVISION               */
+        7  CODPBUC  CHAR(7),        /* 676. CE BU                     */
+ /*-------------------------------------------------------------------*/
+ /*  CACMSMTD'S SUB FIELD ELEMENT - NO1                               */
+ /*-------------------------------------------------------------------*/
+  2  DRUCB          CHAR(6),        /* 683. DATE CE CALL RECEIVED     */
+  2  DAACB          CHAR(4),        /* 689. TIME CE CALL RECEIVED     */
+  2  DRUCC          CHAR(6),        /* 693. DATE CALL ASSIGNED TO CE  */
+  2  DAACC          CHAR(4),        /* 699. TIME CALL ASSIGNED TO CE  */
+  2  DRUCD          CHAR(6),        /* 703. DATE CALL TAKEN BY CE     */
+  2  DAACD          CHAR(4),        /* 709. TIME CALL TAKEN BY CE     */
+  2  DRUCE          CHAR(6),        /* 713. DATE CE ARRIVED AT CUST   */
+  2  DAACE          CHAR(4),        /* 719. TIME CE ARRIVE AT CUST    */
+  2  DRUCF          CHAR(6),        /* 723. DATE CE REPAIR STARTED    */
+  2  DAACF          CHAR(4),        /* 729. TIME CE REPAIR STARTED    */
+  2  DRUCG          CHAR(6),        /* 733. DATE OF REPAIR COMPLETED  */
+  2  DAACG          CHAR(4),        /* 739. TIME CE REPAIR COMPLETED  */
+  2  DRUCI          CHAR(6),        /* 743. DATE CALL CONFIRMED  (A)  */
+  2  DAACI          CHAR(4),        /* 749. TIME CALL CONFIRMED  (A)  */
+  2  DRUCJ          CHAR(6),        /* 753. DATE CALL APPOINTED       */
+  2  DAACJ          CHAR(4),        /* 759. TIME CALL APPOINTED       */
+  2  GDWAA    ,                     /*    . DOWN STATUS 1ST           */
+    3  CDWCA        CHAR(1),        /* 763. DOWN ID. CODE             */
+    3  NDWCA        CHAR(7),        /* 764. DOWN ID. ABBREVIATION     */
+  2  GDWAB    ,                     /*    . DOWN STATUS 2ND           */
+    3  CDWCA        CHAR(1),        /* 771. DOWN ID. CODE             */
+    3  NDWCA        CHAR(7),        /* 772. DOWN ID. ABBREVIATION     */
+    3  DRUCM        CHAR(6),        /* 779. DATE DOWN STATUS CHANGED  */
+    3  DAACM        CHAR(4),        /* 785. TIME DOWN STATUS CHANGED  */
+  2  GDWAC    ,                     /*    . DOWN STATUS 3RD           */
+    3  CDWCA        CHAR(1),        /* 789. DOWN ID. CODE             */
+    3  NDWCA        CHAR(7),        /* 790. DOWN ID. ABBREVIATION     */
+    3  DRUCM        CHAR(6),        /* 797. DATE DOWN STATUS CHANGED  */
+    3  DAACM        CHAR(4),        /* 803. TIME DOWN STATUS CHANGED  */
+  2  GDWAD    ,                     /*    . DOWN STATUS 4TH           */
+    3  CDWCA        CHAR(1),        /* 807. DOWN ID. CODE             */
+    3  NDWCA        CHAR(7),        /* 808. DOWN ID. ABBREVIATION     */
+    3  DRUCM        CHAR(6),        /* 815. DATE DOWN STATUS CHANGED  */
+    3  DAACM        CHAR(4),        /* 821. TIME DOWN STATUS CHANGED  */
+  2  GEMOR    ,                     /*    . ORIGINATOR EMPLOYEE NO (C)*/
+    3  REMCE        CHAR(5),        /* 825. ORIGINATOR EMPLOYEE NO    */
+  2  RSYXA          CHAR(5),        /* 830. SYSTEM NUMBER             */
+  2  CMCXA          CHAR(1),        /* 835. MAINTENANCE TYPE OF       */
+  2  CCLCA          CHAR(2),        /* 836. CE CALL ID CODE        (A)*/
+  2  NCLCA          CHAR(7),        /* 838. CE CALL ID ABBREVIATION   */
+  2  CRECA          CHAR(2),        /* 845. TROUBLE REASON ID CODE (A)*/
+  2  NRECA          CHAR(7),        /* 847. TROUBLE REASON ID ABBRV.  */
+  2  NCUCO          CHAR(25),       /* 854. CE CCO NAME(ALPHA)    CCO */
+  2  RESXA          CHAR(6),        /* 879. ESTABLISHMENT NUMBER(CRIS)*/
+  2  RCOXA          CHAR(6),        /* 885. COMPANY NUMBER      (CRIS)*/
+  2  RENXA          CHAR(6),        /* 891. ENTERPROSE NUMBER   (CRIS)*/
+  2  QTECB          PIC'(4)9V(0)9', /* 897. MACHINE OUTAGE HOURS   (C)*/
+  2  QTECD          PIC'(5)9V(0)9', /* 901. CE CALL ELAPSED TIME      */
+  2  QTECE          PIC'(5)9V(0)9', /* 906. CE CALL RESPONSE TIME  (C)*/
+  2  QTDBS          PIC'(4)9V(0)9', /* 911. SYSTEM OUTAGE TIME        */
+  2  FSYAC          PIC'(1)9V(0)9', /* 915. SYSTEM OUTAGE FLAG(CNT)   */
+  2  CSVCE          CHAR(2),        /* 916. CE SERVICE CODE           */
+  2  RCUCO          CHAR(6),        /* 918. CE CCO NO            (CCO)*/
+  2  GBOAB    ,                     /*    .                           */
+    3  RBOCE        CHAR(2),        /* 924. CEBO CODE FOR CCO    (CCO)*/
+    3  RTRCE        CHAR(2),        /* 926. CEBO SECTION FOR CCO (CCO)*/
+  2  GBOSA    ,                     /*    .                           */
+    3  RBOCF        CHAR(2),        /* 928. SALES BO CODE      (BRANK)*/
+  2  FCLCA          CHAR(1),        /* 930. 2ND CALL FLAG             */
+  2  FCUCO          CHAR(1),        /* 931. CE CCO INDICATOR     (CCO)*/
+  2  CSTCE          CHAR(1),        /* 932. CE MACHINE STATUS CODE    */
+ /*-------------------------------------------------------------------*/
+ /*  OTHER ELEMENT FOR BDW/ETC...                                     */
+ /*-------------------------------------------------------------------*/
+  2  CUNFLG         CHAR(1),        /* 933. CUST NO UNMATCH FLAG ('Y')*/
+  2  BUNFLG         CHAR(1),        /* 934. BU CODE UNMATCH FLAG ('Y')*/
+  2  ADDFLG         CHAR(1),        /* 935. ADDITIONAL FLAG('A'OR'C') */
+  2  ERRFLG         CHAR(1),        /* 936. INVENTORY ERROR FLAG ('Y')*/
+  2  QFLTECO        PIC '99',       /* 937. REPEAT CALL COUNT(FROM CL)*/
+ /*-------------------------------------------------------------------*/
+ /*  CACMSMTD'S SUB FIELD ELEMENT - NO2                               */
+ /*-------------------------------------------------------------------*/
+  2  RBOCE          CHAR(2),        /* 939. MABO CODE             (BU)*/
+  2  RTRCE          CHAR(2),        /* 941. MABO SECTION CODE     (BU)*/
+  2  GBOAA    ,                     /*                                */
+    3  RBOCE        CHAR(2),        /* 943. CEBO CODE             (BU)*/
+    3  RTRCE        CHAR(2),        /* 945. CEBO SECTION CODE     (BU)*/
+  2  NDAYW          CHAR(3),        /* 947. DAY OF WEEK ABBREVIATION  */
+  2  FHLDY          CHAR(1),        /* 950. HOLIDAY INDICATOR         */
+  2  NCUXB          CHAR(22),       /* 951. CUST.NAME(ALPHA)          */
+ /*-------------------------------------------------------------------*/
+ /*  OTHER / FILLER                                                   */
+ /*-------------------------------------------------------------------*/
+  2  CRDT           CHAR(8),        /* 973. DTSO LAST OPERATION DATE  */
+  2  CRTM           CHAR(6),        /* 981. DTSO LAST OPERATION TIME  */
+  2  ALRT           CHAR(1),        /* 987. ALRT                      */
+ /*-------------------------------------------------------------------*/
+ /*  RSC SUPPORT DATE/TIME ELEMENT        ADD 97/06/19                */
+ /*-------------------------------------------------------------------*/
+  2  DRUCK          CHAR(6),        /* 988. DATE TEL ASSIST START     */
+  2  DAACK          CHAR(4),        /* 994. TIME TEL ASSIST START     */
+  2  DRUCL          CHAR(6),        /* 998. DATE WAIT CUST REPLY      */
+  2  DAACL          CHAR(4),        /*1004. TIME WAIT CUST REPLY      */
+  2  DRUCM          CHAR(6),        /*1008. DATE TEL NG(CUST CRITICAL)*/
+  2  DAACM          CHAR(4),        /*1014. TIME TEL NG(CUST CRITICAL)*/
+  2  DRUCN          CHAR(6),        /*1018. DATE TEL NG(CAB BUSY)     */
+  2  DAACN          CHAR(4),        /*1024. TIME TEL NG(CAB BUSY)     */
+  2  DRUCO          CHAR(6),        /*1028. DATE THINK START(DEFERED) */
+  2  DAACO          CHAR(4),        /*1034. TIME THINK START(DEFERED) */
+  2  DRUCP          CHAR(6),        /*1038. DATE THINK START(URGENT)  */
+  2  DAACP          CHAR(4),        /*1044. TIME THINK START(URGENT)  */
+  2  DRUCQ          CHAR(6),        /*1048. DATE THINK END(NOT DISPAT)*/
+  2  DAACQ          CHAR(4),        /*1054. TIME THINK END(NOT DISPAT)*/
+  2  DRUCR          CHAR(6),        /*1058. DATE THINK END(PLAN ONLY) */
+  2  DAACR          CHAR(4),        /*1064. TIME THINK END(PLAN ONLY) */
+  2  DRUCS          CHAR(6),        /*1068. DATE THINK END(PARTS)     */
+  2  DAACS          CHAR(4),        /*1074. TIME THINK END(PARTS)     */
+  2  DRUCT          CHAR(6),        /*1078. DATE THINK END(ASSIST)    */
+  2  DAACT          CHAR(4),        /*1084. TIME THINK END(ASSIST)    */
+  2  DRUCU          CHAR(6),        /*1088. DATE THINK END(REQUEST)   */
+  2  DAACU          CHAR(4),        /*1094. TIME THINK END(REQUEST)   */
+ /*-------------------------------------------------------------------*/
+  2  FILLER         CHAR(23) ;      /*1098. FILLER                    */
+ /*                      TOTAL LENGTH 1120 BYTE                       */
+ /*********************************** %INCLUDE  END : CD02CAW   *******/
+

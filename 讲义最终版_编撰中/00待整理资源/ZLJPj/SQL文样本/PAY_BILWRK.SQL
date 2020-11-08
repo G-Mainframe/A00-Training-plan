@@ -1,0 +1,50 @@
+CREATE TABLE PAY_BILWRK
+(
+    REGJPN                         CHAR(6) NOT NULL,
+    CTLNUM                         CHAR(9) NOT NULL,
+    DATNUM                         CHAR(4),
+    UNICOD                         CHAR(3),
+    BILNUM                         CHAR(9),
+    BNKCOD                         CHAR(4),
+    BRCCOD                         CHAR(3),
+    DRWDAY                         CHAR(8),
+    DRWJPN                         CHAR(6),
+    ISUDAY                         CHAR(8),
+    ISUJPN                         CHAR(6),
+    DUEDAY                         CHAR(8),
+    DUEJPN                         CHAR(6),
+    CLTNAM                         CHAR(44),
+    ISUTYP                         CHAR(1),
+    ISUTRM                         CHAR(2),
+    SEQNUM                         CHAR(5),
+    SEPNUM                         CHAR(1),
+    SNDTYP                         CHAR(1),
+    CNTNUM                         CHAR(9),
+    ZIPCOD                         CHAR(7),
+    MALNAM                         CHAR(42),
+    MALNM2                         CHAR(42),
+    MALADR                         CHAR(42),
+    MALAD2                         CHAR(42),
+    MALAD3                         CHAR(42),
+    ADRTYP                         CHAR(1),
+    DAYBGN                         CHAR(8),
+    DAYEND                         CHAR(8),
+    PUTFLG                         CHAR(1),
+    CNTCNT                         NUMBER(3,0) NOT NULL,
+    SEPCNT                         NUMBER(1,0) NOT NULL,
+    SEQCNT                         NUMBER(1,0) NOT NULL,
+    BILAMT                         NUMBER(13,0) NOT NULL,
+    TAXAMT                         NUMBER(13,0) NOT NULL,
+    TOTAMT                         NUMBER(13,0) NOT NULL,
+    REGDAY                         CHAR(8),
+    REGTIM                         CHAR(6),
+    REGPSN                         CHAR(4),
+    MODDAY                         CHAR(8),
+    MODTIM                         CHAR(6),
+    MODPSN                         CHAR(4)
+)
+/
+CREATE UNIQUE INDEX PAY_BILWRK
+ON PAY_BILWRK
+(REGJPN, CTLNUM)
+/

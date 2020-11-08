@@ -1,0 +1,15 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.    EXAM202.
+       ENVIRONMENT    DIVISION.
+       DATA           DIVISION.
+       WORKING-STORAGE SECTION.
+       77  N    PIC IS 99.
+       PROCEDURE      DIVISION.
+       S.  ACCEPT N.
+           ADD       3  TO    N.
+           DIVIDE    5  INTO  N.
+           SUBTRACT  2  FROM  N.
+           MULTIPLY  8  BY    N.
+           DISPLAY   N.
+           STOP  RUN.
+

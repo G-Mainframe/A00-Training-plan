@@ -1,0 +1,22 @@
+       IDENTIFICATION                  DIVISION.                        00010002
+       PROGRAM-ID.                     COBOL01.                         00020007
+       ENVIRONMENT                     DIVISION.                        00030008
+       DATA                            DIVISION.                        00040002
+       WORKING-STORAGE                 SECTION.                         00050002
+       77  NUMA          PIC  9(3) VALUE 30.                            00060019
+       77  NUMB          PIC  9(3) VALUE 30.                            00070019
+       77  NUMC          PIC  9(4) SYNC LEFT.                           00080023
+       77  DISPA         PIC  ZZZ.                                      00081019
+       77  DISPB         PIC  ZZZ.                                      00082019
+       77  DISPC         PIC  ZZZZ.                                     00082123
+       PROCEDURE                       DIVISION.                        00090002
+           ADD NUMA , NUMB TO NUMC.                                     00120020
+           MOVE NUMA TO DISPA.                                          00120119
+           MOVE NUMB TO DISPB.                                          00120219
+           MOVE NUMC TO DISPC.                                          00120319
+           DISPLAY 'THIS IS MY FIRST PROGRAM IN COBOL'.                 00121002
+           DISPLAY 'A=' DISPA.                                          00130019
+           DISPLAY 'B=' DISPB.                                          00140019
+           DISPLAY 'C=' DISPC.                                          00150019
+           STOP RUN.                                                    00160002
+

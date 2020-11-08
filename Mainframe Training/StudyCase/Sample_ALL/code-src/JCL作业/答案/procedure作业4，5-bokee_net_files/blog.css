@@ -1,0 +1,501 @@
+BODY {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 12px; BACKGROUND: #5f5b3a; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #333; LINE-HEIGHT: 180%; PADDING-TOP: 0px; TEXT-ALIGN: center
+}
+A {
+	COLOR: #737048; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #737048
+}
+.red {
+	COLOR: #d53632
+}
+.green {
+	COLOR: green
+}
+#top {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: url(/bloggermodule/template/css/86/topbg.png) no-repeat right 50%; PADDING-BOTTOM: 0px; MARGIN: 0px auto; COLOR: #ffffec; PADDING-TOP: 0px; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif, "ËÎÌו"; HEIGHT: 31px
+}
+#top H1 {
+	FONT-SIZE: 12px; MARGIN: 0px; COLOR: #ffffec
+}
+#top H2 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: normal; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #ffffec; PADDING-TOP: 0px
+}
+#top A {
+	PADDING-RIGHT: 3px; PADDING-LEFT: 3px; PADDING-BOTTOM: 0px; COLOR: #ffffec; PADDING-TOP: 0px
+}
+#top A:hover {
+	COLOR: #ffffec
+}
+#top H1 A {
+	COLOR: #ffffec
+}
+#top H2 A {
+	COLOR: #ffffec
+}
+#top H1 A:hover {
+	COLOR: #ffffec
+}
+#top H2 A:hover {
+	COLOR: #ffffec
+}
+#top .top01 {
+	TEXT-ALIGN: center
+}
+#top .top02 {
+	TEXT-ALIGN: right
+}
+.login_tab {
+	BORDER-TOP: #000 2px solid; Z-INDEX: 999999; BACKGROUND: #fff; MARGIN: 0px 0px 0px -105px; WIDTH: 150px; POSITION: absolute; TOP: 37px
+}
+.login_tab TD SPAN {
+	Z-INDEX: 9999999; BACKGROUND: url(/bloggermodule/template/css/70/corner_01.gif) no-repeat center top; WIDTH: 90px; POSITION: absolute; TOP: -11px; HEIGHT: 20px
+}
+#top .top01 STRONG {
+	PADDING-RIGHT: 8px; PADDING-LEFT: 8px; FLOAT: left; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+#top .top01 DIV {
+	PADDING-RIGHT: 8px; PADDING-LEFT: 8px; FLOAT: left; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+.menublock {
+	PADDING-RIGHT: 8px; PADDING-LEFT: 8px; FLOAT: left; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+.display {
+	PADDING-RIGHT: 8px; PADDING-LEFT: 8px; FLOAT: left; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+.menublock {
+	BACKGROUND: url(/bloggermodule/template/css/70/corner_02.gif) no-repeat right 8px; WIDTH: 60px; TEXT-ALIGN: left
+}
+.display {
+	BACKGROUND: url(/bloggermodule/template/css/70/corner_02.gif) no-repeat right 8px; WIDTH: 60px; TEXT-ALIGN: left
+}
+.subs {
+	CLEAR: both; MARGIN-TOP: -2px; Z-INDEX: 1; BACKGROUND: #403c31; WIDTH: 100px; POSITION: absolute; TEXT-ALIGN: left
+}
+.subs SPAN {
+	Z-INDEX: 99; BACKGROUND: url(/bloggermodule/template/css/70/corner_03.gif) no-repeat center top; WIDTH: 100px; POSITION: absolute; TOP: -6px; HEIGHT: 20px
+}
+.subs UL {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; LIST-STYLE-IMAGE: url(/bloggermodule/template/css/70/icon_02.gif); PADDING-BOTTOM: 0px; MARGIN: 4px 0px; PADDING-TOP: 0px
+}
+.subs UL LI {
+	MARGIN: 0px 0px 0px 12px
+}
+.menublock .subs {
+	DISPLAY: none
+}
+.butt1 {
+	BORDER-RIGHT: #484848 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #adadad 1px solid; PADDING-LEFT: 0px; FONT-SIZE: 12px; BACKGROUND: #747474; PADDING-BOTTOM: 0px; BORDER-LEFT: #adadad 1px solid; CURSOR: hand; COLOR: #fff; PADDING-TOP: 2px; BORDER-BOTTOM: #484848 1px solid; HEIGHT: 22px
+}
+.butt2 {
+	BORDER-RIGHT: #067 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #fd8 1px solid; PADDING-LEFT: 0px; FONT-SIZE: 12px; BACKGROUND: #f80; PADDING-BOTTOM: 0px; BORDER-LEFT: #fd8 1px solid; CURSOR: hand; COLOR: #fff; PADDING-TOP: 2px; BORDER-BOTTOM: #067 1px solid; HEIGHT: 22px
+}
+#main {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: url(/bloggermodule/template/css/86/mainbg.png) #faf7f0 repeat-x left top; PADDING-BOTTOM: 0px; MARGIN: 0px auto; PADDING-TOP: 0px; FONT-FAMILY: Arial, Verdana, Helvetica, sans-serif, "ËÎÌו"
+}
+#head {
+	BACKGROUND: url(/bloggermodule/template/css/86/headerbg.png) no-repeat right 50%; MARGIN: 0px; HEIGHT: 158px
+}
+#head H1 {
+	PADDING-RIGHT: 0px; DISPLAY: block; PADDING-LEFT: 30px; FONT-SIZE: 20px; PADDING-BOTTOM: 0px; MARGIN: 0px; OVERFLOW: hidden; WIDTH: 95%; PADDING-TOP: 45px; HEIGHT: 25px; TEXT-ALIGN: left
+}
+#head H2 {
+	PADDING-RIGHT: 0px; DISPLAY: block; PADDING-LEFT: 30px; FONT-WEIGHT: normal; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; MARGIN: 0px; OVERFLOW: hidden; WIDTH: 95%; COLOR: #f15500; PADDING-TOP: 0px; HEIGHT: 18px; TEXT-ALIGN: left
+}
+#head H1 A {
+	COLOR: #06597b
+}
+#head H1 A:hover {
+	COLOR: #06597b
+}
+#head TABLE {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 10px; FILTER: alpha(opacity=70); PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: 100%; COLOR: #999; PADDING-TOP: 45px; moz-opacity: 0.8
+}
+#head TABLE TD {
+	FONT-SIZE: 11px; TEXT-ALIGN: right
+}
+#head TABLE SPAN {
+	PADDING-RIGHT: 8px; PADDING-LEFT: 8px; PADDING-BOTTOM: 2px; PADDING-TOP: 2px
+}
+#head TABLE SPAN A {
+	PADDING-RIGHT: 3px; PADDING-LEFT: 3px; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+#head TABLE A {
+	COLOR: #999
+}
+#menu {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: #888671; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; HEIGHT: 24px
+}
+#menu UL {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; WHITE-SPACE: nowrap; LIST-STYLE-TYPE: none
+}
+#menu LI {
+	BORDER-RIGHT: #fff 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #fff 1px solid; PADDING-LEFT: 0px; BACKGROUND: #ece9e0; FLOAT: left; PADDING-BOTTOM: 0px; MARGIN: 3px 3px 0px 2px; BORDER-LEFT: #fff 1px solid; LINE-HEIGHT: 20px; PADDING-TOP: 0px; BORDER-BOTTOM: #fff 0px solid; HEIGHT: 20px
+}
+#menu A {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 7px; PADDING-BOTTOM: 6px; MARGIN: 0px; COLOR: #000; PADDING-TOP: 6px; TEXT-DECORATION: none
+}
+#menu A:link {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 7px; PADDING-BOTTOM: 6px; MARGIN: 0px; COLOR: #000; PADDING-TOP: 6px; TEXT-DECORATION: none
+}
+#menu LI#active {
+	BACKGROUND: #d53632; COLOR: #000
+}
+#menu A:hover {
+	COLOR: #000
+}
+#menu .manager {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FLOAT: right; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+#menu .manager LI {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 4px; PADDING-BOTTOM: 0px; WIDTH: 50px; PADDING-TOP: 0px
+}
+#middle {
+	PADDING-RIGHT: 3px; PADDING-LEFT: 3px; PADDING-BOTTOM: 0px; MARGIN: 10px 0px 0px; PADDING-TOP: 0px
+}
+#middle .mcenter {
+	MARGIN: 0px 7px
+}
+.title {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 15px; FONT-SIZE: 12px; BACKGROUND: url(/bloggermodule/template/css/86/titlebg.png) no-repeat left 50%; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #ca2f00; LINE-HEIGHT: 24px; PADDING-TOP: 0px; HEIGHT: 24px
+}
+.title A {
+	COLOR: #ca2f00
+}
+.title A:hover {
+	COLOR: #ca2f00; TEXT-DECORATION: none
+}
+.title_right {
+	FLOAT: right; WIDTH: 15px
+}
+.title2 {
+	CLEAR: both; PADDING-RIGHT: 0px; PADDING-LEFT: 10px; FONT-SIZE: 12px; BACKGROUND: #e6e0d5; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 1px; COLOR: #ca2f00; LINE-HEIGHT: 25px; PADDING-TOP: 0px; HEIGHT: 25px
+}
+.title2 A {
+	COLOR: #ca2f00
+}
+.title2 A:hover {
+	COLOR: #ca2f00
+}
+.title2_right {
+	FONT-WEIGHT: normal; FONT-SIZE: 12px; FLOAT: right; WIDTH: 40px; COLOR: #fff; TEXT-ALIGN: center
+}
+.title_trade {
+	BORDER-RIGHT: #fff 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #fff 1px solid; PADDING-LEFT: 0px; FONT-SIZE: 12px; BACKGROUND: #f0f0f0; PADDING-BOTTOM: 0px; MARGIN: 0px; BORDER-LEFT: #fff 1px solid; PADDING-TOP: 0px; BORDER-BOTTOM: #fff 1px solid
+}
+.title_product {
+	BORDER-RIGHT: #fff 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #fff 1px solid; PADDING-LEFT: 0px; FONT-SIZE: 12px; BACKGROUND: #f0f0f0; PADDING-BOTTOM: 0px; MARGIN: 0px; BORDER-LEFT: #fff 1px solid; PADDING-TOP: 0px; BORDER-BOTTOM: #fff 1px solid
+}
+.title_product {
+	MARGIN: 8px 0px
+}
+.title_trade A {
+	COLOR: #8e7c49
+}
+.title_product A {
+	COLOR: #8e7c49
+}
+.title_small {
+	FONT-WEIGHT: normal; FONT-SIZE: 12px
+}
+.title_blog01 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; MARGIN: 5px 0px 4px; PADDING-TOP: 0px; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.title_blog01 A {
+	COLOR: #8e7c49
+}
+.title_blog01 A:hover {
+	COLOR: #8b1525
+}
+.title_blog01 SPAN {
+	FLOAT: left; WIDTH: 5px
+}
+.title_blog01 SPAN A {
+	DISPLAY: block; OVERFLOW: hidden; HEIGHT: 26px; TEXT-DECORATION: none
+}
+.title_blog01 SPAN A:hover {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #fff
+}
+.p_hit {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 11px; PADDING-BOTTOM: 0px; MARGIN: 3px 0px 12px; COLOR: #666; PADDING-TOP: 0px; BORDER-BOTTOM: #ddd9cf 1px solid; HEIGHT: 22px
+}
+.p_hit SPAN A {
+	FONT-SIZE: 12px; COLOR: #737048; TEXT-DECORATION: none
+}
+.p_hit SPAN A:hover {
+	FONT-SIZE: 12px; COLOR: #737048; TEXT-DECORATION: none
+}
+.p_hit SPAN {
+	FONT-SIZE: 12px; FLOAT: right; TEXT-ALIGN: right
+}
+.ul_recommend {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-SIZE: 12px; PADDING-BOTTOM: 3px; MARGIN: 0px 0px 5px; PADDING-TOP: 3px
+}
+.artlist {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-SIZE: 12px; PADDING-BOTTOM: 3px; MARGIN: 0px 0px 5px; PADDING-TOP: 3px
+}
+.ul_recommend UL {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+.artlist A {
+	FONT-SIZE: 14px; COLOR: #333; TEXT-DECORATION: underline
+}
+.artlist A:hover {
+	FONT-SIZE: 14px; COLOR: #333; TEXT-DECORATION: underline
+}
+.ul_recommend A {
+	COLOR: #333
+}
+.ul_recommend A:hover {
+	COLOR: #333
+}
+.content {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; BACKGROUND: #ece8de; PADDING-BOTTOM: 5px; MARGIN: 0px 0px 5px; OVERFLOW: hidden; PADDING-TOP: 5px
+}
+.content A {
+	COLOR: #737048
+}
+.content A:hover {
+	COLOR: #737048
+}
+.userlogo {
+	TEXT-ALIGN: center
+}
+.userlogo_img {
+	BORDER-RIGHT: #ddd9cf 1px solid; PADDING-RIGHT: 3px; BORDER-TOP: #ddd9cf 1px solid; PADDING-LEFT: 3px; BACKGROUND: #eae6dd; PADDING-BOTTOM: 3px; MARGIN: 0px auto 4px; OVERFLOW: hidden; BORDER-LEFT: #ddd9cf 1px solid; PADDING-TOP: 3px; BORDER-BOTTOM: #ddd9cf 1px solid; TEXT-ALIGN: center
+}
+.userlogo UL {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px auto 4px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+.userlogo UL LI {
+	BORDER-RIGHT: #ddd9cf 1px solid; BORDER-TOP: #ddd9cf 1px solid; BACKGROUND: #eae6dd; MARGIN: 1px; BORDER-LEFT: #ddd9cf 1px solid; BORDER-BOTTOM: #ddd9cf 1px solid; TEXT-ALIGN: center
+}
+.userlogo UL LI A {
+	COLOR: #333
+}
+.userlogo UL LI A:hover {
+	COLOR: #333
+}
+.ul_brief {
+	CLEAR: both; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+.ul_stats {
+	CLEAR: both; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+.ul_trade {
+	CLEAR: both; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+.ul_brief LI {
+	LIST-STYLE-TYPE: none
+}
+.ul_stats LI {
+	LIST-STYLE-TYPE: none
+}
+.ul_trade LI {
+	LIST-STYLE-TYPE: none
+}
+.ul_circom {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+.ul_visitors {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+.ul_comments {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+.ul_friendlinks {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+.ul_circom LI {
+	MARGIN: 0px
+}
+.ul_visitors LI {
+	MARGIN: 0px
+}
+.ul_comments LI {
+	MARGIN: 0px
+}
+.ul_friendlinks LI {
+	MARGIN: 0px
+}
+.ul_visitors LI A {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 0px; PADDING-BOTTOM: 1px; PADDING-TOP: 4px
+}
+.ul_visitors LI A:hover {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 0px; PADDING-BOTTOM: 1px; PADDING-TOP: 4px
+}
+.ul_subscription {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 5px 0px 10px; PADDING-TOP: 0px
+}
+.ul_recommend LI {
+	MARGIN: 0px 0px 3px
+}
+.ul_subscription LI {
+	MARGIN: 0px 0px 3px
+}
+.ul_recommend LI SPAN {
+	FONT-SIZE: 11px; COLOR: #666
+}
+.ul_subscription LI SPAN {
+	FONT-SIZE: 11px; COLOR: #666
+}
+.blogcolumn {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 10px; PADDING-BOTTOM: 2px; MARGIN: 0px 0px 5px; COLOR: #333; PADDING-TOP: 2px
+}
+.blogcolumn A {
+	COLOR: #737048
+}
+.blogcolumn A:hover {
+	COLOR: #737048
+}
+.paramblogcolumn {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 4px; BACKGROUND: #ecf9ee; PADDING-BOTTOM: 4px; COLOR: #000; PADDING-TOP: 4px
+}
+.friends {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FLOAT: left; PADDING-BOTTOM: 4px; WIDTH: 50%; PADDING-TOP: 0px; TEXT-ALIGN: center
+}
+.friend_img {
+	BORDER-RIGHT: #ddd9cf 1px solid; PADDING-RIGHT: 3px; BORDER-TOP: #ddd9cf 1px solid; PADDING-LEFT: 3px; BACKGROUND: #eae6dd; PADDING-BOTTOM: 3px; MARGIN: 0px auto; OVERFLOW: hidden; BORDER-LEFT: #ddd9cf 1px solid; PADDING-TOP: 3px; BORDER-BOTTOM: #ddd9cf 1px solid; TEXT-ALIGN: center
+}
+.friend_name {
+	DISPLAY: block; OVERFLOW: hidden; LINE-HEIGHT: 20px; HEIGHT: 20px; TEXT-ALIGN: center
+}
+.friends A {
+	COLOR: #737048
+}
+.product {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FLOAT: left; PADDING-BOTTOM: 4px; WIDTH: 50%; PADDING-TOP: 0px; TEXT-ALIGN: center
+}
+.product_img {
+	BORDER-RIGHT: #ddd9cf 1px solid; BORDER-TOP: #ddd9cf 1px solid; BACKGROUND: #eae6dd; MARGIN: 0px auto; OVERFLOW: hidden; BORDER-LEFT: #ddd9cf 1px solid; BORDER-BOTTOM: #ddd9cf 1px solid; TEXT-ALIGN: center
+}
+.product_name {
+	DISPLAY: block; OVERFLOW: hidden; LINE-HEIGHT: 20px; HEIGHT: 20px; TEXT-ALIGN: center
+}
+.product A {
+	COLOR: #737048
+}
+.blogimage {
+	MARGIN: 0px auto; OVERFLOW: hidden; TEXT-ALIGN: center
+}
+.blogimage_bfq {
+	BACKGROUND: url(/bloggermodule/template/css/69/bg_imagebfq.gif) no-repeat left top; MARGIN: 4px auto; HEIGHT: 28px; TEXT-ALIGN: center
+}
+.blogimage_bfq P {
+	BACKGROUND: url(/bloggermodule/template/css/69/bg_imagebfq1.gif) no-repeat right top; MARGIN: 0px
+}
+.blogimage_bfq P IMG {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+.note {
+	CLEAR: both; MARGIN: 5px 0px; WIDTH: 100%; BORDER-BOTTOM: #ddd9cf 1px solid
+}
+.note_td1 {
+	WIDTH: 90px
+}
+.note TD H3 {
+	FONT-SIZE: 12px; MARGIN: 0px
+}
+.note TD P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 11px; PADDING-BOTTOM: 0px; MARGIN: 3px 0px; COLOR: #000; PADDING-TOP: 0px
+}
+.note TD .friends {
+	FLOAT: none; WIDTH: 100%
+}
+.friend_img IMG {
+	CURSOR: hand
+}
+.note_post {
+	CLEAR: both; BORDER-RIGHT: #ddd9cf 1px dotted; BORDER-TOP: #ddd9cf 1px dotted; BORDER-LEFT: #ddd9cf 1px dotted; WIDTH: 100%; BORDER-BOTTOM: #ddd9cf 1px dotted
+}
+.note_post H2 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 5px; FONT-SIZE: 12px; BACKGROUND: #e6e0d5; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #ca2f00; PADDING-TOP: 0px
+}
+#foot {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: url(/bloggermodule/template/css/86/footerbg.png) #faf7f0 no-repeat left 50%; PADDING-BOTTOM: 0px; MARGIN: 0px auto; COLOR: #333; PADDING-TOP: 30px; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif, "ËÎÌו"; HEIGHT: 38px; TEXT-ALIGN: center
+}
+#foot A {
+	COLOR: #333
+}
+#foot A:hover {
+	COLOR: #333; TEXT-DECORATION: underline
+}
+.title_newentries_right1 {
+	FLOAT: right; WIDTH: 80px; TEXT-ALIGN: center
+}
+.title_newentries_right1 A {
+	FONT-WEIGHT: normal
+}
+.title_entry {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 16px; PADDING-BOTTOM: 5px; MARGIN: 15px 0px 0px; COLOR: #d53632; PADDING-TOP: 5px; BORDER-BOTTOM: #ddd 1px dotted; TEXT-ALIGN: center
+}
+.p_entry1 {
+	PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #666; PADDING-TOP: 0px
+}
+.p_entry1 SPAN {
+	FLOAT: right
+}
+.p_entry1 A {
+	COLOR: #b00
+}
+.p_entry2 {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-SIZE: 14px; PADDING-BOTTOM: 10px; LINE-HEIGHT: 180%; PADDING-TOP: 10px
+}
+.p_entry3 {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 5px; MARGIN: 0px; COLOR: #b00; PADDING-TOP: 5px
+}
+.p_entry4 {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #666; PADDING-TOP: 0px; BORDER-BOTTOM: #ddd 1px dotted; TEXT-ALIGN: right
+}
+.p_entry5 {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; MARGIN: 0px; PADDING-TOP: 10px
+}
+.p_entry5 SPAN {
+	FLOAT: right
+}
+.imagelist {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FLOAT: left; PADDING-BOTTOM: 8px; OVERFLOW: hidden; WIDTH: 33%; PADDING-TOP: 8px; TEXT-ALIGN: center
+}
+.imagelist_img {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 4px; MARGIN: 0px auto; OVERFLOW: hidden; PADDING-TOP: 4px; TEXT-ALIGN: center
+}
+.imagelist_name {
+	DISPLAY: block; MARGIN: 0px 15px; OVERFLOW: hidden; LINE-HEIGHT: 140%; HEIGHT: 14px; TEXT-ALIGN: center
+}
+.imagelist_date {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #666; LINE-HEIGHT: 120%; PADDING-TOP: 0px; TEXT-ALIGN: center
+}
+.imagelist_date SPAN {
+	FONT-SIZE: 10px
+}
+.page {
+	PADDING-RIGHT: 4px; BORDER-TOP: #f9f9f9 1px dotted; PADDING-LEFT: 4px; PADDING-BOTTOM: 4px; COLOR: #666; PADDING-TOP: 4px
+}
+.input01 {
+	BORDER-RIGHT: #666 1px solid; BORDER-TOP: #666 1px solid; BORDER-LEFT: #666 1px solid; WIDTH: 20px; BORDER-BOTTOM: #666 1px solid; TEXT-ALIGN: center
+}
+.page SPAN {
+	FLOAT: right
+}
+.title_image {
+	FONT-SIZE: 18px; MARGIN: 15px 0px 0px 10px
+}
+.p_image1 {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #666; PADDING-TOP: 0px
+}
+.p_image1 A {
+	COLOR: #666
+}
+.p_image5 {
+	MARGIN: 10px 0px
+}
+.p_image5 UL {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+.p_image5 LI {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FLOAT: left; PADDING-BOTTOM: 0px; OVERFLOW: hidden; PADDING-TOP: 0px; TEXT-ALIGN: center
+}
+.p_image5 LI DIV {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; OVERFLOW: hidden; WIDTH: 80px; PADDING-TOP: 0px; HEIGHT: 80px; TEXT-ALIGN: center
+}

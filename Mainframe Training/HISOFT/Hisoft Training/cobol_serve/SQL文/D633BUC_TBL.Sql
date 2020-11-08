@@ -1,0 +1,25 @@
+DROP   TABLE  D633BUC_TBL   ;
+CREATE TABLE  D633BUC_TBL  (
+       契約番号                           CHAR(10)          NOT NULL,
+       再リース回数                       NUMBER(2,0)       NOT NULL,
+       申請連番                           NUMBER(2,0)       NOT NULL,
+       物件処分区分                       CHAR(1)           NOT NULL,
+       物件処分連番                       NUMBER(3,0)       NOT NULL,
+       売却用発行済フラグ                 CHAR(1)           NOT NULL,
+       廃棄用発行済フラグ                 CHAR(1)           NOT NULL,
+       紛失用発行済フラグ                 CHAR(1)           NOT NULL,
+       ソフト用発行済フラグ               CHAR(1)           NOT NULL,
+       その他用発行済フラグ               CHAR(1)           NOT NULL,
+       更新年月日                         CHAR(8)           NOT NULL,
+       更新時間                           CHAR(8)           NOT NULL,
+       更新者                             CHAR(8)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+       登録年月日                         CHAR(8)           NOT NULL,
+       登録時間                           CHAR(8)           NOT NULL,
+       登録担当者                         CHAR(8)           NOT NULL,
+CONSTRAINT  PK_D633BUC_TBL  PRIMARY KEY (
+       契約番号,
+       再リース回数,
+       申請連番,
+       物件処分区分,
+       物件処分連番));

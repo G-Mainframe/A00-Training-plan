@@ -1,0 +1,19 @@
+-- THIS CREATES THE CUSTOMER TABLE AND A UNIQUE INDEX                   00010002
+--                                                                      00020002
+CREATE TABLE MM01.CUSTOMER                                              00030002
+ ( CUSTNO        CHAR(6) NOT NULL,                                      00040000
+   FNAME         CHAR(20) NOT NULL,                                     00050000
+   LNAME         CHAR(30) NOT NULL,                                     00060000
+   ADDR          CHAR(30) NOT NULL,                                     00070000
+   CITY          CHAR(20) NOT NULL,                                     00080000
+   STATE         CHAR(2) NOT NULL,                                      00090000
+   ZIPCODE       CHAR(10) NOT NULL,                                     00100000
+   PRIMARY KEY (CUSTNO) )                                               00110000
+ IN DATABASE MMADBV;                                                    00120000
+--                                                                      00130002
+CREATE UNIQUE INDEX MM01.XCUSTOMER                                      00140002
+   ON MM01.CUSTOMER                                                     00150002
+    (CUSTNO)                                                            00160002
+   USING STOGROUP PUBSG001                                              00170002
+   BUFFERPOOL BP1                                                       00180002
+   CLOSE YES;                                                           00190002

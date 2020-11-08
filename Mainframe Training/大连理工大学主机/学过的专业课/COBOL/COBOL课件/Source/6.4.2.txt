@@ -1,0 +1,12 @@
+
+	A.	MOVE  5  TO  N.
+
+		MOVE  1  TO  M.
+
+		PERFORM  B  N  TIMES.
+
+		DISPLAY  M.
+
+	B.	MULTIPLY  N  BY  M.
+
+		SUBTRACT  1  FROM  N.

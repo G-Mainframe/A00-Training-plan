@@ -1,0 +1,18 @@
+ /*                                                         */
+ /*     THIS IS A DEMO PROGRAM TO SHOW                      */
+ /*                                                         */
+ /*     1.  GET DATA DIRECTLY FROM THE INPUT CARD.          */
+ /*                                                         */
+ /*                                                         */
+ /*                                                         */
+ /*                                                         */
+ /*                                                         */
+ /*                                                         */
+ DEPREC: PROCEDURE OPTIONS (MAIN);
+         DCL (PRICE, AMORT, AGE, WORTH)  FIXED(7,2);
+         GET DATA (PRICE,AMORT,AGE);
+             WORTH = PRICE - (PRICE/AMORT) * AGE
+         PUT DATA (PRICE,AMORT,AGE); PUT SKIP DATA (WORTH);
+         END DEPREC;
+
+

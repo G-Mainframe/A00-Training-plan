@@ -1,0 +1,97 @@
+<html>
+
+<head>
+<title>4.1 ページ形式の帳票定義体を利用した記述例</title>
+</head>
+
+<body BGCOLOR="#FFFFFF">
+
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">
+  <tr>
+    <td ALIGN="LEFT"><strong>帳票印刷コントロール使用手引書</strong> 
+    </td>
+  </tr>
+  <tr>
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a href="pctl0400.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a href="pctl0420.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>           
+  </tr>           
+</table>           
+           
+<hr>           
+           
+<dl>           
+  <dl>           
+    <dt><a HREF="pctl0400.htm"><img SRC="../pctlosrc/up.gif" BORDER="0" ALT="上へ" WIDTH="16" HEIGHT="15">第4章            
+      帳票印刷のアプリケーションを作成する</a> </dt>           
+  </dl>           
+</dl>           
+           
+<hr>           
+           
+<h2>4.1 ページ形式の帳票定義体を利用した記述例</h2>           
+           
+<p>ここではページ形式の帳票定義体を利用した記述例を説明します。            
+</p>           
+           
+<p><img SRC="../pctlosrc/box1poin.gif" ALT="image" WIDTH="47" HEIGHT="41">　<strong>[Microsoft(R) VisualBasic(R)の記述例]</strong></p>           
+           
+<blockquote>           
+  <p>ページ形式の帳票定義体を利用した記述例です。<br>          
+  コマンドボタンのクリックイベントで、帳票印刷コントロール(PowerFormReport1)の「帳票印刷(PrintControl)」メソッドを呼び出します。<br>         
+  １件目のデータ処理時に、項目名&quot;名前1&quot;に対して&quot;富士通            
+  太郎&quot;を設定します。<br>           
+  2件目のデータ処理時に、「レコードEOF(RecordEOF)」プロパティを設定して、帳票印刷コントロールに対して、処理の終了を通知します。</p>           
+</blockquote>           
+           
+<table BORDER="1" WIDTH="74%">           
+  <tr>           
+    <td><pre>'CommandButtonのClickイベント
+Private Sub Command1_Click()
+    Command1.Enabled = False
+    '帳票印刷の実行
+    PowerFormReport1.PrintControl (0)
+    Command1.Enabled = True
+End Sub
+
+
+Private Sub PowerFormReport1_OpenReport()
+    '読み込む帳票定義体のディレクトリの設定
+    PowerFormReport1.FormDirectory = App.Path &amp; &quot;\帳票フォーム&quot;
+    '帳票定義体名の設定
+    PowerFormReport1.FormName = &quot;PAGE.pxd&quot;
+End Sub
+
+
+Private Sub PowerFormReport1_ReadRecord(ByVal PrintRecord As Long)
+    Dim Cnt
+    Cnt = PowerFormReport1.RecordCount
+
+    If Cnt &gt; 1 Then
+       'レコードを１件処理した
+       PowerFormReport1.RecordEOF = True
+    Else
+       '初回レコードの設定
+       PowerFormReport1.FieldText(&quot;名前１&quot;, -1, 0, 0) = &quot;富士通 太郎&quot;
+    End If
+
+End Sub
+</pre>           
+    </td>           
+  </tr>           
+</table>           
+           
+<p><a href="../pctlosrc/sample/page01.exe">サンプルプログラムのダウンロード</a></p>           
+           
+<hr>           
+           
+<table WIDTH="100%" BORDER="0" CELLSPACING="0" CELLPADDING="0">           
+  <tr>           
+    <td ALIGN="RIGHT"><a HREF="../index.htm" TARGET="_top">目次</a>&nbsp; <a href="pctl0400.htm"><img SRC="../pctlosrc/previous.gif" BORDER="0" ALT="前ページ" WIDTH="56" HEIGHT="21"></a><a href="pctl0420.htm"><img SRC="../pctlosrc/next.gif" BORDER="0" ALT="次ページ" WIDTH="56" HEIGHT="21"></a> </td>           
+  </tr>           
+</table>           
+           
+<hr>           
+           
+<p align="right">All Rights Reserved, Copyright (C) 富士通株式会社 
+1998-2001</p>         
+</body>         
+</html>         

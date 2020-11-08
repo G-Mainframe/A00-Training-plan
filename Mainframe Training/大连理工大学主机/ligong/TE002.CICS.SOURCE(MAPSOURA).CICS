@@ -1,0 +1,26 @@
+000001 IDENTIFICATION DIVISION.                                         00010000
+       PROGRAM-ID MAPSOURA.                                             00020001
+       DATA DIVISION.                                                   00030000
+       WORKING-STORAGE SECTION.                                         00040000
+       01 COMSTART.                                                     00050005
+           05 NAMES PIC X(20).                                          00060014
+             COPY MAPSETA.                                              00070001
+             COPY DFHAID.                                               00080008
+       PROCEDURE DIVISION.                                              00090000
+      *                                                                 00100010
+           MOVE ALL SPACES TO NAMES.                                    00110016
+           EXEC CICS SEND MAP('ORDERM') MAPSET('MAPSETA') MAPONLY ERASE 00120015
+                END-EXEC.                                               00130001
+           EVALUATE TRUE                                                00140008
+             WHEN EIBAID = DFHENTER                                     00150009
+                   EXEC CICS RECEIVE MAP('ORDERM') MAPSET('MAPSETA')    00160013
+                   END-EXEC                                             00170011
+                   MOVE NAMEI TO NAMES                                  00180011
+                   EXEC CICS RETURN TRANSID('LUM2')                     00190008
+                            COMMAREA(COMSTART)                          00200005
+                            LENGTH(20)                                  00210007
+                    END-EXEC                                            00220009
+           END-EVALUATE.                                                00230008
+           GOBACK.                                                      00240000
+              EXIT.                                                     00250000
+

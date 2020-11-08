@@ -1,0 +1,13 @@
+//PRINT    JOB (ACCT#),                       
+//         'GDC232',                          
+//         CLASS=A,                           
+//         MSGLEVEL=(1,1),                    
+//         MSGCLASS=O,                        
+//         NOTIFY=&SYSUID                     
+//*                                           
+//PRTVSAM  EXEC PGM=IDCAMS                    
+//SYSPRINT DD SYSOUT=*                        
+//FILE1    DD DSN=GDC232.VKTS01,DISP=SHR      
+//SYSIN    DD *                               
+ PRINT  INFILE(FILE1)                         
+/*                                            

@@ -1,0 +1,51 @@
+1. Hello.
+
+2. Read / write.
+
+3. Comp, Comp-3, sign.
+
+   * coding standard.
+   * variable length.
+
+-------------------------------------
+
+3. Copy.
+
+4. Accept. 
+
+5. Parm.
+
+6. Date.
+
+7. High-value / low-value.
+
+   * Section, Paragraph.
+   * Initialization.
+   * redefines.
+   * Evaluate.
+   * IF.
+   * Switch.
+   * Math. 
+   * Compiler option.
+   * structured programing.
+   * Perform, in-line perform.
+   * debugging.
+
+
+-------------------------------------
+
+8. Sub program.
+
+
+9. Table handling / search table.
+
+
+10  Internal sort.
+
+
+11. String manipulation.
+
+
+12 VSAM.
+
+

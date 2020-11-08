@@ -1,0 +1,99 @@
+//EV6354L  JOB (F9500B,NE65,31,
+//             'TY=5,TM=12,TD=12,TN=27,LN=25,LLN=24'),
+//             09500,REGION=6M,CLASS=A,MSGCLASS=R,NOTIFY=EV6354,
+//             USER=NE65U1,PASSWORD=ZAQ12WSX
+//*********************************************************************
+//*  PCS CUBE                                                         *
+//*********************************************************************
+//*------------------------------------------------------------------*
+//*  JOBNAME       : EV6354L                                         *
+//*                  ------------------------------------------------*
+//*  FUNCTION      : 1.LOAD PRODUCT TABLE(NE65U1.NE65TDMTST)         *
+//*                  2.REPAIR TABLE                                  *
+//*                  ------------------------------------------------*
+//*  SAME FUNC-JOB : NONE                                            *
+//*                  ------------------------------------------------*
+//*  RUN CYCLE     : DAILY                                           *
+//*  RUN TIME      : XX MINIUTES (LEVEL 00)                          *
+//*------------------------------------------------------------------*
+//*------------------------------------------------------------------*
+//* << MODIFICATION:HISTORY >>                                       *
+//*  #   YY/MM/DD  PROJNO   DESCRIPTION                              *
+//*  --- --------  -------- ----------------------------------       *
+//*      06/11/09  NE65     NEW CREATE                               *
+//*                                                                  *
+//*------------------------------------------------------------------*
+//*-------------------------------------------------------------------*
+//*  DB2 TABLE LOAD  NE65TDMTST                                       *
+//*-------------------------------------------------------------------*
+//********************************************************************
+//*        COPY CONSTANT DSN                                         *
+//********************************************************************
+//STEP01 EXEC DCPVV1,TN=&TN
+//AAAAAO   DD DSN=EV6354.B601.LD&TN,DISP=SHR
+//AAAAAN   DD DSN=&&MTSMST,DISP=(,PASS),
+//            SPACE=(CYL,(10,1),RLSE),
+//            LIKE=EV6354.B601.LD&TN
+//*--------------------------------------------------------------------
+//*    RESET UTILITY STATUS
+//*--------------------------------------------------------------------
+//RESET1  EXEC PGM=IKJEFT01,DYNAMNBR=20
+//STEPLIB  DD  DSN=DSN.DSNLOAD,DISP=SHR
+//SYSTSPRT DD  SYSOUT=*
+//SYSPRINT DD  SYSOUT=*
+//SYSUDUMP DD  SYSOUT=*
+//OUTPUT   DD  SYSOUT=*,DCB=(RECFM=FBA,LRECL=133,BLKSIZE=665)
+//SYSTSIN  DD  *
+ DSN  SYSTEM(DSN)
+ -TERM UTIL(EV6354L)
+ -DIS  UTIL(NE65TDMTST)
+ END
+/*
+//*--------------------------------------------------------------------*
+//*  LOAD PROFILE DATA TO DATABASE                                     *
+//*--------------------------------------------------------------------*
+//NE65LD  PROC
+//LOAD    EXEC PGM=DSNUTILB,REGION=6M,PARM='DSN,&UID'
+//STEPLIB  DD DSN=DSN.DSNLOAD,DISP=SHR
+//SYSPRINT DD  SYSOUT=*
+//UTPRINT  DD  SYSOUT=*
+//SORTWK01 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)
+//SORTWK02 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)
+//SORTWK03 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)
+//SORTWK04 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)
+//SORTWK05 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)
+//SORTWK06 DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)
+//SORTOUT  DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)
+//SYSREC   DD  DISP=(,DELETE),UNIT=SYSDA,
+//             SPACE=(CYL,(30,10),RLSE),
+//             DCB=(RECFM=FB,LRECL=80,BLKSIZE=4000)
+//SYSMAP   DD  UNIT=SYSDA,SPACE=(CYL,(10,10),RLSE)
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(CYL,(10,10),RLSE)
+//SORTOUT  DD  UNIT=SYSDA,SPACE=(CYL,(10,10),RLSE)
+//SYSREC00 DD  DSN=&&MTSMST,DISP=(OLD,DELETE)
+//SYSIN    DD  DSN=EV6354.B601.PH&TN,DISP=SHR
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(CYL,(30,10),RLSE)
+//        PEND
+//*-------------------------------------------------------------------*
+//LDACD   EXEC NE65LD,UID='EV6354L',TN=&TN
+//*
+//*--------------------------------------------------------------------*
+//*  RESET UTILITY STATUS FOR REPAIR STEP                              *
+//*--------------------------------------------------------------------*
+//*--------------------------------------------------------------------*
+//*  REPAIR UTILITY                                                    *
+//*--------------------------------------------------------------------*
+//REPAIR  EXEC PGM=DSNUTILB,PARM='DSN,EV6354L'
+//STEPLIB  DD DSN=DSN.DSNLOAD,DISP=SHR
+//SYSPRINT DD SYSOUT=*
+//UTPRINT  DD SYSOUT=*
+//SYSUDUMP DD SYSOUT=*
+//SYSUT1   DD UNIT=(DISK2,3),SPACE=(TRK,(50,10))
+//SYSIN    DD *
+ REPAIR SET TABLESPACE NE65D001.NE65SMTS   NOCOPYPEND
+ REPAIR SET TABLESPACE NE65D001.NE65SMTS   NOCHECKPEND
+//*
+//*********************************************************************
+//ABEND  EXEC ABTRAP,RETCD=8
+//*********************************************************************
+

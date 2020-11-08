@@ -1,0 +1,32 @@
+CREATE TABLE SFC_WK_SAISAN
+(
+    端末番号                       VARCHAR2(16) NOT NULL,
+    事業所コード                   CHAR(4) NOT NULL,
+    担当者コード                   CHAR(4) NOT NULL,
+    取引先コード                   CHAR(8) NOT NULL,
+    顧客名                         VARCHAR2(60) NOT NULL,
+    社内金利                       NUMBER(4,2) NOT NULL,
+    契約日                         CHAR(8) NOT NULL,
+    検収日                         CHAR(8) NOT NULL,
+    第１回入金日                   CHAR(8) NOT NULL,
+    入金基準日                     CHAR(2) NOT NULL,
+    シャープ契約番号               CHAR(12) NOT NULL,
+    契約番号                       CHAR(9) NOT NULL,
+    リース期間                     NUMBER(3,0) NOT NULL,
+    前受月数                       NUMBER(2,0) NOT NULL,
+    購入金額                       NUMBER(13,0) NOT NULL,
+    繰延月数                       NUMBER(4,2) NOT NULL,
+    リース料                       NUMBER(13,0) NOT NULL,
+    契約金額                       NUMBER(13,0) NOT NULL,
+    前受リース料                   NUMBER(13,0) NOT NULL,
+    耐用年数                       NUMBER(6,3) NOT NULL,
+    月額固定資産税                 NUMBER(13,0) NOT NULL,
+    保険料率                       NUMBER(6,3) NOT NULL,
+    月額保険料                     NUMBER(13,0) NOT NULL,
+    基本リース料                   NUMBER(13,0) NOT NULL,
+    実質利回り                     NUMBER(10,6) NOT NULL,
+    基本利回り                     NUMBER(10,6) NOT NULL,
+    粗利益                         NUMBER(13,0) NOT NULL,
+    CONSTRAINT SYS_C0028565 PRIMARY KEY (端末番号, シャープ契約番号) USING INDEX
+)
+/

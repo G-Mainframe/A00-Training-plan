@@ -1,0 +1,130 @@
+000100 IDENTIFICATION DIVISION.                                         00010001
+000200*                                                                 00020001
+000300 PROGRAM-ID.    UPDTCUST.                                         00030001
+000400*                                                                 00040001
+000500 ENVIRONMENT DIVISION.                                            00050001
+000600*                                                                 00060001
+000700 INPUT-OUTPUT SECTION.                                            00070001
+000800*                                                                 00080001
+000900 FILE-CONTROL.                                                    00090001
+001000*                                                                 00100001
+001100     SELECT CUSTTRAN ASSIGN TO UT-S-CUSTTRAN.                     00110004
+001200     SELECT BADTRAN  ASSIGN TO UT-S-BADTRAN.                      00120004
+001300*                                                                 00130001
+001400 DATA DIVISION.                                                   00140001
+001500*                                                                 00150001
+001600 FILE SECTION.                                                    00160001
+001700*                                                                 00170001
+001800 FD  CUSTTRAN                                                     00180001
+001900     LABEL RECORDS ARE STANDARD                                   00190001
+002000     RECORD CONTAINS 119 CHARACTERS.                              00200001
+002100*                                                                 00210001
+002200 01  CUSTOMER-TRANSACTION-RECORD.                                 00220001
+002300*                                                                 00230001
+002400     05  CTR-TRANSACTION-CODE        PIC X.                       00240001
+002500     05  CTR-TRANSACTION-DATA.                                    00250001
+002600         10  CTR-CUSTOMER-NUMBER     PIC X(6).                    00260001
+002700         10  CTR-CUSTOMER-DETAILS    PIC X(112).                  00270001
+002800*                                                                 00280001
+002900 FD  BADTRAN                                                      00290001
+003000     LABEL RECORDS ARE STANDARD                                   00300001
+003100     RECORD CONTAINS 119 CHARACTERS.                              00310001
+003200*                                                                 00320001
+003300 01  BAD-TRANSACTION-RECORD.                                      00330001
+003400*                                                                 00340001
+003500     05  BTR-TRANSACTION-CODE        PIC X.                       00350001
+003600     05  BTR-TRANSACTION-DATA        PIC X(118).                  00360001
+003700*                                                                 00370001
+003800 WORKING-STORAGE SECTION.                                         00380001
+003900*                                                                 00390001
+004000 01  SWITCHES.                                                    00400001
+004100*                                                                 00410001
+004200     05  END-OF-TRANSACTIONS-SW      PIC X    VALUE 'N'.          00420001
+004300         88  END-OF-TRANSACTIONS              VALUE 'Y'.          00430001
+004400     05  VALID-TRANSACTION-SW        PIC X    VALUE 'Y'.          00440001
+004500         88  VALID-TRANSACTION                VALUE 'Y'.          00450001
+004600*                                                                 00460001
+004700     EXEC SQL                                                     00470001
+004800         INCLUDE CUSTOMER                                         00480005
+004900     END-EXEC.                                                    00490001
+005000*                                                                 00500001
+005100     EXEC SQL                                                     00510001
+005200         INCLUDE SQLCA                                            00520001
+005300     END-EXEC.                                                    00530001
+005400*                                                                 00540001
+005500 PROCEDURE DIVISION.                                              00550001
+005600*                                                                 00560001
+005700 000-POST-CUST-TRANSACTIONS.                                      00570001
+005800*                                                                 00580001
+005900     OPEN INPUT  CUSTTRAN                                         00590001
+006000          OUTPUT BADTRAN.                                         00600001
+006100     PERFORM 100-POST-CUST-TRANSACTION                            00610001
+006200         UNTIL END-OF-TRANSACTIONS.                               00620001
+006300     CLOSE CUSTTRAN                                               00630001
+006400           BADTRAN.                                               00640001
+006500     STOP RUN.                                                    00650001
+006600*                                                                 00660001
+006700 100-POST-CUST-TRANSACTION.                                       00670001
+006800*                                                                 00680001
+006900     MOVE 'Y' TO VALID-TRANSACTION-SW.                            00690001
+007000     PERFORM 110-READ-TRANSACTION-RECORD.                         00700001
+007100     IF NOT END-OF-TRANSACTIONS                                   00710001
+007200         EVALUATE CTR-TRANSACTION-CODE                            00720001
+007300             WHEN 'A'   PERFORM 120-INSERT-CUSTOMER-ROW           00730001
+007400             WHEN 'R'   PERFORM 130-UPDATE-CUSTOMER-ROW           00740001
+007500             WHEN 'D'   PERFORM 140-DELETE-CUSTOMER-ROW           00750001
+007600             WHEN OTHER MOVE 'N' TO VALID-TRANSACTION-SW          00760001
+007700         END-EVALUATE                                             00770001
+007800         IF NOT VALID-TRANSACTION                                 00780001
+007900             PERFORM 150-WRITE-BAD-TRANS-RECORD.                  00790001
+008000*                                                                 00800001
+008100 110-READ-TRANSACTION-RECORD.                                     00810001
+008200*                                                                 00820001
+008300     READ CUSTTRAN                                                00830001
+008400         AT END                                                   00840001
+008500             MOVE 'Y' TO END-OF-TRANSACTIONS-SW.                  00850001
+008600*                                                                 00860001
+008700 120-INSERT-CUSTOMER-ROW.                                         00870001
+008800*                                                                 00880001
+008900     MOVE CTR-TRANSACTION-DATA TO CUSTOMER-ROW                    00890001
+009000     EXEC SQL                                                     00900001
+009100         INSERT INTO MM01.CUSTOMER                                00910005
+009200                ( CUSTNO,   FNAME,     LNAME,    ADDR,            00920001
+009300                  CITY,     STATE,     ZIPCODE)                   00930001
+009400         VALUES (:CUSTNO,  :FNAME,    :LNAME,   :ADDR,            00940001
+009500                 :CITY,    :STATE,    :ZIPCODE)                   00950001
+009600     END-EXEC.                                                    00960001
+009700     IF SQLCODE NOT = 0                                           00970001
+009800         MOVE 'N' TO VALID-TRANSACTION-SW.                        00980001
+009900*                                                                 00990001
+010000 130-UPDATE-CUSTOMER-ROW.                                         01000001
+010100*                                                                 01010001
+010200     MOVE CTR-TRANSACTION-DATA TO CUSTOMER-ROW                    01020001
+010300     EXEC SQL                                                     01030001
+010400         UPDATE MM01.CUSTOMER                                     01040005
+010500            SET FNAME   = :FNAME,                                 01050001
+010600                LNAME   = :LNAME,                                 01060001
+010700                ADDR    = :ADDR,                                  01070001
+010800                CITY    = :CITY,                                  01080001
+010900                STATE   = :STATE,                                 01090001
+011000                ZIPCODE = :ZIPCODE                                01100001
+011100         WHERE  CUSTNO  = :CUSTNO                                 01110001
+011200     END-EXEC.                                                    01120001
+011300     IF SQLCODE NOT = 0                                           01130001
+011400         MOVE 'N' TO VALID-TRANSACTION-SW.                        01140001
+011500*                                                                 01150001
+011600 140-DELETE-CUSTOMER-ROW.                                         01160001
+011700*                                                                 01170001
+011800     MOVE CTR-CUSTOMER-NUMBER TO CUSTNO.                          01180001
+011900     EXEC SQL                                                     01190001
+012000         DELETE FROM MM01.CUSTOMER                                01200005
+012100             WHERE CUSTNO = :CUSTNO                               01210001
+012200     END-EXEC.                                                    01220001
+012300     IF SQLCODE NOT = 0                                           01230001
+012400         MOVE 'N' TO VALID-TRANSACTION-SW.                        01240001
+012500*                                                                 01250001
+012600 150-WRITE-BAD-TRANS-RECORD.                                      01260001
+012700*                                                                 01270001
+012800     WRITE BAD-TRANSACTION-RECORD                                 01280001
+012900         FROM CUSTOMER-TRANSACTION-RECORD.                        01290001
+013000*                                                                 01300001

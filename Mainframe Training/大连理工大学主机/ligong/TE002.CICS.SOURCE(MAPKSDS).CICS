@@ -1,0 +1,21 @@
+000001 IDENTIFICATION DIVISION.                                         00010000
+       PROGRAM-ID MAPSOURA.                                             00020000
+       DATA DIVISION.                                                   00030000
+       WORKING-STORAGE SECTION.                                         00040000
+             COPY MAPSETA.                                              00050000
+       LINKAGE SECTION.                                                 00060000
+       01 DFHCOMMAREA.                                                  00070000
+          05 NAMES  PIC X(10).                                          00080000
+       PROCEDURE DIVISION.                                              00090000
+      *                                                                 00100000
+           MOVE ALL SPACES TO NAMEO.                                    00110000
+           STRING NAMES 'ABCDE' DELIMITED BY SIZE INTO NAMEO.           00120000
+      *    MOVE NAMES TO NAMEO.                                         00130000
+           MOVE 100000  TO STOCKO.                                      00140000
+           MOVE 123456789 TO QUANO.                                     00150000
+           EXEC CICS SEND MAP('ORDERM') MAPSET('MAPSETA') DATAONLY      00160000
+                END-EXEC.                                               00170000
+           EXEC CICS RETURN END-EXEC.                                   00180000
+           GOBACK.                                                      00190000
+              EXIT.                                                     00200000
+

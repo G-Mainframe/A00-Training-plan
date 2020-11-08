@@ -1,0 +1,15 @@
+//PGM501R JOB (ACCT#),'WYL',CLASS=A,NOTIFY=&SYSUID          
+//RUN    EXEC PGM=IKJEFT01,DYNAMNBR=20,COND=(4,LT)          
+//STEPLIB  DD DSN=DB2.V8R1.SDSNLOAD,DISP=SHR                
+//INDD     DD DSN=GDC232.DB2W5D4.PS01,DISP=SHR              
+//SYSTSPRT DD SYSOUT=*                                      
+//SYSPRINT DD SYSOUT=*                                      
+//SYSUDUMP DD SYSOUT=*                                      
+//SYSOUT   DD SYSOUT=*                                      
+//SYSTSIN  DD *                                             
+ DSN SYSTEM(DSNB)                                           
+ RUN  PROGRAM(PGM501) PLAN(DBPRO01) -                       
+      LIB('GDC232.DB2.LOAD')                                
+ END                                                        
+/*                                                          
+//                                                          

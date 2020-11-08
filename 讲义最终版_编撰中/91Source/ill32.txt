@@ -1,0 +1,34 @@
+ /*******************************************************************/
+ /*                                                                 */
+ /* THIS IS A TEST PROGRAM FROM PAGE 334.                           */
+ /*                                                                 */
+ /*                                         2005.12.28              */
+ /*                                             L.Y.P               */
+ /*******************************************************************/
+ /* TEST01                                                          */
+ ILL32: PROC OPTIONS (MAIN);
+   DCL (X,Y,S_ODD,S_EVEN) FIXED(4), Z FIXED(2), N_ODD, N_EVEN;
+   ON ENDFILE(SYSIN) BEGIN;
+                     PUT SKIP(2) DATA(S_ODD,N_ODD);
+                     PUT SKIP DATA(S_EVEN, N_EVEN);
+                     PUT SKIP EDIT('NOT ENOUGHT INPUT TO REACH X OR Y')
+                               (X(5),A); STOP;
+   END;
+   GET EDIT(X,Y) (F(4),X(2),F(4));  GET SKIP;
+   PUT PAGE LINE(3) DATA(X,Y);
+   N_ODD,N_EVEN,S_ODD,S_EVEN=0;
+
+ LOOP: DO WHILE (S_ODD < X & S_EVEN < Y);
+       GET EDIT (Z)(COLUMN(15),F(2));
+       IF MOD(Z,2) = 0 THEN DO;
+                                N_EVEN=N_EVEN+1;  S_EVEN=S_EVEN+Z;
+                            END;
+                       ELSE DO;
+                               N_ODD=N_ODD+1; S_ODD=S_ODD+Z;
+                            END;
+ END LOOP;
+
+ PUT SKIP(2) DATA (S_ODD,N_ODD); PUT SKIP DATA(S_EVEN,N_EVEN);
+
+ END ILL32;
+

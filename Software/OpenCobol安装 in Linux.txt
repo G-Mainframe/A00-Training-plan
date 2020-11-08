@@ -1,0 +1,43 @@
+
+
+OpenCobol现在被纳入GUN，又叫做GNU cobol，可以提供在PC下的cobol编译运行环境。
+
+下载OpenCobol 2.0
+
+http://opencobol.org/
+
+解压，安装参考README
+
+./configure
+
+make check
+
+sudo make install
+
+提示找不到几个头文件，安装依赖库：
+
+libgmp10-dev, libdb-dev, libncurses5-dev
+
+注：
+
+libgmp10-dev ：Gun-mp 高精度数学库
+
+libdb-dev ：伯克利db
+
+libncurses5-dev ：字符终端处理
+
+安装确认：
+
+cobc -V
+
+cobcrun -V
+
+ 
+
+====
+
+安装环境：
+
+ubuntu12.04 32bit
+
+ 

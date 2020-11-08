@@ -1,0 +1,438 @@
+﻿       IDENTIFICATION DIVISION.
+       *> このクラスの内部名はCLASS-THISでなければなりません。
+       CLASS-ID. CLASS-THIS AS "IoDetail"
+           INHERITS CLASS-PAGE IS PARTIAL.
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+       REPOSITORY.
+           CLASS CLASS-EVENTARGS AS "System.EventArgs"
+           CLASS CLASS-OBJECT AS "System.Object"
+           CLASS CLASS-PAGE AS "System.Web.UI.Page"
+      *
+           CLASS CLASS-CELL AS "System.Web.UI.WebControls.TableCell"
+           CLASS CLASS-CELLCOLLECT AS "System.Web.UI.WebControls.TableCellCollection"
+           CLASS CLASS-ENVIRONMENT AS "System.Environment"
+           CLASS CLASS-INT16 AS "System.Int16"
+           CLASS CLASS-INT32 AS "System.Int32"
+           CLASS CLASS-ROW AS "System.Web.UI.WebControls.TableRow"
+           CLASS CLASS-SERVERUTILITY AS "System.Web.HttpServerUtility"
+           CLASS CLASS-SESSION AS "System.Web.SessionState.HttpSessionState"
+           CLASS CLASS-STRING AS "System.String"
+      *
+           PROPERTY PROP-CELLS AS "Cells"
+           PROPERTY PROP-ENABLED AS "Enabled"
+           PROPERTY PROP-ID AS "ID"
+           PROPERTY PROP-ISPOSTBACK AS "IsPostBack"
+           PROPERTY PROP-ROWS AS "Rows"
+           PROPERTY PROP-SERVER AS "Server"
+           PROPERTY PROP-SESSION AS "Session"
+           PROPERTY PROP-TEXT AS "Text"
+           .
+       OBJECT.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+      
+       01 W-Date-R.
+         03 W-YYYY                      PIC ZZZ9.
+         03 FILLER                      PIC X(01)  VALUE ".".
+         03 W-MM                        PIC Z9.
+         03 FILLER                      PIC X(01)  VALUE ".".
+         03 W-DD                        PIC Z9.
+       01 W-YMD REDEFINES W-Date-R      PIC X(10).
+      
+       PROCEDURE DIVISION.
+      
+       METHOD-ID. PAGE-LOAD AS "Page_Load".
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 W-Websession OBJECT REFERENCE CLASS-SESSION.
+       01 W-Object OBJECT REFERENCE CLASS-OBJECT.
+       01 W-ServerUtility OBJECT REFERENCE CLASS-SERVERUTILITY.
+       01 W-YYYYMMDD                    PIC X(08).
+       LINKAGE SECTION.
+       01 sender OBJECT REFERENCE CLASS-OBJECT.
+       01 e OBJECT REFERENCE CLASS-EVENTARGS.
+       PROCEDURE DIVISION USING BY VALUE sender e.
+      *セションから情報取得
+           SET W-Websession TO PROP-SESSION OF SELF.
+           SET W-Object     TO W-Websession::"get_Item"(N"Login").
+           IF W-Object = NULL THEN
+      *認証されていない場合は、ログイン画面へ遷移
+               SET W-ServerUtility TO PROP-SERVER OF SELF
+               INVOKE W-ServerUtility "Transfer" USING N"Login.aspx"
+           END-IF
+           
+      *ポストバック時以外の処理
+           IF PROP-ISPOSTBACK OF SELF = B"0" THEN
+      *現在の日付をラベルに設定 
+               MOVE FUNCTION  CURRENT-DATE      TO W-YYYYMMDD
+               MOVE W-YYYYMMDD(1:4)             TO W-YYYY
+               MOVE W-YYYYMMDD(5:2)             TO W-MM
+               MOVE W-YYYYMMDD(7:2)             TO W-DD
+               SET PROP-TEXT OF lblDate         TO W-YMD
+      *テーブル初期化
+               INVOKE SELF "TABLE_CLS"
+           END-IF.
+       END METHOD PAGE-LOAD.
+       
+       METHOD-ID. btnStart_Click PROTECTED.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  商品レコード.
+           02  商品コード  PIC 9(5).
+           02  商品名      PIC N(20).
+           02  売価        PIC 9(8).
+           02  原価        PIC 9(8).
+       COPY IODETAIL.
+       01 W-Syocd                   OBJECT REFERENCE CLASS-STRING.  
+       01 W-CmdtNo                  PIC X(05).
+       01 W-Year                    PIC X(04).
+       01 W-Month                   PIC X(02).
+       01 W-Start                   BINARY-SHORT.
+       01 W-Msg                     PIC N(20).
+       01 W-ReturnCode              BINARY-LONG.
+       01 W-Cnt                     PIC 9(03).
+       01 W-Next                    PIC 9(01).
+       01 W-Websession OBJECT REFERENCE CLASS-SESSION.
+       01 W-String OBJECT REFERENCE CLASS-STRING.
+       *>01 W-Request OBJECT REFERENCE CLASS-REQUEST.
+       LINKAGE SECTION.
+       01 sender OBJECT REFERENCE CLASS-OBJECT.
+       01 e OBJECT REFERENCE CLASS-EVENTARGS.
+       PROCEDURE DIVISION USING BY VALUE sender e.
+           SET W-Syocd TO PROP-TEXT OF txtCmdtNo.
+           SET W-CmdtNo TO PROP-TEXT OF txtCmdtNo.
+           MOVE CLASS-INT32::"Parse"(W-Syocd) TO  商品コード OF 商品レコード.
+           
+           *>SET W-Request TO PROP-REQUEST OF SELF.
+      *    カレントディレクトリ設定 
+           *>SET PROP-CURRENTDIRECTORY OF CLASS-ENVIRONMENT
+           *>    TO PROP-PHYSICALAPPLICATIONPATH OF W-Request.
+      
+      *商品レコード検索     
+           CALL "SYOHIN" USING 商品レコード W-Msg RETURNING W-ReturnCode.
+      *エラー判定(0=正常)     
+           IF W-ReturnCode = 0 THEN
+               SET PROP-TEXT OF lblMsg TO " "
+      
+      *商品名をラベルに設定
+               SET PROP-TEXT OF lblCmdtName TO 商品名
+               
+               INITIALIZE M-AREA
+               MOVE SPACE TO W-Msg
+               MOVE W-CmdtNo TO M-SYOCD
+      *日付処理
+               SET W-Year  TO PROP-TEXT OF txtYear
+               SET W-Month TO PROP-TEXT OF txtMonth
+               IF  W-Month(2:1) =  SPACE
+                   MOVE  W-Month(1:1) TO W-Month(2:1)
+                   MOVE  "0"          TO W-Month(1:1)
+               END-IF
+               COMPUTE M-Y = FUNCTION NUMVAL(W-Year)
+               COMPUTE M-M = FUNCTION NUMVAL(W-Month)
+               MOVE 売価 TO M-TANKA
+               MOVE 原価 TO M-GENKA
+               MOVE 1 TO W-Start
+               MOVE 0 TO W-Next
+      *入出庫検索         
+               CALL "ZAIKO" USING M-AREA W-Start W-Cnt W-Next W-Msg
+                   RETURNING W-ReturnCode
+               IF W-Msg NOT = SPACE THEN
+      *メッセージをラベルに設定
+                   SET PROP-TEXT OF lblMsg TO W-Msg
+               END-IF
+               IF W-ReturnCode = 0 THEN
+                   INVOKE SELF "PAGE_EDT" USING M-AREA
+       
+                   SET W-Websession TO PROP-SESSION OF SELF
+      *次のレコードがあるかどうか     
+                   IF W-Next = 1 THEN
+      *ボタンの有効/無効を設定
+                       SET PROP-ENABLED OF btnFwd TO B"1"
+                       SET PROP-ENABLED OF btnBck TO B"0"
+                   ELSE
+                       SET PROP-ENABLED OF btnFwd TO B"0"
+                       SET PROP-ENABLED OF btnBck TO B"0"
+                   END-IF                   
+                   INVOKE W-Websession "set_Item" USING BY VALUE N"W-Line" 1
+      *セションに検索条件を保存             
+                   INVOKE W-Websession "set_Item" USING BY VALUE N"W-Year"   W-Year
+                   INVOKE W-Websession "set_Item" USING BY VALUE N"W-Month"  W-Month
+                   INVOKE W-Websession "set_Item" USING BY VALUE N"W-CmdtNo" W-CmdtNo
+                   INVOKE W-Websession "set_Item" USING BY VALUE N"M-TANKA"  M-TANKA
+                   INVOKE W-Websession "set_Item" USING BY VALUE N"M-GENKA"  M-GENKA
+                   SET W-String TO PROP-TEXT OF lblCmdtName
+                   INVOKE W-Websession "set_Item" USING
+                       BY VALUE N"lblCmdtName" W-String
+               ELSE
+                   INVOKE SELF "TABLE_CLS"
+               END-IF
+           ELSE
+      *商品検索時のエラー処理     
+               IF W-Msg NOT = SPACE THEN
+      *エラーメッセージをラベルに設定
+                   SET PROP-TEXT OF lblMsg TO W-Msg
+               END-IF
+               INVOKE SELF "TABLE_CLS"
+               IF W-ReturnCode = 5 THEN
+      *            商品が見つからない場合は商品名をクリア               
+                   SET PROP-TEXT OF lblCmdtName TO " "
+               END-IF
+           END-IF
+       END METHOD btnStart_Click.
+       
+       METHOD-ID. btnFwd_Click PROTECTED.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       COPY IODETAIL.
+       01 W-Websession OBJECT REFERENCE CLASS-SESSION.
+       01 W-Object OBJECT REFERENCE CLASS-OBJECT.
+       01 W-Line BINARY-SHORT.
+       01 W-Year                    PIC X(04).
+       01 W-Month                   PIC X(02).
+       01 W-CmdtNo                  PIC X(05).
+       01 W-GENKA BINARY-LONG.
+       01 W-TANKA BINARY-LONG.
+       01 W-Msg                     PIC N(20).
+       01 W-ReturnCode              BINARY-LONG.
+       01 W-Cnt                     PIC 9(03).
+       01 W-Next                    PIC 9(01).
+       LINKAGE SECTION.
+       01 sender OBJECT REFERENCE CLASS-OBJECT.
+       01 e OBJECT REFERENCE CLASS-EVENTARGS.
+       PROCEDURE DIVISION USING BY VALUE sender e.
+      *    セションから情報取得
+           SET W-Websession TO PROP-SESSION OF SELF.
+           
+           SET W-Object     TO W-Websession::"get_Item"(N"W-Line").
+           SET W-Line       TO W-Object AS CLASS-INT16.
+           
+           SET W-Object     TO W-Websession::"get_Item"(N"W-Year").
+           SET W-Year       TO W-Object AS CLASS-STRING.
+           
+           SET W-Object     TO W-Websession::"get_Item"(N"W-Month").
+           SET W-Month      TO W-Object AS CLASS-STRING.
+           
+           SET W-Object     TO W-Websession::"get_Item"(N"W-CmdtNo").
+           SET W-CmdtNo     TO W-Object AS CLASS-STRING.
+           
+           SET W-Object     TO W-Websession::"get_Item"(N"M-TANKA").
+           SET W-TANKA      TO W-Object AS CLASS-INT32.
+      
+           SET W-Object     TO W-Websession::"get_Item"(N"M-GENKA").
+           SET W-GENKA      TO W-Object AS CLASS-INT32.
+           
+           SET W-Object     TO W-Websession::"get_Item"(N"lblCmdtName").
+           SET PROP-TEXT OF lblCmdtName TO W-Object AS CLASS-STRING.
+           
+           SET PROP-TEXT OF txtCmdtNo TO W-CmdtNo.
+           SET PROP-TEXT OF txtYear   TO W-Year.
+           SET PROP-TEXT OF txtMonth  TO W-Month.
+      
+           SET PROP-TEXT OF lblMsg TO " ".
+           INITIALIZE M-AREA.
+           MOVE SPACE TO W-Msg.
+           
+           MOVE W-CmdtNo    TO M-SYOCD.
+           MOVE W-Year      TO M-Y.
+           MOVE W-Month     TO M-M.
+           MOVE W-TANKA     TO M-TANKA.
+           MOVE W-GENKA     TO M-GENKA.
+           MOVE 0           TO W-Next.
+           
+           ADD 10 TO W-Line.
+           CALL "ZAIKO" USING M-AREA W-Line W-Cnt W-Next W-Msg RETURNING W-ReturnCode.
+           INVOKE SELF "PAGE_EDT" USING M-AREA.
+           IF W-Msg NOT = SPACE THEN
+               SET PROP-TEXT OF lblMsg TO W-Msg
+           END-IF
+       
+           SET W-Websession TO PROP-SESSION OF SELF.
+      *次のレコードがあるかどうか     
+           IF W-Next = 1 THEN
+               SET PROP-ENABLED OF btnFwd TO B"1"
+           ELSE 
+               SET PROP-ENABLED OF btnFwd TO B"0"
+           END-IF
+           SET PROP-ENABLED OF btnBck TO B"1".
+           INVOKE W-Websession "set_Item" USING BY VALUE N"W-Line" W-Line.
+       END METHOD btnFwd_Click.
+       
+       METHOD-ID. btnBck_Click PROTECTED.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       COPY IODETAIL.
+       01 W-Websession OBJECT REFERENCE CLASS-SESSION.
+       01 W-Object OBJECT REFERENCE CLASS-OBJECT.
+       01 W-Line BINARY-SHORT.
+       01 W-Year                    PIC X(04).
+       01 W-Month                   PIC X(02).
+       01 W-CmdtNo                  PIC X(05).
+       01 W-GENKA BINARY-LONG.
+       01 W-TANKA BINARY-LONG.
+       01 W-Msg                     PIC N(20).
+       01 W-ReturnCode              BINARY-LONG.
+       01 W-Cnt                     PIC 9(03).
+       01 W-Next                    PIC 9(01).
+       LINKAGE SECTION.
+       01 sender OBJECT REFERENCE CLASS-OBJECT.
+       01 e OBJECT REFERENCE CLASS-EVENTARGS.
+       PROCEDURE DIVISION USING BY VALUE sender e.
+           SET W-Websession TO PROP-SESSION OF SELF.
+                      
+           SET W-Object     TO W-Websession::"get_Item"(N"W-Line").
+           SET W-Line       TO W-Object AS CLASS-INT16.
+           
+           SET W-Object     TO W-Websession::"get_Item"(N"W-Year").
+           SET W-Year       TO W-Object AS CLASS-STRING.
+           
+           SET W-Object     TO W-Websession::"get_Item"(N"W-Month").
+           SET W-Month      TO W-Object AS CLASS-STRING.
+           
+           SET W-Object     TO W-Websession::"get_Item"(N"W-CmdtNo").
+           SET W-CmdtNo     TO W-Object AS CLASS-STRING.
+           
+           SET W-Object     TO W-Websession::"get_Item"(N"M-TANKA").
+           SET W-TANKA      TO W-Object AS CLASS-INT32.
+      
+           SET W-Object     TO W-Websession::"get_Item"(N"M-GENKA").
+           SET W-GENKA      TO W-Object AS CLASS-INT32.
+      
+           SET W-Object     TO W-Websession::"get_Item"(N"lblCmdtName").
+           SET PROP-TEXT OF lblCmdtName TO W-Object AS CLASS-STRING.      
+      
+           SET PROP-TEXT OF txtCmdtNo TO W-CmdtNo.
+           SET PROP-TEXT OF txtYear   TO W-Year.
+           SET PROP-TEXT OF txtMonth  TO W-Month.
+      
+           SET PROP-TEXT OF lblMsg TO " ".
+           INITIALIZE M-AREA.
+           MOVE SPACE TO W-Msg.
+           
+           MOVE W-CmdtNo    TO M-SYOCD.
+           COMPUTE M-Y = FUNCTION NUMVAL(W-Year).
+           COMPUTE M-M = FUNCTION NUMVAL(W-Month).
+           MOVE W-TANKA     TO M-TANKA.
+           MOVE W-GENKA     TO M-GENKA.
+           MOVE 0           TO W-Next.
+           
+           SUBTRACT 10 FROM W-Line.
+           CALL "ZAIKO" USING M-AREA W-Line W-Cnt W-Next W-Msg RETURNING W-ReturnCode.
+           INVOKE SELF "PAGE_EDT" USING M-AREA.
+           IF W-Msg NOT = SPACE THEN
+               SET PROP-TEXT OF lblMsg TO W-Msg
+           END-IF
+       
+           SET W-Websession TO PROP-SESSION OF SELF.
+           
+           IF W-Next = 1 THEN
+               SET PROP-ENABLED OF btnFwd TO B"1"
+           ELSE
+               SET PROP-ENABLED OF btnFwd TO B"0"
+           END-IF
+           
+           IF W-Line < 11 THEN
+               SET PROP-ENABLED OF btnBck TO B"0"
+           ELSE
+               SET PROP-ENABLED OF btnBck TO B"1"
+           END-IF      
+           INVOKE W-Websession "set_Item" USING BY VALUE N"W-Line" W-Line.
+       END METHOD btnBck_Click.
+       
+       METHOD-ID. TABLE_CLS.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 W-Row OBJECT REFERENCE CLASS-ROW.
+       01 W-Cell OBJECT REFERENCE CLASS-CELL.
+       01 W-Id PIC X(10).
+       LINKAGE SECTION.
+       PROCEDURE DIVISION.
+      *row0以外の行を初期化
+           PERFORM VARYING W-Row THRU PROP-ROWS OF tblStock
+             SET W-Id TO PROP-ID OF W-Row
+             IF W-Id NOT = "row0" THEN
+               PERFORM VARYING W-Cell THRU PROP-CELLS OF W-Row
+                 SET PROP-TEXT OF W-Cell TO N"　"
+               END-PERFORM
+             END-IF
+           END-PERFORM.
+       END METHOD TABLE_CLS.
+      
+       METHOD-ID. PAGE_EDT.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 W-Row OBJECT REFERENCE CLASS-ROW.
+       01 W-Cell OBJECT REFERENCE CLASS-CELL.
+       01 W-Id PIC X(10).
+       01 W-Idx BINARY-LONG.
+       01 W-CellCollect OBJECT REFERENCE CLASS-CELLCOLLECT.
+       01 W-Numeric-ZS.
+         03 W-Numeric-2ZS               PIC Z9.
+         03 W-Numeric-3ZS               PIC ZZ9.
+         03 W-Numeric-6ZS               PIC ZZZZZ9.
+         03 W-Numeric-8ZS               PIC ZZ,ZZZ,ZZ9.
+         03 W-Numeric-12ZS              PIC ZZZZZZZZZZZ9.
+         03 W-Numeric-12X               PIC X(12).
+       LINKAGE SECTION.
+       COPY IODETAIL.
+       PROCEDURE DIVISION USING M-AREA.
+      *row0以外の行設定
+           MOVE 0 TO W-Idx.
+           PERFORM VARYING W-Row THRU PROP-ROWS OF tblStock
+             SET W-Id TO PROP-ID OF W-Row
+             IF W-Id NOT = "row0" THEN
+               IF M-IODATE(W-Idx) = 0 THEN
+                 PERFORM VARYING W-Cell THRU PROP-CELLS OF W-Row
+                   SET PROP-TEXT OF W-Cell TO N"　"
+                 END-PERFORM
+               ELSE
+                   SET W-CellCollect TO PROP-CELLS OF W-Row
+                   SET W-Cell                TO W-CellCollect::"get_Item" (0)
+                   MOVE M-IODATE(W-Idx)(1:4) TO W-YYYY
+                   MOVE M-IODATE(W-Idx)(5:2) TO W-MM
+                   MOVE M-IODATE(W-Idx)(7:2) TO W-DD
+                   SET PROP-TEXT OF W-Cell   TO W-YMD
+                   
+                   SET W-Cell               TO W-CellCollect::"get_Item" (1)
+                   MOVE M-DENBAN(W-Idx)     TO W-Numeric-12ZS
+                   SET PROP-TEXT OF W-Cell  TO W-Numeric-12ZS
+                   
+                   SET W-Cell               TO W-CellCollect::"get_Item" (2)
+                   MOVE M-KUBUN(W-Idx)      TO W-Numeric-2ZS
+                   SET PROP-TEXT OF W-Cell  TO W-Numeric-2ZS
+                   
+                   SET W-Cell               TO W-CellCollect::"get_Item" (3)
+                   SET PROP-TEXT OF W-Cell  TO M-KUBUNN(W-Idx)
+                   
+                   SET W-Cell               TO W-CellCollect::"get_Item" (4)
+                   MOVE M-KAKAKU(W-Idx)     TO W-Numeric-8ZS
+                   SET PROP-TEXT OF W-Cell  TO W-Numeric-8ZS
+                   
+                   SET W-Cell               TO W-CellCollect::"get_Item" (5)
+                   MOVE M-ISU(W-Idx)        TO W-Numeric-6ZS
+                   SET PROP-TEXT OF W-Cell  TO W-Numeric-6ZS
+                   
+                   SET  W-Cell              TO W-CellCollect::"get_Item" (6)
+                   MOVE M-OSU(W-Idx)        TO W-Numeric-6ZS
+                   SET  PROP-TEXT OF W-Cell TO W-Numeric-6ZS
+               END-IF
+             END-IF
+             ADD 1 TO W-Idx
+           END-PERFORM.
+       END METHOD PAGE_EDT.
+      
+       METHOD-ID. btnExit_Click PROTECTED.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 W-ServerUtility OBJECT REFERENCE CLASS-SERVERUTILITY.
+       LINKAGE SECTION.
+       01 sender OBJECT REFERENCE CLASS-OBJECT.
+       01 e OBJECT REFERENCE CLASS-EVENTARGS.
+       PROCEDURE DIVISION USING BY VALUE sender e.
+      *ログイン画面へ遷移
+           SET W-ServerUtility TO PROP-SERVER OF SELF.
+           INVOKE W-ServerUtility "Transfer" USING N"Login.aspx".
+       END METHOD btnExit_Click.
+      
+       END OBJECT.
+       END CLASS CLASS-THIS.

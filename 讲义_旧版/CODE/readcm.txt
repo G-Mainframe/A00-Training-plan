@@ -1,0 +1,41 @@
+   /*                                                    */
+   /*      THIS IS DEMO PROGRAM TO PROOF                 */
+   /*      1.  FILE IS PAST TO SUB                       */
+   /*      2. HANDLE THE FLOAT NUMBER.                   */
+   /*                                                    */
+   /*                                                    */
+   /*                                                    */
+   /*                                                    */
+   /*                                                    */
+   /*                                                    */
+     READCM: PROC (W, X, Y, Z);
+       DCL W FLOAT (10),
+           X FLOAT (10),
+           Y FLOAT (15),
+           Z FILE;
+       DCL A1  DEC(9,2),
+           B1  DEC(9,2),
+           C1  DEC(9,2);
+       GET FILE (Z) LIST (W,X,Y);
+       PUT SKIP DATA (W,X,Y);
+   /*  GET FILE (Z) EDIT(W,X,Y,(COL(1),E(12,5),E(8,3),E(10))); */
+           A1=W;
+           B1=X;
+           C1=Y;
+       PUT SKIP DATA (A1, B1, C1);
+       Y=W*X;
+
+       IF Y > 0 THEN
+          RETURN;
+       ELSE
+          PUT LIST('ERROR READCM');
+
+     END READCM;
+
+
+
+
+
+
+
+

@@ -1,0 +1,664 @@
+ /* CH88H10 : ASCA COUNT CREATE(ASCA REPORT1)   IBM INTERNAL USE ONLY */
+ CH88H10 : PROC            OPTIONS(MAIN);
+ /*********************************************************************/
+ /*   PROJECT NUMBER         : CH88                                   */
+ /*   PROGRAM NUMBER         : CH88H10                                */
+ /*   PROGRAM NAME           : ASCA COUNT CREATE(ASCA REPORT1)        */
+ /*   SENSITIVE              : NO                                     */
+ /*   PROGRAMMED BY          : JQXU                                   */
+ /*   WRITTEN DATE           : 06/10/05                               */
+ /*----- FUNCTION NARRATIVE ------------------------------------------*/
+ /*   1. OUTPUT ASCA COUNT FILE                                       */
+ /*----- INPUT FILE DESCRIPTION --------------------------------------*/
+ /*      (DDNAME)   (CRDNAME)     (FILE DESCRIPTION)                  */
+ /*       FINP1      CH88FASO     ASOF FILE                           */
+ /*       FINP2      CH88FBKM     BANK_MASTER                         */
+ /*       FINP3      CH88FBQI     BPRS QCOS INVENTORY                 */
+ /*----- OUTPUT FILE DESCRIPTION -------------------------------------*/
+ /*      (DDNAME)   (CRDNAME)     (FILE DESCRIPTION)                  */
+ /*       FOUT1      CH88FCNT     ASCA COUNT FILE                    */
+ /*------------- DB DESCRIPTION --------------------------------------*/
+ /*  (DB NAME)            (DESCRIPTION)                  (CRD/INCL)   */
+ /*   REIMBURSEMENT        REIMBURSEMENT REQUEST          CH88TE03I   */
+ /*   SVC_FEE_MASTER       SERVICE FEE MASTER             CH88TE06I   */
+ /*   SVC_FEE_REQUEST      SERVICE FEE REQUEST            CH88TE05I   */
+ /*   BP_MASTER            BP MASTER                      CH88TE08I   */
+ /*   BP_REQUEST           BP REQUEST                     CH88TE07I   */
+ /*   USER_MASTER          USER MASTER                    CH88TE13I   */
+ /*   USER_REQUEST         USER REQUEST                   CH88TE12I   */
+ /*   PROCESS              PROCESS                        CH88TE02I   */
+ /*   BANK_MASTER          BANK MASTER                    CH88TE11I   */
+ /*   QCOS_INVENTORY       QCOS INVENTORY                 CH88TE10I   */
+ /*   SYSTEM_PARAM_CTRL    SYSTEM PARAM CONTROL           CH88TE18I   */
+ /*----- CALLING MODULE ----------------------------------------------*/
+ /*   NO MODULE                                                       */
+ /*----- PARAMETER ---------------------------------------------------*/
+ /*   NO PARAMETER                                                    */
+ /*----- EXIT --------------------------------------------------------*/
+ /*   EXIT ERROR                                                      */
+ /*   1. ON ERROR                : STANDARD ABEND                     */
+ /*----- CHANGE HISTORY ----------------------------------------------*/
+ /*   C014001  EV6217  06/10/05  NEW                                  */
+ /*********************************************************************/
+ /*-------------------------------------------------------------------*/
+ /*  DECLARE OF TABLE LAYOUT                                          */
+ /*-------------------------------------------------------------------*/
+ EXEC SQL INCLUDE SQLCA ;
+ /*-------------------------------------------------------------------*/
+ /*  DECLARE OF DB TABLE FIELDS                                       */
+ /*-------------------------------------------------------------------*/
+ DCL 1 TE03_TBL,                            /* REIMBURSEMENT TABLE    */
+       %INCLUDE CH88TE03;;                  /*                        */
+ DCL 1 TE06_TBL,                            /* SVC_FEE_MASTER         */
+       %INCLUDE CH88TE06;;                  /*                        */
+ DCL 1 TE05_TBL,                            /* SVC_FEE_REQUEST        */
+       %INCLUDE CH88TE05;;                  /*                        */
+ DCL 1 TE08_TBL,                            /* BP_MASTER              */
+       %INCLUDE CH88TE08;;                  /*                        */
+ DCL 1 TE07_TBL,                            /* BP_REQUEST             */
+       %INCLUDE CH88TE07;;                  /*                        */
+ DCL 1 TE13_TBL,                            /* USER_MASTER            */
+       %INCLUDE CH88TE13;;                  /*                        */
+ DCL 1 TE12_TBL,                            /* USER_REQUEST           */
+       %INCLUDE CH88TE12;;                  /*                        */
+ DCL 1 TE02_TBL,                            /* PROCESS                */
+       %INCLUDE CH88TE02;;                  /*                        */
+ DCL 1 TE11_TBL,                            /* BANK_MASTER            */
+       %INCLUDE CH88TE11;;                  /*                        */
+ DCL 1 TE10_TBL,                            /* QCOS_INVENTORY         */
+       %INCLUDE CH88TE10;;                  /*                        */
+ DCL 1 TE18_TBL,                            /* SYSTEM_PARAM_CTRL      */
+       %INCLUDE CH88TE18;;                  /*                        */
+ /*-------------------------------------------------------------------*/
+ /*  DECLARE OF FILE                                                  */
+ /*-------------------------------------------------------------------*/
+ DCL  FINP1   FILE INPUT  RECORD ;               /* INPUT ASOF        */
+ DCL  FINP2   FILE INPUT  RECORD ;               /* INPUT             */
+ DCL  FINP3   FILE INPUT  RECORD ;               /* INPUT             */
+ DCL  FOUT1   FILE OUTPUT RECORD ;               /* OUTPUT            */
+ DCL  SYSPRINT FILE OUTPUT PRINT  ;              /* SYSPRINT          */
+ /*-------------------------------------------------------------------*/
+ /*  DECLARE OF FILE LAYOUT                                           */
+ /*-------------------------------------------------------------------*/
+ DCL 1 FINP1_REC STATIC,                    /* ASOF FILE              */
+       %INCLUDE CH88FASO;                   /*                        */
+ DCL 1 FINP2_REC STATIC,                    /* BANK_MASTER FIEL       */
+       %INCLUDE CH88FBKM;                   /*                        */
+ DCL 1 FINP3_REC STATIC,                    /*  CEDS QCOS FILE        */
+       %INCLUDE CH88FBQI;                   /*                        */
+ DCL 1 FOUT1_REC STATIC,
+       %INCLUDE CH88FCNT;;                  /* ASCA COUNT FILE        */
+ /*-------------------------------------------------------------------*/
+ /*  INPUT AND OUTPUT WORK AREA DECLARATION                           */
+ /*-------------------------------------------------------------------*/
+ /*-------------------------------------------------------------------*/
+ /*  SWITCH                                                           */
+ /*-------------------------------------------------------------------*/
+ DCL 1 SWITCH_DCL STATIC,                        /* SWITCH            */
+       2 EOF_FINP1       BIT  (  1)  INIT('0'B), /* EOF FINP1         */
+       2 EOF_FINP2       BIT  (  1)  INIT('0'B), /* EOF FINP2         */
+       2 EOF_FINP3       BIT  (  1)  INIT('0'B); /* EOF FINP3         */
+ /*-------------------------------------------------------------------*/
+ /*  DECLARE OF COUNTER                                               */
+ /*-------------------------------------------------------------------*/
+ DCL 1 COUNT_DCL STATIC,                         /* COUNTER           */
+       2 CNT_FINP1       FIXED BIN(31,0) INIT(0),/* COUNT FINP1       */
+       2 CNT_FINP2       FIXED BIN(31,0) INIT(0),/* COUNT FINP2       */
+       2 CNT_FINP3       FIXED BIN(31,0) INIT(0),/* COUNT FINP3       */
+       2 CNT_FINP3NOT    FIXED BIN(31,0) INIT(0),/* COUNT FINP3       */
+       2 CNT_FOUT1       FIXED BIN(31,0) INIT(0);/* COUNT FOUT1       */
+ /*-------------------------------------------------------------------*/
+ /*  WORK AREA                                                        */
+ /*-------------------------------------------------------------------*/
+ DCL  WK_SQLCODE        STATIC      PIC'-999'  INIT( 0 );
+ DCL  WK_BASE_DATE      CHAR(10)               INIT( '');
+ DCL  WK_ASOF           CHAR(10)               INIT( '');
+ DCL  WKQUBBM           FIXED DEC(15,0)        INIT( 0 );
+ /*DCL  WKVSRXA           FIXED DEC(15,1)        INIT( 0 ); */
+ DCL  WKVSRXA           FIXED DEC(15,0)        INIT( 0 );
+ DCL  WK_CHAR_HHMMSS    CHAR(06)               INIT( 0 );
+ DCL  WK_PIC_HHMMSS     PIC'999999' ;
+ DCL  WK_COUNT_HHMMSS   FIXED DEC(6,0)         INIT( 0 );
+ DCL  WK_CREATE_26_DATE CHAR(26)               INIT( '');
+ DCL  PGM_NAME          FIXED DEC(04)          INIT( 0 );
+ /*-------------------------------------------------------------------*/
+ /*  DECLARE OF ERROR MESSAGE                                         */
+ /*-------------------------------------------------------------------*/
+ DCL 1 ERR_MSG STATIC,                           /*                   */
+       2 FIL1     CHAR(10)  INIT('[SQL ERROR_'), /*                   */
+       2 SEQ      FIXED(04) INIT( 0 ),           /*                   */
+       2 FIL2     CHAR(09)  INIT('][SQL_CODE '), /*                   */
+       2 SQL_CODE PIC'-999' INIT(000)  ,         /*                   */
+       2 FIL3     CHAR(01)  INIT(']');           /*                   */
+ /*-------------------------------------------------------------------*/
+ /*  DECLARE OF INCLUDE                                               */
+ /*-------------------------------------------------------------------*/
+ DCL  ADDR              BUILTIN;
+ DCL  DATETIME          BUILTIN;
+ DCL  PLIDUMP           BUILTIN;
+ DCL  NULL              BUILTIN;
+ DCL  HIGH              BUILTIN;
+ DCL  STRING            BUILTIN;
+ DCL  SUBSTR            BUILTIN;
+ DCL  LOW               BUILTIN;
+ %INCLUDE SYSLIB2(SMONERR1);
+ /*-------------------------------------------------------------------*/
+ /*  ON ENDFILE                                                       */
+ /*-------------------------------------------------------------------*/
+ ON ENDFILE(FINP1)    BEGIN;                    /* EOF FINP1         */
+   EOF_FINP1 = '1'B;                            /*                   */
+ END;                                           /*                   */
+ ON ENDFILE(FINP2)    BEGIN;                    /* EOF FINP2         */
+   EOF_FINP2 = '1'B;                            /*                   */
+ END;                                           /*                   */
+ ON ENDFILE(FINP3)    BEGIN;                    /* EOF FINP3         */
+   EOF_FINP3 = '1'B;                            /*                   */
+ END;                                           /*                   */
+ /*-------------------------------------------------------------------*/
+ /*  MAIN CONTROL                                                     */
+ /*-------------------------------------------------------------------*/
+  CALL S1000_INIT;
+  CALL S2000_MAIN;
+  CALL S3000_END_PROCESS ;
+ /*-------------------------------------------------------------------*/
+ /*  INITIAL PROCESS                                                  */
+ /*-------------------------------------------------------------------*/
+ S1000_INIT : PROC ;
+   OPEN  FILE(FINP1);                     /* FILE OPEN INPUT   */
+   OPEN  FILE(FINP2);                     /*                   */
+   OPEN  FILE(FINP3);                     /*                   */
+   OPEN  FILE(FOUT1);                     /* FILE OPEN OUTPUT  */
+   FOUT1_REC.CFLBL = 'BPRS';
+   FOUT1_REC.IOCLS = 'INPUT';
+  END S1000_INIT;
+ /*------------------------------------------------------------------*/
+ /*  MAIN PROCESS BLOCK                                              */
+ /*------------------------------------------------------------------*/
+ S2000_MAIN : PROC ;
+     CALL S2001_ASOF_FILE;                /*  ASOF FILE          */
+     CALL S2010_AB;                       /*  OUT01 AB           */
+     CALL S2020_E03_SUM;                  /*  E33          SUM   */
+     CALL S2030_SELECT;                   /*  TABLE  SELECT      */
+     CALL S2040_E06_SUM;                  /*  E06          SUM   */
+     CALL S2050_SELECT;                   /*  TABLE  SELECT      */
+     CALL S2060_E08_SUM;                  /*  E08          SUM   */
+     CALL S2070_SELECT;                   /*  TABLE  SELECT      */
+     CALL S2080_E13_SUM;                  /*  E13          SUM   */
+     CALL S2090_FINP2;                    /*  FINP2              */
+     CALL S2100_E11_SUM;                  /*  E11          SUM   */
+     CALL S2110_FINP3;                    /*  FINP3              */
+     CALL S2120_E10_SHIP;                 /*  E10          SUM   */
+ END S2000_MAIN ;
+ /*-------------------------------------------------------------------*/
+ /*     GET ASOF DATE                                                 */
+ /*-------------------------------------------------------------------*/
+ S2001_ASOF_FILE : PROC ;
+   READ FILE(FINP1) INTO(FINP1_REC);          /*    FINP1         */
+   IF EOF_FINP1 = '1'B
+   THEN DO;
+       SIGNAL ENDFILE(FINP1);
+       FINP1_REC.ASOF_Y = '0000';
+       FINP1_REC.ASOF_M = '00';
+       FINP1_REC.ASOF_D = '00';
+       PUT EDIT (' ***ASOF FILE IS EMPTY***')(A) SKIP ;
+       PUT EDIT ('THE RUN ASOF DATE = ',FINP1_REC )(A) SKIP ;
+   END;
+   ELSE DO;
+       PUT EDIT ('THE ASOF FILE DATE IS ',FINP1_REC)(A) SKIP ;
+       CNT_FINP1 = CNT_FINP1 + 1;
+   END;
+   WK_ASOF = FINP1_REC.ASOF_Y || '-' || FINP1_REC.ASOF_M
+               || '-' || FINP1_REC.ASOF_D;
+   WK_BASE_DATE = WK_ASOF;
+ END S2001_ASOF_FILE ;
+ /*-------------------------------------------------------------------*/
+ /*    OUT01 AB                                                       */
+ /*-------------------------------------------------------------------*/
+ S2010_AB : PROC ;
+   WKQUBBM = 0;
+   WKVSRXA = 0;
+   EXEC SQL
+     SELECT COUNT(*),
+     CASE COUNT(*)
+     WHEN 0 THEN 0
+     ELSE
+       SUM(
+         DEC(SUBSTR(CHAR(CREATE_DATE),12,2),15,0) * 10000 +
+         DEC(SUBSTR(CHAR(CREATE_DATE),15,2),15,0) * 100   +
+         DEC(SUBSTR(CHAR(CREATE_DATE),18,2),15,0)
+          )
+       END AS SUM
+     INTO :WKQUBBM,:WKVSRXA
+     FROM CH88U1.REIMBURSEMENT
+     WHERE DATE(CREATE_DATE) = :WK_BASE_DATE;
+   WK_SQLCODE = SQLCODE ;                   /*    2011     */
+   PGM_NAME   =  2011;
+   CALL SQLERROR;
+   FOUT1_REC.DRXAS = WK_ASOF;
+   FOUT1_REC.TLCLS = 'E03';
+   FOUT1_REC.USEQN = '02';
+   FOUT1_REC.TFLAD = 'B:¡‰ñ\¿Œ”';
+   FOUT1_REC.QUBBM = WKQUBBM;
+   FOUT1_REC.VSRXA = WKVSRXA ;
+   WRITE FILE(FOUT1) FROM(FOUT1_REC);
+   CNT_FOUT1 = CNT_FOUT1 + 1;                   /*  FOUT1 COUNT      */
+ END S2010_AB ;
+ /*-------------------------------------------------------------------*/
+ /*   E03 TO OUT01 AD                                                 */
+ /*-------------------------------------------------------------------*/
+ S2020_E03_SUM : PROC ;
+   WKQUBBM = 0;
+   WKVSRXA = 0;
+   EXEC SQL
+     SELECT  COUNT(*),
+        CASE COUNT(*)
+        WHEN 0 THEN 0
+        ELSE
+          SUM(
+            DEC(SUBSTR(CHAR(CREATE_DATE),12,2),15,0) * 10000 +
+            DEC(SUBSTR(CHAR(CREATE_DATE),15,2),15,0) * 100   +
+            DEC(SUBSTR(CHAR(CREATE_DATE),18,2),15,0)
+          )
+        END AS SUM
+     INTO :WKQUBBM,:WKVSRXA
+     FROM  CH88U1.REIMBURSEMENT
+     ;
+     WK_SQLCODE = SQLCODE ;                   /*    2021     */
+     PGM_NAME   =  2021;
+     CALL SQLERROR;
+
+   FOUT1_REC.DRXAS = WK_ASOF;
+   FOUT1_REC.TLCLS = 'E03';
+   FOUT1_REC.USEQN = '04';
+   FOUT1_REC.TFLAD = 'D:¡‰ñ‘Œ”';
+   FOUT1_REC.QUBBM = WKQUBBM;
+   FOUT1_REC.VSRXA = WKVSRXA ;
+   WRITE FILE(FOUT1) FROM(FOUT1_REC);        /*               */
+   CNT_FOUT1 = CNT_FOUT1 + 1;                /* FOUT1 COUNT   */
+ END S2020_E03_SUM ;
+ /*-------------------------------------------------------------------*/
+ /*  OUT01 BB                                                         */
+ /*-------------------------------------------------------------------*/
+ S2030_SELECT: PROC ;
+   WKQUBBM = 0;
+   WKVSRXA = 0;
+   IF WK_BASE_DATE = '0000-00-00'
+   THEN DO;
+      WKQUBBM = 0;
+      WKVSRXA = 0;
+   END;
+   ELSE DO;
+     EXEC SQL
+       SELECT COUNT(*),                          /*   2031      */
+         CASE COUNT(*)
+         WHEN 0 THEN 0
+         ELSE
+           SUM(
+             DEC(SUBSTR(CHAR(CREATE_DATE),12,2),15,0) * 10000 +
+             DEC(SUBSTR(CHAR(CREATE_DATE),15,2),15,0) * 100   +
+             DEC(SUBSTR(CHAR(CREATE_DATE),18,2),15,0)
+              )
+           END AS SUM
+         INTO :WKQUBBM,:WKVSRXA
+         FROM CH88U1.SVC_FEE_MASTER
+         WHERE DATE(CREATE_DATE) = :WK_BASE_DATE;
+      WK_SQLCODE = SQLCODE ;                    /*   2031      */
+      PGM_NAME   =  2031;
+      CALL SQLERROR;
+   END;
+
+   FOUT1_REC.DRXAS = WK_ASOF;
+   FOUT1_REC.TLCLS = 'E05';
+   FOUT1_REC.USEQN = '02';
+   FOUT1_REC.TFLAD = 'B:¡‰ñ\¿Œ”';
+   FOUT1_REC.QUBBM = WKQUBBM;
+   FOUT1_REC.VSRXA = WKVSRXA ;
+   WRITE FILE(FOUT1) FROM(FOUT1_REC);          /*               */
+   CNT_FOUT1 = CNT_FOUT1 + 1;                  /*               */
+ END S2030_SELECT ;
+ /*-------------------------------------------------------------------*/
+ /*      OUT01 BD                                                     */
+ /*-------------------------------------------------------------------*/
+ S2040_E06_SUM : PROC ;
+   WKQUBBM = 0;
+   WKVSRXA = 0;
+   EXEC SQL
+     SELECT COUNT(*),
+       CASE COUNT(*)
+       WHEN 0 THEN 0
+       ELSE
+         SUM(
+           DEC(SUBSTR(CHAR(CREATE_DATE),12,2),15,0) * 10000 +
+           DEC(SUBSTR(CHAR(CREATE_DATE),15,2),15,0) * 100   +
+           DEC(SUBSTR(CHAR(CREATE_DATE),18,2),15,0)
+         )
+       END AS SUM
+     INTO :WKQUBBM,:WKVSRXA
+     FROM CH88U1.SVC_FEE_MASTER;
+   WK_SQLCODE = SQLCODE ;                       /*    2041      */
+   PGM_NAME   =  2041;
+   CALL SQLERROR;
+
+   FOUT1_REC.DRXAS = WK_ASOF;
+   FOUT1_REC.TLCLS = 'E05';
+   FOUT1_REC.USEQN = '04';
+   FOUT1_REC.TFLAD = 'D:¡‰ñ‘Œ”';
+   FOUT1_REC.QUBBM = WKQUBBM;
+   FOUT1_REC.VSRXA = WKVSRXA ;
+   WRITE FILE(FOUT1) FROM(FOUT1_REC);           /*               */
+   CNT_FOUT1 = CNT_FOUT1 + 1;                   /*               */
+ END S2040_E06_SUM ;
+ /*-------------------------------------------------------------------*/
+ /*  OUT01 CB                                                         */
+ /*-------------------------------------------------------------------*/
+ S2050_SELECT: PROC ;
+   WKQUBBM = 0;
+   WKVSRXA = 0;
+   IF WK_BASE_DATE = '0000-00-00'
+   THEN DO;
+     WKQUBBM = 0;
+     WKVSRXA = 0;
+   END;
+   ELSE DO;
+     EXEC SQL                                   /*  SELECT  2051 */
+       SELECT COUNT(*),
+       CASE COUNT(*)
+       WHEN 0 THEN 0
+       ELSE
+         SUM(
+           DEC(SUBSTR(CHAR(CREATE_DATE),12,2),15,0) * 10000 +
+           DEC(SUBSTR(CHAR(CREATE_DATE),15,2),15,0) * 100   +
+           DEC(SUBSTR(CHAR(CREATE_DATE),18,2),15,0)
+         )
+       END AS SUM
+       INTO :WKQUBBM,:WKVSRXA
+       FROM  CH88U1.BP_MASTER
+       WHERE DATE(CREATE_DATE) = :WK_BASE_DATE;
+     WK_SQLCODE = SQLCODE ;
+     PGM_NAME   =  2051;
+     CALL SQLERROR;
+   END;
+
+   FOUT1_REC.DRXAS = WK_ASOF;
+   FOUT1_REC.TLCLS = 'E07';
+   FOUT1_REC.USEQN = '02';
+   FOUT1_REC.TFLAD = 'B:¡‰ñ\¿Œ”';
+   FOUT1_REC.QUBBM = WKQUBBM;
+   FOUT1_REC.VSRXA = WKVSRXA ;
+   WRITE FILE(FOUT1) FROM(FOUT1_REC);           /*               */
+   CNT_FOUT1 = CNT_FOUT1 + 1;                   /*               */
+ END S2050_SELECT ;
+ /*-------------------------------------------------------------------*/
+ /*    OUT01 CD                                                       */
+ /*-------------------------------------------------------------------*/
+ S2060_E08_SUM : PROC ;
+   WKQUBBM = 0;
+   WKVSRXA = 0;
+   EXEC SQL
+     SELECT COUNT(*),
+       CASE COUNT(*)
+       WHEN 0 THEN 0
+       ELSE
+         SUM(
+           DEC(SUBSTR(CHAR(CREATE_DATE),12,2),15,0) * 10000 +
+           DEC(SUBSTR(CHAR(CREATE_DATE),15,2),15,0) * 100   +
+           DEC(SUBSTR(CHAR(CREATE_DATE),18,2),15,0)
+         )
+       END AS SUM
+     INTO :WKQUBBM,:WKVSRXA
+     FROM CH88U1.BP_MASTER
+     ;
+   WK_SQLCODE = SQLCODE ;
+   PGM_NAME   =  2061;                         /*   2061         */
+   CALL SQLERROR;
+
+   FOUT1_REC.DRXAS = WK_ASOF;
+   FOUT1_REC.TLCLS = 'E07';
+   FOUT1_REC.USEQN = '04';
+   FOUT1_REC.TFLAD = 'D:¡‰ñ‘Œ”';
+   FOUT1_REC.QUBBM = WKQUBBM;
+   FOUT1_REC.VSRXA = WKVSRXA ;
+   WRITE FILE(FOUT1) FROM(FOUT1_REC);         /*               */
+   CNT_FOUT1 = CNT_FOUT1 + 1;                 /*               */
+ END S2060_E08_SUM ;
+ /*-------------------------------------------------------------------*/
+ /*  OUT01 DB                                                         */
+ /*-------------------------------------------------------------------*/
+ S2070_SELECT: PROC ;
+   WKQUBBM = 0;
+   WKVSRXA = 0;
+   IF WK_BASE_DATE = '0000-00-00'
+   THEN DO;
+     WKQUBBM = 0;
+     WKVSRXA = 0;
+   END;
+   ELSE DO;
+     EXEC SQL
+       SELECT COUNT(*),
+         CASE COUNT(*)
+         WHEN 0 THEN 0
+         ELSE
+           SUM(
+             DEC(SUBSTR(CHAR(CREATE_DATE),12,2),15,0) * 10000 +
+             DEC(SUBSTR(CHAR(CREATE_DATE),15,2),15,0) * 100   +
+             DEC(SUBSTR(CHAR(CREATE_DATE),18,2),15,0)
+           )
+         END AS SUM
+       INTO :WKQUBBM,:WKVSRXA
+       FROM  CH88U1.USER_MASTER
+       WHERE DATE(CREATE_DATE) = :WK_BASE_DATE;
+     WK_SQLCODE = SQLCODE ;
+     PGM_NAME   =  2071;                      /*   2071        */
+     CALL SQLERROR;
+   END;
+
+   FOUT1_REC.DRXAS = WK_ASOF;
+   FOUT1_REC.TLCLS = 'E12';
+   FOUT1_REC.USEQN = '02';
+   FOUT1_REC.TFLAD = 'B:¡‰ñ\¿Œ”';
+   FOUT1_REC.QUBBM = WKQUBBM;
+   FOUT1_REC.VSRXA = WKVSRXA ;
+   WRITE FILE(FOUT1) FROM(FOUT1_REC);         /*               */
+   CNT_FOUT1 = CNT_FOUT1 + 1;                 /*               */
+ END S2070_SELECT ;
+ /*-------------------------------------------------------------------*/
+ /*  OUT01 DD                                                         */
+ /*-------------------------------------------------------------------*/
+ S2080_E13_SUM : PROC ;
+   WKQUBBM = 0;
+   WKVSRXA = 0;
+   EXEC SQL
+     SELECT COUNT(*),
+       CASE COUNT(*)
+       WHEN 0 THEN 0
+       ELSE
+         SUM(
+           DEC(SUBSTR(CHAR(CREATE_DATE),12,2),15,0) * 10000 +
+           DEC(SUBSTR(CHAR(CREATE_DATE),15,2),15,0) * 100   +
+           DEC(SUBSTR(CHAR(CREATE_DATE),18,2),15,0)
+         )
+       END AS SUM
+     INTO :WKQUBBM,:WKVSRXA
+     FROM CH88U1.USER_MASTER
+     ;
+   WK_SQLCODE = SQLCODE ;
+   PGM_NAME   =  2081;                        /*    2081       */
+   CALL SQLERROR;
+
+   FOUT1_REC.DRXAS = WK_ASOF;
+   FOUT1_REC.TLCLS = 'E12';
+   FOUT1_REC.USEQN = '04';
+   FOUT1_REC.TFLAD = 'D:¡‰ñ‘Œ”';
+   FOUT1_REC.QUBBM = WKQUBBM;
+   FOUT1_REC.VSRXA = WKVSRXA ;
+   WRITE FILE(FOUT1) FROM(FOUT1_REC);         /*               */
+   CNT_FOUT1 = CNT_FOUT1 + 1;                 /* FOUT1 COUNT   */
+ END S2080_E13_SUM ;
+ /*-------------------------------------------------------------------*/
+ /*   OUT1 EA                                                         */
+ /*-------------------------------------------------------------------*/
+ S2090_FINP2 : PROC ;
+   DO UNTIL(EOF_FINP2 ='1'B ) ;
+     READ FILE(FINP2) INTO(FINP2_REC);        /*     FINP2     */
+     IF EOF_FINP2 = '0'B                      /*               */
+     THEN DO;                                 /*               */
+         CNT_FINP2 = CNT_FINP2 + 1;           /*               */
+     END;                                     /*               */
+   END ;
+
+   WKQUBBM = CNT_FINP2;
+   WKVSRXA = 0;
+   FOUT1_REC.DRXAS = WK_ASOF;
+   FOUT1_REC.TLCLS = 'E11';
+   FOUT1_REC.USEQN = '01';
+   FOUT1_REC.TFLAD = 'A:‚s‚n‚o‚r‘Œ”';
+   FOUT1_REC.QUBBM = WKQUBBM;
+   FOUT1_REC.VSRXA = WKVSRXA ;
+   WRITE FILE(FOUT1) FROM(FOUT1_REC);         /*               */
+   CNT_FOUT1 = CNT_FOUT1 + 1;                 /*               */
+ END S2090_FINP2 ;
+ /*-------------------------------------------------------------------*/
+ /*   OUT1 EB                                                         */
+ /*-------------------------------------------------------------------*/
+ S2100_E11_SUM : PROC ;
+   WKVSRXA = 0;
+   EXEC SQL
+     SELECT COUNT(*)
+     INTO :WKQUBBM
+     FROM CH88U1.BANK_MASTER
+     ;
+   WK_SQLCODE = SQLCODE ;                     /*   2100        */
+   PGM_NAME   =  2100;
+   CALL SQLERROR;
+
+   FOUT1_REC.DRXAS= WK_ASOF;
+   FOUT1_REC.TLCLS= 'E11';
+   FOUT1_REC.USEQN= '02';
+   FOUT1_REC.TFLAD= 'B:‚a‚o‚q‚r‘Œ”';
+   FOUT1_REC.QUBBM= WKQUBBM;
+   FOUT1_REC.VSRXA= WKVSRXA ;
+  WRITE FILE(FOUT1) FROM(FOUT1_REC);          /*               */
+   CNT_FOUT1 = CNT_FOUT1 + 1;                 /*               */
+ END S2100_E11_SUM ;
+ /*-------------------------------------------------------------------*/
+ /*   CEDS QCOS INVENTORY FILE                                        */
+ /*-------------------------------------------------------------------*/
+ S2110_FINP3 : PROC ;
+   WKQUBBM = 0;
+   WKVSRXA = 0;
+   CNT_FINP3NOT =0;
+   DO UNTIL(EOF_FINP3 ='1'B ) ;
+     READ FILE(FINP3) INTO(FINP3_REC);        /*     FINP3     */
+     IF EOF_FINP3 = '0'B                      /*               */
+     THEN DO;                                 /*               */
+         CNT_FINP3 = CNT_FINP3 + 1;           /*               */
+         IF FINP3_REC.USLIB = 'I'
+         THEN DO;
+             WKQUBBM = WKQUBBM + 1;
+         END;
+         ELSE DO;
+           IF FINP3_REC.USLIB = 'L'
+           THEN DO;
+               WKVSRXA = WKVSRXA + 1;
+           END;
+           ELSE DO;
+             CNT_FINP3NOT = CNT_FINP3NOT + 1;
+           END;
+         END;
+     END;                                     /*                */
+   END ;
+   PUT DATA(CNT_FINP3,WKQUBBM,WKVSRXA,CNT_FINP3NOT);
+
+   FOUT1_REC.DRXAS = WK_ASOF;
+   FOUT1_REC.TLCLS = 'E10';
+   FOUT1_REC.USEQN = '01';
+   FOUT1_REC.TFLAD = 'A:‚b‚d‚c‚r‘Œ”';
+   FOUT1_REC.QUBBM = WKQUBBM;
+   FOUT1_REC.VSRXA = WKVSRXA ;
+   WRITE FILE(FOUT1) FROM(FOUT1_REC);         /*               */
+   CNT_FOUT1 = CNT_FOUT1 + 1;                 /*               */
+ END S2110_FINP3 ;
+ /*-------------------------------------------------------------------*/
+ /*                                                                   */
+ /*-------------------------------------------------------------------*/
+ S2120_E10_SHIP : PROC ;
+   EXEC SQL
+     SELECT COUNT(USLIB)
+     INTO :WKQUBBM
+     FROM CH88U1.QCOS_INVENTORY
+     WHERE USLIB = 'I';
+   WK_SQLCODE = SQLCODE ;                     /*    2121       */
+   PGM_NAME   =  2121;
+   CALL SQLERROR;
+
+   EXEC SQL
+     SELECT COUNT(USLIB)
+     INTO :WKVSRXA
+     FROM CH88U1.QCOS_INVENTORY
+     WHERE USLIB = 'L';
+   WK_SQLCODE = SQLCODE ;                     /*     2122      */
+   PGM_NAME   =  2122;
+   CALL SQLERROR;
+
+   FOUT1_REC.DRXAS = WK_ASOF;
+   FOUT1_REC.TLCLS = 'E10';
+   FOUT1_REC.USEQN = '02';
+   FOUT1_REC.TFLAD = 'B:‚a‚o‚q‚r‘Œ”';
+   FOUT1_REC.QUBBM = WKQUBBM;
+   FOUT1_REC.VSRXA = WKVSRXA ;
+   WRITE FILE(FOUT1) FROM(FOUT1_REC);         /*               */
+   CNT_FOUT1 = CNT_FOUT1 + 1;                 /*               */
+ END S2120_E10_SHIP ;
+ /*-------------------------------------------------------------------*/
+ /*    ERROR                                                          */
+ /*-------------------------------------------------------------------*/
+ SQLERROR:PROC;
+   SELECT( WK_SQLCODE ) ;
+      WHEN( 0 )
+         DO;
+       /*  PUT SKIP DATA(PGM_NAME,WK_SQLCODE); */
+         END ;
+      WHEN( 100 )
+        DO;
+      /*   PUT SKIP DATA(PGM_NAME,WK_SQLCODE); */
+        END ;
+      OTHERWISE
+         DO;
+           ERR_MSG.SEQ = PGM_NAME;
+           ERR_MSG.SQL_CODE = WK_SQLCODE;
+           PUT SKIP EDIT(ERR_MSG)(A) ;
+           PUT SKIP EDIT('PROGRAM CH88H10 ABNORMAL END')(A) ;
+           SIGNAL ERROR ;
+         END ;
+   END;
+ END SQLERROR ;
+ /*-------------------------------------------------------------------*/
+ /*  END PROCESS                                                      */
+ /*-------------------------------------------------------------------*/
+ S3000_END_PROCESS : PROC ;
+   CLOSE FILE(FINP1);                         /*  FILE CLOSE       */
+   CLOSE FILE(FINP2);                         /*                   */
+   CLOSE FILE(FINP3);                         /*                   */
+   CLOSE FILE(FOUT1);                         /*  FILE CLOSE       */
+ END S3000_END_PROCESS ;
+ /*-------------------------------------------------------------------*/
+ /*  ENDING PROCESS                                                   */
+ /*-------------------------------------------------------------------*/
+ EOJ:
+    %INCLUDE SYSLIB2(SMHEAD3);
+    XDESC='TOPS FILE CONTROL';
+    XPGMR='EV6217';
+    %INCLUDE SYSLIB(SMCTIME1);
+    PUT SKIP EDIT('=====> PROGRAM ID : CH88H10')(A) ;
+    PUT SKIP EDIT('****************************************') (A) ;
+    PUT SKIP EDIT('******* PGM = CH88H10 COUNT INF. ******')  (A) ;
+    PUT SKIP EDIT('**  CNT_FINP1 = ', CNT_FINP1)              (A) ;
+    PUT SKIP EDIT('**  CNT_FINP2 = ', CNT_FINP2)              (A) ;
+    PUT SKIP EDIT('**  CNT_FINP3 = ', CNT_FINP3)              (A) ;
+    PUT SKIP EDIT('**  CNT_FOUT1 = ', CNT_FOUT1)              (A) ;
+    PUT SKIP EDIT('****************************************') (A) ;
+     %INCLUDE SYSLIB2(SMCHECK5);
+     %XTWOWAY = 3 ;
+     SMEND7 (END) ;
+ END CH88H10;                              /*           END          */
+

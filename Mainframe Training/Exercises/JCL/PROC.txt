@@ -1,0 +1,214 @@
+
+流内过程：
+流内过程嵌在 JCL 里，以PROC 语句开始，PEND 语句结束，例：
+************************************************************************
+
+************************************************************************
+*直接调用*
+//GENER    JOB  LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID   
+//MYPROC   PROC                                                       
+//PSTOPS   EXEC PGM=IEBGENER                                         
+//SYSPRINT DD SYSOUT=*                                               
+//SYSUT1   DD DSN=IBMUSER.TEST.LHF.PSDT02,DISP=OLD                   
+//SYSUT2   DD DSN=IBMUSER.TEST.LHF.PSDT83,DISP=OLD                   
+//SYSIN    DD DUMMY                                                  
+//MYPROC   PEND                                                       
+//CPYLOAD  EXEC MYPROC                                                
+//                                                                    
+************************************************************************
+
+************************************************************************
+*两个符号参数调用*
+
+//GENER    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID   
+//MYPROC   PROC INDD=,OUTDD=                                          
+//PSTOPS   EXEC PGM=IEBGENER                                          
+//SYSPRINT DD SYSOUT=*                                                
+//SYSUT1   DD DSN=&INDD,DISP=OLD                                     
+//SYSUT2   DD DSN=&OUTDD,                                            
+//            DISP=(NEW,CATLG,DELETE),                                
+//            DCB=(LRECL=80,RECFM=FB,BLKSIZE=800,DSORG=PS),           
+//            SPACE=(TRK,(10,10))                                     
+//SYSIN    DD DUMMY                                                   
+//MYPROC   PEND                                                       
+//CPYLOAD  EXEC MYPROC,INDD=IBMUSER.TEST.LHF.PSDT02,                  
+//            OUTDD=IBMUSER.TEST.LHF.PSDT83                           
+//                                                                          
+************************************************************************
+
+************************************************************************                         
+*一个符号参数调用*
+//GENER    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID  
+//MYPROC   PROC INDD=                                                
+//ALLOC    EXEC PGM=IEFBR14                                          
+//SYSPRINT DD SYSOUT=*                                               
+//SYSUT1   DD DSN=&INDD,                                             
+//             DISP=(NEW,CATLG,DELETE),                              
+//             DCB=(LRECL=80,RECFM=FB,BLKSIZE=800,DSORG=PS),         
+//             SPACE=(TRK,(10,10))                                   
+//SYSIN    DD DUMMY                                                  
+//MYPROC   PEND                                                      
+//MYFL1    EXEC MYPROC,INDD=IBMUSER.TEST.LHF.PSDT83                  
+//MYFL2    EXEC MYPROC,INDD=IBMUSER.TEST.LHF.PSDT84                  
+//                                                                    
+************************************************************************
+
+************************************************************************
+*EXEC语句参数*
+//GENER    JOB  LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//MYPROC   PROC                                                      
+//STEP1    EXEC PGM=IEBGENER,TIME=4                                  
+//SYSPRINT DD SYSOUT=*                                               
+//SYSUT1   DD DSN=IBMUSER.TEST.LHF.PSDT02,DISP=OLD                   
+//SYSUT2   DD DSN=IBMUSER.TEST.LHF.PSDT83,DISP=OLD                   
+//SYSIN    DD DUMMY                                                  
+//MYPROC   PEND                                                      
+//CPYLOAD  EXEC MYPROC,TIME.STEP1=(,30),REGION.STEP1=200K            
+//  
+************************************************************************
+
+************************************************************************
+*DD语句参数*
+//GENER    JOB  LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
+//MYPROC   PROC                                                      
+//STEP1    EXEC PGM=IEBGENER                                         
+//SYSPRINT DD SYSOUT=*                                               
+//SYSUT1   DD DSN=IBMUSER.TEST.LHF.PSDT02,DISP=OLD                   
+//SYSUT2   DD DSN=IBMUSER.TEST.LHF.PSDT83,DISP=OLD                   
+//*YSIN    DD DUMMY                                                  
+//MYPROC   PEND                                                      
+//CPYLOAD  EXEC MYPROC                                               
+//STEP1.SYSUT2 DD DSN=IBMUSER.TEST.LHF.PSDT85,                       
+//            DISP=(NEW,CATLG,DELETE),                               
+//            DCB=(LRECL=80,RECFM=FB,BLKSIZE=800,DSORG=PS),          
+//            SPACE=(TRK,(10,10))                                    
+//STEP1.SYSIN  DD *                                                  
+  GENERATE MAXFLDS=3                                                 
+  RECORD FIELD=(7,9,,1),FIELD=(4,23,,9),FIELD=(2,34,,14)             
+//
+
+'SDSF LOG:
+SDSF OUTPUT DISPLAY GENER    JOB00065  DSID     3 LINE 0       COLUMNS 02- 81  
+COMMAND INPUT ===>                                            SCROLL ===> PAGE 
+******************************** TOP OF DATA **********************************
+       1 //GENER    JOB  LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID  
+         IEFC653I SUBSTITUTION JCL - LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTI
+       2 //MYPROC   PROC                                                       
+         //STEP1    EXEC PGM=IEBGENER                                          
+         //SYSPRINT DD SYSOUT=*                                                
+         //SYSUT1   DD DSN=IBMUSER.TEST.LHF.PSDT02,DISP=OLD                    
+         //SYSUT2   DD DSN=IBMUSER.TEST.LHF.PSDT83,DISP=OLD                    
+         //*YSIN    DD DUMMY                                                   
+         //MYPROC   PEND                                                       
+       3 //CPYLOAD  EXEC MYPROC                                                
+       4 ++MYPROC   PROC                                                       
+       5 ++STEP1    EXEC PGM=IEBGENER                                          
+       6 ++SYSPRINT DD SYSOUT=*                                                
+       7 ++SYSUT1   DD DSN=IBMUSER.TEST.LHF.PSDT02,DISP=OLD                    
+       8 //STEP1.SYSUT2 DD DSN=IBMUSER.TEST.LHF.PSDT85,                        
+         //            DISP=(NEW,CATLG,DELETE),                                
+         //            DCB=(LRECL=80,RECFM=FB,BLKSIZE=800,DSORG=PS),           
+         //            SPACE=(TRK,(10,10))                                     
+         +/SYSUT2   DD DSN=IBMUSER.TEST.LHF.PSDT83,DISP=OLD                    
+         ++*YSIN    DD DUMMY                                                   
+       9 //STEP1.SYSIN  DD *                                                   
+******************************* BOTTOM OF DATA ********************************
+
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+编目过程：对于编目过程，不能有PEND语句
+
+'子程序:
+    IBMUSER.TEST.LIHF.JCL(PROC06) - 01.04           Columns 00001 00072 
+ ===>                                                  Scroll ===> CSR  
+***************************** Top of Data ******************************
+//SUBPROC  PROC                                                         
+//STEP1    EXEC PGM=IEBGENER                                            
+//SYSPRINT DD SYSOUT=*                                                  
+//SYSUT1   DD DSN=IBMUSER.TEST.LHF.PSDT02,DISP=OLD                      
+//SYSUT2   DD DSN=IBMUSER.TEST.LHF.PSDT83,DISP=OLD                      
+//*YSIN    DD DUMMY                                                     
+//                                                                      
+**************************** Bottom of Data ****************************
+
+
+'主程序:
+    IBMUSER.TEST.LIHF.JCL(PROCRUN6) - 01.02         Columns 00001 00072
+ ===>                                                  Scroll ===> CSR 
+***************************** Top of Data *****************************
+//GENER    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID    
+//MYLIB    JCLLIB ORDER=(IBMUSER.TEST.LIHF.JCL)                        
+//STEP0    EXEC PROC06                                                 
+//STEP1.SYSUT2 DD DSN=IBMUSER.TEST.LHF.PSDT85,                         
+//            DISP=(NEW,CATLG,DELETE),                                 
+//            DCB=(LRECL=80,RECFM=FB,BLKSIZE=800,DSORG=PS),            
+//            SPACE=(TRK,(10,10))                                      
+//STEP1.SYSIN  DD *                                                    
+  GENERATE MAXFLDS=3                                                   
+  RECORD FIELD=(7,9,,1),FIELD=(4,23,,9),FIELD=(2,34,,14)               
+// 
+**************************** Bottom of Data ****************************
+
+
+'SDSF LOG:
+SDSF OUTPUT DISPLAY GENER    JOB00071  DSID     3 LINE 0       COLUMNS 02- 81  
+COMMAND INPUT ===>                                            SCROLL ===> PAGE 
+******************************** TOP OF DATA **********************************
+       1 //GENER    JOB LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID   
+         IEFC653I SUBSTITUTION JCL - LHF,CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTI
+       2 //MYLIB    JCLLIB ORDER=(IBMUSER.TEST.LIHF.JCL)                       
+       3 //STEP0    EXEC PROC06                                                
+       4 XXSUBPROC  PROC                                                       
+       5 XXSTEP1    EXEC PGM=IEBGENER                                          
+       6 XXSYSPRINT DD SYSOUT=*                                                
+       7 XXSYSUT1   DD DSN=IBMUSER.TEST.LHF.PSDT02,DISP=OLD                    
+       8 //STEP1.SYSUT2 DD DSN=IBMUSER.TEST.LHF.PSDT85,                        
+         //            DISP=(NEW,CATLG,DELETE),                                
+         //            DCB=(LRECL=80,RECFM=FB,BLKSIZE=800,DSORG=PS),           
+         //            SPACE=(TRK,(10,10))                                     
+         X/SYSUT2   DD DSN=IBMUSER.TEST.LHF.PSDT83,DISP=OLD                    
+         XX*YSIN    DD DUMMY                                                   
+       9 //STEP1.SYSIN  DD *                                                   
+      10 XX                                                                    
+******************************* BOTTOM OF DATA ********************************
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+************************************************************************
+
+************************************************************************
+'IF..ELSE..ENDIF
+
+//IF    JOB CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),             
+//       NOTIFY=IBMUSER                                    
+//COMP  PROC                                               
+//STEP1 EXEC PGM=IEFBR14                                   
+//FILE1 DD DSN=IBMUSER.TEST.LHF.PDSDT001,                  
+//         DISP=(NEW,CATLG),                               
+//         STORCLAS=OSBASE,MGMTCLAS=OSMGMT,                
+//         SPACE=(TRK,(5,1,4)),                            
+//         DCB=(RECFM=FB,LRECL=80,BLKSIZE=3120,DSORG=PO)   
+//IFOK1 IF (STEP1.RC>0) THEN                               
+//STEP2 EXEC PGM=IEFBR14                                   
+//FILE1 DD DSN=IBMUSER.TEST.LHF.PDSDT002,                  
+//         DISP=(NEW,CATLG),                               
+//         STORCLAS=OSBASE,MGMTCLAS=OSMGMT,                
+//         SPACE=(TRK,(5,1,4)),                            
+//         DCB=(RECFM=FB,LRECL=80,BLKSIZE=3120,DSORG=PO)   
+//ELSE1 ELSE                                               
+//STEP3 EXEC PGM=IEFBR14                                   
+//FILE1 DD DSN=IBMUSER.TEST.LHF.PDSDT003,                  
+//         DISP=(NEW,CATLG),                                
+//         STORCLAS=OSBASE,MGMTCLAS=OSMGMT,                 
+//         SPACE=(TRK,(5,1,4)),                             
+//         DCB=(RECFM=FB,LRECL=80,BLKSIZE=3120,DSORG=PO)    
+//IFEND1 ENDIF                                              
+//       PEND                                               
+//FINAL  EXEC COMP                                          
+//                                                          
+************************************************************************
+
+************************************************************************

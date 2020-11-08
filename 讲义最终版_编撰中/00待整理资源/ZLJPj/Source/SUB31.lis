@@ -1,0 +1,459 @@
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:23:57 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+打开文件：SUB31.PCO
+     1        *****************************************************************
+     2        *程序ID         ：SUB31
+     3        *程序名         ：学生奖惩信息录入
+     4        *处理概要       ：录入学生在校期间各种奖励与处分信息
+     5        *
+     6        *
+     7        *变量           IO       变量名
+     8        *
+     9        *
+    10        *
+    11        *日期           作成者             概要
+    12        *2007/04/05     张丽娟             作成
+    13        *
+    14        *****************************************************************
+    15        *
+    16        *****************************************************************
+    17        * 环境部
+    18        *****************************************************************
+    19  000010 IDENTIFICATION                               DIVISION.
+    20  000020 PROGRAM-ID.  Sub31.
+    21  000030 ENVIRONMENT                                  DIVISION.
+    22  000040 DATA                                         DIVISION.
+    23  000050 WORKING-STORAGE                              SECTION.
+    24        *
+    25        *----------------------------------------------------------------
+    26        *数据库用数据定义
+    27        *----------------------------------------------------------------
+    28  000051     EXEC  SQL  BEGIN  DECLARE        SECTION  END-EXEC.
+    29  000052     EXEC  SQL  INCLUDE  SQLCOM.CBL            END-EXEC.
+打开文件：D:\ZLJPj\Source\COPYLIB_DB\SQLCOM.CBL
+     1  000010*  
+     2  000030   01  SQLSTATE                      PIC  X(005).
+     3  000040   01  DB-STRING                     PIC  X(020).
+     4  000050   01  USERNAME                      PIC  X(010).
+     5  000060   01  PASSWD                        PIC  X(010).
+     6  000070*
+关闭文件：D:\ZLJPj\Source\COPYLIB_DB\SQLCOM.CBL
+    30  000055     EXEC  SQL  INCLUDE  SQLCA.CBL             END-EXEC.
+    31        *
+打开文件：D:\ZLJPj\Source\COPYLIB_DB\SQLCA.CBL
+     1        ***************************************************************** 
+     2        *                                                               * 
+     3        *               S  Q  L  C  A                                   * 
+     4        *  (This file in ANSI format.  Do NOT bse it).                  * 
+     5        *                                                               * 
+     6        * MODIFIED                                                      * 
+     7        *   Clare      12/06/84 - Ch SQLCA to not be an EXTERNAL.       * 
+     8        ***************************************************************** 
+     9         01  SQLCA.                                                       
+    10             05  SQLCAID               PIC X(8).                          
+    11             05  SQLCABC               PIC S9(9) COMPUTATIONAL.           
+    12             05  SQLCODE               PIC S9(9) COMPUTATIONAL.           
+    13             05  SQLERRM.                                                 
+    14                 49 SQLERRML           PIC S9(4) COMPUTATIONAL.           
+    15                 49 SQLERRMC           PIC X(70).                         
+    16             05  SQLERRP               PIC X(8).                          
+    17             05  SQLERRD OCCURS 6 TIMES                                   
+    18                                       PIC S9(9) COMPUTATIONAL.           
+    19             05  SQLWARN.                                                 
+    20                 10 SQLWARN0           PIC X(1).                          
+    21                 10 SQLWARN1           PIC X(1).                          
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:23:57 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    22                 10 SQLWARN2           PIC X(1).                          
+    23                 10 SQLWARN3           PIC X(1).                          
+    24                 10 SQLWARN4           PIC X(1).                          
+    25                 10 SQLWARN5           PIC X(1).                          
+    26                 10 SQLWARN6           PIC X(1).                          
+    27                 10 SQLWARN7           PIC X(1).                          
+    28             05  SQLEXT                PIC X(8).                          
+关闭文件：D:\ZLJPj\Source\COPYLIB_DB\SQLCA.CBL
+    32  000055     EXEC  SQL  INCLUDE  STAPPRAISE.CBL        END-EXEC.
+    33        *
+打开文件：D:\ZLJPj\Source\COPYLIB_DB\STAPPRAISE.CBL
+     1        *****************************************************************
+     2        *程序ID         ：STAPPRAISE
+     3        *程序名         ：学生奖惩信息
+     4        *
+     5        *日期           作成者            概要
+     6        *2007/04/10     张丽娟            作成
+     7        *
+     8        *****************************************************************
+     9  000040 01 STAPPRAISE.
+    10             03 SNO                                      PIC  9(06).
+    11             03 SYEAR                                   PIC  9(04).
+    12             03 SSYNOPSIS                            PIC  X(20).
+    13             03 SPARTICULAR                        PIC  X(60).
+    14  000040     03 SSIGN                               PIC  9.
+    15             03 SSERIAL                                PIC  9(05).
+关闭文件：D:\ZLJPj\Source\COPYLIB_DB\STAPPRAISE.CBL
+    34             EXEC  SQL  INCLUDE  SQLWK.CBL             END-EXEC.
+    35        *
+打开文件：D:\ZLJPj\Source\COPYLIB_DB\SQLWK.CBL
+     1  000010*****************************************************************
+     2  000020*SQL WORK AREA
+     3  000030*****************************************************************
+     4  000040 01 SQLWORKAREA.
+     5             03 SQLSTUDENTINFO.
+     6                 05 SQLSNO                 PIC  9(06).
+     7             03 SQLCOUNT                   PIC 9(4).
+关闭文件：D:\ZLJPj\Source\COPYLIB_DB\SQLWK.CBL
+    36  000056     EXEC  SQL  END      DECLARE      SECTION  END-EXEC.
+    37        *
+    38        *----------------------------------------------------------------
+    39        *WORKAREA
+    40        *----------------------------------------------------------------
+    41        *屏幕线型定义
+    42         COPY WKSCRLINE.
+    43        *
+    44         COPY WKAREA.
+    45        *
+    46  000060*
+    47  000070 LINKAGE                                      SECTION.
+    48        *
+    49  000080 SCREEN                                       SECTION.
+    50        *画面头
+    51  000090 COPY SCRHEAD.
+    52        *学生奖惩信息画面
+    53  000090 COPY SCRAPPRAISE.
+    54        *画面底
+    55         COPY SCRFLOOR.
+    56        *公用提示画面
+    57         COPY SCRPUB.
+    58        *
+    59        *****************************************************************
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:23:57 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+    60        *过程部
+    61        *****************************************************************
+    62  000120 PROCEDURE                                    DIVISION.
+    63  000130 MAINPROCESSRTN                               SECTION.
+    64  000160*初期处理
+    65             PERFORM STARTRTN.
+    66        *主处理
+    67             PERFORM MAINRTN.
+    68        *终了处理
+    69  000180     PERFORM ENDRTN.
+    70        *
+    71  000180 MAINPROCESSEXIT.
+    72  000190     EXIT PROGRAM.
+    73        *****************************************************************
+    74        *初期处理
+    75        *
+    76        *****************************************************************
+    77         STARTRTN                                     SECTION.
+    78        *    初始化WORK变量
+    79             INITIALIZE STAPPRAISE, WKAREA.
+    80        *
+    81         STARTEXIT.
+    82             EXIT.
+    83        *****************************************************************
+    84        *主处理
+    85        *
+    86        *****************************************************************
+    87         MAINRTN                                      SECTION.
+    88        *    显示屏幕
+    89             DISPLAY SCRHEAD.
+    90             MOVE "请输入新录入的奖惩信息,然后输入I并按回车键确认" 
+    91                TO WKCLUE.
+    92             DISPLAY SCRAPPRAISE.
+    93             MOVE "输入I并按回车键确认,输入其它字符返回主菜单" 
+    94                TO WKCLUE.
+    95             DISPLAY SCRFLOOR.
+    96        *    数据输入
+    97             ACCEPT  SCRAPPRAISE.
+    98        *
+    99             IF WKTURN = "I"
+   100             THEN
+   101        *        判断该课程成绩是否存在,存在则提示是否更新
+   102                 PERFORM CHACKDATARTN
+   103        *
+   104             ELSE
+   105                 GO TO MAINEXIT
+   106             END-IF.
+   107        * 
+   108        *    
+   109             IF DATACHACKFLAG = 1
+   110             THEN
+   111        *       判断该生该课程成绩是否存在
+   112        *       查询记录数量
+   113                EXEC  SQL
+   114                   SELECT  COUNT(*)
+   115                   INTO   :SQLCOUNT
+   116                   FROM    STUDENTAPPRAISE
+   117                   WHERE  (SERIAL = :SSERIAL) AND (SIGN = :SSIGN)
+   118                END-EXEC
+   119  
+   120                EVALUATE   SQLCODE
+   121                WHEN  0
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:23:57 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   122        *          查询记录条数正常
+   123                   DISPLAY  "查询记录条数正常sqlcode=", SQLCODE
+   124                   CONTINUE
+   125                WHEN OTHER
+   126        *          查询记录条数失败
+   127                   DISPLAY  "查询记录条数失败sqlcode=", SQLCODE
+   128                   MOVE SQLCODE TO EMSGSQLCD
+   129        *          错误处理
+   130                   CALL "ERRORMSG" USING ERRORKEY
+   131                   GO TO MAINEXIT
+   132                END-EVALUATE
+   133  
+   134             ELSE
+   135                 CONTINUE
+   136             END-IF
+   137        *
+   138        *    判断数据是否存在
+   139             IF (DATACHACKFLAG = 1) AND (SQLCOUNT = 0)
+   140             THEN
+   141        *       数据不存在，插入新数据
+   142                PERFORM DBUPRTN
+   143             ELSE
+   144        *       显示输入信息已经存在提示画面
+   145                DISPLAY SCRHEAD
+   146                MOVE "您输入的奖惩信息已存在！" TO WKCLUE
+   147                MOVE SPACE TO WKTURN
+   148                DISPLAY SCRPUB
+   149                MOVE "您输入的奖惩信息已存在！" TO WKCLUE
+   150                DISPLAY SCRFLOOR
+   151                ACCEPT SCRPUB
+   152        *
+   153             END-IF.
+   154        *
+   155         MAINEXIT.
+   156             EXIT.
+   157        *
+   158        *----------------------------------------------------------------
+   159        *校验数据
+   160        *    数据不合格则设置FLAG为0
+   161        *----------------------------------------------------------------
+   162         CHACKDATARTN                                 SECTION.
+   163        *    CHACKFLAG置1
+   164             MOVE 1                       TO  DATACHACKFLAG.
+   165  
+   166        *    录入的数据不为空
+   167             IF (SSERIAL     NOT = 0)     AND
+   168                (SNO         NOT = 0)     AND
+   169                (SYEAR       NOT = 0)     AND
+   170                (SSYNOPSIS   NOT = SPACE) AND
+   171                (SPARTICULAR NOT = SPACE) AND
+   172                (SSIGN       NOT = 0)     and
+   173                (SSIGN           = 1 OR 2)     
+   174             THEN
+   175                CONTINUE
+   176             ELSE
+   177        *        显示未录入数据画面
+   178                 DISPLAY SCRHEAD
+   179                 MOVE "请录入数据！" TO WKCLUE
+   180                 MOVE SPACE TO WKTURN
+   181                 DISPLAY SCRPUB
+   182                 MOVE "请录入数据！" TO WKCLUE
+   183                 DISPLAY SCRFLOOR
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:23:57 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   184                 ACCEPT SCRPUB
+   185                GO TO MAINEXIT
+   186             END-IF.
+   187  
+   188         CHACKDATAEXIT.
+   189             EXIT.
+   190        *
+   191        *----------------------------------------------------------------
+   192        *插入新数据
+   193        *----------------------------------------------------------------
+   194         DBUPRTN                                      SECTION.
+   195        *
+   196        *    数据插入操作
+   197             EXEC SQL
+   198                 INSERT INTO STUDENTAPPRAISE( SERIAL
+   199                                             ,SIGN
+   200                                             ,NO
+   201                                             ,YEAR
+   202                                             ,SYNOPSIS
+   203                                             ,PARTICULAR
+   204                                        )
+   205                 VALUES ( :SSERIAL
+   206                         ,:SSIGN
+   207                         ,:SNO
+   208                         ,:SYEAR
+   209                         ,:SSYNOPSIS 
+   210                         ,:SPARTICULAR 
+   211                        )
+   212             END-EXEC.
+   213        *
+   214        *    数据库返回码判断
+   215             EVALUATE SQLCODE
+   216             WHEN 0
+   217        *        返回码为“0”数据插入正常
+   218        *        数据提交
+   219                 DISPLAY  "录入学生奖惩信息成功sqlCODE=", SQLCODE
+   220                 EXEC SQL
+   221                     COMMIT WORK RELEASE
+   222                 END-EXEC
+   223        *
+   224        *        显示插入成功画面
+   225                 DISPLAY SCRHEAD
+   226                 MOVE "录入学生奖惩信息成功！" TO WKCLUE
+   227                 MOVE SPACE TO WKTURN
+   228                 DISPLAY SCRPUB
+   229                 MOVE "录入学生奖惩信息成功！" TO WKCLUE
+   230                 DISPLAY SCRFLOOR
+   231                 ACCEPT SCRPUB
+   232        *
+   233             WHEN OTHER
+   234        *        数据库返回码非“0”，数据插入失败，设定错误码
+   235                 MOVE 311 TO ERRPOINT
+   236                 MOVE SQLCODE TO EMSGSQLCD
+   237        *        错误处理
+   238                 CALL "ERRORMSG" USING ERRORKEY
+   239             END-EVALUATE.
+   240        *
+   241         DBUPEXIT.
+   242             EXIT.
+   243        *
+   244        *****************************************************************
+   245        *终了处理
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:23:57 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+   246        *
+   247        *****************************************************************
+   248         ENDRTN                                       SECTION.
+   249        *    调试信息
+   250             DISPLAY "SUB31 END-PROGRAM OK".
+   251        *
+   252         ENDEXIT.
+   253             EXIT.
+   254        *****************************************************************
+   255         END PROGRAM SUB31.
+   256        *****************************************************************
+关闭文件：SUB31.PCO
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:23:57 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+宿主变量
+--------------
+
+03  SNO OF STAPPRAISE                                   Unsigned Display(6,0)
+  D:\ZLJPj\Source\COPYLIB_DB\STAPPRAISE.CBL     10
+  SUB31.PCO    207
+
+03  SPARTICULAR OF STAPPRAISE                           Charf(60)
+  D:\ZLJPj\Source\COPYLIB_DB\STAPPRAISE.CBL     13
+  SUB31.PCO    210
+
+03  SQLCOUNT OF SQLWORKAREA                             Unsigned Display(4,0)
+  D:\ZLJPj\Source\COPYLIB_DB\SQLWK.CBL      7
+  SUB31.PCO    115
+
+01  SQLSTATE                                            Charf(5)
+  D:\ZLJPj\Source\COPYLIB_DB\SQLCOM.CBL      2
+  SUB31.PCO    113    197    220
+
+03  SSERIAL OF STAPPRAISE                               Unsigned Display(5,0)
+  D:\ZLJPj\Source\COPYLIB_DB\STAPPRAISE.CBL     15
+  SUB31.PCO    117    205
+
+03  SSIGN OF STAPPRAISE                                 Unsigned Display(1,0)
+  D:\ZLJPj\Source\COPYLIB_DB\STAPPRAISE.CBL     14
+  SUB31.PCO    117    206
+
+03  SSYNOPSIS OF STAPPRAISE                             Charf(20)
+  D:\ZLJPj\Source\COPYLIB_DB\STAPPRAISE.CBL     12
+  SUB31.PCO    209
+
+03  SYEAR OF STAPPRAISE                                 Unsigned Display(4,0)
+  D:\ZLJPj\Source\COPYLIB_DB\STAPPRAISE.CBL     11
+  SUB31.PCO    208
+
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:23:57 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+
+                              预编译器选项
+-------------------------------------------------------------------------------
+选项名称       当前值               设置地点
+-------------------------------------------------------------------------------
+asacc             否                默认                                        
+assume_sqlcode    否                默认                                        
+auto_connect      否                默认                                        
+close_on_commit   是                mode                                        
+comp5             是                d:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+config            default config    默认                                        
+date_format       local             默认                                        
+dbms              native            默认                                        
+declare_section   是                mode                                        
+define            *none*            默认                                        
+dynamic           ansi              mode                                        
+end_of_fetch      100               mode                                        
+eol_padding       是                默认                                        
+errors            是                默认                                        
+fips              否                默认                                        
+format            ansi              默认                                        
+hold_cursor       否                默认                                        
+host              cobol             默认                                        
+iname             SUB31.PCO         命令行                                      
+include           D:\ZLJPj\Source\COd:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+ireclen           132               d:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+litdelim          quote             默认                                        
+lname             *none*            默认                                        
+lreclen           132               默认                                        
+ltype             long              默认                                        
+maxliteral        160               d:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+maxopencursors    10                默认                                        
+mode              ANSI              d:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+nested            是                默认                                        
+nls_local         是                d:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+oname             SUB31.Cbl         命令行                                      
+oraca             否                默认                                        
+oreclen           80                默认                                        
+pagelen           66                默认                                        
+picx              charf             默认                                        
+prefetch          1                 默认                                        
+release_cursor    否                默认                                        
+select_error      是                默认                                        
+sqlcheck          FULL              d:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+threads           否                默认                                        
+type_code         ansi              mode                                        
+unsafe_null       否                默认                                        
+userid            student/zaq12wsx@cd:\oracle\ora92\precomp\admin\pcbcfg.cfg    
+varchar           否                默认                                        
+xref              是                默认                                        
+Pro*COBOL: Release 9.2.0.1.0 - Production on 星期六 6月 23 20:23:57 2007
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+统计信息
+----------
+
+返回代码: 0
+严重级 I 的消息数量: 0
+严重级 W 的消息数量: 0
+严重级 E 的消息数量: 0
+严重级 F 的消息数量: 0
+输入行数: 284
+说明的宿主变量个数: 15
+游标名数量: 0
+语句名数量: 0
+可使用的最大内存 (字节): 94087

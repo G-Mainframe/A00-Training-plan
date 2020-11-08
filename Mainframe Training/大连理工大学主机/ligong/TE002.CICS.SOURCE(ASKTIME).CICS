@@ -1,0 +1,83 @@
+000001 IDENTIFICATION DIVISION.                                         00010000
+       PROGRAM-ID ASKTIME.                                              00020000
+       DATA DIVISION.                                                   00030000
+       WORKING-STORAGE SECTION.                                         00040000
+       01 WRKFLDS.                                                      00050000
+          05 INL PIC S9(4) USAGE IS COMP.                               00060000
+          05 TSTAMP PIC S9(15) COMP-3.                                  00070000
+          05 RCVERR PIC S9(8) COMP.                                     00080001
+          05 OUTDATE PIC X(10).                                         00090004
+          05 OUTTIME PIC X(8).                                          00100000
+       01 INAREA.                                                       00110000
+          05 TRANID PIC X(4).                                           00120000
+          05 FILLER PIC X.                                              00130000
+          05 REQUEST PIC X(4).                                          00140000
+       01 MSG1 PIC X(80).                                               00150000
+      *                                                                 00160001
+       LINKAGE SECTION.                                                 00170000
+      *                                                                 00180001
+       PROCEDURE DIVISION.                                              00190000
+      *                                                                 00200001
+           MOVE 9 TO INL                                                00210000
+           EXEC CICS RECEIVE INTO(INAREA)                               00220000
+                LENGTH(INL)                                             00230000
+                RESP(RCVERR)                                            00240003
+           END-EXEC.                                                    00250000
+           IF RCVERR = DFHRESP(LENGERR)                                 00260002
+              MOVE 'INPUT DATA IS TOO LONG:MAX 9 CHARS' TO MSG1         00270001
+              EXEC CICS SEND CONTROL CURSOR(240)                        00280001
+                                    END-EXEC                            00290001
+              EXEC CICS SEND FROM(MSG1)                                 00300001
+                             LENGTH(40)                                 00310001
+                             END-EXEC                                   00320001
+              EXEC CICS RETURN END-EXEC.                                00330001
+           IF REQUEST = 'TERM'                                          00340001
+              MOVE ALL SPACES TO MSG1                                   00350007
+              STRING 'TERMINAL ID IS :' EIBTRMID DELIMITED BY SIZE      00360007
+                             INTO MSG1                                  00370001
+              EXEC CICS SEND CONTROL CURSOR(240)                        00380001
+                                    END-EXEC                            00390001
+              EXEC CICS SEND FROM(MSG1)                                 00400001
+                             LENGTH(40)                                 00410001
+                             END-EXEC                                   00420001
+              EXEC CICS RETURN END-EXEC.                                00430001
+           IF REQUEST = 'DATE'                                          00440001
+              EXEC CICS ASKTIME ABSTIME(TSTAMP)                         00450001
+                             END-EXEC                                   00460001
+              EXEC CICS FORMATTIME ABSTIME(TSTAMP)                      00470001
+                                   DATESEP                              00480001
+                                   MMDDYYYY(OUTDATE)                    00490001
+                                   END-EXEC                             00500001
+              MOVE ALL SPACES TO MSG1                                   00510007
+              STRING 'DATE IS :' OUTDATE DELIMITED BY SIZE INTO MSG1    00520007
+              EXEC CICS SEND CONTROL CURSOR(240)                        00530001
+                                     END-EXEC                           00540001
+              EXEC CICS SEND FROM(MSG1)                                 00550001
+                             LENGTH(40)                                 00560001
+                             END-EXEC                                   00570001
+              EXEC CICS RETURN END-EXEC.                                00580001
+           IF REQUEST = 'TIME'                                          00590001
+              EXEC CICS ASKTIME ABSTIME(TSTAMP)                         00600001
+                             END-EXEC                                   00610001
+              EXEC CICS FORMATTIME ABSTIME(TSTAMP)                      00620001
+                                   TIMESEP                              00630001
+                                   TIME(OUTTIME)                        00640001
+                                   END-EXEC                             00650001
+              MOVE ALL SPACES TO MSG1                                   00660007
+              STRING 'TIME IS :' OUTTIME DELIMITED BY SIZE INTO MSG1    00670007
+              EXEC CICS SEND CONTROL CURSOR(240)                        00680001
+                                     END-EXEC                           00690001
+              EXEC CICS SEND FROM(MSG1)                                 00700001
+                             LENGTH(40)                                 00710001
+                             END-EXEC                                   00720001
+              EXEC CICS RETURN END-EXEC.                                00730001
+            MOVE ALL SPACES TO MSG1                                     00740007
+            MOVE 'PARAMETER IS WRONG!'   TO MSG1                        00750006
+            EXEC CICS SEND CONTROL CURSOR(240)                          00760005
+                                   END-EXEC                             00770005
+            EXEC CICS SEND FROM(MSG1)                                   00780005
+                           LENGTH(40)                                   00790005
+                           END-EXEC                                     00800005
+            EXEC CICS RETURN END-EXEC.                                  00810005
+            GOBACK.                                                     00820005
+

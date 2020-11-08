@@ -1,0 +1,16 @@
+//C200300A     JOB    CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),NOTIFY=C200300  00010000
+//**       TYPRUN=SCAN                                                  00011000
+//GO1   EXEC PGM=SEARCH1                                                00012001
+//STEPLIB DD DSN=C200300.TEST.LOADLIB,DISP=SHR                          00013000
+//CUSTMAST DD DSN=C200300.TEST.CUSTMAST,DISP=SHR                        00014000
+//SYSIN   DD *                                                          00017001
+10002                                                                   00017102
+//                                                                      00017201
+//                                                                      00017301
+//                                                                      00017401
+//                                                                      00017501
+//                                                                      00017601
+//MYOUT    DD DSN=C200300.TEST.OUT2,DISP=OLD                            00018000
+//                                                                      00019000
+//                                                                      00020000
+

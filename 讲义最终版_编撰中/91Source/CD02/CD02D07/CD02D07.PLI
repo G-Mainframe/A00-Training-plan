@@ -1,0 +1,146 @@
+ CD02D07: PROC       OPTIONS(MAIN)           ;/* IBM Internal Use Only*/
+ /*-------------------------------------------------------------------*/
+ /*         PROJECT NO.                   CD02 (RCMS)                 */
+ /*         PROGRAM NO.                   CD02D07                     */
+ /*         PROGRAM NAME                  Call file layout conversion */
+ /*                                       from CD02BASE to CD02CAW.   */
+ /*         SENSITIVE                     NO                          */
+ /*         PROGRAMMED BY                 T.Kishikawa                 */
+ /*         WRITTEN DATE                  94/01/26                    */
+ /*-------------- INPUT FILE DESCRIPTION -----------------------------*/
+ /*         (DDNAME)    (CRDNAME)         (FILE DESCRIPTION)          */
+ /*         FINP1       CD02BASE          ADD call record (NEW)       */
+ /*         FINP2       CD02BASE          CHG call record (UPD)       */
+ /*-------------- OUTPUT FILE DESCRIPTION ----------------------------*/
+ /*         (DDNAME)    (CRDNAME)         (FILE DESCRIPTION)          */
+ /*         FOUT1       CD02CAW           BDW Work file               */
+ /*-------------- PARAMETER/COMMON AREA DCL --------------------------*/
+ /*         (PTR/LABEL) (CRDNAME)         (DESCRIPTION)               */
+ /*-------------- EXIT -----------------------------------------------*/
+ /*         EXIT NOMAL  : NON-ERROR                                   */
+ /*         EXIT ERROR  : STANDARD ABEND           SMONERR1(ABEND)    */
+ /*-------------- CHANGE ACTIVITY ------------------------------------*/
+ /*         (KEY) (PROGRAMER) (YY/MM/DD)  (DESCRIPTION)               */
+ /*         $X1   YOUR NAME    XX/XX/XX                               */
+ /*-------------------------------------------------------------------*/
+    %INCLUDE SYSLIB2(SMONERR1)               ;/*                      */
+    %INCLUDE DCPENV                          ;/* for VBS data set     */
+ /*-------------------------------------------------------------------*/
+ /*  D E C L A R E   P R O C                                          */
+ /*-------------------------------------------------------------------*/
+ /*-----FILE----------------------------------------------------------*/
+    DCPCXCB(FINP1C,FINP1)                    ;/* ADD CALL             */
+    DCPCXCB(FINP2C,FINP2)                    ;/* UPD CALL             */
+    DCPCXCB(FOUT1C,FOUT1)                    ;/* BDW WORK             */
+    DCL   FINP1       FILE INPUT  RECORD     ,/*                      */
+          FINP2       FILE INPUT  RECORD     ,/*                      */
+          FOUT1       FILE OUTPUT RECORD     ,/*                      */
+          SYSPRINT    FILE OUTPUT PRINT      ;/*                      */
+ /*-----INPUT AREA----------------------------------------------------*/
+    DCL 1 IN_FINP1                           ,/*                      */
+    %INCLUDE CD02BASE                        ;/*                      */
+ /*-----OUTPUT AREA---------------------------------------------------*/
+    DCL 1 OUT_FOUT1                          ,/*                      */
+    %INCLUDE  CD02CAW                        ;/*                      */
+ /*-----EOF-----------------------------------------------------------*/
+    DCL   FINP1_EOF   BIT(1)    INIT('0'B)   ,/*                      */
+          FINP2_EOF   BIT(1)    INIT('0'B)   ;/*                      */
+ /*-----GENERAL VARIABLE----------------------------------------------*/
+    DCL   CNT_FINP1   FIXED(15) INIT(0)      ,/* Main input   count   */
+          CNT_FINP2   FIXED(15) INIT(0)      ,/* Sub  input   count   */
+          CNT_FOUT1   FIXED(15) INIT(0)      ;/* Output       count   */
+ /*-----BUILTIN-------------------------------------------------------*/
+    DCL (DATE,SUBSTR,STRING,PLIDUMP) BUILTIN ;/*                      */
+ /*-------------------------------------------------------------------*/
+ /*  O N   C O N D I T I O N                                          */
+ /*-------------------------------------------------------------------*/
+  ON ENDFILE(FINP1) BEGIN                    ;/*                      */
+    FINP1_EOF = '1'B                         ;/*                      */
+  END                                        ;/*                      */
+  ON ENDFILE(FINP2) BEGIN                    ;/*                      */
+    FINP2_EOF = '1'B                         ;/*                      */
+  END                                        ;/*                      */
+ /*-------------------------------------------------------------------*/
+ /*   M A I N                                                         */
+ /*-------------------------------------------------------------------*/
+  CALL OPENCX(FINP1C,'IN ')                  ;/*                      */
+  CALL OPENCX(FINP2C,'IN ')                  ;/*                      */
+  CALL OPENCX(FOUT1C,'OUT')                  ;/*                      */
+                                              /*                      */
+  OUT_FOUT1 = ''                             ;/*                      */
+                                              /*                      */
+  CALL READX(FINP1C,IN_FINP1,RETCD1)         ;/* Initial READ         */
+  IF RETCD1 = 'EOF'                           /*                      */
+  THEN                                        /*                      */
+    SIGNAL ENDFILE(FINP1)                    ;/*                      */
+                                              /*                      */
+  DO WHILE((FINP1_EOF)                       ;/* F I N P 1 ---------- */
+    CNT_FINP1 = CNT_FINP1 + 1                ;/*                      */
+    OUT_FOUT1 = IN_FINP1 ,BY NAME            ;/*                      */
+    IF IN_FINP1.EDQCL0S(1).SEDQDEX.IFLTDEX  = '' /* ADD 97/04/28      */
+      THEN                                    /*                      */
+        OUT_FOUT1.EDQCL0S.SEDQODI.IFLTDEX     /* RE-SET CREATE QUEUE  */
+         = IN_FINP1.EDQCL0S(1).SEDQDEX.IFLTDEX ; /*                   */
+      ELSE ;                                  /*                      */
+    OUT_FOUT1.ADDFLG = 'A'                   ;/* <= ADD               */
+    OUT_FOUT1.QFLTECO                         /*                      */
+     = IN_FINP1.EDQCL0S.QFLTECO              ;/*                      */
+    OUT_FOUT1.CMCXA                           /*                      */
+     = IN_FINP1.EDQCH0S.SEDQCMD.CHSISTM      ;/*                      */
+                                              /*                      */
+    CALL CWRITE(FOUT1C,OUT_FOUT1)            ;/*                      */
+    CNT_FOUT1 = CNT_FOUT1 + 1                ;/*                      */
+                                              /*                      */
+    CALL READX(FINP1C,IN_FINP1,RETCD1)       ;/* Next    READ         */
+    IF RETCD1 = 'EOF'                         /*                      */
+    THEN                                      /*                      */
+      SIGNAL ENDFILE(FINP1)                  ;/*                      */
+  END                                        ;/*                      */
+                                              /*                      */
+  CALL READX(FINP2C,IN_FINP1,RETCD1)         ;/* Initial READ         */
+  IF RETCD1 = 'EOF'                           /*                      */
+  THEN                                        /*                      */
+    SIGNAL ENDFILE(FINP2)                    ;/*                      */
+                                              /*                      */
+  DO WHILE((FINP2_EOF)                       ;/* F I N P 2 ---------- */
+    CNT_FINP2 = CNT_FINP2 + 1                ;/*                      */
+    OUT_FOUT1 = IN_FINP1 ,BY NAME            ;/*                      */
+    IF IN_FINP1.EDQCL0S(1).SEDQDEX.IFLTDEX  = '' /* ADD 97/04/28      */
+      THEN                                    /*                      */
+        OUT_FOUT1.EDQCL0S.SEDQODI.IFLTDEX     /* RE-SET CREATE QUEUE  */
+         = IN_FINP1.EDQCL0S(1).SEDQDEX.IFLTDEX ; /*                   */
+      ELSE ;                                  /*                      */
+    OUT_FOUT1.ADDFLG = 'C'                   ;/* <= CHANGE            */
+    OUT_FOUT1.QFLTECO                         /*                      */
+     = IN_FINP1.EDQCL0S.QFLTECO              ;/*                      */
+    OUT_FOUT1.CMCXA                           /*                      */
+     = IN_FINP1.EDQCH0S.SEDQCMD.CHSISTM      ;/*                      */
+                                              /*                      */
+    CALL CWRITE(FOUT1C,OUT_FOUT1)            ;/*                      */
+    CNT_FOUT1 = CNT_FOUT1 + 1                ;/*                      */
+                                              /*                      */
+    CALL READX(FINP2C,IN_FINP1,RETCD1)       ;/* Next    READ         */
+    IF RETCD1 = 'EOF'                         /*                      */
+    THEN                                      /*                      */
+      SIGNAL ENDFILE(FINP2)                  ;/*                      */
+  END                                        ;/*                      */
+                                              /*                      */
+  CALL CLOSECX(FINP1C)                       ;/*                      */
+  CALL CLOSECX(FINP2C)                       ;/*                      */
+  CALL CLOSECX(FOUT1C)                       ;/*                      */
+ /*-------------------------------------------------------------------*/
+ /*   E N D                                                           */
+ /*-------------------------------------------------------------------*/
+  PUT SKIP LIST('** PGM=CD02D07 COUNT LIST **') ;/*                   */
+  PUT SKIP DATA(CNT_FINP1)                   ;/*                      */
+  PUT SKIP DATA(CNT_FINP2)                   ;/*                      */
+  PUT SKIP DATA(CNT_FOUT1)                   ;/*                      */
+                                              /*                      */
+  %INCLUDE SYSLIB2(SMHEAD3)                  ;/*                      */
+  %INCLUDE SYSLIB2(SMCHECK5)                 ;/*                      */
+  %XTWOWAY=3                                 ;/*                      */
+  SMEND7(END)                                ;/*                      */
+                                              /*                      */
+  END CD02D07                                ;/*                      */
+ /*-------------------------------------------------------------------*/
+

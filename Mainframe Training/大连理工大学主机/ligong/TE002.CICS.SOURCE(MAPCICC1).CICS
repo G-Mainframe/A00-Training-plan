@@ -1,0 +1,40 @@
+000001 IDENTIFICATION DIVISION.                                         00010000
+       PROGRAM-ID MAPCICC1.                                             00020000
+       DATA DIVISION.                                                   00030000
+       WORKING-STORAGE SECTION.                                         00040000
+       01 RECL     PIC S9(4) COMP.                                      00050000
+       01 RECKEY   PIC X(6).                                            00060013
+       01 FILEREC.                                                      00070000
+           02   NAMES   PIC X(20).                                      00080000
+           02   STOCKS  PIC X(6).                                       00090010
+           02   QUANS   PIC X(10).                                      00100010
+       01 COMSTART.                                                     00110000
+           05 STOCKSS PIC X(6).                                         00120010
+             COPY MAPSETA.                                              00130000
+             COPY DFHAID.                                               00140000
+       PROCEDURE DIVISION.                                              00150000
+      *                                                                 00160000
+           EXEC CICS SEND MAP('ORDERM') MAPSET('MAPSETA') MAPONLY       00170000
+                END-EXEC.                                               00180000
+           EXEC CICS RECEIVE MAP('ORDERM') MAPSET('MAPSETA')            00190020
+                   END-EXEC                                             00200000
+           MOVE 36 TO RECL                                              00210015
+           MOVE SPACES TO RECKEY                                        00220015
+           MOVE STOCKI TO RECKEY                                        00230017
+           EXEC CICS READ FILE('LUKSDS')                                00240000
+                          INTO(FILEREC)                                 00250000
+                          RIDFLD(RECKEY)                                00260000
+                          LENGTH(RECL)                                  00270000
+                          END-EXEC                                      00280002
+           MOVE NAMES TO NAMEO                                          00290002
+           MOVE STOCKS TO STOCKO                                        00300002
+           MOVE QUANS TO QUANO                                          00310002
+           MOVE STOCKS TO STOCKSS                                       00320008
+           EXEC CICS SEND MAP('ORDERM') MAPSET('MAPSETA')               00330000
+                END-EXEC                                                00340002
+           EXEC CICS RETURN TRANSID('TRF2') COMMAREA(COMSTART)          00350009
+                 LENGTH(6)                                              00360009
+           END-EXEC.                                                    00370009
+           GOBACK.                                                      00380000
+      *        EXIT.                                                    00390000
+

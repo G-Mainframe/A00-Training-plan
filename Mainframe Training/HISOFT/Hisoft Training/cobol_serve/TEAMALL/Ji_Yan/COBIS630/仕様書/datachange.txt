@@ -1,0 +1,11 @@
+           IF ‚v|“ü—Í“úŠú = ZERO 
+	       MOVE   ZERO                  TO ‚v|o—Í“úŠú
+	   ELSE
+010490         EVALUATE  ‚v|“ü—Í“úŠú(1:1)                           
+010500           WHEN  "1"                                                 
+	            MOVE "20"               TO ‚v|o—Í“úŠú(1:2)
+010520           WHEN  "0"                                                 
+	            MOVE "19"               TO ‚v|o—Í“úŠú(1:2)
+010540         END-EVALUATE                                                
+	       MOVE ‚v|“ü—Í“úŠú(2:6)       TO ‚v|o—Í“úŠú(3:6)
+	   END-IF.

@@ -1,0 +1,23 @@
+CREATE TABLE  LTRTRS  (
+       取引先コード                       CHAR(8)           NOT NULL,
+       請求先コード                       CHAR(8)           NOT NULL,
+       請求書発行様式                     CHAR(1)           NOT NULL,
+       請求書発行月区分                   CHAR(1)           NOT NULL,
+       リース料入金単位                   NUMBER(1,0)       NOT NULL,
+       振込手数料負担                     NUMBER(1,0)       NOT NULL,
+       銀行情報自振銀行コード             CHAR(7)           NOT NULL,
+       銀行情報自振口座番号               CHAR(7)           NOT NULL,
+       銀行情報自振預金種類               CHAR(1)           NOT NULL,
+       再リース情報計算率分子             NUMBER(3,0)       NOT NULL,
+       再リース情報計算率分母             NUMBER(4,0)       NOT NULL,
+       再リース情報計算単位               CHAR(1)           NOT NULL,
+       再リース情報計算方式               CHAR(1)           NOT NULL,
+       請求先部門正式名称漢字             VARCHAR2(40)      NOT NULL,
+       請求先部門正式名称                 CHAR(20)          NOT NULL,
+       満了通知書発行様式                 CHAR(1)           NOT NULL,
+       自動更新適用除外区分               CHAR(1)           NOT NULL,
+       ダミー００１                       CHAR(69)          NOT NULL,
+       共通情報ＣＰＤＫＹＯＴＵ           CHAR(35)          NOT NULL,
+CONSTRAINT  PK_LTRTRS  PRIMARY KEY (
+       取引先コード,
+       請求先コード));

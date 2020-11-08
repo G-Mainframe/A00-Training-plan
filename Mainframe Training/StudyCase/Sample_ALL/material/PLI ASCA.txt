@@ -1,0 +1,34 @@
+PLI ASCA
+
+/*-------------------------------------------------------------------*/
+/*         ASCA FILE EDIT & WRITE                                    */
+/*-------------------------------------------------------------------*/
+ASCA_WRITE : PROC                                 ; /* ASCA_WRITE    */
+                                                    /*               */
+   OUT_FASCA       = ''                           ; /* INIT          */
+                                                    /*               */
+   OUT_FASCA.CFLBL = 'PCS4'                       ; /* CFLBL         */
+   OUT_FASCA.DRXAS = WK_SYMBOLIC                  ; /* DRXAS         */
+   OUT_FASCA.TLCLS = 'MTM'                        ; /* TLCLS         */
+   OUT_FASCA.USEQN = '5C'                         ; /* USEQN         */
+   OUT_FASCA.IOCLS = ' '                          ; /* IOCLS         */
+   OUT_FASCA.UPKBM = ' '                          ; /* UPKBM         */
+     OUT_FASCA.TFLAD = '(M)   AUDIT NG '            ; /* TFLAD         */
+     OUT_FASCA.QUBBM = COUNT_CHECK_NG               ; /* QUBBM         */
+     CALL CWRITE(FASCAC,OUT_FASCA)                  ; /* WRITE FASCA   */
+                                                      /*               */
+     OUT_FASCA.USEQN = '5D'                         ; /* USEQN         */
+     OUT_FASCA.IOCLS = ' '                          ; /* IOCLS         */
+     OUT_FASCA.UPKBM = ' '                          ; /* UPKBM         */
+     OUT_FASCA.TFLAD = '(N)   AUDIT OK '            ; /* TFLAD         */
+     OUT_FASCA.QUBBM = COUNT_CHECK_OK               ; /* QUBBM         */
+     CALL CWRITE(FASCAC,OUT_FASCA)                  ; /* WRITE FASCA   */
+                                                      /*               */
+     COUNT_OUTPUT_ASCA  =  COUNT_OUTPUT_ASCA + 1    ; /* COUNT FASCA   */
+                                                      /*               */
+  END ASCA_WRITE                                    ; /* END WRITE     */
+
+ /*-------------------------------------------------------------------*/
+                                                     /*               */
+    CALL ASCA_WRITE                                ; /* ASCA_WRITE    */
+                                                     /*               */

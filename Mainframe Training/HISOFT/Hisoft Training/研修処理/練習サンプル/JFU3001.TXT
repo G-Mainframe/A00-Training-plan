@@ -1,0 +1,16 @@
+\MAC ;                                                                    
+        \COMM ** 児童扶養手当年度支給マスタ更新 **;                       
+                                                                          
+        \SENDO MSG='** 児童扶養手当年度支給マスタ更新 **';                
+        \PRIVLIB PWS@LM001,MEDIA=DK105;                                   
+        \STEP JFU300L;                                                    
+            \DBASSIGN COMMIT=100;                                         
+            \ASSIGN IND1    ,JFU2901 ,MEDIA=DK302;                        
+            \DEFINE IND1    ,DVC=DS;                                      
+            \ASSIGN INP2    ,JFUJQSK;                                     
+            \ASSIGN INP2AP  ,JFUJQSA1;                                    
+            \ASSIGN INOUT1  ,JFUNDCQ;                                     
+            \ASSIGN INOUT1AP,JFUNDCA1;                                    
+            \ASSIGN PR01    ,@OUT;                                        
+            \DEFINE PR01    ,FORMSET=FXSTD03;                             
+        \ENDSTEP ;                                                        

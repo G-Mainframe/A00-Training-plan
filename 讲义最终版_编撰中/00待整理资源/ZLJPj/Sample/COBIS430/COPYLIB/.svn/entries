@@ -1,0 +1,65 @@
+8
+
+dir
+0
+file:///E:/svn_repo/ZLJPJ/Sample/COBIS430/COPYLIB
+file:///E:/svn_repo
+add
+
+
+
+
+
+
+
+svn:special svn:externals svn:needs-lock
+
+D34HNS.cbl
+file
+
+
+
+add
+
+sqlca.cob
+file
+
+
+
+add
+
+CPBCO001.cbl
+file
+
+
+
+add
+
+D32SAK.cbl
+file
+
+
+
+add
+
+D411STK.cbl
+file
+
+
+
+add
+
+CHOCO001.cbl
+file
+
+
+
+add
+
+SQLCOM.cbl
+file
+
+
+
+add
+

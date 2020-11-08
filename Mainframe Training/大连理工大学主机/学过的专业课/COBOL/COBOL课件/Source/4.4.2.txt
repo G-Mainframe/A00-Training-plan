@@ -1,0 +1,16 @@
+
+
+	77  A  PIC  99  VALUE  IS  0.
+
+	77  B  PIC  XX  VALUE  IS  SPACE.
+
+
+	01  T.
+
+	  02  T1  PIC  S99V99  VALUE  IS  1.2.
+
+	  02  T2  PIC  X(13)  VALUE  'COBOL PROGRAM'.
+
+	  02  T3  PIC  AAAAAX99  VALUE  'COBOL-85'.
+
+	  02  T4  PIC  A9X9A  VALUE 'G1.2T'.

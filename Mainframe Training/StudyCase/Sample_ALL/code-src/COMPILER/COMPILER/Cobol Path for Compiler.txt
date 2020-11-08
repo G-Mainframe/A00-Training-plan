@@ -1,0 +1,5 @@
+COBOL.V3R4.SIGYCOMP(IGYCRCTL)
+
+COBOL.V3R4.SIGYPROC(IGYWCL)
+
+                                                      

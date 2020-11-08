@@ -1,0 +1,30 @@
+CREATE TABLE NTT_WK_LIST
+(
+    契約番号                       CHAR(9) NOT NULL,
+    検収日                         CHAR(8) NOT NULL,
+    請求先コード                   CHAR(8) NOT NULL,
+    当月リース料                   NUMBER(13,0) NOT NULL,
+    日付                           CHAR(4) NOT NULL,
+    充当回                         CHAR(3) NOT NULL,
+    総支払回数                     CHAR(3) NOT NULL,
+    消費税額                       NUMBER(11,0) NOT NULL,
+    明細ＮＯ                       CHAR(4) NOT NULL,
+    物件名                         CHAR(30) NOT NULL,
+    先方参照番号                   CHAR(10) NOT NULL,
+    個別リース料                   NUMBER(13,0) NOT NULL,
+    請求コード                     CHAR(2) NOT NULL,
+    エラーメッセージ               CHAR(40) NOT NULL,
+    処理区分                       CHAR(1),
+    チェック１                     CHAR(1),
+    チェック２                     CHAR(1),
+    チェック３                     CHAR(1),
+    チェック４                     CHAR(1),
+    チェック５                     CHAR(1),
+    チェック６                     CHAR(1),
+    チェック７                     CHAR(1),
+    チェック８                     CHAR(1),
+    チェック９                     CHAR(1),
+    チェック１０                   CHAR(1),
+    CONSTRAINT SYS_C0027605 PRIMARY KEY (契約番号, 明細ＮＯ, 請求コード) USING INDEX
+)
+/

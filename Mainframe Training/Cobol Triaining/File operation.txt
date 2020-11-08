@@ -1,0 +1,34 @@
+File operation
+
+á@Å@
+
+/*-------------------------------------------------------------------*/
+ /*         READ_FINP1 ROUTINE                                        */
+ /*-------------------------------------------------------------------*/
+ READ_FINP1:PROC                                   ; /* READ_FINP1    */
+    CALL READX(FINP1C,IN_FINP1,RETCD1)             ; /* READ FINP1    */
+    IF RETCD1='EOF'                                  /* FINP1 EOF     */
+      THEN SIGNAL ENDFILE(FINP1)                   ; /* ENDFILE       */
+    ELSE DO                                        ; /* ELSE          */
+      KEY_FINP1 = IN_FINP1.CMAXA                     /* MACHINE TYPE  */
+               || IN_FINP1.CMMXA                   ; /* MODEL CODE    */
+      NEW_KEY   = KEY_FINP1                        ; /* SET NEW_KEY   */
+      COUNT_INPUT_FINP1 = COUNT_INPUT_FINP1 + 1    ; /* COUNT IN FINP1*/
+    END                                            ; /* END ELSE      */
+ END READ_FINP1                                    ; /* END READ_FINP1*/
+
+áA
+    CALL OPENCX(FINP1C,'IN')                       ; /* OPEN FINP1    */02570000
+    CALL OPENCX(FINP2C,'IN')                       ; /* OPEN FINP2    */02580000
+    CALL OPENCX(FOUT1C,'OUT')                      ; /* OPEN FOUT1    */02590000
+    CALL OPENCX(FOUT2C,'OUT')                      ; /* OPEN FOUT2    */02600000
+    CALL OPENCX(FASCAC,'OUT')  
+
+áB
+1/* DCP DECLARE */                                   /* DCP DECLARE   */00360000
+      %INCLUDE DCPENV                              ; /* INCLUDE DCP   */00370000
+      DCPCXCB(FINP1C,FINP1)                        ; /* FINP1         */00380000
+      DCPCXCB(FINP2C,FINP2)                        ; /* FINP2         */00390000
+      DCPCXCB(FOUT1C,FOUT1)                        ; /* FOUT1         */00400000
+      DCPCXCB(FOUT2C,FOUT2)                        ; /* FOUT2         */00410000
+      DCPCXCB(FASCAC,FASCA) 

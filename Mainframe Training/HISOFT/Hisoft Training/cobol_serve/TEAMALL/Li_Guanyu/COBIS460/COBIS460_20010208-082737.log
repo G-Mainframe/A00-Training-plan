@@ -1,0 +1,497 @@
+COBOL97 診断機能
+
+<<要約>>
+ 実行時ﾒｯｾｰｼﾞが発生しました:
+  ｱﾌﾟﾘｹｰｼｮﾝ  : C:\COB97\SOC\COBIS460\COBIS460.EXE(PID=00000378)
+  例外種別   : JMP0828I-U [PID:00000378 TID:00000350] 属性と異なる形式のデータが格納されています．PGM=COBIS460. LINE=2703.1. OPD=ＬＴＲＳＫＭ－請求発行日－世紀.
+  発生時間   : 2001/02/08(8:27:37)
+  発生ﾓｼﾞｭｰﾙ : C:\COB97\SOC\COBIS460\COBIS460.EXE
+  作成時間   : 2005/04/08(16:13:38)
+  ﾌｧｲﾙｻｲｽﾞ   : 190616bytes
+
+<<問題箇所>>
+  ｽﾚｯﾄﾞID  : 00000350
+  ﾚｼﾞｽﾀ    : EAX=0012EEC8  EBX=1C042688  ECX=E9999999  EDX=00000001  ESI=00000000
+           : EDI=00186E68  EIP=77E5A4E1  ESP=0012EEC0  EBP=0012EF18  EFL=00000246
+           : CS=001B  SS=0023  DS=0023  ES=0023  FS=0038  GS=0000
+  ｽﾀｯｸｺﾐｯﾄ : 00009000 (ﾄｯﾌﾟ:00130000, ﾍﾞｰｽ:00127000)
+  命令     :  ｱﾄﾞﾚｽ   +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +a +b +c +d +e +f
+             77E5A4D1 01 8D 7D C4 F3 A5 8D 45 B0 50 FF 15 68 14 E5 77
+     ﾌｫｰﾙﾄ ->77E5A4E1 E9 66 17 03 00 FF 74 24 08 FF 74 24 08 E8 62 FB
+
+【ﾌﾟﾛｸﾞﾗﾑとﾃﾞﾊﾞｯｸﾞ情報ﾌｧｲﾙ'COBIS460.svd'が対応していないため、このﾌﾟﾛｸﾞﾗﾑに対する言語ｲﾒｰｼﾞの情報を出力できませんでした.】
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\COB97\SOC\COBIS460\COBIS460.EXE
+  ｾｸｼｮﾝ相対位置 : .text+0000E60E
+  ｼﾝﾎﾞﾙ相対位置 : COBIS460+0000E60E
+
+ <呼出経路>
+[  1]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : E:\Program Files\PCOB97\F3BKATCH.dll
+  ｾｸｼｮﾝ相対位置 : .text+000020E0
+  EXPORT相対位置 : NotifyExecErrorInfo+00000146
+[  2]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : E:\Program Files\PCOB97\F3BIPRCT.dll
+  ｾｸｼｮﾝ相対位置 : .text+0000BBD7
+  EXPORT相対位置 : JMP1MESS+00000927
+[  3]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : E:\Program Files\PCOB97\F3BIDBG.dll
+  ｾｸｼｮﾝ相対位置 : .text+000041AF
+  EXPORT相対位置 : JMP7CHKD+0000068F
+[  4]---------------------------------------------------------------------------------
+【ﾌﾟﾛｸﾞﾗﾑとﾃﾞﾊﾞｯｸﾞ情報ﾌｧｲﾙ'COBIS460.svd'が対応していないため、このﾌﾟﾛｸﾞﾗﾑに対する言語ｲﾒｰｼﾞの情報を出力できませんでした.】
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\COB97\SOC\COBIS460\COBIS460.EXE
+  ｾｸｼｮﾝ相対位置 : .text+0000E612
+  ｼﾝﾎﾞﾙ相対位置 : COBIS460+0000E612
+[  5]---------------------------------------------------------------------------------
+【ﾌﾟﾛｸﾞﾗﾑとﾃﾞﾊﾞｯｸﾞ情報ﾌｧｲﾙ'COBIS460.svd'が対応していないため、このﾌﾟﾛｸﾞﾗﾑに対する言語ｲﾒｰｼﾞの情報を出力できませんでした.】
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\COB97\SOC\COBIS460\COBIS460.EXE
+  ｾｸｼｮﾝ相対位置 : .text+0000000A
+  ｼﾝﾎﾞﾙ相対位置 : COBIS460+0000000A
+[  6]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : C:\COB97\SOC\COBIS460\COBIS460.EXE
+  ｾｸｼｮﾝ相対位置 : .text+0001CBF5
+  ｼﾝﾎﾞﾙ相対位置 : _mainCRTStartup+000000B4
+[  7]---------------------------------------------------------------------------------
+  ﾓｼﾞｭｰﾙﾌｧｲﾙ : E:\WINNT\system32\KERNEL32.dll
+  ｾｸｼｮﾝ相対位置 : .text+000077F5
+  EXPORT相対位置 : DosDateTimeToFileTime+00000C64
+
+<<ｼｽﾃﾑ情報>>
+  ｺﾝﾋﾟｭｰﾀ名      : YAQIEDU-215
+  ﾕｰｻﾞｰ名        : Administrator
+  Windowsﾊﾞｰｼﾞｮﾝ : Microsoft Windows 2000
+  ﾊﾞｰｼﾞｮﾝﾅﾝﾊﾞｰ   : 5.0.2195
+  ｻｰﾋﾞｽﾊﾟｯｸ      : Service Pack 4
+
+<<ｺﾏﾝﾄﾞﾗｲﾝ>>
+  "COBIS460.EXE"
+
+<<環境変数>>
+  =::=::\
+  @AllFileExclusive=NO
+  @CnslBufLine=100
+  @CnslWinSize=(80,24)
+  @EnvSetWindow=UNUSE
+  @IconName=COB85EXE
+  @MessOutFile=C:\COB97\SOC\COBIS460\COBIS460_SYS.LOG
+  @NoMessage=YES
+  @ScrnSize=(80,24)
+  @WinCloseMsg=ON
+  ALLUSERSPROFILE=E:\Documents and Settings\All Users
+  APPDATA=E:\Documents and Settings\Administrator\Application Data
+  CommonProgramFiles=E:\Program Files\Common Files
+  COMPUTERNAME=YAQIEDU-215
+  ComSpec=E:\WINNT\system32\cmd.exe
+  DBMSACS=C:\COB97\SOC\DBMSACS.INI
+  HOMEDRIVE=E:
+  HOMEPATH=\
+  Include=E:\PROGRA~1\Ocf21\ifaspro\include;E:\Program Files\PCOB97\INCLUDE;E:\Program Files\Microsoft Visual Studio\VC98\include;E:\Program Files\Microsoft Visual Studio\Common\MsDev\include;
+  Lib=E:\PROGRA~1\Ocf21\ifaspro\lib;E:\PROGRA~1\Ocf21\WEBCBL\lib;E:\PROGRA~1\Ocf21\SQLEXT\lib;E:\Program Files\PCOB97\LIB;E:\Program Files\PCOB97;E:\PROGRA~1\Ocf21\cbl85pro\lib;E:\Program Files\Microsoft Visual Studio\VC98\lib;E:\Program Files\Microsoft Visual Studio\Common\MsDev\lib
+  LOGFILE=C:\COB97\SOC\COBIS460\COBIS460.LOG
+  LOGONSERVER=\\YAQIEDU-215
+  NUMBER_OF_PROCESSORS=1
+  OS=Windows_NT
+  Os2LibPath=E:\WINNT\system32\os2\dll;
+  Path=D:\ORACLE\bin;E:\Program Files\Oracle\jre\1.1.8\bin;D:\ORACLE\Apache\Perl\5.00503\bin\mswin32-x86;E:\PROGRA~1\Ocf21\ifaspro\bin;E:\PROGRA~1\Ocf21\COBOLC~1\bin;E:\PROGRA~1\Ocf21\SQLEXT\bin;E:\Program Files\PCOB97\DBALIB\BIN;E:\Program Files\PCOB97\CLASSCOB\BIN;E:\Program Files\PCOB97;E:\Program Files\PCOB97\MEFTWEB;E:\PROGRA~1\Ocf21\cbl85pro\bin;E:\Program Files\Microsoft Visual Studio\VC98\bin;E:\Program Files\Microsoft Visual Studio\Common\MsDev\bin;E:\WINNT\system32;E:\WINNT;E:\WINNT\System32\Wbem
+  PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH
+  PROCESSOR_ARCHITECTURE=x86
+  PROCESSOR_IDENTIFIER=x86 Family 6 Model 4 Stepping 2, AuthenticAMD
+  PROCESSOR_LEVEL=6
+  PROCESSOR_REVISION=0402
+  ProgramFiles=E:\Program Files
+  SystemDrive=E:
+  SystemRoot=E:\WINNT
+  TEMP=E:\DOCUME~1\ADMINI~1\LOCALS~1\Temp
+  TMP=E:\DOCUME~1\ADMINI~1\LOCALS~1\Temp
+  USERDOMAIN=YAQIEDU-215
+  USERNAME=Administrator
+  USERPROFILE=E:\Documents and Settings\Administrator
+  WF_RESOURCES=D:\ORACLE\WF\RES\WFja.RES
+  windir=E:\WINNT
+
+<<実行環境情報>>
+  実行ﾓｰﾄﾞ   : ShiftJIS, ｼﾝｸﾞﾙｽﾚｯﾄﾞ
+  ﾌﾟﾛｸﾞﾗﾑ名  : COBIS460
+  初期化ﾌｧｲﾙ : C:\COB97\SOC\COBIS460\COBOL85.CBR
+    [COBIS460.ENTRY]
+    [COBIS460]
+    @IconName=COB85EXE
+    @ScrnSize=(80,24)
+    @CnslWinSize=(80,24)
+    @CnslBufLine=100
+    @WinCloseMsg=ON
+    @EnvSetWindow=UNUSE
+    @AllFileExclusive=NO
+    @NoMessage=YES
+    @MessOutFile=C:\COB97\SOC\COBIS460\COBIS460_SYS.LOG
+    DBMSACS=C:\COB97\SOC\DBMSACS.INI
+    LOGFILE=C:\COB97\SOC\COBIS460\COBIS460.LOG
+    [EOF]
+
+<<STACK/HEAP情報>>
+  ｽﾀｯｸ : 00100000
+  ﾋｰﾌﾟ : 00100000
+
+<<ﾀｽｸﾘｽﾄ>>
+       0 Idle.exe
+       8 System.exe
+      88 smss.exe
+      A0 csrss.exe
+      B4 winlogon.exe
+      D0 services.exe
+      DC lsass.exe
+     194 svchost.exe
+     1AC spoolsv.exe
+     1C8 COBATSVC.exe
+     1DC svchost.exe
+     218 regsvc.exe
+     23C MSTask.exe
+     25C WinMgmt.exe
+     284 svchost.exe
+     3A4 Explorer.exe
+     3F0 ctfmon.exe
+     404 xdict.exe
+     40C CWV7hook.exe
+     414 acrotray.exe
+     438 ipmsg.exe
+     3B4 mdm.exe
+     128 wuauclt.exe
+     39C EXCEL.exe
+     368 F3BXE000.exe
+     2FC F3BXMSRV.exe
+     38C F3BXVFRM.exe
+     278 F3BXTF00.exe
+     3AC PLSQLDev.exe
+      6C conime.exe
+     340 mmc.exe
+     378 COBIS460.exe
+     2BC COBSNAP.exe
+       0 _Total.exe
+
+<<ﾓｼﾞｭｰﾙﾘｽﾄ>>
+  00400000 - 0042A000  C:\COB97\SOC\COBIS460\COBIS460.EXE
+                         2005/04/08(16:13:38)
+  77F80000 - 77FFB000  E:\WINNT\system32\ntdll.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6685
+                         2003/06/19(12:05:04)
+  62600000 - 62675000  D:\ORACLE\bin\orasql9.dll
+                         2002/04/26(18:56:32)
+  610A0000 - 6113F000  D:\ORACLE\bin\oracore9.dll
+                         2002/05/14(17:18:16)
+  612A0000 - 61319000  D:\ORACLE\bin\oranls9.dll
+                         2002/04/25(14:03:24)
+  613A0000 - 613B1000  D:\ORACLE\bin\oraunls9.dll
+                         2002/04/25(14:03:26)
+  78000000 - 78045000  E:\WINNT\system32\MSVCRT.dll
+                         Microsoft Corporation, Microsoft (R) Visual C++, 6.10.9844.0
+                         2003/06/19(12:05:04)
+  77E50000 - 77F38000  E:\WINNT\system32\KERNEL32.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6688
+                         2003/06/19(12:05:04)
+  74FB0000 - 74FBA000  E:\WINNT\system32\WSOCK32.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6603
+                         2003/06/19(12:05:04)
+  74F90000 - 74FA4000  E:\WINNT\system32\WS2_32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6601
+                         2003/06/19(12:05:04)
+  79480000 - 794E2000  E:\WINNT\system32\ADVAPI32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6710
+                         2003/06/19(12:05:04)
+  78780000 - 787F1000  E:\WINNT\system32\RPCRT4.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6701
+                         2003/06/19(12:05:04)
+  74F80000 - 74F88000  E:\WINNT\system32\WS2HELP.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2134.1
+                         1999/12/17(20:00:00)
+  77A20000 - 77B17000  E:\WINNT\system32\ole32.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6692
+                         2003/06/19(12:05:04)
+  77F40000 - 77F7C000  E:\WINNT\system32\GDI32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6660
+                         2003/06/19(12:05:04)
+  77DE0000 - 77E45000  E:\WINNT\system32\USER32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6688
+                         2003/06/19(12:05:04)
+  77520000 - 77550000  E:\WINNT\system32\WINMM.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2161.1
+                         1999/12/17(20:00:00)
+  60600000 - 60784000  D:\ORACLE\bin\oraclient9.dll
+                         2002/04/28(16:13:48)
+  60800000 - 60806000  D:\ORACLE\bin\oravsn9.dll
+                         2002/04/28(16:13:50)
+  60500000 - 60590000  D:\ORACLE\bin\oracommon9.dll
+                         2002/04/28(16:12:16)
+  00430000 - 00687000  D:\ORACLE\bin\orageneric9.dll
+                         2002/05/05(17:23:26)
+  62FC0000 - 6303D000  D:\ORACLE\bin\oraxml9.dll
+                         2002/04/27(17:50:02)
+  780A0000 - 780B2000  E:\WINNT\system32\MSVCIRT.dll
+                         Microsoft Corporation, Microsoft (R) Visual C++, 6.10.8637.0
+                         1999/12/17(20:00:00)
+  630F0000 - 63110000  D:\ORACLE\bin\oraxsd9.dll
+                         2002/04/27(17:50:14)
+  615A0000 - 61629000  D:\ORACLE\bin\orannzsbb9.dll
+                         2002/05/04(23:00:36)
+  61480000 - 61534000  D:\ORACLE\bin\oran9.dll
+                         2002/04/26(19:31:10)
+  61400000 - 6142C000  D:\ORACLE\bin\oranl9.dll
+                         2002/04/26(19:30:18)
+  61960000 - 61971000  D:\ORACLE\bin\oranldap9.dll
+                         2002/04/26(19:31:06)
+  62000000 - 62024000  D:\ORACLE\bin\oraldapclnt9.dll
+                         2002/04/26(21:19:42)
+  616B0000 - 616C7000  D:\ORACLE\bin\orancrypt9.dll
+                         2002/04/26(19:37:34)
+  77980000 - 77A1B000  E:\WINNT\system32\OLEAUT32.dll
+                         2003/06/19(12:05:04)
+  62300000 - 6233E000  D:\ORACLE\bin\ORATRACE9.dll
+                         2002/04/29(14:04:08)
+  61730000 - 61766000  D:\ORACLE\bin\oranro9.dll
+                         2002/04/26(19:30:14)
+  617C0000 - 617C6000  D:\ORACLE\bin\oranhost9.dll
+                         2002/04/26(19:31:02)
+  617D0000 - 617D6000  D:\ORACLE\bin\oranoname9.dll
+                         2002/04/26(19:31:04)
+  616A0000 - 616A6000  D:\ORACLE\bin\orancds9.dll
+                         2002/04/26(19:31:24)
+  61820000 - 61827000  D:\ORACLE\bin\orantns9.dll
+                         2002/04/26(19:30:58)
+  64000000 - 64007000  D:\ORACLE\bin\oranms.dll
+                         2002/04/26(17:29:30)
+  64020000 - 64030000  D:\ORACLE\bin\oranmsp.dll
+                         2002/04/26(17:29:30)
+  60A00000 - 60D13000  D:\ORACLE\bin\orapls9.dll
+                         2002/04/28(10:45:02)
+  62500000 - 62507000  D:\ORACLE\bin\oraslax9.dll
+                         2002/04/26(17:18:00)
+  61350000 - 61360000  D:\ORACLE\bin\orasnls9.dll
+                         2002/04/25(14:03:28)
+  60810000 - 60816000  D:\ORACLE\bin\orawtc9.dll
+                         2002/04/28(16:13:52)
+  1C000000 - 1C04B000  E:\Program Files\PCOB97\F3BIPRCT.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/13(10:06:24)
+  00690000 - 006CD000  E:\Program Files\PCOB97\F3BISCRN.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/03(19:24:58)
+  10000000 - 10015000  E:\Program Files\PCOB97\F3BKATCH.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/25(14:02:52)
+  76AE0000 - 76B1E000  E:\WINNT\system32\comdlg32.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.3700.6693
+                         2003/06/19(12:05:04)
+  77C40000 - 77C8A000  E:\WINNT\system32\SHLWAPI.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.3502.6601
+                         2003/06/19(12:05:04)
+  77B20000 - 77BA9000  E:\WINNT\system32\COMCTL32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.3502.6601
+                         2003/06/19(12:05:04)
+  73CC0000 - 73F08000  E:\WINNT\system32\SHELL32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.3700.6705
+                         2003/06/19(12:05:04)
+  777D0000 - 777D7000  E:\WINNT\system32\VERSION.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6623
+                         2003/06/19(12:05:04)
+  75940000 - 75946000  E:\WINNT\system32\LZ32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6611
+                         2003/06/19(12:05:04)
+  006D0000 - 006E6000  E:\Program Files\PCOB97\F3BIDBG.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/18(11:09:12)
+  75DF0000 - 75E0A000  E:\WINNT\system32\IMM32.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6655
+                         2003/06/19(12:05:04)
+  01260000 - 01265000  E:\Program Files\PCOB97\F3BIPRSJ.DLL
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/03(20:10:44)
+  01270000 - 01274000  E:\Program Files\PCOB97\F3BIODSJ.DLL
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/06(19:11:34)
+  01280000 - 0128A000  E:\Program Files\PCOB97\F3BIMSGJ.DLL
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/03(20:31:54)
+  012D0000 - 012DD000  E:\Program Files\PCOB97\F3BILANP.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/05/22(20:09:36)
+  60000000 - 6004B000  E:\WINNT\system32\MSCTF.dll
+                         Microsoft Corporation, Microsoft(R) Windows NT(R) Operating System, 1.00.2409.34
+                         2003/05/21(22:49:06)
+  37F00000 - 37F13000  E:\Program Files\Kingsoft\XdictEJC\Cjktl32.dll
+                         2000/09/29(12:05:40)
+  3A600000 - 3A676000  E:\WINNT\system32\IMJP9.IME
+                         Microsoft Corporation, Microsoft IME 2003, 9.0.5516.0
+                         2003/07/23(22:40:04)
+  3A690000 - 3A760000  E:\WINNT\system32\imjp9k.dll
+                         Microsoft Corporation, Microsoft IME 2003, 9.0.5510.0
+                         2003/07/14(23:03:54)
+  01580000 - 0158E000  C:\COB97\SOC\COBIS460\CLOCO001.DLL
+                         2004/06/07(9:15:50)
+  016A0000 - 016AC000  C:\COB97\SOC\COBIS460\COBCO001.DLL
+                         2004/06/07(9:15:42)
+  016B0000 - 016E4000  E:\Program Files\PCOB97\F3BILPIO.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/04(13:51:38)
+  016F0000 - 016F5000  E:\Program Files\PCOB97\F3BIOVLD.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/16(20:06:28)
+  777B0000 - 777CE000  E:\WINNT\system32\WINSPOOL.DRV
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6659
+                         2003/06/19(12:05:04)
+  798F0000 - 79901000  E:\WINNT\system32\MPR.DLL
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6611
+                         2003/06/19(12:05:04)
+  2C000000 - 2C034000  E:\Program Files\PCOB97\F3BIIO.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/06(10:49:56)
+  3C000000 - 3C03B000  E:\Program Files\PCOB97\F3BIFRM.dll
+                         FUJITSU LIMITED, COBOL97 RUNTIME SYSTEM, 61.20.0.0
+                         2001/04/05(16:06:40)
+  61910000 - 6191C000  D:\ORACLE\bin\orantcp9.dll
+                         2002/04/26(19:30:22)
+  74F30000 - 74F4E000  E:\WINNT\system32\msafd.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6602
+                         2003/06/19(12:05:04)
+  74F70000 - 74F77000  E:\WINNT\System32\wshtcpip.dll
+                         Microsoft Corporation, Microsoft(R) Windows (R) 2000 Operating System, 5.00.2195.6601
+                         2003/06/19(12:05:04)
+
+<<ｽﾀｯｸｻﾏﾘ>>
+  FramePtr RetAddr  Param-01 Param-02 Param-03 Param-04 Param-05 Param-06 Param-07 Param-08 Module:Program
+  0012EF18 100030E0 E9999999 00000000 00000000 00000000 00186E68 00000091 00186E68 00000000 KERNEL32.dll:RaiseException
+  0012EF50 1C00CBD7 0040F60E 00000010 00186E68 0000033C 00000000 0012FAC3 00000080 00423158 F3BKATCH.dll:NotifyExecErrorInfo
+  0012F60C 006D51AF 00187968 0000033C 00000001 00186E68 0012FADA 0012F944 0012FAB8 0012F840 F3BIPRCT.dll:JMP1MESS
+  0012FAE0 0040F612 00423158 0012FAF0 00018090 00424500 0042841C 01020108 01020102 01020102 F3BIDBG.dll:JMP7CHKD
+  0012FF74 0040100A 00000000 0012FFC0 0041DBF5 00000001 01290E90 01290EB8 00000000 0014AE14 COBIS460.EXE:COBIS460
+  0012FF80 0041DBF5 00000001 01290E90 01290EB8 00000000 0014AE14 7FFDF000 8043138F 00000000 COBIS460.EXE:COBIS460
+  0012FFC0 77E587F5 00000000 0014AE14 7FFDF000 00000000 0012FFC8 00000000 FFFFFFFF 77E6F0B4 COBIS460.EXE:_mainCRTStartup
+  0012FFF0 00000000 0041DB41 00000000 000000C8 00000100 EEFFEEFF 00000002 00000000 0000FE00 KERNEL32.dll:DosDateTimeToFileTime
+
+<<ｽﾀｯｸﾀﾞﾝﾌﾟ>>
+  0012EEC0  68 6E 18 00 91 00 00 00 - 99 99 99 E9 00 00 00 00  hn..............
+  0012EED0  00 00 00 00 E1 A4 E5 77 - 00 00 00 00 FF FF FF FF  .......w........
+  0012EEE0  14 EF 12 00 FE 25 48 79 - 28 00 00 00 F8 EB FD 7F  .....%Hy(.......
+  0012EEF0  00 00 00 00 19 00 02 00 - 48 EF 12 00 68 6E 18 00  ........H...hn..
+  0012EF00  91 00 00 00 88 26 04 1C - 26 00 27 00 58 56 00 10  .....&..&.'.XV..
+  0012EF10  00 00 00 00 50 EF 12 00 - 50 EF 12 00 E0 30 00 10  ....P...P....0..
+  0012EF20  99 99 99 E9 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012EF30  68 6E 18 00 91 00 00 00 - 68 6E 18 00 00 00 00 00  hn......hn......
+  0012EF40  00 00 00 00 02 00 00 00 - 00 00 00 00 B8 CA 00 1C  ................
+  0012EF50  0C F6 12 00 D7 CB 00 1C - 0E F6 40 00 10 00 00 00  ..........@.....
+  0012EF60  68 6E 18 00 3C 03 00 00 - 00 00 00 00 C3 FA 12 00  hn..<...........
+  0012EF70  80 00 00 00 58 31 42 00 - 00 F2 12 00 34 4B 13 00  ....X1B.....4K..
+  0012EF80  66 4A 13 00 00 00 00 00 - 74 F5 12 00 00 00 00 00  fJ......t.......
+  0012EF90  1A 40 42 00 01 00 00 00 - 00 00 00 00 58 3F 42 00  .@B.........X?B.
+  0012EFA0  50 FA 12 00 A7 1D 63 62 - 80 0D 67 62 F8 E8 80 00  P.....cb..gb....
+  0012EFB0  E0 A3 77 01 90 37 42 00 - 02 00 00 00 01 00 00 00  ..w..7B.........
+  0012EFC0  70 B3 77 01 88 37 42 00 - FC 81 42 00 00 F0 FD 7F  p.w..7B...B.....
+  0012EFD0  00 00 00 00 68 2C 76 01 - 13 00 00 00 54 2C 76 01  ....h,v.....T,v.
+  0012EFE0  01 00 00 00 00 00 00 00 - 2C 2C 76 01 15 00 00 00  ........,,v.....
+  0012EFF0  00 00 00 00 00 00 00 00 - 00 00 00 00 0C 2C 76 01  .............,v.
+  0012F000  0F 00 00 00 F8 2B 76 01 - 02 00 00 00 00 00 00 00  .....+v.........
+  0012F010  D8 2B 76 01 0F 00 00 00 - C4 2B 76 01 02 00 00 00  .+v......+v.....
+  0012F020  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F030  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F040  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F050  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F060  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F070  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F080  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F090  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F0A0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F0B0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F0C0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F0D0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F0E0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F0F0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F100  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F110  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F120  01 00 01 01 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F130  00 00 00 00 00 00 01 00 - 00 00 01 01 00 00 00 00  ................
+  0012F140  00 00 00 00 00 00 78 01 - 00 00 00 00 00 00 00 00  ......x.........
+  0012F150  ED F1 12 00 80 57 78 01 - DC F1 12 00 00 00 00 00  .....Wx.........
+  0012F160  11 00 00 00 00 00 00 00 - E8 58 78 01 11 00 00 00  .........Xx.....
+  0012F170  00 00 00 10 05 00 00 00 - 72 54 78 01 00 00 00 00  ........rTx.....
+  0012F180  80 57 07 10 AC F1 12 00 - 36 FA 0A 61 80 57 78 01  .W......6..a.Wx.
+  0012F190  00 00 00 00 ED F1 12 00 - 11 00 00 00 89 54 78 01  .............Tx.
+  0012F1A0  E8 00 00 00 08 F5 12 00 - 05 00 00 00 FC F4 12 00  ................
+  0012F1B0  C8 A7 0A 61 80 57 78 01 - B8 9D 80 00 DC F1 12 00  ...a.Wx.........
+  0012F1C0  11 00 00 00 72 54 78 01 - FF 00 00 00 08 F5 12 00  ....rTx.........
+  0012F1D0  90 59 78 01 0C A0 80 00 - AC 2D 76 01 48 48 32 34  .Yx......-v.HH24
+  0012F1E0  3A 4D 49 3A 53 53 58 46 - 46 20 54 5A 52 00 00 00  :MI:SSXFF TZR...
+  0012F1F0  00 00 00 00 00 00 00 00 - 00 00 00 00 43 4F 42 49  ............COBI
+  0012F200  53 34 36 30 2E 45 58 45 - 00 00 00 00 00 00 00 00  S460.EXE........
+  0012F210  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F220  00 00 00 00 00 00 00 00 - 00 00 00 00 84 EF 12 00  ................
+  0012F230  16 00 00 00 DC F4 12 00 - 91 81 F9 77 28 16 F9 77  ...........w(..w
+  0012F240  FF FF FF FF EC F4 12 00 - 83 33 F8 77 E8 7E 18 00  .........3.w.~..
+  0012F250  C8 F4 12 00 04 34 F8 77 - 48 F3 FC 77 B9 33 F8 77  .....4.wH..w.3.w
+  0012F260  00 00 00 00 68 6E 18 00 - E8 7E 18 00 00 E0 FD 7F  ....hn...~......
+  0012F270  00 00 00 00 2C 00 00 00 - 00 E0 FD 7F EC F2 12 00  ....,...........
+  0012F280  30 A7 2B 61 00 07 7C 01 - A4 F2 12 00 2C 00 00 00  0.+a..|.....,...
+  0012F290  01 00 00 00 78 01 13 00 - 46 00 33 00 42 00 49 00  ....x...F.3.B.I.
+  0012F2A0  44 00 42 00 47 00 2E 00 - 64 00 6C 00 6C 00 00 00  D.B.G...d.l.l...
+  0012F2B0  00 00 00 00 02 4D 75 01 - 40 03 77 01 00 00 00 00  .....Mu.@.w.....
+  0012F2C0  00 00 00 00 D0 07 77 01 - 00 00 00 00 60 21 77 01  ......w.....`!w.
+  0012F2D0  00 00 00 00 00 00 00 00 - 40 C2 2A 61 20 D6 2A 61  ........@.*a .*a
+  0012F2E0  01 00 00 00 00 00 00 10 - C1 0A 00 80 00 00 00 00  ................
+  0012F2F0  00 28 2E 61 5C F3 12 00 - 00 07 7C 01 A8 D6 80 00  .(.a\.....|.....
+  0012F300  00 40 00 00 00 00 00 00 - 78 01 13 00 78 01 13 00  .@......x...x...
+  0012F310  78 01 13 00 78 01 13 00 - A8 D6 80 00 4C 03 78 01  x...x.......L.x.
+  0012F320  5C 05 00 00 02 00 00 00 - 10 9D 80 00 A8 D6 80 00  \...............
+  0012F330  30 9D 80 00 85 A9 45 00 - 00 00 00 00 04 00 00 00  0.....E.........
+  0012F340  4C F3 12 00 00 00 13 00 - E0 7E 18 00 78 01 13 00  L........~..x...
+  0012F350  24 06 00 00 80 C7 FC 77 - 9D C5 FC 77 B4 C5 FC 77  $......w...w...w
+  0012F360  78 10 00 00 00 00 40 01 - 00 00 00 00 D0 BA 77 01  x.....@.......w.
+  0012F370  00 00 00 00 00 00 00 00 - 00 00 00 00 98 44 42 00  .............DB.
+  0012F380  00 00 00 00 A0 F3 12 00 - 78 01 13 00 78 01 13 00  ........x...x...
+  0012F390  BC 10 67 62 A0 F3 12 00 - 40 06 13 00 BC 10 67 62  ..gb....@.....gb
+  0012F3A0  F0 03 00 00 98 17 EB 77 - 00 00 13 00 93 05 00 00  .......w........
+  0012F3B0  E8 7E 18 00 E0 7E 18 00 - 68 B2 F8 77 00 B2 F8 77  .~...~..h..w...w
+  0012F3C0  91 00 00 00 81 B1 F8 77 - 00 16 EB 77 00 00 00 00  .......w...w....
+  0012F3D0  68 83 18 00 F0 03 F2 03 - 78 01 13 00 E0 7E 18 00  h.......x....~..
+  0012F3E0  E8 7E 18 00 88 04 00 00 - 0A 7B 18 00 7A 04 00 00  .~.......{..z...
+  0012F3F0  7A 04 00 00 A8 F4 12 00 - 91 81 F9 77 18 7F 18 00  z..........w....
+  0012F400  9B 10 F9 77 B8 F4 12 00 - EF CB E6 77 18 7F 18 00  ...w.......w....
+  0012F410  A0 03 EB 77 46 04 00 00 - 00 00 00 00 68 6E 18 00  ...wF.......hn..
+  0012F420  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+  0012F430  00 E0 FD 7F 2C C0 77 01 - 68 83 18 00 60 6E 18 00  ....,.w.h...`n..
+  0012F440  00 00 13 00 60 F4 12 00 - 2E CA FC 77 93 05 00 00  ....`......w....
+  0012F450  68 83 18 00 00 00 13 00 - E0 7E 18 00 00 00 00 00  h........~......
+  0012F460  00 00 13 00 00 00 13 00 - 78 01 13 00 C0 C9 FC 77  ........x......w
+  0012F470  08 06 13 00 25 C9 FC 77 - 00 00 00 00 00 00 00 00  ....%..w........
+  0012F480  00 00 00 00 01 00 00 00 - 00 00 00 00 E0 00 6D 00  ..............m.
+  0012F490  80 F4 12 00 88 7E 13 00 - 74 F5 12 00 01 00 00 00  .....~..t.......
+  0012F4A0  C0 F4 12 00 74 22 F9 77 - 00 00 6D 00 01 00 00 00  ....t".w..m.....
+  0012F4B0  84 F5 12 00 85 2C F9 77 - 00 00 6D 00 00 00 00 00  .....,.w..m.....
+  0012F4C0  04 00 00 00 60 F5 12 00 - 30 13 6E 00 1B 2D F9 77  ....`...0.n..-.w
+  0012F4D0  48 F3 FC 77 D1 2C F9 77 - 04 00 00 00 10 DA 03 1C  H..w.,.w........
+  0012F4E0  FF FF 00 00 00 E0 FD 7F - 01 FF FF FF 00 E0 FD 7F  ................
+  0012F4F0  4D 53 47 49 44 5F 30 38 - 32 38 00 00 C0 4B 18 00  MSGID_0828...K..
+  0012F500  D0 4B 18 00 FF FF FF FF - 00 00 00 00 77 01 00 00  .K..........w...
+  0012F510  00 00 13 00 20 5B 50 49 - 44 3A 30 30 30 30 30 33  .... [PID:000003
+  0012F520  37 38 20 54 49 44 3A 30 - 30 30 30 30 33 35 30 5D  78 TID:00000350]
+  0012F530  00 00 00 00 01 00 00 00 - 88 F5 12 00 A2 77 DE 77  .............w.w
+  0012F540  B4 F5 12 00 01 00 00 00 - F7 77 DE 77 B4 F5 11 04  .........w.w....
+  0012F550  B4 F5 12 00 9A FA 03 00 - FA F5 12 00 05 00 00 00  ................
+  0012F560  F4 B7 41 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ..A.............
+  0012F570  01 00 00 00 FD FF FF FF - DA FA 12 00 44 F9 12 00  ............D...
+  0012F580  B8 FA 12 00 40 F8 12 00 - 14 F5 12 00 78 EF 12 00  ....@.......x...
+  0012F590  E8 62 04 1C E8 62 04 1C - E8 62 04 1C E8 62 04 1C  .b...b...b...b..
+  0012F5A0  B8 F5 12 00 00 23 6E 00 - 01 00 00 00 9A FA 12 00  .....#n.........
+  0012F5B0  FA F5 12 00 31 00 00 00 - 30 38 32 38 00 00 00 00  ....1...0828....
+  0012F5C0  32 37 30 33 06 00 00 00 - 4C 00 C7 00 62 59 FF FE  2703....L...bY..
+  0012F5D0  00 00 00 00 00 F5 12 00 - 3C 03 00 A0 8F 0A 00 00  ........<.......
+  0012F5E0  18 49 28 01 01 00 00 00 - 94 06 2A 01 68 6E 18 00  .I(.......*.hn..
+  0012F5F0  00 00 00 00 00 00 00 00 - 58 31 42 00 30 30 30 30  ........X1B.0000
+  0012F600  00 00 28 01 0E F6 40 00 - 91 00 00 00 E0 FA 12 00  ..(...@.........
+  0012F610  AF 51 6D 00 68 79 18 00 - 3C 03 00 00 01 00 00 00  .Qm.hy..<.......
+  0012F620  68 6E 18 00 DA FA 12 00 - 44 F9 12 00 B8 FA 12 00  hn......D.......
+  0012F630  40 F8 12 00 1C 84 42 00 - FC 81 42 00 00 F0 FD 7F  @.....B...B.....
+  0012F640  00 FF 12 00 00 00 00 00 - 09 00 00 00 00 00 00 00  ................
+  0012F650  06 00 00 00 00 00 00 00 - 00 00 00 00 0A 00 00 00  ................
+  0012F660  EC 78 61 62 80 0D 67 62 - 74 10 67 62 09 00 00 00  .xab..gbt.gb....
+  0012F670  0A 00 00 00 0A 00 00 00 - 00 00 00 00 E8 43 42 00  .............CB.
+  0012F680  14 00 00 00 09 00 00 00 - 00 00 00 00 06 00 00 00  ................
+  0012F690  00 00 00 00 68 2B 76 01 - 0A 00 00 00 00 40 00 00  ....h+v......@..
+  0012F6A0  40 96 F8 77 00 00 00 00 - 09 00 00 00 74 10 67 62  @..w........t.gb
+  0012F6B0  0A 00 00 00 A0 82 42 00 - FC 81 42 00 00 F0 FD 7F  ......B...B.....

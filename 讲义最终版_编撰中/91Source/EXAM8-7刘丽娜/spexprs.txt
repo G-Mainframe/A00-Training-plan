@@ -1,0 +1,20 @@
+       IDENTIFICATION DIVISION.
+      *
+       PROGRAM-ID. SPEXPRS.
+      *
+       ENVIRONMENT DIVISION.
+      *
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       77   W             PIC   9(3).
+       LINKAGE SECTION.
+       77 DISTANCE        PIC   9(3).
+       77 SUPR-EXPRS-FEE  PIC   9(4).
+       PROCEDURE DIVISION USING DISTANCE, SUPR-EXPRS-FEE.
+       START-SPEXPRS.
+           IF DISTANCE < 101
+               MOVE 4 TO DISTANCE
+           ELSE  COMPUTE W = DISTANCE - 100
+                 COMPUTE SUPR-EXPRS-FEE = 4 + (W / 100 + 1) * 1.
+       E.  EXIT PROGRAM.
+

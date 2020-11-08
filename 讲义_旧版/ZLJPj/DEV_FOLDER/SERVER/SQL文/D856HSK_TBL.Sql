@@ -1,0 +1,25 @@
+DROP   TABLE  D856HSK_TBL   ;
+CREATE TABLE  D856HSK_TBL  (
+       与信管理先コード                   CHAR(9)           NOT NULL,
+       契約先コード                       CHAR(5)           NOT NULL,
+       契約番号                           CHAR(10)          NOT NULL,
+       取引年月日                         CHAR(8)           NOT NULL,
+       連番                               NUMBER(4,0)       NOT NULL,
+       主契約区分                         CHAR(1)           NOT NULL,
+       回収振替区分                       CHAR(2)           NOT NULL,
+       回収振替備考                       VARCHAR2(40)      NOT NULL,
+       回収振替金額                       NUMBER(13,0)      NOT NULL,
+       回収振替消費税                     NUMBER(13,0)      NOT NULL,
+       登録年月日                         CHAR(8)           NOT NULL,
+       登録時間                           CHAR(8)           NOT NULL,
+       登録担当者                         CHAR(8)           NOT NULL,
+       更新年月日                         CHAR(8)           NOT NULL,
+       更新時間                           CHAR(8)           NOT NULL,
+       更新者                             CHAR(8)           NOT NULL,
+       入力担当者コード                   CHAR(8)           NOT NULL,
+CONSTRAINT  PK_D856HSK_TBL  PRIMARY KEY (
+       与信管理先コード,
+       契約先コード,
+       契約番号,
+       取引年月日,
+       連番));

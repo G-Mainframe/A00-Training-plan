@@ -1,0 +1,74 @@
+DO WHILE(FINP1_EOF = '0'B | FINP2_EOF = '0'B)  ; /* DO WHILE      */01790000
+      OUT_FOUT1 = ''                               ; /* INIT          */01800000
+      CALL CLEAR_FOUT2                             ; /* CLEAR_FOUT2   */01810000
+      CHECK_FLG = 'Y'                              ; /* CHECK FLAG    */01820000
+      SELECT                                       ; /* SELECT        */01830000
+        WHEN(KEY_FINP1 > KEY_FINP2) DO             ; /* WHEN          */01840000
+          COUNT_TRAN_ONLY = COUNT_TRAN_ONLY + 1    ; /* COUNT TRAN    */01850000
+          CALL READ_FINP2                          ; /* READ_FINP2    */01860000
+        END                                        ; /* END WHEN      */01870000
+        WHEN(KEY_FINP1 = KEY_FINP2) DO             ; /* WHEN          */01880000
+          COUNT_MATCH = COUNT_MATCH + 1            ; /* COUNT MATCH   */01890000
+          IF IN_FINP1.TRXCD = 'U' |                  /* TRXCD=U       */01900000
+             IN_FINP1.TRXCD = 'D'                    /* TRXCD=D       */01910000
+          THEN DO                                  ; /* DO            */01920000
+             CALL CHK_RTN                          ; /* CHK_RTN       */01930000
+          END                                      ; /* END DO        */01940000
+          ELSE DO                                  ; /* ELSE DO       */01950000
+             CHECK_FLG  =  'N'                     ; /* SET CHK_FLG   */01960000
+          END                                      ; /* END ELSE      */01970000
+          IF CHECK_FLG = 'Y' THEN DO               ; /* DO            */01980000
+             OUT_FOUT1 = IN_FINP1 ,BY NAME         ; /* SET FOUT1     */01990000
+             CALL CWRITE(FOUT1C,OUT_FOUT1)         ; /* WRITE FOUT1   */02000000
+             COUNT_OUTPUT_FOUT1  =  COUNT_OUTPUT_FOUT1 + 1 ;            02010000
+          END                                      ; /* END DO        */02020000
+          CALL CLEAR_FOUT2                         ; /* CLEAR_FOUT2   */02030000
+          CALL SYORI_KEKKA_EDIT                    ; /* SYORI_EDIT*/    02040000
+          CALL CWRITE(FOUT2C,OUT_FOUT2)            ; /* WRITE FOUT2   */02050000
+          COUNT_OUTPUT_FOUT2  =  COUNT_OUTPUT_FOUT2 + 1 ;               02060000
+          OLD_KEY = NEW_KEY                        ; /* SET OLD_KEY   */02070000
+          DO WHILE(FINP1_EOF = '0'B & NEW_KEY = OLD_KEY) ;              02080000
+             CALL READ_FINP1                       ; /* READ_FINP1    */02090000
+             IF (FINP1_EOF = '0'B & NEW_KEY = OLD_KEY) THEN DO;         02100000
+                CHECK_FLG = 'N'                    ; /* SET CHK_FLG   */02110000
+                CALL CLEAR_FOUT2                   ; /* CLEAR_FOUT2   */02120000
+                CALL SYORI_KEKKA_EDIT              ; /* SYORI_EDIT    */02130000
+                CALL CWRITE(FOUT2C,OUT_FOUT2)      ; /* WRITE FOUT2   */02140000
+                COUNT_OUTPUT_FOUT2  =  COUNT_OUTPUT_FOUT2 + 1 ;         02150000
+             END                                   ; /* END DO        */02160000
+          END                                      ; /* DO WHILE END */ 02170000
+          CALL READ_FINP2                          ; /* READ_FINP2    */02180000
+        END                                        ; /* END WHEN      */02190000
+        WHEN(KEY_FINP1 < KEY_FINP2) DO             ; /* WHEN          */02200000
+          COUNT_MAST_ONLY = COUNT_MAST_ONLY + 1    ; /* COUT MAST     */02210000
+                                                     /*               */02220000
+          IF IN_FINP1.TRXCD = 'A'                    /* TRXCD=A       */02230000
+          THEN DO                                  ; /* DO            */02240000
+             CALL CHK_RTN                          ; /* CHK_RTN       */02250000
+          END                                      ; /* END DO        */02260000
+          ELSE DO                                  ; /* ELSE DO       */02270000
+             CHECK_FLG  =  'N'                     ; /* SET CHK_FLG   */02280000
+          END                                      ; /* END ELSE      */02290000
+          IF CHECK_FLG = 'Y' THEN DO               ; /* DO            */02300000
+             OUT_FOUT1 = IN_FINP1 ,BY NAME         ; /* SET FOUT1     */02310000
+             CALL CWRITE(FOUT1C,OUT_FOUT1)         ; /* WRITE FOUT1   */02320000
+             COUNT_OUTPUT_FOUT1  =  COUNT_OUTPUT_FOUT1 + 1 ;            02330000
+          END                                      ; /* END DO        */02340000
+          CALL CLEAR_FOUT2                         ; /* CLEAR_FOUT2   */02350000
+          CALL SYORI_KEKKA_EDIT                    ; /* SYORI_EDIT    */02360000
+          CALL CWRITE(FOUT2C,OUT_FOUT2)            ; /* WRITE FOUT2   */02370000
+          COUNT_OUTPUT_FOUT2  =  COUNT_OUTPUT_FOUT2 + 1 ;               02380000
+          OLD_KEY = NEW_KEY                        ; /* SET OLD_KEY   */02390000
+          DO WHILE(FINP1_EOF = '0'B & NEW_KEY = OLD_KEY) ;              02400000
+             CALL READ_FINP1                       ; /* READ_FINP1    */02410000
+             IF (FINP1_EOF = '0'B & NEW_KEY = OLD_KEY) THEN DO;         02420000
+                CHECK_FLG = 'N'                    ; /* SET CHK_FLG   */02430000
+                CALL CLEAR_FOUT2                   ; /* CLEAR_FOUT2   */02440000
+                CALL SYORI_KEKKA_EDIT              ; /* SYORI_EDIT    */02450000
+                CALL CWRITE(FOUT2C,OUT_FOUT2)      ; /* WRITE FOUT2   */02460000
+                COUNT_OUTPUT_FOUT2  =  COUNT_OUTPUT_FOUT2 + 1 ;         02470000
+             END                                   ; /* END DO        */02480000
+          END                                      ; /* DO WHILE END  */02490000
+        END                                        ; /* END WHEN      */02500000
+      END                                          ; /* SELECT END    */02510000
+    END    

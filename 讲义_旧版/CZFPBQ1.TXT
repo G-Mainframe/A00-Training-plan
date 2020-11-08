@@ -1,0 +1,887 @@
+           PROCESS NOCMPR2
+      *********************************************************
+      * ÉVÉXÉeÉÄñº    ÅFêVé˚î[                            *
+      * ÉTÉuÉVÉXÉeÉÄñºÅFï•çûï[                            *
+      * ÉÇÉWÉÖÅ[Éãñº  ÅFÅyÇbÇoÇaÇyÅzÉfÅ[É^ÉAÉNÉZÉX        *
+      *                 ÅFï•çûï[êøãÅé˚î[èÓïÒÇsÇaÇk          *
+      * ÉvÉçÉOÉâÉÄÅEÉCÉìÉ^Å[ÉtÉFÅ[ÉXÅF                    *
+      * ÉRÅ[ÉäÉìÉOÉVÅ[ÉPÉìÉXÅF CALL CZFPBQ1  USING P1 P2 P3 *
+      *                 ÇoÇPÅiÇhÇnÅjÅFÉpÉâÉÅÅ[É^            *
+      *                 ÇoÇQÅiÇhÇnÅjÅFåüçıÉLÅ[              *
+      *                 ÇoÇRÅiÇhÇnÅjÅFÇhÇnÉGÉäÉA            *
+      * çÏê¨ì˙Å^ïœçXì˙ÅF2007.07.25                        *
+      *********************************************************
+       IDENTIFICATION      DIVISION.
+       PROGRAM-ID.         CZFPBQ1.
+       AUTHOR.
+       DATE-WRITTEN.       07/07/25.
+       DATE-COMPILED.
+       ENVIRONMENT         DIVISION.
+       DATA                DIVISION.
+       WORKING-STORAGE     SECTION.
+           EXEC SQL INCLUDE SQLCA END-EXEC.
+           EXEC SQL BEGIN DECLARE SECTION END-EXEC.
+      *<åüçıÉLÅ[>*
+       01  RCZQ061.
+           EXEC SQL INCLUDE RCZQ061 END-EXEC.
+      *<ÇhÇnÉGÉäÉA>*
+           EXEC SQL INCLUDE CPBZ    END-EXEC.
+           EXEC SQL END   DECLARE SECTION END-EXEC.
+      *<ÉRÉìÉXÉ^ÉìÉg>*
+       01  RVZZ283.
+           COPY  RVZZ283.
+       LINKAGE             SECTION.
+      *<ÇoÇPÅFÉpÉâÉÅÅ[É^>*
+       01  RVZZ265.
+           COPY  RVZZ265.
+      *<ÇoÇQÅFåüçıÉLÅ[>*
+       01  P2-KEY                   PIC X(256).
+      *<ÇoÇRÅFÇhÇnÉGÉäÉA>*
+       01  P3-IOAREA                PIC X(32768).
+       PROCEDURE           DIVISION USING RVZZ265
+                                          P2-KEY
+                                          P3-IOAREA.
+       MAIN-RTN.
+           MOVE  CS-0      TO  DVZ1123    OF RVZZ265.
+           MOVE  ZERO      TO  DVZ1121    OF RVZZ265.
+           MOVE  SPACE     TO  DVZ1124    OF RVZZ265.
+           MOVE  ZERO      TO  DVZ1125    OF RVZZ265.
+           MOVE  ZERO      TO  DVZ1126    OF RVZZ265.
+           EVALUATE  DVZ1114  OF  RVZZ265
+             WHEN CS-I00Z
+               PERFORM  I00Z-RTN
+             WHEN CS-K00Z
+               PERFORM  K00Z-RTN
+             WHEN CS-K000
+               PERFORM  K000-RTN
+             WHEN CS-K001
+               PERFORM  K001-RTN
+             WHEN CS-K002
+               PERFORM  K002-RTN
+             WHEN CS-K003
+               PERFORM  K003-RTN
+             WHEN CS-K004
+               PERFORM  K004-RTN
+             WHEN CS-S000
+               PERFORM  S000-RTN
+             WHEN CS-Y00Z
+               PERFORM  Y00Z-RTN
+             WHEN CS-Y000
+               PERFORM  Y000-RTN
+             WHEN CS-Y001
+               PERFORM  Y001-RTN
+             WHEN CS-Y002
+               PERFORM  Y002-RTN
+             WHEN CS-Y003
+               PERFORM  Y003-RTN
+             WHEN CS-Y004
+               PERFORM  Y004-RTN
+             WHEN  OTHER
+               MOVE  CS-2      TO  DVZ1123   OF RVZZ265
+           END-EVALUATE.
+           IF  DVZ1123  OF RVZZ265 = CS-0
+             MOVE  SQLCODE     TO  DVZ1121   OF RVZZ265
+             MOVE  SQLCA       TO  DVZ1124   OF RVZZ265
+             IF  SQLCODE NOT = ZERO
+               MOVE  CS-1      TO  DVZ1123   OF RVZZ265
+             END-IF
+           END-IF.
+       P-MAIN-EXIT.
+           GOBACK.
+      /
+       I00Z-RTN.
+           IF  DVZ1115 OF RVZZ265 = CS-INSERT
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  P3-IOAREA(1:LENGTH OF DCLCPBZ)  TO DCLCPBZ
+             EXEC  SQL
+              INSERT  INTO    CPBZ
+              (DCZ1532   ,DAZ0164   ,DAZ0157   ,DAZ0112   ,DAZ0356   ,
+               DAZ0195   ,DAZ0203   ,DCZ1346   ,DCZ1347   ,DAZ0016   ,
+               DAZ0017   ,DCZ1351   ,DCZ1352   ,DCZ1353   ,DCZ1354   ,
+               DCZ0648   ,DCZ1355   ,DCZ1356   ,DCZ1357   ,DCZ1358   ,
+               DCZ1359   ,DCZ1360   ,DCZ1361   ,DCZ1362   ,DCZ1363   ,
+               DCZ1528   ,DCZ1348   ,DCZ1349   ,RCZF105   ,RCZF106   ,
+               RCZF107   ,RCZF108                                     )
+              VALUES (
+                  :DCLCPBZ.DCZ1532   , :DCLCPBZ.DAZ0164   ,
+                  :DCLCPBZ.DAZ0157   , :DCLCPBZ.DAZ0112   ,
+                  :DCLCPBZ.DAZ0356   , :DCLCPBZ.DAZ0195   ,
+                  :DCLCPBZ.DAZ0203   , :DCLCPBZ.DCZ1346   ,
+                  :DCLCPBZ.DCZ1347   , :DCLCPBZ.DAZ0016   ,
+                  :DCLCPBZ.DAZ0017   , :DCLCPBZ.DCZ1351   ,
+                  :DCLCPBZ.DCZ1352   , :DCLCPBZ.DCZ1353   ,
+                  :DCLCPBZ.DCZ1354   , :DCLCPBZ.DCZ0648   ,
+                  :DCLCPBZ.DCZ1355   , :DCLCPBZ.DCZ1356   ,
+                  :DCLCPBZ.DCZ1357   , :DCLCPBZ.DCZ1358   ,
+                  :DCLCPBZ.DCZ1359   , :DCLCPBZ.DCZ1360   ,
+                  :DCLCPBZ.DCZ1361   , :DCLCPBZ.DCZ1362   ,
+                  :DCLCPBZ.DCZ1363   , :DCLCPBZ.DCZ1528   ,
+                  :DCLCPBZ.DCZ1348   , :DCLCPBZ.DCZ1349   ,
+                  :DCLCPBZ.RCZF105   , :DCLCPBZ.RCZF106   ,
+                  :DCLCPBZ.RCZF107   , :DCLCPBZ.RCZF108   )
+             END-EXEC
+           ELSE
+               MOVE  CS-3      TO  DVZ1123   OF RVZZ265
+           END-IF.
+      /
+       K00Z-RTN.
+           EXEC  SQL  DECLARE  K00Z_CUR  CURSOR
+            WITH HOLD FOR SELECT  DCZ1532   , DAZ0164   , DAZ0157   ,
+               DAZ0112   ,DAZ0356   ,DAZ0195   ,DAZ0203   ,DCZ1346   ,
+               DCZ1347   ,DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,
+               DCZ1353   ,DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,
+               DCZ1357   ,DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,
+               DCZ1362   ,DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,
+               RCZF105   ,RCZF106   ,RCZF107   ,RCZF108
+             FROM  CPBZ
+             FOR UPDATE OF
+               DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,DCZ1353   ,
+               DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,DCZ1357   ,
+               DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,DCZ1362   ,
+               DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,RCZF105   ,
+               RCZF106   ,RCZF107   ,RCZF108
+           END-EXEC
+           EVALUATE  DVZ1115  OF  RVZZ265
+             WHEN CS-OPEN
+               EXEC  SQL  OPEN  K00Z_CUR  END-EXEC
+             WHEN CS-FETCH
+               EXEC  SQL  FETCH K00Z_CUR  INTO
+                  :DCLCPBZ.DCZ1532   , :DCLCPBZ.DAZ0164   ,
+                  :DCLCPBZ.DAZ0157   , :DCLCPBZ.DAZ0112   ,
+                  :DCLCPBZ.DAZ0356   , :DCLCPBZ.DAZ0195   ,
+                  :DCLCPBZ.DAZ0203   , :DCLCPBZ.DCZ1346   ,
+                  :DCLCPBZ.DCZ1347   , :DCLCPBZ.DAZ0016   ,
+                  :DCLCPBZ.DAZ0017   , :DCLCPBZ.DCZ1351   ,
+                  :DCLCPBZ.DCZ1352   , :DCLCPBZ.DCZ1353   ,
+                  :DCLCPBZ.DCZ1354   , :DCLCPBZ.DCZ0648   ,
+                  :DCLCPBZ.DCZ1355   , :DCLCPBZ.DCZ1356   ,
+                  :DCLCPBZ.DCZ1357   , :DCLCPBZ.DCZ1358   ,
+                  :DCLCPBZ.DCZ1359   , :DCLCPBZ.DCZ1360   ,
+                  :DCLCPBZ.DCZ1361   , :DCLCPBZ.DCZ1362   ,
+                  :DCLCPBZ.DCZ1363   , :DCLCPBZ.DCZ1528   ,
+                  :DCLCPBZ.DCZ1348   , :DCLCPBZ.DCZ1349   ,
+                  :DCLCPBZ.RCZF105   , :DCLCPBZ.RCZF106   ,
+                  :DCLCPBZ.RCZF107   , :DCLCPBZ.RCZF108
+               END-EXEC
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  DCLCPBZ TO  P3-IOAREA(1:LENGTH OF DCLCPBZ)
+             WHEN CS-UPDATE
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  P3-IOAREA(1:LENGTH OF DCLCPBZ)  TO DCLCPBZ
+               EXEC  SQL  UPDATE CPBZ     SET
+                DAZ0016 = :DCLCPBZ.DAZ0016, DAZ0017 = :DCLCPBZ.DAZ0017,
+                DCZ1351 = :DCLCPBZ.DCZ1351, DCZ1352 = :DCLCPBZ.DCZ1352,
+                DCZ1353 = :DCLCPBZ.DCZ1353, DCZ1354 = :DCLCPBZ.DCZ1354,
+                DCZ0648 = :DCLCPBZ.DCZ0648, DCZ1355 = :DCLCPBZ.DCZ1355,
+                DCZ1356 = :DCLCPBZ.DCZ1356, DCZ1357 = :DCLCPBZ.DCZ1357,
+                DCZ1358 = :DCLCPBZ.DCZ1358, DCZ1359 = :DCLCPBZ.DCZ1359,
+                DCZ1360 = :DCLCPBZ.DCZ1360, DCZ1361 = :DCLCPBZ.DCZ1361,
+                DCZ1362 = :DCLCPBZ.DCZ1362, DCZ1363 = :DCLCPBZ.DCZ1363,
+                DCZ1528 = :DCLCPBZ.DCZ1528, DCZ1348 = :DCLCPBZ.DCZ1348,
+                DCZ1349 = :DCLCPBZ.DCZ1349, RCZF105 = :DCLCPBZ.RCZF105,
+                RCZF106 = :DCLCPBZ.RCZF106, RCZF107 = :DCLCPBZ.RCZF107,
+                RCZF108    = :DCLCPBZ.RCZF108
+                 WHERE CURRENT OF K00Z_CUR  END-EXEC
+             WHEN CS-DELETE
+               EXEC  SQL  DELETE  FROM  CPBZ
+                 WHERE CURRENT OF K00Z_CUR  END-EXEC
+             WHEN CS-CLOSE
+               EXEC  SQL  CLOSE K00Z_CUR  END-EXEC
+             WHEN OTHER
+               MOVE  CS-3      TO  DVZ1123   OF RVZZ265
+           END-EVALUATE.
+      /
+       K000-RTN.
+           EXEC  SQL  DECLARE  K000_CUR  CURSOR
+            WITH HOLD FOR SELECT  DCZ1532   , DAZ0164   , DAZ0157   ,
+               DAZ0112   ,DAZ0356   ,DAZ0195   ,DAZ0203   ,DCZ1346   ,
+               DCZ1347   ,DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,
+               DCZ1353   ,DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,
+               DCZ1357   ,DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,
+               DCZ1362   ,DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,
+               RCZF105   ,RCZF106   ,RCZF107   ,RCZF108
+             FROM  CPBZ
+             WHERE DCZ1532    = :RCZQ061-K000.DCZ1532    AND
+                   DAZ0164    = :RCZQ061-K000.DAZ0164    AND
+                   DAZ0157    = :RCZQ061-K000.DAZ0157    AND
+                   DAZ0112    = :RCZQ061-K000.DAZ0112    AND
+                   DAZ0356    = :RCZQ061-K000.DAZ0356    AND
+                   DAZ0195    = :RCZQ061-K000.DAZ0195    AND
+                   DAZ0203    = :RCZQ061-K000.DAZ0203    AND
+                   DCZ1346    = :RCZQ061-K000.DCZ1346    AND
+                   DCZ1347    = :RCZQ061-K000.DCZ1347
+             FOR UPDATE OF
+               DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,DCZ1353   ,
+               DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,DCZ1357   ,
+               DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,DCZ1362   ,
+               DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,RCZF105   ,
+               RCZF106   ,RCZF107   ,RCZF108
+           END-EXEC
+           EVALUATE  DVZ1115  OF  RVZZ265
+             WHEN CS-OPEN
+               MOVE LENGTH OF RCZQ061-K000 TO DVZ1125 OF RVZZ265
+               MOVE P2-KEY(1:LENGTH OF RCZQ061-K000)  TO RCZQ061
+               EXEC  SQL  OPEN  K000_CUR  END-EXEC
+             WHEN CS-FETCH
+               EXEC  SQL  FETCH K000_CUR  INTO
+                  :DCLCPBZ.DCZ1532   , :DCLCPBZ.DAZ0164   ,
+                  :DCLCPBZ.DAZ0157   , :DCLCPBZ.DAZ0112   ,
+                  :DCLCPBZ.DAZ0356   , :DCLCPBZ.DAZ0195   ,
+                  :DCLCPBZ.DAZ0203   , :DCLCPBZ.DCZ1346   ,
+                  :DCLCPBZ.DCZ1347   , :DCLCPBZ.DAZ0016   ,
+                  :DCLCPBZ.DAZ0017   , :DCLCPBZ.DCZ1351   ,
+                  :DCLCPBZ.DCZ1352   , :DCLCPBZ.DCZ1353   ,
+                  :DCLCPBZ.DCZ1354   , :DCLCPBZ.DCZ0648   ,
+                  :DCLCPBZ.DCZ1355   , :DCLCPBZ.DCZ1356   ,
+                  :DCLCPBZ.DCZ1357   , :DCLCPBZ.DCZ1358   ,
+                  :DCLCPBZ.DCZ1359   , :DCLCPBZ.DCZ1360   ,
+                  :DCLCPBZ.DCZ1361   , :DCLCPBZ.DCZ1362   ,
+                  :DCLCPBZ.DCZ1363   , :DCLCPBZ.DCZ1528   ,
+                  :DCLCPBZ.DCZ1348   , :DCLCPBZ.DCZ1349   ,
+                  :DCLCPBZ.RCZF105   , :DCLCPBZ.RCZF106   ,
+                  :DCLCPBZ.RCZF107   , :DCLCPBZ.RCZF108
+               END-EXEC
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  DCLCPBZ TO  P3-IOAREA(1:LENGTH OF DCLCPBZ)
+             WHEN CS-UPDATE
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  P3-IOAREA(1:LENGTH OF DCLCPBZ)  TO DCLCPBZ
+               EXEC  SQL  UPDATE CPBZ     SET
+                DAZ0016 = :DCLCPBZ.DAZ0016, DAZ0017 = :DCLCPBZ.DAZ0017,
+                DCZ1351 = :DCLCPBZ.DCZ1351, DCZ1352 = :DCLCPBZ.DCZ1352,
+                DCZ1353 = :DCLCPBZ.DCZ1353, DCZ1354 = :DCLCPBZ.DCZ1354,
+                DCZ0648 = :DCLCPBZ.DCZ0648, DCZ1355 = :DCLCPBZ.DCZ1355,
+                DCZ1356 = :DCLCPBZ.DCZ1356, DCZ1357 = :DCLCPBZ.DCZ1357,
+                DCZ1358 = :DCLCPBZ.DCZ1358, DCZ1359 = :DCLCPBZ.DCZ1359,
+                DCZ1360 = :DCLCPBZ.DCZ1360, DCZ1361 = :DCLCPBZ.DCZ1361,
+                DCZ1362 = :DCLCPBZ.DCZ1362, DCZ1363 = :DCLCPBZ.DCZ1363,
+                DCZ1528 = :DCLCPBZ.DCZ1528, DCZ1348 = :DCLCPBZ.DCZ1348,
+                DCZ1349 = :DCLCPBZ.DCZ1349, RCZF105 = :DCLCPBZ.RCZF105,
+                RCZF106 = :DCLCPBZ.RCZF106, RCZF107 = :DCLCPBZ.RCZF107,
+                RCZF108    = :DCLCPBZ.RCZF108
+                 WHERE CURRENT OF K000_CUR  END-EXEC
+             WHEN CS-DELETE
+               EXEC  SQL  DELETE  FROM  CPBZ
+                 WHERE CURRENT OF K000_CUR  END-EXEC
+             WHEN CS-CLOSE
+               EXEC  SQL  CLOSE K000_CUR  END-EXEC
+             WHEN OTHER
+               MOVE  CS-3      TO  DVZ1123   OF RVZZ265
+           END-EVALUATE.
+      /
+       K001-RTN.
+           EXEC  SQL  DECLARE  K001_CUR  CURSOR
+            WITH HOLD FOR SELECT  DCZ1532   , DAZ0164   , DAZ0157   ,
+               DAZ0112   ,DAZ0356   ,DAZ0195   ,DAZ0203   ,DCZ1346   ,
+               DCZ1347   ,DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,
+               DCZ1353   ,DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,
+               DCZ1357   ,DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,
+               DCZ1362   ,DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,
+               RCZF105   ,RCZF106   ,RCZF107   ,RCZF108
+             FROM  CPBZ
+             WHERE DCZ1354    = :RCZQ061-K001.DCZ1354
+             FOR UPDATE OF
+               DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,DCZ1353   ,
+               DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,DCZ1357   ,
+               DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,DCZ1362   ,
+               DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,RCZF105   ,
+               RCZF106   ,RCZF107   ,RCZF108
+           END-EXEC
+           EVALUATE  DVZ1115  OF  RVZZ265
+             WHEN CS-OPEN
+               MOVE LENGTH OF RCZQ061-K001 TO DVZ1125 OF RVZZ265
+               MOVE P2-KEY(1:LENGTH OF RCZQ061-K001)  TO RCZQ061
+               EXEC  SQL  OPEN  K001_CUR  END-EXEC
+             WHEN CS-FETCH
+               EXEC  SQL  FETCH K001_CUR  INTO
+                  :DCLCPBZ.DCZ1532   , :DCLCPBZ.DAZ0164   ,
+                  :DCLCPBZ.DAZ0157   , :DCLCPBZ.DAZ0112   ,
+                  :DCLCPBZ.DAZ0356   , :DCLCPBZ.DAZ0195   ,
+                  :DCLCPBZ.DAZ0203   , :DCLCPBZ.DCZ1346   ,
+                  :DCLCPBZ.DCZ1347   , :DCLCPBZ.DAZ0016   ,
+                  :DCLCPBZ.DAZ0017   , :DCLCPBZ.DCZ1351   ,
+                  :DCLCPBZ.DCZ1352   , :DCLCPBZ.DCZ1353   ,
+                  :DCLCPBZ.DCZ1354   , :DCLCPBZ.DCZ0648   ,
+                  :DCLCPBZ.DCZ1355   , :DCLCPBZ.DCZ1356   ,
+                  :DCLCPBZ.DCZ1357   , :DCLCPBZ.DCZ1358   ,
+                  :DCLCPBZ.DCZ1359   , :DCLCPBZ.DCZ1360   ,
+                  :DCLCPBZ.DCZ1361   , :DCLCPBZ.DCZ1362   ,
+                  :DCLCPBZ.DCZ1363   , :DCLCPBZ.DCZ1528   ,
+                  :DCLCPBZ.DCZ1348   , :DCLCPBZ.DCZ1349   ,
+                  :DCLCPBZ.RCZF105   , :DCLCPBZ.RCZF106   ,
+                  :DCLCPBZ.RCZF107   , :DCLCPBZ.RCZF108
+               END-EXEC
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  DCLCPBZ TO  P3-IOAREA(1:LENGTH OF DCLCPBZ)
+             WHEN CS-UPDATE
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  P3-IOAREA(1:LENGTH OF DCLCPBZ)  TO DCLCPBZ
+               EXEC  SQL  UPDATE CPBZ     SET
+                DAZ0016 = :DCLCPBZ.DAZ0016, DAZ0017 = :DCLCPBZ.DAZ0017,
+                DCZ1351 = :DCLCPBZ.DCZ1351, DCZ1352 = :DCLCPBZ.DCZ1352,
+                DCZ1353 = :DCLCPBZ.DCZ1353, DCZ1354 = :DCLCPBZ.DCZ1354,
+                DCZ0648 = :DCLCPBZ.DCZ0648, DCZ1355 = :DCLCPBZ.DCZ1355,
+                DCZ1356 = :DCLCPBZ.DCZ1356, DCZ1357 = :DCLCPBZ.DCZ1357,
+                DCZ1358 = :DCLCPBZ.DCZ1358, DCZ1359 = :DCLCPBZ.DCZ1359,
+                DCZ1360 = :DCLCPBZ.DCZ1360, DCZ1361 = :DCLCPBZ.DCZ1361,
+                DCZ1362 = :DCLCPBZ.DCZ1362, DCZ1363 = :DCLCPBZ.DCZ1363,
+                DCZ1528 = :DCLCPBZ.DCZ1528, DCZ1348 = :DCLCPBZ.DCZ1348,
+                DCZ1349 = :DCLCPBZ.DCZ1349, RCZF105 = :DCLCPBZ.RCZF105,
+                RCZF106 = :DCLCPBZ.RCZF106, RCZF107 = :DCLCPBZ.RCZF107,
+                RCZF108    = :DCLCPBZ.RCZF108
+                 WHERE CURRENT OF K001_CUR  END-EXEC
+             WHEN CS-DELETE
+               EXEC  SQL  DELETE  FROM  CPBZ
+                 WHERE CURRENT OF K001_CUR  END-EXEC
+             WHEN CS-CLOSE
+               EXEC  SQL  CLOSE K001_CUR  END-EXEC
+             WHEN OTHER
+               MOVE  CS-3      TO  DVZ1123   OF RVZZ265
+           END-EVALUATE.
+      /
+       K002-RTN.
+           EXEC  SQL  DECLARE  K002_CUR  CURSOR
+            WITH HOLD FOR SELECT  DCZ1532   , DAZ0164   , DAZ0157   ,
+               DAZ0112   ,DAZ0356   ,DAZ0195   ,DAZ0203   ,DCZ1346   ,
+               DCZ1347   ,DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,
+               DCZ1353   ,DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,
+               DCZ1357   ,DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,
+               DCZ1362   ,DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,
+               RCZF105   ,RCZF106   ,RCZF107   ,RCZF108
+             FROM  CPBZ
+             WHERE DCZ1347    = :RCZQ061-K002.DCZ1347    AND
+                   DCZ1356    = :RCZQ061-K002.DCZ1356    AND
+                   DCZ1357    = :RCZQ061-K002.DCZ1357    AND
+                   DCZ1358    = :RCZQ061-K002.DCZ1358
+             FOR UPDATE OF
+               DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,DCZ1353   ,
+               DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,DCZ1357   ,
+               DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,DCZ1362   ,
+               DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,RCZF105   ,
+               RCZF106   ,RCZF107   ,RCZF108
+           END-EXEC
+           EVALUATE  DVZ1115  OF  RVZZ265
+             WHEN CS-OPEN
+               MOVE LENGTH OF RCZQ061-K002 TO DVZ1125 OF RVZZ265
+               MOVE P2-KEY(1:LENGTH OF RCZQ061-K002)  TO RCZQ061
+               EXEC  SQL  OPEN  K002_CUR  END-EXEC
+             WHEN CS-FETCH
+               EXEC  SQL  FETCH K002_CUR  INTO
+                  :DCLCPBZ.DCZ1532   , :DCLCPBZ.DAZ0164   ,
+                  :DCLCPBZ.DAZ0157   , :DCLCPBZ.DAZ0112   ,
+                  :DCLCPBZ.DAZ0356   , :DCLCPBZ.DAZ0195   ,
+                  :DCLCPBZ.DAZ0203   , :DCLCPBZ.DCZ1346   ,
+                  :DCLCPBZ.DCZ1347   , :DCLCPBZ.DAZ0016   ,
+                  :DCLCPBZ.DAZ0017   , :DCLCPBZ.DCZ1351   ,
+                  :DCLCPBZ.DCZ1352   , :DCLCPBZ.DCZ1353   ,
+                  :DCLCPBZ.DCZ1354   , :DCLCPBZ.DCZ0648   ,
+                  :DCLCPBZ.DCZ1355   , :DCLCPBZ.DCZ1356   ,
+                  :DCLCPBZ.DCZ1357   , :DCLCPBZ.DCZ1358   ,
+                  :DCLCPBZ.DCZ1359   , :DCLCPBZ.DCZ1360   ,
+                  :DCLCPBZ.DCZ1361   , :DCLCPBZ.DCZ1362   ,
+                  :DCLCPBZ.DCZ1363   , :DCLCPBZ.DCZ1528   ,
+                  :DCLCPBZ.DCZ1348   , :DCLCPBZ.DCZ1349   ,
+                  :DCLCPBZ.RCZF105   , :DCLCPBZ.RCZF106   ,
+                  :DCLCPBZ.RCZF107   , :DCLCPBZ.RCZF108
+               END-EXEC
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  DCLCPBZ TO  P3-IOAREA(1:LENGTH OF DCLCPBZ)
+             WHEN CS-UPDATE
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  P3-IOAREA(1:LENGTH OF DCLCPBZ)  TO DCLCPBZ
+               EXEC  SQL  UPDATE CPBZ     SET
+                DAZ0016 = :DCLCPBZ.DAZ0016, DAZ0017 = :DCLCPBZ.DAZ0017,
+                DCZ1351 = :DCLCPBZ.DCZ1351, DCZ1352 = :DCLCPBZ.DCZ1352,
+                DCZ1353 = :DCLCPBZ.DCZ1353, DCZ1354 = :DCLCPBZ.DCZ1354,
+                DCZ0648 = :DCLCPBZ.DCZ0648, DCZ1355 = :DCLCPBZ.DCZ1355,
+                DCZ1356 = :DCLCPBZ.DCZ1356, DCZ1357 = :DCLCPBZ.DCZ1357,
+                DCZ1358 = :DCLCPBZ.DCZ1358, DCZ1359 = :DCLCPBZ.DCZ1359,
+                DCZ1360 = :DCLCPBZ.DCZ1360, DCZ1361 = :DCLCPBZ.DCZ1361,
+                DCZ1362 = :DCLCPBZ.DCZ1362, DCZ1363 = :DCLCPBZ.DCZ1363,
+                DCZ1528 = :DCLCPBZ.DCZ1528, DCZ1348 = :DCLCPBZ.DCZ1348,
+                DCZ1349 = :DCLCPBZ.DCZ1349, RCZF105 = :DCLCPBZ.RCZF105,
+                RCZF106 = :DCLCPBZ.RCZF106, RCZF107 = :DCLCPBZ.RCZF107,
+                RCZF108    = :DCLCPBZ.RCZF108
+                 WHERE CURRENT OF K002_CUR  END-EXEC
+             WHEN CS-DELETE
+               EXEC  SQL  DELETE  FROM  CPBZ
+                 WHERE CURRENT OF K002_CUR  END-EXEC
+             WHEN CS-CLOSE
+               EXEC  SQL  CLOSE K002_CUR  END-EXEC
+             WHEN OTHER
+               MOVE  CS-3      TO  DVZ1123   OF RVZZ265
+           END-EVALUATE.
+      /
+       K003-RTN.
+           EXEC  SQL  DECLARE  K003_CUR  CURSOR
+            WITH HOLD FOR SELECT  DCZ1532   , DAZ0164   , DAZ0157   ,
+               DAZ0112   ,DAZ0356   ,DAZ0195   ,DAZ0203   ,DCZ1346   ,
+               DCZ1347   ,DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,
+               DCZ1353   ,DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,
+               DCZ1357   ,DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,
+               DCZ1362   ,DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,
+               RCZF105   ,RCZF106   ,RCZF107   ,RCZF108
+             FROM  CPBZ
+             WHERE DCZ0648    = :RCZQ061-K003.DCZ0648
+             FOR UPDATE OF
+               DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,DCZ1353   ,
+               DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,DCZ1357   ,
+               DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,DCZ1362   ,
+               DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,RCZF105   ,
+               RCZF106   ,RCZF107   ,RCZF108
+           END-EXEC
+           EVALUATE  DVZ1115  OF  RVZZ265
+             WHEN CS-OPEN
+               MOVE LENGTH OF RCZQ061-K003 TO DVZ1125 OF RVZZ265
+               MOVE P2-KEY(1:LENGTH OF RCZQ061-K003)  TO RCZQ061
+               EXEC  SQL  OPEN  K003_CUR  END-EXEC
+             WHEN CS-FETCH
+               EXEC  SQL  FETCH K003_CUR  INTO
+                  :DCLCPBZ.DCZ1532   , :DCLCPBZ.DAZ0164   ,
+                  :DCLCPBZ.DAZ0157   , :DCLCPBZ.DAZ0112   ,
+                  :DCLCPBZ.DAZ0356   , :DCLCPBZ.DAZ0195   ,
+                  :DCLCPBZ.DAZ0203   , :DCLCPBZ.DCZ1346   ,
+                  :DCLCPBZ.DCZ1347   , :DCLCPBZ.DAZ0016   ,
+                  :DCLCPBZ.DAZ0017   , :DCLCPBZ.DCZ1351   ,
+                  :DCLCPBZ.DCZ1352   , :DCLCPBZ.DCZ1353   ,
+                  :DCLCPBZ.DCZ1354   , :DCLCPBZ.DCZ0648   ,
+                  :DCLCPBZ.DCZ1355   , :DCLCPBZ.DCZ1356   ,
+                  :DCLCPBZ.DCZ1357   , :DCLCPBZ.DCZ1358   ,
+                  :DCLCPBZ.DCZ1359   , :DCLCPBZ.DCZ1360   ,
+                  :DCLCPBZ.DCZ1361   , :DCLCPBZ.DCZ1362   ,
+                  :DCLCPBZ.DCZ1363   , :DCLCPBZ.DCZ1528   ,
+                  :DCLCPBZ.DCZ1348   , :DCLCPBZ.DCZ1349   ,
+                  :DCLCPBZ.RCZF105   , :DCLCPBZ.RCZF106   ,
+                  :DCLCPBZ.RCZF107   , :DCLCPBZ.RCZF108
+               END-EXEC
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  DCLCPBZ TO  P3-IOAREA(1:LENGTH OF DCLCPBZ)
+             WHEN CS-UPDATE
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  P3-IOAREA(1:LENGTH OF DCLCPBZ)  TO DCLCPBZ
+               EXEC  SQL  UPDATE CPBZ     SET
+                DAZ0016 = :DCLCPBZ.DAZ0016, DAZ0017 = :DCLCPBZ.DAZ0017,
+                DCZ1351 = :DCLCPBZ.DCZ1351, DCZ1352 = :DCLCPBZ.DCZ1352,
+                DCZ1353 = :DCLCPBZ.DCZ1353, DCZ1354 = :DCLCPBZ.DCZ1354,
+                DCZ0648 = :DCLCPBZ.DCZ0648, DCZ1355 = :DCLCPBZ.DCZ1355,
+                DCZ1356 = :DCLCPBZ.DCZ1356, DCZ1357 = :DCLCPBZ.DCZ1357,
+                DCZ1358 = :DCLCPBZ.DCZ1358, DCZ1359 = :DCLCPBZ.DCZ1359,
+                DCZ1360 = :DCLCPBZ.DCZ1360, DCZ1361 = :DCLCPBZ.DCZ1361,
+                DCZ1362 = :DCLCPBZ.DCZ1362, DCZ1363 = :DCLCPBZ.DCZ1363,
+                DCZ1528 = :DCLCPBZ.DCZ1528, DCZ1348 = :DCLCPBZ.DCZ1348,
+                DCZ1349 = :DCLCPBZ.DCZ1349, RCZF105 = :DCLCPBZ.RCZF105,
+                RCZF106 = :DCLCPBZ.RCZF106, RCZF107 = :DCLCPBZ.RCZF107,
+                RCZF108    = :DCLCPBZ.RCZF108
+                 WHERE CURRENT OF K003_CUR  END-EXEC
+             WHEN CS-DELETE
+               EXEC  SQL  DELETE  FROM  CPBZ
+                 WHERE CURRENT OF K003_CUR  END-EXEC
+             WHEN CS-CLOSE
+               EXEC  SQL  CLOSE K003_CUR  END-EXEC
+             WHEN OTHER
+               MOVE  CS-3      TO  DVZ1123   OF RVZZ265
+           END-EVALUATE.
+      /
+       K004-RTN.
+           EXEC  SQL  DECLARE  K004_CUR  CURSOR
+            WITH HOLD FOR SELECT  DCZ1532   , DAZ0164   , DAZ0157   ,
+               DAZ0112   ,DAZ0356   ,DAZ0195   ,DAZ0203   ,DCZ1346   ,
+               DCZ1347   ,DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,
+               DCZ1353   ,DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,
+               DCZ1357   ,DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,
+               DCZ1362   ,DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,
+               RCZF105   ,RCZF106   ,RCZF107   ,RCZF108
+             FROM  CPBZ
+             WHERE DAZ0164    = :RCZQ061-K004.DAZ0164    AND
+                   DAZ0157    = :RCZQ061-K004.DAZ0157    AND
+                   DAZ0112    = :RCZQ061-K004.DAZ0112    AND
+                   DAZ0356    = :RCZQ061-K004.DAZ0356    AND
+                   DCZ1360    = :RCZQ061-K004.DCZ1360    AND
+                   DCZ1361    = :RCZQ061-K004.DCZ1361
+             FOR UPDATE OF
+               DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,DCZ1353   ,
+               DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,DCZ1357   ,
+               DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,DCZ1362   ,
+               DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,RCZF105   ,
+               RCZF106   ,RCZF107   ,RCZF108
+           END-EXEC
+           EVALUATE  DVZ1115  OF  RVZZ265
+             WHEN CS-OPEN
+               MOVE LENGTH OF RCZQ061-K004 TO DVZ1125 OF RVZZ265
+               MOVE P2-KEY(1:LENGTH OF RCZQ061-K004)  TO RCZQ061
+               EXEC  SQL  OPEN  K004_CUR  END-EXEC
+             WHEN CS-FETCH
+               EXEC  SQL  FETCH K004_CUR  INTO
+                  :DCLCPBZ.DCZ1532   , :DCLCPBZ.DAZ0164   ,
+                  :DCLCPBZ.DAZ0157   , :DCLCPBZ.DAZ0112   ,
+                  :DCLCPBZ.DAZ0356   , :DCLCPBZ.DAZ0195   ,
+                  :DCLCPBZ.DAZ0203   , :DCLCPBZ.DCZ1346   ,
+                  :DCLCPBZ.DCZ1347   , :DCLCPBZ.DAZ0016   ,
+                  :DCLCPBZ.DAZ0017   , :DCLCPBZ.DCZ1351   ,
+                  :DCLCPBZ.DCZ1352   , :DCLCPBZ.DCZ1353   ,
+                  :DCLCPBZ.DCZ1354   , :DCLCPBZ.DCZ0648   ,
+                  :DCLCPBZ.DCZ1355   , :DCLCPBZ.DCZ1356   ,
+                  :DCLCPBZ.DCZ1357   , :DCLCPBZ.DCZ1358   ,
+                  :DCLCPBZ.DCZ1359   , :DCLCPBZ.DCZ1360   ,
+                  :DCLCPBZ.DCZ1361   , :DCLCPBZ.DCZ1362   ,
+                  :DCLCPBZ.DCZ1363   , :DCLCPBZ.DCZ1528   ,
+                  :DCLCPBZ.DCZ1348   , :DCLCPBZ.DCZ1349   ,
+                  :DCLCPBZ.RCZF105   , :DCLCPBZ.RCZF106   ,
+                  :DCLCPBZ.RCZF107   , :DCLCPBZ.RCZF108
+               END-EXEC
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  DCLCPBZ TO  P3-IOAREA(1:LENGTH OF DCLCPBZ)
+             WHEN CS-UPDATE
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  P3-IOAREA(1:LENGTH OF DCLCPBZ)  TO DCLCPBZ
+               EXEC  SQL  UPDATE CPBZ     SET
+                DAZ0016 = :DCLCPBZ.DAZ0016, DAZ0017 = :DCLCPBZ.DAZ0017,
+                DCZ1351 = :DCLCPBZ.DCZ1351, DCZ1352 = :DCLCPBZ.DCZ1352,
+                DCZ1353 = :DCLCPBZ.DCZ1353, DCZ1354 = :DCLCPBZ.DCZ1354,
+                DCZ0648 = :DCLCPBZ.DCZ0648, DCZ1355 = :DCLCPBZ.DCZ1355,
+                DCZ1356 = :DCLCPBZ.DCZ1356, DCZ1357 = :DCLCPBZ.DCZ1357,
+                DCZ1358 = :DCLCPBZ.DCZ1358, DCZ1359 = :DCLCPBZ.DCZ1359,
+                DCZ1360 = :DCLCPBZ.DCZ1360, DCZ1361 = :DCLCPBZ.DCZ1361,
+                DCZ1362 = :DCLCPBZ.DCZ1362, DCZ1363 = :DCLCPBZ.DCZ1363,
+                DCZ1528 = :DCLCPBZ.DCZ1528, DCZ1348 = :DCLCPBZ.DCZ1348,
+                DCZ1349 = :DCLCPBZ.DCZ1349, RCZF105 = :DCLCPBZ.RCZF105,
+                RCZF106 = :DCLCPBZ.RCZF106, RCZF107 = :DCLCPBZ.RCZF107,
+                RCZF108    = :DCLCPBZ.RCZF108
+                 WHERE CURRENT OF K004_CUR  END-EXEC
+             WHEN CS-DELETE
+               EXEC  SQL  DELETE  FROM  CPBZ
+                 WHERE CURRENT OF K004_CUR  END-EXEC
+             WHEN CS-CLOSE
+               EXEC  SQL  CLOSE K004_CUR  END-EXEC
+             WHEN OTHER
+               MOVE  CS-3      TO  DVZ1123   OF RVZZ265
+           END-EVALUATE.
+      /
+       S000-RTN.
+           IF  DVZ1115 OF RVZZ265 = CS-SELECT
+               MOVE LENGTH OF RCZQ061-S000 TO DVZ1125 OF RVZZ265
+               MOVE P2-KEY(1:LENGTH OF RCZQ061-S000)  TO RCZQ061
+             EXEC  SQL
+                          SELECT  DCZ1532   , DAZ0164   , DAZ0157   ,
+               DAZ0112   ,DAZ0356   ,DAZ0195   ,DAZ0203   ,DCZ1346   ,
+               DCZ1347   ,DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,
+               DCZ1353   ,DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,
+               DCZ1357   ,DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,
+               DCZ1362   ,DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,
+               RCZF105   ,RCZF106   ,RCZF107   ,RCZF108
+             INTO :DCLCPBZ.DCZ1532   , :DCLCPBZ.DAZ0164   ,
+                  :DCLCPBZ.DAZ0157   , :DCLCPBZ.DAZ0112   ,
+                  :DCLCPBZ.DAZ0356   , :DCLCPBZ.DAZ0195   ,
+                  :DCLCPBZ.DAZ0203   , :DCLCPBZ.DCZ1346   ,
+                  :DCLCPBZ.DCZ1347   , :DCLCPBZ.DAZ0016   ,
+                  :DCLCPBZ.DAZ0017   , :DCLCPBZ.DCZ1351   ,
+                  :DCLCPBZ.DCZ1352   , :DCLCPBZ.DCZ1353   ,
+                  :DCLCPBZ.DCZ1354   , :DCLCPBZ.DCZ0648   ,
+                  :DCLCPBZ.DCZ1355   , :DCLCPBZ.DCZ1356   ,
+                  :DCLCPBZ.DCZ1357   , :DCLCPBZ.DCZ1358   ,
+                  :DCLCPBZ.DCZ1359   , :DCLCPBZ.DCZ1360   ,
+                  :DCLCPBZ.DCZ1361   , :DCLCPBZ.DCZ1362   ,
+                  :DCLCPBZ.DCZ1363   , :DCLCPBZ.DCZ1528   ,
+                  :DCLCPBZ.DCZ1348   , :DCLCPBZ.DCZ1349   ,
+                  :DCLCPBZ.RCZF105   , :DCLCPBZ.RCZF106   ,
+                  :DCLCPBZ.RCZF107   , :DCLCPBZ.RCZF108
+             FROM  CPBZ
+             WHERE DCZ1532    = :RCZQ061-S000.DCZ1532    AND
+                   DAZ0164    = :RCZQ061-S000.DAZ0164    AND
+                   DAZ0157    = :RCZQ061-S000.DAZ0157    AND
+                   DAZ0112    = :RCZQ061-S000.DAZ0112    AND
+                   DAZ0356    = :RCZQ061-S000.DAZ0356    AND
+                   DAZ0195    = :RCZQ061-S000.DAZ0195    AND
+                   DAZ0203    = :RCZQ061-S000.DAZ0203    AND
+                   DCZ1346    = :RCZQ061-S000.DCZ1346    AND
+                   DCZ1347    = :RCZQ061-S000.DCZ1347
+             END-EXEC
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  DCLCPBZ TO  P3-IOAREA(1:LENGTH OF DCLCPBZ)
+           ELSE
+               MOVE  CS-3      TO  DVZ1123   OF RVZZ265
+           END-IF.
+      /
+       Y00Z-RTN.
+           EXEC  SQL  DECLARE  Y00Z_CUR  CURSOR
+            WITH HOLD FOR SELECT  DCZ1532   , DAZ0164   , DAZ0157   ,
+               DAZ0112   ,DAZ0356   ,DAZ0195   ,DAZ0203   ,DCZ1346   ,
+               DCZ1347   ,DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,
+               DCZ1353   ,DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,
+               DCZ1357   ,DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,
+               DCZ1362   ,DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,
+               RCZF105   ,RCZF106   ,RCZF107   ,RCZF108
+             FROM  CPBZ
+             FOR FETCH ONLY
+           END-EXEC
+           EVALUATE  DVZ1115  OF  RVZZ265
+             WHEN CS-OPEN
+               EXEC  SQL  OPEN  Y00Z_CUR  END-EXEC
+             WHEN CS-FETCH
+               EXEC  SQL  FETCH Y00Z_CUR  INTO
+                  :DCLCPBZ.DCZ1532   , :DCLCPBZ.DAZ0164   ,
+                  :DCLCPBZ.DAZ0157   , :DCLCPBZ.DAZ0112   ,
+                  :DCLCPBZ.DAZ0356   , :DCLCPBZ.DAZ0195   ,
+                  :DCLCPBZ.DAZ0203   , :DCLCPBZ.DCZ1346   ,
+                  :DCLCPBZ.DCZ1347   , :DCLCPBZ.DAZ0016   ,
+                  :DCLCPBZ.DAZ0017   , :DCLCPBZ.DCZ1351   ,
+                  :DCLCPBZ.DCZ1352   , :DCLCPBZ.DCZ1353   ,
+                  :DCLCPBZ.DCZ1354   , :DCLCPBZ.DCZ0648   ,
+                  :DCLCPBZ.DCZ1355   , :DCLCPBZ.DCZ1356   ,
+                  :DCLCPBZ.DCZ1357   , :DCLCPBZ.DCZ1358   ,
+                  :DCLCPBZ.DCZ1359   , :DCLCPBZ.DCZ1360   ,
+                  :DCLCPBZ.DCZ1361   , :DCLCPBZ.DCZ1362   ,
+                  :DCLCPBZ.DCZ1363   , :DCLCPBZ.DCZ1528   ,
+                  :DCLCPBZ.DCZ1348   , :DCLCPBZ.DCZ1349   ,
+                  :DCLCPBZ.RCZF105   , :DCLCPBZ.RCZF106   ,
+                  :DCLCPBZ.RCZF107   , :DCLCPBZ.RCZF108
+               END-EXEC
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  DCLCPBZ TO  P3-IOAREA(1:LENGTH OF DCLCPBZ)
+             WHEN CS-CLOSE
+               EXEC  SQL  CLOSE Y00Z_CUR  END-EXEC
+             WHEN OTHER
+               MOVE  CS-3      TO  DVZ1123   OF RVZZ265
+           END-EVALUATE.
+      /
+       Y000-RTN.
+           EXEC  SQL  DECLARE  Y000_CUR  CURSOR
+            WITH HOLD FOR SELECT  DCZ1532   , DAZ0164   , DAZ0157   ,
+               DAZ0112   ,DAZ0356   ,DAZ0195   ,DAZ0203   ,DCZ1346   ,
+               DCZ1347   ,DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,
+               DCZ1353   ,DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,
+               DCZ1357   ,DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,
+               DCZ1362   ,DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,
+               RCZF105   ,RCZF106   ,RCZF107   ,RCZF108
+             FROM  CPBZ
+             WHERE DCZ1532    = :RCZQ061-Y000.DCZ1532    AND
+                   DAZ0164    = :RCZQ061-Y000.DAZ0164    AND
+                   DAZ0157    = :RCZQ061-Y000.DAZ0157    AND
+                   DAZ0112    = :RCZQ061-Y000.DAZ0112    AND
+                   DAZ0356    = :RCZQ061-Y000.DAZ0356    AND
+                   DAZ0195    = :RCZQ061-Y000.DAZ0195    AND
+                   DAZ0203    = :RCZQ061-Y000.DAZ0203    AND
+                   DCZ1346    = :RCZQ061-Y000.DCZ1346    AND
+                   DCZ1347    = :RCZQ061-Y000.DCZ1347
+             FOR FETCH ONLY
+           END-EXEC
+           EVALUATE  DVZ1115  OF  RVZZ265
+             WHEN CS-OPEN
+               MOVE LENGTH OF RCZQ061-Y000 TO DVZ1125 OF RVZZ265
+               MOVE P2-KEY(1:LENGTH OF RCZQ061-Y000)  TO RCZQ061
+               EXEC  SQL  OPEN  Y000_CUR  END-EXEC
+             WHEN CS-FETCH
+               EXEC  SQL  FETCH Y000_CUR  INTO
+                  :DCLCPBZ.DCZ1532   , :DCLCPBZ.DAZ0164   ,
+                  :DCLCPBZ.DAZ0157   , :DCLCPBZ.DAZ0112   ,
+                  :DCLCPBZ.DAZ0356   , :DCLCPBZ.DAZ0195   ,
+                  :DCLCPBZ.DAZ0203   , :DCLCPBZ.DCZ1346   ,
+                  :DCLCPBZ.DCZ1347   , :DCLCPBZ.DAZ0016   ,
+                  :DCLCPBZ.DAZ0017   , :DCLCPBZ.DCZ1351   ,
+                  :DCLCPBZ.DCZ1352   , :DCLCPBZ.DCZ1353   ,
+                  :DCLCPBZ.DCZ1354   , :DCLCPBZ.DCZ0648   ,
+                  :DCLCPBZ.DCZ1355   , :DCLCPBZ.DCZ1356   ,
+                  :DCLCPBZ.DCZ1357   , :DCLCPBZ.DCZ1358   ,
+                  :DCLCPBZ.DCZ1359   , :DCLCPBZ.DCZ1360   ,
+                  :DCLCPBZ.DCZ1361   , :DCLCPBZ.DCZ1362   ,
+                  :DCLCPBZ.DCZ1363   , :DCLCPBZ.DCZ1528   ,
+                  :DCLCPBZ.DCZ1348   , :DCLCPBZ.DCZ1349   ,
+                  :DCLCPBZ.RCZF105   , :DCLCPBZ.RCZF106   ,
+                  :DCLCPBZ.RCZF107   , :DCLCPBZ.RCZF108
+               END-EXEC
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  DCLCPBZ TO  P3-IOAREA(1:LENGTH OF DCLCPBZ)
+             WHEN CS-CLOSE
+               EXEC  SQL  CLOSE Y000_CUR  END-EXEC
+             WHEN OTHER
+               MOVE  CS-3      TO  DVZ1123   OF RVZZ265
+           END-EVALUATE.
+      /
+       Y001-RTN.
+           EXEC  SQL  DECLARE  Y001_CUR  CURSOR
+            WITH HOLD FOR SELECT  DCZ1532   , DAZ0164   , DAZ0157   ,
+               DAZ0112   ,DAZ0356   ,DAZ0195   ,DAZ0203   ,DCZ1346   ,
+               DCZ1347   ,DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,
+               DCZ1353   ,DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,
+               DCZ1357   ,DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,
+               DCZ1362   ,DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,
+               RCZF105   ,RCZF106   ,RCZF107   ,RCZF108
+             FROM  CPBZ
+             WHERE DCZ1354    = :RCZQ061-Y001.DCZ1354
+             FOR FETCH ONLY
+           END-EXEC
+           EVALUATE  DVZ1115  OF  RVZZ265
+             WHEN CS-OPEN
+               MOVE LENGTH OF RCZQ061-Y001 TO DVZ1125 OF RVZZ265
+               MOVE P2-KEY(1:LENGTH OF RCZQ061-Y001)  TO RCZQ061
+               EXEC  SQL  OPEN  Y001_CUR  END-EXEC
+             WHEN CS-FETCH
+               EXEC  SQL  FETCH Y001_CUR  INTO
+                  :DCLCPBZ.DCZ1532   , :DCLCPBZ.DAZ0164   ,
+                  :DCLCPBZ.DAZ0157   , :DCLCPBZ.DAZ0112   ,
+                  :DCLCPBZ.DAZ0356   , :DCLCPBZ.DAZ0195   ,
+                  :DCLCPBZ.DAZ0203   , :DCLCPBZ.DCZ1346   ,
+                  :DCLCPBZ.DCZ1347   , :DCLCPBZ.DAZ0016   ,
+                  :DCLCPBZ.DAZ0017   , :DCLCPBZ.DCZ1351   ,
+                  :DCLCPBZ.DCZ1352   , :DCLCPBZ.DCZ1353   ,
+                  :DCLCPBZ.DCZ1354   , :DCLCPBZ.DCZ0648   ,
+                  :DCLCPBZ.DCZ1355   , :DCLCPBZ.DCZ1356   ,
+                  :DCLCPBZ.DCZ1357   , :DCLCPBZ.DCZ1358   ,
+                  :DCLCPBZ.DCZ1359   , :DCLCPBZ.DCZ1360   ,
+                  :DCLCPBZ.DCZ1361   , :DCLCPBZ.DCZ1362   ,
+                  :DCLCPBZ.DCZ1363   , :DCLCPBZ.DCZ1528   ,
+                  :DCLCPBZ.DCZ1348   , :DCLCPBZ.DCZ1349   ,
+                  :DCLCPBZ.RCZF105   , :DCLCPBZ.RCZF106   ,
+                  :DCLCPBZ.RCZF107   , :DCLCPBZ.RCZF108
+               END-EXEC
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  DCLCPBZ TO  P3-IOAREA(1:LENGTH OF DCLCPBZ)
+             WHEN CS-CLOSE
+               EXEC  SQL  CLOSE Y001_CUR  END-EXEC
+             WHEN OTHER
+               MOVE  CS-3      TO  DVZ1123   OF RVZZ265
+           END-EVALUATE.
+      /
+       Y002-RTN.
+           EXEC  SQL  DECLARE  Y002_CUR  CURSOR
+            WITH HOLD FOR SELECT  DCZ1532   , DAZ0164   , DAZ0157   ,
+               DAZ0112   ,DAZ0356   ,DAZ0195   ,DAZ0203   ,DCZ1346   ,
+               DCZ1347   ,DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,
+               DCZ1353   ,DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,
+               DCZ1357   ,DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,
+               DCZ1362   ,DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,
+               RCZF105   ,RCZF106   ,RCZF107   ,RCZF108
+             FROM  CPBZ
+             WHERE DCZ1347    = :RCZQ061-Y002.DCZ1347    AND
+                   DCZ1356    = :RCZQ061-Y002.DCZ1356    AND
+                   DCZ1357    = :RCZQ061-Y002.DCZ1357    AND
+                   DCZ1358    = :RCZQ061-Y002.DCZ1358
+             FOR FETCH ONLY
+           END-EXEC
+           EVALUATE  DVZ1115  OF  RVZZ265
+             WHEN CS-OPEN
+               MOVE LENGTH OF RCZQ061-Y002 TO DVZ1125 OF RVZZ265
+               MOVE P2-KEY(1:LENGTH OF RCZQ061-Y002)  TO RCZQ061
+               EXEC  SQL  OPEN  Y002_CUR  END-EXEC
+             WHEN CS-FETCH
+               EXEC  SQL  FETCH Y002_CUR  INTO
+                  :DCLCPBZ.DCZ1532   , :DCLCPBZ.DAZ0164   ,
+                  :DCLCPBZ.DAZ0157   , :DCLCPBZ.DAZ0112   ,
+                  :DCLCPBZ.DAZ0356   , :DCLCPBZ.DAZ0195   ,
+                  :DCLCPBZ.DAZ0203   , :DCLCPBZ.DCZ1346   ,
+                  :DCLCPBZ.DCZ1347   , :DCLCPBZ.DAZ0016   ,
+                  :DCLCPBZ.DAZ0017   , :DCLCPBZ.DCZ1351   ,
+                  :DCLCPBZ.DCZ1352   , :DCLCPBZ.DCZ1353   ,
+                  :DCLCPBZ.DCZ1354   , :DCLCPBZ.DCZ0648   ,
+                  :DCLCPBZ.DCZ1355   , :DCLCPBZ.DCZ1356   ,
+                  :DCLCPBZ.DCZ1357   , :DCLCPBZ.DCZ1358   ,
+                  :DCLCPBZ.DCZ1359   , :DCLCPBZ.DCZ1360   ,
+                  :DCLCPBZ.DCZ1361   , :DCLCPBZ.DCZ1362   ,
+                  :DCLCPBZ.DCZ1363   , :DCLCPBZ.DCZ1528   ,
+                  :DCLCPBZ.DCZ1348   , :DCLCPBZ.DCZ1349   ,
+                  :DCLCPBZ.RCZF105   , :DCLCPBZ.RCZF106   ,
+                  :DCLCPBZ.RCZF107   , :DCLCPBZ.RCZF108
+               END-EXEC
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  DCLCPBZ TO  P3-IOAREA(1:LENGTH OF DCLCPBZ)
+             WHEN CS-CLOSE
+               EXEC  SQL  CLOSE Y002_CUR  END-EXEC
+             WHEN OTHER
+               MOVE  CS-3      TO  DVZ1123   OF RVZZ265
+           END-EVALUATE.
+      /
+       Y003-RTN.
+           EXEC  SQL  DECLARE  Y003_CUR  CURSOR
+            WITH HOLD FOR SELECT  DCZ1532   , DAZ0164   , DAZ0157   ,
+               DAZ0112   ,DAZ0356   ,DAZ0195   ,DAZ0203   ,DCZ1346   ,
+               DCZ1347   ,DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,
+               DCZ1353   ,DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,
+               DCZ1357   ,DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,
+               DCZ1362   ,DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,
+               RCZF105   ,RCZF106   ,RCZF107   ,RCZF108
+             FROM  CPBZ
+             WHERE DCZ0648    = :RCZQ061-Y003.DCZ0648
+             FOR FETCH ONLY
+           END-EXEC
+           EVALUATE  DVZ1115  OF  RVZZ265
+             WHEN CS-OPEN
+               MOVE LENGTH OF RCZQ061-Y003 TO DVZ1125 OF RVZZ265
+               MOVE P2-KEY(1:LENGTH OF RCZQ061-Y003)  TO RCZQ061
+               EXEC  SQL  OPEN  Y003_CUR  END-EXEC
+             WHEN CS-FETCH
+               EXEC  SQL  FETCH Y003_CUR  INTO
+                  :DCLCPBZ.DCZ1532   , :DCLCPBZ.DAZ0164   ,
+                  :DCLCPBZ.DAZ0157   , :DCLCPBZ.DAZ0112   ,
+                  :DCLCPBZ.DAZ0356   , :DCLCPBZ.DAZ0195   ,
+                  :DCLCPBZ.DAZ0203   , :DCLCPBZ.DCZ1346   ,
+                  :DCLCPBZ.DCZ1347   , :DCLCPBZ.DAZ0016   ,
+                  :DCLCPBZ.DAZ0017   , :DCLCPBZ.DCZ1351   ,
+                  :DCLCPBZ.DCZ1352   , :DCLCPBZ.DCZ1353   ,
+                  :DCLCPBZ.DCZ1354   , :DCLCPBZ.DCZ0648   ,
+                  :DCLCPBZ.DCZ1355   , :DCLCPBZ.DCZ1356   ,
+                  :DCLCPBZ.DCZ1357   , :DCLCPBZ.DCZ1358   ,
+                  :DCLCPBZ.DCZ1359   , :DCLCPBZ.DCZ1360   ,
+                  :DCLCPBZ.DCZ1361   , :DCLCPBZ.DCZ1362   ,
+                  :DCLCPBZ.DCZ1363   , :DCLCPBZ.DCZ1528   ,
+                  :DCLCPBZ.DCZ1348   , :DCLCPBZ.DCZ1349   ,
+                  :DCLCPBZ.RCZF105   , :DCLCPBZ.RCZF106   ,
+                  :DCLCPBZ.RCZF107   , :DCLCPBZ.RCZF108
+               END-EXEC
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  DCLCPBZ TO  P3-IOAREA(1:LENGTH OF DCLCPBZ)
+             WHEN CS-CLOSE
+               EXEC  SQL  CLOSE Y003_CUR  END-EXEC
+             WHEN OTHER
+               MOVE  CS-3      TO  DVZ1123   OF RVZZ265
+           END-EVALUATE.
+      /
+       Y004-RTN.
+           EXEC  SQL  DECLARE  Y004_CUR  CURSOR
+            WITH HOLD FOR SELECT  DCZ1532   , DAZ0164   , DAZ0157   ,
+               DAZ0112   ,DAZ0356   ,DAZ0195   ,DAZ0203   ,DCZ1346   ,
+               DCZ1347   ,DAZ0016   ,DAZ0017   ,DCZ1351   ,DCZ1352   ,
+               DCZ1353   ,DCZ1354   ,DCZ0648   ,DCZ1355   ,DCZ1356   ,
+               DCZ1357   ,DCZ1358   ,DCZ1359   ,DCZ1360   ,DCZ1361   ,
+               DCZ1362   ,DCZ1363   ,DCZ1528   ,DCZ1348   ,DCZ1349   ,
+               RCZF105   ,RCZF106   ,RCZF107   ,RCZF108
+             FROM  CPBZ
+             WHERE DAZ0164    = :RCZQ061-Y004.DAZ0164    AND
+                   DAZ0157    = :RCZQ061-Y004.DAZ0157    AND
+                   DAZ0112    = :RCZQ061-Y004.DAZ0112    AND
+                   DAZ0356    = :RCZQ061-Y004.DAZ0356    AND
+                   DCZ1360    = :RCZQ061-Y004.DCZ1360    AND
+                   DCZ1361    = :RCZQ061-Y004.DCZ1361
+             FOR FETCH ONLY
+           END-EXEC
+           EVALUATE  DVZ1115  OF  RVZZ265
+             WHEN CS-OPEN
+               MOVE LENGTH OF RCZQ061-Y004 TO DVZ1125 OF RVZZ265
+               MOVE P2-KEY(1:LENGTH OF RCZQ061-Y004)  TO RCZQ061
+               EXEC  SQL  OPEN  Y004_CUR  END-EXEC
+             WHEN CS-FETCH
+               EXEC  SQL  FETCH Y004_CUR  INTO
+                  :DCLCPBZ.DCZ1532   , :DCLCPBZ.DAZ0164   ,
+                  :DCLCPBZ.DAZ0157   , :DCLCPBZ.DAZ0112   ,
+                  :DCLCPBZ.DAZ0356   , :DCLCPBZ.DAZ0195   ,
+                  :DCLCPBZ.DAZ0203   , :DCLCPBZ.DCZ1346   ,
+                  :DCLCPBZ.DCZ1347   , :DCLCPBZ.DAZ0016   ,
+                  :DCLCPBZ.DAZ0017   , :DCLCPBZ.DCZ1351   ,
+                  :DCLCPBZ.DCZ1352   , :DCLCPBZ.DCZ1353   ,
+                  :DCLCPBZ.DCZ1354   , :DCLCPBZ.DCZ0648   ,
+                  :DCLCPBZ.DCZ1355   , :DCLCPBZ.DCZ1356   ,
+                  :DCLCPBZ.DCZ1357   , :DCLCPBZ.DCZ1358   ,
+                  :DCLCPBZ.DCZ1359   , :DCLCPBZ.DCZ1360   ,
+                  :DCLCPBZ.DCZ1361   , :DCLCPBZ.DCZ1362   ,
+                  :DCLCPBZ.DCZ1363   , :DCLCPBZ.DCZ1528   ,
+                  :DCLCPBZ.DCZ1348   , :DCLCPBZ.DCZ1349   ,
+                  :DCLCPBZ.RCZF105   , :DCLCPBZ.RCZF106   ,
+                  :DCLCPBZ.RCZF107   , :DCLCPBZ.RCZF108
+               END-EXEC
+               MOVE  LENGTH OF DCLCPBZ   TO  DVZ1126 OF RVZZ265
+               MOVE  DCLCPBZ TO  P3-IOAREA(1:LENGTH OF DCLCPBZ)
+             WHEN CS-CLOSE
+               EXEC  SQL  CLOSE Y004_CUR  END-EXEC
+             WHEN OTHER
+               MOVE  CS-3      TO  DVZ1123   OF RVZZ265
+           END-EVALUATE.
+

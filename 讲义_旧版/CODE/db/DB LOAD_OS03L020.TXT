@@ -1,0 +1,60 @@
+//EV6216J JOB (F9500B,OS03,31,'TD=XX,LD=XX,TM=XX,LM=XX,TY=X,LY=X'),
+//             EV6216J,
+//             CLASS=A,NOTIFY=EV6216,
+//             MSGCLASS=X,MSGLEVEL=(1,1),REGION=6000K
+//* ----------------------------------------------------------------- *
+//OS03L020 JOB (F9500B,OS03,41,
+//             'TY=X,TM=XX,TD=XX'),
+//             09500
+//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+//*   DESCRIPTION :
+//*     YEARLY BACKUP
+//*     -BACKUP  FOR DATABASE     OS03TPRV
+//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+//* ----------------------------------------------------------------- *
+//*    RESET UTILITY STATUS
+//* ----------------------------------------------------------------- *
+//RESET   EXEC OS03REUT
+//SYSTSIN  DD  *
+ DSN  SYSTEM(DSN)
+ -TERM UTIL(OS03L020)
+ END
+/*
+//*-------------------------------------------------------------------*
+//*   OS03SPPR  LOAD DATA
+//*-------------------------------------------------------------------*
+//TBLLD  PROC
+//LOAD    EXEC PGM=DSNUTILB,REGION=4096K,
+//             PARM='DSN'
+//STEPLIB  DD  DSN=DSN.DSNLOAD,DISP=SHR
+//SYSPRINT DD  SYSOUT=*
+//UTPRINT  DD  SYSOUT=*
+//SORTWK01 DD  UNIT=SYSDA,SPACE=(CYL,(100,30),RLSE)
+//SORTWK02 DD  UNIT=SYSDA,SPACE=(CYL,(100,30),RLSE)
+//SORTWK03 DD  UNIT=SYSDA,SPACE=(CYL,(100,30),RLSE)
+//SORTWK04 DD  UNIT=SYSDA,SPACE=(CYL,(100,30),RLSE)
+//SORTWK05 DD  UNIT=SYSDA,SPACE=(CYL,(100,30),RLSE)
+//SORTWK06 DD  UNIT=SYSDA,SPACE=(CYL,(100,30),RLSE)
+//SORTOUT  DD  UNIT=SYSDA,SPACE=(CYL,(100,30),RLSE)
+//SYSREC   DD  DISP=(,DELETE),SPACE=(CYL,(10,5)),UNIT=SYSDA,
+//         DCB=(RECFM=FB,LRECL=80,BLKSIZE=4000)
+//*BLIN    DD  DSN=&&TBLIN,DISP=(OLD,DELETE)         <==== CHNG PLS!
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(CYL,(1,1),RLSE)
+//    PEND
+//*-------------------------------------------------------------------*
+//*   <<<<<< CDB >>>>>>
+//*-------------------------------------------------------------------*
+//STP010 EXEC TBLLD
+//TBLIN   DD  DSN=OS03I.DS.UNLDPRV.D&TY&TM&TD
+//SYSIN   DD  *
+ LOAD DATA
+  INDDN(TBLIN) RESUME NO REPLACE LOG NO
+  INTO TABLE OS03U2.OS03TPPR
+//* ----------------------------------------------------------------- *
+//ABEND   EXEC ABTRAP,RETCD=8
+//*-----------------------------------------< ABEND”»’è>-----------
+//* ***************************************************************** *
+//*   J C L   C H A N G E   L O G  (OS03L020)
+//* ***************************************************************** *
+//* 06/10/11 INITIALIZE         (EV6216 DUO ZHANG)
+//* ***************************************************************** *

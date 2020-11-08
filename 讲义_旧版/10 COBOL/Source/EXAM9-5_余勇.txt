@@ -1,0 +1,43 @@
+       IDENTIFICATION           DIVISION.
+       PROGRAM-ID.  EXAM95.
+       ENVIRONMENT              DIVISION.
+       INPUT-OUTPUT             SECTION.
+       FILE-CONTROL.
+           SELECT IN-FILE ASSIGN TO SYS01.
+       DATA                     DIVISION.
+       FILE                     SECTION.
+       FD  IN-FILE LABEL RECORD IS STANDARD.
+       01  IN-REC.
+           02 DATAS PIC X(200).
+       WORKING-STORAGE          SECTION.
+       77  SCHOOL-IX   PIC  9(2).
+       77  CLASS-IX    PIC  9(2).
+       77  STUDENT-IX  PIC  9(2).
+       01  TA-BLE.
+           02  SCHOOL  OCCURS 2.
+             03 CL-ASS  OCCURS 2.
+               04 STUDENT OCCURS 2.
+                 05 NAME PIC X(10).
+                 05 NUM  PIC 9(2).
+                 05 ADDR PIC X(10).
+                 05 AGE  PIC 9(3).
+       PROCEDURE             DIVISION.
+           OPEN INPUT IN-FILE.
+       B.  READ IN-FILE AT END GO TO C.
+           MOVE DATAS TO TA-BLE.
+           PERFORM SELECTION THRU SELECTION-END
+           VARYING SCHOOL-IX FROM 1 BY 1
+                  UNTIL SCHOOL-IX > 2
+              AFTER CLASS-IX FROM 1 BY 1
+                  UNTIL CLASS-IX > 2
+              AFTER STUDENT-IX FROM 1 BY 1
+                  UNTIL STUDENT-IX > 2.
+           GO TO B.
+       SELECTION.
+           IF NAME (SCHOOL-IX, CLASS-IX, STUDENT-IX) = 'ZHANGSHENG'
+              AND AGE (SCHOOL-IX, CLASS-IX, STUDENT-IX) > 20
+              DISPLAY STUDENT (SCHOOL-IX, CLASS-IX, STUDENT-IX).
+       SELECTION-END. EXIT.
+       C.  CLOSE IN-FILE
+           STOP RUN.
+

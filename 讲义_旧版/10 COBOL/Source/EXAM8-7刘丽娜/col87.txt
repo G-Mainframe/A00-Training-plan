@@ -1,0 +1,48 @@
+       IDENTIFICATION DIVISION.
+      *
+       PROGRAM-ID. COL87.
+      *
+       ENVIRONMENT DIVISION.
+      *
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       77 BASE-FEE          PIC 9(4).
+       77 SUPR-EXPRS-FEE    PIC 9(4).
+       77 EXPRESS-FEE       PIC 9(4).
+       77 FRST-CLASS-FEE    PIC 9(4).
+       77 RESRV-SEAT-FEE    PIC 9(3).
+       77 TOTAL-FARE        PIC 9(4).
+       01 INPUT-DATA.
+         02 DISTANCE        PIC 9(3).
+         02 TRAIN-CODE      PIC 9.
+         02 CLASS-CODE      PIC 9.
+         02 RESRV-CODE      PIC 9.
+       PROCEDURE DIVISION.
+       START-RUN.
+           ACCEPT INPUT-DATA.
+           PERFORM PROCESS-DATA
+                   UNTIL DISTANCE = 0.
+           STOP RUN.
+       PROCESS-DATA.
+           MOVE 0 TO BASE-FEE, SUPR-EXPRS-FEE, EXPRESS-FEE,
+           FRST-CLASS-FEE, RESRV-SEAT-FEE.
+           CALL 'BASE' USING DISTANCE, BASE-FEE.
+           IF TRAIN-CODE = 1
+              CALL 'EXPRESS' USING DISTANCE, EXPRESS-FEE.
+           IF TRAIN-CODE = 2
+              CALL 'SPEXPRS' USING DISTANCE, SUPR-EXPRS-FEE.
+           IF CLASS-CODE = 1
+              CALL 'FRSCLAS' USING DISTANCE, FRST-CLASS-FEE.
+           IF RESRV-CODE = 1
+              MOVE 2 TO RESRV-SEAT-FEE.
+           COMPUTE TOTAL-FARE = BASE-FEE + SUPR-EXPRS-FEE +
+           EXPRESS-FEE + FRST-CLASS-FEE + RESRV-SEAT-FEE.
+           DISPLAY 'DISTANCE==', DISTANCE.
+           DISPLAY 'BASE FEE==', BASE-FEE.
+           DISPLAY 'SUPEREXPRESS FEE==', SUPR-EXPRS-FEE.
+           DISPLAY 'EXPRESS FEE==', EXPRESS-FEE.
+           DISPLAY 'FIRST-CLASS FEE==', FRST-CLASS-FEE.
+           DISPLAY 'RESERVED SEAT FEE==', RESRV-SEAT-FEE.
+           DISPLAY 'TOTAL==', TOTAL-FARE.
+           ACCEPT INPUT-DATA.
+

@@ -1,0 +1,20 @@
+\MAC ;                                                                    
+\COMM   \ID USER=SPV,PWD=KAWARA ;                                         
+        \COMM ** 児童扶養手当受給者台帳プリント処理 **;                   
+                                                                          
+        \SENDO MSG='************************************************';    
+        \SENDO MSG='* 児童扶養手当受給者台帳プリント処理 START *';        
+        \SENDO MSG='************************************************';    
+                                                                          
+\COMM   \REPORT LEVEL=JOB;                                                
+        \EXEC  JFU2101;                                                   
+                                                                          
+        \EXEC  JFU2151;                                                   
+                                                                          
+        \EXEC  JFU2201;                                                   
+        \DEALLOC FILE=JFUJQSKS,MEDIA=NS12 ;                               
+        \DEALLOC FILE=JFU2101,MEDIA=NS12 ;                                
+                                                                          
+        \SENDO MSG='************************************************';    
+        \SENDO MSG='* 児童扶養手当受給者台帳プリント処理  END  *';        
+        \SENDO MSG='************************************************';    

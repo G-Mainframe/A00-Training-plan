@@ -1,0 +1,22 @@
+CREATE TABLE  LTRCDT1430  (
+       識別コード                         CHAR(4)           NOT NULL,
+       ダミー００１                       CHAR(11)          NOT NULL,
+       テーブル区分                       CHAR(1)           NOT NULL,
+       ＳＥＱＮＯ                         NUMBER(7,0)       NOT NULL,
+       範囲金額以下１                     NUMBER(11,0) NOT NULL,
+       印紙税１                           NUMBER(7,0) NOT NULL,
+       範囲金額以下２                     NUMBER(11,0) NOT NULL,
+       印紙税２                           NUMBER(7,0) NOT NULL,
+       範囲金額以下３                     NUMBER(11,0) NOT NULL,
+       印紙税３                           NUMBER(7,0) NOT NULL,
+       範囲金額以下４                     NUMBER(11,0) NOT NULL,
+       印紙税４                           NUMBER(7,0) NOT NULL,
+       範囲金額以下５                     NUMBER(11,0) NOT NULL,
+       印紙税５                           NUMBER(7,0) NOT NULL,
+       ダミー００２                       CHAR(7)           NOT NULL,
+       共通情報                           CHAR(35)          NOT NULL,
+CONSTRAINT  PK_LTRCDT1430  PRIMARY KEY (
+       識別コード,
+       ダミー００１,
+       テーブル区分,
+       ＳＥＱＮＯ));

@@ -1,0 +1,160 @@
+*=================================================================
+ IDENTIFICATION                  DIVISION.                        
+*=================================================================
+ PROGRAM-ID.                     DBPRO02.                         
+                                                                  
+*=================================================================
+ ENVIRONMENT                     DIVISION.                        
+*=================================================================
+ CONFIGURATION                   SECTION.                         
+                                                                  
+*=================================================================
+ DATA                            DIVISION.                        
+*=================================================================
+ WORKING-STORAGE                 SECTION.                         
+*    COPY DBPRO01.                                                
+*-----------------------------------------------------------------
+* CONSTANT AREA                                                   
+*-----------------------------------------------------------------
+  01  CO-AREA.                                                    
+      03  CO-SQL-OK              PIC S9(004) COMP VALUE +0.       
+      03  CO-SQL-NOTFND          PIC S9(004) COMP VALUE +100.     
+      03  CO-STAT-Y              PIC  X(001)      VALUE 'Y'.      
+      03  CO-STAT-N              PIC  X(001)      VALUE 'N'.      
+*-----------------------------------------------------------------
+* WORKING AREA                                                    
+*-----------------------------------------------------------------
+                                                                  
+ 01  WK-AREA.                                                     
+     03  WK-KEY                  PIC S9(9)   USAGE COMP.          
+     03  WK-STAT                 PIC X(001).                      
+      EXEC SQL INCLUDE SQLCA     END-EXEC.                        
+      EXEC SQL                                                    
+               INCLUDE DBPRO01                                    
+      END-EXEC.                                                   
+*=================================================================
+ PROCEDURE                       DIVISION.                        
+*=================================================================
+                                                                  
+ S0000-MAIN-RTN.                                                  
+                                                                  
+                                                                  
+     PERFORM S1000-INITIALIZE-RTN                                 
+        THRU S1000-INITIALIZE-EXT.                                
+                                                                  
+     PERFORM S2000-VALIDATION-RTN                                 
+        THRU S2000-VALIDATION-EXT.                                
+                                                                  
+     PERFORM S3000-PROCESS-RTN                                    
+        THRU S3000-PROCESS-EXT.                                   
+                                                                  
+     PERFORM S9000-FINAL-RTN                                      
+        THRU S9000-FINAL-EXT.                                     
+     STOP    RUN.                                                 
+ S0000-MAIN-EXT.                                                  
+     EXIT.                                                        
+                                                                  
+*-----------------------------------------------------------------
+*@  S1000                                                         
+*-----------------------------------------------------------------
+ S1000-INITIALIZE-RTN.                                            
+                                                                  
+                                                                  
+     INITIALIZE       WK-AREA.                                    
+                                                                  
+ S1000-INITIALIZE-EXT.                                            
+     EXIT.                                                        
+                                                                  
+*-----------------------------------------------------------------
+* S2000                                                           
+*-----------------------------------------------------------------
+ S2000-VALIDATION-RTN.                                            
+                                                                  
+     CONTINUE.                                                    
+                                                                  
+ S2000-VALIDATION-EXT.                                            
+     EXIT.                                                        
+                                                                  
+*-----------------------------------------------------------------
+* S3000                                                           
+*-----------------------------------------------------------------
+ S3000-PROCESS-RTN.                                               
+                                                                  
+     MOVE  CO-STAT-Y       TO  WK-STAT.                           
+*----------------  SQL  ----------------------------------------- 
+     EXEC SQL                                                     
+       DECLARE MYSURS CURSOR FOR                                  
+       SELECT USERID,                                             
+              USERNAME                                            
+         FROM GDC232.TAB01                                        
+     END-EXEC.                                                    
+*                                                                 
+                                                                  
+     PERFORM S3100-OPEN-RTN                                       
+        THRU S3100-OPEN-EXT.                                      
+*                                                                 
+     PERFORM UNTIL WK-STAT = CO-STAT-N                            
+*                                                                 
+           PERFORM S3200-FETCH-RTN                                
+              THRU S3200-FETCH-EXT                                
+*                                                                 
+     END-PERFORM.                                                 
+*                                                                 
+     PERFORM S3300-CLOSE-RTN                                      
+        THRU S3300-CLOSE-EXT.                                     
+*                                                                 
+ S3000-PROCESS-EXT.                                               
+     EXIT.                                                        
+*-----------------------------------------------------------------
+* S3100                                                           
+*-----------------------------------------------------------------
+ S3100-OPEN-RTN.                                                  
+     EXEC SQL                                                     
+        OPEN MYSURS                                               
+     END-EXEC.                                                    
+ S3100-OPEN-EXT.                                                  
+     EXIT.                                                        
+                                                                  
+*-----------------------------------------------------------------
+* S3200                                                           
+*-----------------------------------------------------------------
+ S3200-FETCH-RTN.                                                 
+                                                                  
+     EXEC SQL                                                     
+          FETCH MYSURS                                            
+           INTO :USERID,                                          
+                :USERNAME                                         
+     END-EXEC.                                                    
+           DISPLAY ' SQLCODE: '  SQLCODE                          
+*                                                                 
+          EVALUATE SQLCODE                                        
+*                                                                 
+              WHEN CO-SQL-OK                                      
+                   DISPLAY     ' USERID  : ' USERID               
+                   DISPLAY     ' USERNAME: ' USERNAME             
+*                                                                 
+              WHEN CO-SQL-NOTFND                                  
+                   MOVE  CO-STAT-N      TO   WK-STAT              
+*                                                                 
+              WHEN OTHER                                          
+                   DISPLAY      ' END OTHER '                     
+*                                                                 
+          END-EVALUATE.                                           
+ S3200-FETCH-EXT.                                                 
+     EXIT.                                                        
+*-----------------------------------------------------------------
+* S3300                                                           
+*-----------------------------------------------------------------
+ S3300-CLOSE-RTN.                                                 
+     EXEC SQL                                                     
+        CLOSE MYSURS                                              
+     END-EXEC.                                                    
+ S3300-CLOSE-EXT.                                                 
+     EXIT.                                                        
+*-----------------------------------------------------------------
+* S9000                                                           
+*-----------------------------------------------------------------
+ S9000-FINAL-RTN.                                                 
+     CONTINUE.                                                    
+ S9000-FINAL-EXT.                                                 
+     EXIT.                                                                           

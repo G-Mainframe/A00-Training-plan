@@ -1,0 +1,86 @@
+       IDENTIFICATION      DIVISION.
+       PROGRAM-ID.  EXAM94.
+       ENVIRONMENT         DIVISION.
+       INPUT-OUTPUT     SECTION.
+       FILE-CONTROL.
+              SELECT  IN-FILE  ASSIGN  TO  IN-FILE.
+              SELECT  TABLE-FILE  ASSIGN  TO  WK-FILE.
+              SELECT  PRINT-FILE  ASSIGN  TO  P-FILE.
+       DATA     DIVISION.
+       FILE   SECTION.
+       FD   IN-FILE  LABEL  RECORD IS STANDARD.
+       01  IN-REC.
+           02  SCHOOL-KEY   PIC  X(10).
+           02  AGE-KEY      PIC  9(3).
+       FD  TABLE-FILE  LABEL  RECORD  IS  STANDARD.
+       01  TABLE-REC.
+           02 YEAR      PIC  9(4).
+           02 SCHOOL
+                OCCURS  2  TIMES
+                   INDEXED  BY  IX-SCHOOL.
+                03 SCHOOL-NAME PIC X(10).
+                03 AGEREC
+                   OCCURS 2 TIMES
+                   ASCENDING KEY IS AGE
+                   INDEXED BY IX-AGE.
+                   04 AGE PIC   999.
+                   04 M-HEIGHT   PIC  9(3)V99.
+                   04 M-SITING   PIC  9(2)V99.
+                   04 M-CHEST    PIC  9(2)V99.
+                   04 M-WEIGHT   PIC  9(2)V99.
+                   04 W-HEIGHT   PIC  9(3)V99.
+                   04 W-SITING   PIC  9(2)V99.
+                   04 W-CHEST    PIC  9(2)V99.
+                   04 W-WEIGHT   PIC  9(2)V99.
+       FD  PRINT-FILE LABEL  RECORD IS STANDARD.
+       01  PRINT-REC.
+                02 FILLER PIC X.
+                02 YEAR-P   PIC  9(4).
+                02 SCHOOL-P PIC  BBX(10).
+                02 AGE-P    PIC  BB999.
+                02 M-HEIGHT    PIC  B(4)ZZ9.99.
+                02 M-SITING    PIC  BBZ9.99.
+                02 M-CHEST     PIC  BBZ9.99.
+                02 M-WEIGHT    PIC  BBZ9.99.
+                02 W-HEIGHT    PIC  B(4)ZZ9.99.
+                02 W-SITING    PIC  BBZ9.99.
+                02 W-CHEST     PIC  BBZ9.99.
+                02 W-WEIGHT    PIC  BBZ9.99.
+       PROCEDURE    DIVISION.
+       READ-PROC.
+           OPEN   INPUT    IN-FILE, TABLE-FILE
+                 OUTPUT   PRINT-FILE.
+            READ  TABLE-FILE
+                 AT END GO TO TERM.
+       SELECT-PROC.
+           READ IN-FILE
+                 AT END GO TO TERM.
+           SET  IX-SCHOOL TO 1.
+           SEARCH  SCHOOL
+             AT END GO TO ERROR-SCHOOL
+             WHEN
+               SCHOOL-NAME (IX-SCHOOL) = SCHOOL-KEY
+               NEXT  SENTENCE.
+           SEARCH  ALL  AGEREC
+             AT END GO TO ERROR-AGE
+             WHEN AGE (IX-SCHOOL, IX-AGE) = AGE-KEY
+               NEXT  SENTENCE.
+       PRINT-PROC.
+           MOVE  YEAR  TO  YEAR-P.
+           MOVE  SCHOOL-NAME (IX-SCHOOL)  TO  SCHOOL-P.
+           MOVE  AGE (IX-SCHOOL, IX-AGE)  TO  AGE-P.
+           MOVE  CORR  AGEREC (IX-SCHOOL, IX-AGE)
+                 TO    PRINT-REC.
+           WRITE     PRINT-REC.
+           GO TO   SELECT-PROC.
+       ERROR-SCHOOL.
+           DISPLAY 'SCHOOL NAME NOT FOUND',
+                    SCHOOL-KEY.
+           GO TO   SELECT-PROC.
+       ERROR-AGE.
+           DISPLAY 'AGE NOT FOUND', SCHOOL-KEY, AGE-KEY.
+           GO TO SELECT-PROC.
+       TERM.
+           CLOSE IN-FILE, TABLE-FILE, PRINT-FILE.
+           STOP RUN.
+
